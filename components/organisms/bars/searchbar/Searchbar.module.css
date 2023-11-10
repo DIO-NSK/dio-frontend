@@ -1,0 +1,9 @@
+.wrapper {
+
+    @apply w-full px-[100px] py-[20px] bg-white flex flex-row items-center gap-[30px];
+
+    .buttonRow {
+        @apply w-full flex flex-row gap-[20px] items-center;
+    }
+
+}

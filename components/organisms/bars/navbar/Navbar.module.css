@@ -1,0 +1,15 @@
+.wrapper {
+
+    @apply w-full px-[100px] py-[30px] flex flex-row justify-between items-center bg-bg-light-blue;
+
+    .rightRow {
+
+        @apply flex flex-row items-center gap-[30px];
+
+        .iconRow {
+            @apply flex flex-row items-center gap-[15px];
+        }
+
+    }
+
+}
