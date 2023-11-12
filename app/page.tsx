@@ -19,6 +19,8 @@ import SaleCard from "@/components/organisms/cards/sale-card/SaleCard";
 import {ImageHeaderDescrCard} from "@/types/cards";
 import {bonusCardData} from "@/data/bonusCardData";
 import BonusCard from "@/components/organisms/cards/bonus-card/BonusCard";
+import {WaveHeader} from "@/components/wrappers/wave-header-wrapper/wave-header/WaveHeader";
+import WaveHeaderWrapper from "@/components/wrappers/wave-header-wrapper/WaveHeaderWrapper";
 
 const MainPageScreen = () => {
 
@@ -116,6 +118,7 @@ const MainPageScreen = () => {
                     })
                 }
             </HeaderGroup>
+            <WaveHeaderWrapper header={"Почему нам доверяют"} />
         </PageWrapper>
     )
 }

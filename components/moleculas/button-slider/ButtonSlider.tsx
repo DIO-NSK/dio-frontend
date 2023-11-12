@@ -1,4 +1,5 @@
-import SlideButton, {SlideButtonSide} from "@/components/atoms/buttons/slide-button/SlideButton";
+import SlideButton from "@/components/atoms/buttons/slide-button/SlideButton";
+import {Side} from "@/data/enums/side";
 
 type ButtonSliderTypes = {
     onBackClick : () => void,
@@ -9,11 +10,11 @@ const ButtonSlider = ({onBackClick, onNextClick} : ButtonSliderTypes) => {
     return (
         <div className={"flex flex-row items-center gap-[20px]"}>
             <SlideButton
-                side={SlideButtonSide["LEFT"]}
+                side={Side["LEFT"]}
                 onClick={onBackClick}
             />
             <SlideButton
-                side={SlideButtonSide["RIGHT"]}
+                side={Side["RIGHT"]}
                 onClick={onNextClick}
             />
         </div>

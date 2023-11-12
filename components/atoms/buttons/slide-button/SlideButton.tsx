@@ -1,12 +1,9 @@
 import style from "./SlideButton.module.css"
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
-
-export enum SlideButtonSide {
-    LEFT, RIGHT
-}
+import {Side} from "@/data/enums/side";
 
 type SlideButtonType = {
-    side : SlideButtonSide
+    side : Side
     onClick : () => void
 }
 
@@ -20,7 +17,7 @@ const SlideButton = ({side, onClick} : SlideButtonType) => {
     return (
         <div className={style.wrapper} onClick={onClick}>
             {
-                side === SlideButtonSide.LEFT ? <FiChevronLeft {...buttonProps} />
+                side === Side.LEFT ? <FiChevronLeft {...buttonProps} />
                     : <FiChevronRight {...buttonProps} />
             }
         </div>
