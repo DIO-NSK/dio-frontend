@@ -1,11 +1,15 @@
 import {COLOR} from "@/components/colors";
-import {TextTypes} from "@/components/atoms/text/textTypes";
+import {Text2XLTypes} from "@/types/text";
 
-const Text2XL = ({text, color = COLOR["black"]}: TextTypes) => {
+const Text2XL = ({text, color = COLOR["black"], isUppercase = false}: Text2XLTypes) => {
+
+    const defaultClassname = "text-[24px] font-semibold leading-none"
+    const className = isUppercase ? `uppercase ${defaultClassname}` : defaultClassname
+
     return (
         <h4
-            style={{color : color}}
-            className={"text-[24px] font-semibold leading-none"}
+            style={{color : color, whiteSpace: "balance"}}
+            className={className}
         >
             {text}
         </h4>

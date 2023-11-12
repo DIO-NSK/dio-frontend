@@ -16,7 +16,7 @@ type ProductCardDTO = {
     image: string | StaticImport
 }
 
-type ProductCardTypes = {
+export type ProductCardTypes = {
     productCard: ProductCardDTO
 }
 
@@ -33,6 +33,7 @@ const ProductCard = ({productCard}: ProductCardTypes) => {
             <Image
                 src={productCard.image}
                 className={style.image}
+                quality={100}
                 alt={'/'}
             />
             <div className={style.contentCol}>

@@ -1,0 +1,8 @@
+.wrapper {
+    @apply w-[50px] h-[50px] rounded-full bg-bg-light-blue
+    flex items-center justify-center;
+}
+
+.wrapper:hover {
+    @apply cursor-pointer;
+}

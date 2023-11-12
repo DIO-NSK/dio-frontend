@@ -1,15 +1,16 @@
+import React from 'react';
 import {COLOR} from "@/components/colors";
 import {TextTypes} from "@/types/text";
 
-const TextM = ({text, color = COLOR["black"]} : TextTypes) => {
+const Title = ({color = COLOR["black"], text} : TextTypes) => {
     return (
         <h4
             style={{color : color}}
-            className={"text-lg font-medium"}
+            className={"text-[32px] font-bold leading-none"}
         >
             {text}
         </h4>
     )
 }
 
-export default TextM
+export default Title

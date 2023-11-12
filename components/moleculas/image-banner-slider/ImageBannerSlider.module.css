@@ -1,0 +1,14 @@
+.wrapper {
+
+    @apply relative h-[390px] col-span-9 rounded-2xl overflow-clip;
+
+    .image {
+        @apply w-full h-full object-fill;
+    }
+
+    .absoluteDiv {
+        @apply absolute z-20 bottom-[30px] left-0 w-full h-full flex flex-col
+        justify-end items-center;
+    }
+
+}

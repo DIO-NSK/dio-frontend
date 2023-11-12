@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 :root {
-  @apply w-full h-screen bg-white;
+  @apply w-full h-screen bg-white overflow-x-hidden;
 }

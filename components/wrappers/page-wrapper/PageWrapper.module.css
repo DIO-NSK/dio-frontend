@@ -1,0 +1,3 @@
+.wrapper {
+    @apply my-[30px] w-full h-full px-[100px] flex flex-col gap-[60px];
+}

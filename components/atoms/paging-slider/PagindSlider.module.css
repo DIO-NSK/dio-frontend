@@ -1,0 +1,9 @@
+.wrapper {
+
+    @apply flex flex-row items-center gap-[10px];
+
+    .page {
+        @apply w-[50px] h-[2px] rounded-full hover:cursor-pointer;
+    }
+
+}

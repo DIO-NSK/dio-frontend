@@ -1,0 +1,13 @@
+.wrapper {
+
+    @apply col-span-full flex flex-col gap-[30px];
+
+    .headerRow {
+        @apply w-full flex flex-row justify-between items-baseline;
+    }
+
+    .container {
+        @apply w-full grid-cols-12 grid gap-[20px];
+    }
+
+}

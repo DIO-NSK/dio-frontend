@@ -1,5 +1,5 @@
 import {COLOR} from "@/components/colors";
-import {TextTypes} from "@/components/atoms/text/textTypes";
+import {TextTypes} from "@/types/text";
 
 const TextBase = ({text, color = COLOR["black"]} : TextTypes) => {
     return (
