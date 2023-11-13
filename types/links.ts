@@ -9,3 +9,5 @@ export type TextLink = {
     text : string,
     path : string
 }
+
+export type IconTextLink = TextLink & {icon? : string | StaticImport}

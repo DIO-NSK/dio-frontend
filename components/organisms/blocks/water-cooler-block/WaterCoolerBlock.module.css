@@ -1,0 +1,30 @@
+.wrapper {
+
+    @apply relative w-full flex flex-col items-center;
+
+    .waterdrop {
+        @apply absolute object-fill z-10 left-[355px] top-[130px];
+    }
+
+    .atom {
+        @apply absolute object-fill z-10 right-[342px] top-[230px];
+    }
+
+    .leaf {
+        @apply absolute h-[110px] object-scale-down z-10 left-[310px] top-[375px];
+    }
+
+    .virus {
+        @apply absolute object-fill z-10 right-[342px] bottom-[92px];
+    }
+
+
+    .coolerImage {
+        @apply w-[545px] h-[700px] object-fill;
+    }
+
+    .headerDescrCol {
+        @apply absolute w-[350px] flex flex-col gap-[15px];
+    }
+
+}

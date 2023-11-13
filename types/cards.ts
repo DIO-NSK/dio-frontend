@@ -1,6 +1,11 @@
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import {Side} from "@/data/enums/side";
 
+export type IconHeaderCard = {
+    icon : string | StaticImport,
+    header : string
+}
+
 export type ImageHeaderDescrCard = {
     image: string | StaticImport
     header: string,

@@ -10,6 +10,7 @@ type IconButtonTypes = {
 const IconButton = ({src, size, onClick} : IconButtonTypes) => {
     return (
         <Image
+            style={{width : size, height: size}}
             src={src}
             alt={'/'}
             width={size}

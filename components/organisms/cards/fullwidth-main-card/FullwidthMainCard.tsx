@@ -12,9 +12,9 @@ const FullwidthMainCard = ({card}: {
             {
                 card.side === Side.LEFT ? <div className={style.wrapper}>
                     <FullwidthMainCard.ContentCol card={card}/>
-                    <FullwidthMainCard.ContentImage card={card}/>
+                    <FullwidthMainCard.ContentImage image={card.image}/>
                 </div> : <div className={style.wrapper}>
-                    <FullwidthMainCard.ContentImage card={card}/>
+                    <FullwidthMainCard.ContentImage image={card.image}/>
                     <FullwidthMainCard.ContentCol card={card}/>
                 </div>
             }

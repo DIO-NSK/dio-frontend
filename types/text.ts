@@ -8,3 +8,8 @@ export type TextTypes = {
 export type Text2XLTypes = {
     isUppercase? : boolean
 } & TextTypes
+
+export type HeaderDesrcType = {
+    header: string,
+    descr: string
+}

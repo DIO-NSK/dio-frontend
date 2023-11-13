@@ -4,6 +4,7 @@ import './globals.css'
 import React from "react";
 import Navbar from "@/components/organisms/bars/navbar/Navbar";
 import Searchbar from "@/components/organisms/bars/searchbar/Searchbar";
+import Footer from "@/components/organisms/footer/Footer";
 
 const rubik = Rubik({ subsets: ['latin'] })
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <Navbar />
       <Searchbar />
       {children}
+      <Footer />
       </body>
     </html>
   )

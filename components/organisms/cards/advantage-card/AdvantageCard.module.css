@@ -1,0 +1,10 @@
+.wrapper {
+
+    @apply col-span-3 p-[30px] rounded-xl bg-bg-light-blue
+    flex flex-col gap-[15px];
+
+    .icon {
+        @apply w-[30px] h-[30px] object-fill;
+    }
+    
+}
