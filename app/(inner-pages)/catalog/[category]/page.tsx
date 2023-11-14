@@ -1,6 +1,6 @@
 "use client"
 
-import style from "../CatalogLayout.module.css"
+import style from "../../InnerPages.module.css"
 import {mockCardArray} from "@/data/productCardData";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 import {SelectedItem} from "@/types/select";

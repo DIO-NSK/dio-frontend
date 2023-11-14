@@ -8,6 +8,7 @@ import LinesEllipsis from 'react-lines-ellipsis'
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import {FiCheck} from "react-icons/fi";
+import {useRouter} from "next/navigation";
 
 type ProductCardDTO = {
     oldPrice?: number | undefined,
@@ -22,14 +23,19 @@ export type ProductCardTypes = {
 
 const ProductCard = ({productCard}: ProductCardTypes) => {
 
+    const router = useRouter()
+
     const [isSelected, setSelected] = useState<boolean>(false)
 
     const buttonText = isSelected ? "В корзине" : "В корзину"
     const buttonColor = isSelected ? COLOR["link-blue"] : COLOR["light-gray"]
-    const buttonIcon = isSelected ? <FiCheck size={"20px"} className={"stroke-white"} /> : null
+    const buttonIcon = isSelected ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
 
     return (
-        <div className={style.wrapper}>
+        <div
+            onClick={() => router.push("/product?product_id=1")}
+            className={style.wrapper}
+        >
             <Image
                 src={productCard.image}
                 className={style.image}

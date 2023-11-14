@@ -1,0 +1,30 @@
+.imageCol {
+
+    @apply col-span-5 flex flex-col gap-[20px];
+
+    .mainImage {
+        @apply w-full h-[300px] object-scale-down rounded-xl;
+    }
+
+    .sliderRow {
+
+        @apply w-full flex flex-row items-center gap-[10px];
+
+        .imageRow {
+
+            @apply flex flex-row gap-[10px];
+
+            .image {
+                @apply h-[100px] w-full rounded-xl
+                border-light-gray object-fill border-[2px];
+            }
+
+            .image:hover {
+                @apply cursor-pointer;
+            }
+
+        }
+
+    }
+
+}
