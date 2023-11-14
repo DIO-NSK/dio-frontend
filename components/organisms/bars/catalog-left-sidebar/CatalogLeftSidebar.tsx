@@ -8,6 +8,8 @@ import LabelInputWrapper from "@/components/wrappers/label-input-wrapper/LabelIn
 import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
 import CheckboxList from "@/components/moleculas/checkbox-list/CheckboxList";
 import {SelectedItem} from "@/types/select";
+import Button from "@/components/atoms/buttons/button/Button";
+import {COLOR} from "@/components/colors";
 
 type HeaderDescrType = {
     header: string,
@@ -32,25 +34,39 @@ const CatalogLeftSidebar = () => {
     const [fromValue, setFromValue] = useState(fromInitialValue)
     const [toValue, setToValue] = useState(toInitialValue)
 
-    const mockItemList: string[] = ["Россия", "Китай"]
-    const mockSelectedItems: SelectedItem[] = mockItemList.map(
-        (item: string) => {
-            return {isSelected: false, text: item}
+    const createItemList = (data: string[]) => {
+        return data.map((item) => {
+            return {text: item, isSelected: false}
         })
+    }
 
-    // checkbox list states
-    const [selectedItems, setSelectedItems] = useState(mockSelectedItems)
-
-    const updateSelectedItems = (index: number, value: boolean) => {
-        const updatedSelectedItems = selectedItems.map(
+    const updateSelectedItems = (list: SelectedItem[], index: number, value: boolean) => {
+        return list.map(
             (item, curIndex: number) => {
                 return curIndex === index ? {...item, isSelected: value} : item
             })
-        setSelectedItems(updatedSelectedItems)
     }
+
+    const mockCountryItemList: string[] = ["Россия", "Китай"]
+    const mockTypeItemList: string[] = ["Без охлаждения", "Электронный"]
+
+    const initSelectedCountries = createItemList(mockCountryItemList)
+    const initSelectedTypes = createItemList(mockTypeItemList)
+
+    // checkbox list states
+    const [selectedCountries, setSelectedCountries] = useState(initSelectedCountries)
+    const [selectedTypes, setSelectedTypes] = useState(initSelectedTypes)
 
     return (
         <div className={style.wrapper}>
+
+            <div className={style.headerRow}>
+                <TextLg text={"Фильтры"} weight={"semibold"}/>
+                <div onClick={() => console.log("Очистить все")}>
+                    <TextBase text={"Очистить все"} color={COLOR["link-blue"]}/>
+                </div>
+            </div>
+
             <LabelInputWrapper header={"Цена"}>
                 <RangeInput
                     fromPlaceholder={fromInitialValue}
@@ -63,12 +79,28 @@ const CatalogLeftSidebar = () => {
             </LabelInputWrapper>
             <LabelInputWrapper header={"Производитель"}>
                 <CheckboxList
-                    selectedItems={selectedItems}
-                    onSelect={(isSelected: boolean, index: number) =>
-                        updateSelectedItems(index, isSelected)
-                    }
+                    selectedItems={selectedCountries}
+                    onSelect={(isSelected: boolean, index: number) => {
+                        const newCountries = updateSelectedItems(selectedCountries, index, isSelected)
+                        setSelectedCountries(newCountries)
+                    }}
                 />
             </LabelInputWrapper>
+            <LabelInputWrapper header={"Тип охлаждения"}>
+                <CheckboxList
+                    selectedItems={selectedTypes}
+                    onSelect={(isSelected: boolean, index: number) => {
+                        const newTypes = updateSelectedItems(selectedTypes, index, isSelected)
+                        setSelectedTypes(newTypes)
+                    }}
+                />
+            </LabelInputWrapper>
+
+            <Button
+                text={"Применить фильтры"}
+                onClick={() => console.log("Применить фильтры")}
+            />
+
         </div>
     )
 }

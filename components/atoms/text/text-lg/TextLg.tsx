@@ -1,10 +1,17 @@
 import {TextTypes} from "@/types/text";
 
 
-const TextLg = ({text, color} : TextTypes) => {
+const TextLg = ({text, color, weight = "regular"}: TextTypes) => {
+
+    const textWeight = weight === "regular" ? 300 : 500
+
     return (
         <h4
-            style={{color : color, whiteSpace: "balance"}}
+            style={{
+                color: color,
+                fontWeight: textWeight,
+                whiteSpace: "balance"
+            }}
             className={"text-[20px] font-normal leading-tight"}
         >
             {text}

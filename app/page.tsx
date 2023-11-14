@@ -27,14 +27,9 @@ import {ContentImage} from "@/components/organisms/cards/fullwidth-main-card/con
 import AdvantageCard from "@/components/organisms/cards/advantage-card/AdvantageCard";
 import {advantagesCardData} from "@/data/advantagesCardData";
 import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/WaterCoolerBlock";
+import {mockCardArray} from "@/data/productCardData";
 
 const MainPageScreen = () => {
-
-    const mockProductCard = {
-        price: 500,
-        descr: "Кулер с длинным текстом чтобы показать ограничение по символам",
-        image: MockImage
-    }
 
     const mockWaterCard: WaterCardDTO = {
         image: MockWaterImage,
@@ -47,11 +42,6 @@ const MainPageScreen = () => {
     const mockWaterCardList = [
         mockWaterCard, mockWaterCard,
         mockWaterCard, mockWaterCard,
-    ]
-
-    const mockCardArray = [
-        mockProductCard, mockProductCard,
-        mockProductCard, mockProductCard,
     ]
 
     const serviceDataList = [

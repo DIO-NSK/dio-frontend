@@ -1,0 +1,9 @@
+.wrapper {
+
+    @apply flex flex-row items-center gap-[5px];
+
+    .itemRow {
+        @apply flex flex-row items-center gap-[5px];
+    }
+
+}

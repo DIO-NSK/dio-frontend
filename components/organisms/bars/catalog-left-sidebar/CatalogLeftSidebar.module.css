@@ -1,3 +1,10 @@
 .wrapper {
-    @apply col-span-3 h-screen flex flex-col gap-[30px];
+
+    @apply relative col-span-3 h-screen flex flex-col gap-[30px];
+
+    .headerRow {
+        @apply w-full flex flex-row justify-between items-baseline
+        pb-[30px] border-b-2 border-light-gray;
+    }
+
 }
