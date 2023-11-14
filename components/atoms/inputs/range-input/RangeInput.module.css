@@ -1,0 +1,39 @@
+.inputCol {
+
+    @apply w-full flex flex-col gap-[20px];
+
+    .inputRow {
+
+        @apply w-full flex flex-row items-center gap-[0px];
+
+        .leftInput {
+            @apply w-full p-[20px] rounded-l-xl bg-bg-light-blue
+            border-r-2 border-light-gray focus:outline-0;
+        }
+
+        .rightInput {
+            @apply w-full p-[20px] text-right rounded-r-xl bg-bg-light-blue focus:outline-0;
+        }
+
+    }
+
+    .selectorRow {
+        @apply w-full flex flex-row;
+    }
+
+}
+
+.selector {
+    -webkit-appearance: none;
+    @apply w-full;
+}
+
+.selector::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    @apply mt-[-5px] h-[3px] bg-light-gray;
+}
+
+.selector::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    @apply w-[15px] h-[15px] mt-[-5px] rounded-full bg-link-blue;
+}

@@ -1,0 +1,9 @@
+.wrapper {
+
+    @apply w-full flex flex-col gap-[20px];
+
+    .labelRow {
+        @apply w-full flex flex-row justify-between items-center;
+    }
+
+}
