@@ -2,7 +2,7 @@ import {COLOR} from "@/components/colors";
 
 export type TextTypes = {
     text : string | number,
-    weight? : "regular" | "semibold",
+    weight? : "regular" | "medium" | "semibold",
     color? : COLOR
 }
 

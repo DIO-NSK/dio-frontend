@@ -19,8 +19,8 @@ const BonusCard = ({bonusCard}: { bonusCard: ImageHeaderDescrCard }) => {
             </div>
 
             <div className={style.textCol}>
-                <Text2XL text={bonusCard.header} color={COLOR["link-blue"]} />
-                <TextLg text={bonusCard.descr} />
+                <Text2XL text={bonusCard.header} color={COLOR["link-blue"]}/>
+                <TextLg text={bonusCard.descr} weight={"medium"}/>
             </div>
 
         </div>

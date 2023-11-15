@@ -3,7 +3,8 @@ import {TextTypes} from "@/types/text";
 
 const TextLg = ({text, color, weight = "regular"}: TextTypes) => {
 
-    const textWeight = weight === "regular" ? 300 : 500
+    const textWeight = weight === "regular" ? 300
+        : weight === "medium" ? 400 : 500
 
     return (
         <h4

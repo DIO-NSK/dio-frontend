@@ -1,6 +1,6 @@
 .wrapper {
 
-    @apply col-span-full flex flex-col gap-[10px];
+    @apply px-[100px] col-span-full flex flex-col gap-[10px];
 
     .headerRow {
         @apply w-full flex flex-row items-baseline gap-[10px];

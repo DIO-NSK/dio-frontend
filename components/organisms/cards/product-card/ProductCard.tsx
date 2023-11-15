@@ -1,6 +1,5 @@
 import style from "./ProductCard.module.css"
 import React, {useState} from "react";
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
 import {COLOR} from "@/components/colors";
@@ -9,13 +8,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import {FiCheck} from "react-icons/fi";
 import {useRouter} from "next/navigation";
-
-type ProductCardDTO = {
-    oldPrice?: number | undefined,
-    price: number,
-    descr: string,
-    image: string | StaticImport
-}
+import {ProductCardDTO} from "@/types/product";
 
 export type ProductCardTypes = {
     productCard: ProductCardDTO

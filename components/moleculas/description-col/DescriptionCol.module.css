@@ -1,0 +1,3 @@
+.wrapper {
+    @apply col-span-4 flex flex-col gap-[15px];
+}

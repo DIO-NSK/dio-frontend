@@ -6,7 +6,7 @@ enum ProductTagStatus {
     DISCOUNT = "discount",
 }
 
-type ProductCharacteristic = {
+export type ProductCharacteristic = {
     name: string,
     value: string
 }
@@ -20,4 +20,11 @@ export type ProductTagDTO = {
     description: string[],
     price : number,
     oldPrice? : number | null
+}
+
+export type ProductCardDTO = {
+    oldPrice?: number | undefined,
+    price: number,
+    descr: string,
+    image: string | StaticImport
 }

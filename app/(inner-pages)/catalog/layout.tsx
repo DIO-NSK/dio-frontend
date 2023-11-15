@@ -4,7 +4,7 @@ import style from "../InnerPages.module.css"
 
 const CatalogLayout = ({children} : {children : React.ReactNode}) => {
     return (
-        <div className={style.innerLayout}>
+        <div style={{padding: "0 100px 0 100px"}} className={style.innerLayout}>
             <CatalogLeftSidebar />
             {children}
         </div>

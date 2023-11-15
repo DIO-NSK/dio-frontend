@@ -1,0 +1,14 @@
+.card {
+
+    @apply sticky top-[30px] h-fit col-start-10 col-span-3 flex flex-col p-[30px]
+    rounded-xl bg-white drop-shadow-lg gap-[20px];
+
+    .priceRow {
+        @apply w-full flex flex-row items-baseline gap-[10px];
+    }
+
+    .buttonRow {
+        @apply w-full flex flex-row items-center gap-[20px];
+    }
+
+}

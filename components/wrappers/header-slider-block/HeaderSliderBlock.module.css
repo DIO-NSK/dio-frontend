@@ -1,0 +1,9 @@
+.wrapper {
+
+    @apply px-[100px] py-[30px] bg-light-gray grid grid-cols-12 gap-x-[20px] gap-y-[30px];
+
+    .headerRow {
+        @apply col-span-full flex flex-row items-center justify-between;
+    }
+
+}

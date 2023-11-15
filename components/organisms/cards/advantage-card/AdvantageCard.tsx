@@ -11,7 +11,7 @@ const AdvantageCard = ({card}: { card: IconHeaderCard }) => {
                    className={style.icon} width={40}
                    height={40} quality={100}
             />
-            <TextLg text={card.header} />
+            <TextLg text={card.header} weight={"medium"}/>
         </div>
     )
 }

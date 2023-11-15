@@ -2,7 +2,6 @@ import {FullwidthMainCardType} from "@/types/cards";
 import style from "./ContentCol.module.css"
 import Image from "next/image";
 import Title from "@/components/atoms/text/title/Title";
-import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
 import TextLg from "@/components/atoms/text/text-lg/TextLg";
 
 export const ContentCol = ({card}: { card: FullwidthMainCardType }) => {
@@ -16,7 +15,7 @@ export const ContentCol = ({card}: { card: FullwidthMainCardType }) => {
                 />
                 <Title text={card.header}/>
             </div>
-            <TextLg text={card.descr}/>
+            <TextLg text={card.descr} weight={"medium"}/>
         </div>
     )
 }
