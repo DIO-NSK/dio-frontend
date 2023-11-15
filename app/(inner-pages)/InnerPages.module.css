@@ -7,5 +7,5 @@
 }
 
 .innerLayout {
-    @apply col-span-full grid grid-cols-12 gap-x-[30px] gap-y-[40px];
+    @apply col-span-full grid grid-cols-12 gap-x-[30px] gap-y-[30px] mb-[30px];
 }

@@ -24,3 +24,10 @@ export type ServiceCardDTO = {
     additional : string[],
     price : number
 }
+
+export type SaleCardDTO = {
+    image : string | StaticImport,
+    duration : string,
+    header : string,
+    descr : string
+}
