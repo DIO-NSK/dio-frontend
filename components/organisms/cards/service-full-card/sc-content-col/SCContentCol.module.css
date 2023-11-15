@@ -1,0 +1,20 @@
+.contentCol {
+
+    @apply w-full flex flex-col gap-[20px];
+
+    .blockCol {
+
+        @apply w-full grid grid-cols-6 gap-x-[40px]
+        gap-y-[15px] pb-[20px] border-b-2 border-light-gray;
+
+        .timeRow {
+            @apply col-span-3 flex flex-row items-baseline justify-between;
+        }
+
+        .additionalRow {
+            @apply col-span-full flex flex-row gap-[15px] items-center;
+        }
+
+    }
+
+}

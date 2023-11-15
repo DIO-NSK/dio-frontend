@@ -1,14 +1,14 @@
 "use client"
 
 import {mockServiceCardArray} from "@/data/serviceCardData";
-import ServiceCard from "@/components/wrappers/service-card/ServiceCard";
+import ServiceFullCard from "@/components/organisms/cards/service-full-card/ServiceFullCard";
 
 const Page = () => {
     return (
         <div className={"col-span-9 flex flex-col gap-[20px] mb-[30px]"}>
             {
-                mockServiceCardArray.map((serviceCard) => {
-                    return <ServiceCard serviceCard={serviceCard} />
+                mockServiceCardArray.map((card) => {
+                    return <ServiceFullCard card={card} />
                 })
             }
         </div>

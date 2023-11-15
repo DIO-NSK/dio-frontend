@@ -1,0 +1,4 @@
+.wrapper {
+    @apply col-span-full p-[30px] rounded-2xl border-2 border-light-gray
+    grid grid-cols-12 gap-x-[40px];
+}

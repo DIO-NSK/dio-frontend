@@ -1,0 +1,4 @@
+.headerDescrCol {
+    @apply w-full flex flex-col gap-[15px] pb-[20px]
+    border-b-2 border-light-gray;
+}
