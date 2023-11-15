@@ -1,0 +1,9 @@
+.wrapper {
+
+    @apply ml-[-20px] col-span-3 flex flex-col;
+
+    .item {
+        @apply w-full flex flex-row items-center p-[20px] rounded-xl hover:cursor-pointer;
+    }
+
+}
