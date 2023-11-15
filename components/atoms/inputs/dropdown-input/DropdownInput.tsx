@@ -7,6 +7,8 @@ import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButt
 import {FiCheck} from "react-icons/fi";
 
 type DropdownInputProps = {
+    width : string,
+    label?: string ,
     items: SelectedItem[],
     onSelect: (selectedItem: SelectedItem) => void
     selectedItem: SelectedItem
@@ -41,31 +43,40 @@ const DropdownItem = ({item, selectedItem, onSelect}: DropdownItemType) => {
 const DropdownInput = (props: DropdownInputProps) => {
 
     const [isExpanded, setExpanded] = useState(false)
+    const className = `${style.labelWrapper} ${props.width}`
 
     return (
-        <div className={style.wrapper}>
-
-            <div className={style.input}>
-                <TextBase text={props.selectedItem.text}/>
-                <ChevronButton
-                    isExpanded={isExpanded}
-                    setExpanded={(isExpanded) => setExpanded(isExpanded)}
-                />
-            </div>
+        <div className={className}>
 
             {
-                isExpanded && <div className={style.itemList}>
-                    {
-                        props.items.map((item, index) => {
-                            return <DropdownInput.DropdownItem
-                                item={item}
-                                selectedItem={props.selectedItem}
-                                onSelect={(selectedItem: SelectedItem) => props.onSelect(selectedItem)}
-                            />
-                        })
-                    }
-                </div>
+                props.label && <TextBase text={props.label} />
             }
+
+            <div className={style.wrapper}>
+
+                <div className={style.input}>
+                    <TextBase text={props.selectedItem.text}/>
+                    <ChevronButton
+                        isExpanded={isExpanded}
+                        setExpanded={(isExpanded) => setExpanded(isExpanded)}
+                    />
+                </div>
+
+                {
+                    isExpanded && <div className={style.itemList}>
+                        {
+                            props.items.map((item, index) => {
+                                return <DropdownInput.DropdownItem
+                                    item={item}
+                                    selectedItem={props.selectedItem}
+                                    onSelect={(selectedItem: SelectedItem) => props.onSelect(selectedItem)}
+                                />
+                            })
+                        }
+                    </div>
+                }
+
+            </div>
 
         </div>
     )

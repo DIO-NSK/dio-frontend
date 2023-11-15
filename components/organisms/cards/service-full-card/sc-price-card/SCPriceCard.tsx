@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import style from "./SCPriceCard.module.css"
 import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
@@ -6,8 +8,10 @@ import TextBase from "@/components/atoms/text/text-base/TextBase";
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 
-const SCPriceCard = ({price}: {
-    price: number
+const SCPriceCard = ({price, text, onClick}: {
+    price: number,
+    text: string,
+    onClick : () => void
 }) => {
     return (
         <div className={style.card}>
@@ -19,8 +23,7 @@ const SCPriceCard = ({price}: {
 
             <div className={style.buttonRow}>
                 <Button
-                    text={"К услуге"}
-                    onClick={() => console.log("К услуге")}
+                    text={text} onClick={onClick}
                     color={COLOR["light-gray"]}
                 />
                 <LikeButton/>

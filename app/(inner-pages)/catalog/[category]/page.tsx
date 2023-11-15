@@ -30,6 +30,7 @@ const CatalogScreen = () => {
 
             <div className={"col-span-full grid grid-cols-9 gap-[20px]"}>
                 <DropdownInput
+                    width={"col-span-3"}
                     items={itemList}
                     onSelect={(item) => selectItem(item)}
                     selectedItem={selectedItem}

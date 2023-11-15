@@ -1,24 +1,30 @@
-.wrapper {
+.labelWrapper {
 
-    @apply relative col-span-3;
+    @apply flex flex-col gap-[10px];
 
-    .input {
-        @apply w-full p-[20px] flex flex-row items-center
-        justify-between rounded-xl bg-bg-light-blue;
-    }
+    .wrapper {
 
-    .itemList {
+        @apply relative w-full;
 
-        @apply absolute w-full z-10 top-[80px] rounded-xl bg-white
-        drop-shadow-lg flex flex-col overflow-clip;
-
-        .item {
+        .input {
             @apply w-full p-[20px] flex flex-row items-center
-            justify-between;
+            justify-between rounded-xl bg-bg-light-blue;
         }
 
-        .item:hover {
-            @apply cursor-pointer bg-bg-light-blue;
+        .itemList {
+
+            @apply absolute w-full z-10 top-[80px] rounded-xl bg-white
+            drop-shadow-lg flex flex-col overflow-clip;
+
+            .item {
+                @apply w-full p-[20px] flex flex-row items-center
+                justify-between;
+            }
+
+            .item:hover {
+                @apply cursor-pointer bg-bg-light-blue;
+            }
+
         }
 
     }

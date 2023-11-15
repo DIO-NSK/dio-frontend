@@ -2,26 +2,22 @@ import style from "./SCContentCol.module.css"
 import TextBase from "@/components/atoms/text/text-base/TextBase";
 import TextM from "@/components/atoms/text/text-m/TextM";
 import {COLOR} from "@/components/colors";
+import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/ServiceBlockWrapper";
 
 const RentTimeBlock = ({rentTime}: {
     rentTime: { name: string, value: string }[]
 }) => {
     return (
-        <div className={style.blockCol}>
-
-            <div className={"col-span-full"}>
-                <TextM text={"Срок аренды"} weight={"medium"}/>
-            </div>
-
+        <ServiceBlockWrapper header={"Срок аренды"}>
             {
                 rentTime.map((item, index) => {
                     return <div className={style.timeRow}>
                         <TextBase text={item.name} color={COLOR["text-gray"]}/>
-                        <TextBase text={item.value} color={COLOR["text-gray"]}/>
+                        <TextBase text={item.value + " ₽"} color={COLOR["text-gray"]}/>
                     </div>
                 })
             }
-        </div>
+        </ServiceBlockWrapper>
     )
 }
 
@@ -29,12 +25,7 @@ const AdditionalBlock = ({additional}: {
     additional: string[]
 }) => {
     return (
-        <div className={style.blockCol}>
-
-            <div className={"col-span-full"}>
-                <TextM text={"В стоимость включено"} weight={"medium"}/>
-            </div>
-
+        <ServiceBlockWrapper header={"В стоимость включено"}>
             {
                 additional.map((item, index) => {
                     return <div className={style.additionalRow}>
@@ -43,7 +34,7 @@ const AdditionalBlock = ({additional}: {
                     </div>
                 })
             }
-        </div>
+        </ServiceBlockWrapper>
     )
 }
 

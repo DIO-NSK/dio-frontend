@@ -16,3 +16,11 @@ export type FullwidthMainCardType = {
     side : Side,
     icon : string | StaticImport
 } & ImageHeaderDescrCard
+
+export type ServiceCardDTO = {
+    header : string,
+    descr : string,
+    rentTime : {name : string, value : string}[],
+    additional : string[],
+    price : number
+}

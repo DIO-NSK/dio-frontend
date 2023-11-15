@@ -6,13 +6,15 @@ import {COLOR} from "@/components/colors";
 import TextBase from "@/components/atoms/text/text-base/TextBase";
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
+import React from "react";
+import StickyCardWrapper from "@/components/wrappers/sticky-card-wrapper/StickyCardWrapper";
 
 const ProductPriceCard = ({price, oldPrice}: {
     price: number,
     oldPrice?: number
 }) => {
     return (
-        <div className={style.card}>
+        <StickyCardWrapper startCol={"col-start-10"}>
 
             <div className={style.priceRow}>
                 <Text2XL
@@ -32,10 +34,10 @@ const ProductPriceCard = ({price, oldPrice}: {
                     text={"В корзину"}
                     onClick={() => console.log("В корзину")}
                 />
-                <LikeButton />
+                <LikeButton/>
             </div>
 
-        </div>
+        </StickyCardWrapper>
     )
 }
 

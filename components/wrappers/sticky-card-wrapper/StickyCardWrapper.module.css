@@ -1,0 +1,4 @@
+.wrapper {
+    @apply sticky top-[30px] h-fit col-span-3 flex flex-col p-[30px]
+    rounded-xl bg-white drop-shadow-lg gap-[20px];
+}
