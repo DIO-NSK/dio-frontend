@@ -1,4 +1,4 @@
-import {TextTypes} from "@/types/text";
+import {TextTypes} from "@/types/dto/text";
 
 
 const TextLg = ({text, color, weight = "regular"}: TextTypes) => {

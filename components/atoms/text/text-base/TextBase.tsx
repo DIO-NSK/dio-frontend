@@ -1,12 +1,9 @@
-import {COLOR} from "@/components/colors";
-import {TextTypes} from "@/types/text";
+import {TextProps} from "@/types/props/Text";
+import {cn} from "@/utlis/cn";
 
-const TextBase = ({text, color = COLOR["black"]} : TextTypes) => {
+const TextBase = ({text, className}: TextProps) => {
     return (
-        <h5
-            style={{color : color}}
-            className={"text-base font-normal"}
-        >
+        <h5 className={cn("text-base font-normal", className)}>
             {text}
         </h5>
     );

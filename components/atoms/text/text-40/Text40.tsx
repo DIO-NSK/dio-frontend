@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextTypes} from "@/types/text";
+import {TextTypes} from "@/types/dto/text";
 
 const Text40 = ({text, color} : TextTypes) => {
     return (

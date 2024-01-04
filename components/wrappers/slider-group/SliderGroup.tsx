@@ -1,7 +1,7 @@
 import style from "./SliderGroup.module.css"
 import Title from "@/components/atoms/text/title/Title";
 import React from "react";
-import ButtonSlider from "@/components/moleculas/button-slider/ButtonSlider";
+import ButtonSlider from "@/components/moleculas/sliders/button-slider/ButtonSlider";
 import {HeaderWrapperType} from "@/types/wrappers";
 
 const SliderGroup = ({header, children} : HeaderWrapperType) => {

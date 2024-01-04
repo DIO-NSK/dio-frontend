@@ -6,7 +6,7 @@ import TextBase from "@/components/atoms/text/text-base/TextBase";
 import {useState} from "react";
 import LabelInputWrapper from "@/components/wrappers/label-input-wrapper/LabelInputWrapper";
 import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
-import CheckboxList from "@/components/moleculas/checkbox-list/CheckboxList";
+import CheckboxList from "@/components/moleculas/lists/checkbox-list/CheckboxList";
 import {SelectedItem} from "@/types/select";
 import Button from "@/components/atoms/buttons/button/Button";
 import {COLOR} from "@/components/colors";

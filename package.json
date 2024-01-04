@@ -3,19 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 8080",
     "lint": "next lint"
   },
   "dependencies": {
+    "clsx": "^2.1.0",
     "framer-motion": "^10.16.4",
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^4.11.0",
     "react-lines-ellipsis": "^0.15.4",
-    "react-range-slider-input": "^3.0.7"
+    "react-range-slider-input": "^3.0.7",
+    "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
     "@types/node": "^20",

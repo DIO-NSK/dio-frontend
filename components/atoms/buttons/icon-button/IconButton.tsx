@@ -10,13 +10,10 @@ type IconButtonTypes = {
 const IconButton = ({src, size, onClick} : IconButtonTypes) => {
     return (
         <Image
-            style={{width : size, height: size}}
-            src={src}
-            alt={'/'}
-            width={size}
-            height={size}
-            quality={100}
-            onClick={onClick}
+            className={"pointer hover:link-blue"}
+            src={src} alt={'/'}
+            width={size} height={size}
+            quality={100} onClick={onClick}
         />
     )
 }

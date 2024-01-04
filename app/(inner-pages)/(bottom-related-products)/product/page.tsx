@@ -1,7 +1,7 @@
 "use client"
 
 import style from "../../InnerPages.module.css"
-import ProductPhotoSlider from "@/components/moleculas/product-photo-slider/ProductPhotoSlider";
+import ProductPhotoSlider from "@/components/moleculas/sliders/product-photo-slider/ProductPhotoSlider";
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import React, {useState} from "react";
 
@@ -9,9 +9,9 @@ import MockProductImage1 from "../../../../public/images/prodcut-card/product-im
 import MockProductImage2 from "../../../../public/images/prodcut-card/product-image-2.png"
 import MockProductImage3 from "../../../../public/images/prodcut-card/product-image-3.png"
 import MockProductImage4 from "../../../../public/images/prodcut-card/product-image-4.png"
-import CharacteristicList from "@/components/moleculas/characteristic-list/CharacteristicList";
+import CharacteristicList from "@/components/moleculas/lists/characteristic-list/CharacteristicList";
 import {ProductCharacteristic} from "@/types/product";
-import DescriptionCol from "@/components/moleculas/description-col/DescriptionCol";
+import DescriptionCol from "@/components/moleculas/cols/description-col/DescriptionCol";
 import ProductPriceCard from "@/components/organisms/cards/product-price-card/ProductPriceCard";
 import HeaderBlock from "@/components/wrappers/header-block/HeaderBlock";
 const ProductCardPage = () => {

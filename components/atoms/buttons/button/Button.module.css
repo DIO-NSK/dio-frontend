@@ -1,6 +1,5 @@
 .wrapper {
-    @apply px-[50px] py-[20px] flex flex-row gap-[15px] items-center
-    justify-center rounded-xl bg-link-blue whitespace-nowrap;
+    @apply ;
 }
 
 .wrapper:hover {

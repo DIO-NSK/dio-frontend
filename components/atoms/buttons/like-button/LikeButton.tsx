@@ -14,7 +14,7 @@ const LikeButton = () => {
                     onClick={() => setLiked(false)}
                 /> : <FiHeart
                     size={"22px"}
-                    className={"stroke-border-gray"}
+                    className={"stroke-border-gray hover:stroke-info-red hoverable"}
                     onClick={() => setLiked(true)}
                     />
             }

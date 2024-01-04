@@ -1,38 +1,29 @@
-import style from "./Button.module.css"
 import React from "react";
-import {COLOR} from "@/components/colors";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
+import {ButtonTypes} from "@/types/props/Button";
 
-type ButtonTypes = {
-    color?: COLOR,
-    icon?: React.ReactNode,
-    text: string,
-    onClick: () => void
-}
+const Button = ({buttonType = "PRIMARY", ...props}: ButtonTypes): React.ReactNode => {
 
-const Button = (
-    {
-        color = COLOR["link-blue"],
-        icon = null,
-        ...props
-    }: ButtonTypes): React.ReactNode => {
+    const buttonTypeCV: ClassValue = {
+        "bg-link-blue text-white hover:bg-blue-800": buttonType === "PRIMARY",
+        "bg-light-gray text-link-blue hover:bg-link-blue hover:text-white": buttonType === "SECONDARY"
+    }
 
-    const textColor = color === COLOR["link-blue"]
-        ? COLOR["white"] : COLOR["link-blue"]
+    const buttonCV: ClassValue[] = [
+        "px-[50px] py-[20px] flex flex-row gap-[15px] items-center",
+        "justify-center rounded-xl whitespace-nowrap",
+        "hover:duration-200 transition pointer text-base",
+        buttonTypeCV
+    ]
 
     return (
-        <div
-            style={{backgroundColor: color}}
-            className={style.wrapper}
-            onClick={props.onClick}
-        >
-            {icon}
-            <TextBase
-                text={props.text}
-                color={textColor}
-            />
+        <div className={cn(buttonCV)} onClick={props.onClick}>
+            {props.icon}
+            {props.text}
         </div>
     )
+
 }
 
 export default Button

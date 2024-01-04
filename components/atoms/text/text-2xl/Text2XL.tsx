@@ -1,5 +1,5 @@
 import {COLOR} from "@/components/colors";
-import {Text2XLTypes} from "@/types/text";
+import {Text2XLTypes} from "@/types/dto/text";
 
 const Text2XL = ({text, color = COLOR["black"], isUppercase = false}: Text2XLTypes) => {
 

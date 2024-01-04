@@ -1,9 +1,10 @@
 import style from "./HeroSliderRow.module.css"
-import ImageBannerSlider, {ImageLink} from "@/components/moleculas/image-banner-slider/ImageBannerSlider";
+import ImageBannerSlider from "@/components/moleculas/sliders/image-banner-slider/ImageBannerSlider";
 import MockBannerImage1 from "@/public/images/banner-image-1.png";
 import MockBannerImage2 from "@/public/images/banner-image-2.jpg";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 import MockImage from "@/public/images/card-image.png";
+import {ImageLink} from "@/types/links";
 
 const HeroSliderRow = () => {
 
@@ -35,6 +36,7 @@ const HeroSliderRow = () => {
             <ProductCard productCard={mockProductCard} />
         </div>
     );
+
 };
 
 export default HeroSliderRow;

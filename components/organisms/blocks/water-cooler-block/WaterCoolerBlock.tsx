@@ -10,7 +10,7 @@ import AtomLineIcon from "@/public/icons/atom-line-icon.png"
 import Image from "next/image";
 import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
 import TextLg from "@/components/atoms/text/text-lg/TextLg";
-import {HeaderDesrcType} from "@/types/text";
+import {HeaderDesrcType} from "@/types/dto/text";
 import {waterCoolerBlockData} from "@/data/waterCoolerBlockData";
 
 const DescrCol = (

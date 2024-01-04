@@ -1,6 +1,6 @@
 import React from 'react';
 import {COLOR} from "@/components/colors";
-import {TextTypes} from "@/types/text";
+import {TextTypes} from "@/types/dto/text";
 
 const Title = ({color = COLOR["black"], text} : TextTypes) => {
     return (

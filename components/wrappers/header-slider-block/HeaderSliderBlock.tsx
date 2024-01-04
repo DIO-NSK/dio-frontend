@@ -4,7 +4,7 @@ import style from "./HeaderSliderBlock.module.css"
 
 import React, {useState} from 'react';
 import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
-import ButtonSlider from "@/components/moleculas/button-slider/ButtonSlider";
+import ButtonSlider from "@/components/moleculas/sliders/button-slider/ButtonSlider";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 import {ProductCardDTO} from "@/types/product";
 

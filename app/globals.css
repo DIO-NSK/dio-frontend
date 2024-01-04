@@ -5,3 +5,11 @@
 :root {
   @apply w-full h-screen bg-white overflow-x-hidden;
 }
+
+.pointer {
+  @apply hover:cursor-pointer;
+}
+
+.hoverable {
+  @apply hover:duration-200 transition;
+}

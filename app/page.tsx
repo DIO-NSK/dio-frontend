@@ -1,6 +1,5 @@
 "use client"
 
-import MockImage from "@/public/images/card-image.png"
 import MockWaterImage from "@/public/images/water-image.png"
 
 import MockSaleImage1 from "@/public/images/sale-image-1.png"
@@ -50,7 +49,6 @@ const MainPageScreen = () => {
         "Ремон кулеров пурифаеров и кофемашин",
         "Санитарная обработка кулеров и кофемашин",
         "Сервисное обслуживание пурифаеров",
-        ""
     ]
 
     const mockSaleCardArray : ImageHeaderDescrCard[] = [

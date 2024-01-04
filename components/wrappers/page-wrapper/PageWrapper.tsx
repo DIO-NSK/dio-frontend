@@ -1,5 +1,4 @@
 import React from "react";
-import style from "./PageWrapper.module.css"
 
 type PageWrapperTypes = {
     children : React.ReactNode
@@ -7,7 +6,7 @@ type PageWrapperTypes = {
 
 const PageWrapper = ({children} : PageWrapperTypes) => {
     return (
-        <div className={style.wrapper}>
+        <div className={"mt-[30px] w-full h-full px-[100px] flex flex-col gap-[60px]"}>
             {children}
         </div>
     )
