@@ -1,6 +1,5 @@
 "use client"
 
-import style from "../../InnerPages.module.css"
 import ProductPhotoSlider from "@/components/moleculas/sliders/product-photo-slider/ProductPhotoSlider";
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import React, {useState} from "react";
@@ -39,7 +38,7 @@ const ProductCardPage = () => {
         "для питья ее в первозданном виде."
 
     return (
-        <div className={style.innerLayout}>
+        <>
             
             <ProductPhotoSlider
                 photos={mockPhotos}
@@ -64,7 +63,7 @@ const ProductCardPage = () => {
                 <CharacteristicList characteristics={mockCharacteristics} />
             </HeaderBlock>
             
-        </div>
+        </>
     )
 }
 

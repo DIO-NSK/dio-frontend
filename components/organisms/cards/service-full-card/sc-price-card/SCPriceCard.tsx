@@ -24,7 +24,7 @@ const SCPriceCard = ({price, text, onClick}: {
             <div className={style.buttonRow}>
                 <Button
                     text={text} onClick={onClick}
-                    color={COLOR["light-gray"]}
+                    buttonType={"SECONDARY"}
                 />
                 <LikeButton/>
             </div>

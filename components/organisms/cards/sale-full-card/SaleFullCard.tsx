@@ -1,6 +1,5 @@
 "use client"
 
-import style from "./SaleFullCard.module.css"
 import {SaleCardDTO} from "@/types/cards";
 import TextBase from "@/components/atoms/text/text-base/TextBase";
 import {COLOR} from "@/components/colors";
@@ -10,13 +9,15 @@ import {useRouter} from "next/navigation";
 import TextM from "@/components/atoms/text/text-m/TextM";
 import LinesEllipsis from "react-lines-ellipsis";
 import React from "react";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
 
 const TopRow = ({info, duration}: {
     info: string,
     duration: string
 }) => {
     return (
-        <div className={style.topRow}>
+        <div className={"w-full flex flex-row gap-[10px] items-baseline"}>
             <TextBase text={info} color={COLOR["link-blue"]}/>
             <TextBase text={`до ${duration}`} color={COLOR["text-gray"]}/>
         </div>
@@ -29,9 +30,9 @@ const MainCol = ({header, descr, onClick}: {
     onClick: () => void
 }) => {
     return (
-        <div className={style.headerButtonCol}>
+        <div className={"w-full flex flex-col gap-[20px]"}>
 
-            <div className={style.headerDescrCol}>
+            <div className={"w-full flex flex-col gap-[10px]"}>
                 <TextM text={header} weight={"semibold"} />
                 <LinesEllipsis
                     text={descr} maxLine='2'
@@ -42,9 +43,9 @@ const MainCol = ({header, descr, onClick}: {
 
             <div className={"w-[200px]"}>
                 <Button
+                    buttonType={"SECONDARY"}
                     text={"Подробнее"}
                     onClick={onClick}
-                    color={COLOR["light-gray"]}
                 />
             </div>
 
@@ -58,15 +59,20 @@ const SaleFullCard = ({card}: {
 
     const router = useRouter()
 
+    const wrapperCV : ClassValue[] = [
+        "col-span-6 bg-white p-[20px] rounded-xl flex flex-row gap-[20px]",
+        "hover:drop-shadow-lg pointer hoverable"
+    ]
+
     return (
-        <div className={style.wrapper}>
+        <div className={cn(wrapperCV)}>
             <Image
-                className={style.image}
+                className={"h-full w-[200px] rounded-xl object-scale-down"}
                 src={card.image} alt={'/'}
                 width={200} height={200}
                 quality={100}
             />
-            <div className={style.content}>
+            <div className={"w-full flex flex-col gap-[10px]"}>
 
                 <SaleFullCard.TopRow
                     info={"БЕСПЛАТНО"}

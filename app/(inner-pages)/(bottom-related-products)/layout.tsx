@@ -1,29 +1,36 @@
 import React from 'react';
-import style from "../InnerPages.module.css"
 import HeaderSliderBlock from "@/components/wrappers/header-slider-block/HeaderSliderBlock";
 import {mockCardArray} from "@/data/productCardData";
-
-const InnerLayout = ({children}: {
-    children: React.ReactNode
-}) => {
-    return (
-        <div style={{padding: "0 100px 0 100px"}} className={style.innerLayout}>
-            {children}
-        </div>
-    )
-}
+import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import CatalogHeaderCol from "@/components/moleculas/cols/catalog-header-col/CatalogHeaderCol";
+import {TextLink} from "@/types/dto/text";
 
 const BottomRelatedProductsLayout = ({children}: {
     children: React.ReactNode
 }) => {
+
+    const breadcrumbs : TextLink[] = [
+        {text : "Главная", link : "/"},
+        {text : "Каталог", link : "/catalog"},
+        {text : "Кулеры", link : "/catalog/coolers"},
+        {text : "HotFrost", link : "/catalog/coolers/hot-frost"},
+    ]
+
     return (
-        <div className={"col-span-full flex flex-col gap-[40px]"}>
-            <BottomRelatedProductsLayout.InnerLayout children={children}/>
-            <HeaderSliderBlock header={"Новинки"} cards={mockCardArray} />
-        </div>
+        <>
+            <CatalogHeaderCol
+                text={"Кулеры"}
+                amount={mockCardArray.length}
+                breadcrumbs={breadcrumbs}
+            />
+            <div className={"col-span-full flex flex-col gap-[40px]"}>
+                <InnerPageWrapper>
+                    {children}
+                </InnerPageWrapper>
+                <HeaderSliderBlock header={"Новинки"} cards={mockCardArray} />
+            </div>
+        </>
     )
 }
-
-BottomRelatedProductsLayout.InnerLayout = InnerLayout
 
 export default BottomRelatedProductsLayout;

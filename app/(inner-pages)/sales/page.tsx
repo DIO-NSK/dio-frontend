@@ -1,19 +1,20 @@
 import React from 'react';
-import style from "../InnerPages.module.css"
 import {mockSaleCardArray} from "@/data/saleCardData";
 import SaleFullCard from "@/components/organisms/cards/sale-full-card/SaleFullCard";
+import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 
 const SaleCatalogScreen = () => {
 
     return (
-        <div style={{padding: "0 100px 0 100px"}} className={style.innerLayout}>
+        <InnerPageWrapper>
             {
                 mockSaleCardArray.map((card) => {
                     return <SaleFullCard card={card}/>
                 })
             }
-        </div>
+        </InnerPageWrapper>
     )
+
 }
 
 export default SaleCatalogScreen

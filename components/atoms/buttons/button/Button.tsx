@@ -7,7 +7,7 @@ const Button = ({buttonType = "PRIMARY", ...props}: ButtonTypes): React.ReactNod
 
     const buttonTypeCV: ClassValue = {
         "bg-link-blue text-white hover:bg-blue-800": buttonType === "PRIMARY",
-        "bg-light-gray text-link-blue hover:bg-link-blue hover:text-white": buttonType === "SECONDARY"
+        "bg-light-gray text-link-blue hover:bg-blue-100": buttonType === "SECONDARY"
     }
 
     const buttonCV: ClassValue[] = [

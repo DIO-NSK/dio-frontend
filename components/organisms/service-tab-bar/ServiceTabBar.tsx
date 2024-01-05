@@ -1,7 +1,6 @@
-import style from "./ServiceTabBar.module.css"
 import {TextLink} from "@/types/links";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
-import {COLOR} from "@/components/colors";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
 
 const Item = ({tab, isActive, setActive}: {
     tab: TextLink,
@@ -9,16 +8,21 @@ const Item = ({tab, isActive, setActive}: {
     setActive: (item: TextLink) => void
 }) => {
 
-    const tabColor = isActive ? COLOR["bg-light-blue"] : COLOR["white"]
-    const textColor = isActive ? COLOR["link-blue"] : COLOR["black"]
+    const wrapperCV : ClassValue[] = [
+        "w-full flex flex-row items-center px-[20px] py-4 text-base rounded-xl hoverable pointer",
+        "hover:bg-bg-light-blue",
+        {
+            "bg-bg-light-blue text-link-blue" : isActive,
+            "bg-white text-black" : !isActive
+        }
+    ]
 
     return (
         <div
-            style={{backgroundColor: tabColor}}
-            className={style.item}
+            className={cn(wrapperCV)}
             onClick={() => setActive(tab)}
         >
-            <TextBase text={tab.text} color={textColor}/>
+            {tab.text}
         </div>
     )
 
@@ -30,7 +34,7 @@ const ServiceTabBar = ({tabs, activeTab, setActive}: {
     setActive: (item: TextLink) => void
 }) => {
     return (
-        <div className={style.wrapper}>
+        <div className={"ml-[-20px] col-span-3 flex flex-col gap-2"}>
             {
                 tabs.map((tab) => {
                     return <ServiceTabBar.Item

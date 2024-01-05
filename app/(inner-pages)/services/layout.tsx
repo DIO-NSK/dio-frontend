@@ -1,9 +1,9 @@
 "use client"
 
-import React, {useEffect, useState} from 'react';
-import style from "../InnerPages.module.css"
+import React, {useState} from 'react';
 import ServiceTabBar from "@/components/organisms/service-tab-bar/ServiceTabBar";
 import {TextLink} from "@/types/links";
+import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 
 const ServicesLayout = ({children}: {
     children: React.ReactNode
@@ -22,14 +22,14 @@ const ServicesLayout = ({children}: {
     const [activeTab, setActive] = useState<TextLink>(mockTabList[0])
 
     return (
-        <div style={{padding: "0 100px 0 100px"}} className={style.innerLayout}>
+        <InnerPageWrapper>
             <ServiceTabBar
                 tabs={mockTabList}
                 activeTab={activeTab}
                 setActive={(item: TextLink) => setActive(item)}
             />
             {children}
-        </div>
+        </InnerPageWrapper>
     )
 
 }

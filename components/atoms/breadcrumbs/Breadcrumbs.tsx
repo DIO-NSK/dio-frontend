@@ -1,23 +1,32 @@
-import style from "./Breadcrumbs.module.css"
+"use client"
 
-import {TextLink} from "@/types/links";
-import Link from "next/link";
+import {TextLink} from "@/types/dto/text";
 import TextBase from "@/components/atoms/text/text-base/TextBase";
-import {COLOR} from "@/components/colors";
 import {FiChevronRight} from "react-icons/fi";
+import {useRouter} from "next/navigation";
 
 const BreadCrumbs = ({breadcrumbs}: {
     breadcrumbs: TextLink[]
 }) => {
+
+    const router = useRouter()
+
     return (
-        <div className={style.wrapper}>
+        <div className={"flex flex-row items-center gap-[5px]"}>
             {
-                breadcrumbs.map((item) => {
-                    return <div className={style.itemRow}>
-                        <Link href={item.path}>
-                            <TextBase text={item.text} color={COLOR["text-gray"]}/>
-                        </Link>
-                        <FiChevronRight size={"18px"} className={"stroke-text-gray"}/>
+                breadcrumbs.map((item, index) => {
+                    return <div className={"flex flex-row items-center gap-[5px]"}>
+                        <TextBase
+                            text={item.text}
+                            className={"text-text-gray hover:text-link-blue hoverable pointer"}
+                            onClick={() => router.push(item.link)}
+                        />
+                        {
+                            index !== breadcrumbs.length - 1 && <FiChevronRight
+                                size={"18px"}
+                                className={"stroke-text-gray"}
+                            />
+                        }
                     </div>
                 })
             }

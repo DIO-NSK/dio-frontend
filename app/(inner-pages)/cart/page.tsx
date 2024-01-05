@@ -1,10 +1,11 @@
-import style from "../InnerPages.module.css"
+import React from "react";
+import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 
 const ShoppingCartPage = () => {
     return (
-        <div className={style.innerLayout}>
-
-        </div>
+        <InnerPageWrapper>
+            AAAA
+        </InnerPageWrapper>
     );
 };
 

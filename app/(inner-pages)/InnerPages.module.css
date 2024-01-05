@@ -1,11 +1,4 @@
-.wrapper {
-    @apply w-full mt-[10px] grid grid-cols-12 gap-x-[30px] gap-y-[30px];
-}
 
 .content {
     @apply col-span-9 gap-x-[20px] gap-y-[30px] grid grid-cols-9 mb-[30px];
-}
-
-.innerLayout {
-    @apply col-span-full grid grid-cols-12 gap-x-[30px] gap-y-[30px] mb-[30px];
 }

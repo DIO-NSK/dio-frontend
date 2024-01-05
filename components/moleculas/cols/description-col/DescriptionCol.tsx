@@ -2,7 +2,6 @@ import style from "./DescriptionCol.module.css"
 import LinesEllipsis from "react-lines-ellipsis";
 import React, {useState} from "react";
 import TextBase from "@/components/atoms/text/text-base/TextBase";
-import {COLOR} from "@/components/colors";
 
 const DescriptionCol = ({text}: { text: string }) => {
 
@@ -24,7 +23,7 @@ const DescriptionCol = ({text}: { text: string }) => {
             >
                 <TextBase
                     text={"Читать всё"}
-                    color={COLOR["link-blue"]}
+                    className={"hoverable pointer text-link-blue hover:text-blue-800"}
                 />
             </div>
         </div>

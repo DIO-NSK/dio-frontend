@@ -8,7 +8,6 @@ import WhatsAppIcon from "@/public/icons/whatsapp-icon.png"
 import TelegramIcon from "@/public/icons/telegram-icon.png"
 import ViberIcon from "@/public/icons/viber-icon.png"
 import IconButton from "@/components/atoms/buttons/icon-button/IconButton";
-import Link from "next/link";
 import {footerData} from "@/data/footerData";
 import Image from "next/image";
 
@@ -42,9 +41,10 @@ const LeftRow = () => {
                                                 alt={'/'}
                                             />
                                         }
-                                        <Link href={item.path}>
-                                            <TextBase text={item.text} color={COLOR["text-gray"]}/>
-                                        </Link>
+                                        <TextBase
+                                            text={item.text}
+                                            className={"hoverable pointer text-text-gray hover:text-link-blue"}
+                                        />
                                     </div>
                                 }
                             })

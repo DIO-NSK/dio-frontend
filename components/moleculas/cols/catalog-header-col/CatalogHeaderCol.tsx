@@ -1,8 +1,7 @@
 import style from "./CatalogHeaderCol.module.css"
 import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
 import TextBase from "@/components/atoms/text/text-base/TextBase";
-import {COLOR} from "@/components/colors";
-import {TextLink} from "@/types/links";
+import {TextLink} from "@/types/dto/text";
 import Breadcrumbs from "@/components/atoms/breadcrumbs/Breadcrumbs";
 
 type CatalogHeaderCol = {
@@ -17,7 +16,7 @@ const CatalogHeaderCol = ({text, amount, breadcrumbs} : CatalogHeaderCol) => {
             <Breadcrumbs breadcrumbs={breadcrumbs} />
             <div className={style.headerRow}>
                 <Text2XL text={text} />
-                <TextBase text={`Всего ${amount}`} color={COLOR["text-gray"]}/>
+                <TextBase text={`Всего ${amount}`} className={"text-text-gray"}/>
             </div>
         </div>
     )
