@@ -1,7 +1,7 @@
 import style from "./DropdownInput.module.css"
 import {SelectedItem} from "@/types/select";
 import React, {useState} from "react";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import {COLOR} from "@/components/colors";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
 import {FiCheck} from "react-icons/fi";
@@ -29,7 +29,7 @@ const DropdownItem = ({item, selectedItem, onSelect}: DropdownItemType) => {
             className={style.item}
             onClick={() => onSelect(item)}
         >
-            <TextBase text={item.text} color={color}/>
+            <Text text={item.text} color={color}/>
             {
                 selectedItem === item && <FiCheck
                     size={"18px"}
@@ -49,13 +49,13 @@ const DropdownInput = (props: DropdownInputProps) => {
         <div className={className}>
 
             {
-                props.label && <TextBase text={props.label} />
+                props.label && <Text text={props.label} />
             }
 
             <div className={style.wrapper}>
 
                 <div className={style.input}>
-                    <TextBase text={props.selectedItem.text}/>
+                    <Text text={props.selectedItem.text}/>
                     <ChevronButton
                         isExpanded={isExpanded}
                         setExpanded={(isExpanded) => setExpanded(isExpanded)}

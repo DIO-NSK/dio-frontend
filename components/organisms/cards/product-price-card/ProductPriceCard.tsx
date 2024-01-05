@@ -3,7 +3,7 @@
 import style from "./ProductPriceCard.module.css"
 import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
 import {COLOR} from "@/components/colors";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import React from "react";
@@ -22,7 +22,7 @@ const ProductPriceCard = ({price, oldPrice}: {
                     color={COLOR["link-blue"]}
                 />
                 {
-                    oldPrice && <TextBase
+                    oldPrice && <Text
                         text={oldPrice + " ₽"}
                         color={COLOR["text-gray"]}
                     />

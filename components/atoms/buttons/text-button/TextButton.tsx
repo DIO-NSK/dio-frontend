@@ -1,4 +1,4 @@
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import {TextProps} from "@/types/props/Text";
 import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
@@ -16,7 +16,7 @@ const TextButton = ({text, onClick, className} : TextButtonProps) => {
 
     return (
         <div onClick={onClick}>
-            <TextBase
+            <Text
                 className={cn(textButtonCV, className)}
                 text={text}
             />

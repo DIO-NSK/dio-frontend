@@ -5,32 +5,32 @@ import Image from "next/image";
 import TextLg from "@/components/atoms/text/text-lg/TextLg";
 import {FiChevronRight} from "react-icons/fi";
 import {TextLink} from "@/types/links";
-
-export type WaterCardDTO = {
-    image: string | StaticImport,
-    textLink : TextLink
-}
+import {WaterCardDTO} from "@/types/cards";
+import Text from "@/components/atoms/text/text-base/Text";
 
 type WaterCardType = {
-    waterCard: WaterCardDTO
+    waterCard: WaterCardDTO,
+    className ?: string
 }
 
 const WaterCard = ({waterCard}: WaterCardType) => {
     return (
         <div className={style.wrapper}>
             <div className={style.container}>
-                <Image
+                <img
                     src={waterCard.image}
                     className={style.image}
-                    quality={100}
                     alt={'/'}
                 />
             </div>
             <div
                 className={style.headerRow}
-                onClick={() => console.log(waterCard.textLink.path)}
+                onClick={() => console.log(waterCard.textLink.link)}
             >
-                <TextLg text={waterCard.textLink.text}/>
+                <Text
+                    className={"text-[18px] text-black pointer hoverable hover:text-link-blue"}
+                    text={waterCard.textLink.text}
+                />
                 <FiChevronRight
                     className={"stroke-link-blue"}
                     size={"24px"}

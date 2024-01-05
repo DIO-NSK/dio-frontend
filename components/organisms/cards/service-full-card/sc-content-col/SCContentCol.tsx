@@ -1,5 +1,5 @@
 import style from "./SCContentCol.module.css"
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import TextM from "@/components/atoms/text/text-m/TextM";
 import {COLOR} from "@/components/colors";
 import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/ServiceBlockWrapper";
@@ -12,8 +12,8 @@ const RentTimeBlock = ({rentTime}: {
             {
                 rentTime.map((item, index) => {
                     return <div className={style.timeRow}>
-                        <TextBase text={item.name} color={COLOR["text-gray"]}/>
-                        <TextBase text={item.value + " ₽"} color={COLOR["text-gray"]}/>
+                        <Text text={item.name} color={COLOR["text-gray"]}/>
+                        <Text text={item.value + " ₽"} color={COLOR["text-gray"]}/>
                     </div>
                 })
             }
@@ -29,8 +29,8 @@ const AdditionalBlock = ({additional}: {
             {
                 additional.map((item, index) => {
                     return <div className={style.additionalRow}>
-                        <TextBase text={`0${index + 1}`} weight={"semibold"}/>
-                        <TextBase text={item}/>
+                        <Text text={`0${index + 1}`} weight={"semibold"}/>
+                        <Text text={item}/>
                     </div>
                 })
             }

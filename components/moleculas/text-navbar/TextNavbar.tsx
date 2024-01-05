@@ -1,6 +1,6 @@
 "use client"
 
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import {ClassValue} from "clsx";
 import {TextAction, TextLink} from "@/types/dto/text";
@@ -25,7 +25,7 @@ const TextNavbar = () => {
             {
                 items.map((item, index) => {
                     return index !== items.length - 1 ?
-                        <TextBase
+                        <Text
                             text={item.text}
                             className={linkCV}
                             onClick={() => router.push((item as TextLink).link)}

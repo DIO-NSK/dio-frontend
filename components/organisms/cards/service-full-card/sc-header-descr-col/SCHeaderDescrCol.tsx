@@ -1,6 +1,6 @@
 import style from "./SCHeaderDescrCol.module.css"
 import TextLg from "@/components/atoms/text/text-lg/TextLg";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 
 const SCHeaderDescrCol = ({header, descr}: {
     header: string,
@@ -9,7 +9,7 @@ const SCHeaderDescrCol = ({header, descr}: {
     return (
         <div className={style.headerDescrCol}>
             <TextLg text={header} weight={"semibold"}/>
-            <TextBase text={descr}/>
+            <Text text={descr}/>
         </div>
     )
 }

@@ -2,7 +2,7 @@
 
 import style from "./CatalogLeftSidebar.module.css"
 import TextLg from "@/components/atoms/text/text-lg/TextLg";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import {useState} from "react";
 import LabelInputWrapper from "@/components/wrappers/label-input-wrapper/LabelInputWrapper";
 import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
@@ -21,7 +21,7 @@ const HeaderRow = ({header, descr}: HeaderDescrType) => {
         <div className={style.headerRow}>
             <TextLg text={header}/>
             <div onClick={() => console.log(descr)}>
-                <TextBase text={descr}/>
+                <Text text={descr}/>
             </div>
         </div>
     )
@@ -63,7 +63,7 @@ const CatalogLeftSidebar = () => {
             <div className={style.headerRow}>
                 <TextLg text={"Фильтры"} weight={"semibold"}/>
                 <div onClick={() => console.log("Очистить все")}>
-                    <TextBase text={"Очистить все"} color={COLOR["link-blue"]}/>
+                    <Text text={"Очистить все"} color={COLOR["link-blue"]}/>
                 </div>
             </div>
 

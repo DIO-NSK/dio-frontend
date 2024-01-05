@@ -1,7 +1,7 @@
 "use client"
 
 import {SaleCardDTO} from "@/types/cards";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import {COLOR} from "@/components/colors";
 import Image from "next/image";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -18,8 +18,8 @@ const TopRow = ({info, duration}: {
 }) => {
     return (
         <div className={"w-full flex flex-row gap-[10px] items-baseline"}>
-            <TextBase text={info} color={COLOR["link-blue"]}/>
-            <TextBase text={`до ${duration}`} color={COLOR["text-gray"]}/>
+            <Text text={info} color={COLOR["link-blue"]}/>
+            <Text text={`до ${duration}`} color={COLOR["text-gray"]}/>
         </div>
     )
 }

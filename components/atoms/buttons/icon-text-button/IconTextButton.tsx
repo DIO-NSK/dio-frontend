@@ -1,6 +1,6 @@
 import style from "./IconTextButton.module.css"
 import React from "react";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import {COLOR} from "@/components/colors";
 
 type IconTextButtonTypes = {
@@ -17,7 +17,7 @@ const IconTextButton = ({color = COLOR["text-gray"], icon, text, onClick} : Icon
             onClick={onClick}
         >
             {icon}
-            <TextBase text={text} color={color} />
+            <Text text={text} color={color} />
         </div>
     )
 }

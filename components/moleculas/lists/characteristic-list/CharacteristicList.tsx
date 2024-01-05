@@ -1,5 +1,5 @@
 import style from "./CharacteristicList.module.css"
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import {ProductCharacteristic} from "@/types/product";
 
 const Item = ({characteristic}: {
@@ -7,8 +7,8 @@ const Item = ({characteristic}: {
 }) => {
     return (
         <div className={style.row}>
-            <TextBase text={characteristic.name}/>
-            <TextBase text={characteristic.value}/>
+            <Text text={characteristic.name}/>
+            <Text text={characteristic.value}/>
         </div>
     )
 }

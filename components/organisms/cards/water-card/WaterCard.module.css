@@ -7,13 +7,13 @@
         @apply flex items-center justify-center w-full h-[300px] rounded-xl bg-bg-light-blue;
 
         .image {
-            @apply p-[20px] w-full h-[150px] object-scale-down;
+            @apply p-10 w-full h-full object-scale-down;
         }
 
     }
 
     .headerRow {
-        @apply flex flex-row gap-[15px] items-center;
+        @apply flex flex-row gap-[10px] items-center;
     }
 
 }

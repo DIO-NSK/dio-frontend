@@ -31,7 +31,7 @@ import {mockCardArray} from "@/data/productCardData";
 const MainPageScreen = () => {
 
     const mockWaterCard: WaterCardDTO = {
-        image: MockWaterImage,
+        image: MockWaterImage.src,
         textLink: {
             text: "Вода «Evian»",
             path: "/mock-path"

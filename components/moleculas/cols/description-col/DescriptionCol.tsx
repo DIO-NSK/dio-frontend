@@ -1,7 +1,7 @@
 import style from "./DescriptionCol.module.css"
 import LinesEllipsis from "react-lines-ellipsis";
 import React, {useState} from "react";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 
 const DescriptionCol = ({text}: { text: string }) => {
 
@@ -10,7 +10,7 @@ const DescriptionCol = ({text}: { text: string }) => {
     return (
         <div className={style.wrapper}>
             {
-                isExpanded ? <TextBase text={text}/>
+                isExpanded ? <Text text={text}/>
                     : <LinesEllipsis
                         text={text} maxLine='3'
                         ellipsis='..' trimRight
@@ -21,7 +21,7 @@ const DescriptionCol = ({text}: { text: string }) => {
                 className={"hover:cursor-pointer"}
                 onClick={() => setExpanded(!isExpanded)}
             >
-                <TextBase
+                <Text
                     text={"Читать всё"}
                     className={"hoverable pointer text-link-blue hover:text-blue-800"}
                 />

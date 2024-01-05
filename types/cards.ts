@@ -1,5 +1,6 @@
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import {Side} from "@/data/enums/side";
+import {TextLink} from "@/types/dto/text";
 
 export type IconHeaderCard = {
     icon : string | StaticImport,
@@ -30,4 +31,9 @@ export type SaleCardDTO = {
     duration : string,
     header : string,
     descr : string
+}
+
+export type WaterCardDTO = {
+    image: string,
+    textLink : TextLink
 }

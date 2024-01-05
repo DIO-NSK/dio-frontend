@@ -1,6 +1,6 @@
 import style from "./CheckboxItem.module.css"
 import {FiCheck} from "react-icons/fi";
-import TextBase from "@/components/atoms/text/text-base/TextBase";
+import Text from "@/components/atoms/text/text-base/Text";
 import {SelectedItem} from "@/types/select";
 import {COLOR} from "@/components/colors";
 
@@ -28,7 +28,7 @@ const CheckboxItem = ({item, onSelect}: CheckboxItemProps) => {
                     />
                 }
             </div>
-            <TextBase text={item.text} color={textColor}/>
+            <Text text={item.text} color={textColor}/>
         </div>
     )
 

@@ -1,7 +1,7 @@
 import {TextProps} from "@/types/props/Text";
 import {cn} from "@/utlis/cn";
 
-const TextBase = ({text, className, onClick}: TextProps) => {
+const Text = ({text, className, onClick}: TextProps) => {
     return (
         <h5
             className={cn("text-base font-normal", className)}
@@ -12,4 +12,4 @@ const TextBase = ({text, className, onClick}: TextProps) => {
     );
 };
 
-export default TextBase;
+export default Text;
