@@ -69,62 +69,65 @@ const MainPageScreen = () => {
     ]
 
     return (
-        <PageWrapper>
-            <HeroSliderRow/>
-            <SliderGroup header={"Товары по акции"}>
-                {
-                    mockCardArray.map((productCard) => {
-                        return <ProductCard productCard={productCard}/>
-                    })
-                }
-            </SliderGroup>
-            <SliderGroup header={"Наши воды"}>
-                {
-                    mockWaterCardList.map((waterCard) => {
-                        return <WaterCard waterCard={waterCard}/>
-                    })
-                }
-            </SliderGroup>
-            <HeaderGroup header={"Попробуйте наши услуги"}>
-                {
-                    serviceDataList.map((item, index) => {
-                        return index !== serviceDataList.length - 1 ?
-                            <ServiceCard number={index + 1} text={item}/> :
-                            <BannerCard/>
-                    })
-                }
-            </HeaderGroup>
-            <SliderGroup header={"Акции и предложения"}>
-                {
-                    mockSaleCardArray.map((saleCard) => {
-                        return <SaleCard saleCard={saleCard} />
-                    })
-                }
-            </SliderGroup>
-            <HeaderGroup
-                header={"Бонусная программа"}
-                textLink={{text : "Подробнее о программе", path : "/bonuses"}}
-            >
-                {
-                    bonusCardData.map((bonusCard) => {
-                        return <BonusCard bonusCard={bonusCard} />
-                    })
-                }
-            </HeaderGroup>
-            <WaveHeaderWrapper header={"Почему нам доверяют"} />
-            <SliderGroup header={"Посмотрите на наше производство"}>
-                <ContentImage image={ProductImage4.src} />
-                <ContentImage image={ProductImage5.src} />
-            </SliderGroup>
-            <HeaderGroup header={"Наши преимущества"}>
-                {
-                    advantagesCardData.map((card) => {
-                        return <AdvantageCard card={card} />
-                    })
-                }
-            </HeaderGroup>
-            <WaterCoolerBlock />
-        </PageWrapper>
+        <>
+            <PageWrapper>
+                <HeroSliderRow/>
+                <SliderGroup header={"Товары по акции"}>
+                    {
+                        mockCardArray.map((productCard) => {
+                            return <ProductCard productCard={productCard}/>
+                        })
+                    }
+                </SliderGroup>
+                <SliderGroup header={"Наши воды"}>
+                    {
+                        mockWaterCardList.map((waterCard) => {
+                            return <WaterCard waterCard={waterCard}/>
+                        })
+                    }
+                </SliderGroup>
+                <HeaderGroup header={"Попробуйте наши услуги"}>
+                    {
+                        serviceDataList.map((item, index) => {
+                            return index !== serviceDataList.length - 1 ?
+                                <ServiceCard number={index + 1} text={item}/> :
+                                <BannerCard/>
+                        })
+                    }
+                </HeaderGroup>
+                <SliderGroup header={"Акции и предложения"}>
+                    {
+                        mockSaleCardArray.map((saleCard) => {
+                            return <SaleCard saleCard={saleCard} />
+                        })
+                    }
+                </SliderGroup>
+                <HeaderGroup
+                    header={"Бонусная программа"}
+                    textLink={{text : "Подробнее о программе", path : "/bonuses"}}
+                >
+                    {
+                        bonusCardData.map((bonusCard) => {
+                            return <BonusCard bonusCard={bonusCard} />
+                        })
+                    }
+                </HeaderGroup>
+                <WaveHeaderWrapper header={"Почему нам доверяют"} />
+                <SliderGroup header={"Посмотрите на наше производство"}>
+                    <ContentImage image={ProductImage4.src} />
+                    <ContentImage image={ProductImage5.src} />
+                </SliderGroup>
+                <HeaderGroup header={"Наши преимущества"}>
+                    {
+                        advantagesCardData.map((card) => {
+                            return <AdvantageCard card={card} />
+                        })
+                    }
+                </HeaderGroup>
+                <WaterCoolerBlock />
+            </PageWrapper>
+        </>
+
     )
 }
 

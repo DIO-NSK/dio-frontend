@@ -1,23 +1,24 @@
-import style from "./IconTextButton.module.css"
 import React from "react";
-import Text from "@/components/atoms/text/text-base/Text";
-import {COLOR} from "@/components/colors";
+import {cn} from "@/utlis/cn";
+import {ClassValue} from "clsx";
 
 type IconTextButtonTypes = {
-    color? : COLOR,
-    icon : React.ReactNode,
-    text : string,
-    onClick : () => void
+    icon: React.ReactNode,
+    text: string,
+    onClick: () => void,
+    className?: string
 }
 
-const IconTextButton = ({color = COLOR["text-gray"], icon, text, onClick} : IconTextButtonTypes) => {
+const IconTextButton = (props: IconTextButtonTypes) => {
+
+    const wrapperCV: ClassValue = [
+        "pointer hoverable hover:text-link-blue w-fit flex flex-col items-center gap-[6px]",
+        props.className
+    ]
+
     return (
-        <div
-            className={style.wrapper}
-            onClick={onClick}
-        >
-            {icon}
-            <Text text={text} color={color} />
+        <div className={cn(wrapperCV)} onClick={props.onClick}>
+            {props.icon} {props.text}
         </div>
     )
 }
