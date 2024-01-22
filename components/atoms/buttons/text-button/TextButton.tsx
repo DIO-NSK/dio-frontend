@@ -10,7 +10,7 @@ type TextButtonProps = {
 const TextButton = ({text, onClick, className} : TextButtonProps) => {
 
     const textButtonCV : ClassValue[] = [
-        "text-link-blue font-medium pointer",
+        "text-link-blue pointer",
         "hover:text-blue-800 hover:duration-200 transition"
     ]
 

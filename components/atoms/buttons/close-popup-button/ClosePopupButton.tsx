@@ -7,7 +7,7 @@ import {FiX} from "react-icons/fi";
 const ClosePopupButton = (props : PopupProps) => {
 
     const wrapperCV : ClassValue[] = [
-        "mt-7 flex justify-center items-center w-8 h-8",
+        "mt-7 flex justify-center items-center w-9 h-9",
         "rounded-full bg-bg-light-blue pointer hoverable",
         "hover:text-link-blue hover:drop-shadow-lg text-text-gray"
     ]

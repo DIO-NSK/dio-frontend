@@ -1,8 +1,8 @@
 import {create} from "zustand";
-import {searchbarSlice, SearchbarSlice} from "@/store/slices/SearchbarSlice";
+import {authorizationSlice, AuthorizationSlice} from "@/store/slices/AuthorizationSlice";
 
-type StoreSlices = SearchbarSlice
+type StoreSlices = AuthorizationSlice
 
 export const useStore = create<StoreSlices>()((...config) => ({
-    ...searchbarSlice(...config)
+    ...authorizationSlice(...config)
 }))

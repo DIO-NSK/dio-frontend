@@ -15,7 +15,7 @@ const MultiselectButton = (props : MultiselectButtonProps) => {
                 props.elements.map((element, index) => {
 
                     const wrapperCV : ClassValue[] = [
-                        "w-full py-[25px] flex items-center justify-center",
+                        "w-full py-5 flex items-center justify-center",
                         "border-2 border-light-gray text-text-gray",
                         "hoverable pointer",
                         {

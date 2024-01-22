@@ -2,57 +2,57 @@
 
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
-import {useAuthorizationPopup} from "@/components/organisms/popups/authorization-popup/AuthorizationPopup.hooks";
+import {useLoginPopup} from "@/components/organisms/popups/authorization/login-popup/LoginPopup.hooks";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
-import {PopupProps} from "@/types/props/Popup";
+import {useAuthorizationPopup} from "@/components/organisms/popups/authorization/useAuthorizationPopup";
 
-const AuthorizationPopup = (props : PopupProps) => {
+const LoginPopup = () => {
 
+    const {...loginContext} = useLoginPopup()
     const {...authContext} = useAuthorizationPopup()
 
     return (
-        <PopupWrapper {...props}>
-            <div className={"w-[500px] rounded-xl bg-white flex flex-col gap-5"}>
+        <PopupWrapper>
+            <div className={"w-[450px] rounded-xl bg-white flex flex-col gap-5"}>
                 <MultiselectButton
-                    activeElement={authContext.activeElement}
+                    activeElement={authContext.multiselectElements[0]}
                     elements={authContext.multiselectElements}
-                    selectElement={authContext.setActive}
+                    selectElement={authContext.handleSelectElement}
                 />
                 <TextInput
                     labelText={"Телефон"}
                     placeholder={"+7 (___) ___-__-__"}
                     inputMask={"+7 (999) 999-99-99"}
-                    onChange={authContext.setPhone}
-                    value={authContext.phone}
+                    onChange={authContext.phoneNumberInput.setPhoneNumber}
+                    value={authContext.phoneNumberInput.phoneNumber}
                 />
                 <TextInput
                     labelText={"Пароль"}
                     placeholder={"Введите пароль"}
-                    onChange={authContext.setPassword}
-                    value={authContext.password}
+                    onChange={authContext.passwordInput.setPassword}
+                    value={authContext.passwordInput.password}
                     isPassword
                 />
                 <div className={"w-full flex flex-col items-center gap-5"}>
                     <div className={"w-full flex flex-col gap-3"}>
-                        <Button text={"Войти"} onClick={authContext.handleLoginClick}/>
+                        <Button text={"Войти"} onClick={loginContext.handleLoginClick}/>
                         <Button
                             buttonType={"SECONDARY"}
-                            text={"Войти по номеру телефона"}
-                            onClick={authContext.handleLoginByPhoneClick}
+                            text={"Войти с помощью номера телефона"}
+                            onClick={loginContext.handleLoginByPhoneClick}
                         />
                     </div>
                     <TextButton
-                        onClick={authContext.handleForgotPasswordClick}
+                        onClick={loginContext.handleForgotPasswordClick}
                         text={"Забыли пароль?"}
                     />
                 </div>
-
             </div>
         </PopupWrapper>
     );
 
 };
 
-export default AuthorizationPopup;
+export default LoginPopup;

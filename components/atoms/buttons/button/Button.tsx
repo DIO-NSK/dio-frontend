@@ -14,13 +14,12 @@ const Button = ({buttonType = "PRIMARY", ...props}: ButtonTypes): React.ReactNod
         "px-[50px] py-[20px] flex flex-row gap-[15px] items-center",
         "justify-center rounded-xl whitespace-nowrap",
         "hover:duration-200 transition pointer text-base",
-        buttonTypeCV
+        buttonTypeCV, props.classNames?.button
     ]
 
     return (
         <div className={cn(buttonCV)} onClick={props.onClick}>
-            {props.icon}
-            {props.text}
+            {props.icon} {props.text}
         </div>
     )
 

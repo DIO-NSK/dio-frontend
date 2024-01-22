@@ -1,10 +1,5 @@
 import style from "./WaterCard.module.css"
-
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
-import Image from "next/image";
-import TextLg from "@/components/atoms/text/text-lg/TextLg";
 import {FiChevronRight} from "react-icons/fi";
-import {TextLink} from "@/types/links";
 import {WaterCardDTO} from "@/types/cards";
 import Text from "@/components/atoms/text/text-base/Text";
 

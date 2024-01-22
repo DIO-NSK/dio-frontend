@@ -7,13 +7,13 @@ import {useStore} from "@/store/Store";
 
 const SearchbarIconButtonList = () => {
 
-    const setAuthPopupVisible = useStore(state => state.setAuthPopupVisible)
+    const switchPopupState = useStore(state => state.switchPopupState)
 
     const buttonListData = [
         {
             name: "Войти",
             icon: <FiUser size={"20px"} className={"stroke-link-blue"}/>,
-            onClick: setAuthPopupVisible
+            onClick: () => switchPopupState("login")
         },
         {
             name: "Избранное",
