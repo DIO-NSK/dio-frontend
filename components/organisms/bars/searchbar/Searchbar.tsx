@@ -18,6 +18,8 @@ import ConfirmationCodePopup
 import LoginByPhonePopup from "@/components/organisms/popups/authorization/login-by-phone-popup/LoginByPhonePopup";
 import ChangePasswordPopup from "@/components/organisms/popups/authorization/change-password-popup/ChangePasswordPopup";
 import SuccessPopup from "@/components/organisms/popups/authorization/success-popup/SuccessPopup";
+import React from "react";
+import CatalogPopup from "@/components/organisms/popups/catalog/CatalogPopup";
 
 const ActivePopup = () => {
 
@@ -47,12 +49,16 @@ const Searchbar = () => {
     const {...searchbarContext} = useSearchbar()
 
     const wrapperCV: ClassValue[] = [
-        "w-full px-[100px] py-[20px] bg-white flex flex-row items-center gap-[30px]",
+        "w-full px-[100px] py-4 bg-white flex flex-row items-center gap-[30px]",
         "sticky top-[0px] z-30"
     ]
 
     return (
         <>
+            {
+                searchbarContext.catalogPopup.catalogPopupState &&
+                    <CatalogPopup onClose={searchbarContext.catalogPopup.handleChangeCatalogPopupVisibility}/>
+            }
             <ActivePopup/>
             <div className={cn(wrapperCV)}>
                 <Image
@@ -65,7 +71,7 @@ const Searchbar = () => {
                 <div className={"w-full flex flex-row gap-[20px] items-center"}>
                     <Button
                         text={"Каталог"}
-                        onClick={() => console.log("CATALOG OPEN")}
+                        onClick={searchbarContext.catalogPopup.handleChangeCatalogPopupVisibility}
                         icon={
                             <FiMenu
                                 size={"20px"}

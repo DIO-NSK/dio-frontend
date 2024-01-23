@@ -21,10 +21,3 @@ export type ProductTagDTO = {
     price : number,
     oldPrice? : number | null
 }
-
-export type ProductCardDTO = {
-    oldPrice?: number | undefined,
-    price: number,
-    descr: string,
-    image: string | StaticImport
-}

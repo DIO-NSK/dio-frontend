@@ -7,15 +7,12 @@ import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import {FiCheck} from "react-icons/fi";
 import {useRouter} from "next/navigation";
-import {ProductCardDTO} from "@/types/product";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 
-export type ProductCardTypes = {
-    productCard: ProductCardDTO
-}
+import {ProductCard} from "@/types/dto/cards/ProductCard"
 
-const ProductCard = ({productCard}: ProductCardTypes) => {
+const ProductCard = ({productCard}: { productCard : ProductCard }) => {
 
     const router = useRouter()
 
@@ -47,11 +44,11 @@ const ProductCard = ({productCard}: ProductCardTypes) => {
                         color={COLOR["link-blue"]}
                     />
                     <LinesEllipsis
-                        text={productCard.descr}
-                        maxLine='2'
-                        ellipsis='..'
+                        text={productCard.header}
+                        maxLine={'2'}
+                        ellipsis={'..'}
+                        basedOn={'letters'}
                         trimRight
-                        basedOn='letters'
                     />
                 </div>
                 <div className={"flex flex-row items-center gap-[20px]"}>

@@ -1,10 +1,39 @@
 import React from 'react';
 import PopupCardWrapper from "@/components/wrappers/popup-card-wrapper/PopupCardWrapper";
+import {cn} from "@/utlis/cn";
+import {ClassValue} from "clsx";
 
-const PopupWrapper = ({children}: { children: React.ReactNode }) => {
+export type ContentClassNames = {
+    wrapper ?: string,
+    card ?: string
+}
+
+type PopupWrapperClassNames = {
+    wrapper ?: string,
+    content ?: ContentClassNames
+}
+
+type PopupWrapperProps = {
+    children : React.ReactNode,
+    classNames ?: PopupWrapperClassNames,
+    onClose ?: () => void
+}
+
+const PopupWrapper = (props : PopupWrapperProps) => {
+
+    const wrapperCV : ClassValue[] = [
+        "fixed top-0 left-0 flex justify-center z-40 w-full h-full",
+        props.classNames?.wrapper
+    ]
+
     return (
-        <div className={"fixed flex justify-center top-0 left-0 z-40 w-full h-full"}>
-            <PopupCardWrapper>{children}</PopupCardWrapper>
+        <div className={cn(wrapperCV)}>
+            <PopupCardWrapper
+                classNames={props.classNames?.content}
+                onClose={props.onClose}
+            >
+                {props.children}
+            </PopupCardWrapper>
             <div className={"w-full absolute z-10 h-screen bg-black bg-opacity-50"}/>
         </div>
     );

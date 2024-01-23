@@ -5,6 +5,9 @@ type PopupState = "login" | "loginByPhone" | "signup" | "confirmationCode"
 
 export type AuthorizationSlice = {
 
+    catalogPopupState : boolean,
+    setCatalogPopupState : (isOpen : boolean) => void,
+
     popupState: PopupState,
     multiselectElements: string[],
 
@@ -29,6 +32,8 @@ export type AuthorizationSlice = {
 
 export const authorizationSlice: StateCreator<AuthorizationSlice, [], [], AuthorizationSlice> = (set) => ({
 
+    catalogPopupState : false,
+
     popupState: undefined,
     multiselectElements: ["Войти", "Зарегистрироваться"],
 
@@ -48,5 +53,7 @@ export const authorizationSlice: StateCreator<AuthorizationSlice, [], [], Author
 
     setNewPassword: (newPassword: string) => set({newPassword: newPassword}),
     setRepeatedPassword: (repeatedPassword: string) => set({repeatedPassword: repeatedPassword}),
+
+    setCatalogPopupState : (isOpen : boolean) => set({catalogPopupState : isOpen})
 
 })

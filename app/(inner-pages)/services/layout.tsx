@@ -1,9 +1,9 @@
 "use client"
 
 import React, {useState} from 'react';
-import ServiceTabBar from "@/components/organisms/service-tab-bar/ServiceTabBar";
 import {TextLink} from "@/types/links";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import SideTabBar from "@/components/moleculas/bars/side-tab-bar/SideTabBar";
 
 const ServicesLayout = ({children}: {
     children: React.ReactNode
@@ -23,7 +23,7 @@ const ServicesLayout = ({children}: {
 
     return (
         <InnerPageWrapper>
-            <ServiceTabBar
+            <SideTabBar
                 tabs={mockTabList}
                 activeTab={activeTab}
                 setActive={(item: TextLink) => setActive(item)}

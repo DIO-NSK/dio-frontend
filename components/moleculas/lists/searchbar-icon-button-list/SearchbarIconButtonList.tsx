@@ -4,9 +4,11 @@ import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconText
 import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
 import {useStore} from "@/store/Store";
+import {useRouter} from "next/navigation";
 
 const SearchbarIconButtonList = () => {
 
+    const router = useRouter()
     const switchPopupState = useStore(state => state.switchPopupState)
 
     const buttonListData = [
@@ -18,13 +20,13 @@ const SearchbarIconButtonList = () => {
         {
             name: "Избранное",
             icon: <FiHeart size={"20px"}/>,
-            onClick: () => console.log("Избранное")
+            onClick: () => router.push("/favorites")
 
         },
         {
             name: "Корзина",
             icon: <FiShoppingCart size={"20px"}/>,
-            onClick: () => console.log("Корзина")
+            onClick: () => router.push("/cart")
         },
     ]
 

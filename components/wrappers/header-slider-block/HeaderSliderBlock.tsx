@@ -1,16 +1,15 @@
 "use client"
 
-import style from "./HeaderSliderBlock.module.css"
-
 import React, {useState} from 'react';
-import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
 import ButtonSlider from "@/components/moleculas/sliders/button-slider/ButtonSlider";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
-import {ProductCardDTO} from "@/types/product";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
+import Text from "@/components/atoms/text/text-base/Text";
 
 const HeaderSliderBlock = ({header, cards}: {
     header: string,
-    cards: ProductCardDTO[],
+    cards: ProductCard[],
 }) => {
 
     const [startIndex, setStartIndex] = useState<number>(0)
@@ -30,11 +29,16 @@ const HeaderSliderBlock = ({header, cards}: {
         }
     }
 
-    return (
-        <div className={style.wrapper}>
+    const wrapperCV : ClassValue[] = [
+        "px-[100px] py-[30px] bg-bg-light-blue border-b-2 border-light-gray",
+        "grid grid-cols-12 gap-x-[20px] gap-y-[30px]"
+    ]
 
-            <div className={style.headerRow}>
-                <Text2XL text={header}/>
+    return (
+        <div className={cn(wrapperCV)}>
+
+            <div className={"col-span-full flex flex-row items-center justify-between"}>
+                <Text className={"text-[24px] font-semibold leading-none"} text={header}/>
                 <ButtonSlider
                     onBackClick={() => handleStartIndex(startIndex - 1)}
                     onNextClick={() => handleEndIndex(endIndex + 1)}

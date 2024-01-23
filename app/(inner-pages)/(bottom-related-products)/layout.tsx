@@ -27,7 +27,7 @@ const BottomRelatedProductsLayout = ({children}: {
                 <InnerPageWrapper>
                     {children}
                 </InnerPageWrapper>
-                <HeaderSliderBlock header={"Новинки"} cards={mockCardArray} />
+                <HeaderSliderBlock header={"Вам может понравиться"} cards={mockCardArray} />
             </div>
         </>
     )

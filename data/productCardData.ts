@@ -1,13 +1,14 @@
 import MockImage from "@/public/images/card-image.png";
+import {ProductCard} from "@/types/product";
 
-const mockProductCard = {
+const mockProductCard : ProductCard = {
     price: 500,
-    descr: "Кулер с длинным текстом чтобы показать ограничение по символам",
+    header: "Кулер с длинным текстом чтобы показать ограничение по символам",
     image: MockImage
 }
-const mockAnotherProductCard = {
+const mockAnotherProductCard : ProductCard = {
     price: 7000,
-    descr: "WATERPROOF",
+    header: "WATERPROOF",
     image: MockImage
 }
 
