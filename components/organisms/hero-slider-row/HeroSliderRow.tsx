@@ -26,7 +26,7 @@ const HeroSliderRow = () => {
 
     const mockProductCard = {
         price: 500,
-        descr: "Кулер с длинным текстом чтобы показать ограничение по символам",
+        header: "Кулер с длинным текстом чтобы показать ограничение по символам",
         image: MockImage
     }
 

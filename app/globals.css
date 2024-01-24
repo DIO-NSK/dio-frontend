@@ -13,3 +13,11 @@
 .hoverable {
   @apply hover:duration-200 transition;
 }
+
+.gray-text {
+  @apply text-text-gray hover:text-gray-600 hoverable;
+}
+
+.red-text {
+  @apply text-info-red hover:text-red-700 hoverable;
+}

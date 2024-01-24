@@ -11,6 +11,9 @@ import WaterImage from "@/public/images/shopping-cart-water.png"
 import CoolerService from "@/public/images/shopping-cooler-service.png"
 import ShoppingCartTotalPriceCard
     from "@/components/organisms/cards/shopping-cart-total-price-card/ShoppingCartTotalPriceCard";
+import React from "react";
+import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 
 
 const ShoppingCartPage = () => {
@@ -58,7 +61,8 @@ const ShoppingCartPage = () => {
     ]
 
     return (
-        <>
+        <InnerPageWrapper>
+            <HeaderRow header={"Корзина"} leftContent={"Всего 6"}/>
             <div className={"col-span-9 pt-5 flex flex-col gap-[50px]"}>
                 {
                     mockShoppingCartProducts.map((group) =>
@@ -77,7 +81,7 @@ const ShoppingCartPage = () => {
                 discount={7429}
                 totalPrice={4700}
             />
-        </>
+        </InnerPageWrapper>
     );
 
 };

@@ -38,9 +38,9 @@ const ShoppingCartProductCard = ({card}: { card: ShoppingCartProductCardDTO }) =
     return (
         <div className={"w-full flex flex-row gap-5"}>
             <img src={card.image as string} alt={"/"} className={"w-[150px] h-[90px] rounded-xl"}/>
-            <div className={"w-full flex flex-col gap-3"}>
-                <Text text={`Код товара ${card.productCode}`} className={"text-base text-text-gray"}/>
+            <div className={"w-full flex flex-col"}>
                 <HeaderRow card={card}/>
+                <Text text={`Код товара ${card.productCode}`} className={"text-base text-text-gray"}/>
             </div>
         </div>
     );

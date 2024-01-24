@@ -13,7 +13,18 @@ import {ProductCharacteristic} from "@/types/product";
 import DescriptionCol from "@/components/moleculas/cols/description-col/DescriptionCol";
 import ProductPriceCard from "@/components/organisms/cards/product-price-card/ProductPriceCard";
 import HeaderBlock from "@/components/wrappers/header-block/HeaderBlock";
+import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import {mockCardArray} from "@/data/productCardData";
+import CatalogHeaderCol from "@/components/moleculas/cols/catalog-header-col/CatalogHeaderCol";
+import {TextLink} from "@/types/dto/text";
 const ProductCardPage = () => {
+
+    const breadcrumbs : TextLink[] = [
+        {text : "Главная", link : "/"},
+        {text : "Каталог", link : "/catalog"},
+        {text : "Кулеры", link : "/catalog/coolers"},
+        {text : "HotFrost", link : "/catalog/coolers/hot-frost"},
+    ]
 
     const mockPhotos = [
         MockProductImage1.src, MockProductImage2.src,
@@ -30,7 +41,7 @@ const ProductCardPage = () => {
         {name: "Вес (нетто)", value: "1,40 кг"},
         {name: "Страна производства", value: "Китай"},
     ]
-    
+
     const mockCardDescription = "Кулер HotFrost D95 F обладает высокими показателями стабильности" +
         "и длительности в работе. При создании его корпуса был использован очень прочный пластик." +
         "Кулер может подавать воду двух температур: практически кипяток (+90-95°С), который вы" +
@@ -39,30 +50,38 @@ const ProductCardPage = () => {
 
     return (
         <>
-            
-            <ProductPhotoSlider
-                photos={mockPhotos}
-                activePhoto={activePhoto}
-                setActive={(photo) => setActivePhoto(photo)}
+            <CatalogHeaderCol
+                text={"Кулеры"}
+                amount={mockCardArray.length}
+                breadcrumbs={breadcrumbs}
             />
-            
-            <div className={"col-span-4 flex flex-col gap-[20px]"}>
-                <CharacteristicList characteristics={mockCharacteristics} />
-                <DescriptionCol text={mockCardDescription} />
-            </div>
 
-            <ProductPriceCard price={4700} oldPrice={5200} />
+            <InnerPageWrapper>
 
-            <div className={"col-span-9 h-[1px] bg-light-gray"} />
+                <ProductPhotoSlider
+                    photos={mockPhotos}
+                    activePhoto={activePhoto}
+                    setActive={(photo) => setActivePhoto(photo)}
+                />
 
-            <HeaderBlock header={"Описание товара"}>
-                <DescriptionCol text={mockCardDescription} />
-            </HeaderBlock>
+                <div className={"col-span-4 flex flex-col gap-[20px]"}>
+                    <CharacteristicList characteristics={mockCharacteristics} />
+                    <DescriptionCol text={mockCardDescription} />
+                </div>
 
-            <HeaderBlock header={"Характеристики товара"}>
-                <CharacteristicList characteristics={mockCharacteristics} />
-            </HeaderBlock>
-            
+                <ProductPriceCard price={4700} oldPrice={5200} />
+
+                <div className={"col-span-9 h-[1px] bg-light-gray"} />
+
+                <HeaderBlock header={"Описание товара"}>
+                    <DescriptionCol text={mockCardDescription} />
+                </HeaderBlock>
+
+                <HeaderBlock header={"Характеристики товара"}>
+                    <CharacteristicList characteristics={mockCharacteristics} />
+                </HeaderBlock>
+
+            </InnerPageWrapper>
         </>
     )
 }
