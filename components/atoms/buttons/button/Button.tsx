@@ -11,7 +11,7 @@ const Button = ({buttonType = "PRIMARY", ...props}: ButtonTypes): React.ReactNod
     }
 
     const buttonCV: ClassValue[] = [
-        "px-[50px] py-[20px] flex flex-row gap-[15px] items-center",
+        "px-[50px] py-5 flex flex-row gap-[15px] items-center",
         "justify-center rounded-xl whitespace-nowrap",
         "hover:duration-200 transition pointer text-base",
         buttonTypeCV, props.classNames?.button

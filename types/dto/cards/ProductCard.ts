@@ -7,3 +7,5 @@ export type ProductCard = {
     oldPrice?: number | undefined,
     productCode ?: number
 }
+
+export type ShoppingCartProductCardDTO = ProductCard & {amount : number}

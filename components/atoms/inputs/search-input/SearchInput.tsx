@@ -13,17 +13,17 @@ const SearchInput = ({placeholder, value, onChange}: SearchBarTypes) => {
     const inputCV: ClassValue[] = [
         "w-full px-[30px] py-[20px] rounded-xl",
         "bg-white border-2 border-light-gray pointer",
-        "hover:border-blue-400 hover:duration-200 transition",
+        "group-hover:border-blue-400 hoverable",
         "focus:outline-0"
     ]
 
     const iconCV : ClassValue[] = [
         "absolute z-10 right-[30px] top-1/3 stroke-text-gray pointer",
-        "hover:stroke-blue-600 hover:duration-200 transition"
+        "group-hover:stroke-blue-600 hoverable"
     ]
 
     return (
-        <div className={"w-full relative"}>
+        <div className={"w-full relative group"}>
             <FiSearch
                 size={"22px"}
                 className={cn(iconCV)}
