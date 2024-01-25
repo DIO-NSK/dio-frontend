@@ -1,17 +1,19 @@
-import style from "./DropdownInput.module.css"
 import {SelectedItem} from "@/types/select";
 import React, {useState} from "react";
 import Text from "@/components/atoms/text/text-base/Text";
 import {COLOR} from "@/components/colors";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
 import {FiCheck} from "react-icons/fi";
+import {cn} from "@/utlis/cn";
+import {ClassValue} from "clsx";
 
 type DropdownInputProps = {
     width : string,
     label?: string ,
     items: SelectedItem[],
     onSelect: (selectedItem: SelectedItem) => void
-    selectedItem: SelectedItem
+    selectedItem: SelectedItem,
+    className ?: string
 }
 
 type DropdownItemType = {
@@ -23,10 +25,11 @@ type DropdownItemType = {
 const DropdownItem = ({item, selectedItem, onSelect}: DropdownItemType) => {
 
     const color = selectedItem === item ? COLOR["black"] : COLOR["text-gray"]
+    const itemCV = "w-full p-[20px] flex flex-row items-center justify-between pointer hoverable hover:bg-bg-light-blue"
 
     return (
         <div
-            className={style.item}
+            className={itemCV}
             onClick={() => onSelect(item)}
         >
             <Text text={item.text} color={color}/>
@@ -43,7 +46,18 @@ const DropdownItem = ({item, selectedItem, onSelect}: DropdownItemType) => {
 const DropdownInput = (props: DropdownInputProps) => {
 
     const [isExpanded, setExpanded] = useState(false)
-    const className = `${style.labelWrapper} ${props.width}`
+    const className = `flex flex-col gap-[10px] ${props.width}`
+
+    const inputCV : ClassValue[] = [
+        "w-full p-[20px] flex flex-row items-center",
+        "justify-between rounded-xl bg-bg-light-blue",
+        props.className
+    ]
+
+    const itemListCV : ClassValue[] = [
+        "absolute w-full z-10 top-[80px] rounded-xl bg-white",
+        "drop-shadow-lg flex flex-col overflow-clip"
+    ]
 
     return (
         <div className={className}>
@@ -52,9 +66,9 @@ const DropdownInput = (props: DropdownInputProps) => {
                 props.label && <Text text={props.label} />
             }
 
-            <div className={style.wrapper}>
+            <div className={"relative w-full"}>
 
-                <div className={style.input}>
+                <div className={cn(inputCV)}>
                     <Text text={props.selectedItem.text}/>
                     <ChevronButton
                         isExpanded={isExpanded}
@@ -63,10 +77,11 @@ const DropdownInput = (props: DropdownInputProps) => {
                 </div>
 
                 {
-                    isExpanded && <div className={style.itemList}>
+                    isExpanded && <div className={cn(itemListCV)}>
                         {
                             props.items.map((item, index) => {
                                 return <DropdownInput.DropdownItem
+                                    key={index}
                                     item={item}
                                     selectedItem={props.selectedItem}
                                     onSelect={(selectedItem: SelectedItem) => props.onSelect(selectedItem)}

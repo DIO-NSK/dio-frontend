@@ -3,7 +3,12 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import {ButtonTypes} from "@/types/props/Button";
 
-const Button = ({buttonType = "PRIMARY", ...props}: ButtonTypes): React.ReactNode => {
+const Button = ({buttonType = "PRIMARY", size = "md", ...props}: ButtonTypes): React.ReactNode => {
+
+    const buttonSizeCV : ClassValue = {
+        "px-4 py-4 gap-2" : size == "sm",
+        "px-[50px] py-5 gap-[15px]" : size == "md"
+    }
 
     const buttonTypeCV: ClassValue = {
         "bg-link-blue text-white hover:bg-blue-800": buttonType === "PRIMARY",
@@ -11,10 +16,10 @@ const Button = ({buttonType = "PRIMARY", ...props}: ButtonTypes): React.ReactNod
     }
 
     const buttonCV: ClassValue[] = [
-        "px-[50px] py-5 flex flex-row gap-[15px] items-center",
+        "flex flex-row items-center",
         "justify-center rounded-xl whitespace-nowrap",
         "hover:duration-200 transition pointer text-base",
-        buttonTypeCV, props.classNames?.button
+        buttonTypeCV, buttonSizeCV, props.classNames?.button
     ]
 
     return (

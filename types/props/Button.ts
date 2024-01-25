@@ -5,10 +5,12 @@ export type ButtonTypes = {
     onClick: () => void,
     icon?: React.ReactNode,
     classNames?: ButtonClassnames,
-    buttonType?: ButtonType
+    buttonType?: ButtonType,
+    size ?: ButtonSize
 }
 
 type ButtonType = "PRIMARY" | "SECONDARY"
+type ButtonSize = "sm" | "md"
 
 type ButtonClassnames = {
     button?: string,

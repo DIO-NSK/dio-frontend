@@ -2,12 +2,12 @@ import React, {ChangeEvent, useState} from 'react';
 import {TextInputProps} from "@/types/props/inputs/TextInput";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
-import Text from "@/components/atoms/text/text-base/Text";
 import {PhoneInputProps} from "@/types/props/inputs/PhoneInput";
 import InputMask from "react-input-mask";
 import EyeButton from "@/components/atoms/buttons/eye-button/EyeButton";
+import InputWrapper from "@/components/wrappers/input-wrapper/InputWrapper";
 
-const InnerInput = (props: TextInputProps | PhoneInputProps) => {
+const InnerInput = ({theme = "outlined", ...props}: TextInputProps | PhoneInputProps) => {
 
     const [
         isPasswordState,
@@ -16,7 +16,9 @@ const InnerInput = (props: TextInputProps | PhoneInputProps) => {
 
     const wrapperCV: ClassValue[] = [
         "w-full flex flex-row items-center justify-between px-7 py-5 rounded-xl bg-bg-light-blue",
-        "hoverable focus:outline-0 hover:bg-opacity-50 border-light-gray border-2"
+        "hoverable focus:outline-0 border-light-gray border-2",
+        {"bg-white" : theme == "filled"},
+        {"hover:bg-opacity-50" : theme == "outlined"}
     ]
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -62,29 +64,11 @@ const InnerInput = (props: TextInputProps | PhoneInputProps) => {
 }
 
 const TextInput = (props: TextInputProps | PhoneInputProps) => {
-
-    const hintTextCV: ClassValue = {
-        "text-info-red": props.hintText?.type === "warning",
-        "text-text-gray": props.hintText?.type === "neutral"
-    }
-
     return (
-        <div className={"w-full flex flex-col gap-2"}>
-            {
-                props.labelText && <Text
-                    text={props.labelText}
-                    className={"text-base text-black"}
-                />
-            }
+        <InputWrapper props={props}>
             <InnerInput {...props}/>
-            {
-                props.hintText && <Text
-                    text={props.hintText.hintMessage}
-                    className={cn(hintTextCV, "text-[14px]")}
-                />
-            }
-        </div>
-    );
+        </InputWrapper>
+    )
 };
 
 export default TextInput;

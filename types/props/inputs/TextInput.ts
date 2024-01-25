@@ -8,7 +8,14 @@ export type TextInputProps = {
     hintText ?: InputHint,
     inputMask ?: string,
     endDecorator ?: React.ReactNode,
-    isPassword ?: boolean
+    isPassword ?: boolean,
+    theme ?: InputTheme,
+    classNames ?: TextInputClassNames
+}
+
+type TextInputClassNames = {
+    wrapper ?: string,
+    input ?: string
 }
 
 type InputHint = {
@@ -17,3 +24,4 @@ type InputHint = {
 }
 
 type InputHintType = "neutral" | "warning"
+type InputTheme = "outlined" | "filled"

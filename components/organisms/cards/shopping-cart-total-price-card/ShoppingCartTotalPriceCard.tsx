@@ -4,6 +4,7 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
+import {usePathname, useRouter} from "next/navigation";
 
 type ShoppingCardTotalPriceCardProps = {
     amount: number,
@@ -13,6 +14,9 @@ type ShoppingCardTotalPriceCardProps = {
 
 const ShoppingCartTotalPriceCard = (props: ShoppingCardTotalPriceCardProps) => {
 
+    const router = useRouter()
+    const pathname = usePathname()
+
     const rowCV: ClassValue = "w-full flex flex-row items-baseline justify-between"
     const textCV: ClassValue = "text-base text-text-gray"
 
@@ -21,7 +25,7 @@ const ShoppingCartTotalPriceCard = (props: ShoppingCardTotalPriceCardProps) => {
         {header: "Скидка", data: props.discount + " ₽"},
     ]
 
-    const handleButtonClick = () => console.log("Button clicked")
+    const handleButtonClick = () => router.push(pathname.concat('/checkout'))
 
     return (
         <StickyCardWrapper startCol={"col-start-10"}>

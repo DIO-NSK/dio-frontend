@@ -13,10 +13,10 @@ type CounterProps = {
 const Counter = (props : CounterProps) => {
 
     const controlCV : ClassValue = "text-border-gray hoverable pointer hover:text-link-blue"
-    const minusCV : ClassValue[] = [controlCV, {"hover:text-text-gray" : props.value <= 0}]
+    const minusCV : ClassValue[] = [controlCV, {"hover:text-text-gray" : props.value <= 1}]
     const plusCV : ClassValue[] = [controlCV, {"hover:text-text-gray" : props.value == props.maxValue}]
 
-    const handleDecrement = () => props.value > 0 && props.onChange(props.value - 1)
+    const handleDecrement = () => props.value > 1 && props.onChange(props.value - 1)
 
     const handleIncrement = () => {
         props.maxValue !== undefined && props.value < props.maxValue
