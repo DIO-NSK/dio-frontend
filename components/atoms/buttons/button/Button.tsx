@@ -6,7 +6,7 @@ import {ButtonTypes} from "@/types/props/Button";
 const Button = ({buttonType = "PRIMARY", size = "md", ...props}: ButtonTypes): React.ReactNode => {
 
     const buttonSizeCV : ClassValue = {
-        "px-4 py-4 gap-2" : size == "sm",
+        "px-4 py-3 gap-2" : size == "sm",
         "px-[50px] py-5 gap-[15px]" : size == "md"
     }
 

@@ -4,7 +4,7 @@ import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPage
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import ShoppingCartTotalPriceCard
     from "@/components/organisms/cards/shopping-cart-total-price-card/ShoppingCartTotalPriceCard";
-import CheckoutBlockWrapper from "@/components/wrappers/checkout-block-wrapper/CheckoutBlockWrapper";
+import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapper/BackgroundBlockWrapper";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import {useState} from "react";
 import {TextInputProps} from "@/types/props/inputs/TextInput";
@@ -55,13 +55,13 @@ const CheckoutUserDataBlock = () => {
     ]
 
     return (
-        <CheckoutBlockWrapper header={"Данные получателя"}>
+        <BackgroundBlockWrapper header={"Данные получателя"}>
             {
                 userDataInputs.map((input, key) =>
                     <TextInput {...input} key={key} theme={"filled"}/>
                 )
             }
-        </CheckoutBlockWrapper>
+        </BackgroundBlockWrapper>
     )
 }
 
@@ -122,7 +122,7 @@ const CheckoutDeliveryAddressBlock = () => {
                     onClose={handleSwitchPopupState}
                 />
             }
-            <CheckoutBlockWrapper
+            <BackgroundBlockWrapper
                 header={"Адрес доставки"}
                 rightContent={
                     <Button
@@ -139,7 +139,7 @@ const CheckoutDeliveryAddressBlock = () => {
                         <TextInput {...input} theme={"filled"} key={key}/>
                     )
                 }
-            </CheckoutBlockWrapper>
+            </BackgroundBlockWrapper>
         </>
     )
 }
@@ -159,7 +159,7 @@ const CheckoutTimeBlock = () => {
     ] = useState<SelectedItem>(dropdownItems[0])
 
     return (
-        <CheckoutBlockWrapper header={"Дата и время доставки"}>
+        <BackgroundBlockWrapper header={"Дата и время доставки"}>
             <TextInput
                 placeholder={"Выберите дату доставки"}
                 labelText={"Дата доставки"}
@@ -173,7 +173,7 @@ const CheckoutTimeBlock = () => {
                 selectedItem={activeItem}
                 className={"bg-white border-2 border-light-gray"}
             />
-        </CheckoutBlockWrapper>
+        </BackgroundBlockWrapper>
     )
 
 }
@@ -207,7 +207,7 @@ const CheckoutAdditionalBlock = () => {
         "вашего района, с вами обязательно свяжется менеджер для уточнения информации"
 
     return (
-        <CheckoutBlockWrapper header={"Дополнительно"}>
+        <BackgroundBlockWrapper header={"Дополнительно"}>
             <TextArea
                 classNames={{wrapper: "col-span-full", input: "min-h-[150px] max-h-[300px]"}}
                 labelText={"Пожелания к заказу"}
@@ -217,7 +217,7 @@ const CheckoutAdditionalBlock = () => {
                 hintText={{type: "neutral", hintMessage: hintMessage}}
                 theme={"filled"}
             />
-        </CheckoutBlockWrapper>
+        </BackgroundBlockWrapper>
     )
 }
 

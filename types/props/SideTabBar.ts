@@ -1,4 +1,4 @@
-type TabBarItem = any & { text: string }
+type TabBarItem = any & { text: string } | { text : string, icon : React.ReactNode}
 
 type TabBarItemProps = {
     tab: TabBarItem,

@@ -1,4 +1,5 @@
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
+import React from "react";
 
 export type ImageLink = {
     image: string | StaticImport,
@@ -10,4 +11,4 @@ export type TextLink = {
     path : string
 }
 
-export type IconTextLink = TextLink & {icon? : string | StaticImport}
+export type IconTextLink = TextLink & {icon? : string | StaticImport | React.ReactNode}

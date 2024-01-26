@@ -1,4 +1,5 @@
 import React from "react";
+import {Theme} from "@/types/props/Theme";
 
 export type TextInputProps = {
     placeholder : string,
@@ -9,7 +10,7 @@ export type TextInputProps = {
     inputMask ?: string,
     endDecorator ?: React.ReactNode,
     isPassword ?: boolean,
-    theme ?: InputTheme,
+    theme ?: Theme,
     classNames ?: TextInputClassNames
 }
 
@@ -24,4 +25,3 @@ type InputHint = {
 }
 
 type InputHintType = "neutral" | "warning"
-type InputTheme = "outlined" | "filled"

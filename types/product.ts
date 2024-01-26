@@ -1,6 +1,6 @@
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
 
-enum ProductTagStatus {
+enum ProductCardStatus {
     SALE = "sale",
     NEW = "new",
     DISCOUNT = "discount",
@@ -11,8 +11,8 @@ export type ProductCharacteristic = {
     value: string
 }
 
-export type ProductTagDTO = {
-    tags: ProductTagStatus[],
+export type ProductCardDTO = {
+    tags: ProductCardStatus[],
     characteristics: ProductCharacteristic[],
     inStock: boolean,
     name: string,
