@@ -7,10 +7,6 @@ import SCPriceCard from "@/components/organisms/cards/service-full-card/sc-price
 import {useSearchParams} from "next/navigation";
 import {mockServiceCardArray} from "@/data/serviceCardData";
 import StickyCardWrapper from "@/components/wrappers/sticky-card-wrapper/StickyCardWrapper";
-import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/ServiceBlockWrapper";
-import DropdownInput from "@/components/atoms/inputs/dropdown-input/DropdownInput";
-import {SelectedItem} from "@/types/select";
-import {useState} from "react";
 import SCSettingsBlock from "@/components/organisms/blocks/sc-settings-block/SCSettingsBlock";
 
 const ServicePage = () => {

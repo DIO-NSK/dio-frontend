@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {OrderCardProps} from "@/types/props/OrderCard";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
@@ -113,7 +113,7 @@ const Content = () => {
                                     item as ShoppingCartServiceCardDTO).description
                                     ? <ShoppingCartServiceCard card={item as ShoppingCartServiceCardDTO}/>
                                     : <ShoppingCartProductCard
-                                        hasCounter={false}
+                                        canInteract={false}
                                         card={item as ShoppingCartProductCardDTO}
                                     />
                             )
@@ -126,6 +126,8 @@ const Content = () => {
 
 const OrderCard = ({canRepeat = true, theme = "outlined", ...props}: OrderCardProps) => {
 
+    const [isOpen, setOpen] = useState<boolean>(false)
+
     const wrapperCV: ClassValue[] = [
         "w-full flex flex-col gap-5 p-7 rounded-xl",
         {"border-2 border-light-gray": theme == "outlined"},
@@ -136,8 +138,8 @@ const OrderCard = ({canRepeat = true, theme = "outlined", ...props}: OrderCardPr
         <div className={cn(wrapperCV)}>
             <OrderCard.HeaderRow {...props} />
             <OrderCard.InformationBlock {...props} />
-            {props.isOpen && <OrderCard.Content/>}
-            <OrderCard.Footer canRepeat={canRepeat} {...props} />
+            {isOpen && <OrderCard.Content/>}
+            <OrderCard.Footer isOpen={isOpen} setOpen={setOpen} canRepeat={canRepeat}/>
         </div>
     );
 
