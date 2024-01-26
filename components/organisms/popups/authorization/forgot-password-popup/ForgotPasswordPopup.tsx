@@ -5,8 +5,9 @@ import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import {useAuthorizationPopup} from "@/components/organisms/popups/authorization/useAuthorizationPopup";
 import {useStore} from "@/store/Store";
+import {PopupProps} from "@/types/props/Popup";
 
-const ForgotPasswordPopup = () => {
+const ForgotPasswordPopup = (props : PopupProps) => {
 
     const {...authContext} = useAuthorizationPopup()
 
@@ -14,7 +15,7 @@ const ForgotPasswordPopup = () => {
     const handleConfirmCode = () => switchPopupState("changePassword")
 
     return (
-        <PopupWrapper>
+        <PopupWrapper onClose={props.onClose}>
             <div className={"w-[450px] rounded-xl bg-white flex flex-col gap-5"}>
 
                 <Text

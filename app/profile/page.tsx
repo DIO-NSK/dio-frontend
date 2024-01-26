@@ -7,8 +7,8 @@ import BonusCard from "@/components/organisms/user-profile/bonus-card/BonusCard"
 import UserInfoCard from "@/components/organisms/user-profile/user-info-card/UserInfoCard";
 import Text from "@/components/atoms/text/text-base/Text";
 import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
-import {useState} from "react";
 import {mockOrder} from "@/data/orderData";
+import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserProfileWrapper";
 
 const MainInformationBlock = () => {
     return (
@@ -20,8 +20,6 @@ const MainInformationBlock = () => {
 }
 
 const LastOrderBlock = () => {
-
-    const [isOpen, setOpen] = useState<boolean>(false)
 
     const handleRepeatOrder = () => console.log("Repeat order")
 
@@ -39,12 +37,7 @@ const LastOrderBlock = () => {
                 />
             </div>
 
-            <OrderCard
-                order={mockOrder}
-                isOpen={isOpen}
-                setOpen={setOpen}
-                canRepeat={false}
-            />
+            <OrderCard order={mockOrder} canRepeat={false}/>
 
         </div>
     )
@@ -52,11 +45,11 @@ const LastOrderBlock = () => {
 
 const UserProfilePage = () => {
     return (
-        <div className={"col-span-9 flex flex-col gap-5"}>
+        <UserProfileWrapper>
             <HeaderRow header={"Мой профиль"} className={"w-full"}/>
             <MainInformationBlock/>
             <LastOrderBlock/>
-        </div>
+        </UserProfileWrapper>
     );
 };
 

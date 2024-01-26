@@ -6,8 +6,9 @@ import {SelectedItem} from "@/types/select";
 import DropdownInput from "@/components/atoms/inputs/dropdown-input/DropdownInput";
 import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
 import {mockOrderList} from "@/data/orderData";
+import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserProfileWrapper";
 
-const ProfileOrdersPage = () => {
+const UserProfileOrdersPage = () => {
 
     const dropdownItems = [
         {text: "По дате заказа", isSelected: true},
@@ -21,7 +22,7 @@ const ProfileOrdersPage = () => {
     ] = useState<SelectedItem>(dropdownItems[0])
 
     return (
-        <div className={"col-span-9 flex flex-col gap-5"}>
+        <UserProfileWrapper>
             <HeaderRow
                 header={"Мои заказы"}
                 leftContent={"6 шт."}
@@ -38,8 +39,8 @@ const ProfileOrdersPage = () => {
                 mockOrderList.map((order, key) =>
                     <OrderCard order={order}/>)
             }
-        </div>
+        </UserProfileWrapper>
     );
 };
 
-export default ProfileOrdersPage;
+export default UserProfileOrdersPage;
