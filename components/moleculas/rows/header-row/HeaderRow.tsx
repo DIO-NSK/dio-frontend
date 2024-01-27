@@ -18,7 +18,7 @@ const HeaderRow = ({hasBackIcon = false, ...props} : HeaderRowProps) => {
     const handleBackClick = () => router.back()
 
     return (
-        <div className={cn("col-span-full flex flex-row items-center justify-between", props.className)}>
+        <div className={cn("col-span-full h-fit flex flex-row items-center justify-between", props.className)}>
             <div className={"flex flex-row items-baseline gap-3"}>
                 <div className={"flex flex-row items-center gap-3"}>
                     {

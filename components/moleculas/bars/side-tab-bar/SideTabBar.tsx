@@ -1,5 +1,5 @@
 import React from 'react';
-import TabBarItem from "@/components/atoms/tab-bar-item/TabBarItem";
+import TabBarItem from "@/components/atoms/tabs/tab-bar-item/TabBarItem";
 import {cn} from "@/utlis/cn";
 
 const SideTabBar = (props: SideTabBarProps) => {

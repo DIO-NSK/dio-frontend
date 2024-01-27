@@ -3,7 +3,8 @@ type TabBarItem = any & { text: string } | { text : string, icon : React.ReactNo
 type TabBarItemProps = {
     tab: TabBarItem,
     isActive: boolean,
-    setActive: (item: TabBarItem) => void
+    setActive: (item: TabBarItem) => void,
+    className ?: string
 }
 
 type SideTabBarProps = {

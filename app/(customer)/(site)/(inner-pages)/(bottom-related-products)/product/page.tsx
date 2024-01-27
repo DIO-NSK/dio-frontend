@@ -4,10 +4,10 @@ import ProductPhotoSlider from "@/components/moleculas/sliders/product-photo-sli
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import React, {useState} from "react";
 
-import MockProductImage1 from "../../../../../public/images/prodcut-card/product-image-1.png"
-import MockProductImage2 from "../../../../../public/images/prodcut-card/product-image-2.png"
-import MockProductImage3 from "../../../../../public/images/prodcut-card/product-image-3.png"
-import MockProductImage4 from "../../../../../public/images/prodcut-card/product-image-4.png"
+import MockProductImage1 from "../../../../../../public/images/prodcut-card/product-image-1.png"
+import MockProductImage2 from "../../../../../../public/images/prodcut-card/product-image-2.png"
+import MockProductImage3 from "../../../../../../public/images/prodcut-card/product-image-3.png"
+import MockProductImage4 from "../../../../../../public/images/prodcut-card/product-image-4.png"
 import CharacteristicList from "@/components/moleculas/lists/characteristic-list/CharacteristicList";
 import {ProductCharacteristic} from "@/types/product";
 import DescriptionCol from "@/components/moleculas/cols/description-col/DescriptionCol";
