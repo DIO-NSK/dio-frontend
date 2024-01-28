@@ -2,6 +2,7 @@ import React from 'react';
 import PopupCardWrapper from "@/components/wrappers/popup-card-wrapper/PopupCardWrapper";
 import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
+import {PopupProps} from "@/types/props/Popup";
 
 export type ContentClassNames = {
     wrapper ?: string,
@@ -16,13 +17,13 @@ type PopupWrapperClassNames = {
 type PopupWrapperProps = {
     children : React.ReactNode,
     classNames ?: PopupWrapperClassNames,
-    onClose ?: () => void
-}
+} & PopupProps
 
-const PopupWrapper = (props : PopupWrapperProps) => {
+const PopupWrapper = ({placement = "default", ...props} : PopupWrapperProps) => {
 
     const wrapperCV : ClassValue[] = [
         "fixed top-0 left-0 flex justify-center z-40 w-full h-full",
+        {"items-center" : placement == "center"},
         props.classNames?.wrapper
     ]
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
-import {ButtonTypes} from "@/types/props/Button";
+import {ButtonTypes} from "@/types/props/buttons/Button";
 
 const Button = ({buttonType = "PRIMARY", size = "md", ...props}: ButtonTypes): React.ReactNode => {
 

@@ -29,8 +29,8 @@ const Content = (props: TableWrapper) => {
 
 const TableWrapper = (props: TableWrapper) => {
     return (
-        <div className={"h-fit col-span-full flex flex-col"}>
-            <TableWrapper.Header {...props}/>
+        <div className={cn("h-fit col-span-full flex flex-col", props.className)}>
+            {props.tableHeader && <TableWrapper.Header {...props}/>}
             <TableWrapper.Content {...props}/>
         </div>
     );

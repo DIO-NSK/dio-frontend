@@ -1,0 +1,34 @@
+import React, {useState} from 'react';
+import {TableItemPopup} from "@/types/props/Popup";
+import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
+import Text from "@/components/atoms/text/text-base/Text";
+import TextInput from "@/components/atoms/inputs/text-input/TextInput";
+import Button from "@/components/atoms/buttons/button/Button";
+
+const ChangeSectionNamePopup = (props: TableItemPopup) => {
+
+    const [sectionName, setSectionName] = useState<string>("")
+    const handleSubmit = () => console.log("SUBMIT")
+
+    return (
+        <PopupWrapper placement={"center"} {...props}>
+            <div className={"w-[400px] flex flex-col gap-5"}>
+                <Text text={"Изменить название"} className={"text-[20px] font-medium"}/>
+                <Text text={"Будьте осторожны, новое название применится ко всем разделам сайта"}
+                      className={"text-text-gray"}/>
+                <TextInput
+                    labelText={"Название раздела"}
+                    placeholder={props.tableItem.items[0]}
+                    value={sectionName}
+                    onChange={setSectionName}
+                />
+                <Button
+                    text={"Подтвердить"}
+                    onClick={handleSubmit}
+                />
+            </div>
+        </PopupWrapper>
+    );
+};
+
+export default ChangeSectionNamePopup;

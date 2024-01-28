@@ -5,16 +5,17 @@ import {cn} from "@/utlis/cn";
 type SearchBarTypes = {
     placeholder: string,
     value: string,
-    onChange: (value: string) => void
+    onChange: (value: string) => void,
+    className ?: string
 }
 
-const SearchInput = ({placeholder, value, onChange}: SearchBarTypes) => {
+const SearchInput = ({placeholder, value, onChange, className}: SearchBarTypes) => {
 
     const inputCV: ClassValue[] = [
         "w-full px-[30px] py-[20px] rounded-xl",
         "bg-white border-2 border-light-gray pointer",
         "group-hover:border-blue-400 hoverable",
-        "focus:outline-0"
+        "focus:outline-0",
     ]
 
     const iconCV : ClassValue[] = [
@@ -23,7 +24,7 @@ const SearchInput = ({placeholder, value, onChange}: SearchBarTypes) => {
     ]
 
     return (
-        <div className={"w-full relative group"}>
+        <div className={cn("w-full relative group", className)}>
             <FiSearch
                 size={"22px"}
                 className={cn(iconCV)}

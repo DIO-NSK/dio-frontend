@@ -1,8 +1,9 @@
 import React from "react";
 
 export type TableWrapper = {
-    tableHeader : TableHeaderItem[],
     children : React.ReactNode,
+    tableHeader ?: TableHeaderItem[],
+    className ?: string
 }
 
 export type TableHeaderItem = {
