@@ -8,17 +8,17 @@ import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
 
 type DropdownInputProps = {
-    width : string,
-    label?: string ,
     items: SelectedItem[],
     onSelect: (selectedItem: SelectedItem) => void
     selectedItem: SelectedItem,
-    className ?: string
+    label?: string,
+    className?: string,
+    width?: string,
 }
 
 type DropdownItemType = {
     item: SelectedItem,
-    selectedItem : SelectedItem,
+    selectedItem: SelectedItem,
     onSelect: (item: SelectedItem) => void,
 }
 
@@ -43,18 +43,19 @@ const DropdownItem = ({item, selectedItem, onSelect}: DropdownItemType) => {
     )
 }
 
-const DropdownInput = (props: DropdownInputProps) => {
+const DropdownInput = ({width = "w-full", ...props}: DropdownInputProps) => {
 
     const [isExpanded, setExpanded] = useState(false)
-    const className = `flex flex-col gap-[10px] ${props.width}`
+    const className = `flex flex-col gap-[10px] ${width}`
 
-    const inputCV : ClassValue[] = [
+    const inputCV: ClassValue[] = [
         "w-full p-[20px] flex flex-row items-center",
         "justify-between rounded-xl bg-bg-light-blue",
+        "border-2 border-light-gray",
         props.className
     ]
 
-    const itemListCV : ClassValue[] = [
+    const itemListCV: ClassValue[] = [
         "absolute w-full z-10 top-[80px] rounded-xl bg-white",
         "drop-shadow-lg flex flex-col overflow-clip"
     ]
@@ -63,7 +64,7 @@ const DropdownInput = (props: DropdownInputProps) => {
         <div className={className}>
 
             {
-                props.label && <Text text={props.label} />
+                props.label && <Text text={props.label}/>
             }
 
             <div className={"relative w-full"}>

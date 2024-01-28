@@ -37,7 +37,7 @@ const UserProfileOrdersPage = () => {
             />
             {
                 mockOrderList.map((order, key) =>
-                    <OrderCard order={order}/>)
+                    <OrderCard key={key} order={order}/>)
             }
         </UserProfileWrapper>
     );

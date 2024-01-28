@@ -3,22 +3,30 @@ import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import {FiArrowLeft} from "react-icons/fi";
 import {useRouter} from "next/navigation";
+import {ClassValue} from "clsx";
 
 type HeaderRowProps = {
     header: string,
-    leftContent ?: string | React.ReactNode,
-    rightContent ?: React.ReactNode,
-    hasBackIcon ?: boolean,
-    className ?: string
+    leftContent?: string | React.ReactNode,
+    rightContent?: React.ReactNode,
+    hasBackIcon?: boolean,
+    className?: string,
+    theme?: "default" | "bordered"
 }
 
-const HeaderRow = ({hasBackIcon = false, ...props} : HeaderRowProps) => {
+const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRowProps) => {
 
     const router = useRouter()
     const handleBackClick = () => router.back()
 
+    const wrapperCV: ClassValue[] = [
+        "col-span-full h-fit flex flex-row items-center justify-between",
+        {"mx-[-28px] px-7 pb-7 border-b-2 border-light-gray": theme == "bordered"},
+        props.className,
+    ]
+
     return (
-        <div className={cn("col-span-full h-fit flex flex-row items-center justify-between", props.className)}>
+        <div className={cn(wrapperCV)}>
             <div className={"flex flex-row items-baseline gap-3"}>
                 <div className={"flex flex-row items-center gap-3"}>
                     {

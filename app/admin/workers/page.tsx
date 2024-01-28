@@ -6,8 +6,12 @@ import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import {TableHeaderItem, TextTableRow} from "@/types/dto/Table";
 import TextContentTable from "@/components/organisms/tables/TextContentTable";
+import {usePathname, useRouter} from "next/navigation";
 
 const AdminPanelWorkersPage = () => {
+
+    const pathname = usePathname()
+    const router = useRouter()
 
     const tableHeader: TableHeaderItem[] = [
         {text: "Имя", width: "col-span-2"},
@@ -21,12 +25,12 @@ const AdminPanelWorkersPage = () => {
         {items: ["Артём Александрович", "+7 (913) 939-11-94", "Администратор"]},
     ]
 
-    const handleAddWorker = () => console.log("Add worker")
+    const handleAddWorker = () => router.push(pathname.concat("/new"))
 
     return (
         <>
             <HeaderRow
-                className={"mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
+                theme={"bordered"}
                 header={"Сотрудники"}
                 rightContent={
                     <Button
