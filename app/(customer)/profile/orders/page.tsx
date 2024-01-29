@@ -2,8 +2,8 @@
 
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {useState} from "react";
-import {SelectedItem} from "@/types/select";
-import DropdownInput from "@/components/atoms/inputs/dropdown-input/DropdownInput";
+import {SelectItem} from "@/types/props/Select";
+import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
 import {mockOrderList} from "@/data/orderData";
 import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserProfileWrapper";
@@ -19,7 +19,7 @@ const UserProfileOrdersPage = () => {
     const [
         activeItem,
         setActiveItem
-    ] = useState<SelectedItem>(dropdownItems[0])
+    ] = useState<SelectItem>(dropdownItems[0])
 
     return (
         <UserProfileWrapper>
@@ -27,7 +27,7 @@ const UserProfileOrdersPage = () => {
                 header={"Мои заказы"}
                 leftContent={"6 шт."}
                 rightContent={
-                    <DropdownInput
+                    <SelectInput
                         width={"w-[250px]"}
                         items={dropdownItems}
                         selectedItem={activeItem}

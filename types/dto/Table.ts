@@ -1,6 +1,7 @@
 import React from "react";
+import {AdminProduct} from "@/types/dto/AdminProduct";
 
-export type TableWrapper = {
+export type TableWrapperProps = {
     children : React.ReactNode,
     tableHeader ?: TableHeaderItem[],
     className ?: string
@@ -13,6 +14,10 @@ export type TableHeaderItem = {
 
 export type TextTableRow = {
     items : string[]
+}
+
+export type ProductTableRow = {
+    product : AdminProduct
 }
 
 export type DraggableTableRow = TableRow & {orderId : number}

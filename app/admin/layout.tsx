@@ -7,7 +7,7 @@ const AdminPanelLayout = ({children}: { children: React.ReactNode }) => {
     return (
         <div className={"w-full grid grid-cols-10 my-5 gap-x-7 gap-y-5"}>
             <AdminPanelSidebar/>
-            <div className={"col-span-8 flex flex-col gap-7 pr-7"}>
+            <div className={"col-span-8 flex flex-col gap-7 mr-[-28px]"}>
                 {children}
             </div>
         </div>

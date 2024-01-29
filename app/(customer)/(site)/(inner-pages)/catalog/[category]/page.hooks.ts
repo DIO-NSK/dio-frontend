@@ -1,4 +1,4 @@
-import {SelectedItem} from "@/types/select";
+import {SelectItem} from "@/types/props/Select";
 import {useState} from "react";
 
 export const useCatalogPage = () => {
@@ -9,15 +9,15 @@ export const useCatalogPage = () => {
         "По названию (А-Я)"
     ]
 
-    const createItemList = (): SelectedItem[] => {
+    const createItemList = (): SelectItem[] => {
         return mockDropdownText.map((text) => {
             return {text: text, isSelected: false}
         })
     }
 
     const initItemList = createItemList()
-    const [itemList] = useState<SelectedItem[]>(initItemList)
-    const [selectedItem, selectItem] = useState<SelectedItem>(itemList[0])
+    const [itemList] = useState<SelectItem[]>(initItemList)
+    const [selectedItem, selectItem] = useState<SelectItem>(itemList[0])
 
     return {
         selectInput : {selectItem, itemList, selectedItem}

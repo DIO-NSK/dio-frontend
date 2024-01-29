@@ -7,7 +7,7 @@ const Button = ({buttonType = "PRIMARY", size = "md", ...props}: ButtonTypes): R
 
     const buttonSizeCV : ClassValue = {
         "px-4 py-3 gap-2" : size == "sm",
-        "px-[50px] py-5 gap-[15px]" : size == "md"
+        "px-[50px] py-4 gap-[15px]" : size == "md"
     }
 
     const buttonTypeCV: ClassValue = {

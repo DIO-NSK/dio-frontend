@@ -12,7 +12,7 @@ type SearchBarTypes = {
 const SearchInput = ({placeholder, value, onChange, className}: SearchBarTypes) => {
 
     const inputCV: ClassValue[] = [
-        "w-full px-[30px] py-[20px] rounded-xl",
+        "w-full px-[30px] py-4 rounded-xl",
         "bg-white border-2 border-light-gray pointer",
         "group-hover:border-blue-400 hoverable",
         "focus:outline-0",

@@ -9,8 +9,8 @@ import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import {useState} from "react";
 import {TextInputProps} from "@/types/props/inputs/TextInput";
 import {PhoneInputProps} from "@/types/props/inputs/PhoneInput";
-import DropdownInput from "@/components/atoms/inputs/dropdown-input/DropdownInput";
-import {SelectedItem} from "@/types/select";
+import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
+import {SelectItem} from "@/types/props/Select";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import Text from "@/components/atoms/text/text-base/Text";
 import TextArea from "@/components/atoms/inputs/text-area/TextArea";
@@ -146,7 +146,7 @@ const CheckoutDeliveryAddressBlock = () => {
 
 const CheckoutTimeBlock = () => {
 
-    const dropdownItems: SelectedItem[] = [
+    const dropdownItems: SelectItem[] = [
         {text: "10:00 — 11:00", isSelected: true},
         {text: "11:00 — 12:00", isSelected: false},
         {text: "12:00 — 13:00", isSelected: false},
@@ -156,7 +156,7 @@ const CheckoutTimeBlock = () => {
     const [
         activeItem,
         selectItem
-    ] = useState<SelectedItem>(dropdownItems[0])
+    ] = useState<SelectItem>(dropdownItems[0])
 
     return (
         <BackgroundBlockWrapper header={"Дата и время доставки"}>
@@ -165,7 +165,7 @@ const CheckoutTimeBlock = () => {
                 labelText={"Дата доставки"}
                 theme={"filled"}
             />
-            <DropdownInput
+            <SelectInput
                 width={"col-span-1"}
                 label={"Время доставки"}
                 items={dropdownItems}

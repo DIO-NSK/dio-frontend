@@ -1,11 +1,11 @@
 import style from "./CheckboxItem.module.css"
 import {FiCheck} from "react-icons/fi";
 import Text from "@/components/atoms/text/text-base/Text";
-import {SelectedItem} from "@/types/select";
+import {SelectItem} from "@/types/props/Select";
 import {COLOR} from "@/components/colors";
 
 type CheckboxItemProps = {
-    item : SelectedItem,
+    item : SelectItem,
     onSelect: () => void
 }
 

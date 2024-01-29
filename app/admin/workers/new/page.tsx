@@ -3,14 +3,14 @@
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import {useState} from "react";
-import DropdownInput from "@/components/atoms/inputs/dropdown-input/DropdownInput";
-import {SelectedItem} from "@/types/select";
+import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
+import {SelectItem} from "@/types/props/Select";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 
 const AddNewWorkerPage = () => {
 
-    const dropdownItems: SelectedItem[] = [
+    const dropdownItems: SelectItem[] = [
         {text: "Администратор", isSelected: true},
         {text: "Модератор", isSelected: false},
         {text: "Организатор", isSelected: false},
@@ -19,7 +19,7 @@ const AddNewWorkerPage = () => {
     const [
         activeItem,
         setActiveItem
-    ] = useState<SelectedItem>(dropdownItems[0])
+    ] = useState<SelectItem>(dropdownItems[0])
 
     const [username, setUsername] = useState<string>("")
     const [surname, setSurname] = useState<string>("")
@@ -67,6 +67,7 @@ const AddNewWorkerPage = () => {
                         {
                             workerInputData.slice(index * 2, (index + 1) * 2).map((inputData, key) =>
                                 <TextInput
+                                    key={key}
                                     labelText={inputData.labelText}
                                     placeholder={inputData.placeholder}
                                     inputMask={inputData.inputMask}
@@ -80,7 +81,7 @@ const AddNewWorkerPage = () => {
                 )
             }
             <section className={"w-full grid grid-cols-2 gap-7 border-b-2 pb-7 border-light-gray"}>
-                <DropdownInput
+                <SelectInput
                     width={"col-span-1"}
                     label={"Роль пользователя"}
                     items={dropdownItems}

@@ -1,8 +1,8 @@
 import CheckboxItem from "@/components/atoms/selectors/checkbox-item/CheckboxItem";
-import {SelectedItem} from "@/types/select";
+import {SelectItem} from "@/types/props/Select";
 
 type CheckboxListProps = {
-    selectedItems: SelectedItem[],
+    selectedItems: SelectItem[],
     onSelect: (isSelected: boolean, index: number) => void,
 }
 

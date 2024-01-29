@@ -5,7 +5,7 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import {TableHeaderItem, TextTableRow} from "@/types/dto/Table";
-import TextContentTable from "@/components/organisms/tables/TextContentTable";
+import TextContentTable from "@/components/organisms/tables/text-content-table/TextContentTable";
 import {usePathname, useRouter} from "next/navigation";
 
 const AdminPanelWorkersPage = () => {
@@ -30,6 +30,7 @@ const AdminPanelWorkersPage = () => {
     return (
         <>
             <HeaderRow
+                className={"w-full"}
                 theme={"bordered"}
                 header={"Сотрудники"}
                 rightContent={

@@ -6,8 +6,8 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import {FiMenu, FiMoreHorizontal} from "react-icons/fi";
-import {Tooltip} from "@mui/joy";
 import EditDeleteTooltip from "@/components/organisms/tooltips/EditDeleteTooltip";
+import {usePathname, useRouter} from "next/navigation";
 
 type TextContentTableProps = {
     tableHeader?: TableHeaderItem[],
@@ -18,19 +18,25 @@ type TextContentTableProps = {
 
 const TextContentTable = (props: TextContentTableProps) => {
 
+    const pathname = usePathname()
+    const router = useRouter()
+
     const itemCV: ClassValue = [
-        "col-span-full grid grid-cols-10 gap-7 py-7 border-b-2 border-light-gray",
-        "hoverable group hover:bg-bg-light-blue mx-[-28px] px-7 relative",
+        "w-full grid grid-cols-8 gap-7 py-7 border-b-2 border-light-gray",
+        "hoverable group hover:bg-bg-light-blue px-7 relative pointer",
         {"pl-20": props.isDraggable}
     ]
+
+    const handleRowClick = () => router.push(pathname.concat("/section/sectionId"))
 
     return (
         <TableWrapper {...props}>
             {
                 props.tableContent.map((tableRow, rowKey) =>
-                    <div key={rowKey} className={cn(itemCV)}>
+                    <div key={rowKey} className={cn(itemCV)} onClick={handleRowClick}>
                         {
-                            props.isDraggable && <div className={"absolute pointer top-1/3 left-7"}>
+                            props.isDraggable &&
+                            <div className={"absolute cursor-grab active:cursor-grabbing top-1/3 left-7"}>
                                 <SquareIcon icon={<FiMenu size={"18px"}/>}/>
                             </div>
                         }

@@ -7,7 +7,7 @@ import {useState} from "react";
 import LabelInputWrapper from "@/components/wrappers/label-input-wrapper/LabelInputWrapper";
 import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
 import CheckboxList from "@/components/moleculas/lists/checkbox-list/CheckboxList";
-import {SelectedItem} from "@/types/select";
+import {SelectItem} from "@/types/props/Select";
 import Button from "@/components/atoms/buttons/button/Button";
 import {COLOR} from "@/components/colors";
 
@@ -40,7 +40,7 @@ const CatalogLeftSidebar = () => {
         })
     }
 
-    const updateSelectedItems = (list: SelectedItem[], index: number, value: boolean) => {
+    const updateSelectedItems = (list: SelectItem[], index: number, value: boolean) => {
         return list.map(
             (item, curIndex: number) => {
                 return curIndex === index ? {...item, isSelected: value} : item

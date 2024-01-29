@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {PopupProps} from "@/types/props/Popup";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
-import DropdownInput from "@/components/atoms/inputs/dropdown-input/DropdownInput";
-import {SelectedItem} from "@/types/select";
+import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
+import {SelectItem} from "@/types/props/Select";
 import Button from "@/components/atoms/buttons/button/Button";
 
 const PickAddressPopup = (props: PopupProps) => {
 
-    const dropdownItems: SelectedItem[] = [
+    const dropdownItems: SelectItem[] = [
         {text: "Никитина 64, кв. 27", isSelected: true},
         {text: "Терешковой 10, кв. 42", isSelected: true},
         {text: "Морской проспект 11, кв. 12", isSelected: true},
@@ -19,7 +19,7 @@ const PickAddressPopup = (props: PopupProps) => {
     const [
         activeItem,
         setActiveItem
-    ] = useState<SelectedItem>(dropdownItems[0])
+    ] = useState<SelectItem>(dropdownItems[0])
 
     return (
         <PopupWrapper onClose={props.onClose}>
@@ -29,7 +29,7 @@ const PickAddressPopup = (props: PopupProps) => {
                     text={"Выберите существующий адрес, чтобы не заполнять заново поля в форме адреса доставки"}
                     className={"text-base text-text-gray"}
                 />
-                <DropdownInput
+                <SelectInput
                     width={"w-full"}
                     items={dropdownItems}
                     onSelect={setActiveItem}

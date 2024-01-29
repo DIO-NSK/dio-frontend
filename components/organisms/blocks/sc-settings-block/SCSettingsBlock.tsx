@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/ServiceBlockWrapper";
-import DropdownInput from "@/components/atoms/inputs/dropdown-input/DropdownInput";
-import {SelectedItem} from "@/types/select";
+import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
+import {SelectItem} from "@/types/props/Select";
 
 const SCSettingsBlock = () => {
 
@@ -11,33 +11,33 @@ const SCSettingsBlock = () => {
         "По названию (А-Я)"
     ]
 
-    const createItemList = (): SelectedItem[] => {
+    const createItemList = (): SelectItem[] => {
         return mockDropdownText.map((text) => {
             return {text: text, isSelected: false}
         })
     }
 
     const initItemList = createItemList()
-    const [itemList, setItemList] = useState<SelectedItem[]>(initItemList)
-    const [selectedItem, selectItem] = useState<SelectedItem>(itemList[0])
+    const [itemList, setItemList] = useState<SelectItem[]>(initItemList)
+    const [selectedItem, selectItem] = useState<SelectItem>(itemList[0])
 
     return (
         <ServiceBlockWrapper header={"Заполните данные"}>
-            <DropdownInput
+            <SelectInput
                 width={"col-span-full"} items={itemList}
                 onSelect={(item) => selectItem(item)}
                 selectedItem={selectedItem}
                 label={"Товар"}
             />
 
-            <DropdownInput
+            <SelectInput
                 width={"col-span-3"} items={itemList}
                 onSelect={(item) => selectItem(item)}
                 selectedItem={selectedItem}
                 label={"Длительность аренды"}
             />
 
-            <DropdownInput
+            <SelectInput
                 width={"col-span-3"} items={itemList}
                 onSelect={(item) => selectItem(item)}
                 selectedItem={selectedItem}
