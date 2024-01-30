@@ -7,9 +7,8 @@ import {useState} from "react";
 import LabelInputWrapper from "@/components/wrappers/label-input-wrapper/LabelInputWrapper";
 import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
 import CheckboxList from "@/components/moleculas/lists/checkbox-list/CheckboxList";
-import {SelectItem} from "@/types/props/Select";
 import Button from "@/components/atoms/buttons/button/Button";
-import {COLOR} from "@/components/colors";
+import {CheckboxListItem} from "@/types/props/CheckboxItem";
 
 type HeaderDescrType = {
     header: string,
@@ -36,11 +35,11 @@ const CatalogLeftSidebar = () => {
 
     const createItemList = (data: string[]) => {
         return data.map((item) => {
-            return {text: item, isSelected: false}
+            return {name: item, isSelected: false}
         })
     }
 
-    const updateSelectedItems = (list: SelectItem[], index: number, value: boolean) => {
+    const updateSelectedItems = (list: CheckboxListItem[], index: number, value: boolean) => {
         return list.map(
             (item, curIndex: number) => {
                 return curIndex === index ? {...item, isSelected: value} : item
@@ -54,8 +53,15 @@ const CatalogLeftSidebar = () => {
     const initSelectedTypes = createItemList(mockTypeItemList)
 
     // checkbox list states
-    const [selectedCountries, setSelectedCountries] = useState(initSelectedCountries)
-    const [selectedTypes, setSelectedTypes] = useState(initSelectedTypes)
+    const [
+        selectedCountries,
+        setSelectedCountries
+    ] = useState<CheckboxListItem[]>(initSelectedCountries)
+
+    const [
+        selectedTypes,
+        setSelectedTypes
+    ] = useState<CheckboxListItem[]>(initSelectedTypes)
 
     return (
         <div className={style.wrapper}>
@@ -63,7 +69,7 @@ const CatalogLeftSidebar = () => {
             <div className={style.headerRow}>
                 <TextLg text={"Фильтры"} weight={"semibold"}/>
                 <div onClick={() => console.log("Очистить все")}>
-                    <Text text={"Очистить все"} color={COLOR["link-blue"]}/>
+                    <Text text={"Очистить все"} className={"text-link-blue pointer"}/>
                 </div>
             </div>
 
@@ -79,7 +85,7 @@ const CatalogLeftSidebar = () => {
             </LabelInputWrapper>
             <LabelInputWrapper header={"Производитель"}>
                 <CheckboxList
-                    selectedItems={selectedCountries}
+                    items={selectedCountries}
                     onSelect={(isSelected: boolean, index: number) => {
                         const newCountries = updateSelectedItems(selectedCountries, index, isSelected)
                         setSelectedCountries(newCountries)
@@ -88,7 +94,7 @@ const CatalogLeftSidebar = () => {
             </LabelInputWrapper>
             <LabelInputWrapper header={"Тип охлаждения"}>
                 <CheckboxList
-                    selectedItems={selectedTypes}
+                    items={selectedTypes}
                     onSelect={(isSelected: boolean, index: number) => {
                         const newTypes = updateSelectedItems(selectedTypes, index, isSelected)
                         setSelectedTypes(newTypes)

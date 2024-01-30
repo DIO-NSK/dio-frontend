@@ -1,18 +1,19 @@
 import style from "./CheckboxItem.module.css"
 import {FiCheck} from "react-icons/fi";
 import Text from "@/components/atoms/text/text-base/Text";
-import {SelectItem} from "@/types/props/Select";
-import {COLOR} from "@/components/colors";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
+import {CheckboxListItem} from "@/types/props/CheckboxItem";
 
 type CheckboxItemProps = {
-    item : SelectItem,
+    item : CheckboxListItem,
     onSelect: () => void
 }
 
 const CheckboxItem = ({item, onSelect}: CheckboxItemProps) => {
 
     const selected = item.isSelected ? "selected" : "unselected"
-    const textColor = item.isSelected ? COLOR["black"] : COLOR["text-gray"]
+    const textCV : ClassValue = {"text-text-gray" : !item.isSelected}
 
     return (
         <div className={style.row}>
@@ -28,7 +29,10 @@ const CheckboxItem = ({item, onSelect}: CheckboxItemProps) => {
                     />
                 }
             </div>
-            <Text text={item.text} color={textColor}/>
+            <Text
+                text={item.name}
+                className={cn(textCV)}
+            />
         </div>
     )
 

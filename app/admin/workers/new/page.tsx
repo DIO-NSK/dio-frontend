@@ -7,19 +7,20 @@ import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import {SelectItem} from "@/types/props/Select";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
+import {WorkerType} from "@/types/dto/Workrer";
 
 const AddNewWorkerPage = () => {
 
-    const dropdownItems: SelectItem[] = [
-        {text: "Администратор", isSelected: true},
-        {text: "Модератор", isSelected: false},
-        {text: "Организатор", isSelected: false},
+    const dropdownItems: SelectItem<WorkerType>[] = [
+        {name: "Администратор", value: "admin"},
+        {name: "Модератор", value: "moderator"},
+        {name: "Сотрудник", value: "employee"},
     ]
 
     const [
         activeItem,
         setActiveItem
-    ] = useState<SelectItem>(dropdownItems[0])
+    ] = useState<SelectItem<WorkerType>>(dropdownItems[0])
 
     const [username, setUsername] = useState<string>("")
     const [surname, setSurname] = useState<string>("")
@@ -51,6 +52,8 @@ const AddNewWorkerPage = () => {
             onChange: setPassword
         },
     ]
+
+
 
     const handleAddWorker = () => console.log("Worker was added!")
 

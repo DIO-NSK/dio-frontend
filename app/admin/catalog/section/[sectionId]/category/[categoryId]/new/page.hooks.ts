@@ -50,9 +50,26 @@ export const useAdminPanelNewProductPage = () => {
         }
     ]
 
+    const [description, setDescription] = useState<string>("")
+    const [photos, setPhotos] = useState<File[]>([])
+
+    const handleAddPhoto = (photo : File) => setPhotos([...photos, photo])
+    const handleDeletePhoto = (indexToDelete : number) => {
+        const filteredPhotos = photos.filter((_, index) => index !== indexToDelete)
+        setPhotos(filteredPhotos)
+    }
+
+    const [isProductOfTheDay, setProductOfTheDay] = useState<boolean>(false)
+    const handleSetProductOfTheDay = () => setProductOfTheDay(!isProductOfTheDay)
+
+    const handleCreateProduct = () => console.log("Saved!")
+
     return {
         dropdown: {dropdownItems, activeProductGroup, setActiveProductGroup},
-        inputGridData
+        photoBlock : {photos, handleAddPhoto, handleDeletePhoto},
+        switch : {isProductOfTheDay, handleSetProductOfTheDay},
+        textArea : {description, setDescription}, inputGridData,
+        handleCreateProduct
     }
 
 }

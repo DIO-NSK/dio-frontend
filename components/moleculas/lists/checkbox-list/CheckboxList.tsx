@@ -1,8 +1,8 @@
 import CheckboxItem from "@/components/atoms/selectors/checkbox-item/CheckboxItem";
-import {SelectItem} from "@/types/props/Select";
+import {CheckboxListItem} from "@/types/props/CheckboxItem";
 
 type CheckboxListProps = {
-    selectedItems: SelectItem[],
+    items: CheckboxListItem[],
     onSelect: (isSelected: boolean, index: number) => void,
 }
 
@@ -10,10 +10,10 @@ const CheckboxList = (props: CheckboxListProps) => {
     return (
         <div className={"w-full flex flex-col gap-[15px]"}>
             {
-                props.selectedItems.map((item, index) => {
+                props.items.map((item, index) => {
                     return <CheckboxItem
-                        item={item}
                         onSelect={() => props.onSelect(!item.isSelected, index)}
+                        item={item}
                     />
                 })
             }
