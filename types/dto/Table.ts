@@ -12,7 +12,8 @@ export type TableHeaderItem = {
 }
 
 export type TextTableRow = {
-    items: string[]
+    items: string[],
+    itemsWidth : string[]
 }
 
 export type ProductTableRow<T> = {

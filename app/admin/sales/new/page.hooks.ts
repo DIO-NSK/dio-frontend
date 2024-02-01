@@ -26,13 +26,16 @@ export const useAdminPanelNewSalePage = () => {
         setPhotos(filteredPhotos)
     }
 
+    const handleSaveChanges = () => console.log("SAVED!")
+
     return {
         nameInput : {name, setName},
         codeInput : {code, setCode},
         groupInput : {selectItems, activeSelectItem, setActiveSelectItem},
         durationInput : {duration, setDuration},
         textArea : {description, setDescription},
-        photoBlock : {photos, handleAddPhoto, handleDeletePhoto}
+        photoBlock : {photos, handleAddPhoto, handleDeletePhoto},
+        handleSaveChanges
     }
 
 }

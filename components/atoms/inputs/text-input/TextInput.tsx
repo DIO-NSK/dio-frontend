@@ -25,6 +25,10 @@ const InnerInput = ({theme = "outlined", ...props}: TextInputProps | PhoneInputP
         props.onChange && props.onChange(event.target.value)
     }
 
+    const handleKeyPress = (event : React.KeyboardEvent<HTMLInputElement>) => {
+        if (!/[0-9]/.test(event.key) && props.numbersOnly) event.preventDefault()
+    }
+
     return (
         <div className={"w-full relative"}>
             {
@@ -42,6 +46,7 @@ const InnerInput = ({theme = "outlined", ...props}: TextInputProps | PhoneInputP
                         }
                     </InputMask> :
                     <input
+                        onKeyPress={handleKeyPress}
                         type={isPasswordState ? "password" : "text"}
                         className={cn(wrapperCV)}
                         placeholder={props.placeholder}

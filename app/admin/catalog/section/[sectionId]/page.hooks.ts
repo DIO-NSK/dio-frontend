@@ -1,5 +1,4 @@
 import {TextTableRow} from "@/types/dto/Table";
-import {useState} from "react";
 import {usePathname, useRouter} from "next/navigation";
 
 export const useAdminPanelCategoriesPage = () => {
@@ -8,26 +7,18 @@ export const useAdminPanelCategoriesPage = () => {
     const router = useRouter()
 
     const tableContent: TextTableRow[] = [
-        {items: ["Средства гигиены"]},
-        {items: ["Губки, перчатки и салфетки"]},
-        {items: ["Мешки для мусора"]},
-        {items: ["Освежители воздуха"]},
-        {items: ["Чистящие средства"]},
+        {items: ["Средства гигиены"], itemsWidth : ["col-span-full"]},
+        {items: ["Губки, перчатки и салфетки"], itemsWidth : ["col-span-full"]},
+        {items: ["Мешки для мусора"], itemsWidth : ["col-span-full"]},
+        {items: ["Освежители воздуха"], itemsWidth : ["col-span-full"]},
+        {items: ["Чистящие средства"], itemsWidth : ["col-span-full"]},
     ]
 
-    const [isEditable, setEditable] = useState<boolean>(false)
-    const [searchValue, setSearchValue] = useState<string>("")
-
     const handleExportCatalog = () => console.log("Exported")
-    const handleAddNewCategory = () => router.push(pathname.concat("/new"))
-    const handleSwitchEditable = () => setEditable(!isEditable)
     const handleRowClick = () => router.push(pathname.concat("/category/categoryId"))
 
     return {
-        tableContent,
-        searchbar: {searchValue, setSearchValue},
-        editMode : {isEditable, handleSwitchEditable},
-        handleExportCatalog, handleAddNewCategory, handleRowClick
+        tableContent, handleExportCatalog, handleRowClick
     }
 
 }

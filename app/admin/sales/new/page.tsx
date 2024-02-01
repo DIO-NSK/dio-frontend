@@ -10,6 +10,7 @@ import AdminPanelSearchbarBlock
     from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchbarBlock";
 import {useVariableItemRow} from "@/utlis/hooks/useVariableItemRow";
 import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
+import Button from "@/components/atoms/buttons/button/Button";
 
 const FirstInputRow = () => {
 
@@ -104,24 +105,29 @@ const AdminPanelNewSalePage = () => {
             <AdminPanelSearchbarBlock
                 header={"Товары, участвующие в акции"}
                 description={"Данные товары включены в акцию по умолчанию"}
-                onAddSearchbar={products.handlers.handleAddItem}
-                onChangeSearchbar={products.handlers.handleChangeItem}
-                onDeleteSearchbar={products.handlers.handleDeleteItem}
+                onAddItem={products.handlers.handleAddItem}
+                onChangeItem={products.handlers.handleChangeItem}
+                onDeleteItem={products.handlers.handleDeleteItem}
                 items={products.state}
             />
             <AdminPanelSearchbarBlock
                 header={"Дополнительные товары"}
                 description={"Данные товары дополнительно прилагаются к акции." +
                     "Пользователь сможет выбрать один товар  из данного списка"}
-                onAddSearchbar={anotherProducts.handlers.handleAddItem}
-                onChangeSearchbar={anotherProducts.handlers.handleChangeItem}
-                onDeleteSearchbar={anotherProducts.handlers.handleDeleteItem}
+                onAddItem={anotherProducts.handlers.handleAddItem}
+                onChangeItem={anotherProducts.handlers.handleChangeItem}
+                onDeleteItem={anotherProducts.handlers.handleDeleteItem}
                 items={anotherProducts.state}
             />
             <AdminPanelPhotoBlock
                 photos={context.photoBlock.photos}
                 onAddPhoto={context.photoBlock.handleAddPhoto}
                 onDeletePhoto={context.photoBlock.handleDeletePhoto}
+            />
+            <Button
+                text={"Сохранить"}
+                onClick={context.handleSaveChanges}
+                classNames={{button : "w-[250px]"}}
             />
         </>
     );

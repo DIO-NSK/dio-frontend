@@ -1,19 +1,18 @@
 "use client"
 
+import {useAdminPanelServicePage} from "@/app/admin/services/page.hooks";
 import AdminPanelHeaderButtonRow
     from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow";
-import {useAdminPanelSalesPage} from "@/app/admin/sales/page.hooks";
-import ProductContentTable from "@/components/organisms/tables/product-content-table/ProductContentTable";
-import {salesTableContent, salesTableHeader} from "@/data/tables/adminSalesTable";
 import {
     useAdminPanelHeaderButtonRow
 } from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
-import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
+import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
+import TextContentTable from "@/components/organisms/tables/text-content-table/TextContentTable";
 
-const AdminPanelSalesPage = () => {
+const AdminPanelServicePage = () => {
 
-    const {...context} = useAdminPanelSalesPage()
+    const {...context} = useAdminPanelServicePage()
     const {...headerContext} = useAdminPanelHeaderButtonRow()
     const {...editableContext} = useAdminPanelHeaderRow()
 
@@ -26,19 +25,21 @@ const AdminPanelSalesPage = () => {
             />
 
             <AdminPanelHeaderRow
-                header={"Акции"}
+                header={"Услуги"}
                 isEditable={editableContext.isEditable}
                 onChange={editableContext.handleSwitchEditable}
             />
 
-            <ProductContentTable
-                tableHeader={salesTableHeader}
-                tableContent={salesTableContent}
-                onProductClick={context.handleProductClick}
+            <TextContentTable
+                className={"mt-[-28px]"}
+                tableContent={context.table.tableContent}
+                isDraggable={editableContext.isEditable}
+                onRowClick={context.handleRowClick}
             />
 
         </>
     );
+
 };
 
-export default AdminPanelSalesPage;
+export default AdminPanelServicePage;

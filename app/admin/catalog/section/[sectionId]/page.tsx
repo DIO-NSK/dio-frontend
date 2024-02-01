@@ -6,14 +6,18 @@ import {useAdminPanelCategoriesPage} from "@/app/admin/catalog/section/[sectionI
 import TextContentTable from "@/components/organisms/tables/text-content-table/TextContentTable";
 import {Breadcrumbs, Link} from "@mui/joy";
 import Text from "@/components/atoms/text/text-base/Text";
-import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import AdminPanelSaveDiscardChangesRow
-    from "@/components/organisms/rows/admin-panel-save-discard-changes-row/AdminPanelSaveDiscardChangesRow";
 import {useRouter} from "next/navigation";
+import {
+    useAdminPanelHeaderButtonRow
+} from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
+import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
+import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 
 const AdminPanelCategoryPage = () => {
 
     const {...context} = useAdminPanelCategoriesPage()
+    const {...headerContext} = useAdminPanelHeaderButtonRow()
+    const {...editableContext} = useAdminPanelHeaderRow()
 
     const router = useRouter()
 
@@ -23,9 +27,9 @@ const AdminPanelCategoryPage = () => {
             <div className={"w-full flex flex-col gap-4"}>
                 <AdminPanelHeaderButtonRow
                     onExportCatalog={context.handleExportCatalog}
-                    onAddNewItem={context.handleAddNewCategory}
-                    searchInputValue={context.searchbar.searchValue}
-                    searchInputOnChange={context.searchbar.setSearchValue}
+                    onAddNewItem={headerContext.handleAddItem}
+                    searchInputValue={headerContext.searchbar.searchValue}
+                    searchInputOnChange={headerContext.searchbar.setSearchValue}
                 />
 
                 <div className={"w-full flex flex-col"}>
@@ -41,16 +45,10 @@ const AdminPanelCategoryPage = () => {
                         </Link>
                         <Text text={"Категории"}/>
                     </Breadcrumbs>
-                    <HeaderRow
-                        className={"w-full"}
-                        theme={"bordered"}
+                    <AdminPanelHeaderRow
                         header={"Категории"}
-                        rightContent={
-                            <AdminPanelSaveDiscardChangesRow
-                                isEditable={context.editMode.isEditable}
-                                onChange={context.editMode.handleSwitchEditable}
-                            />
-                        }
+                        isEditable={editableContext.isEditable}
+                        onChange={editableContext.handleSwitchEditable}
                     />
                 </div>
 
@@ -59,7 +57,7 @@ const AdminPanelCategoryPage = () => {
             <TextContentTable
                 className={"mt-[-28px]"}
                 tableContent={context.tableContent}
-                isDraggable={context.editMode.isEditable}
+                isDraggable={editableContext.isEditable}
                 onRowClick={context.handleRowClick}
             />
 

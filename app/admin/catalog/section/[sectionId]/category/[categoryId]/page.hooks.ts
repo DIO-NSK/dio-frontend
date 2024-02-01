@@ -1,11 +1,9 @@
-import {usePathname, useRouter} from "next/navigation";
+import {useRouter} from "next/navigation";
 import {TextAction} from "@/types/dto/text";
-import {useState} from "react";
 import {AdminProduct} from "@/types/dto/AdminProduct";
 
 export const useAdminPanelProductsPage = () => {
 
-    const pathname = usePathname()
     const router = useRouter()
 
     const breadcrumbsData: TextAction[] = [
@@ -14,20 +12,11 @@ export const useAdminPanelProductsPage = () => {
         {text : "Товары", action: () => {}}
     ]
 
-    const [isEditable, setEditable] = useState<boolean>(false)
-    const [searchValue, setSearchValue] = useState<string>("")
-
     const handleExportCatalog = () => console.log("Exported")
-    const handleAddNewProduct = () => router.push(pathname.concat("/new"))
-    const handleSwitchEditable = () => setEditable(!isEditable)
     const handleProductClick = (product : AdminProduct) => console.log("PRODUCT", product)
 
     return {
-        breadcrumbsData,
-        searchbar: {searchValue, setSearchValue},
-        editMode : {isEditable, handleSwitchEditable},
-        handleExportCatalog, handleAddNewProduct,
-        handleProductClick
+        breadcrumbsData, handleExportCatalog, handleProductClick
     }
 
 }

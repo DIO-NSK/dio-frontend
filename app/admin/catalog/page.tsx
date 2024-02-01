@@ -1,17 +1,21 @@
 "use client"
 
-import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import TextContentTable from "@/components/organisms/tables/text-content-table/TextContentTable";
 import AdminPanelHeaderButtonRow
     from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow";
 import AdminSectionPopup from "@/components/organisms/popups/admin/section/AdminSectionPopup";
 import {useAdminPanelCatalogPage} from "@/app/admin/catalog/page.hooks";
-import AdminPanelSaveDiscardChangesRow
-    from "@/components/organisms/rows/admin-panel-save-discard-changes-row/AdminPanelSaveDiscardChangesRow";
+import {
+    useAdminPanelHeaderButtonRow
+} from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
+import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
+import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 
 const AdminPanelCatalogPage = () => {
 
     const {...context} = useAdminPanelCatalogPage()
+    const {...headerContext} = useAdminPanelHeaderButtonRow()
+    const {...editableContext} = useAdminPanelHeaderRow()
 
     return (
         <>
@@ -24,28 +28,22 @@ const AdminPanelCatalogPage = () => {
             }
 
             <AdminPanelHeaderButtonRow
-                searchInputOnChange={context.searchbar.setSearchValue}
-                searchInputValue={context.searchbar.searchValue}
+                searchInputOnChange={headerContext.searchbar.setSearchValue}
+                searchInputValue={headerContext.searchbar.searchValue}
                 onExportCatalog={context.handleExportCatalog}
                 onAddNewItem={context.popup.handleSwitchPopupState}
             />
 
-            <HeaderRow
-                className={"w-full"}
-                theme={"bordered"}
+            <AdminPanelHeaderRow
                 header={"Разделы"}
-                rightContent={
-                    <AdminPanelSaveDiscardChangesRow
-                        isEditable={context.editMode.isEditable}
-                        onChange={context.editMode.handleSwitchEditable}
-                    />
-                }
+                isEditable={editableContext.isEditable}
+                onChange={editableContext.handleSwitchEditable}
             />
 
             <TextContentTable
                 className={"mt-[-28px]"}
                 tableContent={context.tableContent}
-                isDraggable={context.editMode.isEditable}
+                isDraggable={editableContext.isEditable}
                 onRowClick={context.handleRowClick}
             />
 

@@ -11,7 +11,8 @@ export type TextInputProps = {
     endDecorator ?: React.ReactNode,
     isPassword ?: boolean,
     theme ?: Theme,
-    classNames ?: TextInputClassNames
+    classNames ?: TextInputClassNames,
+    numbersOnly ?: boolean,
 }
 
 type TextInputClassNames = {

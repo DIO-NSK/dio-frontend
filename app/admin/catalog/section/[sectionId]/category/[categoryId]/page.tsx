@@ -4,16 +4,20 @@ import AdminPanelHeaderButtonRow
     from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow";
 import {Breadcrumbs, Link} from "@mui/joy";
 import Text from "@/components/atoms/text/text-base/Text";
-import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import AdminPanelSaveDiscardChangesRow
-    from "@/components/organisms/rows/admin-panel-save-discard-changes-row/AdminPanelSaveDiscardChangesRow";
 import {useAdminPanelProductsPage} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
 import ProductContentTable from "@/components/organisms/tables/product-content-table/ProductContentTable";
 import {adminProductTableContent, adminProductTableHeader} from "@/data/tables/adminProductTable";
+import {
+    useAdminPanelHeaderButtonRow
+} from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
+import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
+import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 
 const AdminPanelProductsPage = () => {
 
     const {...context} = useAdminPanelProductsPage()
+    const {...headerContext} = useAdminPanelHeaderButtonRow()
+    const {...editableContext} = useAdminPanelHeaderRow()
 
     return (
         <>
@@ -22,9 +26,9 @@ const AdminPanelProductsPage = () => {
 
                 <AdminPanelHeaderButtonRow
                     onExportCatalog={context.handleExportCatalog}
-                    onAddNewItem={context.handleAddNewProduct}
-                    searchInputValue={context.searchbar.searchValue}
-                    searchInputOnChange={context.searchbar.setSearchValue}
+                    onAddNewItem={headerContext.handleAddItem}
+                    searchInputValue={headerContext.searchbar.searchValue}
+                    searchInputOnChange={headerContext.searchbar.setSearchValue}
                 />
 
                 <div className={"w-full flex flex-col"}>
@@ -43,16 +47,10 @@ const AdminPanelProductsPage = () => {
                             })
                         }
                     </Breadcrumbs>
-                    <HeaderRow
-                        className={"w-full"}
-                        theme={"bordered"}
-                        header={"Категории"}
-                        rightContent={
-                            <AdminPanelSaveDiscardChangesRow
-                                isEditable={context.editMode.isEditable}
-                                onChange={context.editMode.handleSwitchEditable}
-                            />
-                        }
+                    <AdminPanelHeaderRow
+                        header={"Товары"}
+                        isEditable={editableContext.isEditable}
+                        onChange={editableContext.handleSwitchEditable}
                     />
                 </div>
 

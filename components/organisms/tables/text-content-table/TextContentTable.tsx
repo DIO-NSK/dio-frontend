@@ -9,9 +9,9 @@ import {FiMenu, FiMoreHorizontal} from "react-icons/fi";
 import EditDeleteTooltip from "@/components/organisms/tooltips/EditDeleteTooltip";
 
 type TextContentTableProps = {
-    tableContent: TextTableRow[],
-    isDraggable?: boolean,
-    onRowClick: (rowIndex : number) => void,
+    tableContent : TextTableRow[],
+    isDraggable ?: boolean,
+    onRowClick ?: (rowIndex: number) => void,
 } & Omit<TableWrapperProps, "children">
 
 const TextContentTable = (props: TextContentTableProps) => {
@@ -26,7 +26,10 @@ const TextContentTable = (props: TextContentTableProps) => {
         <TableWrapper {...props}>
             {
                 props.tableContent.map((tableRow, rowKey) =>
-                    <div key={rowKey} className={cn(itemCV)} onClick={() => props.onRowClick(rowKey)}>
+                    <div
+                        key={rowKey} className={cn(itemCV)}
+                        onClick={() => props.onRowClick && props.onRowClick(rowKey)}
+                    >
                         {
                             props.isDraggable &&
                             <div className={"absolute cursor-grab active:cursor-grabbing top-1/3 left-7"}>
@@ -35,7 +38,10 @@ const TextContentTable = (props: TextContentTableProps) => {
                         }
                         {
                             tableRow.items.map((rowItem, itemKey) =>
-                                <Text key={itemKey} text={rowItem} className={"col-span-2"}/>
+                                <Text
+                                    className={tableRow.itemsWidth[itemKey]}
+                                    key={itemKey} text={rowItem}
+                                />
                             )
                         }
                         <EditDeleteTooltip tableItem={tableRow}>

@@ -5,7 +5,7 @@ import {FiArrowLeft} from "react-icons/fi";
 import {useRouter} from "next/navigation";
 import {ClassValue} from "clsx";
 
-type HeaderRowProps = {
+export type HeaderRowProps = {
     header: string,
     leftContent?: string | React.ReactNode,
     rightContent?: React.ReactNode,
