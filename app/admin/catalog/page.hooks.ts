@@ -1,7 +1,11 @@
 import {TextTableRow} from "@/types/dto/Table";
 import {useState} from "react";
+import {usePathname, useRouter} from "next/navigation";
 
 export const useAdminPanelCatalogPage = () => {
+
+    const router = useRouter()
+    const pathname = usePathname()
 
     const tableContent: TextTableRow[] = [
         {items: ["Воды питьевые"]},
@@ -20,13 +24,14 @@ export const useAdminPanelCatalogPage = () => {
     const handleExportCatalog = () => console.log("Exported")
     const handleSwitchPopupState = () => setPopupVisible(!isPopupVisible)
     const handleSwitchEditable = () => setEditable(!isEditable)
+    const handleRowClick = () => router.push(pathname.concat("/section/sectionId"))
 
     return {
         tableContent,
         searchbar: {searchValue, setSearchValue},
         popup : {handleSwitchPopupState, isPopupVisible},
         editMode : {isEditable, handleSwitchEditable},
-        handleExportCatalog
+        handleExportCatalog, handleRowClick
     }
 
 }

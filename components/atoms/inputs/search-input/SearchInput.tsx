@@ -2,20 +2,25 @@ import {FiSearch} from "react-icons/fi";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 
+type SearchBarClassNames = {
+    wrapper ?: string,
+    input ?: string
+}
+
 type SearchBarTypes = {
     placeholder: string,
     value: string,
     onChange: (value: string) => void,
-    className ?: string
+    classNames ?: SearchBarClassNames
 }
 
-const SearchInput = ({placeholder, value, onChange, className}: SearchBarTypes) => {
+const SearchInput = ({placeholder, value, onChange, classNames}: SearchBarTypes) => {
 
     const inputCV: ClassValue[] = [
         "w-full px-[30px] py-4 rounded-xl",
         "bg-white border-2 border-light-gray pointer",
         "group-hover:border-blue-400 hoverable",
-        "focus:outline-0",
+        "focus:outline-0", classNames?.input
     ]
 
     const iconCV : ClassValue[] = [
@@ -24,7 +29,7 @@ const SearchInput = ({placeholder, value, onChange, className}: SearchBarTypes) 
     ]
 
     return (
-        <div className={cn("w-full relative group", className)}>
+        <div className={cn("w-full relative group", classNames?.wrapper)}>
             <FiSearch
                 size={"22px"}
                 className={cn(iconCV)}

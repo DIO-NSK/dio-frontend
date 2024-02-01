@@ -6,18 +6,18 @@ import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import {FiMenu} from "react-icons/fi";
 import Text from "@/components/atoms/text/text-base/Text";
 import TableWrapper from "@/components/wrappers/table-wrapper/TableWrapper";
-import {AdminProduct} from "@/types/dto/AdminProduct";
+import {AdminSale} from "@/types/dto/AdminSale";
 
-type ProductContentTableProps = {
-    tableContent: ProductTableRow[],
+type ProductContentTableProps<T> = {
+    tableContent: ProductTableRow<T>[],
     isDraggable?: boolean,
-    onProductClick : (product : AdminProduct) => void,
+    onProductClick: (product: T) => void,
 } & Omit<TableWrapperProps, "children">
 
-const ProductRow = ({onClick, isDraggable, product}: {
-    onClick : (product : AdminProduct) => void,
+const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow}: {
+    onClick: (product: T) => void,
     isDraggable?: boolean,
-    product: AdminProduct
+    tableRow: ProductTableRow<T>
 }) => {
 
     const wrapperCV: ClassValue[] = [
@@ -26,7 +26,7 @@ const ProductRow = ({onClick, isDraggable, product}: {
         {"pl-20": isDraggable}
     ]
 
-    const handleProductClick = () => onClick(product)
+    const handleProductClick = () => onClick(tableRow.product)
 
     return (
         <div className={cn(wrapperCV)} onClick={handleProductClick}>
@@ -36,25 +36,29 @@ const ProductRow = ({onClick, isDraggable, product}: {
                     icon={<FiMenu size={"18px"}/>}
                 />
             }
-            <div className={"col-span-5 flex flex-row items-center gap-5"}>
+            <div className={cn("flex flex-row items-center gap-5", tableRow.itemsWidth["image"])}>
                 <img
-                    src={product.image}
+                    src={tableRow.product.image}
                     alt={"Изображение товара"}
                     className={"w-[70px] h-[70px] object-scale-down rounded-xl"}
                 />
-                <Text text={product.name} className={"font-medium"}/>
+                <Text text={tableRow.product.name} className={"font-medium"}/>
             </div>
 
-            <Text text={`${product.discount}%`} className={"col-span-1"}/>
-            <Text text={`${product.stockAmount} шт.`} className={"col-span-1"}/>
-            <Text text={`${product.price} ₽`} className={"col-span-1"}/>
-
+            <Text text={`${tableRow.product.discount}%`} className={tableRow.itemsWidth["discount"]}/>
+            <Text text={`${tableRow.product.stockAmount} шт.`} className={tableRow.itemsWidth["stockAmount"]}/>
+            {
+                tableRow.product.price && <Text
+                    text={`${tableRow.product.price} ₽`}
+                    className={tableRow.itemsWidth["price"]}
+                />
+            }
         </div>
     )
 
 }
 
-const ProductContentTable = (props: ProductContentTableProps) => {
+const ProductContentTable = <T extends AdminSale, >(props: ProductContentTableProps<T>) => {
     return (
         <TableWrapper {...props}>
             {
@@ -62,7 +66,7 @@ const ProductContentTable = (props: ProductContentTableProps) => {
                     <ProductRow
                         onClick={props.onProductClick}
                         isDraggable={props.isDraggable}
-                        product={tableRow.product}
+                        tableRow={tableRow}
                         key={rowKey}
                     />
                 )

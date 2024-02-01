@@ -9,7 +9,7 @@ import AdminPanelSaveDiscardChangesRow
     from "@/components/organisms/rows/admin-panel-save-discard-changes-row/AdminPanelSaveDiscardChangesRow";
 import {useAdminPanelProductsPage} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
 import ProductContentTable from "@/components/organisms/tables/product-content-table/ProductContentTable";
-import {adminProductTableContent, adminProductTableHeader} from "@/data/adminProductTable";
+import {adminProductTableContent, adminProductTableHeader} from "@/data/tables/adminProductTable";
 
 const AdminPanelProductsPage = () => {
 

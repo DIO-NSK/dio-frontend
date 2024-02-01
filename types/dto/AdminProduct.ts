@@ -1,7 +1,5 @@
+import {AdminSale} from "@/types/dto/AdminSale";
+
 export type AdminProduct = {
-    image : string,
-    name : string,
-    discount : number,
-    stockAmount : number,
     price : number
-}
+} & AdminSale

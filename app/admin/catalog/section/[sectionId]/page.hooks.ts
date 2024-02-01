@@ -21,12 +21,13 @@ export const useAdminPanelCategoriesPage = () => {
     const handleExportCatalog = () => console.log("Exported")
     const handleAddNewCategory = () => router.push(pathname.concat("/new"))
     const handleSwitchEditable = () => setEditable(!isEditable)
+    const handleRowClick = () => router.push(pathname.concat("/category/categoryId"))
 
     return {
         tableContent,
         searchbar: {searchValue, setSearchValue},
         editMode : {isEditable, handleSwitchEditable},
-        handleExportCatalog, handleAddNewCategory
+        handleExportCatalog, handleAddNewCategory, handleRowClick
     }
 
 }

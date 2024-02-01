@@ -1,25 +1,20 @@
 import React from 'react';
 import TableWrapper from "@/components/wrappers/table-wrapper/TableWrapper";
-import {TableHeaderItem, TextTableRow} from "@/types/dto/Table";
+import {TableWrapperProps, TextTableRow} from "@/types/dto/Table";
 import Text from "@/components/atoms/text/text-base/Text";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import {FiMenu, FiMoreHorizontal} from "react-icons/fi";
 import EditDeleteTooltip from "@/components/organisms/tooltips/EditDeleteTooltip";
-import {usePathname, useRouter} from "next/navigation";
 
 type TextContentTableProps = {
-    tableHeader?: TableHeaderItem[],
     tableContent: TextTableRow[],
-    className?: string,
-    isDraggable?: boolean
-}
+    isDraggable?: boolean,
+    onRowClick: (rowIndex : number) => void,
+} & Omit<TableWrapperProps, "children">
 
 const TextContentTable = (props: TextContentTableProps) => {
-
-    const pathname = usePathname()
-    const router = useRouter()
 
     const itemCV: ClassValue = [
         "w-full grid grid-cols-8 gap-7 py-7 border-b-2 border-light-gray",
@@ -27,13 +22,11 @@ const TextContentTable = (props: TextContentTableProps) => {
         {"pl-20": props.isDraggable}
     ]
 
-    const handleRowClick = () => router.push(pathname.concat("/section/sectionId"))
-
     return (
         <TableWrapper {...props}>
             {
                 props.tableContent.map((tableRow, rowKey) =>
-                    <div key={rowKey} className={cn(itemCV)} onClick={handleRowClick}>
+                    <div key={rowKey} className={cn(itemCV)} onClick={() => props.onRowClick(rowKey)}>
                         {
                             props.isDraggable &&
                             <div className={"absolute cursor-grab active:cursor-grabbing top-1/3 left-7"}>

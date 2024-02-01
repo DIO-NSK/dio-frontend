@@ -60,6 +60,7 @@ const AdminPanelCategoryPage = () => {
                 className={"mt-[-28px]"}
                 tableContent={context.tableContent}
                 isDraggable={context.editMode.isEditable}
+                onRowClick={context.handleRowClick}
             />
 
         </>

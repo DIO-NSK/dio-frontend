@@ -3,7 +3,7 @@ import {FiPlus, FiUpload} from "react-icons/fi";
 import SearchInput from "@/components/atoms/inputs/search-input/SearchInput";
 
 type CatalogHeaderRowProps = {
-    onExportCatalog : () => void,
+    onExportCatalog ?: () => void,
     onAddNewItem : () => void,
     searchInputValue : string,
     searchInputOnChange : (value : string) => void
@@ -20,13 +20,14 @@ const AdminPanelHeaderButtonRow = (props : CatalogHeaderRowProps) => {
                     text={"Добавить элемент"}
                     onClick={props.onAddNewItem}
                 />
-                <Button
-                    icon={<FiUpload size={"20px"}/>}
-                    text={"Экспортировать"}
-                    onClick={props.onExportCatalog}
-                    buttonType={"SECONDARY"}
-                />
-
+                {
+                    props.onExportCatalog && <Button
+                        icon={<FiUpload size={"20px"}/>}
+                        text={"Экспортировать"}
+                        onClick={props.onExportCatalog}
+                        buttonType={"SECONDARY"}
+                    />
+                }
                 <SearchInput
                     placeholder={"Поиск по каталогу"}
                     value={props.searchInputValue}
