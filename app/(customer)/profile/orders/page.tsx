@@ -2,7 +2,7 @@
 
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {useState} from "react";
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
 import {mockOrderList} from "@/data/orderData";

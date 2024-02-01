@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 
 export const useAdminPanelNewSalePage = () => {
 

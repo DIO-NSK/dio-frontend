@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/ServiceBlockWrapper";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 
 const SCSettingsBlock = () => {
 

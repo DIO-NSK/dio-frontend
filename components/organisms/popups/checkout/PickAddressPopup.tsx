@@ -3,7 +3,7 @@ import {PopupProps} from "@/types/props/Popup";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 import Button from "@/components/atoms/buttons/button/Button";
 
 const PickAddressPopup = (props: PopupProps) => {

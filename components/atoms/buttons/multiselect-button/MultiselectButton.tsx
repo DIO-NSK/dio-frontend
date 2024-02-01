@@ -5,17 +5,18 @@ import {cn} from "@/utlis/cn";
 type MultiselectButtonProps = {
     activeElement : string,
     elements : string[],
-    selectElement : (element : string) => void
+    selectElement : (element : string) => void,
+    className ?: string
 }
 
 const MultiselectButton = (props : MultiselectButtonProps) => {
     return (
-        <div className={"w-full flex flex-row items-center"}>
+        <div className={cn("w-full flex flex-row items-center", props.className)}>
             {
                 props.elements.map((element, index) => {
 
                     const wrapperCV : ClassValue[] = [
-                        "w-full py-5 flex items-center justify-center",
+                        "w-full py-4 flex items-center justify-center",
                         "border-2 border-light-gray text-text-gray",
                         "hoverable pointer",
                         {

@@ -1,4 +1,4 @@
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import {Characteristic, CharacteristicType} from "@/types/dto/Characteristic";

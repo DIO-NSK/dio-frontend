@@ -4,7 +4,7 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import {useState} from "react";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import {WorkerType} from "@/types/dto/Workrer";

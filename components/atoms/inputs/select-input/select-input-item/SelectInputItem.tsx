@@ -1,5 +1,5 @@
 import React from 'react';
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import {FiCheck} from "react-icons/fi";

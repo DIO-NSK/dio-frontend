@@ -1,4 +1,4 @@
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 
 export type Characteristic = {
     name : string,

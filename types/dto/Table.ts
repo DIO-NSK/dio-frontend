@@ -1,4 +1,5 @@
 import React from "react";
+import {CallRequest} from "@/types/dto/CallRequest";
 
 export type TableWrapperProps = {
     children: React.ReactNode,
@@ -19,4 +20,8 @@ export type TextTableRow = {
 export type ProductTableRow<T> = {
     product: T,
     itemsWidth: Record<keyof T, string>
+}
+
+export type CallRequestTableRow = {
+    item : CallRequest
 }

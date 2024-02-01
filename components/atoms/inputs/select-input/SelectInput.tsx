@@ -1,4 +1,4 @@
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 import React, {useState} from "react";
 import Text from "@/components/atoms/text/text-base/Text";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";

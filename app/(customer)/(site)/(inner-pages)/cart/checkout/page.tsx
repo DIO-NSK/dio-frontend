@@ -10,7 +10,7 @@ import {useState} from "react";
 import {TextInputProps} from "@/types/props/inputs/TextInput";
 import {PhoneInputProps} from "@/types/props/inputs/PhoneInput";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import {SelectItem} from "@/types/props/Select";
+import {SelectItem} from "@/types/props/SelectItem";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import Text from "@/components/atoms/text/text-base/Text";
 import TextArea from "@/components/atoms/inputs/text-area/TextArea";
