@@ -4,7 +4,7 @@ import WaterImage from "@/public/images/shopping-cart-water.png";
 import {ShoppingCartServiceCardDTO} from "@/types/dto/cards/ServiceCard";
 import CoolerService from "@/public/images/shopping-cooler-service.png";
 
-const coolerProductCard: ShoppingCartProductCardDTO = {
+export const coolerProductCard: ShoppingCartProductCardDTO = {
     price: 4700,
     header: "Кулер Ecotronic M30-LXE black + silver",
     image: CoolerImage.src,
@@ -12,7 +12,7 @@ const coolerProductCard: ShoppingCartProductCardDTO = {
     amount: 3
 }
 
-const waterProductCard: ShoppingCartProductCardDTO = {
+export const waterProductCard: ShoppingCartProductCardDTO = {
     price: 320,
     header: "Вода «Горная Вершина» 1,5 л. 12 шт.",
     image: WaterImage.src,

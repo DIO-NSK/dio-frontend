@@ -46,7 +46,7 @@ const InformationBlock = ({order}: { order: Order }) => {
     const informationGridData: HeaderDesrcType[] = [
         {header: "Количество товаров", descr: `${order.products.length} шт.`},
         {header: "Адрес доставки", descr: order.address},
-        {header: "Дата доставки", descr: order.deliverDate},
+        {header: "Дата доставки", descr: order.deliveryDate},
         {header: "Время доставки", descr: order.deliveryTime},
     ]
 

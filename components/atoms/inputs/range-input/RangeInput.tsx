@@ -1,5 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import style from "./RangeInput.module.css"
+import Text from "@/components/atoms/text/text-base/Text";
 
 export type RangeInputType = {
     fromValue : string,
@@ -8,6 +9,7 @@ export type RangeInputType = {
     toPlaceholder : string,
     onChangeFromValue : (newValue : string) => void,
     onChangeToValue : (newValue : string) => void,
+    labelText ?: string
 }
 
 const RangeInput = (props : RangeInputType) => {
@@ -29,39 +31,45 @@ const RangeInput = (props : RangeInputType) => {
     ]
 
     return (
-        <div className={style.inputCol}>
+        <div className={"w-full flex flex-col gap-2"}>
+            {
+                props.labelText && <Text
+                    text={props.labelText}
+                    className={"text-base text-black"}
+                />
+            }
+            <div className={style.inputCol}>
 
-            <div className={style.inputRow}>
-                {
-                    inputList.map((input) => {
-                        return <input
-                            type={"text"}
-                            pattern={"[0-9]*"}
-                            placeholder={input.placeholder}
-                            className={input.className}
-                            value={input.value + " ₽"}
-                            onChange={input.onChange}
-                        />
-                    })
-                }
+                <div className={style.inputRow}>
+                    {
+                        inputList.map((input) => {
+                            return <input
+                                type={"text"}
+                                pattern={"[0-9]*"}
+                                placeholder={input.placeholder}
+                                className={input.className}
+                                value={input.value + " ₽"}
+                                onChange={input.onChange}
+                            />
+                        })
+                    }
+                </div>
+
+                <div className={style.selectorRow}>
+                    {
+                        inputList.map((input) => {
+                            return <input
+                                type={"range"}
+                                step={"10"}
+                                className={style.selector}
+                                value={input.value}
+                                onChange={input.onChange}
+                            />
+                        })
+                    }
+                </div>
+
             </div>
-
-            <div className={style.selectorRow}>
-                {
-                    inputList.map((input) => {
-                        return <input
-                            type={"range"}
-                            min={props.fromPlaceholder}
-                            max={props.toPlaceholder}
-                            step={"10"}
-                            className={style.selector}
-                            value={input.value}
-                            onChange={input.onChange}
-                        />
-                    })
-                }
-            </div>
-
         </div>
     )
 }

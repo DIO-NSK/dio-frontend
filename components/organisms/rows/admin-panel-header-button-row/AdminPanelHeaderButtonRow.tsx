@@ -12,30 +12,28 @@ type CatalogHeaderRowProps = {
 const AdminPanelHeaderButtonRow = (props : CatalogHeaderRowProps) => {
 
     return (
-        <>
-            <section className={"w-full mx-[-28px] px-7 flex flex-row gap-5"}>
+        <section className={"w-full mx-[-28px] px-7 flex flex-row gap-5"}>
 
-                <Button
-                    icon={<FiPlus size={"20px"}/>}
-                    text={"Добавить элемент"}
-                    onClick={props.onAddNewItem}
+            <Button
+                icon={<FiPlus size={"20px"}/>}
+                text={"Добавить элемент"}
+                onClick={props.onAddNewItem}
+            />
+            {
+                props.onExportCatalog && <Button
+                    icon={<FiUpload size={"20px"}/>}
+                    text={"Экспортировать"}
+                    onClick={props.onExportCatalog}
+                    buttonType={"SECONDARY"}
                 />
-                {
-                    props.onExportCatalog && <Button
-                        icon={<FiUpload size={"20px"}/>}
-                        text={"Экспортировать"}
-                        onClick={props.onExportCatalog}
-                        buttonType={"SECONDARY"}
-                    />
-                }
-                <SearchInput
-                    placeholder={"Поиск по каталогу"}
-                    value={props.searchInputValue}
-                    onChange={props.searchInputOnChange}
-                />
+            }
+            <SearchInput
+                placeholder={"Поиск по каталогу"}
+                value={props.searchInputValue}
+                onChange={props.searchInputOnChange}
+            />
 
-            </section>
-        </>
+        </section>
     )
 }
 
