@@ -14,14 +14,11 @@ export type TableHeaderItem = {
 
 export type TextTableRow = {
     items: string[],
-    itemsWidth : string[]
+    itemsWidth: string[]
 }
 
-export type ProductTableRow<T> = {
-    product: T,
-    itemsWidth: Record<keyof T, string>
-}
+export type ProductTableRow<T> = TableRow<T> & { itemsWidth: Record<keyof T, string> }
 
-export type CallRequestTableRow = {
-    item : CallRequest
-}
+export type CallRequestTableRow = TableRow<CallRequest>
+
+export type TableRow<T> = { item: T }

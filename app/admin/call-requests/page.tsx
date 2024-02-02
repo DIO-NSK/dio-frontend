@@ -7,10 +7,9 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Text from "@/components/atoms/text/text-base/Text";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import Button from "@/components/atoms/buttons/button/Button";
-import CallRequestsContentTable
-    from "@/components/organisms/tables/call-requests-content-table/CallRequestsContentTable";
+import CallRequestsContentTable from "@/components/organisms/tables/call-requests-content-table/CallRequestsContentTable";
 import {callRequestsTableContent, callRequestsTableHeader} from "@/data/tables/adminCallRequestsTable";
-import {CallRequest} from "@/types/dto/CallRequest";
+import {useSelectable} from "@/utlis/hooks/useSelectable";
 
 const AdminPanelCallRequestsPage = () => {
 
@@ -19,21 +18,8 @@ const AdminPanelCallRequestsPage = () => {
 
     const [searchValue, setSearchValue] = useState<string>("")
 
-    const [
-        selectedItems,
-        setSelectedItems
-    ] = useState<CallRequest[]>([])
-
-    const handleSelectItem = (callRequest: CallRequest) => {
-        const itemToDelete = selectedItems.find((item) => item === callRequest)
-        if (itemToDelete) setSelectedItems(state => state.filter((item) => item !== callRequest))
-        else setSelectedItems(state => [...state, callRequest])
-    }
-    const handleSelectAllRequests = () => {
-        const selectedItems = callRequestsTableContent.map((tableRow) => tableRow.item)
-        setSelectedItems(selectedItems)
-    }
-    const handleRemoveSelectAll = () => setSelectedItems([])
+    const defaultSelectableItems = callRequestsTableContent.map(i => i.item)
+    const {...selectableContext} = useSelectable(defaultSelectableItems)
 
     const handleMarkRequestsArchive = () => console.log("Archived")
 
@@ -62,19 +48,20 @@ const AdminPanelCallRequestsPage = () => {
                 leftContent={
                     <div className={"w-fit flex flex-row items-baseline gap-4"}>
                         {
-                            selectedItems.length > 0 && <div className={"flex flex-row items-baseline gap-4"}>
+                            selectableContext.selectedItems.length > 0 &&
+                            <div className={"flex flex-row items-baseline gap-4"}>
                                 <Text
-                                    text={`Выбрано ${selectedItems.length}`}
+                                    text={`Выбрано ${selectableContext.selectedItems.length}`}
                                     className={"text-text-gray"}
                                 />
                                 <TextButton
-                                    onClick={handleRemoveSelectAll}
+                                    onClick={selectableContext.handleRemoveSelectAll}
                                     text={"Отменить выбор"}
                                     className={"text-info-red hover:text-red-700"}
                                 />
                             </div>
                         }
-                        <TextButton onClick={handleSelectAllRequests} text={"Выбрать всё"}/>
+                        <TextButton onClick={selectableContext.handleSelectAllItems} text={"Выбрать всё"}/>
                     </div>
                 }
                 rightContent={
@@ -90,8 +77,8 @@ const AdminPanelCallRequestsPage = () => {
             <CallRequestsContentTable
                 tableHeader={callRequestsTableHeader}
                 tableContent={callRequestsTableContent}
-                onSelect={handleSelectItem}
-                selectedItems={selectedItems}
+                onSelect={selectableContext.handleSelectItem}
+                selectedItems={selectableContext.selectedItems}
             />
 
         </>

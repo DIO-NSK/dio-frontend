@@ -26,7 +26,7 @@ const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow}: {
         {"pl-20": isDraggable}
     ]
 
-    const handleProductClick = () => onClick(tableRow.product)
+    const handleProductClick = () => onClick(tableRow.item)
 
     return (
         <div className={cn(wrapperCV)} onClick={handleProductClick}>
@@ -38,18 +38,18 @@ const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow}: {
             }
             <div className={cn("flex flex-row items-center gap-5", tableRow.itemsWidth["image"])}>
                 <img
-                    src={tableRow.product.image}
+                    src={tableRow.item.image}
                     alt={"Изображение товара"}
                     className={"w-[70px] h-[70px] object-scale-down rounded-xl"}
                 />
-                <Text text={tableRow.product.name} className={"font-medium"}/>
+                <Text text={tableRow.item.name} className={"font-medium"}/>
             </div>
 
-            <Text text={`${tableRow.product.discount}%`} className={tableRow.itemsWidth["discount"]}/>
-            <Text text={`${tableRow.product.stockAmount} шт.`} className={tableRow.itemsWidth["stockAmount"]}/>
+            <Text text={`${tableRow.item.discount}%`} className={tableRow.itemsWidth["discount"]}/>
+            <Text text={`${tableRow.item.stockAmount} шт.`} className={tableRow.itemsWidth["stockAmount"]}/>
             {
-                tableRow.product.price && <Text
-                    text={`${tableRow.product.price} ₽`}
+                tableRow.item.price && <Text
+                    text={`${tableRow.item.price} ₽`}
                     className={tableRow.itemsWidth["price"]}
                 />
             }
