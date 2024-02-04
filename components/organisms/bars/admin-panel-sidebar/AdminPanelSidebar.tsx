@@ -4,6 +4,7 @@ import {cn} from "@/utlis/cn";
 import {
     FiArrowLeft,
     FiBell,
+    FiBookmark,
     FiFile,
     FiGift,
     FiList,
@@ -81,6 +82,7 @@ const AdminPanelSidebar = () => {
         {text: "Каталог", icon: <FiList size={"18px"}/>, path : "/admin/catalog"},
         {text: "Услуги", icon: <FiZap size={"18px"}/>, path : "/admin/services"},
         {text: "Акции", icon: <FiGift size={"18px"}/>, path : "/admin/sales"},
+        {text: "Промо", icon: <FiBookmark size={"18px"}/>, path : "/admin/promo"},
         {text: "Заказы", icon: <FiFile size={"18px"}/>, path : "/admin/orders"},
         {text: "Уведомления", icon: <FiBell size={"18px"}/>, path : "/admin/notifications"},
         {text: "Заявки на звонок", icon: <FiPhone size={"18px"}/>, path : "/admin/call-requests"},
