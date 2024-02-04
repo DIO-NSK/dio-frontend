@@ -3,6 +3,7 @@ import {OrderStatus} from "@/types/dto/Order";
 import {Customer} from "@/types/dto/CallRequest";
 
 export type AdminOrder = {
+    testId ?: number,
     orderId: number
     status: OrderStatus,
     deliveryDate: string,
@@ -10,5 +11,6 @@ export type AdminOrder = {
     totalPrice: number,
     creationDate ?: string,
     creationTime ?: string,
+    deliveryPrice ?: number
     customer : Customer
 }

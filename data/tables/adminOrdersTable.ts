@@ -12,21 +12,24 @@ export const adminOrdersTableHeader: TableHeaderItem[] = [
     {text: "Позиции", width: "col-span-2"},
 ]
 
-const adminOrderTableItem: AdminOrder = {
+export const adminOrderTableItem: AdminOrder = {
     orderId: 187126,
     status: "processing",
     deliveryDate: "Чт. 22.11",
     products: [coolerProductCard, waterProductCard],
     totalPrice: 2000, creationDate: "19.11.2023",
-    creationTime: "20:18:22",
+    deliveryPrice : 0, creationTime: "20:18:22",
     customer: {
         name: "Артём Третьяков",
-        phoneNumber: "+7 (913) 939-11-94"
+        phoneNumber: "+7 (913) 939-11-94",
+        email : "tretiakovvvvv@gmail.com"
     }
 }
 
+export const adminOrderTableRow: TableRow<AdminOrder> = {item: {...adminOrderTableItem, testId: 0}}
+
 export const adminOrderTableContent: TableRow<AdminOrder>[] = [
-    {item: adminOrderTableItem}, {item: adminOrderTableItem},
-    {item: adminOrderTableItem}, {item: adminOrderTableItem},
+    {item: {...adminOrderTableItem, testId: 0}}, {item: {...adminOrderTableItem, testId: 1}},
+    {item: {...adminOrderTableItem, testId: 2}}, {item: {...adminOrderTableItem, testId: 3}},
 ]
 

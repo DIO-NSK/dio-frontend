@@ -1,7 +1,8 @@
-import {TextTableRow} from "@/types/dto/Table";
+import {TableRow} from "@/types/dto/Table";
 import React from "react";
 
-export type TooltipProps = {
-    tableItem: TextTableRow,
-    children?: React.ReactNode
+export type TooltipProps<T> = {
+    tableItem: TableRow<T>,
+    children?: React.ReactNode,
+    open?: boolean,
 }

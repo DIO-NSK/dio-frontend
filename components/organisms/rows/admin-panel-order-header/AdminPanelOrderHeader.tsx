@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Button from "@/components/atoms/buttons/button/Button";
-import {FiPlus} from "react-icons/fi";
+import {FiSliders} from "react-icons/fi";
 import SearchInput from "@/components/atoms/inputs/search-input/SearchInput";
 import {useSearchbar} from "@/components/organisms/bars/searchbar/Searchbar.hooks";
 import OrderPageFilterPopup from "@/components/organisms/popups/admin/order-page-filter-popup/OrderPageFilterPopup";
@@ -22,7 +22,7 @@ const AdminPanelOrderHeader = () => {
             <section className={"w-full mx-[-28px] px-7 flex flex-row gap-5"}>
 
                 <Button
-                    icon={<FiPlus size={"20px"}/>}
+                    icon={<FiSliders size={"18px"}/>}
                     text={"Применить фильтры"}
                     onClick={handleSwitchPopup}
                 />

@@ -9,5 +9,6 @@ export type CallRequest = {
 
 export type Customer = {
     name : string,
-    phoneNumber : string
+    phoneNumber : string,
+    email ?: string,
 }

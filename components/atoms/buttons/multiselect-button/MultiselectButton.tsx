@@ -6,14 +6,15 @@ type MultiselectButtonProps = {
     activeElement : string,
     elements : string[],
     selectElement : (element : string) => void,
-    className ?: string
+    className ?: string,
+    size ?: "sm" | "md"
 }
 
-const MultiselectButton = (props : MultiselectButtonProps) => {
+const MultiselectButton = ({size = "md", ...props} : MultiselectButtonProps) => {
     return (
         <div className={cn("w-full flex flex-row items-center", props.className)}>
             {
-                props.elements.map((element, index) => {
+                props.elements.map((element, index, array) => {
 
                     const wrapperCV : ClassValue[] = [
                         "w-full py-4 flex items-center justify-center",
@@ -21,10 +22,11 @@ const MultiselectButton = (props : MultiselectButtonProps) => {
                         "hoverable pointer",
                         {
                             "bg-bg-light-blue text-link-blue" : element === props.activeElement,
-                            "rounded-l-xl border-r-0" : index == 0,
-                            "rounded-r-xl" : index == props.elements.length - 1,
+                            "rounded-l-xl" : index == 0, "border-r-0" : index !== array.length - 1,
+                            "rounded-r-xl" : index == array.length - 1,
                             "hover:bg-bg-light-blue hover:text-black" : element !== props.activeElement
-                        }
+                        },
+                        {"py-3" : size == "sm"}
                     ]
 
                     return (
