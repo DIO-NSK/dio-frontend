@@ -6,36 +6,28 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import AdminPanelSaveDiscardChangesRow
     from "@/components/organisms/rows/admin-panel-save-discard-changes-row/AdminPanelSaveDiscardChangesRow";
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
-import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
 import {useAdminPanelPromoPage} from "@/app/admin/promo/page.hooks";
-import AdminPanelPromoBlock from "@/components/organisms/blocks/admin-panel-promo-block/AdminPanelPromoBlock";
+import AdminPanelPromoBlock from "@/components/organisms/blocks/promo/admin-panel-promo-block/AdminPanelPromoBlock";
+import AdminPanelDayProductsBlock
+    from "@/components/organisms/blocks/promo/admin-panel-day-products-block/AdminPanelDayProductsBlock";
+import AdminPanelOurWatersBlock
+    from "@/components/organisms/blocks/promo/admin-panel-our-waters-block/AdminPanelOurWatersBlock";
+import AdminPanelPromotionsBlock
+    from "@/components/organisms/blocks/promo/admin-panel-promotions-block/AdminPanelPromotionsBlock";
 
-const PromoActions = () => {
+const PromoContent = ({activeItem}: { activeItem: string }) => {
 
-    const {...context} = useAdminPanelPromoPage()
-
-    return (
-        <AdminPanelPhotoBlock
-            header={"Промо-акции"}
-            description={"Вы можете изменить расположение промо-акций в слайдере в режиме редактирования"}
-            photos={context.photoBlock.photos}
-            onAddPhoto={context.photoBlock.handleAddPhoto}
-            onDeletePhoto={context.photoBlock.handleDeletePhoto}
-        />
-    )
-
-}
-
-const PromoContent = () => {
-
-    const {...context} = useAdminPanelPromoPage()
-
-    switch (context.multiselectButton.activeItem) {
-        case "Промо-акции" : return <AdminPanelPromoBlock />
-        case "Товары дня" : return <AdminPanelPromoBlock />
-        case "Наши воды" : return <AdminPanelPromoBlock />
-        case "Акции и предложения" : return <AdminPanelPromoBlock />
-        default : return null
+    switch (activeItem) {
+        case "Промо-акции" :
+            return <AdminPanelPromoBlock/>
+        case "Товары дня" :
+            return <AdminPanelDayProductsBlock/>
+        case "Наши воды" :
+            return <AdminPanelOurWatersBlock/>
+        case "Акции и предложения" :
+            return <AdminPanelPromotionsBlock/>
+        default :
+            return null
     }
 
 }
@@ -66,7 +58,7 @@ const AdminPanelPromoPage = () => {
                     </div>
                 }
             />
-            <PromoContent />
+            <PromoContent activeItem={context.multiselectButton.activeItem}/>
         </>
     );
 

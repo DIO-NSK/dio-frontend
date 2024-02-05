@@ -2,7 +2,7 @@ import {useState} from "react";
 
 const MIN_LENGTH = 1
 
-export const useVariableItemRow = <T, >(defaultItem: T) => {
+export const useVariableItemRow = <T, >(defaultItem : T) => {
 
     const [state, setState] = useState<T[]>([defaultItem])
 

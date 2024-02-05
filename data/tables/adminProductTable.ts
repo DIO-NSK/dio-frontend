@@ -9,14 +9,16 @@ const adminProductTableHeader: TableHeaderItem[] = [
     {text: "Цена, шт.", width: "col-span-1"}
 ]
 
-const adminProductRow: ProductTableRow<AdminProduct> = {
-    product: {
-        image: AdminProductImage.src,
-        name: "Многоразовые перчатки Мой Додыр 2 шт.",
-        discount: 40,
-        stockAmount: 152,
-        price: 329
-    },
+export const mockAdminProduct : AdminProduct = {
+    image: AdminProductImage.src,
+    name: "Многоразовые перчатки Мой Додыр 2 шт.",
+    discount: 40,
+    stockAmount: 152,
+    price: 329
+}
+
+export const adminProductRow: ProductTableRow<AdminProduct> = {
+    item: mockAdminProduct,
     itemsWidth: {
         image: "col-span-5",
         discount: "col-span-1",
