@@ -1,21 +1,17 @@
 import {FullwidthMainCardType} from "@/types/cards";
-import style from "./ContentCol.module.css"
-import Image from "next/image";
-import Title from "@/components/atoms/text/title/Title";
-import TextLg from "@/components/atoms/text/text-lg/TextLg";
+import Text from "@/components/atoms/text/text-base/Text";
 
 export const ContentCol = ({card}: { card: FullwidthMainCardType }) => {
     return (
-        <div className={style.textCol}>
-            <div className={style.iconHeaderRow}>
-                <Image
+        <div className={"w-full sm:col-span-6 flex flex-col gap-5 sm:gap-7"}>
+            <div className={"w-full flex flex-row items-center gap-5 sm:gap-7"}>
+                <img
+                    className={"w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] object-fill"}
                     src={card.icon} alt={'/'}
-                    className={style.icon} width={80}
-                    height={80} quality={100}
                 />
-                <Title text={card.header}/>
+                <Text text={card.header} className={"text-[18px] font-semibold sm:text-[32px] sm:font-bold"}/>
             </div>
-            <TextLg text={card.descr} weight={"medium"}/>
+            <Text text={card.descr} className={"text-base sm:text-[20px] sm:font-medium"}/>
         </div>
     )
 }

@@ -3,14 +3,13 @@
 import React, {useState} from 'react';
 import ButtonSlider from "@/components/moleculas/sliders/button-slider/ButtonSlider";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
+import Text from "@/components/atoms/text/text-base/Text";
+import {mockCardArray} from "@/data/productCardData";
+import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
-import Text from "@/components/atoms/text/text-base/Text";
 
-const HeaderSliderBlock = ({header, cards}: {
-    header: string,
-    cards: ProductCard[],
-}) => {
+const HeaderSliderBlock = ({header}: {header : string}) => {
 
     const [startIndex, setStartIndex] = useState<number>(0)
     const [endIndex, setEndIndex] = useState<number>(4)
@@ -23,33 +22,43 @@ const HeaderSliderBlock = ({header, cards}: {
     }
 
     const handleEndIndex = (newIndex: number): void => {
-        if (newIndex <= cards.length) {
+        if (newIndex <= mockCardArray.length) {
             setEndIndex(newIndex)
             setStartIndex(startIndex + 1)
         }
     }
 
     const wrapperCV : ClassValue[] = [
-        "px-[100px] py-[30px] bg-bg-light-blue border-b-2 border-light-gray",
-        "grid grid-cols-12 gap-x-[20px] gap-y-[30px]"
+        "sm:px-[100px] w-full flex flex-col gap-7 sm:gap-10 px-5",
+        "py-7 bg-bg-light-blue border-b-2 border-light-gray"
     ]
 
     return (
         <div className={cn(wrapperCV)}>
 
-            <div className={"col-span-full flex flex-row items-center justify-between"}>
-                <Text className={"text-[24px] font-semibold leading-none"} text={header}/>
+            <div className={"w-full sm:col-span-full flex flex-row items-center justify-between"}>
+                <Text className={"text-[20px] sm:text-[24px] font-semibold leading-none"} text={header}/>
                 <ButtonSlider
                     onBackClick={() => handleStartIndex(startIndex - 1)}
                     onNextClick={() => handleEndIndex(endIndex + 1)}
                 />
             </div>
 
-            {
-                cards.slice(startIndex, endIndex).map((card) => {
-                    return <ProductCard productCard={card} />
-                })
-            }
+            <div className={"hidden w-full grid-cols-12 gap-x-[20px] gap-y-[30px] sm:grid"}>
+                {
+                    mockCardArray.slice(startIndex, endIndex).map((card) => {
+                        return <ProductCard productCard={card} />
+                    })
+                }
+            </div>
+
+            <MobileSliderWrapper>
+                {
+                    mockCardArray.slice(startIndex, endIndex).map((card) => {
+                        return <ProductCard productCard={card} />
+                    })
+                }
+            </MobileSliderWrapper>
 
         </div>
     )

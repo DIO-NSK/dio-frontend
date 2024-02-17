@@ -3,19 +3,19 @@ import {Side} from "@/data/enums/side";
 import {TextLink} from "@/types/dto/text";
 
 export type IconHeaderCard = {
-    icon : string | StaticImport,
+    icon : string,
     header : string
 }
 
 export type ImageHeaderDescrCard = {
-    image: string | StaticImport
+    image: string
     header: string,
     descr: string,
 }
 
 export type FullwidthMainCardType = {
     side : Side,
-    icon : string | StaticImport
+    icon : string
 } & ImageHeaderDescrCard
 
 export type ServiceCardDTO = {

@@ -9,6 +9,8 @@ import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
 import CheckboxList from "@/components/moleculas/lists/checkbox-list/CheckboxList";
 import Button from "@/components/atoms/buttons/button/Button";
 import {CheckboxListItem} from "@/types/props/CheckboxItem";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
 
 type HeaderDescrType = {
     header: string,
@@ -63,10 +65,15 @@ const CatalogLeftSidebar = () => {
         setSelectedTypes
     ] = useState<CheckboxListItem[]>(initSelectedTypes)
 
-    return (
-        <div className={style.wrapper}>
+    const headerCV : ClassValue[] = [
+        "w-full flex flex-row justify-between items-baseline",
+        "pb-[30px] border-b-2 border-light-gray"
+    ]
 
-            <div className={style.headerRow}>
+    return (
+        <div className={"hidden col-span-3 sm:flex flex-col gap-[30px]"}>
+
+            <div className={cn(headerCV)}>
                 <TextLg text={"Фильтры"} weight={"semibold"}/>
                 <div onClick={() => console.log("Очистить все")}>
                     <Text text={"Очистить все"} className={"text-link-blue pointer"}/>

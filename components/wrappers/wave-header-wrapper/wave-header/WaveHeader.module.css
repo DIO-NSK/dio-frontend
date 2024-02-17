@@ -1,9 +1,0 @@
-.wrapper {
-
-    @apply w-full flex flex-row gap-[40px] justify-center items-center;
-
-    .image {
-        @apply w-[160px] h-[18px] object-fill;
-    }
-
-}

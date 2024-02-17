@@ -1,14 +1,13 @@
 .wrapper {
 
-    @apply relative flex flex-row p-[40px] items-center justify-between
-    col-span-4 h-[200px] rounded-xl bg-light-gray overflow-clip;
+    @apply ;
 
     .textCol {
-        @apply flex flex-col gap-[10px];
+        @apply ;
     }
 
     .image {
-        @apply absolute right-0 bottom-0 h-full w-fit object-fill;
+        @apply ;
     }
 
 }

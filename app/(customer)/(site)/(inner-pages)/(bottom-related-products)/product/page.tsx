@@ -1,7 +1,6 @@
 "use client"
 
 import ProductPhotoSlider from "@/components/moleculas/sliders/product-photo-slider/ProductPhotoSlider";
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import React, {useState} from "react";
 
 import MockProductImage1 from "../../../../../../public/images/prodcut-card/product-image-1.png"
@@ -17,6 +16,11 @@ import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPage
 import {mockCardArray} from "@/data/productCardData";
 import CatalogHeaderCol from "@/components/moleculas/cols/catalog-header-col/CatalogHeaderCol";
 import {TextLink} from "@/types/dto/text";
+import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
+import Text from "@/components/atoms/text/text-base/Text";
+import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
+import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
+
 const ProductCardPage = () => {
 
     const breadcrumbs : TextLink[] = [
@@ -33,7 +37,7 @@ const ProductCardPage = () => {
         MockProductImage3.src, MockProductImage4.src,
     ]
 
-    const [activePhoto, setActivePhoto] = useState<string | StaticImport>(mockPhotos[0])
+    const [activePhoto, setActivePhoto] = useState<string>(mockPhotos[0])
 
     const mockCharacteristics : ProductCharacteristic[] = [
         {name: "Размер коробки ш*в*г (мм)", value: "318*382*318"},
@@ -50,28 +54,45 @@ const ProductCardPage = () => {
 
     return (
         <>
+
             <CatalogHeaderCol
                 text={"Кулеры"}
                 amount={mockCardArray.length}
                 breadcrumbs={breadcrumbs}
             />
 
-            <InnerPageWrapper>
+            <InnerPageWrapper classNames={{mobileWrapper : "px-0"}}>
+
+                <MobilePhotoSlider/>
+
+                <div className={"sm:hidden flex flex-col gap-1 px-5"}>
+                    <Text text={"Кулер Ecotronic M30-LXE"} className={"text-[20px] font-semibold"}/>
+                    <div className={"w-full flex flex-row items-center justify-between"}>
+                        <div className={"flex flex-row items-center gap-3"}>
+                            <Text text={"4700 ₽"} className={"text-[20px] font-medium text-link-blue"}/>
+                            <Text text={"5200 ₽"} className={"text-base text-text-gray"}/>
+                        </div>
+                        <div className={"flex flex-row items-center gap-3"}>
+                            <LikeButton/>
+                            <BuyButton/>
+                        </div>
+                    </div>
+                </div>
 
                 <ProductPhotoSlider
-                    photos={mockPhotos}
-                    activePhoto={activePhoto}
                     setActive={(photo) => setActivePhoto(photo)}
+                    activePhoto={activePhoto}
+                    photos={mockPhotos}
                 />
 
-                <div className={"col-span-4 flex flex-col gap-[20px]"}>
+                <div className={"col-span-4 flex flex-col gap-5 px-5 sm:px-0"}>
                     <CharacteristicList characteristics={mockCharacteristics} />
                     <DescriptionCol text={mockCardDescription} />
                 </div>
 
                 <ProductPriceCard price={4700} oldPrice={5200} />
 
-                <div className={"col-span-9 h-[1px] bg-light-gray"} />
+                <div className={"col-span-9 h-[1px] mx-5 sm:mx-0 bg-light-gray"} />
 
                 <HeaderBlock header={"Описание товара"}>
                     <DescriptionCol text={mockCardDescription} />

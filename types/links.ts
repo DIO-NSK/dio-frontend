@@ -11,4 +11,4 @@ export type TextLink = {
     path : string
 }
 
-export type IconTextLink = TextLink & {icon? : string | StaticImport | React.ReactNode}
+export type IconTextLink = TextLink & {icon? : string | React.ReactNode}

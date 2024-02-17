@@ -20,7 +20,7 @@ const SelectInput = <T,>({width = "w-full", ...props}: DropdownInputProps<T>) =>
     const [isExpanded, setExpanded] = useState(false)
 
     const inputCV: ClassValue[] = [
-        "w-full p-[20px] flex flex-row items-center",
+        "w-full sm:p-[20px] px-5 py-4 flex flex-row items-center",
         "justify-between rounded-xl bg-bg-light-blue",
         "border-2 border-light-gray",
         props.className

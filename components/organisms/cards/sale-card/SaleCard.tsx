@@ -1,20 +1,30 @@
-import style from "./SaleCard.module.css"
-import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
-import {COLOR} from "@/components/colors";
-import Image from "next/image";
 import {ImageHeaderDescrCard} from "@/types/cards";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
+import Text from "@/components/atoms/text/text-base/Text";
 
 const SaleCard = ({saleCard}: {saleCard : ImageHeaderDescrCard}) => {
+
+    const wrapperCV : ClassValue[] = [
+        "relative w-full flex flex-row p-7 sm:p-[40px] items-center justify-between",
+        "col-span-4 h-[120px] sm:h-[200px] rounded-xl bg-light-gray overflow-clip"
+    ]
+
     return (
-        <div className={style.wrapper}>
-            <div className={style.textCol}>
-                <Text2XL text={saleCard.header} color={COLOR["link-blue"]} isUppercase={true}/>
-                <Text2XL text={saleCard.descr}/>
+        <div className={cn(wrapperCV)}>
+            <div className={"flex flex-col gap-1 sm:gap-[10px]"}>
+                <Text
+                    className={"text-base sm:text-[24px] font-semibold uppercase text-link-blue"}
+                    text={saleCard.header}
+                />
+                <Text
+                    className={"w-[40vw] sm:w-full text-base sm:text-[24px] font-semibold"}
+                    text={saleCard.descr}
+                />
             </div>
-            <Image
-                className={style.image}
-                width={300} height={300}
-                quality={100} src={saleCard.image}
+            <img
+                className={"absolute right-0 bottom-0 h-full object-fill"}
+                src={saleCard.image}
                 alt={'/'}
             />
         </div>

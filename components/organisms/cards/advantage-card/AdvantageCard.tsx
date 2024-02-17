@@ -1,6 +1,4 @@
-import style from "./AdvantageCard.module.css"
 import {IconHeaderCard} from "@/types/cards";
-import Image from "next/image";
 import React from "react";
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -17,20 +15,19 @@ const AdvantageCard = ({card, classNames}: {
 }) => {
 
     const wrapperCV: ClassValue[] = [
-        "col-span-3 p-[30px] rounded-xl bg-bg-light-blue flex",
-        "flex-col gap-[15px] hoverable pointer", classNames?.wrapper
+        "sm:col-span-3 col-span-1 sm:p-[30px] p-6 rounded-xl bg-bg-light-blue flex",
+        "flex-col gap-3 sm:gap-[15px] hoverable pointer", classNames?.wrapper
     ]
 
     return (
         <div className={cn(wrapperCV)}>
-            <Image
+            <img
+                className={"w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] object-fill"}
                 src={card.icon} alt={'/'}
-                className={"w-[30px] h-[30px] object-fill"} width={40}
-                height={40} quality={100}
             />
             <Text
+                className={cn("text-black text-[14px] font-medium", classNames?.text)}
                 text={card.header}
-                className={cn("text-black text-base", classNames?.text)}
             />
         </div>
     )

@@ -1,5 +1,3 @@
-import style from "./WaterCoolerBlock.module.css"
-
 import WaterCoolerImage from "@/public/images/water-cooler-image.png"
 
 import WaterdropLineIcon from "@/public/icons/waterdrop-line-icon.png"
@@ -10,20 +8,20 @@ import AtomLineIcon from "@/public/icons/atom-line-icon.png"
 import Image from "next/image";
 import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
 import TextLg from "@/components/atoms/text/text-lg/TextLg";
-import {HeaderDesrcType} from "@/types/dto/text";
+import {HeaderDescription} from "@/types/dto/text";
 import {waterCoolerBlockData} from "@/data/waterCoolerBlockData";
 
 const DescrCol = (
-    {header, descr, top, left}:
-        HeaderDesrcType & { top: number, left: number }
+    {header, description, top, left}:
+        HeaderDescription & { top: number, left: number }
 ) => {
     return (
         <div
             style={{top: top, left: left}}
-            className={style.headerDescrCol}
+            className={"absolute w-[350px] flex flex-col gap-[15px]"}
         >
             <Text2XL text={header}/>
-            <TextLg text={descr}/>
+            <TextLg text={description}/>
         </div>
     )
 }
@@ -31,25 +29,25 @@ const DescrCol = (
 const WaterCoolerBlock = () => {
 
     return (
-        <div className={style.wrapper}>
+        <div className={"hidden relative w-full sm:flex flex-col items-center"}>
 
             <Image src={WaterdropLineIcon.src} alt={'/'}
-                   className={style.waterdrop}
+                   className={"absolute object-fill z-10 left-[355px] top-[130px]"}
                    width={240} height={100} quality={100}
             />
 
             <Image src={AtomLineIcon.src} alt={'/'}
-                   className={style.atom}
+                   className={"absolute object-fill z-10 right-[342px] top-[230px]"}
                    width={160} height={100} quality={100}
             />
 
             <Image src={LeafLineIcon.src} alt={'/'}
-                   className={style.leaf}
+                   className={"absolute h-[110px] object-scale-down z-10 left-[310px] top-[375px]"}
                    width={200} height={80} quality={100}
             />
 
             <Image src={VirusLineIcon.src} alt={'/'}
-                   className={style.virus}
+                   className={"absolute object-fill z-10 right-[342px] bottom-[92px]"}
                    width={160} height={100} quality={100}
             />
 
@@ -65,7 +63,7 @@ const WaterCoolerBlock = () => {
             }
 
             <Image src={WaterCoolerImage.src} alt={'/'}
-                   className={style.coolerImage} width={500}
+                   className={"w-[545px] h-[700px] object-fill"} width={500}
                    height={160} quality={100}
             />
 

@@ -1,44 +1,35 @@
-import style from "./ProductPhotoSlider.module.css"
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
-import Image from "next/image";
 import {useEffect, useState} from "react";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 import {COLOR} from "@/components/colors";
 
-const MainPhotoCard = ({photo}: {
-    photo: string | StaticImport
-}) => {
+const MainPhotoCard = ({photo}: { photo: string }) => {
     return (
-        <Image
-            className={style.mainImage}
+        <img
+            className={"w-full h-[300px] object-scale-down rounded-xl"}
             src={photo} alt={'/'}
-            width={500} height={300}
-            quality={100}
         />
     )
 }
 
 const PhotoCard = ({photo, isActive, setActive}: {
-    photo: string | StaticImport,
+    photo: string,
     isActive: boolean,
-    setActive: (photo: string | StaticImport) => void
+    setActive: (photo: string) => void
 }) => {
     return (
-        <Image
-            onClick={() => setActive(photo)}
+        <img
+            className={"h-[100px] w-full rounded-xl border-light-gray object-fill border-[2px] hover:pointer"}
             style={{borderColor: isActive ? COLOR["light-gray"] : COLOR["white"]}}
-            className={style.image}
-            width={100} height={100}
+            onClick={() => setActive(photo)}
             src={photo} alt={'/'}
-            quality={100}
         />
     )
 }
 
-const PhotoSlider = ({photos, activePhoto, setActive} : {
-    photos: (string | StaticImport)[],
-    activePhoto: string | StaticImport,
-    setActive: (photo: string | StaticImport) => void
+const PhotoSlider = ({photos, activePhoto, setActive}: {
+    photos: string[],
+    activePhoto: string,
+    setActive: (photo: string) => void
 }) => {
 
     const orderArray: number[] = Array.from({length: photos.length}, (_, i) => i)
@@ -61,7 +52,7 @@ const PhotoSlider = ({photos, activePhoto, setActive} : {
     }, [photosOrder])
 
     return (
-        <div className={style.sliderRow}>
+        <div className={"w-full flex flex-row items-center gap-[10px]"}>
 
             <FiChevronLeft
                 size={"20px"}
@@ -69,7 +60,7 @@ const PhotoSlider = ({photos, activePhoto, setActive} : {
                 onClick={() => shiftLeft()}
             />
 
-            <div className={style.imageRow}>
+            <div className={"flex flex-row gap-[10px]"}>
                 {
                     photosOrder.slice(0, 4).map((index) => {
                         return <ProductPhotoSlider.PhotoCard
@@ -92,18 +83,18 @@ const PhotoSlider = ({photos, activePhoto, setActive} : {
 }
 
 const ProductPhotoSlider = ({photos, activePhoto, setActive}: {
-    photos: (string | StaticImport)[],
-    activePhoto: string | StaticImport,
-    setActive: (photo: string | StaticImport) => void
+    photos: string[],
+    activePhoto: string,
+    setActive: (photo: string) => void
 }) => {
 
     return (
-        <div className={style.imageCol}>
-            <ProductPhotoSlider.MainPhotoCard photo={activePhoto} />
+        <div className={"hidden col-span-5 sm:flex flex-col gap-[20px]"}>
+            <ProductPhotoSlider.MainPhotoCard photo={activePhoto}/>
             <ProductPhotoSlider.PhotoSlider
-                photos={photos}
                 activePhoto={activePhoto}
                 setActive={setActive}
+                photos={photos}
             />
         </div>
     )

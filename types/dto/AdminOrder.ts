@@ -11,6 +11,7 @@ export type AdminOrder = {
     totalPrice: number,
     creationDate ?: string,
     creationTime ?: string,
-    deliveryPrice ?: number
+    deliveryPrice ?: number,
+    bankName ?: string,
     customer : Customer
 }

@@ -1,13 +1,13 @@
 .textCol {
 
-    @apply col-span-6 flex flex-col gap-[30px];
+    @apply ;
 
     .iconHeaderRow {
 
-        @apply w-full flex flex-row items-center gap-[30px];
+        @apply ;
 
         .icon {
-            @apply w-[40px] h-[40px] object-fill;
+            @apply ;
         }
 
     }

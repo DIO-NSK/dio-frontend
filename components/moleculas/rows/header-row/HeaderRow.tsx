@@ -20,8 +20,8 @@ const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRow
     const handleBackClick = () => router.back()
 
     const wrapperCV: ClassValue[] = [
-        "col-span-full h-fit flex flex-row items-center justify-between",
-        {"mx-[-28px] px-7 pb-7 border-b-2 border-light-gray": theme == "bordered"},
+        "w-full sm:col-span-full flex flex-row items-center justify-between",
+        {"sm:mx-[-28px] sm:px-7 pb-7 border-b-2 border-light-gray": theme == "bordered"},
         props.className,
     ]
 
@@ -38,12 +38,12 @@ const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRow
                     }
                     <Text
                         text={props.header}
-                        className={"text-[24px] font-medium"}
+                        className={"text-[20px] sm:text-[24px] font-medium"}
                     />
                 </div>
                 {
                     typeof props.leftContent == "string"
-                        ? <Text text={props.leftContent} className={"text-base text-text-gray"}/>
+                        ? <Text text={props.leftContent} className={"text-[14px] sm:text-base text-text-gray"}/>
                         : props.leftContent
                 }
             </div>

@@ -8,7 +8,7 @@ export const advantagesCardData : IconHeaderCard[] = [
         header : "Многолетний опыт работы"
     }, {
         icon : MockIcon.src,
-        header : "Совершенствование технологий"
+        header : "Улучшение технологий"
     }, {
         icon : MockIcon.src,
         header : "Доставка без выходных дней"

@@ -1,7 +1,7 @@
 "use client"
 
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import {HeaderDesrcType, TextLink} from "@/types/dto/text";
+import {HeaderDescription, TextLink} from "@/types/dto/text";
 import BreadCrumbs from "@/components/atoms/breadcrumbs/Breadcrumbs";
 import Text from "@/components/atoms/text/text-base/Text";
 import {ClassValue} from "clsx";
@@ -11,14 +11,14 @@ import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInf
 
 const TimeColumn = () => {
 
-    const timeData: HeaderDesrcType[] = [
-        {header: "Раннее утро", descr: "07:00 — 09:00"},
-        {header: "Утро", descr: "10:00 — 12:00"},
-        {header: "До обеда", descr: "12:00 — 14:00"},
-        {header: "В обед", descr: "14:00 — 16:00"},
-        {header: "После обеда", descr: "16:00 — 18:00"},
-        {header: "Ранним вечером", descr: "18:00 — 20:00"},
-        {header: "Поздним вечером", descr: "20:00 — 22:00"},
+    const timeData: HeaderDescription[] = [
+        {header: "Раннее утро", description: "07:00 — 09:00"},
+        {header: "Утро", description: "10:00 — 12:00"},
+        {header: "До обеда", description: "12:00 — 14:00"},
+        {header: "В обед", description: "14:00 — 16:00"},
+        {header: "После обеда", description: "16:00 — 18:00"},
+        {header: "Ранним вечером", description: "18:00 — 20:00"},
+        {header: "Поздним вечером", description: "20:00 — 22:00"},
     ]
 
     return (
@@ -33,7 +33,7 @@ const TimeColumn = () => {
                     return (
                         <div className={cn("w-full flex flex-row items-baseline justify-between", itemCV)}>
                             <Text text={item.header} className={"text-text-gray"}/>
-                            <Text text={item.descr} className={"text-black"}/>
+                            <Text text={item.description} className={"text-black"}/>
                         </div>
                     )
 

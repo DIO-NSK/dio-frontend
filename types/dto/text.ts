@@ -1,7 +1,9 @@
+import React from "react";
 
 export type Text = { text : string }
 export type TextLink = { link : string } & Text
 export type TextAction = { action : () => void } & Text
+export type IconTextAction = {icon : React.ReactNode} & TextAction
 
 export type InformationBlock = {
     blockHeader ?: string,
@@ -13,11 +15,15 @@ type InformationBlockContent = {
     itemContent : string[]
 }
 
+export type InfoBlockElement = {
+    className?: string
+} & HeaderDescription
+
 export type Text2XLTypes = {
     isUppercase?: boolean
 }
 
-export type HeaderDesrcType = {
+export type HeaderDescription = {
     header: string,
-    descr: string
+    description: string
 }

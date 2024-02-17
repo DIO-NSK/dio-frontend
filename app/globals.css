@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  @apply w-full h-screen bg-white overflow-x-hidden;
+  @apply w-screen h-screen bg-white overflow-x-hidden;
 }
 
 .pointer {
@@ -18,6 +18,11 @@
   @apply text-text-gray hover:text-gray-600 hoverable;
 }
 
+
 .red-text {
   @apply text-info-red hover:text-red-700 hoverable;
+}
+
+.mobileFooterRow {
+  @apply w-full flex pb-7 border-b-2 border-light-gray;
 }

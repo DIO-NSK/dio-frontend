@@ -11,7 +11,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 import {cn} from "@/utlis/cn";
 import OrderPageHeaderBlock from "@/components/wrappers/order-page-header-block/OrderPageHeaderBlock";
 import {convertStatusToText} from "@/utlis/convertStatusToText";
-import {HeaderDesrcType} from "@/types/dto/text";
+import {HeaderDescription} from "@/types/dto/text";
 import {ShoppingCartProductCardDTO} from "@/types/dto/cards/ProductCard";
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
 import {mockShoppingCartProducts} from "@/data/shoppingCartProducts";
@@ -20,7 +20,7 @@ import {ShoppingCartServiceCardDTO} from "@/types/dto/cards/ServiceCard";
 import ShoppingCartServiceCard from "@/components/organisms/cards/shopping-cart-service-card/ShoppingCartServiceCard";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 
-const OrderPageDataGrid = ({dataGrid}: { dataGrid: HeaderDesrcType[] }) => {
+const OrderPageDataGrid = ({dataGrid}: { dataGrid: HeaderDescription[] }) => {
 
     const rowCV = [
         "mx-[-28px] px-7 w-full flex flex-row gap-5 pb-7",
@@ -32,13 +32,13 @@ const OrderPageDataGrid = ({dataGrid}: { dataGrid: HeaderDesrcType[] }) => {
     return (
         <>
             {
-                Array.from({length: Math.round(dataGrid.length / BLOCK_SIZE)}, (_, rowIndex) =>
-                    <div key={rowIndex} className={cn(rowCV)}>
+                Array.from({length: Math.round(dataGrid.length / BLOCK_SIZE)}, (_, blockIndex) =>
+                    <div key={blockIndex} className={cn(rowCV)}>
                         {
-                            dataGrid.slice(rowIndex * BLOCK_SIZE, (rowIndex + 1) * BLOCK_SIZE).map((rowItem, rowIndex) =>
-                                <div className={"w-full flex flex-col gap-2"}>
+                            dataGrid.slice(blockIndex * BLOCK_SIZE, (blockIndex + 1) * BLOCK_SIZE).map((rowItem, rowIndex) =>
+                                <div className={"w-full flex flex-col gap-2"} key={rowIndex}>
                                     <Text text={rowItem.header} className={"text-text-gray"}/>
-                                    <Text text={rowItem.descr}/>
+                                    <Text text={rowItem.description}/>
                                 </div>
                             )
                         }
@@ -142,11 +142,11 @@ const OrderPageProductBlock = () => {
     const [isOpen, setOpen] = useState<boolean>(true)
     const handleSwitchOpenState = () => setOpen(!isOpen)
 
-    const productInfo: HeaderDesrcType[] = [
-        {header: "Количество товаров", descr: `${mockOrder.products.length} шт.`},
-        {header: "Адрес доставки", descr: `ул. Никитина, д. 64, кв. 27`},
-        {header: "Дата доставки", descr: mockOrder.deliveryDate},
-        {header: "Время доставки", descr: "19:00 — 21:00"},
+    const productInfo: HeaderDescription[] = [
+        {header: "Количество товаров", description: `${mockOrder.products.length} шт.`},
+        {header: "Адрес доставки", description: `ул. Никитина, д. 64, кв. 27`},
+        {header: "Дата доставки", description: mockOrder.deliveryDate},
+        {header: "Время доставки", description: "19:00 — 21:00"},
     ]
 
     return (

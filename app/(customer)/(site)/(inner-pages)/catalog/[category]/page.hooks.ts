@@ -1,26 +1,25 @@
 import {SelectItem} from "@/types/props/SelectItem";
 import {useState} from "react";
+import {useRouter} from "next/navigation";
 
 export const useCatalogPage = () => {
 
-    const mockDropdownText = [
-        "По возрастанию цены",
-        "По убыванию цены",
-        "По названию (А-Я)"
+    const router = useRouter()
+
+    const selectItems: SelectItem<string>[] = [
+        {name: "По возрастанию цены", value: "price_asc"},
+        {name: "По убыванию цены", value: "price_desc"},
+        {name: "По названию (А-Я)", value: "name"}
     ]
 
-    const createItemList = (): SelectItem[] => {
-        return mockDropdownText.map((text) => {
-            return {text: text, isSelected: false}
-        })
-    }
+    const [itemList] = useState<SelectItem<string>[]>(selectItems)
+    const [selectedItem, selectItem] = useState<SelectItem<string>>(itemList[0])
 
-    const initItemList = createItemList()
-    const [itemList] = useState<SelectItem[]>(initItemList)
-    const [selectedItem, selectItem] = useState<SelectItem>(itemList[0])
+    const handleFiltersClick = () => router.push("/filters")
 
     return {
-        selectInput : {selectItem, itemList, selectedItem}
+        selectInput: {selectItem, itemList, selectedItem},
+        handleFiltersClick
     }
 
 }

@@ -1,4 +1,3 @@
-import style from "./WaterCard.module.css"
 import {FiChevronRight} from "react-icons/fi";
 import {WaterCardDTO} from "@/types/cards";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -10,16 +9,16 @@ type WaterCardType = {
 
 const WaterCard = ({waterCard}: WaterCardType) => {
     return (
-        <div className={style.wrapper}>
-            <div className={style.container}>
+        <div className={"sm:w-full sm:col-span-3 flex flex-col sm:gap-[20px]"}>
+            <div className={"flex items-center justify-center w-full h-[100px] sm:h-[300px] rounded-xl bg-bg-light-blue"}>
                 <img
                     src={waterCard.image}
-                    className={style.image}
+                    className={"p-3 sm:p-10 w-full h-full object-scale-down"}
                     alt={'/'}
                 />
             </div>
             <div
-                className={style.headerRow}
+                className={"hidden sm:flex flex-row gap-[10px] items-center"}
                 onClick={() => console.log(waterCard.textLink.link)}
             >
                 <Text

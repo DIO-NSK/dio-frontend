@@ -23,7 +23,8 @@ export const adminOrderTableItem: AdminOrder = {
         name: "Артём Третьяков",
         phoneNumber: "+7 (913) 939-11-94",
         email : "tretiakovvvvv@gmail.com"
-    }
+    },
+    bankName : "Alfa-Bank"
 }
 
 export const adminOrderTableRow: TableRow<AdminOrder> = {item: {...adminOrderTableItem, testId: 0}}

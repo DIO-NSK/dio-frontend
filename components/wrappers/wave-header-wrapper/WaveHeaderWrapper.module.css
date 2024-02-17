@@ -1,9 +1,0 @@
-.wrapper {
-
-    @apply w-full flex flex-col gap-[80px] items-center;
-
-    .content {
-        @apply flex flex-col gap-[80px];
-    }
-
-}

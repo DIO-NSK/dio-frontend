@@ -1,4 +1,3 @@
-import style from "./DescriptionCol.module.css"
 import LinesEllipsis from "react-lines-ellipsis";
 import React, {useState} from "react";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -8,7 +7,7 @@ const DescriptionCol = ({text}: { text: string }) => {
     const [isExpanded, setExpanded] = useState<boolean>(false)
 
     return (
-        <div className={style.wrapper}>
+        <div className={"col-span-4 flex flex-col gap-2 sm:gap-[15px]"}>
             {
                 isExpanded ? <Text text={text}/>
                     : <LinesEllipsis

@@ -1,12 +1,13 @@
 import React from "react";
 
 export type ButtonTypes = {
-    text: string,
+    text?: string,
     onClick: () => void,
     icon?: React.ReactNode,
     classNames?: ButtonClassnames,
     buttonType?: ButtonType,
-    size ?: ButtonSize
+    size ?: ButtonSize,
+    disabled ?: boolean
 }
 
 type ButtonType = "PRIMARY" | "SECONDARY"

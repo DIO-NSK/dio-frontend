@@ -1,5 +1,3 @@
-import style from "./CatalogHeaderCol.module.css"
-import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
 import Text from "@/components/atoms/text/text-base/Text";
 import {TextLink} from "@/types/dto/text";
 import Breadcrumbs from "@/components/atoms/breadcrumbs/Breadcrumbs";
@@ -12,11 +10,11 @@ type CatalogHeaderCol = {
 
 const CatalogHeaderCol = ({text, amount, breadcrumbs} : CatalogHeaderCol) => {
     return (
-        <div className={style.wrapper}>
+        <div className={"w-full px-5 sm:px-[100px] sm:col-span-full flex flex-col gap-1 sm:gap-[10px]"}>
             <Breadcrumbs breadcrumbs={breadcrumbs} />
-            <div className={style.headerRow}>
-                <Text2XL text={text} />
-                <Text text={`Всего ${amount}`} className={"text-text-gray"}/>
+            <div className={"w-full flex flex-row items-baseline gap-[10px]"}>
+                <Text text={text} className={"text-[20px] sm:text-[24px] font-semibold"}/>
+                <Text text={`Всего ${amount}`} className={"text-[14px] sm:text-base text-text-gray"}/>
             </div>
         </div>
     )

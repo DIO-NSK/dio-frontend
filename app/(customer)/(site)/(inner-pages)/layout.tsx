@@ -4,7 +4,7 @@ const InnerPagesLayout = ({children}: {
     children: React.ReactNode
 }) => {
     return (
-        <div className={"w-full mt-[10px] grid grid-cols-12 gap-x-[30px] gap-y-[30px]"}>
+        <div className={"w-full sm:mt-[10px] sm:grid sm:grid-cols-12 sm:gap-x-[30px] sm:gap-y-[30px]"}>
             {children}
         </div>
     )

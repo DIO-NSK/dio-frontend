@@ -49,7 +49,7 @@ const Searchbar = () => {
     const {...searchbarContext} = useSearchbar()
 
     const wrapperCV: ClassValue[] = [
-        "w-full px-[100px] py-4 bg-white flex flex-row items-center gap-[30px]",
+        "hidden w-full px-[100px] py-4 bg-white sm:flex flex-row items-center gap-[30px]",
         "sticky top-[0px] z-30"
     ]
 

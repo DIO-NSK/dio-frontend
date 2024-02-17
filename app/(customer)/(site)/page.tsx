@@ -12,13 +12,13 @@ import ProductImage5 from "@/public/images/product-image-5.png"
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
 import HeroSliderRow from "@/components/organisms/hero-slider-row/HeroSliderRow";
-import WaterCard, {WaterCardDTO} from "@/components/organisms/cards/water-card/WaterCard";
+import WaterCard from "@/components/organisms/cards/water-card/WaterCard";
 import ServiceCard from "@/components/organisms/cards/service-card/ServiceCard";
 import BannerCard from "@/components/organisms/cards/banner-card/BannerCard";
 import HeaderGroup from "@/components/wrappers/header-group/HeaderGroup";
 import PageWrapper from "@/components/wrappers/page-wrapper/PageWrapper";
 import SaleCard from "@/components/organisms/cards/sale-card/SaleCard";
-import {ImageHeaderDescrCard} from "@/types/cards";
+import {ImageHeaderDescrCard, WaterCardDTO} from "@/types/cards";
 import {bonusCardData} from "@/data/bonusCardData";
 import BonusCard from "@/components/organisms/cards/bonus-card/BonusCard";
 import WaveHeaderWrapper from "@/components/wrappers/wave-header-wrapper/WaveHeaderWrapper";
@@ -27,6 +27,9 @@ import AdvantageCard from "@/components/organisms/cards/advantage-card/Advantage
 import {advantagesCardData} from "@/data/advantagesCardData";
 import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/WaterCoolerBlock";
 import {mockCardArray} from "@/data/productCardData";
+import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
+import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
+import React from "react";
 
 const MainPageScreen = () => {
 
@@ -34,7 +37,7 @@ const MainPageScreen = () => {
         image: MockWaterImage.src,
         textLink: {
             text: "Вода «Evian»",
-            path: "/mock-path"
+            link: "/mock-path"
         }
     }
 
@@ -51,27 +54,29 @@ const MainPageScreen = () => {
         "Сервисное обслуживание пурифаеров",
     ]
 
-    const mockSaleCardArray : ImageHeaderDescrCard[] = [
+    const mockSaleCardArray: ImageHeaderDescrCard[] = [
         {
-            header : "Бесплатно",
-            descr : "Минеральная вода «DIO»",
-            image : MockSaleImage1
+            header: "Бесплатно",
+            descr: "Минеральная вода «DIO»",
+            image: MockSaleImage1.src
         }, {
-            header : "Скидки до 50%",
-            descr : `Для детских учреждений`,
-            image : MockSaleImage2
+            header: "Скидки до 50%",
+            descr: `Для детских учреждений`,
+            image: MockSaleImage2.src
         }, {
-            header : "Бесплатное",
-            descr : "Обслуживание при покупке кулера",
-            image : MockSaleImage3
+            header: "Бесплатное",
+            descr: "Обслуживание при покупке кулера",
+            image: MockSaleImage3.src
         },
-
     ]
 
     return (
         <>
             <PageWrapper>
+
+                <MobilePhotoSlider/>
                 <HeroSliderRow/>
+
                 <SliderGroup header={"Товары по акции"}>
                     {
                         mockCardArray.map((productCard) => {
@@ -79,13 +84,28 @@ const MainPageScreen = () => {
                         })
                     }
                 </SliderGroup>
-                <SliderGroup header={"Наши воды"}>
+
+                <section className={"w-full hidden sm:flex"}>
+                    <SliderGroup header={"Наши воды"}>
+                        {
+                            mockWaterCardList.map((waterCard) => {
+                                return <WaterCard waterCard={waterCard}/>
+                            })
+                        }
+                    </SliderGroup>
+                </section>
+
+                <MobileHeaderWrapper
+                    header={"Наши воды"}
+                    textLink={{text: "Смотреть все", link: "/our-waters"}}
+                >
                     {
                         mockWaterCardList.map((waterCard) => {
                             return <WaterCard waterCard={waterCard}/>
                         })
                     }
-                </SliderGroup>
+                </MobileHeaderWrapper>
+
                 <HeaderGroup header={"Попробуйте наши услуги"}>
                     {
                         serviceDataList.map((item, index) => {
@@ -95,39 +115,71 @@ const MainPageScreen = () => {
                         })
                     }
                 </HeaderGroup>
-                <SliderGroup header={"Акции и предложения"}>
+
+                <section className={"w-full hidden sm:flex"}>
+                    <SliderGroup header={"Акции и предложения"}>
+                        {
+                            mockSaleCardArray.map((saleCard) => {
+                                return <SaleCard saleCard={saleCard}/>
+                            })
+                        }
+                    </SliderGroup>
+                </section>
+
+                <MobileHeaderWrapper
+                    header={"Акции и предложения"}
+                    textLink={{text: "Смотреть все", link: "/our-waters"}}
+                    className={"w-full pr-5 flex flex-col gap-3"}
+                >
                     {
                         mockSaleCardArray.map((saleCard) => {
-                            return <SaleCard saleCard={saleCard} />
+                            return <SaleCard saleCard={saleCard}/>
                         })
                     }
-                </SliderGroup>
+                </MobileHeaderWrapper>
+
                 <HeaderGroup
                     header={"Бонусная программа"}
-                    textLink={{text : "Подробнее о программе", path : "/bonuses"}}
+                    textLink={{text: "Подробнее", path: "/bonuses"}}
                 >
                     {
                         bonusCardData.map((bonusCard) => {
-                            return <BonusCard bonusCard={bonusCard} />
+                            return <BonusCard bonusCard={bonusCard}/>
                         })
                     }
                 </HeaderGroup>
-                <WaveHeaderWrapper header={"Почему нам доверяют"} />
+
+                <WaveHeaderWrapper header={"Почему нам доверяют"}/>
+
                 <SliderGroup header={"Посмотрите на наше производство"}>
-                    <ContentImage image={ProductImage4.src} />
-                    <ContentImage image={ProductImage5.src} />
+                    <ContentImage image={ProductImage4.src} className={"w-[80vw] sm:w-full"}/>
+                    <ContentImage image={ProductImage5.src} className={"w-[80vw] sm:w-full"}/>
                 </SliderGroup>
-                <HeaderGroup header={"Наши преимущества"}>
+
+                <section className={"w-full hidden sm:flex"}>
+                    <HeaderGroup header={"Наши преимущества"}>
+                        {
+                            advantagesCardData.map((card) => {
+                                return <AdvantageCard card={card}/>
+                            })
+                        }
+                    </HeaderGroup>
+                </section>
+
+                <MobileHeaderWrapper
+                    header={"Наши преимущества"}
+                    className={"w-full pr-5 grid grid-cols-2 gap-3"}
+                >
                     {
                         advantagesCardData.map((card) => {
-                            return <AdvantageCard card={card} />
+                            return <AdvantageCard card={card}/>
                         })
                     }
-                </HeaderGroup>
-                <WaterCoolerBlock />
+                </MobileHeaderWrapper>
+
+                <WaterCoolerBlock/>
             </PageWrapper>
         </>
-
     )
 }
 

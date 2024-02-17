@@ -1,4 +1,3 @@
-import style from "./HeroSliderRow.module.css"
 import ImageBannerSlider from "@/components/moleculas/sliders/image-banner-slider/ImageBannerSlider";
 import MockBannerImage1 from "@/public/images/banner-image-1.png";
 import MockBannerImage2 from "@/public/images/banner-image-2.jpg";
@@ -31,7 +30,7 @@ const HeroSliderRow = () => {
     }
 
     return (
-        <div className={style.wrapper}>
+        <div className={"hidden col-span-full sm:grid grid-cols-12 gap-[20px]"}>
             <ImageBannerSlider banners={mockBannerArray} />
             <ProductCard productCard={mockProductCard} />
         </div>

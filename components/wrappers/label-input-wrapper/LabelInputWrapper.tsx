@@ -1,4 +1,3 @@
-import style from "./LabelInputWrapper.module.css"
 import TextM from "@/components/atoms/text/text-m/TextM";
 import React, {useState} from "react";
 import ChevronButton, {ChevronButtonType} from "@/components/atoms/buttons/chevron-button/ChevronButton";
@@ -12,7 +11,7 @@ type LabelInputWrapperType = LabelRowType
 
 const LabelRow = ({header, isExpanded, setExpanded}: { header : string } & ChevronButtonType) => {
     return (
-        <div className={style.labelRow}>
+        <div className={"w-full flex flex-row justify-between items-center"}>
             <TextM text={header}/>
             <ChevronButton
                 isExpanded={isExpanded}
@@ -27,7 +26,7 @@ const LabelInputWrapper = (props: LabelInputWrapperType) => {
     const [isExpanded, setExpanded] = useState(true)
 
     return (
-        <div className={style.wrapper}>
+        <div className={"w-full flex flex-col gap-[20px] pb-7 border-b-2 border-light-gray"}>
             <LabelInputWrapper.LabelRow
                 header={props.header}
                 isExpanded={isExpanded}

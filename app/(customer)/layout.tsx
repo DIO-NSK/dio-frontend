@@ -4,11 +4,11 @@ import Searchbar from "@/components/organisms/bars/searchbar/Searchbar";
 
 const CustomerLayout = ({children}: { children: React.ReactNode }) => {
     return (
-        <section>
+        <>
             <Navbar/>
             <Searchbar/>
             {children}
-        </section>
+        </>
     );
 };
 

@@ -1,14 +1,13 @@
 .wrapper {
 
-    @apply col-span-4 flex flex-col p-[40px] rounded-xl border-[2px]
-    border-light-gray bg-bg-light-blue;
+    @apply ;
 
     .infoCol {
-        @apply w-full flex flex-col gap-[10px];
+        @apply ;
     }
 
 }
 
 .wrapper:hover {
-    @apply bg-white border-[2px] border-light-gray cursor-pointer;
+    @apply ;
 }

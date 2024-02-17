@@ -1,12 +1,10 @@
-import style from "./ContentImage.module.css"
-import Image from "next/image"
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
+import {cn} from "@/utlis/cn";
 
-export const ContentImage = ({image}: { image: string | StaticImport }) => {
+export const ContentImage = ({image, className}: { image: string, className ?: string}) => {
     return (
-        <Image src={image} alt={'/'}
-               className={style.image} width={500}
-               height={300} quality={100}
+        <img
+            className={cn("w-full sm:col-span-6 h-[200px] sm:h-[300px] object-cover rounded-xl", className)}
+            src={image} alt={'/'}
         />
     )
 }

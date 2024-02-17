@@ -4,7 +4,7 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import {convertStatusToText} from "@/utlis/convertStatusToText";
-import {HeaderDesrcType} from "@/types/dto/text";
+import {HeaderDescription} from "@/types/dto/text";
 import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconTextButton";
 import {FiRefreshCw} from "react-icons/fi";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -43,11 +43,11 @@ const InformationBlock = ({order}: { order: Order }) => {
         "pb-5 border-b-2 border-light-gray"
     ]
 
-    const informationGridData: HeaderDesrcType[] = [
-        {header: "Количество товаров", descr: `${order.products.length} шт.`},
-        {header: "Адрес доставки", descr: order.address},
-        {header: "Дата доставки", descr: order.deliveryDate},
-        {header: "Время доставки", descr: order.deliveryTime},
+    const informationGridData: HeaderDescription[] = [
+        {header: "Количество товаров", description: `${order.products.length} шт.`},
+        {header: "Адрес доставки", description: order.address},
+        {header: "Дата доставки", description: order.deliveryDate},
+        {header: "Время доставки", description: order.deliveryTime},
     ]
 
     return (
@@ -56,7 +56,7 @@ const InformationBlock = ({order}: { order: Order }) => {
                 informationGridData.map((item, key) =>
                     <div className={cn(itemCV)} key={key}>
                         <Text text={item.header} className={"text-text-gray"}/>
-                        <Text text={item.descr}/>
+                        <Text text={item.description}/>
                     </div>
                 )
             }

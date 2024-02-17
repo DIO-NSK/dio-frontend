@@ -1,7 +1,7 @@
 "use client"
 
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import {HeaderDesrcType, TextLink} from "@/types/dto/text";
+import {HeaderDescription, TextLink} from "@/types/dto/text";
 import BreadCrumbs from "@/components/atoms/breadcrumbs/Breadcrumbs";
 import Text from "@/components/atoms/text/text-base/Text";
 import {ClassValue} from "clsx";
@@ -10,11 +10,11 @@ import {FiMail, FiMapPin} from "react-icons/fi";
 
 const PhoneColumn = () => {
 
-    const phoneData: HeaderDesrcType[] = [
-        {header: "Билайн", descr: "+7 (383) 255-99-00"},
-        {header: "МегаФон", descr: "+7 (923) 775-99-00"},
-        {header: "TELE2", descr: "+7 (383) 381-99-00"},
-        {header: "МТС", descr: "+7 (913) 788-99-00"},
+    const phoneData: HeaderDescription[] = [
+        {header: "Билайн", description: "+7 (383) 255-99-00"},
+        {header: "МегаФон", description: "+7 (923) 775-99-00"},
+        {header: "TELE2", description: "+7 (383) 381-99-00"},
+        {header: "МТС", description: "+7 (913) 788-99-00"},
     ]
 
     const itemCV: ClassValue = "flex flex-row items-baseline justify-between"
@@ -36,7 +36,7 @@ const PhoneColumn = () => {
                         return (
                             <div className={cn(itemCV, borderCV)}>
                                 <Text text={item.header} className={"text-text-gray"}/>
-                                <Text text={item.descr} className={"text-black"}/>
+                                <Text text={item.description} className={"text-black"}/>
                             </div>
                         )
                     })

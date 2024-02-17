@@ -4,12 +4,19 @@ import {TextLink} from "@/types/dto/text";
 import Text from "@/components/atoms/text/text-base/Text";
 import {FiChevronRight} from "react-icons/fi";
 import {useRouter} from "next/navigation";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
 
 const BreadCrumbs = ({breadcrumbs}: {
     breadcrumbs: TextLink[]
 }) => {
 
     const router = useRouter()
+
+    const textCV : ClassValue[] = [
+        "text-[14px] sm:text-base whitespace-nowrap text-text-gray",
+        "hover:text-link-blue hoverable pointer"
+    ]
 
     return (
         <div className={"flex flex-row items-center gap-[5px]"}>
@@ -18,7 +25,7 @@ const BreadCrumbs = ({breadcrumbs}: {
                     return <div className={"flex flex-row items-center gap-[5px]"}>
                         <Text
                             text={item.text}
-                            className={"whitespace-nowrap text-text-gray hover:text-link-blue hoverable pointer"}
+                            className={cn(textCV)}
                             onClick={() => router.push(item.link)}
                         />
                         {
@@ -32,6 +39,7 @@ const BreadCrumbs = ({breadcrumbs}: {
             }
         </div>
     )
+
 }
 
 export default BreadCrumbs

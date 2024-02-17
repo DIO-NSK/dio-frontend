@@ -8,7 +8,7 @@ type ButtonSliderTypes = {
 
 const ButtonSlider = ({onBackClick, onNextClick} : ButtonSliderTypes) => {
     return (
-        <div className={"flex flex-row items-center gap-[20px]"}>
+        <div className={"hidden sm:flex flex-row items-center gap-[20px]"}>
             <SlideButton
                 side={Side["LEFT"]}
                 onClick={onBackClick}

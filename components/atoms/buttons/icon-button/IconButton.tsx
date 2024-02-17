@@ -1,20 +1,19 @@
-
-import Image from "next/image";
-import {StaticImport} from "next/dist/shared/lib/get-img-props";
+import {cn} from "@/utlis/cn";
 
 type IconButtonTypes = {
-    src : string | StaticImport,
-    size: number,
-    onClick : () => void
+    src : string,
+    onClick : () => void,
+    className ?: string
 }
-const IconButton = ({src, size, onClick} : IconButtonTypes) => {
+
+const IconButton = ({src, onClick, className = "w-6 h-6"} : IconButtonTypes) => {
     return (
-        <Image
-            className={"pointer hover:link-blue"}
-            src={src} alt={'/'}
-            width={size} height={size}
-            quality={100} onClick={onClick}
-        />
+        <button onClick={onClick}>
+            <img
+                className={cn("pointer hover:link-blue", className)}
+                src={src} alt={'/'}
+            />
+        </button>
     )
 }
 
