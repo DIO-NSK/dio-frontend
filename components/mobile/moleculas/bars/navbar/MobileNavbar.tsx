@@ -5,6 +5,7 @@ import DIOLogoSmall from "@/components/atoms/svg/dio-logo-small/DIOLogoSmall";
 import {usePathname, useRouter} from "next/navigation";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
+import React from "react";
 
 const MobileNavbar = ({sticky = true}: { sticky?: boolean }) => {
 
@@ -12,12 +13,12 @@ const MobileNavbar = ({sticky = true}: { sticky?: boolean }) => {
     const router = useRouter()
 
     const handleMenuClick = () => {
-        if (pathname.includes("/menu")) router.back()
-        else router.push("/menu")
+        if (pathname.includes("/mobile/menu")) router.back()
+        else router.push("/mobile/menu")
     }
 
+    const handleCatalogClick = () => router.push("/mobile/menu/catalog")
     const handleLogoClick = () => router.push("/")
-    const handleSearchClick = () => router.push("/menu/catalog")
 
     const wrapperCV: ClassValue[] = [
         "z-20 sm:hidden w-full flex flex-row items-center px-5 bg-white",
@@ -26,19 +27,24 @@ const MobileNavbar = ({sticky = true}: { sticky?: boolean }) => {
     ]
 
     return (
-        <nav className={cn(wrapperCV)}>
-            <div onClick={handleMenuClick}>
-                {
-                    !pathname.includes("/menu")
-                        ? <FiMenu size={"18px"}/>
-                        : <FiX size={"18px"}/>
-                }
-            </div>
-            <div onClick={handleLogoClick}>
-                <DIOLogoSmall/>
-            </div>
-            <FiSearch size={"18px"} onClick={handleSearchClick}/>
-        </nav>
+        <>
+            <nav className={cn(wrapperCV)}>
+                <div onClick={handleMenuClick}>
+                    {
+                        !pathname.includes("/mobile/menu")
+                            ? <FiMenu size={"18px"}/>
+                            : <FiX size={"18px"}/>
+                    }
+                </div>
+                <div onClick={handleLogoClick}>
+                    <DIOLogoSmall/>
+                </div>
+                <FiSearch
+                    size={"18px"}
+                    onClick={handleCatalogClick}
+                />
+            </nav>
+        </>
     );
 
 };

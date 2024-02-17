@@ -5,7 +5,7 @@ import SearchInput from "@/components/atoms/inputs/search-input/SearchInput";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {FiGift, FiX} from "react-icons/fi";
 import {useRouter} from "next/navigation";
-import {useMobileMenuCatalogPage} from "@/app/(customer)/menu/catalog/page.hooks";
+import {useMobileMenuCatalogPage} from "@/app/(customer)/mobile/menu/catalog/page.hooks";
 import MobileCatalogMenu from "@/components/mobile/organisms/mobile-catalog-menu/MobileCatalogMenu";
 import Button from "@/components/atoms/buttons/button/Button";
 import MobileCatalogSearchingMenu

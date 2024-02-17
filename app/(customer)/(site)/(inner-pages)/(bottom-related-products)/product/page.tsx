@@ -20,14 +20,17 @@ import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/Mobile
 import Text from "@/components/atoms/text/text-base/Text";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
+import {useToggle} from "@/utlis/hooks/useToggle";
+import MobilePhotoGalleryPopup from "@/components/mobile/popups/photo-gallery-popup/MobilePhotoGalleryPopup";
+import Button from "@/components/atoms/buttons/button/Button";
 
 const ProductCardPage = () => {
 
-    const breadcrumbs : TextLink[] = [
-        {text : "Главная", link : "/"},
-        {text : "Каталог", link : "/catalog"},
-        {text : "Кулеры", link : "/catalog/coolers"},
-        {text : "HotFrost", link : "/catalog/coolers/hot-frost"},
+    const breadcrumbs: TextLink[] = [
+        {text: "Главная", link: "/"},
+        {text: "Каталог", link: "/catalog"},
+        {text: "Кулеры", link: "/catalog/coolers"},
+        {text: "HotFrost", link: "/catalog/coolers/hot-frost"},
     ]
 
     const mockPhotos = [
@@ -39,7 +42,7 @@ const ProductCardPage = () => {
 
     const [activePhoto, setActivePhoto] = useState<string>(mockPhotos[0])
 
-    const mockCharacteristics : ProductCharacteristic[] = [
+    const mockCharacteristics: ProductCharacteristic[] = [
         {name: "Размер коробки ш*в*г (мм)", value: "318*382*318"},
         {name: "Вес (брутто)", value: "2,40 кг"},
         {name: "Вес (нетто)", value: "1,40 кг"},
@@ -52,8 +55,17 @@ const ProductCardPage = () => {
         "будете использовать для заваривания горячих напитков, и вода комнатной температуры" +
         "для питья ее в первозданном виде."
 
+    const popupToggle = useToggle()
+    const handleAddProductClick = () => console.log("Product added!")
+
     return (
         <>
+
+            {
+                popupToggle.state && <MobilePhotoGalleryPopup
+                    onClose={popupToggle.toggleState}
+                />
+            }
 
             <CatalogHeaderCol
                 text={"Кулеры"}
@@ -61,9 +73,17 @@ const ProductCardPage = () => {
                 breadcrumbs={breadcrumbs}
             />
 
-            <InnerPageWrapper classNames={{mobileWrapper : "px-0"}}>
+            <Button
+                onClick={handleAddProductClick}
+                text={"Добавить в корзину"}
+                classNames={{button : "sm:hidden fixed z-10 w-[90vw] bottom-7 mx-5"}}
+            />
 
-                <MobilePhotoSlider/>
+            <InnerPageWrapper classNames={{mobileWrapper: "px-0"}}>
+
+                <div onClick={popupToggle.toggleState}>
+                    <MobilePhotoSlider/>
+                </div>
 
                 <div className={"sm:hidden flex flex-col gap-1 px-5"}>
                     <Text text={"Кулер Ecotronic M30-LXE"} className={"text-[20px] font-semibold"}/>
@@ -86,20 +106,20 @@ const ProductCardPage = () => {
                 />
 
                 <div className={"col-span-4 flex flex-col gap-5 px-5 sm:px-0"}>
-                    <CharacteristicList characteristics={mockCharacteristics} />
-                    <DescriptionCol text={mockCardDescription} />
+                    <CharacteristicList characteristics={mockCharacteristics}/>
+                    <DescriptionCol text={mockCardDescription}/>
                 </div>
 
-                <ProductPriceCard price={4700} oldPrice={5200} />
+                <ProductPriceCard price={4700} oldPrice={5200}/>
 
-                <div className={"col-span-9 h-[1px] mx-5 sm:mx-0 bg-light-gray"} />
+                <div className={"col-span-9 h-[1px] mx-5 sm:mx-0 bg-light-gray"}/>
 
                 <HeaderBlock header={"Описание товара"}>
-                    <DescriptionCol text={mockCardDescription} />
+                    <DescriptionCol text={mockCardDescription}/>
                 </HeaderBlock>
 
                 <HeaderBlock header={"Характеристики товара"}>
-                    <CharacteristicList characteristics={mockCharacteristics} />
+                    <CharacteristicList characteristics={mockCharacteristics}/>
                 </HeaderBlock>
 
             </InnerPageWrapper>

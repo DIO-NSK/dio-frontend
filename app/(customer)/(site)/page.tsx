@@ -30,6 +30,7 @@ import {mockCardArray} from "@/data/productCardData";
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
 import React from "react";
+import MobileNavbar from "@/components/mobile/moleculas/bars/navbar/MobileNavbar";
 
 const MainPageScreen = () => {
 

@@ -15,7 +15,7 @@ export const useCatalogPage = () => {
     const [itemList] = useState<SelectItem<string>[]>(selectItems)
     const [selectedItem, selectItem] = useState<SelectItem<string>>(itemList[0])
 
-    const handleFiltersClick = () => router.push("/filters")
+    const handleFiltersClick = () => router.push("/mobile/filters")
 
     return {
         selectInput: {selectItem, itemList, selectedItem},
