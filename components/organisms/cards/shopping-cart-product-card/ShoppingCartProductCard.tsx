@@ -20,7 +20,7 @@ const HeaderRow = ({card, ...props}: ShoppingCartProductCardProps) => {
     const trashCV: ClassValue = "hoverable pointer text-info-red hover:text-red-700"
 
     return (
-        <div className={"w-full flex flex-row items-center justify-between"}>
+        <div className={"hidden w-full sm:flex flex-row items-center justify-between"}>
             <Text text={card.header} className={"text-lg font-medium"}/>
             <div className={"flex flex-row items-center gap-7"}>
                 {
@@ -42,17 +42,44 @@ const HeaderRow = ({card, ...props}: ShoppingCartProductCardProps) => {
     )
 }
 
+const MobileHeaderRow = (props: ShoppingCartProductCardProps) => {
+    return (
+        <section className={"sm:hidden flex flex-col gap-1"}>
+            <div className={"flex flex-row items-baseline gap-2"}>
+                <Text text={`${props.card.price} ₽`} className={"text-lg text-link-blue font-semibold"}/>
+                {
+                    props.card.oldPrice && <Text
+                        text={`${props.card.oldPrice} ₽`}
+                        className={"text-text-gray"}
+                    />
+                }
+            </div>
+            <Text text={props.card.header}/>
+        </section>
+    )
+}
+
 const ShoppingCartProductCard = (props: ShoppingCartProductCardProps) => {
 
+    const imageCV: ClassValue[] = [
+        "w-[76px] h-[60px] rounded-lg object-cover",
+        "sm:w-[150px] sm:h-[90px] sm:rounded-xl"
+    ]
+
     return (
-        <div className={"w-full flex flex-row gap-5"}>
-            <img src={props.card.image as string} alt={"/"} className={"w-[150px] h-[90px] rounded-xl"}/>
+        <div className={"w-full flex flex-row gap-3 sm:gap-5"}>
+            <img src={props.card.image as string} alt={"/"} className={cn(imageCV)}/>
             <div className={"w-full flex flex-col"}>
                 <HeaderRow {...props}/>
-                <Text text={`Код товара ${props.card.productCode}`} className={"text-base text-text-gray"}/>
+                <MobileHeaderRow {...props}/>
+                <Text
+                    text={`Код товара ${props.card.productCode}`}
+                    className={"hidden sm:flex text-base text-text-gray"}
+                />
             </div>
         </div>
     );
+
 };
 
 export default ShoppingCartProductCard;

@@ -11,14 +11,24 @@ import React from "react";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {mockShoppingCartProducts} from "@/data/shoppingCartProducts";
+import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
+import {InfoBlockElement} from "@/types/dto/text";
 
 
 const ShoppingCartPage = () => {
 
+    const infoBlockData : InfoBlockElement[] = [
+        {header : "Количество", description : "2 шт."},
+        {header : "Скидка", description : "7249 ₽"},
+        {header : "Итого", description : "4700 ₽", className : "text-link-blue text-[20px] font-medium"},
+    ]
+
+    const handleSubmit = () => console.log("Cart is submitted!")
+
     return (
-        <InnerPageWrapper>
+        <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
             <HeaderRow header={"Корзина"} leftContent={"Всего 6"}/>
-            <div className={"col-span-9 pt-5 flex flex-col gap-[50px]"}>
+            <div className={"flex flex-col gap-3 sm:col-span-9 sm:-pt-5 sm:gap-7"}>
                 {
                     mockShoppingCartProducts.map((group) =>
                         <ShoppingCartGroupWrapper>
@@ -35,6 +45,11 @@ const ShoppingCartPage = () => {
                 amount={3}
                 discount={7429}
                 totalPrice={4700}
+            />
+            <MobileCartInfoBlock
+                infoBlockData={infoBlockData}
+                buttonText={"Перейти к оформлению"}
+                onSubmit={handleSubmit}
             />
         </InnerPageWrapper>
     );
