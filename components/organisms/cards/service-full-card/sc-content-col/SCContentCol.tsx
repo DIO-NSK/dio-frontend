@@ -1,7 +1,4 @@
-import style from "./SCContentCol.module.css"
 import Text from "@/components/atoms/text/text-base/Text";
-import TextM from "@/components/atoms/text/text-m/TextM";
-import {COLOR} from "@/components/colors";
 import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/ServiceBlockWrapper";
 
 const RentTimeBlock = ({rentTime}: {
@@ -11,9 +8,9 @@ const RentTimeBlock = ({rentTime}: {
         <ServiceBlockWrapper header={"Срок аренды"}>
             {
                 rentTime.map((item, index) => {
-                    return <div className={style.timeRow}>
-                        <Text text={item.name} color={COLOR["text-gray"]}/>
-                        <Text text={item.value + " ₽"} color={COLOR["text-gray"]}/>
+                    return <div className={"col-span-3 flex flex-row items-baseline justify-between"}>
+                        <Text text={item.name} className={"text-text-gray"}/>
+                        <Text text={item.value + " ₽"} className={"text-text-gray"}/>
                     </div>
                 })
             }
@@ -28,8 +25,8 @@ const AdditionalBlock = ({additional}: {
         <ServiceBlockWrapper header={"В стоимость включено"}>
             {
                 additional.map((item, index) => {
-                    return <div className={style.additionalRow}>
-                        <Text text={`0${index + 1}`} weight={"semibold"}/>
+                    return <div className={"w-full sm:col-span-full flex flex-row gap-[15px] items-start sm:items-center"}>
+                        <Text text={`0${index + 1}`} className={"font-semibold"}/>
                         <Text text={item}/>
                     </div>
                 })
@@ -43,7 +40,7 @@ const SCContentCol = ({rentTime, additional}: {
     additional: string[]
 }) => {
     return (
-        <div className={style.contentCol}>
+        <div className={"w-full flex flex-col gap-5"}>
             <SCContentCol.RentTimeBlock rentTime={rentTime}/>
             <SCContentCol.AdditionalBlock additional={additional}/>
         </div>

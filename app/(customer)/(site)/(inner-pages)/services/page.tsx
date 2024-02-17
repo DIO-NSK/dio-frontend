@@ -5,7 +5,7 @@ import ServiceFullCard from "@/components/organisms/cards/service-full-card/Serv
 
 const ServiceCatalogScreen = () => {
     return (
-        <div className={"col-span-9 flex flex-col gap-[20px] mb-[30px]"}>
+        <div className={"w-full sm:col-span-9 flex flex-col gap-5 mb-7"}>
             {
                 mockServiceCardArray.map((card) => {
                     return <ServiceFullCard card={card} />

@@ -1,14 +1,19 @@
-import style from "./SCHeaderDescrCol.module.css"
-import TextLg from "@/components/atoms/text/text-lg/TextLg";
 import Text from "@/components/atoms/text/text-base/Text";
+import {cn} from "@/utlis/cn";
 
 const SCHeaderDescrCol = ({header, descr}: {
     header: string,
     descr: string,
 }) => {
+
+    const wrapperCV = [
+        "w-full flex flex-col gap-3 sm:gap-4 pb-5",
+        "border-b-2 border-light-gray"
+    ]
+
     return (
-        <div className={style.headerDescrCol}>
-            <TextLg text={header} weight={"semibold"}/>
+        <div className={cn(wrapperCV)}>
+            <Text text={header} className={"text-[18px] sm:text-[20px] font-semibold"}/>
             <Text text={descr}/>
         </div>
     )

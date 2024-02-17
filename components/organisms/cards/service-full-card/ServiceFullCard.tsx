@@ -19,7 +19,7 @@ const ServiceFullCard = ({card} : {
     return (
         <ServiceCardWrapper>
 
-            <div className={style.content}>
+            <div className={"w-full sm:col-span-9 flex flex-col gap-5"}>
                 <SCHeaderDescrCol header={card.header} descr={card.descr} />
 
                 {

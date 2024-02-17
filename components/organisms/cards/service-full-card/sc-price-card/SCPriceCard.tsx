@@ -1,9 +1,6 @@
 "use client"
 
 import React from 'react';
-import style from "./SCPriceCard.module.css"
-import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
-import {COLOR} from "@/components/colors";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
@@ -14,15 +11,16 @@ const SCPriceCard = ({price, text, onClick}: {
     onClick : () => void
 }) => {
     return (
-        <div className={style.card}>
+        <div className={"sm:col-span-3 flex flex-row items-center justify-between sm:flex-col sm:gap-5 h-fit"}>
 
-            <div className={style.priceRow}>
-                <Text2XL text={`от ${price} ₽`} color={COLOR["link-blue"]}/>
-                <Text text={"в мес."} color={COLOR["text-gray"]}/>
+            <div className={"w-full flex flex-col sm:flex-row sm:gap-[10px] sm:items-baseline"}>
+                <Text text={`от ${price} ₽`} className={"text-[20px] sm:text-[24px] font-semibold text-link-blue"}/>
+                <Text text={"в мес."} className={"text-text-gray"}/>
             </div>
 
-            <div className={style.buttonRow}>
+            <div className={"w-full flex flex-row-reverse sm:flex-row items-center gap-5 h-fit"}>
                 <Button
+                    classNames={{button : "px-7 sm:px-[50px]"}}
                     text={text} onClick={onClick}
                     buttonType={"SECONDARY"}
                 />

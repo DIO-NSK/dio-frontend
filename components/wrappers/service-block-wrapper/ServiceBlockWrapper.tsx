@@ -1,15 +1,21 @@
 import React from 'react';
-import style from "./ServiceBlockWrapper.module.css"
-import TextM from "@/components/atoms/text/text-m/TextM";
+import {cn} from "@/utlis/cn";
+import Text from "@/components/atoms/text/text-base/Text";
 
 const ServiceBlockWrapper = ({header, children} : {
     header : string,
     children : React.ReactNode
 }) => {
+
+    const wrapperCV = [
+        "w-full flex flex-col gap-5 sm:grid grid-cols-6 gap-x-[30px]",
+        "sm:gap-y-[20px] pb-5 border-b-2 border-light-gray"
+    ]
+
     return (
-        <div className={style.wrapper}>
-            <div className={"col-span-full"}>
-                <TextM text={header} weight={"medium"}/>
+        <div className={cn(wrapperCV)}>
+            <div className={"sm:col-span-full w-full"}>
+                <Text text={header} className={"text-[18px] font-medium"}/>
             </div>
             {children}
         </div>
