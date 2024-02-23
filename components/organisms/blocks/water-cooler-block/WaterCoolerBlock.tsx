@@ -6,10 +6,9 @@ import VirusLineIcon from "@/public/icons/virus-line-icon.png"
 import AtomLineIcon from "@/public/icons/atom-line-icon.png"
 
 import Image from "next/image";
-import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
-import TextLg from "@/components/atoms/text/text-lg/TextLg";
 import {HeaderDescription} from "@/types/dto/text";
 import {waterCoolerBlockData} from "@/data/waterCoolerBlockData";
+import Text from "@/components/atoms/text/text-base/Text";
 
 const DescrCol = (
     {header, description, top, left}:
@@ -20,8 +19,8 @@ const DescrCol = (
             style={{top: top, left: left}}
             className={"absolute w-[350px] flex flex-col gap-[15px]"}
         >
-            <Text2XL text={header}/>
-            <TextLg text={description}/>
+            <Text text={header} className={"text-[24px] font-semibold"}/>
+            <Text text={description} className={"text-[20px]"}/>
         </div>
     )
 }

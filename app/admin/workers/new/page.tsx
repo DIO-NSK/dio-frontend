@@ -86,7 +86,7 @@ const AddNewWorkerPage = () => {
             <section className={"w-full grid grid-cols-2 gap-7 border-b-2 pb-7 border-light-gray"}>
                 <SelectInput
                     width={"col-span-1"}
-                    label={"Роль пользователя"}
+                    labelText={"Роль пользователя"}
                     items={dropdownItems}
                     onSelect={setActiveItem}
                     selectedItem={activeItem}

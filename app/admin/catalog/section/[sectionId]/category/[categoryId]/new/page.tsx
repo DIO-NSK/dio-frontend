@@ -35,7 +35,7 @@ const DefaultInputGrid = () => {
                                 .map((inputData, inputIndex) => {
                                     return rowIndex === 0 && inputIndex === 2 ? <SelectInput
                                         width={"col-span-1"}
-                                        label={"Группа товара"}
+                                        labelText={"Группа товара"}
                                         items={context.dropdown.dropdownItems}
                                         onSelect={context.dropdown.setActiveProductGroup}
                                         selectedItem={context.dropdown.activeProductGroup}

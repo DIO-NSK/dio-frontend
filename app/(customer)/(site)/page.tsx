@@ -30,7 +30,6 @@ import {mockCardArray} from "@/data/productCardData";
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
 import React from "react";
-import MobileNavbar from "@/components/mobile/moleculas/bars/navbar/MobileNavbar";
 
 const MainPageScreen = () => {
 
@@ -130,7 +129,7 @@ const MainPageScreen = () => {
                 <MobileHeaderWrapper
                     header={"Акции и предложения"}
                     textLink={{text: "Смотреть все", link: "/our-waters"}}
-                    className={"w-full pr-5 flex flex-col gap-3"}
+                    classNames={{contentWrapper: "w-full pr-5 flex flex-col gap-3"}}
                 >
                     {
                         mockSaleCardArray.map((saleCard) => {
@@ -169,7 +168,7 @@ const MainPageScreen = () => {
 
                 <MobileHeaderWrapper
                     header={"Наши преимущества"}
-                    className={"w-full pr-5 grid grid-cols-2 gap-3"}
+                    classNames={{contentWrapper: "w-full pr-5 grid grid-cols-2 gap-3"}}
                 >
                     {
                         advantagesCardData.map((card) => {

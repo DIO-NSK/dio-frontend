@@ -13,9 +13,12 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {mockShoppingCartProducts} from "@/data/shoppingCartProducts";
 import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
 import {InfoBlockElement} from "@/types/dto/text";
+import {useRouter} from "next/navigation";
 
 
 const ShoppingCartPage = () => {
+
+    const router = useRouter()
 
     const infoBlockData : InfoBlockElement[] = [
         {header : "Количество", description : "2 шт."},
@@ -23,7 +26,7 @@ const ShoppingCartPage = () => {
         {header : "Итого", description : "4700 ₽", className : "text-link-blue text-[20px] font-medium"},
     ]
 
-    const handleSubmit = () => console.log("Cart is submitted!")
+    const handleSubmit = () => router.push("/mobile/checkout/step-1")
 
     return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>

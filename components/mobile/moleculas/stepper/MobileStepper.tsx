@@ -3,7 +3,7 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 
 type StepperProps = {
-    activeIndex: number,
+    active: number,
     onSelect: (stepId: number) => void,
     stepCount?: number
 }

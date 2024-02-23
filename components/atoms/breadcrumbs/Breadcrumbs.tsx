@@ -7,7 +7,8 @@ import {useRouter} from "next/navigation";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 
-const BreadCrumbs = ({breadcrumbs}: {
+const BreadCrumbs = ({breadcrumbs, className}: {
+    className ?: string,
     breadcrumbs: TextLink[]
 }) => {
 
@@ -19,7 +20,7 @@ const BreadCrumbs = ({breadcrumbs}: {
     ]
 
     return (
-        <div className={"flex flex-row items-center gap-[5px]"}>
+        <div className={cn("flex flex-row items-center gap-[5px]", className)}>
             {
                 breadcrumbs.map((item, index) => {
                     return <div className={"flex flex-row items-center gap-[5px]"}>

@@ -1,0 +1,35 @@
+"use client"
+
+import MobilePageWrapper from "@/components/mobile/wrappers/mobile-page-wrapper/MobilePageWrapper";
+import CheckoutForm from "@/components/organisms/forms/checkout-form/CheckoutForm";
+import React, {useState} from "react";
+import {SelectItem} from "@/types/props/SelectItem";
+
+const DEFAULT_STEP_INDEX = 0
+
+const MobileCheckoutFirstStepPage = () => {
+
+    const steps : SelectItem<number>[] = [
+        {name : "Данные получателя", value : 0},
+        {name : "Адрес доставки", value : 1},
+        {name : "Дополнительно", value : 2},
+    ]
+
+    const [
+        activeStep,
+        setActiveStep
+    ] = useState<SelectItem<number>>(steps[DEFAULT_STEP_INDEX])
+
+    return (
+        <MobilePageWrapper>
+            <CheckoutForm
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+                steps={steps}
+            />
+        </MobilePageWrapper>
+    );
+
+};
+
+export default MobileCheckoutFirstStepPage;

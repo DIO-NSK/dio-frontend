@@ -33,7 +33,7 @@ const FirstRow = () => {
                 selectedItem={context.selectInput.activeSelectItem}
                 onSelect={context.selectInput.setActiveSelectItem}
                 items={context.selectInput.selectItems}
-                label={"Группа товара"}
+                labelText={"Группа товара"}
             />
         </AdminPanelBlockWrapper>
     )

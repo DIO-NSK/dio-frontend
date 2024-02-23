@@ -6,7 +6,13 @@ export type WrapperProps = {
     className ?: string
 }
 
+type HeaderWrapperClassNames = {
+    mainWrapper ?: string,
+    contentWrapper ?: string
+}
+
 export type HeaderWrapperProps = {
-    header : string,
-    textLink ?: TextLink
+    header ?: string,
+    textLink ?: TextLink,
+    classNames ?: HeaderWrapperClassNames
 } & WrapperProps

@@ -1,8 +1,6 @@
 "use client"
 
 import style from "./ProductPriceCard.module.css"
-import Text2XL from "@/components/atoms/text/text-2xl/Text2XL";
-import {COLOR} from "@/components/colors";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
@@ -17,14 +15,14 @@ const ProductPriceCard = ({price, oldPrice}: {
         <StickyCardWrapper startCol={"col-start-10"}>
 
             <div className={style.priceRow}>
-                <Text2XL
+                <Text
                     text={price.toString() + " ₽"}
-                    color={COLOR["link-blue"]}
+                    className={"text-[24px] font-semibold text-link-blue"}
                 />
                 {
                     oldPrice && <Text
                         text={oldPrice + " ₽"}
-                        color={COLOR["text-gray"]}
+                        className={"text-text-gray"}
                     />
                 }
             </div>

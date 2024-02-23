@@ -167,7 +167,7 @@ const CheckoutTimeBlock = () => {
             />
             <SelectInput
                 width={"col-span-1"}
-                label={"Время доставки"}
+                labelText={"Время доставки"}
                 items={dropdownItems}
                 onSelect={selectItem}
                 selectedItem={activeItem}

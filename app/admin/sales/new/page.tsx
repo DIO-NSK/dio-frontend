@@ -56,7 +56,7 @@ const SecondInputRow = () => {
     return (
         <div className={"w-full mx-[-28px] px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray"}>
             <SelectInput
-                label={"Группа акции"}
+                labelText={"Группа акции"}
                 items={context.groupInput.selectItems}
                 onSelect={context.groupInput.setActiveSelectItem}
                 selectedItem={context.groupInput.activeSelectItem}

@@ -1,8 +1,8 @@
 import React from "react";
 
-export type ButtonTypes = {
+export type ButtonProps = {
+    onClick : () => void,
     text?: string,
-    onClick: () => void,
     icon?: React.ReactNode,
     classNames?: ButtonClassnames,
     buttonType?: ButtonType,

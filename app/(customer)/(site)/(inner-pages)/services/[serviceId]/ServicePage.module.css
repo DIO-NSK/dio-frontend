@@ -1,0 +1,9 @@
+.wrapper {
+
+    @apply ;
+
+    .content {
+        @apply ;
+    }
+    
+}

@@ -2,7 +2,7 @@ import React from "react";
 import {TextLink} from "@/types/links";
 
 export type HeaderWrapperType = {
-    header : string,
+    header ?: string,
     children : React.ReactNode
 }
 

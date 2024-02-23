@@ -1,6 +1,6 @@
 import React from 'react';
-import TextLg from "@/components/atoms/text/text-lg/TextLg";
 import TextM from "@/components/atoms/text/text-m/TextM";
+import Text from "@/components/atoms/text/text-base/Text";
 
 const CardBulletCol = ({header, items}: {
     header: string,
@@ -8,7 +8,7 @@ const CardBulletCol = ({header, items}: {
 }) => {
     return (
         <div className={"col-span-9 flex flex-col gap-[20px]"}>
-            <TextLg text={header} weight={"semibold"}/>
+            <Text text={header} className={"text-[20px] font-semibold"}/>
             <div className={"w-full flex flex-col gap-[15px]"}>
                 {
                     items.map((item, index) => {

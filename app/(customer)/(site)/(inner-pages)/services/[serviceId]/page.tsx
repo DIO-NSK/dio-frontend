@@ -1,33 +1,24 @@
 "use client"
 
-import style from "./ServicePage.module.css"
 import SCHeaderDescrCol from "@/components/organisms/cards/service-full-card/sc-header-descr-col/SCHeaderDescrCol";
 import SCContentCol from "@/components/organisms/cards/service-full-card/sc-content-col/SCContentCol";
 import SCPriceCard from "@/components/organisms/cards/service-full-card/sc-price-card/SCPriceCard";
-import {useSearchParams} from "next/navigation";
 import {mockServiceCardArray} from "@/data/serviceCardData";
 import StickyCardWrapper from "@/components/wrappers/sticky-card-wrapper/StickyCardWrapper";
 import SCSettingsBlock from "@/components/organisms/blocks/sc-settings-block/SCSettingsBlock";
 
-const ServicePage = () => {
-
-    const params = useSearchParams()
-    const serviceId: string | null = params.get('service_id')
-
-    if (serviceId === null) {
-        return (
-            <div>
-                Не можем найти такой товар :(
-            </div>
-        )
+const ServicePage = ({params} : {
+    params : {
+        serviceId : number
     }
+}) => {
 
-    const card = mockServiceCardArray[+serviceId]
+    const card = mockServiceCardArray[+params.serviceId]
 
     return (
-        <div className={style.wrapper}>
+        <div className={"w-full flex flex-col gap-7 sm:grid sm:col-span-9 sm:grid-cols-9 sm:gap-x-[40px]"}>
 
-            <div className={style.content}>
+            <div className={"w-full sm:col-span-6 flex flex-col gap-5"}>
 
                 <SCHeaderDescrCol header={card.header} descr={card.descr}/>
                 <SCContentCol rentTime={card.rentTime} additional={card.additional}/>

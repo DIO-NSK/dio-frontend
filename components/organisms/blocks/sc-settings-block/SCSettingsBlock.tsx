@@ -27,21 +27,21 @@ const SCSettingsBlock = () => {
                 width={"col-span-full"} items={itemList}
                 onSelect={(item) => selectItem(item)}
                 selectedItem={selectedItem}
-                label={"Товар"}
+                labelText={"Товар"}
             />
 
             <SelectInput
                 width={"col-span-3"} items={itemList}
                 onSelect={(item) => selectItem(item)}
                 selectedItem={selectedItem}
-                label={"Длительность аренды"}
+                labelText={"Длительность аренды"}
             />
 
             <SelectInput
                 width={"col-span-3"} items={itemList}
                 onSelect={(item) => selectItem(item)}
                 selectedItem={selectedItem}
-                label={"Срок действия аренды"}
+                labelText={"Срок действия аренды"}
             />
         </ServiceBlockWrapper>
     )

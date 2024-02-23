@@ -1,7 +1,8 @@
 import React from "react";
 import {Theme} from "@/types/props/Theme";
+import {FieldValues} from "react-hook-form";
 
-export type TextInputProps = {
+export type TextInputProps<T extends FieldValues> = {
     placeholder : string,
     onChange ?: (value : string) => void,
     value ?: string,
@@ -12,7 +13,9 @@ export type TextInputProps = {
     isPassword ?: boolean,
     theme ?: Theme,
     classNames ?: TextInputClassNames,
+    disabled ?: string,
     numbersOnly ?: boolean,
+    name ?: keyof T
 }
 
 type TextInputClassNames = {

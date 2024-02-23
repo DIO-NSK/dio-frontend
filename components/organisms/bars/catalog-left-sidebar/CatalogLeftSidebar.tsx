@@ -1,7 +1,6 @@
 "use client"
 
 import style from "./CatalogLeftSidebar.module.css"
-import TextLg from "@/components/atoms/text/text-lg/TextLg";
 import Text from "@/components/atoms/text/text-base/Text";
 import {useState} from "react";
 import LabelInputWrapper from "@/components/wrappers/label-input-wrapper/LabelInputWrapper";
@@ -20,7 +19,7 @@ type HeaderDescrType = {
 const HeaderRow = ({header, descr}: HeaderDescrType) => {
     return (
         <div className={style.headerRow}>
-            <TextLg text={header}/>
+            <Text text={header} className={"text-[20px]"}/>
             <div onClick={() => console.log(descr)}>
                 <Text text={descr}/>
             </div>
@@ -74,7 +73,7 @@ const CatalogLeftSidebar = () => {
         <div className={"hidden col-span-3 sm:flex flex-col gap-[30px]"}>
 
             <div className={cn(headerCV)}>
-                <TextLg text={"Фильтры"} weight={"semibold"}/>
+                <Text text={"Фильтры"} className={"text-[20px] font-semibold"}/>
                 <div onClick={() => console.log("Очистить все")}>
                     <Text text={"Очистить все"} className={"text-link-blue pointer"}/>
                 </div>

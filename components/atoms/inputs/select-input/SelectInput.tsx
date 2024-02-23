@@ -10,9 +10,11 @@ type DropdownInputProps<T> = {
     items: SelectItem<T>[],
     onSelect: (selectedItem: SelectItem<T>) => void
     selectedItem: SelectItem<T>,
-    label?: string,
+    labelText?: string,
     className?: string,
+    placeholder ?: string,
     width?: string,
+    error ?: string
 }
 
 const SelectInput = <T,>({width = "w-full", ...props}: DropdownInputProps<T>) => {
@@ -31,22 +33,29 @@ const SelectInput = <T,>({width = "w-full", ...props}: DropdownInputProps<T>) =>
         "drop-shadow-lg flex flex-col overflow-clip"
     ]
 
-    const handleSelectItem = (selectedItem: SelectItem<T>) => props.onSelect(selectedItem)
+    const handleSelectItem = (selectedItem: SelectItem<T>) => props.onSelect?.(selectedItem)
 
     return (
         <div className={`flex flex-col gap-[10px] ${width}`}>
 
-            {props.label && <Text text={props.label}/>}
+            {props.labelText && <Text text={props.labelText}/>}
 
             <div className={"relative w-full"}>
 
                 <div className={cn(inputCV)}>
-                    <Text text={props.selectedItem.name}/>
+                    <Text text={props.selectedItem?.name ?? props.placeholder}/>
                     <ChevronButton
                         isExpanded={isExpanded}
                         setExpanded={setExpanded}
                     />
                 </div>
+
+                {
+                    props.error && <Text
+                        text={props.error}
+                        className={"text-info-red"}
+                    />
+                }
 
                 {
                     isExpanded && <div className={cn(itemListCV)}>

@@ -11,9 +11,14 @@ const MobileHeaderWrapper = (props: HeaderWrapperProps) => {
     const handleButtonClick = () => props.textLink && router.push(props.textLink.link)
 
     return (
-        <section className={"w-full flex flex-col gap-5 sm:hidden"}>
+        <section className={cn("w-full flex flex-col gap-5 sm:hidden", props.classNames?.mainWrapper)}>
             <div className={"px-5 w-full flex flex-row items-baseline justify-between"}>
-                <Text text={props.header} className={"text-[20px] font-semibold"}/>
+                {
+                    props.header && <Text
+                        text={props.header}
+                        className={"text-[20px] font-semibold"}
+                    />
+                }
                 {
                     props.textLink && <TextButton
                         className={"text-[14px]"}
@@ -23,7 +28,7 @@ const MobileHeaderWrapper = (props: HeaderWrapperProps) => {
                 }
             </div>
             <section className={"w-full overflow-x-scroll -pr-5"}>
-                <div className={cn("w-[120vw] grid grid-cols-3 gap-3 px-5", props.className)}>
+                <div className={cn("w-[120vw] grid grid-cols-3 gap-3 px-5", props.classNames?.contentWrapper)}>
                     {props.children}
                 </div>
             </section>

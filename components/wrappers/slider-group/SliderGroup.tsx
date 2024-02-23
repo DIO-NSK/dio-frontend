@@ -9,7 +9,12 @@ const SliderGroup = ({header, children}: HeaderWrapperType) => {
         <div className={"sm:pl-0 w-full flex flex-col gap-5 sm:gap-7"}>
 
             <div className={"px-5 sm:px-0 col-span-full flex flex-row justify-between items-center"}>
-                <Text text={header} className={"text-[20px] sm:text-[32px] font-bold leading-none"}/>
+                {
+                    header && <Text
+                        text={header}
+                        className={"text-[20px] sm:text-[32px] font-bold leading-none"}
+                    />
+                }
                 <ButtonSlider
                     onBackClick={() => console.log("Назад")}
                     onNextClick={() => console.log("Вперёд")}
