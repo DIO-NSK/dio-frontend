@@ -22,12 +22,12 @@ const TimeColumn = () => {
     ]
 
     return (
-        <div className={"col-span-6 flex flex-col gap-[25px]"}>
+        <div className={"w-full gap-5 sm:col-span-6 flex flex-col sm:gap-[25px]"}>
             {
                 timeData.map((item, index) => {
 
                     const itemCV: ClassValue = {
-                        "pb-[25px] border-b-2 border-light-gray": index !== timeData.length - 1
+                        "pb-5 sm:pb-[25px] border-b-2 border-light-gray": index !== timeData.length - 1
                     }
 
                     return (
@@ -73,7 +73,7 @@ const RightColumn = () => {
     ]
 
     return (
-        <div className={"col-span-6 flex flex-col gap-[30px]"}>
+        <div className={"w-full sm:col-span-6 flex flex-col gap-7"}>
             {
                 data.map((item) => (
                     <div className={"w-full flex flex-col gap-[15px]"}>
@@ -101,22 +101,36 @@ const InfoCard = () => {
         "Более подробную информацию вы можете получить у менеджеров контакт-центра по телефону: +7(383) 333-99-00"
     ]
 
+    const rows = Array.from({length : 2}, (_, index) => index)
+
     return (
-        <div className={"col-span-full rounded-xl p-10 flex flex-row gap-10 bg-bg-light-blue"}>
-            {
-                Array.from({length : 2}, (_, index) => index).map((colNum) => (
-                    <div className={"w-full flex flex-col gap-5"}>
-                        {
-                            infoCardData.slice(colNum * 3, (colNum + 1) * 3).map((text) => (
-                                <div className={"pb-5 border-b-2 border-light-gray"}>
-                                    <Text text={text} className={"text-base text-black"}/>
-                                </div>
-                            ))
-                        }
-                    </div>
-                ))
-            }
-        </div>
+        <>
+            <div className={"hidden col-span-full rounded-xl p-10 sm:flex flex-row gap-10 bg-bg-light-blue"}>
+                {
+                    rows.map((colNum) => (
+                        <div className={"w-full flex flex-col gap-5"}>
+                            {
+                                infoCardData.slice(colNum * 3, (colNum + 1) * 3).map((text) => (
+                                    <div className={"pb-5 border-b-2 border-light-gray"}>
+                                        <Text text={text} className={"text-base text-black"}/>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    ))
+                }
+            </div>
+            <div className={"sm:hidden w-full flex flex-col gap-5"}>
+                {
+                    infoCardData.map((text) => (
+                        <div className={"pb-5 border-b-2 border-light-gray"}>
+                            <Text text={text} className={"text-base text-black"}/>
+                        </div>
+                    ))
+                }
+            </div>
+        </>
+
     )
 
 }
@@ -129,13 +143,13 @@ const PaymentPage = () => {
     ]
 
     return (
-        <InnerPageWrapper>
+        <InnerPageWrapper classNames={{mobileWrapper : "pt-0"}}>
 
             <div className={"col-span-full flex flex-col gap-[10px]"}>
                 <BreadCrumbs breadcrumbs={breadcrumbs}/>
                 <Text
                     text={"Оплата и возврат товара"}
-                    className={"text-[24px] text-black font-semibold"}
+                    className={"text-xl sm:text-[24px] text-black font-semibold"}
                 />
             </div>
 

@@ -20,14 +20,14 @@ const PhoneColumn = () => {
     const itemCV: ClassValue = "flex flex-row items-baseline justify-between"
 
     return (
-        <div className={"col-span-6 flex flex-col gap-5"}>
+        <div className={"sm:col-span-6 flex flex-col gap-5"}>
 
             <div className={"w-full flex flex-row items-baseline justify-between"}>
-                <Text text={"Горячая линия"} className={"text-[18px] text-black font-medium"}/>
-                <Text text={"Ежедневно с 07:00 до 22:00"} className={"text-[14px] text-link-blue"}/>
+                <Text text={"Горячая линия"} className={"text-base sm:text-[18px] font-medium"}/>
+                <Text text={"Ежедневно с 07:00 до 22:00"} className={"text-sm text-link-blue"}/>
             </div>
 
-            <div className={"w-full bg-bg-light-blue rounded-xl flex flex-col gap-5 p-[30px]"}>
+            <div className={"w-full bg-bg-light-blue rounded-xl flex flex-col gap-5 p-5 sm:p-7"}>
                 {
                     phoneData.map((item, index) => {
                         const borderCV: ClassValue = {
@@ -53,24 +53,24 @@ const MailAddressColumn = () => {
         {
             header: "Электронная почта",
             text: "info@3339900.ru",
-            icon: <FiMail size={"24px"} className={"stroke-link-blue"}/>
+            icon: <FiMail className={"stroke-link-blue sm:w-6 sm:h-6 h-[18px] w-[18px]"}/>
         },
         {
             header: "Адрес",
             text: "г. Новосибирск, ул. Кутателадзе, дом 4А, офис 503, 630128",
-            icon: <FiMapPin size={"24px"} className={"stroke-link-blue"}/>
+            icon: <FiMapPin className={"stroke-link-blue sm:w-6 sm:h-6 h-7 w-7"}/>
         }
     ]
 
     return (
-        <div className={"col-span-6 flex flex-col gap-6"}>
+        <div className={"sm:col-span-6 flex flex-col gap-5 sm:gap-6"}>
             {
                 blockData.map((item) => (
-                    <div className={"w-full flex flex-col gap-5"}>
-                        <Text text={item.header} className={"text-[18px] text-black font-medium"}/>
-                        <div className={"px-[30px] py-[35px] flex flex-row items-center gap-[15px] rounded-xl bg-bg-light-blue"}>
+                    <div className={"w-full flex flex-col gap-3 sm:gap-5 pb-5 sm:border-0 border-b-2 border-light-gray"}>
+                        <Text text={item.header} className={"text-base sm:text-[18px] text-black font-medium"}/>
+                        <div className={"sm:px-[30px] sm:py-[35px] flex flex-row items-center gap-[15px] sm:rounded-xl sm:bg-bg-light-blue"}>
                             {item.icon}
-                            <Text text={item.text} className={"text-[16px] text-black"}/>
+                            <Text text={item.text} className={"text-base text-black"}/>
                         </div>
                     </div>
                 ))
@@ -88,13 +88,13 @@ const ContactsPage = () => {
     ]
 
     return (
-        <InnerPageWrapper>
+        <InnerPageWrapper classNames={{mobileWrapper : "pt-0"}}>
 
             <div className={"col-span-full flex flex-col gap-[10px]"}>
                 <BreadCrumbs breadcrumbs={breadcrumbs}/>
                 <Text
                     text={"Наши контакты"}
-                    className={"text-[24px] text-black font-semibold"}
+                    className={"text-xl sm:text-[24px] text-black font-semibold"}
                 />
             </div>
 

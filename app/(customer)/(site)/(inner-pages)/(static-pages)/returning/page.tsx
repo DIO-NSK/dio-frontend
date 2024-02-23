@@ -15,7 +15,7 @@ const ReturningPage = () => {
     ]
 
     return (
-        <InnerPageWrapper>
+        <InnerPageWrapper classNames={{mobileWrapper : "pt-0"}}>
 
             <div className={"col-span-full flex flex-col gap-[10px]"}>
                 <BreadCrumbs breadcrumbs={breadcrumbs}/>

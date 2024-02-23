@@ -16,13 +16,13 @@ const PolicyPage = () => {
     ]
 
     return (
-        <InnerPageWrapper>
+        <InnerPageWrapper classNames={{mobileWrapper : "pt-0"}}>
 
             <div className={"col-span-full flex flex-col gap-[10px]"}>
                 <BreadCrumbs breadcrumbs={breadcrumbs}/>
                 <Text
                     text={"Политика конфиденциальности персональных данных"}
-                    className={"text-[24px] text-black font-semibold"}
+                    className={"text-xl sm:text-[24px] text-black font-semibold"}
                 />
             </div>
 
