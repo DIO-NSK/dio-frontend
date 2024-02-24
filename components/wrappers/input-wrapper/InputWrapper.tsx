@@ -7,11 +7,11 @@ import {FieldValues, UseFormReturn} from "react-hook-form";
 import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
 
 type InputWrapperProps<T extends FieldValues> = {
-    children : React.ReactNode,
-    props : TextInputProps<T>
+    children: React.ReactNode,
+    props: TextInputProps<T>
 }
 
-const InputWrapper = <T extends FieldValues, >({children, props} : InputWrapperProps<T>) => {
+const InputWrapper = <T extends FieldValues, >({children, props}: InputWrapperProps<T>) => {
 
     const hintTextCV: ClassValue = {
         "text-info-red": props.hintText?.type === "warning",
@@ -20,7 +20,7 @@ const InputWrapper = <T extends FieldValues, >({children, props} : InputWrapperP
 
     return (
         <ConnectForm>
-            {({formState : {errors}} : UseFormReturn<T, any, T>) => (
+            {(methods: UseFormReturn<T, any, T>) => (
                 <div className={cn("w-full flex flex-col gap-2", props.classNames?.wrapper)}>
                     {
                         props.labelText && <Text
@@ -30,8 +30,8 @@ const InputWrapper = <T extends FieldValues, >({children, props} : InputWrapperP
                     }
                     {children}
                     {
-                        errors[props.name]?.message && <Text
-                            text={errors[props.name]?.message as string}
+                        methods.formState?.errors[props.name]?.message && <Text
+                            text={methods.formState?.errors?.[props.name]?.message as string}
                             className={cn("text-info-red", "text-[14px]")}
                         />
                     }

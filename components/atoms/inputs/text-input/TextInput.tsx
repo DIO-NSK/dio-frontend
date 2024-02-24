@@ -47,10 +47,10 @@ const InnerInput = <T extends FieldValues, >(
                                 mask={props.inputMask}
                                 className={cn(wrapperCV)}
                                 placeholder={props.placeholder}
-                                {...methods.register(name)}
+                                {...methods?.register?.(name)}
                             /> :
                             <input
-                                {...methods.register(name)}
+                                {...methods?.register?.(name)}
                                 disabled={props.disabled}
                                 onKeyPress={handleKeyPress}
                                 type={isPasswordState ? "password" : "text"}

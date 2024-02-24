@@ -5,7 +5,7 @@ export enum CheckoutPaymentType {
     Offline = "offline"
 }
 
-const requiredFiledError: string = "Поле обязательно для заполнения"
+export const requiredFiledError: string = "Поле обязательно для заполнения"
 
 const SelectItemSchema = z.object({
     name : z.string().min(1, requiredFiledError),
