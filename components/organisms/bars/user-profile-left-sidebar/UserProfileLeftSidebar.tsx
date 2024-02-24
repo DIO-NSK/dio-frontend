@@ -38,7 +38,7 @@ const UserProfileLeftSidebar = () => {
             tabs={sidebarTabs}
             activeTab={activeTab}
             setActive={handleTabCLick}
-            className={"w-full sticky top-[110px]"}
+            className={"hidden sm:flex w-full sticky top-[110px]"}
         />
     );
 

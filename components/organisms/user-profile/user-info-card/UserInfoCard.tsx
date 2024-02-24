@@ -21,8 +21,9 @@ const UserInfoCard = () => {
                 userInfoData.map((row, key) => {
 
                     const rowCV : ClassValue[] = [
-                        "col-span-full flex flex-row items-baseline justify-between",
-                        {"border-b-2 border-light-gray pb-5" : key != userInfoData.length - 1}
+                        "w-full sm:col-span-full flex flex-col gap-2 sm:flex-row items-baseline sm:justify-between",
+                        {"border-b-2 border-light-gray pb-5" : key !== userInfoData.length - 1},
+                        {"sm:border-0 border-b-2 border-light-gray pb-5" : key === userInfoData.length - 1},
                     ]
 
                     return <div key={key} className={cn(rowCV)}>

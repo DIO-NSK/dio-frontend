@@ -16,6 +16,7 @@ import ShoppingCartServiceCard from "@/components/organisms/cards/shopping-cart-
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
 import {ShoppingCartProductCardDTO} from "@/types/dto/cards/ProductCard";
 import {Order} from "@/types/dto/Order";
+import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 
 const HeaderRow = ({order}: { order: Order }) => {
 
@@ -23,13 +24,13 @@ const HeaderRow = ({order}: { order: Order }) => {
 
     return (
         <div className={"w-full flex flex-row items-center justify-between border-b-2 border-light-gray pb-5"}>
-            <div className={"flex flex-row items-baseline gap-4"}>
-                <Text text={`Заказ #${order.orderId}`} className={"text-[20px] font-medium"}/>
-                <Text text={orderStatus} className={"text-text-gray"}/>
+            <div className={"flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4"}>
+                <Text text={`Заказ #${order.orderId}`} className={"text-base sm:text-[20px] font-medium"}/>
+                <Text text={orderStatus} className={"text-sm sm:text-base text-text-gray"}/>
             </div>
             <Text
                 text={`${order.totalPrice} ₽`}
-                className={"text-[24px] font-medium text-link-blue"}
+                className={"text-xl sm:text-[24px] font-medium text-link-blue"}
             />
         </div>
     )
@@ -39,7 +40,7 @@ const HeaderRow = ({order}: { order: Order }) => {
 const InformationBlock = ({order}: { order: Order }) => {
 
     const itemCV: ClassValue[] = [
-        "col-span-1 flex flex-row items-baseline justify-between",
+        "w-full sm:col-span-1 flex flex-row items-baseline justify-between",
         "pb-5 border-b-2 border-light-gray"
     ]
 
@@ -51,15 +52,29 @@ const InformationBlock = ({order}: { order: Order }) => {
     ]
 
     return (
-        <div className={"w-full grid grid-cols-2 gap-5"}>
+        <div className={"w-full flex flex-col sm:grid grid-cols-2 gap-5"}>
+
+            <div className={"sm:hidden w-full flex flex-col gap-1 border-b-2 border-light-gray pb-5"}>
+                <Text text={"Адрес доставки"} className={"text-text-gray"}/>
+                <Text text={order.address}/>
+            </div>
+
             {
-                informationGridData.map((item, key) =>
-                    <div className={cn(itemCV)} key={key}>
-                        <Text text={item.header} className={"text-text-gray"}/>
-                        <Text text={item.description}/>
-                    </div>
+                informationGridData.map((item, key) => {
+
+                        const addressCV = {"hidden sm:flex": key === 1}
+
+                        return (
+                            <div className={cn(itemCV, addressCV)} key={key}>
+                                <Text text={item.header} className={"text-text-gray"}/>
+                                <Text text={item.description}/>
+                            </div>
+                        )
+
+                    }
                 )
             }
+
         </div>
     )
 
@@ -89,13 +104,21 @@ const Footer = ({canRepeat, isOpen, setOpen}: {
                 placement={"right"}
             />
             {
-                canRepeat && <Button
-                    text={"Повторить заказ"}
-                    icon={<FiRefreshCw size={"18px"}/>}
-                    buttonType={"SECONDARY"}
-                    onClick={handleRepeatOrder}
-                    size={"sm"}
-                />
+                canRepeat && <>
+                    <Button
+                        classNames={{button: "hidden sm:flex"}}
+                        text={"Повторить заказ"}
+                        icon={<FiRefreshCw size={"18px"}/>}
+                        buttonType={"SECONDARY"}
+                        onClick={handleRepeatOrder}
+                        size={"sm"}
+                    />
+                    <TextButton
+                        onClick={handleRepeatOrder}
+                        text={"Повторить заказ"}
+                        className={"sm:hidden"}
+                    />
+                </>
             }
         </div>
     )
@@ -103,10 +126,10 @@ const Footer = ({canRepeat, isOpen, setOpen}: {
 
 const Content = () => {
     return (
-        <div className={"w-full flex flex-col py-5 gap-10"}>
+        <div className={"w-full flex flex-col gap-5 py-5 sm:gap-10"}>
             {
                 mockShoppingCartProducts.map((group) =>
-                    <ShoppingCartGroupWrapper>
+                    <ShoppingCartGroupWrapper className={"p-0 border-0 sm:p-5 sm:border-2"}>
                         {
                             group.items.map((item) =>
                                 (
@@ -129,7 +152,7 @@ const OrderCard = ({canRepeat = true, theme = "outlined", ...props}: OrderCardPr
     const [isOpen, setOpen] = useState<boolean>(false)
 
     const wrapperCV: ClassValue[] = [
-        "w-full flex flex-col gap-5 p-7 rounded-xl",
+        "w-full flex flex-col gap-5 p-5 sm:p-7 rounded-xl",
         {"border-2 border-light-gray": theme == "outlined"},
         {"bg-bg-light-blue": theme == "filled"}
     ]

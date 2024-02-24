@@ -15,9 +15,9 @@ type BackgroundBlockWrapperProps = {
 const BackgroundBlockWrapper = ({theme = "filled", ...props} : BackgroundBlockWrapperProps) => {
 
     const wrapperCV : ClassValue[] = [
-        "w-full bg-bg-light-blue border-2 border-light-gray",
-        "grid grid-cols-2 gap-5 p-7 rounded-xl",
-        {"bg-white border-2 border-light-gray" : theme == "outlined"}
+        "w-full sm:bg-bg-light-blue sm:border-2 sm:border-light-gray",
+        "flex flex-col gap-3 sm:gap-5 sm:grid sm:grid-cols-2 sm:p-7 sm:rounded-xl",
+        {"sm:bg-white sm:border-2 sm:border-light-gray" : theme == "outlined"}
     ]
 
     return (

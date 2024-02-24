@@ -8,6 +8,7 @@ import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapp
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 import ForgotPasswordPopup from "@/components/organisms/popups/authorization/forgot-password-popup/ForgotPasswordPopup";
+import MobileForgotPasswordPopup from "@/components/mobile/popups/forgot-password-popup/MobileForgotPasswordPopup";
 
 const UserProfileChangePasswordPage = () => {
 
@@ -21,15 +22,21 @@ const UserProfileChangePasswordPage = () => {
     return (
         <UserProfileWrapper>
             {
-                isPopupOpen && <ForgotPasswordPopup
-                    onClose={handleSwitchPopupState}
-                />
+                isPopupOpen && <>
+                    <ForgotPasswordPopup
+                        onClose={handleSwitchPopupState}
+                    />
+                    <MobileForgotPasswordPopup
+                        onClose={handleSwitchPopupState}
+                    />
+                </>
             }
             <HeaderRow
                 hasBackIcon
                 header={"Изменение пароля"}
                 rightContent={
                     <TextButton
+                        className={"hidden sm:flex"}
                         onClick={handleSwitchPopupState}
                         text={"Забыли пароль?"}
                     />
@@ -47,11 +54,18 @@ const UserProfileChangePasswordPage = () => {
                     isPassword theme={"filled"}
                 />
             </BackgroundBlockWrapper>
-            <Button
-                classNames={{button : "w-[250px]"}}
-                text={"Сохранить изменения"}
-                onClick={handleSaveChanges}
-            />
+            <div className={"w-full flex flex-col items-center gap-3"}>
+                <Button
+                    classNames={{button: "sm:w-[250px] w-full"}}
+                    text={"Сохранить изменения"}
+                    onClick={handleSaveChanges}
+                />
+                <TextButton
+                    className={"text-base sm:hidden"}
+                    onClick={handleSwitchPopupState}
+                    text={"Забыли пароль?"}
+                />
+            </div>
         </UserProfileWrapper>
     );
 

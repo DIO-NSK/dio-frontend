@@ -20,7 +20,7 @@ const ShoppingCartGroupWrapper = ({children, className}: {
     const mobileCV : ClassValue = "border-2 p-5 gap-3 sm:p-5 sm:gap-0"
 
     return (
-        <div className={cn("w-full flex flex-col border-b-2 border-light-gray rounded-xl", className, mobileCV)}>
+        <div className={cn("w-full flex flex-col border-b-2 border-light-gray rounded-xl", mobileCV, className)}>
             {childrenList}
         </div>
     );

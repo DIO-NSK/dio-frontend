@@ -11,14 +11,14 @@ import {cn} from "@/utlis/cn";
 const UserProfileLayout = ({children}: { children: React.ReactNode }) => {
 
     const logoutCV : ClassValue[] = [
-        "red-text hover:text-red-700 gap-2 ml-[-20px]",
+        "hidden sm:flex red-text hover:text-red-700 gap-2 ml-[-20px]",
         "p-4 rounded-xl hover:bg-red-50 fixed bottom-[30px]"
     ]
 
     const handleLogout = () => console.log("Logged out")
 
     return (
-        <InnerPageWrapper className={"mt-3"}>
+        <InnerPageWrapper classNames={{desktopWrapper : "mt-3", mobileWrapper : "pt-0"}}>
             <div className={"col-span-3"}>
                 <UserProfileLeftSidebar/>
                 <IconTextButton

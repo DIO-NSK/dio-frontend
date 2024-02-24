@@ -25,7 +25,7 @@ const InnerInput = <T extends FieldValues, >(
     const wrapperCV: ClassValue[] = [
         "w-full flex flex-row items-center justify-between px-5 py-4 sm:px-7 sm:py-5 rounded-xl bg-bg-light-blue",
         "hoverable focus:outline-0 border-light-gray border-2",
-        {"bg-white": theme == "filled"},
+        {"sm:bg-white": theme == "filled"},
         {"hover:bg-opacity-50": theme == "outlined"},
         {"text-text-gray bg-bg-light-blue bg-opacity-50" : props.disabled}
     ]

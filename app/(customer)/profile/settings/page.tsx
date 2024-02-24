@@ -7,8 +7,12 @@ import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapp
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 import {usePathname, useRouter} from "next/navigation";
+import {FiX} from "react-icons/fi";
+import {useNavigation} from "@/utlis/hooks/useNavigation";
 
 const UserProfileSettingsPage = () => {
+
+    const navigation = useNavigation()
 
     const router = useRouter()
     const pathname = usePathname()
@@ -48,23 +52,22 @@ const UserProfileSettingsPage = () => {
 
     return (
         <UserProfileWrapper>
-            <HeaderRow header={"Настройки аккаунта"}/>
-            <BackgroundBlockWrapper>
-                {
-                    userInputsGrid.map((input, key) =>
-                        <TextInput
-                            key={key}
-                            placeholder={input.placeholder}
-                            labelText={input.labelText}
-                            value={input.value}
-                            onChange={input.onChange}
-                            inputMask={input.inputMask}
-                            theme={"filled"}
-                        />
-                    )
+            <HeaderRow
+                header={"Настройки аккаунта"}
+                rightContent={
+                    <FiX
+                        size={"20px"}
+                        className={"sm:hidden flex"}
+                        onClick={navigation.back}
+                    />
                 }
+            />
+            <BackgroundBlockWrapper>
+                {userInputsGrid.map((input, key) =>
+                    <TextInput key={key} theme={"filled"} {...input} />
+                )}
             </BackgroundBlockWrapper>
-            <div className={"col-span-full flex flex-row gap-5"}>
+            <div className={"col-span-full flex flex-col gap-3 sm:flex-row sm:gap-5"}>
                 <Button text={"Сохранить изменения"} onClick={handleSaveChanges}/>
                 <Button buttonType={"SECONDARY"} text={"Изменить пароль"} onClick={handleChangePassword}/>
             </div>

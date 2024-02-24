@@ -7,19 +7,23 @@ import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
 import {mockOrderList} from "@/data/orderData";
 import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserProfileWrapper";
+import {FiX} from "react-icons/fi";
+import {useNavigation} from "@/utlis/hooks/useNavigation";
 
 const UserProfileOrdersPage = () => {
 
-    const dropdownItems = [
-        {text: "По дате заказа", isSelected: true},
-        {text: "По итоговой цене", isSelected: false},
-        {text: "По количеству товаров", isSelected: false}
+    const navigation = useNavigation()
+
+    const dropdownItems: SelectItem<string>[] = [
+        {name: "По дате заказа", value: "date"},
+        {name: "По итоговой цене", value: "price"},
+        {name: "По количеству товаров", value: "amount"}
     ]
 
     const [
         activeItem,
         setActiveItem
-    ] = useState<SelectItem>(dropdownItems[0])
+    ] = useState<SelectItem<string>>(dropdownItems[0])
 
     return (
         <UserProfileWrapper>
@@ -27,13 +31,27 @@ const UserProfileOrdersPage = () => {
                 header={"Мои заказы"}
                 leftContent={"6 шт."}
                 rightContent={
-                    <SelectInput
-                        width={"w-[250px]"}
-                        items={dropdownItems}
-                        selectedItem={activeItem}
-                        onSelect={setActiveItem}
-                    />
+                    <>
+                        <SelectInput
+                            width={"sm:w-[250px]"}
+                            items={dropdownItems}
+                            className={"hidden sm:flex"}
+                            selectedItem={activeItem}
+                            onSelect={setActiveItem}
+                        />
+                        <FiX
+                            size={"20px"}
+                            className={"w-fit sm:hidden"}
+                            onClick={navigation.back}
+                        />
+                    </>
                 }
+            />
+            <SelectInput
+                items={dropdownItems}
+                className={"sm:hidden"}
+                selectedItem={activeItem}
+                onSelect={setActiveItem}
             />
             {
                 mockOrderList.map((order, key) =>
@@ -41,6 +59,7 @@ const UserProfileOrdersPage = () => {
             }
         </UserProfileWrapper>
     );
+
 };
 
 export default UserProfileOrdersPage;

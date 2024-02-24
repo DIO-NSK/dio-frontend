@@ -22,7 +22,7 @@ type PopupWrapperProps = {
 const PopupWrapper = ({placement = "default", ...props} : PopupWrapperProps) => {
 
     const wrapperCV : ClassValue[] = [
-        "fixed top-0 left-0 flex justify-center z-40 w-full h-full",
+        "hidden fixed top-0 left-0 sm:flex justify-center z-40 w-full h-full",
         {"items-center" : placement == "center"},
         props.classNames?.wrapper
     ]
