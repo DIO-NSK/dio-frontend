@@ -6,7 +6,9 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 type AdminPanelHeaderRowProps = {
     header: string,
     isEditable: boolean,
-    onChange: () => void
+    onChange : () => void,
+    onSaveChanges: () => void,
+    onCancelChanges : () => void
 }
 
 const AdminPanelHeaderRow = (props: AdminPanelHeaderRowProps) => {

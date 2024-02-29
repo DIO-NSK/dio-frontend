@@ -9,6 +9,9 @@ export const $sections = createStore<Section[]>([])
 export const pageDidMountEvent = createEvent()
 export const $createSectionError = createStore<string>("")
 
+export const cancelChangesEvent = createEvent<void>()
+export const saveChangesEvent = createEvent<void>()
+
 // section to delete
 export const selectSectionToDeleteEvent = createEvent<TableRow<string[]>>()
 export const onCloseSectionToDeleteEvent = createEvent()
@@ -59,7 +62,13 @@ sample({
     clock: deleteSectionEvent,
     source: $sections,
     fn: (sections: Section[], sectionId: number) => sections.filter(sec => sec.id !== sectionId),
-    target: updateSectionsFx
+    target: $sections
+})
+
+sample({
+    clock : saveChangesEvent,
+    source : $sections,
+    target : updateSectionsFx
 })
 
 sample({
@@ -75,6 +84,6 @@ sample({
 })
 
 sample({
-    clock: pageDidMountEvent,
+    clock: [cancelChangesEvent, pageDidMountEvent],
     target: getSectionsFx
 })

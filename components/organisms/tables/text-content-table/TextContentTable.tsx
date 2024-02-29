@@ -9,9 +9,9 @@ import {FiMenu, FiMoreHorizontal} from "react-icons/fi";
 import EditDeleteTooltip from "@/components/organisms/tooltips/EditDeleteTooltip";
 
 type TextContentTableProps = {
-    tableContent : TextTableRow[],
-    isDraggable ?: boolean,
-    onRowClick ?: (rowIndex: number) => void,
+    tableContent: TextTableRow[],
+    isDraggable?: boolean,
+    onRowClick?: (rowIndex: number) => void,
 } & Omit<TableWrapperProps, "children">
 
 const TextContentTable = (props: TextContentTableProps) => {
@@ -44,9 +44,12 @@ const TextContentTable = (props: TextContentTableProps) => {
                                 />
                             )
                         }
-                        <EditDeleteTooltip tableRow={tableRow}>
-                            <SquareIcon icon={<FiMoreHorizontal size={"18px"}/>}/>
-                        </EditDeleteTooltip>
+                        {
+                            props.isDraggable &&
+                            <EditDeleteTooltip tableRow={tableRow}>
+                                <SquareIcon icon={<FiMoreHorizontal size={"18px"}/>}/>
+                            </EditDeleteTooltip>
+                        }
                     </div>
                 )
             }

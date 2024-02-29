@@ -18,18 +18,22 @@ import {useUnit} from "effector-react";
 import {
     $sectionToDelete,
     $sectionToEdit,
+    cancelChangesEvent,
     onCloseSectionToDeleteEvent,
-    onCloseSectionToEditEvent
+    onCloseSectionToEditEvent,
+    saveChangesEvent
 } from "@/models/admin/section";
 
 const AdminPanelCatalogPage = () => {
 
     const [
+        saveChanges, cancelChanges,
         onCloseSectionToDelete,
         onCloseSectionToEdit,
         sectionToDelete,
         sectionToEdit
     ] = useUnit([
+        saveChangesEvent, cancelChangesEvent,
         onCloseSectionToDeleteEvent, onCloseSectionToEditEvent,
         $sectionToDelete, $sectionToEdit
     ])
@@ -71,6 +75,8 @@ const AdminPanelCatalogPage = () => {
                 header={"Разделы"}
                 isEditable={editableContext.isEditable}
                 onChange={editableContext.handleSwitchEditable}
+                onCancelChanges={cancelChanges}
+                onSaveChanges={saveChanges}
             />
 
             <TextContentTable
