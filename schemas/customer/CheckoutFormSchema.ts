@@ -7,12 +7,12 @@ export enum CheckoutPaymentType {
 }
 
 const SelectItemSchema = z.object({
-    name : z.string().min(1, requiredFiledError),
+    valueName : z.string().min(1, requiredFiledError),
     value : z.string().min(1, requiredFiledError)
 })
 
 export const CheckoutFormSchema = z.object({
-    name: z.string()
+    valueName: z.string()
         .min(1, requiredFiledError),
     surname: z.string()
         .min(1, requiredFiledError),
@@ -43,7 +43,7 @@ export const CheckoutFormSchema = z.object({
 export type CheckoutFormData = z.infer<typeof CheckoutFormSchema>
 
 export const checkoutFormDefaultValues: CheckoutFormData = {
-    name: "",
+    valueName: "",
     surname: "",
     phoneNumber: "",
     email: "",
@@ -54,7 +54,7 @@ export const checkoutFormDefaultValues: CheckoutFormData = {
     doorway: "",
     floor: "",
     deliveryDate: "",
-    deliveryTime: {name : "", value : ""},
+    deliveryTime: {valueName : "", value : ""},
     paymentType: CheckoutPaymentType.Online,
     additional : ""
 }

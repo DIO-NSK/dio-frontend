@@ -18,15 +18,15 @@ const formData: (InputPrefilledData<keyof RegisterData> & { isPassword: boolean 
     {
         placeholder: "+7 (000) 000-00-00",
         inputMask: "+7 (999) 999-99-99",
-        labelText: "Телефон", name: "phoneNumber",
+        labelText: "Телефон", valueName: "phoneNumber",
         isPassword: false,
     }, {
         placeholder: "Иван Иванов",
-        labelText: "Имя пользователя", name: "username",
+        labelText: "Имя пользователя", valueName: "username",
         isPassword: false,
     }, {
         placeholder: "Введите пароль",
-        labelText: "Пароль", name: "password",
+        labelText: "Пароль", valueName: "password",
         isPassword: true
     },
 ]

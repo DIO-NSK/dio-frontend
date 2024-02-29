@@ -6,10 +6,11 @@ import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 
 type ControlledSelectInputProps = {
     items: SelectItem<string>[],
+    width ?: string,
     className ?: string,
     name: string,
     placeholder : string,
-    labelText : string
+    labelText ?: string
 }
 
 const ControlledSelectInput = <T extends FieldValues, >(props : ControlledSelectInputProps) => {
@@ -20,13 +21,10 @@ const ControlledSelectInput = <T extends FieldValues, >(props : ControlledSelect
                 name={props.name as Path<T>}
                 render={({field: {onChange, value}}) => (
                     <SelectInput
-                        items={props.items}
-                        onSelect={onChange}
-                        selectedItem={value}
-                        className={props.className}
-                        placeholder={props.placeholder}
-                        labelText={props.labelText}
                         error={methods.formState.errors?.[props.name]?.message as string}
+                        selectedItem={value}
+                        onSelect={onChange}
+                        {...props}
                     />
                 )}
             />}

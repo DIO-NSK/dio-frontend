@@ -28,7 +28,7 @@ const TextContentTable = (props: TextContentTableProps) => {
                 props.tableContent.map((tableRow, rowKey) =>
                     <div
                         key={rowKey} className={cn(itemCV)}
-                        onClick={() => props.onRowClick && props.onRowClick(rowKey)}
+                        onClick={() => props.onRowClick?.(tableRow.id)}
                     >
                         {
                             props.isDraggable &&

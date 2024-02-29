@@ -9,7 +9,7 @@ const callRequestsTableHeader: TableHeaderItem[] = [
 
 const callRequestsTableItem1: CallRequest = {
     customer: {
-        name: "Третьяков Артём",
+        valueName: "Третьяков Артём",
         phoneNumber: "+7 (000)  000-00-00"
     },
     date: "14.12.2023",
@@ -20,7 +20,7 @@ const callRequestsTableItem1: CallRequest = {
 
 const callRequestsTableItem2: CallRequest = {
     customer: {
-        name: "Третьяков Артём",
+        valueName: "Третьяков Артём",
         phoneNumber: "+7 (000)  000-00-00"
     },
     date: "14.12.2023",
@@ -32,7 +32,7 @@ const callRequestsTableItem2: CallRequest = {
 
 const callRequestsTableItem3: CallRequest = {
     customer: {
-        name: "Третьяков Артём",
+        valueName: "Третьяков Артём",
         phoneNumber: "+7 (000)  000-00-00"
     },
     date: "14.12.2023",

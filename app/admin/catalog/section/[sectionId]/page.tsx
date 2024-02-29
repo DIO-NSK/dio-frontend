@@ -13,9 +13,11 @@ import {
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 
-const AdminPanelCategoryPage = () => {
+const AdminPanelCategoryPage = ({params} : {
+    params : { sectionId : number }
+}) => {
 
-    const {...context} = useAdminPanelCategoriesPage()
+    const {...context} = useAdminPanelCategoriesPage(params.sectionId)
     const {...headerContext} = useAdminPanelHeaderButtonRow()
     const {...editableContext} = useAdminPanelHeaderRow()
 
@@ -49,6 +51,8 @@ const AdminPanelCategoryPage = () => {
                         header={"Категории"}
                         isEditable={editableContext.isEditable}
                         onChange={editableContext.handleSwitchEditable}
+                        onSaveChanges={() => console.log("Saved changes")}
+                        onCancelChanges={() => console.log("Cancel changes")}
                     />
                 </div>
 

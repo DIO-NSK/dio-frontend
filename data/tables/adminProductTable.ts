@@ -11,7 +11,7 @@ const adminProductTableHeader: TableHeaderItem[] = [
 
 export const mockAdminProduct : AdminProduct = {
     image: AdminProductImage.src,
-    name: "Многоразовые перчатки Мой Додыр 2 шт.",
+    valueName: "Многоразовые перчатки Мой Додыр 2 шт.",
     discount: 40,
     stockAmount: 152,
     price: 329
@@ -24,7 +24,7 @@ export const adminProductRow: ProductTableRow<AdminProduct> = {
         discount: "col-span-1",
         stockAmount: "col-span-1",
         price: "col-span-1",
-        name: ""
+        valueName: ""
     }
 }
 

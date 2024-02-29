@@ -43,10 +43,10 @@ const ProductCardPage = () => {
     const [activePhoto, setActivePhoto] = useState<string>(mockPhotos[0])
 
     const mockCharacteristics: ProductCharacteristic[] = [
-        {name: "Размер коробки ш*в*г (мм)", value: "318*382*318"},
-        {name: "Вес (брутто)", value: "2,40 кг"},
-        {name: "Вес (нетто)", value: "1,40 кг"},
-        {name: "Страна производства", value: "Китай"},
+        {valueName: "Размер коробки ш*в*г (мм)", value: "318*382*318"},
+        {valueName: "Вес (брутто)", value: "2,40 кг"},
+        {valueName: "Вес (нетто)", value: "1,40 кг"},
+        {valueName: "Страна производства", value: "Китай"},
     ]
 
     const mockCardDescription = "Кулер HotFrost D95 F обладает высокими показателями стабильности" +

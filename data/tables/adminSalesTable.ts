@@ -19,7 +19,7 @@ const salesTableItem: ProductTableRow<AdminSale> = {
         image: "col-span-6",
         discount: "col-span-1",
         stockAmount: "col-span-1",
-        name: ""
+        valueName: ""
     }
 }
 

@@ -1,9 +1,11 @@
 import React from "react";
 import {Theme} from "@/types/props/Theme";
-import {FieldValues, Path} from "react-hook-form";
+import {FieldError, FieldValues, Path} from "react-hook-form";
 
-export type ControlledTextInputProps<T extends FieldValues> = { name: Path<T> }
-    & Omit<TextInputProps, "onChange" | "value">
+export type ControlledTextInputProps<T extends FieldValues> = {
+    name: Path<T>,
+    errors?: FieldError
+} & Omit<TextInputProps, "onChange" | "value">
 
 export type TextInputProps = {
     placeholder: string,

@@ -5,4 +5,4 @@ export type Characteristic = {
     type : SelectItem<CharacteristicType>
 }
 
-export type CharacteristicType = "string" | "float" | "int"
+export type CharacteristicType = "Дробное значение" | "Целочисленное значение" | "Текстовое значение"

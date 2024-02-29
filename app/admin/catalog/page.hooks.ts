@@ -26,7 +26,7 @@ export const useAdminPanelCatalogPage = () => {
 
     const handleExportCatalog = () => console.log("Exported")
     const handleSwitchPopupState = () => setPopupVisible(!isPopupVisible)
-    const handleRowClick = () => router.push(pathname.concat("/section/sectionId"))
+    const handleRowClick = (id : number) => router.push(pathname.concat(`/section/${id}`))
 
     useEffect(() => {
         pageDidMount()

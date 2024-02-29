@@ -78,12 +78,8 @@ sample({
     target: updateSectionsFx
 })
 
-sample({
-    clock : updateSectionsFx.doneData,
-    target : getSectionsFx
-})
 
 sample({
-    clock: [cancelChangesEvent, pageDidMountEvent],
+    clock: [cancelChangesEvent, pageDidMountEvent, updateSectionsFx.doneData],
     target: getSectionsFx
 })

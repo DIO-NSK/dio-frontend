@@ -17,48 +17,48 @@ const formData: InputPrefilledData<LegalEntityData>[] = [
     {
         labelText: "Полное название организации",
         placeholder: "Введите название организации",
-        name: "companyName"
+        valueName: "companyName"
     },
     {
         labelText: "Юридический адрес",
         placeholder: "Введите адрес",
-        name: "legalAddress"
+        valueName: "legalAddress"
     },
     {
         labelText: "ИНН",
         placeholder: "Введите ИНН",
-        name: "ITN"
+        valueName: "ITN"
     },
     {
         labelText: "КПП",
         placeholder: "Введите КПП",
-        name: "reasonCode"
+        valueName: "reasonCode"
     },
     {
         labelText: "Телефон контактного лица",
         inputMask: "+7 (999) 999-99-99",
         placeholder: "+7 (000) 000-00-00",
-        name: "contactPerson"
+        valueName: "contactPerson"
     },
     {
         labelText: "Название банка",
         placeholder: "Введите название банка",
-        name: "bankName"
+        valueName: "bankName"
     },
     {
         labelText: "БИК банка",
         placeholder: "Введите БИК банка",
-        name: "BIC"
+        valueName: "BIC"
     },
     {
         labelText: "Расчётный счёт",
         placeholder: "Введите расчётный счёт",
-        name: "bankAccount"
+        valueName: "bankAccount"
     },
     {
         labelText: "Корреспондентский счёт",
         placeholder: "Введите корреспондентский счёт",
-        name: "correspondingAccount"
+        valueName: "correspondingAccount"
     },
 ]
 

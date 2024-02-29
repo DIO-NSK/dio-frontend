@@ -16,12 +16,12 @@ const formData: InputPrefilledData<ForgotPasswordData>[] = [
     {
         labelText: "Новый пароль",
         placeholder: "Придумайте пароль",
-        name: "password"
+        valueName: "password"
     },
     {
         labelText: "Повторите пароль",
         placeholder: "Наберите пароль заново",
-        name: "repeatedPassword"
+        valueName: "repeatedPassword"
     }
 ]
 

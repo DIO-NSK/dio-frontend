@@ -36,6 +36,12 @@ const ControlledInputWrapper = <T extends FieldValues, >({children, props}: Inpu
                         />
                     }
                     {
+                        props?.errors && <Text
+                            className={cn("text-info-red", "text-[14px]")}
+                            text={props?.errors?.message as string}
+                        />
+                    }
+                    {
                         props.hintText && <Text
                             text={props.hintText.hintMessage}
                             className={cn(hintTextCV, "text-[14px]")}

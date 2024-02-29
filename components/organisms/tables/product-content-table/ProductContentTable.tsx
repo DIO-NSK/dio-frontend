@@ -42,7 +42,7 @@ const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow}: {
                     alt={"Изображение товара"}
                     className={"w-[70px] h-[70px] object-scale-down rounded-xl"}
                 />
-                <Text text={tableRow.item.name} className={"font-medium"}/>
+                <Text text={tableRow.item.valueName} className={"font-medium"}/>
             </div>
 
             <Text text={`${tableRow.item.discount}%`} className={tableRow.itemsWidth["discount"]}/>

@@ -20,7 +20,7 @@ export const adminOrderTableItem: AdminOrder = {
     totalPrice: 2000, creationDate: "19.11.2023",
     deliveryPrice : 0, creationTime: "20:18:22",
     customer: {
-        name: "Артём Третьяков",
+        valueName: "Артём Третьяков",
         phoneNumber: "+7 (913) 939-11-94",
         email : "tretiakovvvvv@gmail.com"
     },

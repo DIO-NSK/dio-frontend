@@ -1,18 +1,57 @@
 "use client"
 
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import TextInput from "@/components/atoms/inputs/text-input/TextInput";
-import {useState} from "react";
+import {useEffect} from "react";
 import Button from "@/components/atoms/buttons/button/Button";
 import AdminPanelCharBlock from "@/components/organisms/blocks/admin-panel-char-block/AdminPanelCharBlock";
-import {useCharacteristics} from "@/utlis/hooks/useCharacteristics";
+import {FieldValues, FormProvider, useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import Form from "@/components/atoms/form/Form";
+import {
+    CreateCategoryData,
+    CreateCategorySchema,
+    defaultCharacteristicData
+} from "@/schemas/admin/CreateCategorySchema";
+import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import {useUnit} from "effector-react";
+import {$isCreateSuccess, pageDidMountEvent, submitFormEvent} from "@/models/admin/category";
+import {useRouter} from "next/navigation";
 
-const AdminPanelNewCategoryPage = () => {
+const AdminPanelNewCategoryPage = ({params} : {
+    params : {sectionId : number}
+}) => {
 
-    const {...chars} = useCharacteristics()
+    const router = useRouter()
 
-    const [categoryName, setCategoryName] = useState<string>("")
-    const handleSaveChanges = () => console.log("Changes saved")
+    const [
+        pageDidMount, isCreationSuccess, submitForm
+    ] = useUnit([pageDidMountEvent, $isCreateSuccess, submitFormEvent])
+
+    const methods = useForm<CreateCategoryData>({
+        resolver: zodResolver(CreateCategorySchema),
+        defaultValues: {
+            name: "",
+            properties: [
+                defaultCharacteristicData,
+                {...defaultCharacteristicData, sequenceNumber: 1},
+            ]
+        },
+        mode: "onBlur"
+    })
+
+    const {
+        handleSubmit,
+        formState: {isSubmitting},
+    } = methods
+
+    const onSaveChanges = (formData: FieldValues) => {
+        submitForm(formData as CreateCategoryData)
+        if (isCreationSuccess) router.back()
+    }
+
+    useEffect(() => {
+        pageDidMount(params.sectionId)
+    }, [])
 
     return (
         <>
@@ -22,29 +61,24 @@ const AdminPanelNewCategoryPage = () => {
                 header={"Новая категория"}
                 hasBackIcon
             />
-
-            <div className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}>
-                <TextInput
-                    labelText={"Название категории"}
-                    placeholder={"Введите название категории"}
-                    value={categoryName}
-                    onChange={setCategoryName}
-                />
-            </div>
-
-            <AdminPanelCharBlock
-                onChangeChar={chars.handlers.handleChangeChar}
-                onDeleteChar={chars.handlers.handleDeleteChar}
-                onAddChar={chars.handlers.handleAddChar}
-                chars={chars.state}
-            />
-
-            <Button
-                classNames={{button: "w-[250px]"}}
-                text={"Сохранить"}
-                onClick={handleSaveChanges}
-            />
-
+            <FormProvider {...methods}>
+                <Form>
+                    <div className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}>
+                        <ControlledTextInput
+                            labelText={"Название категории"}
+                            placeholder={"Введите название категории"}
+                            name={"name"}
+                        />
+                    </div>
+                    <AdminPanelCharBlock/>
+                    <Button
+                        disabled={isSubmitting}
+                        classNames={{button: "w-[250px]"}}
+                        text={isSubmitting ? "Отправка.." : "Сохранить"}
+                        onClick={handleSubmit(onSaveChanges)}
+                    />
+                </Form>
+            </FormProvider>
         </>
     );
 };

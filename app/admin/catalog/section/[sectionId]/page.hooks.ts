@@ -1,24 +1,34 @@
 import {TextTableRow} from "@/types/dto/Table";
 import {usePathname, useRouter} from "next/navigation";
+import {useUnit} from "effector-react";
+import {$categories, pageDidMountEvent} from "@/models/admin/category";
+import {$nameToSearch} from "@/models/admin/section";
+import {useEffect} from "react";
 
-export const useAdminPanelCategoriesPage = () => {
+export const useAdminPanelCategoriesPage = (sectionId: number) => {
+
+    const [
+        nameToSearch,
+        pageDidMount, categories
+    ] = useUnit([$nameToSearch, pageDidMountEvent, $categories])
 
     const pathname = usePathname()
     const router = useRouter()
 
-    const tableContent: TextTableRow[] = [
-        {items: ["Средства гигиены"], itemsWidth : ["col-span-full"]},
-        {items: ["Губки, перчатки и салфетки"], itemsWidth : ["col-span-full"]},
-        {items: ["Мешки для мусора"], itemsWidth : ["col-span-full"]},
-        {items: ["Освежители воздуха"], itemsWidth : ["col-span-full"]},
-        {items: ["Чистящие средства"], itemsWidth : ["col-span-full"]},
-    ]
+    const tableContent: TextTableRow[] = categories
+        .filter(category => category.name.includes(nameToSearch))
+        .map(category => ({item: [category.name], id: category.id, itemsWidth: ["col-span-full"]}))
+
+    useEffect(() => {
+        pageDidMount(sectionId)
+    }, [pageDidMount])
 
     const handleExportCatalog = () => console.log("Exported")
     const handleRowClick = () => router.push(pathname.concat("/category/categoryId"))
 
     return {
-        tableContent, handleExportCatalog, handleRowClick
+        tableContent, handleExportCatalog,
+        handleRowClick
     }
 
 }
