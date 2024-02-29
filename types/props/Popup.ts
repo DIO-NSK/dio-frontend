@@ -1,4 +1,4 @@
-import {TextTableRow} from "@/types/dto/Table";
+import {TableRow} from "@/types/dto/Table";
 
 export type PopupProps = {
     onClose ?: () => void,
@@ -9,6 +9,6 @@ export type AddPromoPopup<T> = {
     onAddItem : (item : T) => void,
 } & PopupProps
 
-export type TableItemPopup = {
-    tableItem: TextTableRow
+export type TableItemPopup<T> = {
+    tableRow : TableRow<T>
 } & PopupProps

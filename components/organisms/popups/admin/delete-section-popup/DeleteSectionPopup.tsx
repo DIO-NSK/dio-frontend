@@ -1,14 +1,36 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TableItemPopup} from "@/types/props/Popup";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
+import {useUnit} from "effector-react";
+import {$sectionToDelete, deleteSectionEvent, onCloseSectionToDeleteEvent} from "@/models/admin/section";
 
-const DeleteSectionPopup = (props: TableItemPopup) => {
+const DeleteSectionPopup = (props: TableItemPopup<string[]>) => {
 
     const [sectionName, setSectionName] = useState<string>("")
-    const handleDeleteCategory = () => console.log("DELETE")
+
+    useEffect(() => {
+        console.log(sectionName)
+    }, [sectionName])
+
+    const [
+        sectionToDelete,
+        deleteSection,
+        onCloseSectionToDelete
+    ] = useUnit([
+        $sectionToDelete,
+        deleteSectionEvent,
+        onCloseSectionToDeleteEvent
+    ])
+
+    const onDeleteCategory = () => {
+        if (sectionName === sectionToDelete?.item[0]) {
+            deleteSection(props.tableRow.id)
+            onCloseSectionToDelete()
+        }
+    }
 
     return (
         <PopupWrapper placement={"center"} {...props}>
@@ -16,7 +38,7 @@ const DeleteSectionPopup = (props: TableItemPopup) => {
 
                 <div className={"flex flex-row items-baseline gap-3"}>
                     <Text text={"Удалить раздмел"} className={"text-[20px] font-medium"}/>
-                    <Text text={props.tableItem.items[0]} className={"text-text-gray"}/>
+                    <Text text={props.tableRow.item[0]} className={"text-text-gray"}/>
                 </div>
 
                 <Text text={"Предупреждаем, это действие невозможно отменить" +
@@ -26,14 +48,14 @@ const DeleteSectionPopup = (props: TableItemPopup) => {
                 <TextInput
                     labelText={"Подтвердите действие"}
                     placeholder={"Напишите название раздела, который вы хотите удалить"}
-                    value={sectionName}
                     onChange={setSectionName}
+                    value={sectionName}
                 />
 
                 <Button
                     text={"Удалить раздел"}
-                    onClick={handleDeleteCategory}
-                    classNames={{button : "bg-info-red hover:bg-red-700"}}
+                    onClick={onDeleteCategory}
+                    classNames={{button: "bg-info-red sm:hover:bg-red-700"}}
                 />
 
             </div>

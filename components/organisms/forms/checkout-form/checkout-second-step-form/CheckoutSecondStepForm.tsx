@@ -1,7 +1,7 @@
 import React from 'react';
 import InputListWrapper from "@/components/wrappers/form/input-list-wrapper/InputListWrapper";
 import {FieldName, useFormContext} from "react-hook-form";
-import {CheckoutFormData} from "@/schemas/CheckoutFormSchema";
+import {CheckoutFormData} from "@/schemas/customer/CheckoutFormSchema";
 import Button from "@/components/atoms/buttons/button/Button";
 import {SelectItem} from "@/types/props/SelectItem";
 import SelectAddressPopup from "@/components/mobile/popups/select-address-popup/SelectAddressPopup";
@@ -40,7 +40,7 @@ const CheckoutSecondStepFrom = ({activeStep, onSubmit}: {
 
     if (activeStep.value !== 1) return
 
-    const {trigger, formState: {isSubmitting}} = useFormContext()
+    const {trigger} = useFormContext()
 
     const handleSubmit = async () => {
         const fieldNames: FieldName<CheckoutFormData>[] = [

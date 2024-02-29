@@ -1,5 +1,5 @@
 import {z} from "zod"
-import {requiredFiledError} from "@/schemas/CheckoutFormSchema";
+import {requiredFiledError} from "@/schemas";
 
 export const ForgotPasswordSchema = z.object({
     password : z.string().min(1, requiredFiledError),

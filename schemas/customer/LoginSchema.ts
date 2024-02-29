@@ -1,5 +1,5 @@
 import {z} from "zod"
-import {requiredFiledError} from "@/schemas/CheckoutFormSchema";
+import {requiredFiledError} from "@/schemas";
 
 export const LoginSchema = z.object({
     phoneNumber : z.string().min(1, requiredFiledError),

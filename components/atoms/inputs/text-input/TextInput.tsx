@@ -2,20 +2,10 @@ import React, {ChangeEvent, useState} from 'react';
 import {TextInputProps} from "@/types/props/inputs/TextInput";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
-import {PhoneInputProps} from "@/types/props/inputs/PhoneInput";
-import InputMask from "react-input-mask";
 import EyeButton from "@/components/atoms/buttons/eye-button/EyeButton";
 import InputWrapper from "@/components/wrappers/input-wrapper/InputWrapper";
-import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
-import {FieldValues, UseFormReturn} from "react-hook-form";
 
-const InnerInput = <T extends FieldValues, >(
-    {
-        theme = "outlined",
-        name = "defaultInput",
-        ...props
-    }: TextInputProps<T> | PhoneInputProps
-) => {
+const InnerInput = ({theme = "outlined", ...props}: TextInputProps) => {
 
     const [
         isPasswordState,
@@ -27,7 +17,7 @@ const InnerInput = <T extends FieldValues, >(
         "hoverable focus:outline-0 border-light-gray border-2",
         {"sm:bg-white": theme == "filled"},
         {"hover:bg-opacity-50": theme == "outlined"},
-        {"text-text-gray bg-bg-light-blue bg-opacity-50" : props.disabled}
+        {"text-text-gray bg-bg-light-blue bg-opacity-50": props.disabled}
     ]
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,42 +29,28 @@ const InnerInput = <T extends FieldValues, >(
     }
 
     return (
-        <ConnectForm>
-            {(methods: UseFormReturn<T, any, T>) => (
-                <div className={"w-full relative"}>
-                    {
-                        props.inputMask ? <InputMask
-                                mask={props.inputMask}
-                                className={cn(wrapperCV)}
-                                placeholder={props.placeholder}
-                                {...methods?.register?.(name)}
-                            /> :
-                            <input
-                                {...methods?.register?.(name)}
-                                disabled={props.disabled}
-                                onKeyPress={handleKeyPress}
-                                type={isPasswordState ? "password" : "text"}
-                                className={cn(wrapperCV)}
-                                placeholder={props.placeholder}
-                            />
-                    }
-                    <div className={"absolute z-10 top-1/3 right-7"}>
-                        {!props.isPassword && props.endDecorator}
-                        {
-                            props.isPassword && <EyeButton
-                                isOpen={isPasswordState}
-                                setOpen={setIsPasswordState}
-                            />
-                        }
-                    </div>
-                </div>
-            )}
-        </ConnectForm>
+        <div className={"w-full relative"}>
+            <input
+                onChange={handleChange}
+                value={props.value}
+                className={cn(wrapperCV)}
+                placeholder={props.placeholder}
+            />
+            <div className={"absolute z-10 top-1/3 right-7"}>
+                {!props.isPassword && props.endDecorator}
+                {
+                    props.isPassword && <EyeButton
+                        isOpen={isPasswordState}
+                        setOpen={setIsPasswordState}
+                    />
+                }
+            </div>
+        </div>
     )
 
 }
 
-const TextInput = <T extends FieldValues, >(props: TextInputProps<T> | PhoneInputProps) => {
+const TextInput = (props: TextInputProps) => {
     return (
         <InputWrapper props={props}>
             <InnerInput {...props}/>

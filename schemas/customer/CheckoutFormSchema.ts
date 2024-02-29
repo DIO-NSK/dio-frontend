@@ -1,11 +1,10 @@
 import {z} from "zod"
+import {requiredFiledError} from "@/schemas";
 
 export enum CheckoutPaymentType {
     Online = "online",
     Offline = "offline"
 }
-
-export const requiredFiledError: string = "Поле обязательно для заполнения"
 
 const SelectItemSchema = z.object({
     name : z.string().min(1, requiredFiledError),

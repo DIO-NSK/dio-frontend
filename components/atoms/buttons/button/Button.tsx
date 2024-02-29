@@ -27,7 +27,7 @@ const Button = (
         "justify-center rounded-xl whitespace-nowrap",
         "sm:hover:duration-200 transition duration-200 pointer text-base",
         buttonTypeCV, buttonSizeCV, props.classNames?.button,
-        {"bg-bg-light-blue text-text-gray border-2 border-light-gray": disabled}
+        {"bg-bg-light-blue text-text-gray border-2 border-light-gray": disabled},
     ]
 
     return (

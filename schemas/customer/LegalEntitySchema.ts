@@ -1,5 +1,5 @@
 import {z} from "zod"
-import {requiredFiledError} from "@/schemas/CheckoutFormSchema";
+import {requiredFiledError} from "@/schemas";
 
 const onlyNumbersRegEx = /^\d+$/
 

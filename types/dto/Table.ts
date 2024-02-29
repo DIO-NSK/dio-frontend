@@ -12,13 +12,10 @@ export type TableHeaderItem = {
     width: string
 }
 
-export type TextTableRow = {
-    items: string[],
-    itemsWidth: string[]
-}
+export type TextTableRow = { itemsWidth: string[] } & TableRow<string[]>
 
 export type ProductTableRow<T> = TableRow<T> & { itemsWidth: Record<keyof T, string> }
 
 export type CallRequestTableRow = TableRow<CallRequest>
 
-export type TableRow<T> = { item: T }
+export type TableRow<T> = { item: T, id : number}

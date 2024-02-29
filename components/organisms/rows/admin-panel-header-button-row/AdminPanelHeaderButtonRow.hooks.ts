@@ -1,16 +1,18 @@
 import {usePathname, useRouter} from "next/navigation";
-import {useState} from "react";
+import {useUnit} from "effector-react";
+import {$nameToSearch, onChangeNameToSearch} from "@/models/admin/section";
 
 export const useAdminPanelHeaderButtonRow = () => {
+
+    const [nameToSearch, setNameToSearch] = useUnit([$nameToSearch, onChangeNameToSearch])
 
     const router = useRouter()
     const pathname = usePathname()
 
-    const [searchValue, setSearchValue] = useState<string>("")
     const handleAddItem = () => router.push(pathname.concat('/new'))
 
     return {
-        searchbar : {searchValue, setSearchValue},
+        searchbar: {searchValue : nameToSearch, setSearchValue : setNameToSearch},
         handleAddItem
     }
 

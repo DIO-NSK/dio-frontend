@@ -37,14 +37,14 @@ const TextContentTable = (props: TextContentTableProps) => {
                             </div>
                         }
                         {
-                            tableRow.items.map((rowItem, itemKey) =>
+                            tableRow.item?.map((rowItem, itemKey) =>
                                 <Text
                                     className={tableRow.itemsWidth[itemKey]}
                                     key={itemKey} text={rowItem}
                                 />
                             )
                         }
-                        <EditDeleteTooltip tableItem={tableRow}>
+                        <EditDeleteTooltip tableRow={tableRow}>
                             <SquareIcon icon={<FiMoreHorizontal size={"18px"}/>}/>
                         </EditDeleteTooltip>
                     </div>

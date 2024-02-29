@@ -2,7 +2,7 @@
 
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
-import {defaultForgotPasswordData, ForgotPasswordData, ForgotPasswordSchema} from "@/schemas/ForgotPasswordSchema";
+import {defaultForgotPasswordData, ForgotPasswordData, ForgotPasswordSchema} from "@/schemas/customer/ForgotPasswordSchema";
 import Form from "@/components/atoms/form/Form";
 import {FormProvider, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";

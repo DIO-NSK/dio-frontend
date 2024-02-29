@@ -4,7 +4,7 @@ import React from "react";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import {FormProvider, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {defaultRegisterSchema, RegisterData, RegisterSchema} from "@/schemas/RegisterSchema";
+import {defaultRegisterSchema, RegisterData, RegisterSchema} from "@/schemas/customer/RegisterSchema";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";

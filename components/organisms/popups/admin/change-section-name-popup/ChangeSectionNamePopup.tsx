@@ -5,7 +5,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 
-const ChangeSectionNamePopup = (props: TableItemPopup) => {
+const ChangeSectionNamePopup = (props: TableItemPopup<string[]>) => {
 
     const [sectionName, setSectionName] = useState<string>("")
     const handleSubmit = () => console.log("SUBMIT")
@@ -18,7 +18,7 @@ const ChangeSectionNamePopup = (props: TableItemPopup) => {
                       className={"text-text-gray"}/>
                 <TextInput
                     labelText={"Название раздела"}
-                    placeholder={props.tableItem.items[0]}
+                    placeholder={props.tableRow.item[0]}
                     value={sectionName}
                     onChange={setSectionName}
                 />

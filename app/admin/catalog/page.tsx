@@ -10,8 +10,29 @@ import {
 } from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
+import ChangeSectionNamePopup
+    from "@/components/organisms/popups/admin/change-section-name-popup/ChangeSectionNamePopup";
+import DeleteSectionPopup from "@/components/organisms/popups/admin/delete-section-popup/DeleteSectionPopup";
+import React from "react";
+import {useUnit} from "effector-react";
+import {
+    $sectionToDelete,
+    $sectionToEdit,
+    onCloseSectionToDeleteEvent,
+    onCloseSectionToEditEvent
+} from "@/models/admin/section";
 
 const AdminPanelCatalogPage = () => {
+
+    const [
+        onCloseSectionToDelete,
+        onCloseSectionToEdit,
+        sectionToDelete,
+        sectionToEdit
+    ] = useUnit([
+        onCloseSectionToDeleteEvent, onCloseSectionToEditEvent,
+        $sectionToDelete, $sectionToEdit
+    ])
 
     const {...context} = useAdminPanelCatalogPage()
     const {...headerContext} = useAdminPanelHeaderButtonRow()
@@ -20,6 +41,18 @@ const AdminPanelCatalogPage = () => {
     return (
         <>
 
+            {
+                sectionToEdit && <ChangeSectionNamePopup
+                    onClose={onCloseSectionToEdit}
+                    tableRow={sectionToEdit}
+                />
+            }
+            {
+                sectionToDelete && <DeleteSectionPopup
+                    onClose={onCloseSectionToDelete}
+                    tableRow={sectionToDelete}
+                />
+            }
             {
                 context.popup.isPopupVisible && <AdminSectionPopup
                     placement={"center"}
