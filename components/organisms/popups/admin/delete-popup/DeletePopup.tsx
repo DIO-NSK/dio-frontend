@@ -5,7 +5,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useUnit} from "effector-react";
-import {$sectionToDelete, deleteSectionEvent, onCloseSectionToDeleteEvent} from "@/models/admin/section";
+import {$sectionToDelete, deleteSectionEvent, onCloseSectionToDeleteEvent} from "@/app/admin/catalog/model";
 
 const DeleteSectionPopup = (props: TableItemPopup<string[]>) => {
 
