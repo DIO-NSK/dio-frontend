@@ -9,7 +9,7 @@ type CatalogHeaderRowProps = {
     searchInputOnChange : (value : string) => void
 }
 
-const AdminPanelHeaderButtonRow = (props : CatalogHeaderRowProps) => {
+const   AdminPanelHeaderButtonRow = (props : CatalogHeaderRowProps) => {
 
     return (
         <section className={"w-full mx-[-28px] px-7 flex flex-row gap-5"}>

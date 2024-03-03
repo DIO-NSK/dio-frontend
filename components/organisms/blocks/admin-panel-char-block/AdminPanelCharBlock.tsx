@@ -12,9 +12,9 @@ import ControlledSelectInput
 import {SelectItem} from "@/types/props/SelectItem";
 
 const selectItems: SelectItem<CharacteristicType>[] = [
-    {name: "Целочисленное значение", value: "Целочисленное значение"},
-    {name: "Дробное значение", value: "Дробное значение"},
-    {name: "Текстовое значение", value: "Текстовое значение"},
+    {name: "Целочисленное значение", value: "INTEGER"},
+    {name: "Дробное значение", value: "FLOAT"},
+    {name: "Текстовое значение", value: "TEXT"},
 ]
 
 const AdminPanelCharBlock = () => {

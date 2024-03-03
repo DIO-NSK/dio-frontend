@@ -1,59 +1,59 @@
 "use client"
 
-import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Button from "@/components/atoms/buttons/button/Button";
-import AdminPanelCharBlock from "@/components/organisms/blocks/admin-panel-char-block/AdminPanelCharBlock";
-import {FieldValues, FormProvider, useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import Form from "@/components/atoms/form/Form";
-import {
-    CreateCategoryData,
-    CreateCategorySchema,
-    defaultCharacteristicData
-} from "@/schemas/admin/CreateCategorySchema";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
-import {useUnit} from "effector-react";
-import {useRouter} from "next/navigation";
-import {$categories, $creationStatus, createCategoryFx} from "../model";
 import Text from "@/components/atoms/text/text-base/Text";
+import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
+import AdminPanelCharBlock from "@/components/organisms/blocks/admin-panel-char-block/AdminPanelCharBlock";
+import {CreateCategoryData, CreateCategorySchema,} from "@/schemas/admin/CreateCategorySchema";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useUnit} from "effector-react";
+import React, {useEffect} from "react";
+import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
+import {$currentCategory, editCategoryPageDidMountEvent} from "./model";
+import {$creationStatus, createCategoryFx} from "../../../model";
+import {useRouter} from "next/navigation";
 
-const AdminPanelNewCategoryPage = ({params}: {
-    params: { sectionId: number }
+const AdminEditCategoryPage = ({params}: {
+    params: {
+        sectionId: number;
+        categoryId: number;
+    }
 }) => {
 
-    const router = useRouter()
+    const router = useRouter();
 
     const [
-        categories,
-        createCategory,
-        creationStatus
-    ] = useUnit([$categories, createCategoryFx, $creationStatus])
+        currentCategory, pageDidMount,
+        createCategory, creationStatus,
+    ] = useUnit([
+        $currentCategory, editCategoryPageDidMountEvent,
+        createCategoryFx, $creationStatus,
+    ]);
 
     const methods = useForm<CreateCategoryData>({
         resolver: zodResolver(CreateCategorySchema),
-        defaultValues: {
-            name: "",
-            properties: [
-                defaultCharacteristicData,
-                {...defaultCharacteristicData, sequenceNumber: 1},
-            ]
-        },
+        defaultValues: {...currentCategory},
         mode: "onBlur"
     })
 
     const {
-        handleSubmit,
         formState: {isSubmitting},
+        handleSubmit,
     } = methods
 
     const onSaveChanges = (formData: FieldValues) => {
         const request = {
-            sequenceNumber : categories.length,
+            sequenceNumber: currentCategory?.sequenceNumber,
             data: formData as CreateCategoryData,
-            id: params.sectionId
-        }
-        createCategory(request).then(_ => router.back())
-    }
+            id: params.sectionId,
+        };
+        createCategory(request).then((_) => router.back());
+    };
+
+    useEffect(() => {
+        pageDidMount(params)
+    }, [])
 
     return (
         <>
@@ -65,7 +65,11 @@ const AdminPanelNewCategoryPage = ({params}: {
             />
             <FormProvider {...methods}>
                 <Form>
-                    <div className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}>
+                    <div
+                        className={
+                            "w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"
+                        }
+                    >
                         <ControlledTextInput
                             labelText={"Название категории"}
                             placeholder={"Введите название категории"}
@@ -80,18 +84,18 @@ const AdminPanelNewCategoryPage = ({params}: {
                             text={isSubmitting ? "Отправка.." : "Сохранить"}
                             onClick={handleSubmit(onSaveChanges)}
                         />
-                        {
-                            creationStatus === "failure" &&
-                            <Text text={"Возникли ошибки при создании категории"}
-                                  className={"text-sm text-red-500"}
+                        {creationStatus === "failure" && (
+                            <Text
+                                text={"Возникли ошибки при создании категории"}
+                                className={"text-sm text-red-500"}
                             />
-                        }
+                        )}
                     </div>
-
                 </Form>
             </FormProvider>
         </>
     );
+
 };
 
-export default AdminPanelNewCategoryPage;
+export default AdminEditCategoryPage;

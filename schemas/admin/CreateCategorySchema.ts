@@ -7,6 +7,7 @@ const SelectInputSchema = z.object({
 })
 
 const CharacteristicSchema = z.object({
+    id : z.number().optional(),
     name: z.string().min(1, requiredFiledError),
     valueName: z.string().min(1, requiredFiledError),
     valueType: SelectInputSchema,
@@ -15,7 +16,9 @@ const CharacteristicSchema = z.object({
 
 export const CreateCategorySchema = z.object({
     name: z.string().min(1, requiredFiledError),
-    properties: z.array(CharacteristicSchema)
+    properties: z.array(CharacteristicSchema),
+    id : z.number().optional(),
+    sequenceNumber : z.number().optional()
 })
 
 export type CreateCategoryData = z.infer<typeof CreateCategorySchema>
@@ -23,6 +26,6 @@ export type CharacteristicData = z.infer<typeof CharacteristicSchema>
 
 export const defaultCharacteristicData: CharacteristicData = {
     name: "", valueName: "",
-    valueType: {name: "Текстовое значение", value: "Текстовое значение"},
+    valueType: {name: "Текстовое значение", value: "TEXT"},
     sequenceNumber: 0
 }

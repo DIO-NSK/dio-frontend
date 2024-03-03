@@ -1,6 +1,6 @@
 import {usePathname, useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
-import {$nameToSearch, onChangeNameToSearch} from "@/models/admin/section";
+import {$nameToSearch, onChangeNameToSearch} from "@/app/admin/catalog/model";
 
 export const useAdminPanelHeaderButtonRow = () => {
 

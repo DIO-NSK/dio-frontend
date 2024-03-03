@@ -1,14 +1,9 @@
 import {z} from "zod"
 import {requiredFiledError} from "@/schemas";
 
-export const LoginSchema = z.object({
+export const LoginUserSchema = z.object({
     phoneNumber : z.string().min(1, requiredFiledError),
     password : z.string().min(1, requiredFiledError)
 })
 
-export type LoginData = z.infer<typeof LoginSchema>
-
-export const defaultLoginSchema : LoginData = {
-    phoneNumber: "",
-    password : ""
-}
+export type LoginUserData = z.infer<typeof LoginUserSchema>

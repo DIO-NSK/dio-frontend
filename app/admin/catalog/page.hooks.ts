@@ -2,7 +2,7 @@ import {TextTableRow} from "@/types/dto/Table";
 import {useEffect, useState} from "react";
 import {usePathname, useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
-import {$nameToSearch, $sections, pageDidMountEvent} from "@/models/admin/section";
+import {$nameToSearch, $sections, pageDidMountEvent} from "./model";
 
 export const useAdminPanelCatalogPage = () => {
 

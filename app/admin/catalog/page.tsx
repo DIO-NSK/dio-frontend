@@ -12,30 +12,29 @@ import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-he
 import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 import ChangeSectionNamePopup
     from "@/components/organisms/popups/admin/change-section-name-popup/ChangeSectionNamePopup";
-import DeleteSectionPopup from "@/components/organisms/popups/admin/delete-section-popup/DeleteSectionPopup";
+import DeletePopup from "@/components/organisms/popups/admin/delete-popup/DeletePopup";
 import React from "react";
 import {useUnit} from "effector-react";
 import {
     $sectionToDelete,
     $sectionToEdit,
     cancelChangesEvent,
+    deleteSectionEvent,
     onCloseSectionToDeleteEvent,
     onCloseSectionToEditEvent,
-    saveChangesEvent
-} from "@/models/admin/section";
+    saveChangesEvent,
+    selectSectionToDeleteEvent,
+    selectSectionToEditEvent
+} from "./model";
 
 const AdminPanelCatalogPage = () => {
 
     const [
         saveChanges, cancelChanges,
-        onCloseSectionToDelete,
-        onCloseSectionToEdit,
-        sectionToDelete,
-        sectionToEdit
+        selectSectionToDelete, selectSectionToEdit
     ] = useUnit([
         saveChangesEvent, cancelChangesEvent,
-        onCloseSectionToDeleteEvent, onCloseSectionToEditEvent,
-        $sectionToDelete, $sectionToEdit
+        selectSectionToDeleteEvent, selectSectionToEditEvent
     ])
 
     const {...context} = useAdminPanelCatalogPage()
@@ -44,19 +43,8 @@ const AdminPanelCatalogPage = () => {
 
     return (
         <>
-
-            {
-                sectionToEdit && <ChangeSectionNamePopup
-                    onClose={onCloseSectionToEdit}
-                    tableRow={sectionToEdit}
-                />
-            }
-            {
-                sectionToDelete && <DeleteSectionPopup
-                    onClose={onCloseSectionToDelete}
-                    tableRow={sectionToDelete}
-                />
-            }
+            <EditSectionPopup/>
+            <DeleteSectionPopup/>
             {
                 context.popup.isPopupVisible && <AdminSectionPopup
                     placement={"center"}
@@ -84,11 +72,41 @@ const AdminPanelCatalogPage = () => {
                 tableContent={context.tableContent}
                 isDraggable={editableContext.isEditable}
                 onRowClick={context.handleRowClick}
+                onEdit={selectSectionToEdit}
+                onDelete={selectSectionToDelete}
             />
 
         </>
     );
 
 };
+
+const EditSectionPopup = () => {
+
+    const [
+        sectionToEdit, onCloseSectionToEdit
+    ] = useUnit([$sectionToEdit, onCloseSectionToEditEvent])
+
+    return sectionToEdit && <ChangeSectionNamePopup
+        onClose={onCloseSectionToEdit}
+        tableRow={sectionToEdit}
+    />
+
+}
+
+const DeleteSectionPopup = () => {
+
+    const [
+        sectionToDelete, onCloseSectionToDelete,
+        deleteSection,
+    ] = useUnit([$sectionToDelete, onCloseSectionToDeleteEvent, deleteSectionEvent])
+
+    return sectionToDelete && <DeletePopup
+        onDelete={deleteSection}
+        onClose={onCloseSectionToDelete}
+        tableRow={sectionToDelete}
+    />
+
+}
 
 export default AdminPanelCatalogPage;

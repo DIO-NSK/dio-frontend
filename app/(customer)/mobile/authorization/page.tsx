@@ -5,7 +5,7 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {FiX} from "react-icons/fi";
 import Form from "@/components/atoms/form/Form";
 import {FormProvider, useForm} from "react-hook-form";
-import {defaultLoginSchema, LoginData, LoginSchema} from "@/schemas/customer/LoginSchema";
+import {defaultLoginSchema, LoginData, LoginUserSchema} from "@/schemas/customer/LoginUserSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -31,7 +31,7 @@ const MobileAuthorizationPage = () => {
     const navigation = useNavigation()
 
     const methods = useForm<LoginData>({
-        resolver: zodResolver(LoginSchema),
+        resolver: zodResolver(LoginUserSchema),
         defaultValues: defaultLoginSchema,
         mode: "onBlur"
     })

@@ -9,12 +9,12 @@ import {CreateSectionData, CreateSectionSchema} from "@/schemas/admin/CreateSect
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useUnit} from "effector-react";
 
-import {$createSectionError, submitFormEvent} from "@/models/admin/section"
+import {$createSectionError, createSectionFx} from "@/app/admin/catalog/model"
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 
 const AdminSectionPopup = (props: PopupProps) => {
 
-    const [createError, submitForm] = useUnit([$createSectionError, submitFormEvent])
+    const [createError, createSection] = useUnit([$createSectionError, createSectionFx])
 
     const methods = useForm<CreateSectionData>({
         resolver: zodResolver(CreateSectionSchema),
@@ -27,8 +27,9 @@ const AdminSectionPopup = (props: PopupProps) => {
     } = methods
 
     const onSubmit = (data: FieldValues) => {
-        submitForm(data as CreateSectionData)
-        props.onClose?.()
+        createSection(data as CreateSectionData)
+            .then(_ => props.onClose?.())
+            .catch(e => e)
     }
 
     return (

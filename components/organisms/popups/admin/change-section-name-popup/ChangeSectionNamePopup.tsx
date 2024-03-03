@@ -4,11 +4,18 @@ import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
+import {useUnit} from "effector-react";
+import {editSectionEvent, onCloseSectionToEditEvent} from "@/app/admin/catalog/model";
 
 const ChangeSectionNamePopup = (props: TableItemPopup<string[]>) => {
 
+    const [editSection, onCloseSectionToEdit] = useUnit([editSectionEvent, onCloseSectionToEditEvent])
+
     const [sectionName, setSectionName] = useState<string>("")
-    const handleSubmit = () => console.log("SUBMIT")
+    const handleSubmit = () => {
+        editSection({sectionId: props.tableRow.id, newName: sectionName})
+        onCloseSectionToEdit()
+    }
 
     return (
         <PopupWrapper placement={"center"} {...props}>
@@ -29,6 +36,7 @@ const ChangeSectionNamePopup = (props: TableItemPopup<string[]>) => {
             </div>
         </PopupWrapper>
     );
+
 };
 
 export default ChangeSectionNamePopup;
