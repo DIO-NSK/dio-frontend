@@ -9,7 +9,7 @@ type HeaderDescrButtonRowProps = {
     className ?: string
 }
 
-const HeaderDescrButtonRow = (props : HeaderDescrButtonRowProps) => {
+const HeaderDescriptionButtonRow = (props : HeaderDescrButtonRowProps) => {
     return (
         <div className={cn("w-full flex flex-row items-end justify-between", props.className)}>
             <div className={"flex flex-col gap-2 w-[750px]"}>
@@ -21,4 +21,4 @@ const HeaderDescrButtonRow = (props : HeaderDescrButtonRowProps) => {
     );
 };
 
-export default HeaderDescrButtonRow;
+export default HeaderDescriptionButtonRow;

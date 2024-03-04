@@ -1,12 +1,12 @@
-import React, {ChangeEvent} from 'react';
-import {TextInputProps} from "@/types/props/inputs/TextInput";
-import InputWrapper from "@/components/wrappers/input-wrapper/InputWrapper";
+import React from 'react';
+import {ControlledTextInputProps} from "@/types/props/inputs/TextInput";
 import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
-import {FieldValues, Path, UseFormReturn} from "react-hook-form";
+import {FieldValues, UseFormReturn} from "react-hook-form";
 import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
+import ControlledInputWrapper from "@/components/wrappers/input-wrapper/ControlledInputWrapper";
 
-const TextArea = <T extends FieldValues, >({theme = "outlined", ...props}: TextInputProps<T>) => {
+const ControlledTextArea = <T extends FieldValues, >({theme = "outlined", ...props}: ControlledTextInputProps<T>) => {
 
     const wrapperCV: ClassValue[] = [
         "w-full flex flex-row items-center justify-between p-5 sm:px-7 sm:py-5 rounded-xl bg-bg-light-blue",
@@ -16,24 +16,20 @@ const TextArea = <T extends FieldValues, >({theme = "outlined", ...props}: TextI
         props.classNames?.input
     ]
 
-    const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        props.onChange && props.onChange(event.target.value)
-    }
-
     return (
         <ConnectForm>
             {(methods: UseFormReturn<FieldValues, any, FieldValues>) => (
-                <InputWrapper props={props}>
+                <ControlledInputWrapper props={props}>
                     <textarea
                         className={cn(wrapperCV)}
                         placeholder={props.placeholder}
-                        {...methods.register(props.name as Path<T>)}
+                        {...methods.register(props.name)}
                     />
-                </InputWrapper>
+                </ControlledInputWrapper>
             )}
         </ConnectForm>
     );
 
 };
 
-export default TextArea;
+export default ControlledTextArea;

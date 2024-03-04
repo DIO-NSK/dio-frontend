@@ -22,7 +22,7 @@ export const useAdminPanelCategoriesPage = (sectionId: number) => {
     }, [pageDidMount])
 
     const handleExportCatalog = () => console.log("Exported")
-    const handleRowClick = () => router.push(pathname.concat("/category/categoryId"))
+    const handleRowClick = (itemId : number) => router.push(pathname.concat(`/category/${itemId}`))
 
     const handleEditCategory = (tableRow: TableRow<string[]>) => {
         router.push(pathname.concat(`/category/${tableRow.id}/edit`))

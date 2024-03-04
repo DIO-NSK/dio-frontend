@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
-import HeaderDescrButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescrButtonRow";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import {useToggle} from "@/utlis/hooks/useToggle";
 import {PromoCard} from "@/types/dto/PromoCard";
 import AddOurWaterPopup from "@/components/organisms/popups/admin/add-our-water-popup/AddOurWaterPopup";
@@ -25,7 +25,7 @@ const AdminPanelOurWatersBlock = () => {
                     onClose={toggle.toggleState}
                 />
             }
-            <HeaderDescrButtonRow
+            <HeaderDescriptionButtonRow
                 button={
                     <Button
                         size={"sm"} buttonType={"SECONDARY"}

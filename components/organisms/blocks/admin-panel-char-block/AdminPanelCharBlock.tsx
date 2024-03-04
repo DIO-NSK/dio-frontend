@@ -2,14 +2,14 @@ import React from 'react';
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import {CharacteristicType} from "@/types/dto/Characteristic";
-import HeaderDescrButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescrButtonRow";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import {useFieldArray, useFormContext} from "react-hook-form";
-import {CreateCategoryData, defaultCharacteristicData} from "@/schemas/admin/CreateCategorySchema";
 import DraggableRowWrapper from "@/components/wrappers/draggable-row-wrapper/DraggableRowWrapper";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 import {SelectItem} from "@/types/props/SelectItem";
+import {defaultCharacteristicData} from "@/schemas/dto/CharacteristicSchema";
 
 const selectItems: SelectItem<CharacteristicType>[] = [
     {name: "Целочисленное значение", value: "INTEGER"},
@@ -17,11 +17,13 @@ const selectItems: SelectItem<CharacteristicType>[] = [
     {name: "Текстовое значение", value: "TEXT"},
 ]
 
-const AdminPanelCharBlock = () => {
+const AdminPanelCharBlock = ({blockName}: {
+    blockName: string
+}) => {
 
-    const {control, formState: {errors}} = useFormContext<CreateCategoryData>()
+    const {control, formState: {errors}} = useFormContext()
     const {fields, append, remove} = useFieldArray({
-        control, name: "properties"
+        control, name: blockName
     })
 
     const handleAppendRow = () => append({
@@ -34,7 +36,7 @@ const AdminPanelCharBlock = () => {
     return (
         <div className={"w-full mx-[-28px] px-7 flex flex-col gap-5 pb-7 border-b-2 border-light-gray"}>
 
-            <HeaderDescrButtonRow
+            <HeaderDescriptionButtonRow
                 header={"Дополнительные характеристики"}
                 descr={"Данные характеристики будут видны только в карточке товара" +
                     " и не будут учитываться при поиске продукта"}
@@ -61,19 +63,19 @@ const AdminPanelCharBlock = () => {
                             <ControlledTextInput
                                 classNames={{wrapper: "col-span-3"}}
                                 placeholder={"Введите название характеристики"}
-                                name={`properties.${index}.name` as const}
-                                errors={errors?.properties?.[index]?.name}
+                                name={`${blockName}.${index}.name` as const}
+                                errors={errors?.[blockName]?.[index]?.name}
                             />
                             <ControlledTextInput
                                 classNames={{wrapper: "col-span-2"}}
                                 placeholder={"Единица характеристики"}
-                                name={`properties.${index}.valueName` as const}
-                                errors={errors?.properties?.[index]?.valueName}
+                                name={`${blockName}.${index}.valueName` as const}
+                                errors={errors?.[blockName]?.[index]?.valueName}
                             />
                             <ControlledSelectInput
                                 width={"col-span-2"}
                                 placeholder={"Целочисленное значение"}
-                                name={`properties.${index}.valueType` as const}
+                                name={`${blockName}.${index}.valueType` as const}
                                 items={selectItems}
                             />
                         </DraggableRowWrapper>

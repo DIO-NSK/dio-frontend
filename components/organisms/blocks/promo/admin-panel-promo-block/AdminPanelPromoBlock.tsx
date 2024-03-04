@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import HeaderDescrButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescrButtonRow";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import {useToggle} from "@/utlis/hooks/useToggle";
@@ -28,7 +28,7 @@ const AdminPanelPromoBlock = () => {
             }
             <div className={"flex flex-col gap-7"}>
 
-                <HeaderDescrButtonRow
+                <HeaderDescriptionButtonRow
                     button={
                         <Button
                             size={"sm"} buttonType={"SECONDARY"}

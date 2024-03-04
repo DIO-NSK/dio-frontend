@@ -2,7 +2,7 @@ import React from 'react';
 import AdminPanelBlockWrapper from "@/components/wrappers/admin-panel-block-wrapper/AdminPanelBlockWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
-import HeaderDescrButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescrButtonRow";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import DraggableRowWrapper from "@/components/wrappers/draggable-row-wrapper/DraggableRowWrapper";
 import SearchInput from "@/components/atoms/inputs/search-input/SearchInput";
 import {VariableBlock} from "@/types/props/VariableBlock";
@@ -17,7 +17,7 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
     return (
         <AdminPanelBlockWrapper>
 
-            <HeaderDescrButtonRow
+            <HeaderDescriptionButtonRow
                 header={props.header}
                 descr={props.description}
                 button={

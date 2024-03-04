@@ -3,54 +3,40 @@ import {SelectItem} from "@/types/props/SelectItem";
 
 export const useAdminPanelNewProductPage = () => {
 
-    const dropdownItems: SelectItem<number>[] = [
-        {name: "Салфетки", value: 102},
-        {name: "Одноразовая посуда", value: 103},
-        {name: "Пластиковые стаканы", value: 104},
+    const dropdownItems: SelectItem<string>[] = [
+        {name: "Салфетки", value: "napkins"},
+        {name: "Одноразовая посуда", value: "dish"},
+        {name: "Пластиковые стаканы", value: "plastic cups"},
     ]
-
-    const [
-        activeProductGroup,
-        setActiveProductGroup
-    ] = useState<SelectItem<number>>(dropdownItems[0])
-
-    const [productName, setProductName] = useState<string>("")
-    const [productCode, setProductCode] = useState<string>("")
-    const [price, setPrice] = useState<string>("")
-    const [discount, setDiscount] = useState<string>("")
-    const [VAT, setVAT] = useState<string>("")
 
     const inputGridData = [
         {
             labelText: "Название товара",
             placeholder: "Введите название товара",
-            value: productName,
-            onChange: setProductName
+            name : "name"
         }, {
             labelText: "Код товара",
-            placeholder: "223 899",
-            inputMask: "999 999",
-            value: productCode,
-            onChange: setProductCode
+            placeholder: "Введите код товара",
+            numbersOnly : true,
+            name: "crmCode"
         }, {
             labelText: "Цена товара",
             placeholder: "Введите цену товара",
-            value: price,
-            onChange: setPrice
+            numbersOnly: true,
+            name : "price"
         }, {
             labelText: "Скидка",
             placeholder: "Введите скидку на товар",
-            value: discount,
-            onChange: setDiscount
+            numbersOnly: true,
+            name : "discountPercent"
         }, {
             labelText: "Размер НДС",
             placeholder: "20",
-            value: VAT,
-            onChange: setVAT
+            numbersOnly: true,
+            name : "taxPercent"
         }
     ]
 
-    const [description, setDescription] = useState<string>("")
     const [photos, setPhotos] = useState<File[]>([])
 
     const handleAddPhoto = (photo : File) => setPhotos([...photos, photo])
@@ -65,11 +51,9 @@ export const useAdminPanelNewProductPage = () => {
     const handleCreateProduct = () => console.log("Saved!")
 
     return {
-        dropdown: {dropdownItems, activeProductGroup, setActiveProductGroup},
         photoBlock : {photos, handleAddPhoto, handleDeletePhoto},
         switch : {isProductOfTheDay, handleSetProductOfTheDay},
-        textArea : {description, setDescription}, inputGridData,
-        handleCreateProduct
+        inputGridData, handleCreateProduct, dropdownItems
     }
 
 }

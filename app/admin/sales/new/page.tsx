@@ -4,7 +4,7 @@ import {useAdminPanelNewSalePage} from "@/app/admin/sales/new/page.hooks";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import TextArea from "@/components/atoms/inputs/text-area/TextArea";
+import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
 import AdminPanelSaleRuleBlock from "@/components/organisms/blocks/admin-panel-sale-rule-block/AdminPanelSaleRuleBlock";
 import AdminPanelSearchbarBlock
     from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchbarBlock";
@@ -91,7 +91,7 @@ const AdminPanelNewSalePage = () => {
 
             <FirstInputRow/>
             <SecondInputRow/>
-            <TextArea
+            <ControlledTextArea
                 labelText={"Описание акции"}
                 placeholder={"Придумайте привлекающее описание акции. Идеальная длина описания — 1 предложение."}
                 value={context.textArea.description}

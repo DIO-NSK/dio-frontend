@@ -4,7 +4,7 @@ import {CategoryRent} from "@/types/dto/CategoryRent";
 import AdminPanelBlockWrapper from "@/components/wrappers/admin-panel-block-wrapper/AdminPanelBlockWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
-import HeaderDescrButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescrButtonRow";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import AdminPanelRentRow from "@/components/moleculas/rows/admin-panel-rent-row/AdminPanelRentRow";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
@@ -13,7 +13,7 @@ const AdminPanelServiceRentBlock = (props: VariableBlock<CategoryRent>) => {
     return (
         <AdminPanelBlockWrapper>
 
-            <HeaderDescrButtonRow
+            <HeaderDescriptionButtonRow
                 header={"Стоимость аренды"}
                 descr={"Введите название категории в поле ниже и измените для него стоимость аренды"}
                 button={

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useToggle} from "@/utlis/hooks/useToggle";
 import {PromoCard} from "@/types/dto/PromoCard";
-import HeaderDescrButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescrButtonRow";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
@@ -25,7 +25,7 @@ const AdminPanelPromotionsBlock = () => {
                     onClose={toggle.toggleState}
                 />
             }
-            <HeaderDescrButtonRow
+            <HeaderDescriptionButtonRow
                 button={
                     <Button
                         size={"sm"} buttonType={"SECONDARY"}

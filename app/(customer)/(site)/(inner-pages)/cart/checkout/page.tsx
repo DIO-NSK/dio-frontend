@@ -13,7 +13,7 @@ import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import {SelectItem} from "@/types/props/SelectItem";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import Text from "@/components/atoms/text/text-base/Text";
-import TextArea from "@/components/atoms/inputs/text-area/TextArea";
+import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import PickAddressPopup from "@/components/organisms/popups/checkout/PickAddressPopup";
@@ -208,7 +208,7 @@ const CheckoutAdditionalBlock = () => {
 
     return (
         <BackgroundBlockWrapper header={"Дополнительно"}>
-            <TextArea
+            <ControlledTextArea
                 classNames={{wrapper: "col-span-full", input: "min-h-[150px] max-h-[300px]"}}
                 labelText={"Пожелания к заказу"}
                 placeholder={"Уточните детали заказа в комментарии"}

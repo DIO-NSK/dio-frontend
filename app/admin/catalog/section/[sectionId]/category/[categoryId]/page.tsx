@@ -6,16 +6,21 @@ import {Breadcrumbs, Link} from "@mui/joy";
 import Text from "@/components/atoms/text/text-base/Text";
 import {useAdminPanelProductsPage} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
 import ProductContentTable from "@/components/organisms/tables/product-content-table/ProductContentTable";
-import {adminProductTableContent, adminProductTableHeader} from "@/data/tables/adminProductTable";
+import {adminProductTableHeader} from "@/data/tables/adminProductTable";
 import {
     useAdminPanelHeaderButtonRow
 } from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
 import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 
-const AdminPanelProductsPage = () => {
+const AdminPanelProductsPage = ({params}: {
+    params: {
+        sectionId: number,
+        categoryId: number
+    }
+}) => {
 
-    const {...context} = useAdminPanelProductsPage()
+    const {...context} = useAdminPanelProductsPage(params.categoryId)
     const {...headerContext} = useAdminPanelHeaderButtonRow()
     const {...editableContext} = useAdminPanelHeaderRow()
 
@@ -51,6 +56,8 @@ const AdminPanelProductsPage = () => {
                         header={"Товары"}
                         isEditable={editableContext.isEditable}
                         onChange={editableContext.handleSwitchEditable}
+                        onSaveChanges={() => console.log("AA")}
+                        onCancelChanges={() => console.log("BB")}
                     />
                 </div>
 
@@ -58,7 +65,7 @@ const AdminPanelProductsPage = () => {
 
             <ProductContentTable
                 tableHeader={adminProductTableHeader}
-                tableContent={adminProductTableContent}
+                tableContent={context.tableContent}
                 onProductClick={context.handleProductClick}
             />
 

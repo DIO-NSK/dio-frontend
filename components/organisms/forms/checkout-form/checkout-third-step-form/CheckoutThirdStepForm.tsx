@@ -8,7 +8,7 @@ import RadioGroup from "@/components/moleculas/radio-group/RadioGroup";
 import InputListWrapper from "@/components/wrappers/form/input-list-wrapper/InputListWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FieldName, FieldValues, useFormContext} from "react-hook-form";
-import TextArea from "@/components/atoms/inputs/text-area/TextArea";
+import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
 
 const radioGroupItems: RadioButtonItem[] = [
     {
@@ -67,7 +67,7 @@ const CheckoutThirdStepForm = ({activeStep, onSubmit}: {
                 items={radioGroupItems}
                 name={"paymentType"}
             />
-            <TextArea
+            <ControlledTextArea
                 placeholder={"Уточните детали заказа в комментарии"}
                 name={"additional"}
             />

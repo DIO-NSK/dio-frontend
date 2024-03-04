@@ -8,14 +8,14 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
 import {
     CreateCategoryData,
-    CreateCategorySchema,
-    defaultCharacteristicData
+    CreateCategorySchema
 } from "@/schemas/admin/CreateCategorySchema";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import {useUnit} from "effector-react";
 import {useRouter} from "next/navigation";
 import {$categories, $creationStatus, createCategoryFx} from "../model";
 import Text from "@/components/atoms/text/text-base/Text";
+import {defaultCharacteristicData} from "@/schemas/dto/CharacteristicSchema";
 
 const AdminPanelNewCategoryPage = ({params}: {
     params: { sectionId: number }
@@ -35,7 +35,10 @@ const AdminPanelNewCategoryPage = ({params}: {
             name: "",
             properties: [
                 defaultCharacteristicData,
-                {...defaultCharacteristicData, sequenceNumber: 1},
+                {
+                    ...defaultCharacteristicData,
+                    sequenceNumber: 1
+                },
             ]
         },
         mode: "onBlur"
@@ -48,7 +51,7 @@ const AdminPanelNewCategoryPage = ({params}: {
 
     const onSaveChanges = (formData: FieldValues) => {
         const request = {
-            sequenceNumber : categories.length,
+            sequenceNumber: categories.length,
             data: formData as CreateCategoryData,
             id: params.sectionId
         }
@@ -72,7 +75,7 @@ const AdminPanelNewCategoryPage = ({params}: {
                             name={"name"}
                         />
                     </div>
-                    <AdminPanelCharBlock/>
+                    <AdminPanelCharBlock blockName={"properties"}/>
                     <div className={"flex flex-row items-center gap-5"}>
                         <Button
                             disabled={isSubmitting}
