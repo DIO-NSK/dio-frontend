@@ -14,6 +14,6 @@ const loginUserByCredentials = async (formData : LoginUserData) => {
 export const loginUserByCredentialsFx = createEffect(loginUserByCredentials)
 
 export const $loginError = createStore<string>("")
-$loginError.on(loginUserByCredentialsFx.failData, (_, error) => error.message)
 
+$loginError.on(loginUserByCredentialsFx.failData, (_, error) => error.message)
 $loginError.watch(e => console.log(e))

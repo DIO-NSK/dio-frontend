@@ -24,6 +24,6 @@ persist({
 
 sample({
     clock : [sendConfirmationCodeFx.doneData, loginUserByCredentialsFx.doneData],
-    fn : (userId : number) => userId,
+    fn : (data) => data.userId,
     target : $userId
 })

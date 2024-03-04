@@ -1,42 +1,37 @@
 import {Category} from "@/types/dto/Category";
 import {createEvent, createStore, sample} from "effector";
-import {$categories, getCategoryFx} from "../../../model";
+import {getCategoryFx} from "../../../model";
 import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
 import {combineEvents} from "patronum";
 import {CharacteristicType} from "@/types/dto/Characteristic";
 
-type PageSlug = {sectionId : number, categoryId : number}
+type PageSlug = { sectionId: number, categoryId: number }
+
 export const editCategoryPageDidMountEvent = createEvent<PageSlug>()
-export const $currentCategory = createStore<CreateCategoryData | null>(null)
 
 const $pageSlug = createStore<PageSlug | null>(null)
+export const $formData = createStore<CreateCategoryData | null>(null)
+
+$formData.on(
+    combineEvents([getCategoryFx.doneData, editCategoryPageDidMountEvent]),
+    (_, clocks) => createFormData(clocks[1], clocks[0])
+)
 
 $pageSlug.on(editCategoryPageDidMountEvent, (_, pageSlug) => pageSlug)
 
 sample({
-    clock: combineEvents([editCategoryPageDidMountEvent, getCategoryFx.doneData]),
-    source : {categories : $categories, pageSlug : $pageSlug},
-    fn : (source) => findAndCreateFormData(source),
-    target: $currentCategory
+    clock: editCategoryPageDidMountEvent,
+    fn: (data: PageSlug) => data.sectionId,
+    target: getCategoryFx,
 })
 
-sample({
-    clock : editCategoryPageDidMountEvent,
-    fn : (data : PageSlug) => data.sectionId,
-    target : getCategoryFx
-})
-
-function findAndCreateFormData(source: {categories: Category[], pageSlug: PageSlug | null}) {
-
-    const {categories, pageSlug} = source
-    const categoryId = pageSlug?.categoryId!!
-    const curCategory = categories.find(cat => cat.id === +categoryId)!!
-
+function createFormData(pageSlug : PageSlug, categories : Category[]) : CreateCategoryData {
+    const category = categories.find(cat => cat.id === +pageSlug.categoryId)!!
     return {
-        id: curCategory.id!!,
-        name: curCategory.name,
-        sequenceNumber: curCategory.sequenceNumber,
-        properties: curCategory.properties.map(prop => ({
+        id: category.id!!,
+        name: category.name,
+        sequenceNumber: category.sequenceNumber,
+        properties: category.properties.map(prop => ({
                 ...prop,
                 valueType: {
                     name: convertStatusToText(prop.valueType as CharacteristicType),
@@ -45,13 +40,15 @@ function findAndCreateFormData(source: {categories: Category[], pageSlug: PageSl
             })
         ),
     } as CreateCategoryData
-
 }
 
-function convertStatusToText(status : CharacteristicType) : string {
+function convertStatusToText(status: CharacteristicType): string {
     switch (status) {
-        case "TEXT": return "Текстовое значение"
-        case "FLOAT": return "Дробное значние"
-        case "INTEGER" : return "Целочисленное значение"
+        case "TEXT":
+            return "Текстовое значение"
+        case "FLOAT":
+            return "Дробное значние"
+        case "INTEGER" :
+            return "Целочисленное значение"
     }
 }

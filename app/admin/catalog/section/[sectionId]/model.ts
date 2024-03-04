@@ -43,7 +43,7 @@ export const $categoryToDelete = createStore<TableRow<string[]> | null>(null)
 
 export const updateCategoriesFx = createEffect(updateCategory)
 export const createCategoryFx = createEffect(createCategory)
-export const getCategoryFx = createEffect(getCategoryList)
+export const getCategoryFx = createEffect<number, Category[], Error>(getCategoryList)
 
 export const pageDidMountEvent = createEvent<number>()
 

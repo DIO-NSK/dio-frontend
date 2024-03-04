@@ -1,4 +1,9 @@
 
+export type AdminFilledProperty = {
+    value : string,
+    propertyId : number
+}
+
 export type RequestAdminProduct = {
     name : string,
     description : string,
@@ -7,5 +12,6 @@ export type RequestAdminProduct = {
     price : number,
     taxPercent : number,
     discountPercent : number,
-    isProductOfTheDay : boolean
+    isProductOfTheDay : boolean,
+    filledProperties : AdminFilledProperty[]
 }

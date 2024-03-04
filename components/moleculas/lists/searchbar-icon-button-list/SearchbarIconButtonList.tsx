@@ -5,17 +5,26 @@ import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
 import {useStore} from "@/store/Store";
 import {useRouter} from "next/navigation";
+import {useUnit} from "effector-react";
+import {$userCredentials} from "@/app/(customer)/model";
 
 const SearchbarIconButtonList = () => {
+
+    const userCredentials = useUnit($userCredentials)
 
     const router = useRouter()
     const switchPopupState = useStore(state => state.switchPopupState)
 
+    const userName = userCredentials ? userCredentials.fullName.split(" ")[1] : "Войти"
+
     const buttonListData = [
         {
-            name: "Войти",
-            icon: <FiUser size={"20px"} className={"stroke-link-blue"}/>,
-            onClick: () => switchPopupState("login")
+            name: userName,
+            icon: <FiUser size={"20px"} className={"text-link-blue"}/>,
+            onClick: () => {
+                userCredentials ? router.push('/profile')
+                    : switchPopupState("login")
+            }
         },
         {
             name: "Избранное",
@@ -33,17 +42,18 @@ const SearchbarIconButtonList = () => {
     return (
         <div className={"flex flex-row items-center gap-[30px]"}>
             {
-                buttonListData.map((item) => {
+                buttonListData.map((item, key) => {
 
-                    const itemCV : ClassValue = {
-                        "text-link-blue" : item.name === "Войти",
-                        "text-text-gray" : item.name !== "Войти"
+                    const itemCV: ClassValue = {
+                        "text-link-blue": key === 0,
+                        "text-text-gray": key !== 0
                     }
 
                     return <IconTextButton
                         className={cn(itemCV)}
                         icon={item.icon} text={item.name}
                         onClick={item.onClick}
+                        key={key}
                     />
 
                 })
