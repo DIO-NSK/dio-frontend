@@ -9,8 +9,8 @@ const WaveHeaderWrapper = ({header}: {header : string}): React.ReactNode => {
             <WaveHeader header={header} />
             <div className={"flex flex-col gap-7 sm:gap-[80px]"}>
                 {
-                    fullWidthCardData.map((card) => {
-                        return <FullwidthMainCard card={card} />
+                    fullWidthCardData.map((card, index) => {
+                        return <FullwidthMainCard card={card} key={index}/>
                     })
                 }
             </div>

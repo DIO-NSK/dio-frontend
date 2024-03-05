@@ -8,7 +8,7 @@ import {useRouter} from "next/navigation";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 
-import {ProductCard} from "@/types/dto/cards/ProductCard"
+import {ProductCard} from "@/types/dto/admin/cards/ProductCard"
 import Text from "@/components/atoms/text/text-base/Text";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 

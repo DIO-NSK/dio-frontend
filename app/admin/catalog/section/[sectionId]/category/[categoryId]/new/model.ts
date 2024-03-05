@@ -1,6 +1,6 @@
 import {api} from "@/api";
 import {CreateProductData} from "@/schemas/admin/CreateProductSchema";
-import {AdminFilledProperty, RequestAdminProduct} from "@/types/dto/product/RequestAdminProduct";
+import {AdminFilledProperty, RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
 import {createEffect, createStore} from "effector";
 
 type CreateProductParams = {

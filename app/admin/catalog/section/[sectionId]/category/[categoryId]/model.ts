@@ -1,6 +1,6 @@
 import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
-import {ResponseAdminProduct} from "@/types/dto/product/ResponseAdminProduct";
+import {ResponseAdminProduct} from "@/types/dto/admin/product/ResponseAdminProduct";
 
 export const getProducts = async (categoryId: number) : Promise<ResponseAdminProduct[]> => {
     const params = {params: {categoryId: categoryId}}

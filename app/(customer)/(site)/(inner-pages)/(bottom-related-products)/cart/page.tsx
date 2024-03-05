@@ -1,7 +1,7 @@
 "use client"
 
-import {ShoppingCartProductCardDTO} from "@/types/dto/cards/ProductCard";
-import {ShoppingCartServiceCardDTO} from "@/types/dto/cards/ServiceCard";
+import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
+import {ShoppingCartServiceCardDTO} from "@/types/dto/admin/cards/ServiceCard";
 import ShoppingCartGroupWrapper from "@/components/wrappers/shopping-cart-group-wrapper/ShoppingCartGroupWrapper";
 import ShoppingCartServiceCard from "@/components/organisms/cards/shopping-cart-service-card/ShoppingCartServiceCard";
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";

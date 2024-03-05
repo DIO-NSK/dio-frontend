@@ -33,6 +33,7 @@ const PagingSlider = ({activePage, setActivePage, pageNumber}: PagingSliderTypes
                         ? COLOR["link-blue"] : COLOR["bg-light-blue"]
 
                     return <div
+                        key={index}
                         style={{backgroundColor: color}}
                         className={style.page}
                         onClick={() => {

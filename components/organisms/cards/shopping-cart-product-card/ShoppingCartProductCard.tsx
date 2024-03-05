@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ShoppingCartProductCardDTO} from "@/types/dto/cards/ProductCard";
+import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
 import Text from "@/components/atoms/text/text-base/Text";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import {FiTrash2} from "react-icons/fi";

@@ -3,15 +3,15 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 
 type SearchBarClassNames = {
-    wrapper ?: string,
-    input ?: string
+    wrapper?: string,
+    input?: string
 }
 
 type SearchBarTypes = {
     placeholder: string,
-    value: string,
     onChange: (value: string) => void,
-    classNames ?: SearchBarClassNames
+    classNames?: SearchBarClassNames,
+    value?: string,
 }
 
 const SearchInput = ({placeholder, value, onChange, classNames}: SearchBarTypes) => {
@@ -23,7 +23,7 @@ const SearchInput = ({placeholder, value, onChange, classNames}: SearchBarTypes)
         "focus:outline-0", classNames?.input
     ]
 
-    const iconCV : ClassValue[] = [
+    const iconCV: ClassValue[] = [
         "absolute z-10 right-5 sm:right-[30px] top-1/3 stroke-text-gray sm:pointer",
         "w-5 h-5 sm:w-6 sm:h-6 sm:group-hover:stroke-blue-600 sm:hoverable"
     ]

@@ -75,10 +75,11 @@ const FavoritesPage = () => {
                 <FavoritesHeaderRow selectedCards={[]}/>
                 <section className={"w-full flex flex-col gap-3 sm:gap-7 sm:grid sm:grid-cols-9"}>
                     {
-                        mockCardArray.map((card) => {
+                        mockCardArray.map((card, index) => {
                             return <ProductCard
                                 classNames={{mainWrapper: "w-full"}}
                                 productCard={card}
+                                key={index}
                             />
                         })
                     }

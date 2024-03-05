@@ -52,7 +52,7 @@ const LeftRow = () => {
                         {
                             footerData.map((item, itemIndex) => {
                                 if (itemIndex >= colIndex * 4 && itemIndex < colIndex * 4 + 4) {
-                                    return <div className={"flex flex-row item-center gap-[15px]"}>
+                                    return <div className={"flex flex-row item-center gap-[15px]"} key={itemIndex}>
                                         {
                                             item.icon && <img
                                                 src={item.icon as string}

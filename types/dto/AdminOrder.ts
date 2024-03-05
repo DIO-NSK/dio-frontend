@@ -1,4 +1,4 @@
-import {ShoppingCartProductCardDTO} from "@/types/dto/cards/ProductCard";
+import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
 import {OrderStatus} from "@/types/dto/Order";
 import {Customer} from "@/types/dto/CallRequest";
 

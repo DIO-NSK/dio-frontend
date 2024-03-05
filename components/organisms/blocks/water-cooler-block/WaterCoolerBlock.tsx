@@ -51,12 +51,13 @@ const WaterCoolerBlock = () => {
             />
 
             {
-                waterCoolerBlockData.map((item) => {
+                waterCoolerBlockData.map((item, index) => {
                     return <WaterCoolerBlock.DescrCol
                         top={item.top}
                         left={item.left}
                         header={item.header}
                         descr={item.descr}
+                        key={index}
                     />
                 })
             }

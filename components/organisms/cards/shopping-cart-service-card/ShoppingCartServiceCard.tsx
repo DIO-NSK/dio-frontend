@@ -1,5 +1,5 @@
 import React from 'react';
-import {ShoppingCartServiceCardDTO} from "@/types/dto/cards/ServiceCard";
+import {ShoppingCartServiceCardDTO} from "@/types/dto/admin/cards/ServiceCard";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";

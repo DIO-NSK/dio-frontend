@@ -1,7 +1,7 @@
-import {ShoppingCartProductCardDTO} from "@/types/dto/cards/ProductCard";
+import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
 import CoolerImage from "@/public/images/shopping-cart-cooler.png";
 import WaterImage from "@/public/images/shopping-cart-water.png";
-import {ShoppingCartServiceCardDTO} from "@/types/dto/cards/ServiceCard";
+import {ShoppingCartServiceCardDTO} from "@/types/dto/admin/cards/ServiceCard";
 import CoolerService from "@/public/images/shopping-cooler-service.png";
 
 export const coolerProductCard: ShoppingCartProductCardDTO = {

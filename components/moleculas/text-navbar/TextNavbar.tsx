@@ -29,10 +29,12 @@ const TextNavbar = () => {
                             text={item.text}
                             className={linkCV}
                             onClick={() => router.push((item as TextLink).link)}
+                            key={index}
                         /> :
                         <TextButton
                             text={item.text}
                             onClick={(item as TextAction).action}
+                            key={index}
                         />
                 })
             }

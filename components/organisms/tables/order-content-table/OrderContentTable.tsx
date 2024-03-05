@@ -6,7 +6,7 @@ import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
 import Text from "@/components/atoms/text/text-base/Text";
 import {AdminOrder} from "@/types/dto/AdminOrder";
-import {ShoppingCartProductCardDTO} from "@/types/dto/cards/ProductCard";
+import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import Checkbox from "@/components/atoms/buttons/checkbox/Checkbox";
 import {FiMoreHorizontal} from "react-icons/fi";

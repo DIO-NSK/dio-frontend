@@ -11,10 +11,10 @@ import Button from "@/components/atoms/buttons/button/Button";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
 import {mockShoppingCartProducts} from "@/data/shoppingCartProducts";
 import ShoppingCartGroupWrapper from "@/components/wrappers/shopping-cart-group-wrapper/ShoppingCartGroupWrapper";
-import {ShoppingCartServiceCardDTO} from "@/types/dto/cards/ServiceCard";
+import {ShoppingCartServiceCardDTO} from "@/types/dto/admin/cards/ServiceCard";
 import ShoppingCartServiceCard from "@/components/organisms/cards/shopping-cart-service-card/ShoppingCartServiceCard";
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
-import {ShoppingCartProductCardDTO} from "@/types/dto/cards/ProductCard";
+import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
 import {Order} from "@/types/dto/Order";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 

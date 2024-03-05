@@ -20,6 +20,8 @@ import ChangePasswordPopup from "@/components/organisms/popups/authorization/cha
 import SuccessPopup from "@/components/organisms/popups/authorization/success-popup/SuccessPopup";
 import React from "react";
 import CatalogPopup from "@/components/organisms/popups/catalog/CatalogPopup";
+import {useUnit} from "effector-react";
+import {setSearchNameEvent} from "@/components/organisms/bars/searchbar/model";
 
 const ActivePopup = () => {
 
@@ -45,6 +47,8 @@ const ActivePopup = () => {
 }
 
 const Searchbar = () => {
+
+    const setSearchName = useUnit(setSearchNameEvent)
 
     const {...searchbarContext} = useSearchbar()
 
@@ -81,8 +85,7 @@ const Searchbar = () => {
                     />
                     <SearchInput
                         placeholder={"Поиск товаров"}
-                        value={searchbarContext.searchbar.searchbarValue}
-                        onChange={searchbarContext.searchbar.setSearchbarValue}
+                        onChange={setSearchName}
                     />
                 </div>
                 <SearchbarIconButtonList/>

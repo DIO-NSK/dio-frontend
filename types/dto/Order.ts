@@ -1,5 +1,5 @@
 import {ProductCardDTO} from "@/types/product";
-import {ShoppingCartProductCardDTO} from "@/types/dto/cards/ProductCard";
+import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
 
 export type Order = {
     orderId: number
