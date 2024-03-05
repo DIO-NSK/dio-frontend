@@ -3,26 +3,34 @@
 @tailwind utilities;
 
 :root {
-  @apply w-screen h-screen bg-white overflow-x-hidden;
+    @apply w-screen h-screen bg-white overflow-x-hidden;
 }
 
 .pointer {
-  @apply hover:cursor-pointer;
+    @apply hover:cursor-pointer;
 }
 
 .hoverable {
-  @apply hover:duration-200 transition;
+    @apply hover:duration-200 transition;
 }
 
 .gray-text {
-  @apply text-text-gray hover:text-gray-600 hoverable;
+    @apply text-text-gray hover:text-gray-600 hoverable;
 }
 
 
 .red-text {
-  @apply text-info-red hover:text-red-700 hoverable;
+    @apply text-info-red hover:text-red-700 hoverable;
 }
 
 .mobileFooterRow {
-  @apply w-full flex pb-7 border-b-2 border-light-gray;
+    @apply w-full flex pb-7 border-b-2 border-light-gray;
+}
+
+.customScrollbar::-webkit-scrollbar {
+    @apply w-2 bg-gray-100 rounded-full;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full w-20 bg-gray-200 cursor-grab active:cursor-grabbing;
 }

@@ -44,7 +44,7 @@ export const createSectionFx = attach({
     effect: updateSectionsFx,
     source: $sections,
     mapParams: (formData: CreateSectionData, sections: Section[]) => {
-        const section: Section = {name: formData.section, sequenceNumber: sections.length} as Section
+        const section: Section = {name: formData.section, sequenceNumber: sections.length + 1} as Section
         return [...sections, section]
     }
 })

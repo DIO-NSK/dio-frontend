@@ -4,7 +4,7 @@ import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {TableRow} from "@/types/dto/Table";
 
-const createCategory = async (request: { data: CreateCategoryData, sequenceNumber ?: number, id: number }) => {
+const createCategory = async (request: { data: CreateCategoryData, sequenceNumber: number, id: number }) => {
 
     const mappedProperties = request.data.properties
         .map((property) => ({...property, valueType: property.valueType.value}))
@@ -22,12 +22,12 @@ const createCategory = async (request: { data: CreateCategoryData, sequenceNumbe
 
 const getCategoryList = async (sectionId: number) => {
     const params = {params: {sectionId: sectionId}}
-    return api.get("/admin/catalogue/category", params)
+    return api.get("/admin/catalogue/category/search", params)
         .then(response => response.data)
 }
 
-const updateCategory = async (request : {categories : Category[], sectionId : number}) => {
-    const params = {params : {sectionId : request.sectionId}}
+const updateCategory = async (request: { categories: Category[], sectionId: number }) => {
+    const params = {params: {sectionId: request.sectionId}}
     return api.post("/admin/catalogue/category/v2", request.categories, params)
         .then(response => response.data)
 }
@@ -60,7 +60,7 @@ $creationStatus.on(createCategoryFx.doneData, () => "success")
     .on(createCategoryFx.failData, () => "failure")
     .on(createCategoryFx.pending, () => "pending")
 
-$sectionId.on(pageDidMountEvent, (_, sectionId : number) => sectionId)
+$sectionId.on(pageDidMountEvent, (_, sectionId: number) => sectionId)
 
 sample({
     clock: createCategoryFx.doneData,
@@ -70,24 +70,24 @@ sample({
 })
 
 sample({
-    clock : deleteCategoryEvent,
-    source : $categories,
-    fn : (categories, categoryId) =>
+    clock: deleteCategoryEvent,
+    source: $categories,
+    fn: (categories, categoryId) =>
         categories.filter(cat => cat.id !== categoryId),
-    target : $categories
+    target: $categories
 })
 
 sample({
-    clock : saveChangesEvent,
-    source : {categories : $categories, sectionId : $sectionId},
-    target : updateCategoriesFx
+    clock: saveChangesEvent,
+    source: {categories: $categories, sectionId: $sectionId},
+    target: updateCategoriesFx
 })
 
 sample({
-    clock : [cancelChangesEvent, updateCategoriesFx.doneData],
-    source : $sectionId,
-    fn : (sectionId : number) => sectionId,
-    target : getCategoryFx
+    clock: [cancelChangesEvent, updateCategoriesFx.doneData],
+    source: $sectionId,
+    fn: (sectionId: number) => sectionId,
+    target: getCategoryFx
 })
 
 sample({

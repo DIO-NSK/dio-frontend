@@ -18,10 +18,14 @@ import ConfirmationCodePopup
 import LoginByPhonePopup from "@/components/organisms/popups/authorization/login-by-phone-popup/LoginByPhonePopup";
 import ChangePasswordPopup from "@/components/organisms/popups/authorization/change-password-popup/ChangePasswordPopup";
 import SuccessPopup from "@/components/organisms/popups/authorization/success-popup/SuccessPopup";
-import React from "react";
+import React, {useEffect} from "react";
 import CatalogPopup from "@/components/organisms/popups/catalog/CatalogPopup";
 import {useUnit} from "effector-react";
-import {setSearchNameEvent} from "@/components/organisms/bars/searchbar/model";
+import {
+    getCatalogEvent,
+    setSearchNameEvent,
+    toggleCatalogPopupEvent
+} from "@/components/organisms/bars/searchbar/model";
 
 const ActivePopup = () => {
 
@@ -48,9 +52,8 @@ const ActivePopup = () => {
 
 const Searchbar = () => {
 
-    const setSearchName = useUnit(setSearchNameEvent)
-
-    const {...searchbarContext} = useSearchbar()
+    const [setSearchName, toggleCatalogPopup, getCatalog] = useUnit([setSearchNameEvent, toggleCatalogPopupEvent, getCatalogEvent])
+    const searchbarContext = useSearchbar()
 
     const wrapperCV: ClassValue[] = [
         "hidden w-full px-[100px] py-4 bg-white sm:flex flex-row items-center gap-[30px]",
@@ -59,10 +62,7 @@ const Searchbar = () => {
 
     return (
         <>
-            {
-                searchbarContext.catalogPopup.catalogPopupState &&
-                    <CatalogPopup onClose={searchbarContext.catalogPopup.handleChangeCatalogPopupVisibility}/>
-            }
+            <CatalogPopup/>
             <ActivePopup/>
             <div className={cn(wrapperCV)}>
                 <Image
@@ -75,13 +75,8 @@ const Searchbar = () => {
                 <div className={"w-full flex flex-row gap-[20px] items-center"}>
                     <Button
                         text={"Каталог"}
-                        onClick={searchbarContext.catalogPopup.handleChangeCatalogPopupVisibility}
-                        icon={
-                            <FiMenu
-                                size={"20px"}
-                                className={"stroke-white"}
-                            />
-                        }
+                        onClick={toggleCatalogPopup}
+                        icon={<FiMenu className={"stroke-white size-5"}/>}
                     />
                     <SearchInput
                         placeholder={"Поиск товаров"}

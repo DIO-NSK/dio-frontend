@@ -29,6 +29,7 @@
     "patronum": "^2.2.0",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
+    "react-custom-scroll": "^7.0.0",
     "react-dom": "^18",
     "react-hook-form": "^7.50.1",
     "react-hook-form-persist": "^3.0.0",

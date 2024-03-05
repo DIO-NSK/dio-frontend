@@ -15,5 +15,5 @@ export type CharacteristicData = z.infer<typeof CharacteristicSchema>
 export const defaultCharacteristicData: CharacteristicData = {
     name: "", valueName: "",
     valueType: {name: "Текстовое значение", value: "TEXT"},
-    sequenceNumber: 0
+    sequenceNumber: 1
 }

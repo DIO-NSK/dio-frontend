@@ -1,8 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import SideTabBar from "@/components/moleculas/bars/side-tab-bar/SideTabBar";
-import {useCatalogPopup} from "@/components/organisms/popups/catalog/CatalogPopup.hooks";
 import Text from "@/components/atoms/text/text-base/Text";
+import {useUnit} from "effector-react";
+import {
+    $activeSection,
+    $catalog,
+    $catalogPopupOpen,
+    getCatalogEvent,
+    selectActiveSectionEvent,
+    toggleCatalogPopupEvent
+} from "@/components/organisms/bars/searchbar/model";
+import {CustomScroll} from "react-custom-scroll";
 
 const SubcategoryItem = ({text}: { text: string }) => {
     return (
@@ -13,39 +22,53 @@ const SubcategoryItem = ({text}: { text: string }) => {
     )
 }
 
-const CatalogPopup = ({onClose}: { onClose: () => void }) => {
+const CatalogPopup = () => {
 
-    const {...popupContext} = useCatalogPopup()
+    const [activeSection, selectTabBar] = useUnit([$activeSection, selectActiveSectionEvent])
+    const [popupOpen, togglePopup] = useUnit([$catalogPopupOpen, toggleCatalogPopupEvent])
+    const [getCatalog, catalog] = useUnit([getCatalogEvent, $catalog])
 
-    return (
+    const activeTab: TabBarItem | undefined = activeSection ? {text: activeSection.name} : undefined
+    const tabs: TabBarItem[] = catalog.map(item => ({text: item.name} as TabBarItem))
+
+    useEffect(() => {
+        popupOpen && getCatalog()
+    }, [popupOpen])
+
+    if (popupOpen) return (
         <PopupWrapper
-            onClose={onClose}
+            onClose={togglePopup}
             classNames={{
                 wrapper: "justify-start mt-0",
                 content: {
-                    wrapper : "top-0",
-                    card : "rounded-none"
+                    wrapper: "top-0 h-full",
+                    card: "rounded-none"
                 }
             }}
         >
-            <div className={"px-3 bg-white flex flex-row gap-8"}>
-                <SideTabBar
-                    className={"pr-8 border-r-2 border-light-gray overflow-y-scroll"}
-                    tabs={popupContext.categoriesSidebar.categories}
-                    activeTab={popupContext.categoriesSidebar.activeTab}
-                    setActive={popupContext.categoriesSidebar.setActiveTab}
-                />
-                <div className={"flex pt-3 flex-col gap-8"}>
-                    <Text
-                        text={popupContext.categoriesSidebar.activeTab.text}
-                        className={"text-lg text-black font-medium"}
+            {
+                activeSection && <div className={"px-3 bg-white flex flex-row gap-8"}>
+                    <SideTabBar
+                        className={"pr-8 h-[calc(100vh-64px)] overflow-y-scroll"}
+                        tabs={tabs}
+                        activeTab={activeTab!!}
+                        setActive={selectTabBar}
                     />
-                    {
-                        popupContext.subcategories && popupContext.subcategories.items
-                            .map((item) => <SubcategoryItem text={item}/>)
-                    }
+                    <div className={"min-w-[300px] flex pt-3 flex-col gap-5"}>
+                        {
+                            activeTab && <Text
+                                className={"text-lg text-black font-medium"}
+                                text={activeTab.text}
+                            />
+                        }
+                        {
+                            activeSection.categories.map((item) =>
+                                <SubcategoryItem text={item.name}/>)
+                        }
+                    </div>
                 </div>
-            </div>
+            }
+
         </PopupWrapper>
     );
 };

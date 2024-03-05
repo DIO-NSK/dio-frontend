@@ -35,10 +35,7 @@ const AdminPanelNewCategoryPage = ({params}: {
             name: "",
             properties: [
                 defaultCharacteristicData,
-                {
-                    ...defaultCharacteristicData,
-                    sequenceNumber: 1
-                },
+                {...defaultCharacteristicData, sequenceNumber: 2},
             ]
         },
         mode: "onBlur"
@@ -51,7 +48,7 @@ const AdminPanelNewCategoryPage = ({params}: {
 
     const onSaveChanges = (formData: FieldValues) => {
         const request = {
-            sequenceNumber: categories.length,
+            sequenceNumber: categories.length + 1,
             data: formData as CreateCategoryData,
             id: params.sectionId
         }

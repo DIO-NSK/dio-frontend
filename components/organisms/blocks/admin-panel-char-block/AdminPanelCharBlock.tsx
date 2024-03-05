@@ -28,7 +28,7 @@ const AdminPanelCharBlock = ({blockName}: {
 
     const handleAppendRow = () => append({
         ...defaultCharacteristicData,
-        sequenceNumber: fields.length
+        sequenceNumber: fields.length + 1
     })
 
     const handleDeleteRow = (index: number) => remove(index)
