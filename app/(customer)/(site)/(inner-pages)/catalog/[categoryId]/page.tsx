@@ -1,16 +1,27 @@
 "use client"
 
 import style from "../../InnerPages.module.css"
-import {mockCardArray} from "@/data/productCardData";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import {useCatalogPage} from "@/app/(customer)/(site)/(inner-pages)/catalog/[category]/page.hooks";
+import {useCatalogPage} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/page.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiSliders} from "react-icons/fi";
+import {useUnit} from "effector-react";
+import {$categories, getCategoryByNameEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
+import {useEffect} from "react";
 
-const CatalogScreen = () => {
+const CatalogScreen = ({params} : {
+    params : {
+        categoryId : number
+    }
+}) => {
 
+    const [categories, getCategories] = useUnit([$categories, getCategoryByNameEvent])
     const {...context} = useCatalogPage()
+
+    useEffect(() => {
+        getCategories(params.categoryId)
+    }, [])
 
     return (
         <div className={style.content}>
@@ -32,7 +43,7 @@ const CatalogScreen = () => {
             </div>
 
             {
-                mockCardArray.map((card) => {
+                categories.map((card) => {
                     return <ProductCard
                         classNames={{mainWrapper : "w-full", textWrapper : "min-h-0"}}
                         productCard={card}

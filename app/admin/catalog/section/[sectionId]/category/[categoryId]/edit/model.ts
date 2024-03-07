@@ -1,32 +1,36 @@
 import {Category} from "@/types/dto/Category";
-import {createEvent, createStore, sample} from "effector";
-import {getCategoryFx} from "../../../model";
+import {createEffect, createEvent, createStore, sample} from "effector";
 import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
 import {combineEvents} from "patronum";
 import {CharacteristicType} from "@/types/dto/Characteristic";
+import {api} from "@/api";
 
-type PageSlug = { sectionId: number, categoryId: number }
+const getCategory = async (categoryId: number) : Promise<Category> => {
+    return api.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
+        .then(response => response.data)
+        .catch(error => {throw Error(error.response.data.message)})
+}
 
-export const editCategoryPageDidMountEvent = createEvent<PageSlug>()
+const getCategoryFx = createEffect<number, Category, Error>(getCategory)
 
-const $pageSlug = createStore<PageSlug | null>(null)
+export const editCategoryPageDidMountEvent = createEvent<number>()
+
+const $categoryId = createStore<number>(0)
 export const $formData = createStore<CreateCategoryData | null>(null)
 
 $formData.on(
     combineEvents([getCategoryFx.doneData, editCategoryPageDidMountEvent]),
-    (_, clocks) => createFormData(clocks[1], clocks[0])
+    (_, [category, _]) => createFormData(category)
 )
 
-$pageSlug.on(editCategoryPageDidMountEvent, (_, pageSlug) => pageSlug)
+$categoryId.on(editCategoryPageDidMountEvent, (_, pageSlug) => pageSlug)
 
 sample({
     clock: editCategoryPageDidMountEvent,
-    fn: (data: PageSlug) => data.sectionId,
     target: getCategoryFx,
 })
 
-function createFormData(pageSlug : PageSlug, categories : Category[]) : CreateCategoryData {
-    const category = categories.find(cat => cat.id === +pageSlug.categoryId)!!
+function createFormData(category : Category): CreateCategoryData {
     return {
         id: category.id!!,
         name: category.name,

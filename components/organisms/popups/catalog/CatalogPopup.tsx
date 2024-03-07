@@ -11,14 +11,16 @@ import {
     selectActiveSectionEvent,
     toggleCatalogPopupEvent
 } from "@/components/organisms/bars/searchbar/model";
-import {CustomScroll} from "react-custom-scroll";
+import Link from "next/link";
 
-const SubcategoryItem = ({text}: { text: string }) => {
+const SubcategoryItem = ({text, id}: { text: string, id : number}) => {
     return (
-        <Text
-            className={"text-base text-text-gray pointer hoverable hover:text-link-blue"}
-            text={text}
-        />
+        <Link href={`/catalog/${id}`}>
+            <Text
+                className={"text-base text-text-gray pointer hoverable hover:text-link-blue"}
+                text={text}
+            />
+        </Link>
     )
 }
 
@@ -63,7 +65,7 @@ const CatalogPopup = () => {
                         }
                         {
                             activeSection.categories.map((item) =>
-                                <SubcategoryItem text={item.name}/>)
+                                <SubcategoryItem text={item.name} id={item.id}/>)
                         }
                     </div>
                 </div>

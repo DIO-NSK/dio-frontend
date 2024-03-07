@@ -26,6 +26,7 @@ const CatalogLayout = ({children} : {children : React.ReactNode}) => {
             </InnerPageWrapper>
         </>
     )
+
 }
 
 export default CatalogLayout

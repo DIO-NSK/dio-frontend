@@ -1,22 +1,21 @@
-"use client"
-
-import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import AdminPanelCharBlock from "@/components/organisms/blocks/admin-panel-char-block/AdminPanelCharBlock";
-import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
-import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
-import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
-import Button from "@/components/atoms/buttons/button/Button";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {CreateProductData, CreateProductSchema} from "@/schemas/admin/CreateProductSchema";
-import {FieldValues, FormProvider, useForm} from "react-hook-form";
-import Form from "@/components/atoms/form/Form";
-import ControlledSwitch from "@/components/atoms/switch/ControlledSwitch";
-import {useUnit} from "effector-react";
+import React, {useEffect} from 'react';
 import {useRouter} from "next/navigation";
+import {useUnit} from "effector-react";
 import {
     $createProductError,
     createProductFx
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
+import {FieldValues, FormProvider, useForm} from "react-hook-form";
+import {CreateProductData, CreateProductSchema} from "@/schemas/admin/CreateProductSchema";
+import {zodResolver} from "@hookform/resolvers/zod";
+import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
+import Form from "@/components/atoms/form/Form";
+import AdminPanelCharBlock from "@/components/organisms/blocks/admin-panel-char-block/AdminPanelCharBlock";
+import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
+import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
+import ControlledSwitch from "@/components/atoms/switch/ControlledSwitch";
+import Button from "@/components/atoms/buttons/button/Button";
 import Text from "@/components/atoms/text/text-base/Text";
 import AdminPanelProductInputGrid
     from "@/components/organisms/blocks/admin-panel-product-input-grid/AdminPanelProductInputGrid";
@@ -27,22 +26,23 @@ const productOfTheDayDescription: string =
 
 const textAreaDescription: string = "Придумайте привлекающее описание товара. Идеальная длина описания — 3 предложения."
 
-const AdminPanelNewProductPage = ({params}: {
+const AdminPanelEditProductPage = ({params}: {
     params: {
         categoryId: number,
-        sectionId: number
+        sectionId: number,
+        productId : number
     }
 }) => {
 
     const router = useRouter()
-    const [createProduct, createError] = useUnit([createProductFx, $createProductError])
+    const [editProduct, editError] = useUnit([createProductFx, $createProductError])
 
     const methods = useForm<CreateProductData>({
         resolver: zodResolver(CreateProductSchema),
         mode: "onBlur"
     })
 
-    const {handleSubmit, formState: {isSubmitting}} = methods
+    const {handleSubmit, formState: {isSubmitting}, reset} = methods
 
     const onSubmit = (formData: FieldValues) => createProduct({
         categoryId: params.categoryId,
@@ -50,6 +50,10 @@ const AdminPanelNewProductPage = ({params}: {
     })
         .then(_ => router.back())
         .catch(e => e)
+
+    useEffect(() => {
+        
+    }, [])
 
     return (
         <>
@@ -101,4 +105,5 @@ const AdminPanelNewProductPage = ({params}: {
 
 };
 
-export default AdminPanelNewProductPage;
+
+export default AdminPanelEditProductPage;

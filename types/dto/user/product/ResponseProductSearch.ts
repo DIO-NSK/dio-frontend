@@ -1,5 +1,8 @@
 import {ResponsePromoSearch} from "@/types/dto/user/promo/ResponsePromoSearch";
 
 export type ResponseProductSearch = {
-    price: number
+    oldPrice: number,
+    newPrice: number,
+    image: string,
+    discountPercent: number
 } & ResponsePromoSearch

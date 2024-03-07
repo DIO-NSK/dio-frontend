@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Image from "next/image";
 import LinesEllipsis from 'react-lines-ellipsis'
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
@@ -7,17 +6,16 @@ import {FiCheck} from "react-icons/fi";
 import {useRouter} from "next/navigation";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
-
-import {ProductCard} from "@/types/dto/admin/cards/ProductCard"
 import Text from "@/components/atoms/text/text-base/Text";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
+import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 
 type ProductCardClassNames = {
     mainWrapper ?: string,
     textWrapper ?: string
 }
 
-const ProductCard = ({productCard, classNames}: { productCard : ProductCard, classNames ?: ProductCardClassNames}) => {
+const ProductCard = ({productCard, classNames}: { productCard : ResponseProductSearch, classNames ?: ProductCardClassNames}) => {
 
     const router = useRouter()
 
@@ -34,11 +32,10 @@ const ProductCard = ({productCard, classNames}: { productCard : ProductCard, cla
 
     return (
         <div className={cn(wrapperCV)}>
-            <Image
+            <img
                 src={productCard.image}
                 className={"w-full h-[100px] sm:h-[160px] object-scale-down"}
-                quality={100}
-                alt={'/'}
+                alt={'Изображение продукта'}
             />
             <div className={"w-full flex flex-col gap-4 sm:gap-5"}>
                 <div
@@ -46,12 +43,12 @@ const ProductCard = ({productCard, classNames}: { productCard : ProductCard, cla
                     onClick={() => router.push("/product?product_id=1")}
                 >
                     <Text
-                        text={productCard.price + " ₽"}
+                        text={productCard.oldPrice + " ₽"}
                         className={"hidden sm:flex text-[20px] sm:text-[24px] font-semibold text-link-blue"}
                     />
                     <LinesEllipsis
                         className={"font-medium text-base"}
-                        text={productCard.header}
+                        text={productCard.name}
                         maxLine={'2'}
                         ellipsis={'..'}
                         basedOn={'letters'}
@@ -60,7 +57,7 @@ const ProductCard = ({productCard, classNames}: { productCard : ProductCard, cla
                 </div>
                 <div className={"w-full flex flex-row items-center justify-between"}>
                     <Text
-                        text={productCard.price + " ₽"}
+                        text={productCard.newPrice + " ₽"}
                         className={"sm:hidden text-[20px] sm:text-[24px] font-semibold text-link-blue"}
                     />
                     <div className={"flex flex-row items-center gap-4 sm:gap-5"}>

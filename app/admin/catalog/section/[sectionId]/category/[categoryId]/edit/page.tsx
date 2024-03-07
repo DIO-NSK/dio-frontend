@@ -16,8 +16,8 @@ import {useRouter} from "next/navigation";
 
 const AdminEditCategoryPage = ({params}: {
     params: {
-        sectionId: number;
-        categoryId: number;
+        sectionId: number
+        categoryId: number
     }
 }) => {
 
@@ -52,7 +52,7 @@ const AdminEditCategoryPage = ({params}: {
     };
 
     useEffect(() => {
-        pageDidMount(params)
+        pageDidMount(params.categoryId)
     }, [])
 
     useEffect(() => {
@@ -81,7 +81,7 @@ const AdminEditCategoryPage = ({params}: {
                                 name={"name"}
                             />
                         </div>
-                        <AdminPanelCharBlock/>
+                        <AdminPanelCharBlock blockName={"properties"}/>
                         <div className={"flex flex-row items-center gap-5"}>
                             <Button
                                 disabled={isSubmitting}

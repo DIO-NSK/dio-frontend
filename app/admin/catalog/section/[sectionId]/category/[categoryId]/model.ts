@@ -4,7 +4,7 @@ import {ResponseAdminProduct} from "@/types/dto/admin/product/ResponseAdminProdu
 
 export const getProducts = async (categoryId: number) : Promise<ResponseAdminProduct[]> => {
     const params = {params: {categoryId: categoryId}}
-    return api.get("/admin/catalogue/product", params)
+    return api.get("/admin/catalogue/product/search", params)
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }

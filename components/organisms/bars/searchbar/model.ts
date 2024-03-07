@@ -2,6 +2,7 @@ import {createEffect, createEvent, createStore, sample} from "effector";
 import {debounce} from "patronum";
 import {api} from "@/api";
 import {ResponseSearchList} from "@/types/dto/user/ResponseSearchList";
+import {ResponseSearchCatalog} from "@/types/dto/user/catalog/ResponseSearchCatalog";
 
 const DEBOUNCE_TIMEOUT = 400
 
@@ -59,7 +60,7 @@ sample({
 sample({
     clock: selectActiveSectionEvent,
     source: $catalog,
-    fn: (catalog : CatalogItem[], tabItem : TabBarItem) =>
+    fn: (catalog: CatalogItem[], tabItem: TabBarItem) =>
         catalog.find(section => section.name === tabItem.text)!!,
     target: $activeSection
 })
@@ -79,3 +80,32 @@ export const toggleCatalogPopupEvent = createEvent()
 $catalogPopupOpen.on(toggleCatalogPopupEvent, (state) => !state)
 
 //endregion
+
+//region search by name
+
+const searchCatalogByName = async (name: string): Promise<ResponseSearchCatalog> => {
+    return api.get("/catalogue/search", {params: {name: name}})
+        .then(response => response.data)
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
+}
+
+const searchCatalogByNameFx = createEffect<string, ResponseSearchCatalog, Error>(searchCatalogByName)
+export const searchCatalogByNameEvent = createEvent<string>()
+
+export const $searchValue = createStore<string>("")
+export const $searchCatalog = createStore<ResponseSearchCatalog | null>(null)
+$searchCatalog.on(searchCatalogByNameFx.doneData, (_, catalog) => catalog)
+$searchValue.on(searchCatalogByNameEvent, (_, searchValue) => searchValue)
+
+const debouncedSearchCatalogEvent = debounce({
+    source: searchCatalogByNameEvent,
+    timeout: DEBOUNCE_TIMEOUT
+})
+
+sample({
+    clock: debouncedSearchCatalogEvent,
+    filter : (name : string) => name.length !== 0,
+    target: searchCatalogByNameFx
+})

@@ -17,7 +17,8 @@ const InnerInput = ({theme = "outlined", ...props}: TextInputProps) => {
         "hoverable focus:outline-0 border-light-gray border-2",
         {"sm:bg-white": theme == "filled"},
         {"hover:bg-opacity-50": theme == "outlined"},
-        {"text-text-gray bg-bg-light-blue bg-opacity-50": props.disabled}
+        {"text-text-gray bg-bg-light-blue bg-opacity-50": props.disabled},
+        props.classNames?.input
     ]
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

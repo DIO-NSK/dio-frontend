@@ -18,12 +18,12 @@ import ConfirmationCodePopup
 import LoginByPhonePopup from "@/components/organisms/popups/authorization/login-by-phone-popup/LoginByPhonePopup";
 import ChangePasswordPopup from "@/components/organisms/popups/authorization/change-password-popup/ChangePasswordPopup";
 import SuccessPopup from "@/components/organisms/popups/authorization/success-popup/SuccessPopup";
-import React, {useEffect} from "react";
+import React from "react";
 import CatalogPopup from "@/components/organisms/popups/catalog/CatalogPopup";
 import {useUnit} from "effector-react";
 import {
-    getCatalogEvent,
-    setSearchNameEvent,
+    $searchValue,
+    searchCatalogByNameEvent,
     toggleCatalogPopupEvent
 } from "@/components/organisms/bars/searchbar/model";
 
@@ -52,7 +52,9 @@ const ActivePopup = () => {
 
 const Searchbar = () => {
 
-    const [setSearchName, toggleCatalogPopup, getCatalog] = useUnit([setSearchNameEvent, toggleCatalogPopupEvent, getCatalogEvent])
+    const [name, setName, toggleCatalogPopup]
+        = useUnit([$searchValue, searchCatalogByNameEvent, toggleCatalogPopupEvent])
+
     const searchbarContext = useSearchbar()
 
     const wrapperCV: ClassValue[] = [
@@ -80,7 +82,8 @@ const Searchbar = () => {
                     />
                     <SearchInput
                         placeholder={"Поиск товаров"}
-                        onChange={setSearchName}
+                        onChange={setName}
+                        value={name}
                     />
                 </div>
                 <SearchbarIconButtonList/>
