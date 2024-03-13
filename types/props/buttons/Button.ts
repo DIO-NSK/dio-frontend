@@ -1,7 +1,7 @@
-import React from "react";
+import React, {MouseEventHandler} from "react";
 
 export type ButtonProps = {
-    onClick : () => void,
+    onClick : MouseEventHandler,
     text?: string,
     icon?: React.ReactNode,
     classNames?: ButtonClassnames,

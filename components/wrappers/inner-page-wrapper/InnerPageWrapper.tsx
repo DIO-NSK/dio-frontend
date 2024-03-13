@@ -14,7 +14,7 @@ const InnerPageWrapper = ({children, classNames} : {
 }) => {
 
     const wrapperCV : ClassValue[] = [
-        "hidden col-span-full px-[100px] sm:grid grid-cols-12 gap-[30px] pb-[30px]",
+        "hidden col-span-full px-[100px] sm:grid grid-cols-12 gap-7 pb-7",
         classNames?.desktopWrapper
     ]
 

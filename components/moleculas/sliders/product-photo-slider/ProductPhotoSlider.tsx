@@ -2,19 +2,19 @@ import {useEffect, useState} from "react";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 import {COLOR} from "@/components/colors";
 
-const MainPhotoCard = ({photo}: { photo: string }) => {
+const MainPhotoCard = ({photo}: { photo ?: string }) => {
     return (
         <img
-            className={"w-full h-[300px] object-scale-down rounded-xl"}
+            className={"w-full h-[300px] object-cover rounded-xl"}
             src={photo} alt={'/'}
         />
     )
 }
 
 const PhotoCard = ({photo, isActive, setActive}: {
-    photo: string,
+    photo ?: string,
     isActive: boolean,
-    setActive: (photo: string) => void
+    setActive: (photo ?: string) => void
 }) => {
     return (
         <img
@@ -28,8 +28,8 @@ const PhotoCard = ({photo, isActive, setActive}: {
 
 const PhotoSlider = ({photos, activePhoto, setActive}: {
     photos: string[],
-    activePhoto: string,
-    setActive: (photo: string) => void
+    activePhoto ?: string,
+    setActive: (photo ?: string) => void
 }) => {
 
     const orderArray: number[] = Array.from({length: photos.length}, (_, i) => i)
@@ -84,12 +84,12 @@ const PhotoSlider = ({photos, activePhoto, setActive}: {
 
 const ProductPhotoSlider = ({photos, activePhoto, setActive}: {
     photos: string[],
-    activePhoto: string,
-    setActive: (photo: string) => void
+    activePhoto ?: string,
+    setActive: (photo ?: string) => void
 }) => {
 
     return (
-        <div className={"hidden col-span-5 sm:flex flex-col gap-[20px]"}>
+        <div className={"hidden sm:col-start-1 sm:col-span-5 sm:flex flex-col gap-5"}>
             <ProductPhotoSlider.MainPhotoCard photo={activePhoto}/>
             <ProductPhotoSlider.PhotoSlider
                 activePhoto={activePhoto}

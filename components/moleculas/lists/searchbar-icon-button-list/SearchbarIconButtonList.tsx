@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {FiHeart, FiShoppingCart, FiUser} from "react-icons/fi";
 import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconTextButton";
 import {cn} from "@/utlis/cn";
@@ -15,7 +15,7 @@ const SearchbarIconButtonList = () => {
     const router = useRouter()
     const switchPopupState = useStore(state => state.switchPopupState)
 
-    const userName = userCredentials ? userCredentials.fullName.split(" ")[1] : "Войти"
+    const [userName, setUserName] = useState<string>("Войти")
 
     const buttonListData = [
         {
@@ -38,6 +38,13 @@ const SearchbarIconButtonList = () => {
             onClick: () => router.push("/cart")
         },
     ]
+
+    useEffect(() => {
+        if (userCredentials) {
+            const username : string = userCredentials.fullName.split(" ")[1]
+            setUserName(username)
+        }
+    }, [userCredentials])
 
     return (
         <div className={"flex flex-row items-center gap-[30px]"}>

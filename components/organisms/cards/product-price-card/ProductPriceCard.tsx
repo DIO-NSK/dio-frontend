@@ -6,23 +6,25 @@ import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import React from "react";
 import StickyCardWrapper from "@/components/wrappers/sticky-card-wrapper/StickyCardWrapper";
+import {useUnit} from "effector-react";
+import {$product} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 
-const ProductPriceCard = ({price, oldPrice}: {
-    price: number,
-    oldPrice?: number
-}) => {
-    return (
+const ProductPriceCard = () => {
+
+    const product = useUnit($product)
+
+    if (product) return (
         <StickyCardWrapper startCol={"col-start-10"}>
 
             <div className={style.priceRow}>
                 <Text
-                    text={price.toString() + " ₽"}
+                    text={`${product.newPrice} ₽`}
                     className={"text-[24px] font-semibold text-link-blue"}
                 />
                 {
-                    oldPrice && <Text
-                        text={oldPrice + " ₽"}
-                        className={"text-text-gray"}
+                    product.oldPrice > product.newPrice && <Text
+                        text={`${product.oldPrice} ₽`}
+                        className={"text-text-gray line-through"}
                     />
                 }
             </div>

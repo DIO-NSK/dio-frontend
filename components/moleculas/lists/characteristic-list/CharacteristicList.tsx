@@ -1,29 +1,37 @@
-import style from "./CharacteristicList.module.css"
 import Text from "@/components/atoms/text/text-base/Text";
 import {ProductCharacteristic} from "@/types/product";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
 
 const Item = ({characteristic}: {
     characteristic: ProductCharacteristic
 }) => {
+
+    const wrapperCV: ClassValue[] = [
+        "w-full flex flex-row items-baseline justify-between",
+        "pb-[20px] border-b-2 border-light-gray"
+    ]
+
     return (
-        <div className={style.row}>
-            <Text text={characteristic.name}/>
+        <div className={cn(wrapperCV)}>
+            <Text text={`${characteristic.name}, ${characteristic.valueName}`}/>
             <Text text={characteristic.value}/>
         </div>
     )
+
 }
 
 const CharacteristicList = ({characteristics}: {
     characteristics: ProductCharacteristic[]
 }) => {
     return (
-        <div className={style.listCol}>
+        <section className={"col-span-4 flex flex-col gap-[20px]"}>
             {
                 characteristics.map((item) => {
                     return <CharacteristicList.Item characteristic={item}/>
                 })
             }
-        </div>
+        </section>
     )
 }
 

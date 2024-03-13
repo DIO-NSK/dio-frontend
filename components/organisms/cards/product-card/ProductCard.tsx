@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {MouseEventHandler, useState} from "react";
 import LinesEllipsis from 'react-lines-ellipsis'
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
@@ -33,18 +33,23 @@ const ProductCard = ({productCard, classNames}: {
         "border-2 border-light-gray sm:border-0", classNames?.mainWrapper
     ]
 
+    const handleCardClick = () => router.push(`/product/${productCard.id}`)
+    const handleBuyClick : MouseEventHandler = (e) => {
+        e.stopPropagation(); setSelected(!isSelected)
+    }
+
     return (
-        <div className={cn(wrapperCV)}>
+        <div
+            className={cn(wrapperCV)}
+            onClick={handleCardClick}
+        >
             <img
                 src={productCard.image}
                 className={"w-full h-[100px] sm:h-[160px] object-cover"}
                 alt={'Изображение продукта'}
             />
             <div className={"w-full flex flex-col gap-4 sm:gap-5"}>
-                <div
-                    className={cn("w-full flex flex-col gap-1 min-h-[50px] sm:min-h-[85px]", classNames?.textWrapper)}
-                    onClick={() => router.push("/product?product_id=1")}
-                >
+                <div className={cn("w-full flex flex-col gap-1 min-h-[50px] sm:min-h-[85px]", classNames?.textWrapper)}>
                     <div className={"w-full hidden sm:flex flex-row items-baseline gap-3"}>
                         <Text
                             text={productCard.newPrice + " ₽"}
@@ -77,7 +82,7 @@ const ProductCard = ({productCard, classNames}: {
                             classNames={{button: "hidden sm:flex"}}
                             buttonType={isSelected ? "PRIMARY" : "SECONDARY"}
                             text={buttonText}
-                            onClick={() => setSelected(!isSelected)}
+                            onClick={handleBuyClick}
                             icon={buttonIcon}
                         />
                         <LikeButton/>

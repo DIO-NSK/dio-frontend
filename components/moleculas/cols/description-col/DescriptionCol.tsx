@@ -2,7 +2,7 @@ import LinesEllipsis from "react-lines-ellipsis";
 import React, {useState} from "react";
 import Text from "@/components/atoms/text/text-base/Text";
 
-const DescriptionCol = ({text}: { text: string }) => {
+const DescriptionCol = ({text}: { text: string}) => {
 
     const [isExpanded, setExpanded] = useState<boolean>(false)
 

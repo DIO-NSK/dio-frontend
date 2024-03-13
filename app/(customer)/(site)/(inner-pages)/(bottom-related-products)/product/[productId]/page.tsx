@@ -1,14 +1,8 @@
 "use client"
 
 import ProductPhotoSlider from "@/components/moleculas/sliders/product-photo-slider/ProductPhotoSlider";
-import React, {useState} from "react";
-
-import MockProductImage1 from "../../../../../../public/images/prodcut-card/product-image-1.png"
-import MockProductImage2 from "../../../../../../public/images/prodcut-card/product-image-2.png"
-import MockProductImage3 from "../../../../../../public/images/prodcut-card/product-image-3.png"
-import MockProductImage4 from "../../../../../../public/images/prodcut-card/product-image-4.png"
+import React, {useEffect, useState} from "react";
 import CharacteristicList from "@/components/moleculas/lists/characteristic-list/CharacteristicList";
-import {ProductCharacteristic} from "@/types/product";
 import DescriptionCol from "@/components/moleculas/cols/description-col/DescriptionCol";
 import ProductPriceCard from "@/components/organisms/cards/product-price-card/ProductPriceCard";
 import HeaderBlock from "@/components/wrappers/header-block/HeaderBlock";
@@ -23,8 +17,16 @@ import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import {useToggle} from "@/utlis/hooks/useToggle";
 import MobilePhotoGalleryPopup from "@/components/mobile/popups/photo-gallery-popup/MobilePhotoGalleryPopup";
 import Button from "@/components/atoms/buttons/button/Button";
+import {useUnit} from "effector-react";
+import {
+    $product,
+    getProductEvent
+} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 
-const ProductCardPage = () => {
+const ProductCardPage = ({params}: { params: { productId: number } }) => {
+
+    const [product, getProduct] = useUnit([$product, getProductEvent])
+    const popupToggle = useToggle()
 
     const breadcrumbs: TextLink[] = [
         {text: "Главная", link: "/"},
@@ -33,33 +35,19 @@ const ProductCardPage = () => {
         {text: "HotFrost", link: "/catalog/coolers/hot-frost"},
     ]
 
-    const mockPhotos = [
-        MockProductImage1.src, MockProductImage2.src,
-        MockProductImage3.src, MockProductImage4.src,
-        MockProductImage1.src, MockProductImage2.src,
-        MockProductImage3.src, MockProductImage4.src,
-    ]
+    const [
+        activePhoto,
+        setActivePhoto
+    ] = useState<string | undefined>(product?.photos[0] ?? undefined)
 
-    const [activePhoto, setActivePhoto] = useState<string>(mockPhotos[0])
-
-    const mockCharacteristics: ProductCharacteristic[] = [
-        {valueName: "Размер коробки ш*в*г (мм)", value: "318*382*318"},
-        {valueName: "Вес (брутто)", value: "2,40 кг"},
-        {valueName: "Вес (нетто)", value: "1,40 кг"},
-        {valueName: "Страна производства", value: "Китай"},
-    ]
-
-    const mockCardDescription = "Кулер HotFrost D95 F обладает высокими показателями стабильности" +
-        "и длительности в работе. При создании его корпуса был использован очень прочный пластик." +
-        "Кулер может подавать воду двух температур: практически кипяток (+90-95°С), который вы" +
-        "будете использовать для заваривания горячих напитков, и вода комнатной температуры" +
-        "для питья ее в первозданном виде."
-
-    const popupToggle = useToggle()
     const handleAddProductClick = () => console.log("Product added!")
 
-    return (
-        <>
+    useEffect(() => {
+        getProduct(params.productId)
+    }, [getProduct])
+
+    if (product) return (
+        <section className={"w-full flex flex-col"}>
 
             {
                 popupToggle.state && <MobilePhotoGalleryPopup
@@ -76,7 +64,7 @@ const ProductCardPage = () => {
             <Button
                 onClick={handleAddProductClick}
                 text={"Добавить в корзину"}
-                classNames={{button : "sm:hidden fixed z-10 w-[90vw] bottom-7 mx-5"}}
+                classNames={{button: "sm:hidden fixed z-10 w-[90vw] bottom-7 mx-5"}}
             />
 
             <InnerPageWrapper classNames={{mobileWrapper: "px-0"}}>
@@ -86,11 +74,16 @@ const ProductCardPage = () => {
                 </div>
 
                 <div className={"sm:hidden flex flex-col gap-1 px-5"}>
-                    <Text text={"Кулер Ecotronic M30-LXE"} className={"text-[20px] font-semibold"}/>
+                    <Text text={product.name} className={"text-[20px] font-semibold"}/>
                     <div className={"w-full flex flex-row items-center justify-between"}>
                         <div className={"flex flex-row items-center gap-3"}>
-                            <Text text={"4700 ₽"} className={"text-[20px] font-medium text-link-blue"}/>
-                            <Text text={"5200 ₽"} className={"text-base text-text-gray"}/>
+                            <Text text={`${product.newPrice} ₽`} className={"text-[20px] font-medium text-link-blue"}/>
+                            {
+                                product.oldPrice > product.newPrice && <Text
+                                    className={"text-base text-text-gray line-through"}
+                                    text={"5200 ₽"}
+                                />
+                            }
                         </div>
                         <div className={"flex flex-row items-center gap-3"}>
                             <LikeButton/>
@@ -102,28 +95,28 @@ const ProductCardPage = () => {
                 <ProductPhotoSlider
                     setActive={(photo) => setActivePhoto(photo)}
                     activePhoto={activePhoto}
-                    photos={mockPhotos}
+                    photos={product.photos}
                 />
 
                 <div className={"col-span-4 flex flex-col gap-5 px-5 sm:px-0"}>
-                    <CharacteristicList characteristics={mockCharacteristics}/>
-                    <DescriptionCol text={mockCardDescription}/>
+                    <CharacteristicList characteristics={product.properties}/>
+                    <DescriptionCol text={product.description}/>
                 </div>
 
-                <ProductPriceCard price={4700} oldPrice={5200}/>
+                <ProductPriceCard/>
 
                 <div className={"col-span-9 h-[1px] mx-5 sm:mx-0 bg-light-gray"}/>
 
                 <HeaderBlock header={"Описание товара"}>
-                    <DescriptionCol text={mockCardDescription}/>
+                    <DescriptionCol text={product.description}/>
                 </HeaderBlock>
 
                 <HeaderBlock header={"Характеристики товара"}>
-                    <CharacteristicList characteristics={mockCharacteristics}/>
+                    <CharacteristicList characteristics={product.properties}/>
                 </HeaderBlock>
 
             </InnerPageWrapper>
-        </>
+        </section>
     )
 }
 

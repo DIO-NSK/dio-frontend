@@ -8,7 +8,8 @@ enum ProductCardStatus {
 
 export type ProductCharacteristic = {
     name: string,
-    value: string
+    value: string,
+    valueName : string
 }
 
 export type ProductCardDTO = {
