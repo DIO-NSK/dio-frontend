@@ -15,7 +15,7 @@ export type TextInputProps = {
     labelText?: string,
     hintText?: InputHint,
     inputMask?: string,
-    endDecorator?: React.ReactNode,
+    endDecorator?: React.ReactNode | string,
     isPassword?: boolean,
     theme?: Theme,
     classNames?: TextInputClassNames,

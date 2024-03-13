@@ -64,54 +64,57 @@ const CatalogLeftSidebar = () => {
         setSelectedTypes
     ] = useState<CheckboxListItem[]>(initSelectedTypes)
 
-    const headerCV : ClassValue[] = [
+    const headerCV: ClassValue[] = [
         "w-full flex flex-row justify-between items-baseline",
         "pb-[30px] border-b-2 border-light-gray"
     ]
 
     return (
         <div className={"hidden col-span-3 sm:flex flex-col gap-[30px]"}>
+            <div className={`flex flex-col gap-7 sticky top-[0px]`}>
 
-            <div className={cn(headerCV)}>
-                <Text text={"Фильтры"} className={"text-[20px] font-semibold"}/>
-                <div onClick={() => console.log("Очистить все")}>
-                    <Text text={"Очистить все"} className={"text-link-blue pointer"}/>
+                <div className={cn(headerCV)}>
+                    <Text text={"Фильтры"} className={"text-[20px] font-semibold"}/>
+                    <div onClick={() => console.log("Очистить все")}>
+                        <Text text={"Очистить все"} className={"text-link-blue pointer"}/>
+                    </div>
                 </div>
+
+                <LabelInputWrapper header={"Цена"}>
+                    <RangeInput
+                        fromPlaceholder={fromInitialValue}
+                        toPlaceholder={toInitialValue}
+                        fromValue={fromValue}
+                        toValue={toValue}
+                        onChangeFromValue={(newPrice: string) => setFromValue(newPrice)}
+                        onChangeToValue={(newPrice: string) => setToValue(newPrice)}
+                    />
+                </LabelInputWrapper>
+                <LabelInputWrapper header={"Производитель"}>
+                    <CheckboxList
+                        items={selectedCountries}
+                        onSelect={(isSelected: boolean, index: number) => {
+                            const newCountries = updateSelectedItems(selectedCountries, index, isSelected)
+                            setSelectedCountries(newCountries)
+                        }}
+                    />
+                </LabelInputWrapper>
+                <LabelInputWrapper header={"Тип охлаждения"}>
+                    <CheckboxList
+                        items={selectedTypes}
+                        onSelect={(isSelected: boolean, index: number) => {
+                            const newTypes = updateSelectedItems(selectedTypes, index, isSelected)
+                            setSelectedTypes(newTypes)
+                        }}
+                    />
+                </LabelInputWrapper>
+
+                <Button
+                    text={"Применить фильтры"}
+                    onClick={() => console.log("Применить фильтры")}
+                />
+
             </div>
-
-            <LabelInputWrapper header={"Цена"}>
-                <RangeInput
-                    fromPlaceholder={fromInitialValue}
-                    toPlaceholder={toInitialValue}
-                    fromValue={fromValue}
-                    toValue={toValue}
-                    onChangeFromValue={(newPrice: string) => setFromValue(newPrice)}
-                    onChangeToValue={(newPrice: string) => setToValue(newPrice)}
-                />
-            </LabelInputWrapper>
-            <LabelInputWrapper header={"Производитель"}>
-                <CheckboxList
-                    items={selectedCountries}
-                    onSelect={(isSelected: boolean, index: number) => {
-                        const newCountries = updateSelectedItems(selectedCountries, index, isSelected)
-                        setSelectedCountries(newCountries)
-                    }}
-                />
-            </LabelInputWrapper>
-            <LabelInputWrapper header={"Тип охлаждения"}>
-                <CheckboxList
-                    items={selectedTypes}
-                    onSelect={(isSelected: boolean, index: number) => {
-                        const newTypes = updateSelectedItems(selectedTypes, index, isSelected)
-                        setSelectedTypes(newTypes)
-                    }}
-                />
-            </LabelInputWrapper>
-
-            <Button
-                text={"Применить фильтры"}
-                onClick={() => console.log("Применить фильтры")}
-            />
 
         </div>
     )

@@ -1,3 +1,5 @@
+"use client"
+
 import React, {useEffect} from 'react';
 import {useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
@@ -42,9 +44,9 @@ const AdminPanelEditProductPage = ({params}: {
         mode: "onBlur"
     })
 
-    const {handleSubmit, formState: {isSubmitting}, reset} = methods
+    const {handleSubmit, formState: {isSubmitting}} = methods
 
-    const onSubmit = (formData: FieldValues) => createProduct({
+    const onSubmit = (formData: FieldValues) => editProduct({
         categoryId: params.categoryId,
         productData: formData as CreateProductData
     })
@@ -91,9 +93,9 @@ const AdminPanelEditProductPage = ({params}: {
                             classNames={{button: "w-[250px]"}}
                         />
                         {
-                            createError && <Text
+                            editError && <Text
                                 className={"text-info-red"}
-                                text={createError}
+                                text={editError}
                             />
                         }
                     </div>

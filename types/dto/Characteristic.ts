@@ -5,4 +5,4 @@ export type Characteristic = {
     type : SelectItem<CharacteristicType>
 }
 
-export type CharacteristicType = "INTEGER" | "FLOAT" | "TEXT"
+export type CharacteristicType = "NUMBER" | "FLOAT" | "TEXT"

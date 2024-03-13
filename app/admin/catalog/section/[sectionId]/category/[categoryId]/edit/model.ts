@@ -4,6 +4,7 @@ import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
 import {combineEvents} from "patronum";
 import {CharacteristicType} from "@/types/dto/Characteristic";
 import {api} from "@/api";
+import {convertInputTypeToText} from "@/utlis/convertInputTypeToText";
 
 const getCategory = async (categoryId: number) : Promise<Category> => {
     return api.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
@@ -20,7 +21,7 @@ export const $formData = createStore<CreateCategoryData | null>(null)
 
 $formData.on(
     combineEvents([getCategoryFx.doneData, editCategoryPageDidMountEvent]),
-    (_, [category, _]) => createFormData(category)
+    (_, [category, pageSlug]) => createFormData(category)
 )
 
 $categoryId.on(editCategoryPageDidMountEvent, (_, pageSlug) => pageSlug)
@@ -38,21 +39,10 @@ function createFormData(category : Category): CreateCategoryData {
         properties: category.properties.map(prop => ({
                 ...prop,
                 valueType: {
-                    name: convertStatusToText(prop.valueType as CharacteristicType),
+                    name: convertInputTypeToText(prop.valueType as CharacteristicType),
                     value: prop.valueType
                 }
             })
         ),
     } as CreateCategoryData
-}
-
-function convertStatusToText(status: CharacteristicType): string {
-    switch (status) {
-        case "TEXT":
-            return "Текстовое значение"
-        case "FLOAT":
-            return "Дробное значние"
-        case "INTEGER" :
-            return "Целочисленное значение"
-    }
 }

@@ -1,10 +1,8 @@
-import {FieldValues} from "react-hook-form";
-import {SelectItem} from "@/types/props/SelectItem";
-
-export type InputPrefilledData<T extends FieldValues> = {
+export type InputPrefilledData = {
     placeholder: string,
     labelText: string,
     inputMask?: string,
-    selectItems ?: SelectItem<string>[],
-    name?: keyof T,
+    numbersOnly?: boolean,
+    endDecorator ?: string,
+    name ?: string,
 }

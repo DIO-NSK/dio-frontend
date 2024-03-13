@@ -12,7 +12,7 @@ import {SelectItem} from "@/types/props/SelectItem";
 import {defaultCharacteristicData} from "@/schemas/dto/CharacteristicSchema";
 
 const selectItems: SelectItem<CharacteristicType>[] = [
-    {name: "Целочисленное значение", value: "INTEGER"},
+    {name: "Целочисленное значение", value: "NUMBER"},
     {name: "Дробное значение", value: "FLOAT"},
     {name: "Текстовое значение", value: "TEXT"},
 ]

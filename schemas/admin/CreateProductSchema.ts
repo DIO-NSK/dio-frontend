@@ -1,19 +1,23 @@
 import z from "zod"
 import {requiredFiledError} from "@/schemas";
-import {SelectInputSchema} from "@/schemas/dto/SelectInputSchema";
-import {CharacteristicSchema} from "@/schemas/dto/CharacteristicSchema";
+
+export const CategoryPropertySchema = z.object({
+    value : z.string().min(1, requiredFiledError),
+    propertyId : z.number()
+})
 
 export const CreateProductSchema = z.object({
     name: z.string().min(1, requiredFiledError),
     description: z.string().min(60, "Минимальная длина описания — 60 символов."),
-    crmGroup: SelectInputSchema,
+    crmGroup: z.string().min(1, requiredFiledError),
     crmCode: z.string().min(1, requiredFiledError),
     price: z.string().min(1, requiredFiledError).transform(price => +price),
     taxPercent: z.string().min(1, requiredFiledError).transform(taxPercent => +taxPercent),
     discountPercent: z.string().min(1, requiredFiledError).transform(discountPercent => +discountPercent),
     isProductOfTheDay: z.boolean(),
-    filledProperties: z.array(CharacteristicSchema),
+    filledProperties: z.array(CategoryPropertySchema),
     photos : z.array(z.instanceof(File))
 })
 
+export type CategoryPropertyData = z.infer<typeof CategoryPropertySchema>
 export type CreateProductData = z.infer<typeof CreateProductSchema>
