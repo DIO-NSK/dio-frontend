@@ -1,6 +1,5 @@
 "use client"
 
-import style from "./ProductPriceCard.module.css"
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
@@ -8,15 +7,18 @@ import React from "react";
 import StickyCardWrapper from "@/components/wrappers/sticky-card-wrapper/StickyCardWrapper";
 import {useUnit} from "effector-react";
 import {$product} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
+import {$addToCartError, addToCartEvent} from "@/components/organisms/cards/product-price-card/model";
 
 const ProductPriceCard = () => {
 
-    const product = useUnit($product)
+    const [product, addToCart, addToCartError] = useUnit(
+        [$product, addToCartEvent, $addToCartError]
+    )
 
     if (product) return (
         <StickyCardWrapper startCol={"col-start-10"}>
 
-            <div className={style.priceRow}>
+            <div className={"w-full flex flex-row items-baseline gap-[10px]"}>
                 <Text
                     text={`${product.newPrice} ₽`}
                     className={"text-[24px] font-semibold text-link-blue"}
@@ -29,11 +31,8 @@ const ProductPriceCard = () => {
                 }
             </div>
 
-            <div className={style.buttonRow}>
-                <Button
-                    text={"В корзину"}
-                    onClick={() => console.log("В корзину")}
-                />
+            <div className={"w-full flex flex-row items-center gap-[20px]"}>
+                <Button text={"В корзину"} onClick={() => addToCart(product?.id)}/>
                 <LikeButton/>
             </div>
 

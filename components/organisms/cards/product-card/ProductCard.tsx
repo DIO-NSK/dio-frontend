@@ -9,6 +9,13 @@ import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+import {useUnit} from "effector-react";
+import {
+    addToCartEvent,
+    addToFavouritesEvent,
+    removeFromFavouritesEvent
+} from "@/components/organisms/cards/product-price-card/model";
+import {useToggle} from "@/utlis/hooks/useToggle";
 
 type ProductCardClassNames = {
     mainWrapper?: string,
@@ -21,8 +28,11 @@ const ProductCard = ({productCard, classNames}: {
 }) => {
 
     const router = useRouter()
+    const [addToCart, addToFavourites, removeFromFavourites]
+        = useUnit([addToCartEvent, addToFavouritesEvent, removeFromFavouritesEvent])
 
     const [isSelected, setSelected] = useState<boolean>(false)
+    const isLiked = useToggle()
 
     const buttonText = isSelected ? "В корзине" : "В корзину"
     const buttonIcon = isSelected ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
@@ -34,8 +44,16 @@ const ProductCard = ({productCard, classNames}: {
     ]
 
     const handleCardClick = () => router.push(`/product/${productCard.id}`)
-    const handleBuyClick : MouseEventHandler = (e) => {
-        e.stopPropagation(); setSelected(!isSelected)
+    const handleBuyClick: MouseEventHandler = (e) => {
+        e.stopPropagation()
+        setSelected(!isSelected)
+        addToCart(productCard.id)
+    }
+
+    const handleToggleState = () => {
+        if (!isLiked.state) addToFavourites(productCard.id)
+        else removeFromFavourites(productCard.id)
+        isLiked.toggleState()
     }
 
     return (
@@ -85,7 +103,10 @@ const ProductCard = ({productCard, classNames}: {
                             onClick={handleBuyClick}
                             icon={buttonIcon}
                         />
-                        <LikeButton/>
+                        <LikeButton
+                            toggleLike={handleToggleState}
+                            isLiked={isLiked.state}
+                        />
                         <BuyButton/>
                     </div>
                 </div>

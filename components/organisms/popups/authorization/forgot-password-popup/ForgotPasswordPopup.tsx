@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import Button from "@/components/atoms/buttons/button/Button";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
-import {useAuthorizationPopup} from "@/components/organisms/popups/authorization/useAuthorizationPopup";
-import {useStore} from "@/store/Store";
 import {PopupProps} from "@/types/props/Popup";
 import {Form, FormProvider, useForm} from "react-hook-form";
 import {LoginByPhoneData, LoginByPhoneSchema} from "@/schemas/customer/LoginByPhoneSchema";
@@ -18,10 +16,6 @@ const ForgotPasswordPopup = (props : PopupProps) => {
     })
 
     const {handleSubmit, formState : {isSubmitting}} = methods
-
-    const {...authContext} = useAuthorizationPopup()
-
-    const switchPopupState = useStore(state => state.switchPopupState)
 
     const [isCodeSent, sendCode] = useState<boolean>(false)
     const onSubmit = () => console.log("Code sent!")

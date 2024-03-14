@@ -1,28 +1,26 @@
 import {FiHeart} from "react-icons/fi";
-import {MouseEventHandler, useState} from "react";
+import {MouseEventHandler} from "react";
 
-const LikeButton = () => {
+const LikeButton = ({isLiked, toggleLike}: {
+    isLiked: boolean,
+    toggleLike: () => void
+}) => {
 
-    const [isLiked, setLiked] = useState<boolean>(false)
-    const handleLike : MouseEventHandler = (event) => {
-        event.stopPropagation(); setLiked(true)
-    }
-    const handleRemoveLike : MouseEventHandler = (event) => {
-        event.stopPropagation(); setLiked(false)
+    const handleLikeClick: MouseEventHandler = (event) => {
+        event.stopPropagation();
+        toggleLike()
     }
 
     return (
-        <div className={"hover:cursor-pointer"}>
+        <div className={"hover:cursor-pointer"} onClick={handleLikeClick}>
             {
                 isLiked ? <FiHeart
                     size={"24px"}
                     className={"fill-info-red stroke-none"}
-                    onClick={handleRemoveLike}
                 /> : <FiHeart
                     size={"22px"}
                     className={"stroke-border-gray hover:stroke-info-red hoverable"}
-                    onClick={handleLike}
-                    />
+                />
             }
         </div>
     )

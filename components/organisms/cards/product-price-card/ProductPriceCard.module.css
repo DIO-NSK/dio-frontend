@@ -1,7 +1,0 @@
-.priceRow {
-    @apply w-full flex flex-row items-baseline gap-[10px];
-}
-
-.buttonRow {
-    @apply w-full flex flex-row items-center gap-[20px];
-}
