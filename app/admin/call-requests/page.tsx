@@ -9,33 +9,43 @@ import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import Button from "@/components/atoms/buttons/button/Button";
 import CallRequestsContentTable
     from "@/components/organisms/tables/call-requests-content-table/CallRequestsContentTable";
-import {callRequestsTableContent, callRequestsTableHeader} from "@/data/tables/adminCallRequestsTable";
-import {useSelectable} from "@/utlis/hooks/useSelectable";
+import {callRequestsTableHeader} from "@/data/tables/adminCallRequestsTable";
 import {useUnit} from "effector-react";
 import {
     $callRequestTableRows,
     $searchCallRequest,
+    $selectedCallRequests,
     CallRequestStatus,
-    getCallRequestByStatusEvent,
-    setSearchCallRequestEvent
+    removeAllCallRequests,
+    selectAllCallRequestEvent,
+    selectCallRequestEvent,
+    setCallRequestStatusEvent,
+    setSearchCallRequestEvent,
+    updateCallRequestEvent
 } from "@/app/admin/call-requests/model";
 
 const AdminPanelCallRequestsPage = () => {
 
-    const [getCallRequestsByStatus, callRequests] = useUnit([getCallRequestByStatusEvent, $callRequestTableRows])
+    const callRequests = useUnit($callRequestTableRows)
     const [searchCallRequest, setSearchCallRequest] = useUnit([$searchCallRequest, setSearchCallRequestEvent])
+
+    const [selectedItems, select, selectAll, removeAll] = useUnit([$selectedCallRequests,
+        selectCallRequestEvent, selectAllCallRequestEvent, removeAllCallRequests])
+
+    const [updateCallRequest, setCallRequestStatus] = useUnit([updateCallRequestEvent, setCallRequestStatusEvent])
 
     const multiselectElements = ["Актуальные", "Архив"]
     const [activeElement, setActiveElement] = useState<string>(multiselectElements[0])
+    const updateButtonText = activeElement === "Актуальные" ? "Поместить в архив" : "Восстановить"
 
-    const defaultSelectableItems = callRequestsTableContent.map(i => i.item)
-    const {...selectableContext} = useSelectable(defaultSelectableItems)
-
-    const handleMarkRequestsArchive = () => console.log("Archived")
+    const handleUpdateCallRequests = () => {
+        if (activeElement === "Актуальные") updateCallRequest("ARCHIVE")
+        else updateCallRequest("CURRENT")
+    }
 
     useEffect(() => {
         const requestStatus: CallRequestStatus = activeElement === "Актуальные" ? "CURRENT" : "ARCHIVE"
-        getCallRequestsByStatus(requestStatus)
+        setCallRequestStatus(requestStatus)
     }, [activeElement])
 
     return (
@@ -62,28 +72,30 @@ const AdminPanelCallRequestsPage = () => {
                 header={"Заявки на звонок"}
                 leftContent={
                     <div className={"w-fit flex flex-row items-baseline gap-4"}>
-                        {
-                            selectableContext.selectedItems.length > 0 &&
+                        {selectedItems.length > 0 &&
                             <div className={"flex flex-row items-baseline gap-4"}>
                                 <Text
-                                    text={`Выбрано ${selectableContext.selectedItems.length}`}
+                                    text={`Выбрано ${selectedItems.length}`}
                                     className={"text-text-gray"}
                                 />
                                 <TextButton
-                                    onClick={selectableContext.handleRemoveSelectAll}
-                                    text={"Отменить выбор"}
                                     className={"text-info-red hover:text-red-700"}
+                                    text={"Отменить выбор"}
+                                    onClick={removeAll}
                                 />
                             </div>
                         }
-                        <TextButton onClick={selectableContext.handleSelectAllItems} text={"Выбрать всё"}/>
+                        <TextButton
+                            text={"Выбрать всё"}
+                            onClick={selectAll}
+                        />
                     </div>
                 }
                 rightContent={
                     <Button
-                        onClick={handleMarkRequestsArchive}
-                        text={"Поместить в архив"}
+                        onClick={handleUpdateCallRequests}
                         buttonType={"SECONDARY"}
+                        text={updateButtonText}
                         size={"sm"}
                     />
                 }
@@ -91,9 +103,9 @@ const AdminPanelCallRequestsPage = () => {
 
             {callRequests && <CallRequestsContentTable
                 tableHeader={callRequestsTableHeader}
+                selectedItems={selectedItems}
                 tableContent={callRequests}
-                onSelect={selectableContext.handleSelectItem}
-                selectedItems={selectableContext.selectedItems}
+                onSelect={select}
             />}
 
         </React.Fragment>

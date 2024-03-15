@@ -12,13 +12,13 @@ import {convertPhoneNumber} from "@/utlis/convertPhoneNumber";
 
 type CallRequestsContentTable = {
     tableContent: CallRequestTableRow[],
-    selectedItems: ResponseCallRequest[],
-    onSelect: (callRequest: ResponseCallRequest) => void
+    selectedItems: number[],
+    onSelect: (id: number) => void
 } & Omit<TableWrapperProps, "children">
 
 const CallRequestRow = ({tableRow, isSelected, onSelect}: {
     tableRow: CallRequestTableRow,
-    onSelect: (callRequest: ResponseCallRequest) => void
+    onSelect: (id: number) => void
     isSelected: boolean,
 }) => {
 
@@ -37,7 +37,7 @@ const CallRequestRow = ({tableRow, isSelected, onSelect}: {
 
     const [isExpanded, setExpanded] = useState<boolean>(false)
     const handleSwitchExpanded = () => setExpanded(!isExpanded)
-    const handleSelectRequest = () => onSelect(tableRow.item)
+    const handleSelectRequest = () => onSelect(tableRow.item.id)
 
     return (
         <div className={cn(wrapperCV)} onClick={handleSelectRequest}>
@@ -70,7 +70,7 @@ const CallRequestRow = ({tableRow, isSelected, onSelect}: {
 const CallRequestsContentTable = (props: CallRequestsContentTable) => {
 
     const computeIsSelectedItem = (callRequest: ResponseCallRequest) => {
-        const findCallRequest = props.selectedItems.find((cr) => cr === callRequest)
+        const findCallRequest = props.selectedItems.find((cr) => cr === callRequest.id)
         return !!findCallRequest
     }
 
