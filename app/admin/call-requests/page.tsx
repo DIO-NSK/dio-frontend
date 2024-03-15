@@ -1,7 +1,7 @@
 "use client"
 
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import SearchInput from "@/components/atoms/inputs/search-input/SearchInput";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -11,21 +11,21 @@ import CallRequestsContentTable
     from "@/components/organisms/tables/call-requests-content-table/CallRequestsContentTable";
 import {callRequestsTableContent, callRequestsTableHeader} from "@/data/tables/adminCallRequestsTable";
 import {useSelectable} from "@/utlis/hooks/useSelectable";
-import React from "react";
 import {useUnit} from "effector-react";
 import {
-    $callRequests,
+    $callRequestTableRows,
     $searchCallRequest,
     CallRequestStatus,
-    getCallRequestByStatusEvent, setSearchCallRequestEvent
+    getCallRequestByStatusEvent,
+    setSearchCallRequestEvent
 } from "@/app/admin/call-requests/model";
 
 const AdminPanelCallRequestsPage = () => {
 
-    const [getCallRequestsByStatus, callRequests] = useUnit([getCallRequestByStatusEvent, $callRequests])
+    const [getCallRequestsByStatus, callRequests] = useUnit([getCallRequestByStatusEvent, $callRequestTableRows])
     const [searchCallRequest, setSearchCallRequest] = useUnit([$searchCallRequest, setSearchCallRequestEvent])
 
-    const multiselectElements = ["Акутальные", "Архив"]
+    const multiselectElements = ["Актуальные", "Архив"]
     const [activeElement, setActiveElement] = useState<string>(multiselectElements[0])
 
     const defaultSelectableItems = callRequestsTableContent.map(i => i.item)
@@ -91,7 +91,7 @@ const AdminPanelCallRequestsPage = () => {
 
             {callRequests && <CallRequestsContentTable
                 tableHeader={callRequestsTableHeader}
-                tableContent={callRequestsTableContent}
+                tableContent={callRequests}
                 onSelect={selectableContext.handleSelectItem}
                 selectedItems={selectableContext.selectedItems}
             />}

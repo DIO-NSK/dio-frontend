@@ -6,25 +6,34 @@ import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import Checkbox from "@/components/atoms/buttons/checkbox/Checkbox";
-import {CallRequest} from "@/types/dto/CallRequest";
+import dayjs from "dayjs";
+import {ResponseCallRequest} from "@/types/dto/admin/call-request/ResponseCallRequest";
+import {convertPhoneNumber} from "@/utlis/convertPhoneNumber";
 
 type CallRequestsContentTable = {
     tableContent: CallRequestTableRow[],
-    selectedItems: CallRequest[],
-    onSelect: (callRequest: CallRequest) => void
+    selectedItems: ResponseCallRequest[],
+    onSelect: (callRequest: ResponseCallRequest) => void
 } & Omit<TableWrapperProps, "children">
 
 const CallRequestRow = ({tableRow, isSelected, onSelect}: {
     tableRow: CallRequestTableRow,
-    onSelect: (callRequest: CallRequest) => void
+    onSelect: (callRequest: ResponseCallRequest) => void
     isSelected: boolean,
 }) => {
+
+    const MAX_TEXT_LENGTH = 100
 
     const wrapperCV: ClassValue[] = [
         "relative w-full grid grid-cols-8 gap-x-7 py-7 border-b-2 border-light-gray",
         "hoverable hover:bg-bg-light-blue px-7 relative pointer",
         {"bg-bg-light-blue": isSelected}
     ]
+
+    const date = dayjs(tableRow.item.createAt).format("DD.MM.YYYY")
+    const time = dayjs(tableRow.item.createAt).format("HH:mm:ss")
+    const dots = tableRow.item.comment.length > MAX_TEXT_LENGTH ? "..." : ""
+    const phoneNumber = convertPhoneNumber(tableRow.item.numberPhone)
 
     const [isExpanded, setExpanded] = useState<boolean>(false)
     const handleSwitchExpanded = () => setExpanded(!isExpanded)
@@ -34,18 +43,24 @@ const CallRequestRow = ({tableRow, isSelected, onSelect}: {
         <div className={cn(wrapperCV)} onClick={handleSelectRequest}>
             <div className={"col-span-2 flex flex-row gap-5"}>
                 <Checkbox isSelected={isSelected}/>
-                <div className={"w-full flex flex-col gap-2"}>
-                    <Text text={tableRow.item.customer.name}/>
-                    <Text text={tableRow.item.customer.phoneNumber} className={"text-text-gray"}/>
+                <div className={"w-full flex flex-col gap-1"}>
+                    <Text text={tableRow.item.fullName}/>
+                    <Text text={phoneNumber} className={"text-text-gray"}/>
                 </div>
             </div>
-            <div className={"col-span-1 flex flex-col gap-2"}>
-                <Text text={tableRow.item.date} className={"text-text-gray"}/>
-                <Text text={tableRow.item.time} className={"text-text-gray"}/>
+            <div className={"col-span-1 flex flex-col gap-1"}>
+                <Text text={date} className={"text-text-gray"}/>
+                <Text text={time} className={"text-text-gray"}/>
             </div>
-            <div className={"col-span-5 flex flex-col gap-3"}>
-                <Text text={tableRow.item.comment}/>
-                <TextButton onClick={handleSwitchExpanded} text={"Смотреть всё"}/>
+            <div className={"col-span-5 flex flex-col gap-1"}>
+                <Text text={
+                    isExpanded ? tableRow.item.comment
+                        : tableRow.item.comment.slice(0, MAX_TEXT_LENGTH) + dots}
+                />
+                {tableRow.item.comment.length > MAX_TEXT_LENGTH && <TextButton
+                    onClick={handleSwitchExpanded}
+                    text={isExpanded ? "Скрыть" : "Развернуть"}
+                />}
             </div>
         </div>
     )
@@ -54,7 +69,7 @@ const CallRequestRow = ({tableRow, isSelected, onSelect}: {
 
 const CallRequestsContentTable = (props: CallRequestsContentTable) => {
 
-    const computeIsSelectedItem = (callRequest : CallRequest) => {
+    const computeIsSelectedItem = (callRequest: ResponseCallRequest) => {
         const findCallRequest = props.selectedItems.find((cr) => cr === callRequest)
         return !!findCallRequest
     }
