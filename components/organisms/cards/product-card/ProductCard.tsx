@@ -37,6 +37,9 @@ const ProductCard = ({productCard, classNames}: {
     const buttonText = isSelected ? "В корзине" : "В корзину"
     const buttonIcon = isSelected ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
 
+    const discountPrice = 0.01 * productCard.discountPercent * productCard.oldPrice
+    const newPrice = discountPrice === 0 ? productCard.oldPrice : productCard.oldPrice - discountPrice
+
     const wrapperCV: ClassValue[] = [
         "w-[70vw] sm:w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
         "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover:shadow-xl sm:hoverable pointer",
@@ -70,13 +73,12 @@ const ProductCard = ({productCard, classNames}: {
                 <div className={cn("w-full flex flex-col gap-1 min-h-[50px] sm:min-h-[85px]", classNames?.textWrapper)}>
                     <div className={"w-full hidden sm:flex flex-row items-baseline gap-3"}>
                         <Text
-                            text={productCard.newPrice + " ₽"}
+                            text={newPrice.toFixed(2) + " ₽"}
                             className={"text-[22px] font-semibold text-link-blue"}
                         />
                         {
-                            productCard.oldPrice > productCard.newPrice &&
-                            <Text
-                                text={productCard.oldPrice + " ₽"}
+                            discountPrice !== 0 && <Text
+                                text={productCard?.oldPrice?.toFixed(2) + " ₽"}
                                 className={"text-base text-text-gray line-through"}
                             />
                         }
@@ -91,10 +93,18 @@ const ProductCard = ({productCard, classNames}: {
                     />
                 </div>
                 <div className={"w-full flex flex-row items-center justify-between"}>
-                    <Text
-                        text={productCard.newPrice + " ₽"}
-                        className={"sm:hidden text-[20px] sm:text-[24px] font-semibold text-link-blue"}
-                    />
+                    <div className={"sm:hidden flex flex-col"}>
+                        {
+                            discountPrice !== 0 && <Text
+                                text={productCard?.oldPrice?.toFixed(2) + " ₽"}
+                                className={"text-sm text-text-gray line-through"}
+                            />
+                        }
+                        <Text
+                            text={newPrice.toFixed(2) + " ₽"}
+                            className={"text-[20px] sm:text-[24px] font-semibold text-link-blue"}
+                        />
+                    </div>
                     <div className={"flex flex-row items-center gap-4 sm:gap-5"}>
                         <Button
                             classNames={{button: "hidden sm:flex"}}

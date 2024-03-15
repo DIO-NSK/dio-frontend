@@ -7,12 +7,12 @@ import {cn} from "@/utlis/cn";
 import Counter from "@/components/moleculas/counter/Counter";
 import {
     removeProductFromCartEvent,
-    ResponseUserProduct
+    ResponseCartItem
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {useUnit} from "effector-react";
 
 type ShoppingCartProductCardProps = {
-    card: ResponseUserProduct,
+    card: ResponseCartItem,
     canInteract?: boolean
 }
 
@@ -22,14 +22,16 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
 
     const [amount, setAmount] = useState<number>(1)
 
-    const productPrice = card.newPrice == 0 ? "Бесплатно" : `${card.newPrice} ₽`
+    const discountPrice = 0.01 * card.discountPercent * card.price
+    const newPrice = discountPrice === 0 ? card.price : card.price - discountPrice
+
     const trashCV: ClassValue = "hoverable pointer text-info-red hover:text-red-700"
 
     const handleDeleteProduct = () => removeProductFromCart(card.name)
 
     return (
         <div className={"hidden w-full sm:flex flex-row items-center justify-between"}>
-            <Text text={card.name} className={"text-lg font-medium"}/>
+            <Text text={card.name} className={"max-w-[400px] text-base font-medium"}/>
             <div className={"flex flex-row items-center gap-7"}>
                 {
                     canInteract ? <React.Fragment>
@@ -51,23 +53,39 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
                         className={"text-lg text-text-gray"}
                     />
                 }
-                <Text
-                    className={"text-[24px] font-medium"}
-                    text={productPrice}
-                />
+                <div className={"flex flex-row items-baseline gap-2"}>
+                    <Text
+                        className={"text-[22px] font-medium"}
+                        text={`${newPrice.toFixed(2)} ₽`}
+                    />
+                    {
+                        discountPrice !== 0 && <Text
+                            text={`${card.price.toFixed(2)} ₽`}
+                            className={"text-text-gray line-through"}
+                        />
+                    }
+                </div>
+
             </div>
         </div>
     )
 }
 
 const MobileHeaderRow = (props: ShoppingCartProductCardProps) => {
+
+    const discountPrice = 0.01 * props.card.discountPercent * props.card.price
+    const newPrice = discountPrice === 0 ? props.card.price : props.card.price - discountPrice
+
     return (
         <section className={"sm:hidden flex flex-col gap-1"}>
             <div className={"flex flex-row items-baseline gap-2"}>
-                <Text text={`${props.card.newPrice} ₽`} className={"text-lg text-link-blue font-semibold"}/>
+                <Text
+                    text={`${newPrice.toFixed(2)} ₽`}
+                    className={"text-lg text-link-blue font-semibold"}
+                />
                 {
-                    props.card.oldPrice && <Text
-                        text={`${props.card.oldPrice} ₽`}
+                    discountPrice !== 0 && <Text
+                        text={`${props.card.price.toFixed(2)} ₽`}
                         className={"text-text-gray line-through"}
                     />
                 }
@@ -75,6 +93,7 @@ const MobileHeaderRow = (props: ShoppingCartProductCardProps) => {
             <Text text={props.card.name}/>
         </section>
     )
+
 }
 
 const ShoppingCartProductCard = (props: ShoppingCartProductCardProps) => {

@@ -7,7 +7,8 @@ import {persist} from "effector-storage/local";
 const addToCart = async (productId: number) => {
 
     const requestBody = {
-        userId: +localStorage.getItem("userId")!!,
+        cartId : localStorage.getItem("cartId"),
+        userId: localStorage.getItem("userId"),
         productId: productId,
         quantity: 1
     }

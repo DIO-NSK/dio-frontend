@@ -11,6 +11,7 @@ import {ResponseSearchCatalog} from "@/types/dto/user/catalog/ResponseSearchCata
 import Link from "next/link";
 
 type SearchBarClassNames = {
+    mainWrapper?: string,
     wrapper?: string,
     input?: string
 }
@@ -18,11 +19,12 @@ type SearchBarClassNames = {
 type SearchbarProps = {
     placeholder: string,
     onChange: (value: string) => void,
+    hasPopover?: boolean,
     classNames?: SearchBarClassNames,
     value?: string,
 }
 
-const Input = (props: SearchbarProps) => {
+const Input = (props: Omit<SearchbarProps, "hasPopover">) => {
 
     const inputCV: ClassValue[] = [
         "w-full p-5 sm:px-[30px] py-4 rounded-xl bg-bg-light-blue border-0",
@@ -150,11 +152,11 @@ const PopoverList = () => {
 
 }
 
-const SearchInput = (props: SearchbarProps) => {
+const SearchInput = ({hasPopover = false, ...props}: SearchbarProps) => {
     return (
-        <section className={"w-full relative flex flex-col gap-5"}>
+        <section className={cn("w-full relative flex flex-col gap-5", props.classNames?.mainWrapper)}>
             <Input {...props}/>
-            <PopoverList/>
+            {hasPopover && <PopoverList/>}
         </section>
     )
 }

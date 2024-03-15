@@ -5,14 +5,18 @@ import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import {usePathname, useRouter} from "next/navigation";
+import {useUnit} from "effector-react";
+import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
-type ShoppingCardTotalPriceCardProps = {
-    amount: number,
-    discount: number,
-    totalPrice: number
-}
+const ShoppingCartTotalPriceCard = () => {
 
-const ShoppingCartTotalPriceCard = (props: ShoppingCardTotalPriceCardProps) => {
+    const cart = useUnit($cart)
+    if (!cart) return
+
+    const totalPriceWithoutDiscount = cart.reduce((acc, item) => acc + item.price, 0)
+    const totalDiscount = cart.reduce((acc, item) => acc + 0.01 * item.discountPercent * item.price, 0.0)
+    const totalPriceWithDiscount = totalPriceWithoutDiscount - totalDiscount
+    const totalAmount = cart.length
 
     const router = useRouter()
     const pathname = usePathname()
@@ -21,8 +25,8 @@ const ShoppingCartTotalPriceCard = (props: ShoppingCardTotalPriceCardProps) => {
     const textCV: ClassValue = "text-base text-text-gray"
 
     const cardRows = [
-        {header: "Количество", data: props.amount + " шт."},
-        {header: "Скидка", data: props.discount + " ₽"},
+        {header: "Количество", data: totalAmount + " шт."},
+        {header: "Скидка", data: totalDiscount.toFixed(2) + " ₽"},
     ]
 
     const handleButtonClick = () => router.push(pathname.concat('/checkout'))
@@ -41,7 +45,7 @@ const ShoppingCartTotalPriceCard = (props: ShoppingCardTotalPriceCardProps) => {
             </div>
             <div className={cn(rowCV)}>
                 <Text text={"Итого"} className={cn(textCV)}/>
-                <Text text={`${props.totalPrice} ₽`} className={"text-[24px] font-medium text-link-blue"}/>
+                <Text text={`${totalPriceWithDiscount} ₽`} className={"text-[24px] font-medium text-link-blue"}/>
             </div>
             <Button text={"Перейти к оформлению"} onClick={handleButtonClick}/>
         </StickyCardWrapper>

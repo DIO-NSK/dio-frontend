@@ -18,7 +18,7 @@ const ShoppingCartPage = () => {
     const [cart, getCart] = useUnit([$cart, getCartEvent])
 
     const infoBlockData: InfoBlockElement[] = [
-        {header: "Количество", description: "2 шт."},
+        {header: "Количество", description: `${cart?.length} шт.`},
         {header: "Скидка", description: "7249 ₽"},
         {header: "Итого", description: "4700 ₽", className: "text-link-blue text-[20px] font-medium"},
     ]
@@ -29,19 +29,15 @@ const ShoppingCartPage = () => {
         getCart()
     }, [getCart])
 
-    return (
+    if (cart) return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
-            <HeaderRow header={"Корзина"} leftContent={"Всего 6"}/>
+            <HeaderRow header={"Корзина"} leftContent={`Всего ${cart.length}`}/>
             <section className={"flex flex-col gap-3 sm:col-span-9 sm:-pt-5 sm:gap-7"}>
-                {cart?.products.map((product, productIndex) =>
+                {cart.map((product, productIndex) =>
                     <ShoppingCartProductCard card={product} key={productIndex}/>
                 )}
             </section>
-            <ShoppingCartTotalPriceCard
-                amount={3}
-                discount={7429}
-                totalPrice={4700}
-            />
+            <ShoppingCartTotalPriceCard/>
             <MobileCartInfoBlock
                 infoBlockData={infoBlockData}
                 buttonText={"Перейти к оформлению"}

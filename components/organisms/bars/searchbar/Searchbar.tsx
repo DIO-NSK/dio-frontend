@@ -81,6 +81,7 @@ const Searchbar = () => {
                         icon={<FiMenu className={"stroke-white size-5"}/>}
                     />
                     <SearchInput
+                        hasPopover
                         placeholder={"Поиск товаров"}
                         onChange={setName}
                         value={name}
