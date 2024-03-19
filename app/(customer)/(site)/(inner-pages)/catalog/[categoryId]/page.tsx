@@ -14,6 +14,7 @@ import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPage
 import CatalogLeftSidebar from "@/components/organisms/bars/catalog-left-sidebar/CatalogLeftSidebar";
 import {TextLink} from "@/types/dto/text";
 import PageContentWrapper from "@/components/wrappers/page-content-wrapper/PageContentWrapper";
+import {getFavouritesEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
 
 const CatalogScreen = ({params}: {
     params: {
@@ -27,10 +28,13 @@ const CatalogScreen = ({params}: {
         {text: "Кулеры", link: "/catalog/coolers"},
     ]
 
-    const [categories, getCategories] = useUnit([$categories, getCategoryByNameEvent])
+    const [categories, getCategories, getFavourites]
+        = useUnit([$categories, getCategoryByNameEvent, getFavouritesEvent])
+
     const {...context} = useCatalogPage()
 
     useEffect(() => {
+        getFavourites()
         getCategories(params.categoryId)
     }, [])
 

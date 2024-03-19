@@ -20,7 +20,6 @@ import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import Text from "@/components/atoms/text/text-base/Text";
 import DIOLogoBig from "@/components/atoms/svg/dio-logo-big/DIOLogoBig";
 import {usePathname, useRouter} from "next/navigation";
-import {IconTextLink} from "@/types/links";
 
 const Footer = () => {
 
@@ -77,7 +76,7 @@ const AdminPanelSidebar = () => {
         "justify-between border-r-2 border-light-gray"
     ]
 
-    const adminTabBarData: IconTextLink[] = [
+    const adminTabBarData: TabBarItem[] = [
         {text: "Аналитика", icon: <FiPieChart size={"18px"}/>, path : "/admin"},
         {text: "Каталог", icon: <FiList size={"18px"}/>, path : "/admin/catalog"},
         {text: "Услуги", icon: <FiZap size={"18px"}/>, path : "/admin/services"},
@@ -92,11 +91,12 @@ const AdminPanelSidebar = () => {
     const [activeTab, setActiveTab] = useState<TabBarItem>(adminTabBarData[0])
 
     const handleTabClick = (tab : TabBarItem) => {
-        router.push(tab.path); setActiveTab(tab)
+        setActiveTab(tab)
+        router.push(tab.path!!)
     }
 
     const computeActiveTab = () => {
-        const activeRoute = adminTabBarData.find(tab => tab.path.includes(pathname))
+        const activeRoute = adminTabBarData.find(tab => (tab.path!!).includes(pathname))
         setActiveTab(activeRoute ?? adminTabBarData[0])
     }
 

@@ -18,7 +18,7 @@ const TabBarItem = (props: TabBarItemProps) => {
             className={cn(wrapperCV)}
             onClick={() => props.setActive(props.tab)}
         >
-            {props.tab.icon}
+            {props.tab?.icon}
             {props.tab.text}
         </div>
     )

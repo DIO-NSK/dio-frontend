@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
@@ -8,7 +8,7 @@ import {AdminProduct} from "@/types/dto/AdminProduct";
 import OrderPageAddDayProductPopup
     from "@/components/organisms/popups/admin/order-page-add-day-product-popup/OrderPageAddDayProductPopup";
 import ProductContentTable from "@/components/organisms/tables/product-content-table/ProductContentTable";
-import {adminProductRow, adminProductTableHeader} from "@/data/tables/adminProductTable";
+import {adminProductTableHeader} from "@/data/tables/adminProductTable";
 
 const AdminPanelDayProductsBlock = () => {
 
@@ -25,11 +25,6 @@ const AdminPanelDayProductsBlock = () => {
         tableRows,
         setTableRows
     ] = useState<ProductTableRow<AdminProduct>[]>([])
-
-    useEffect(() => {
-        const tableRows = products.map(_ => adminProductRow)
-        setTableRows(tableRows)
-    }, [products])
 
     return (
         <>
@@ -59,6 +54,8 @@ const AdminPanelDayProductsBlock = () => {
                     onProductClick={() => console.log("Click")}
                     tableHeader={adminProductTableHeader}
                     tableContent={tableRows}
+                    onDelete={() => {}}
+                    onEdit={() => {}}
                 />
 
             </div>

@@ -9,7 +9,6 @@ import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import Button from "@/components/atoms/buttons/button/Button";
 import CallRequestsContentTable
     from "@/components/organisms/tables/call-requests-content-table/CallRequestsContentTable";
-import {callRequestsTableHeader} from "@/data/tables/adminCallRequestsTable";
 import {useUnit} from "effector-react";
 import {
     $callRequestTableRows,
@@ -23,6 +22,13 @@ import {
     setSearchCallRequestEvent,
     updateCallRequestEvent
 } from "@/app/admin/call-requests/model";
+import {TableHeaderItem} from "@/types/dto/Table";
+
+const callRequestsTableHeader: TableHeaderItem[] = [
+    {text: "Данные клиента", width: "col-span-2"},
+    {text: "Дата", width: "col-span-1"},
+    {text: "Комментарий", width: "col-span-5"},
+]
 
 const AdminPanelCallRequestsPage = () => {
 

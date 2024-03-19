@@ -4,7 +4,7 @@ import {FieldValues} from "react-hook-form";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 
 type InputListWrapperProps = {
-    inputs: InputPrefilledData<FieldValues>[]
+    inputs: InputPrefilledData[]
 }
 
 const InputListWrapper = (props: InputListWrapperProps) => {

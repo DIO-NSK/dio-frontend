@@ -1,6 +1,6 @@
-import TextM from "@/components/atoms/text/text-m/TextM";
 import React, {useState} from "react";
 import ChevronButton, {ChevronButtonType} from "@/components/atoms/buttons/chevron-button/ChevronButton";
+import Text from "@/components/atoms/text/text-base/Text";
 
 type LabelRowType = {
     header: string
@@ -12,7 +12,7 @@ type LabelInputWrapperType = LabelRowType
 const LabelRow = ({header, isExpanded, setExpanded}: { header : string } & ChevronButtonType) => {
     return (
         <div className={"w-full flex flex-row justify-between items-center"}>
-            <TextM text={header}/>
+            <Text text={header}/>
             <ChevronButton
                 isExpanded={isExpanded}
                 setExpanded={setExpanded}

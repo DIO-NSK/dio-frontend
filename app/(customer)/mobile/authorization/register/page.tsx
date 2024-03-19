@@ -14,19 +14,19 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 import Form from "@/components/atoms/form/Form";
 
-const formData: (InputPrefilledData<keyof RegisterData> & { isPassword: boolean })[] = [
+const formData: InputPrefilledData[] = [
     {
         placeholder: "+7 (000) 000-00-00",
         inputMask: "+7 (999) 999-99-99",
-        labelText: "Телефон", valueName: "phoneNumber",
+        labelText: "Телефон", name: "phoneNumber",
         isPassword: false,
     }, {
         placeholder: "Иван Иванов",
-        labelText: "Имя пользователя", valueName: "username",
+        labelText: "Имя пользователя", name: "username",
         isPassword: false,
     }, {
         placeholder: "Введите пароль",
-        labelText: "Пароль", valueName: "password",
+        labelText: "Пароль", name: "password",
         isPassword: true
     },
 ]

@@ -146,17 +146,17 @@ const CheckoutDeliveryAddressBlock = () => {
 
 const CheckoutTimeBlock = () => {
 
-    const dropdownItems: SelectItem[] = [
-        {text: "10:00 — 11:00", isSelected: true},
-        {text: "11:00 — 12:00", isSelected: false},
-        {text: "12:00 — 13:00", isSelected: false},
-        {text: "13:00 — 14:00", isSelected: false},
+    const dropdownItems: SelectItem<string>[] = [
+        {name: "10:00 — 11:00", value: "10:00 — 11:00"},
+        {name: "11:00 — 12:00", value: "10:00 — 11:00"},
+        {name: "12:00 — 13:00", value: "10:00 — 11:00"},
+        {name: "13:00 — 14:00", value: "10:00 — 11:00"},
     ]
 
     const [
         activeItem,
         selectItem
-    ] = useState<SelectItem>(dropdownItems[0])
+    ] = useState<SelectItem<string>>(dropdownItems[0])
 
     return (
         <BackgroundBlockWrapper header={"Дата и время доставки"}>
@@ -209,11 +209,10 @@ const CheckoutAdditionalBlock = () => {
     return (
         <BackgroundBlockWrapper header={"Дополнительно"}>
             <ControlledTextArea
+                name={"textArea"}
                 classNames={{wrapper: "col-span-full", input: "min-h-[150px] max-h-[300px]"}}
                 labelText={"Пожелания к заказу"}
                 placeholder={"Уточните детали заказа в комментарии"}
-                value={comment}
-                onChange={setComment}
                 hintText={{type: "neutral", hintMessage: hintMessage}}
                 theme={"filled"}
             />
@@ -221,8 +220,7 @@ const CheckoutAdditionalBlock = () => {
     )
 }
 
-const CheckoutPage = () => {
-
+const Page = () => {
     const handleButtonClick = () => console.log("Order is confirmed")
 
     return (
@@ -240,14 +238,13 @@ const CheckoutPage = () => {
                     classNames={{button: "w-1/4"}}
                 />
             </div>
-            <ShoppingCartTotalPriceCard
-                amount={2}
-                discount={1200}
-                totalPrice={7200}
-            />
+            <ShoppingCartTotalPriceCard/>
         </InnerPageWrapper>
     );
+}
 
+const CheckoutPage = () => {
+    return <></>
 };
 
 export default CheckoutPage;

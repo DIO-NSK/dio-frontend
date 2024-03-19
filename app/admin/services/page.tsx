@@ -28,6 +28,8 @@ const AdminPanelServicePage = () => {
                 header={"Услуги"}
                 isEditable={editableContext.isEditable}
                 onChange={editableContext.handleSwitchEditable}
+                onSaveChanges={() => {}}
+                onCancelChanges={() => {}}
             />
 
             <TextContentTable

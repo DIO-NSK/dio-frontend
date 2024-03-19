@@ -64,9 +64,12 @@ const AdminPanelProductsPage = ({params}: {
             </div>
 
             <ProductContentTable
+                isDraggable={editableContext.isEditable}
                 tableHeader={adminProductTableHeader}
                 tableContent={context.tableContent}
                 onProductClick={context.handleProductClick}
+                onEdit={context.handleEditProduct}
+                onDelete={context.handleDeleteProduct}
             />
 
         </>

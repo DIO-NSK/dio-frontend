@@ -45,10 +45,7 @@ const AdminPanelPromoBlock = () => {
                 <div className={"w-full grid grid-cols-3 gap-7"}>
                     {
                         promoCards.map((promoCard, index) =>
-                            promoCard && <AdminPhotoCard
-                                key={index} file={promoCard.file}
-                                onDelete={() => handleDeletePromoCard(index)}
-                            />
+                            promoCard && <AdminPhotoCard key={index}/>
                         )
                     }
                 </div>

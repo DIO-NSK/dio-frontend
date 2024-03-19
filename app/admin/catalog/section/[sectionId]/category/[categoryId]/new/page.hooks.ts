@@ -18,7 +18,7 @@ export const useAdminPanelNewProductPage = () => {
     return {
         photoBlock : {photos, handleAddPhoto, handleDeletePhoto},
         switch : {isProductOfTheDay, handleSetProductOfTheDay},
-        inputGridData, handleCreateProduct, dropdownItems
+        handleCreateProduct
     }
 
 }

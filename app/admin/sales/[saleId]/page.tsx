@@ -19,12 +19,6 @@ const AdminPanelSalePage = ({params}: {
                 className={"w-full"}
                 theme={"bordered"}
                 header={"Вода «Горная Вершина» в подарок"}
-                rightContent={
-                    <AdminPanelSaveDiscardChangesRow
-                        isEditable={context.editMode.isEditable}
-                        onChange={context.editMode.handleSwitchEditable}
-                    />
-                }
                 hasBackIcon
             />
         </>

@@ -4,5 +4,7 @@ export type InputPrefilledData = {
     inputMask?: string,
     numbersOnly?: boolean,
     endDecorator ?: string,
+    disabled ?: boolean,
+    isPassword ?: boolean,
     name ?: string,
 }

@@ -34,10 +34,7 @@ const AddPromoPopup = (props : AddPromoPopup<PromoCard>) => {
         }, {
             header: "Фотография промо-акции",
             description: "Данная фотография будет отображаться в первом блоке на главном странице сайта",
-            input: promoImage ? <AdminPhotoCard
-                file={promoImage}
-                onDelete={handleDeleteFile}
-            /> : <FileInput
+            input: promoImage ? <AdminPhotoCard/> : <FileInput
                 placeholder={"Выберите файл"}
                 onChange={setPromoImage}
             />

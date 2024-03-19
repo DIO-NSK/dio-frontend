@@ -4,29 +4,24 @@ import {persist} from "effector-storage/local";
 
 
 //region addToCart
-const addToCart = async (productId: number) => {
+const addToCart = async (productId: number): Promise<string> => {
 
     const requestBody = {
-        cartId : localStorage.getItem("cartId"),
-        userId: localStorage.getItem("userId"),
         productId: productId,
-        quantity: 1
+        quantityProduct: 1
     }
 
     return api.put("/cart", requestBody)
-        .then(response => response.data.id)
+        .then(response => {
+            if (response.data) sessionStorage.setItem("SESSION_ID", response.data)
+            return response.data
+        })
         .catch(error => {throw Error(error.response.data.message)})
 }
 
-const addToCartFx = createEffect<number, number, Error>(addToCart)
+const addToCartFx = createEffect<number, string, Error>(addToCart)
 export const addToCartEvent = createEvent<number>()
-export const $cardId = createStore<number>(0)
 export const $addToCartError = createStore<string>("")
-
-persist({
-    store : $cardId,
-    key : "cartId"
-})
 
 sample({
     clock: addToCartEvent,
@@ -36,14 +31,16 @@ sample({
 //endregion
 
 //region addToFavourites
-const addToFavourites = async (productId : number) => {
+const addToFavourites = async (productId: number) => {
     const requestBody = {
         userId: +localStorage.getItem("userId")!!,
         productId: productId,
     }
     return api.put('/favourite', requestBody)
         .then(response => response.data.id)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
 const addToFavouritesFx = createEffect(addToFavourites)
@@ -51,34 +48,35 @@ export const addToFavouritesEvent = createEvent<number>()
 export const $favouritesId = createStore<number>(0)
 
 $favouritesId.on(addToFavouritesFx.doneData, (_, favouritesId) => favouritesId)
-$cardId.on(addToCartFx.doneData, (_, cartId) => cartId)
 $addToCartError.on(addToCartFx.failData, (_, error) => error.message)
 
 persist({
-    key : "favouritesId",
-    store : $favouritesId
+    key: "favouritesId",
+    store: $favouritesId
 })
 
 sample({
-    clock : addToFavouritesEvent,
-    target : addToFavouritesFx
+    clock: addToFavouritesEvent,
+    target: addToFavouritesFx
 })
 
 //endregion
 
 //region removeFromFavourites
 
-const removeFromFavourites = async (productId : number) => {
-    return api.delete("/favourite", {params : {id : productId}})
-        .catch(error => {throw Error(error.response.data.message)})
+const removeFromFavourites = async (productId: number) => {
+    return api.delete("/favourite", {params: {id: productId}})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
 const removeFromFavouritesFx = createEffect(removeFromFavourites)
 export const removeFromFavouritesEvent = createEvent<number>()
 
 sample({
-    clock : removeFromFavouritesEvent,
-    target : removeFromFavouritesFx
+    clock: removeFromFavouritesEvent,
+    target: removeFromFavouritesFx
 })
 
 //endregion

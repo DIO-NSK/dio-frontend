@@ -1,7 +1,8 @@
-import {api, getRequest} from "@/api";
+import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 
 export type ResponseCartItem = {
+    id: number,
     name: string,
     price: number,
     quantity: number,
@@ -10,16 +11,37 @@ export type ResponseCartItem = {
     discountPercent: number,
 }
 
-const getCart = async (): Promise<ResponseCartItem[]> => {
-    return getRequest("/cart", {params: {userId: localStorage.getItem("userId")}})
+export type ResponseUserCart = {
+    sessionId: string,
+    responseCart: {
+        products: ResponseCartItem[],
+        promos: ResponseCartItem[]
+    }
 }
 
-const getCartFx = createEffect<void, ResponseCartItem[], Error>(getCart)
-export const getCartEvent = createEvent<void>()
+const getCart = async (): Promise<ResponseUserCart> => {
+    const sessionId = sessionStorage.getItem("SESSION_ID")
+    return api.get("/cart", {params: {sessionId: sessionId}})
+        .then(response => {
+            if (response.data.sessionId !== sessionId) {
+                sessionStorage.setItem("SESSION_ID", response.data.sessionId)
+            }
+            return response.data
+        })
+}
+
+export const getCartFx = createEffect<void, ResponseUserCart, Error>(getCart)
+export const getCartEvent = createEvent()
 
 const removeProductFromCart = async (productName: string) => {
     const requestBody = {productName: productName, cartId: localStorage.getItem("cartId")}
     return api.delete("/cart", {data: requestBody})
+        .then(response => {
+            const sessionId = sessionStorage.getItem("SESSION_ID")
+            if (response.data.sessionId !== sessionId) {
+                sessionStorage.setItem("SESSION_ID", response.data.sessionId)
+            }
+        })
         .catch(error => {throw Error(error.response.data.message)})
 }
 
@@ -27,7 +49,7 @@ const removeProductFromCartFx = createEffect(removeProductFromCart)
 export const removeProductFromCartEvent = createEvent<string>()
 
 export const $removeProductFromCartError = createStore<string>("")
-export const $cart = createStore<ResponseCartItem[] | null>(null)
+export const $cart = createStore<ResponseUserCart | null>(null)
 
 $cart.on(getCartFx.doneData, (_, cart) => cart)
 $removeProductFromCartError.on(removeProductFromCartFx.failData, (_, error) => error.message)
@@ -39,6 +61,7 @@ sample({
 
 sample({
     clock: removeProductFromCartFx.doneData,
+    fn: _ => {},
     target: getCartFx
 })
 

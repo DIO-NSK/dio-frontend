@@ -17,6 +17,7 @@ import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-
 import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
 import {Order} from "@/types/dto/Order";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
+import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 const HeaderRow = ({order}: { order: Order }) => {
 
@@ -136,8 +137,8 @@ const Content = () => {
                                     item as ShoppingCartServiceCardDTO).description
                                     ? <ShoppingCartServiceCard card={item as ShoppingCartServiceCardDTO}/>
                                     : <ShoppingCartProductCard
+                                        card={item as unknown as ResponseCartItem}
                                         canInteract={false}
-                                        card={item as ShoppingCartProductCardDTO}
                                     />
                             )
                         }

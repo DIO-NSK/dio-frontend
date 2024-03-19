@@ -7,17 +7,17 @@ export const useAdminPanelServicePage = () => {
     const pathname = usePathname()
 
     const tableContent: TextTableRow[] = [
-        {items: ["Аренда кулеров и пурифайеров"], itemsWidth : ["col-span-full"]},
-        {items: ["Бесплатное пользование кулеров и стелажей"], itemsWidth : ["col-span-full"]},
-        {items: ["Ремонт кулеров, пурифайеров и кофемашин"], itemsWidth : ["col-span-full"]},
-        {items: ["Санитарная обработка кулеров и кофемашин"], itemsWidth : ["col-span-full"]},
-        {items: ["Сервисное обслуживание пурифайеров"], itemsWidth : ["col-span-full"]},
+        {id: 1, item: ["Аренда кулеров и пурифайеров"], itemsWidth: ["col-span-full"]},
+        {id: 2, item: ["Бесплатное пользование кулеров и стелажей"], itemsWidth: ["col-span-full"]},
+        {id: 3, item: ["Ремонт кулеров, пурифайеров и кофемашин"], itemsWidth: ["col-span-full"]},
+        {id: 4, item: ["Санитарная обработка кулеров и кофемашин"], itemsWidth: ["col-span-full"]},
+        {id: 5, item: ["Сервисное обслуживание пурифайеров"], itemsWidth: ["col-span-full"]},
     ]
 
     const handleRowClick = () => router.push(pathname.concat("/serviceId"))
 
     return {
-        handleRowClick, table : {tableContent, handleRowClick}
+        handleRowClick, table: {tableContent, handleRowClick}
     }
 
 }

@@ -16,6 +16,7 @@ import {
     removeFromFavouritesEvent
 } from "@/components/organisms/cards/product-price-card/model";
 import {useToggle} from "@/utlis/hooks/useToggle";
+import {$favourites} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
 
 type ProductCardClassNames = {
     mainWrapper?: string,
@@ -27,18 +28,29 @@ const ProductCard = ({productCard, classNames}: {
     classNames?: ProductCardClassNames
 }) => {
 
-    const router = useRouter()
-    const [addToCart, addToFavourites, removeFromFavourites]
-        = useUnit([addToCartEvent, addToFavouritesEvent, removeFromFavouritesEvent])
+    const isFavourite = () : boolean => {
+        const isFavourite = favourites?.products.find(elem => elem.id === productCard.id)
+        return Boolean(isFavourite)
+    }
 
-    const [isSelected, setSelected] = useState<boolean>(false)
-    const isLiked = useToggle()
+    const router = useRouter()
+    const [addToCart, addToFavourites, removeFromFavourites, favourites]
+        = useUnit([addToCartEvent, addToFavouritesEvent, removeFromFavouritesEvent, $favourites])
+
+    const [isSelected, setSelected] = useState<boolean>()
+    const [isLiked, setLiked] = useState<boolean>(isFavourite)
+
+    const toggleLike = () => {
+        if (isLiked) removeFromFavourites(productCard.id)
+        else addToFavourites(productCard.id)
+        setLiked(!isLiked)
+    }
 
     const buttonText = isSelected ? "В корзине" : "В корзину"
     const buttonIcon = isSelected ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
 
-    const discountPrice = 0.01 * productCard.discountPercent * productCard.oldPrice
-    const newPrice = discountPrice === 0 ? productCard.oldPrice : productCard.oldPrice - discountPrice
+    const discountPrice = 0.01 * productCard.discountPercent * productCard.price
+    const newPrice = discountPrice === 0 ? productCard.price : productCard.price - discountPrice
 
     const wrapperCV: ClassValue[] = [
         "w-[70vw] sm:w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
@@ -51,12 +63,6 @@ const ProductCard = ({productCard, classNames}: {
         e.stopPropagation()
         setSelected(!isSelected)
         addToCart(productCard.id)
-    }
-
-    const handleToggleState = () => {
-        if (!isLiked.state) addToFavourites(productCard.id)
-        else removeFromFavourites(productCard.id)
-        isLiked.toggleState()
     }
 
     return (
@@ -78,7 +84,7 @@ const ProductCard = ({productCard, classNames}: {
                         />
                         {
                             discountPrice !== 0 && <Text
-                                text={productCard?.oldPrice?.toFixed(2) + " ₽"}
+                                text={productCard?.price?.toFixed(2) + " ₽"}
                                 className={"text-base text-text-gray line-through"}
                             />
                         }
@@ -96,7 +102,7 @@ const ProductCard = ({productCard, classNames}: {
                     <div className={"sm:hidden flex flex-col"}>
                         {
                             discountPrice !== 0 && <Text
-                                text={productCard?.oldPrice?.toFixed(2) + " ₽"}
+                                text={productCard?.price?.toFixed(2) + " ₽"}
                                 className={"text-sm text-text-gray line-through"}
                             />
                         }
@@ -114,8 +120,8 @@ const ProductCard = ({productCard, classNames}: {
                             icon={buttonIcon}
                         />
                         <LikeButton
-                            toggleLike={handleToggleState}
-                            isLiked={isLiked.state}
+                            toggleLike={toggleLike}
+                            isLiked={isLiked}
                         />
                         <BuyButton/>
                     </div>

@@ -7,16 +7,17 @@ export const CategoryPropertySchema = z.object({
 })
 
 export const CreateProductSchema = z.object({
-    name: z.string().min(1, requiredFiledError),
+    name: z.string().min(1, requiredFiledError).optional(),
     description: z.string().min(60, "Минимальная длина описания — 60 символов."),
     crmGroup: z.string().min(1, requiredFiledError),
     crmCode: z.string().min(1, requiredFiledError),
-    price: z.string().min(1, requiredFiledError).transform(price => +price),
-    taxPercent: z.string().min(1, requiredFiledError).transform(taxPercent => +taxPercent),
+    price: z.string().min(0).optional(),
+    taxPercent: z.string().min(0).optional(),
     discountPercent: z.string().min(1, requiredFiledError).transform(discountPercent => +discountPercent),
     isProductOfTheDay: z.boolean(),
     filledProperties: z.array(CategoryPropertySchema),
-    photos : z.array(z.instanceof(File))
+    photos : z.array(z.instanceof(File)),
+    productImages : z.array(z.string()).optional()
 })
 
 export type CategoryPropertyData = z.infer<typeof CategoryPropertySchema>

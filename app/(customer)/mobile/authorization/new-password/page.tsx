@@ -12,16 +12,16 @@ import {FiX} from "react-icons/fi";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 
-const formData: InputPrefilledData<ForgotPasswordData>[] = [
+const formData: InputPrefilledData[] = [
     {
         labelText: "Новый пароль",
         placeholder: "Придумайте пароль",
-        valueName: "password"
+        name: "password"
     },
     {
         labelText: "Повторите пароль",
         placeholder: "Наберите пароль заново",
-        valueName: "repeatedPassword"
+        name: "repeatedPassword"
     }
 ]
 

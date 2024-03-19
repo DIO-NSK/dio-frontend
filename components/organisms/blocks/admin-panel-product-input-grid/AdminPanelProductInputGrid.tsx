@@ -8,6 +8,7 @@ const productInputGrid: InputPrefilledData[] = [
         placeholder: "Введите название товара",
         name: "name"
     }, {
+        disabled : true,
         labelText: "Цена товара",
         placeholder: "Введите цену товара",
         numbersOnly: true,
@@ -18,6 +19,7 @@ const productInputGrid: InputPrefilledData[] = [
         numbersOnly: true,
         name: "discountPercent"
     }, {
+        disabled : true,
         labelText: "Размер НДС",
         placeholder: "20",
         numbersOnly: true,
@@ -43,6 +45,7 @@ const AdminPanelProductInputGrid = () => {
             }
         </section>
     )
+
 }
 
 export default AdminPanelProductInputGrid

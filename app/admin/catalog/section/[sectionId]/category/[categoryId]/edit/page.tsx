@@ -47,8 +47,8 @@ const AdminEditCategoryPage = ({params}: {
             sequenceNumber: formData?.sequenceNumber,
             data: formData as CreateCategoryData,
             id: params.sectionId,
-        };
-        createCategory(request).then((_) => router.back());
+        }
+        createCategory(request).then((_) => router.back())
     };
 
     useEffect(() => {

@@ -8,7 +8,7 @@ export const mockOrder : Order = {
     deliveryDate : "27.10.23",
     deliveryTime : "19:00 — 21:00",
     totalPrice : 1192,
-    products : mockShoppingCartProducts
+    products : []
 }
 
 export const mockOrderList : Order[] = [

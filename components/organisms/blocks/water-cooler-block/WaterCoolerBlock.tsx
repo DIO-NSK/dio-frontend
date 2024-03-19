@@ -10,10 +10,11 @@ import {HeaderDescription} from "@/types/dto/text";
 import {waterCoolerBlockData} from "@/data/waterCoolerBlockData";
 import Text from "@/components/atoms/text/text-base/Text";
 
-const DescrCol = (
-    {header, description, top, left}:
-        HeaderDescription & { top: number, left: number }
-) => {
+const DescrCol = ({header, description, top, left}: {
+    description : string,
+    top: number,
+    left: number
+} & HeaderDescription) => {
     return (
         <div
             style={{top: top, left: left}}
@@ -56,7 +57,7 @@ const WaterCoolerBlock = () => {
                         top={item.top}
                         left={item.left}
                         header={item.header}
-                        descr={item.descr}
+                        description={item.descr}
                         key={index}
                     />
                 })

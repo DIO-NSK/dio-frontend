@@ -51,7 +51,7 @@ const ForgotPasswordPopup = (props : PopupProps) => {
                         isCodeSent && <Button
                             buttonType={"SECONDARY"}
                             text={"Отправить код повторно — 0:59"}
-                            onClick={handleSendCode}
+                            onClick={onSubmit}
                         />
                     }
                 </Form>

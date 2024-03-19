@@ -1,5 +1,6 @@
 import style from "./WaterCardList.module.css"
-import WaterCard, {WaterCardDTO} from "@/components/organisms/cards/water-card/WaterCard";
+import WaterCard from "@/components/organisms/cards/water-card/WaterCard";
+import {WaterCardDTO} from "@/types/cards";
 
 type WaterCardListTypes = {
     waterCardList : WaterCardDTO[]

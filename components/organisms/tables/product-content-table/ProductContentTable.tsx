@@ -3,19 +3,24 @@ import {ProductTableRow, TableWrapperProps} from "@/types/dto/Table";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
-import {FiMenu} from "react-icons/fi";
+import {FiMenu, FiMoreHorizontal} from "react-icons/fi";
 import Text from "@/components/atoms/text/text-base/Text";
 import TableWrapper from "@/components/wrappers/table-wrapper/TableWrapper";
 import {AdminSale} from "@/types/dto/AdminSale";
+import EditDeleteTooltip from "@/components/organisms/tooltips/EditDeleteTooltip";
 
 type ProductContentTableProps<T> = {
     tableContent: ProductTableRow<T>[],
     isDraggable?: boolean,
-    onProductClick: (product: T) => void,
+    onProductClick: (tableRow: ProductTableRow<T>) => void,
+    onEdit : (tableRow : ProductTableRow<T>) => void,
+    onDelete : (tableRow : ProductTableRow<T>) => void,
 } & Omit<TableWrapperProps, "children">
 
-const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow}: {
-    onClick: (product: T) => void,
+const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow, ...props}: {
+    onClick: (product: ProductTableRow<T>) => void,
+    onEdit : (tableRow : ProductTableRow<T>) => void,
+    onDelete : (tableRow : ProductTableRow<T>) => void,
     isDraggable?: boolean,
     tableRow: ProductTableRow<T>
 }) => {
@@ -26,7 +31,7 @@ const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow}: {
         {"pl-20": isDraggable}
     ]
 
-    const handleProductClick = () => onClick(tableRow.item)
+    const handleProductClick = () => onClick(tableRow)
 
     return (
         <div className={cn(wrapperCV)} onClick={handleProductClick}>
@@ -42,7 +47,7 @@ const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow}: {
                     alt={"Изображение товара"}
                     className={"w-[70px] h-[70px] object-scale-down rounded-xl"}
                 />
-                <Text text={tableRow.item.valueName} className={"font-medium"}/>
+                <Text text={tableRow.item.name} className={"font-medium"}/>
             </div>
 
             <Text text={`${tableRow.item.discount}%`} className={tableRow.itemsWidth["discount"]}/>
@@ -53,6 +58,11 @@ const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow}: {
                     className={tableRow.itemsWidth["price"]}
                 />
             }
+            {isDraggable && (
+                <EditDeleteTooltip tableRow={tableRow} {...props}>
+                    <SquareIcon icon={<FiMoreHorizontal size={"18px"}/>}/>
+                </EditDeleteTooltip>
+            )}
         </div>
     )
 
@@ -65,9 +75,8 @@ const ProductContentTable = <T extends AdminSale, >(props: ProductContentTablePr
                 props.tableContent.map((tableRow, rowKey) =>
                     <ProductRow
                         onClick={props.onProductClick}
-                        isDraggable={props.isDraggable}
-                        tableRow={tableRow}
-                        key={rowKey}
+                        tableRow={tableRow} key={rowKey}
+                        {...props}
                     />
                 )
             }

@@ -2,12 +2,12 @@
 
 import MobilePageWrapper from "@/components/mobile/wrappers/mobile-page-wrapper/MobilePageWrapper";
 import CheckoutForm from "@/components/organisms/forms/checkout-form/CheckoutForm";
-import React, {useState} from "react";
+import {useState} from "react";
 import {SelectItem} from "@/types/props/SelectItem";
 
-const DEFAULT_STEP_INDEX = 0
+const Page = () => {
 
-const MobileCheckoutFirstStepPage = () => {
+    const DEFAULT_STEP_INDEX = 0
 
     const steps : SelectItem<number>[] = [
         {name : "Данные получателя", value : 0},
@@ -28,8 +28,12 @@ const MobileCheckoutFirstStepPage = () => {
                 steps={steps}
             />
         </MobilePageWrapper>
-    );
+    )
 
+}
+
+const MobileCheckoutFirstStepPage = () => {
+    return <></>
 };
 
 export default MobileCheckoutFirstStepPage;

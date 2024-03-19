@@ -1,10 +1,10 @@
 import {Characteristic} from "@/types/dto/Characteristic";
 
 const defaultCharRowState: Characteristic = {
-    valueName: "",
+    name: "",
     type: {
         name: "Целое число",
-        value: "int"
+        value: "NUMBER"
     }
 }
 

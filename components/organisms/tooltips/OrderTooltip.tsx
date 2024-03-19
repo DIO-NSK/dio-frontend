@@ -7,7 +7,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 import {AdminOrder} from "@/types/dto/AdminOrder";
 import {ClassValue} from "clsx";
 
-const OrderTooltip = ({open, tableItem, children}: TooltipProps<AdminOrder>) => {
+const OrderTooltip = ({open, children}: TooltipProps<AdminOrder>) => {
 
     const tooltipBlocks = [
         {

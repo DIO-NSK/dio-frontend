@@ -64,12 +64,14 @@ const AdminPanelCharBlock = ({blockName}: {
                                 classNames={{wrapper: "col-span-3"}}
                                 placeholder={"Введите название характеристики"}
                                 name={`${blockName}.${index}.name` as const}
+                                //@ts-ignore
                                 errors={errors?.[blockName]?.[index]?.name}
                             />
                             <ControlledTextInput
                                 classNames={{wrapper: "col-span-2"}}
                                 placeholder={"Единица характеристики"}
                                 name={`${blockName}.${index}.valueName` as const}
+                                //@ts-ignore
                                 errors={errors?.[blockName]?.[index]?.valueName}
                             />
                             <ControlledSelectInput

@@ -8,18 +8,18 @@ import Button from "@/components/atoms/buttons/button/Button";
 
 const PickAddressPopup = (props: PopupProps) => {
 
-    const dropdownItems: SelectItem[] = [
-        {text: "Никитина 64, кв. 27", isSelected: true},
-        {text: "Терешковой 10, кв. 42", isSelected: true},
-        {text: "Морской проспект 11, кв. 12", isSelected: true},
-        {text: "Совесткая 66/1, кв. 27", isSelected: true},
-        {text: "Обская 50, кв. 134", isSelected: true},
+    const dropdownItems: SelectItem<boolean>[] = [
+        {name: "Никитина 64, кв. 27", value: true},
+        {name: "Терешковой 10, кв. 42", value: true},
+        {name: "Морской проспект 11, кв. 12", value: true},
+        {name: "Совесткая 66/1, кв. 27", value: true},
+        {name: "Обская 50, кв. 134", value: true},
     ]
 
     const [
         activeItem,
         setActiveItem
-    ] = useState<SelectItem>(dropdownItems[0])
+    ] = useState<SelectItem<boolean>>(dropdownItems[0])
 
     return (
         <PopupWrapper onClose={props.onClose}>
@@ -37,7 +37,7 @@ const PickAddressPopup = (props: PopupProps) => {
                 />
                 <Button
                     text={"Подтвердить"}
-                    onClick={props.onClose}
+                    onClick={() => props.onClose?.()}
                 />
             </div>
         </PopupWrapper>

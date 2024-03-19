@@ -5,6 +5,7 @@ import React from "react";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import {AuthProvider} from "@/context/AuthContext";
 
 const rubik = Rubik({subsets: ['latin']})
 
@@ -24,9 +25,11 @@ export default function RootLayout({children}: {
 }) {
     return (
         <html lang="ru">
-        <body className={rubik.className}>
-        {children}
-        </body>
+            <body className={rubik.className}>
+                <AuthProvider>
+                    {children}
+                </AuthProvider>
+            </body>
         </html>
     )
 }

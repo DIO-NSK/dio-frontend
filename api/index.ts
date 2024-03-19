@@ -1,7 +1,15 @@
 import axios from "axios";
 
+const BASE_URL : string = "http://diowater.ru:8080/"
+
 export const api = axios.create({
-    baseURL: "http://diowater.ru:8080/"
+    baseURL: BASE_URL
+})
+
+export const apiPrivate = axios.create({
+    baseURL : BASE_URL,
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials : true
 })
 
 export const getRequest = async (...args: any[]) : Promise<any> => {

@@ -1,4 +1,4 @@
-import {ServiceCardDTO} from "@/components/wrappers/service-card/ServiceCard";
+import {ServiceCardDTO} from "@/types/cards";
 
 const mockServiceCard : ServiceCardDTO = {
     header : "Аренда настольного холодильника с пурифаером",

@@ -60,7 +60,7 @@ const OrderRow = (props: OrderRowProps) => {
 
             <div className={"flex flex-row gap-3 items-center"}>
                 <Checkbox isSelected={props.isSelected} onSelect={handleSelect}/>
-                <OrderTooltip tableItem={props.tableRow}>
+                <OrderTooltip tableRow={props.tableRow}>
                     <FiMoreHorizontal className={"hoverable pointer text-text-gray hover:text-link-blue"}/>
                 </OrderTooltip>
             </div>

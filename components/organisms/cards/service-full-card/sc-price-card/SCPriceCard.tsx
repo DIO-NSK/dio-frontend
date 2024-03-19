@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, {useState} from 'react';
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
@@ -8,8 +8,12 @@ import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 const SCPriceCard = ({price, text, onClick}: {
     price: number,
     text: string,
-    onClick : () => void
+    onClick: () => void
 }) => {
+
+    const [isLiked, setLiked] = useState<boolean>(false)
+    const toggleLike = () => setLiked(prev => !prev)
+
     return (
         <div className={"sm:col-span-3 flex flex-row items-center justify-between sm:flex-col sm:gap-5 h-fit"}>
 
@@ -20,11 +24,14 @@ const SCPriceCard = ({price, text, onClick}: {
 
             <div className={"w-full flex flex-row-reverse sm:flex-row items-center gap-5 h-fit"}>
                 <Button
-                    classNames={{button : "px-7 sm:px-[50px]"}}
+                    classNames={{button: "px-7 sm:px-[50px]"}}
                     text={text} onClick={onClick}
                     buttonType={"SECONDARY"}
                 />
-                <LikeButton/>
+                <LikeButton
+                    isLiked={isLiked}
+                    toggleLike={toggleLike}
+                />
             </div>
 
         </div>

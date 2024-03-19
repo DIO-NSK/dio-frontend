@@ -13,14 +13,15 @@ type AdminPanelCharRow = {
 const AdminPanelCharRow = (props: AdminPanelCharRow) => {
 
     const dropdownItems: SelectItem<CharacteristicType>[] = [
-        {valueName: "Целочисленное значение", valueType: "Целочисленное значение"},
-        {valueName: "Дробное значение", valueType: "Дробное значение"},
-        {valueName: "Текстовое значение", valueType: "Текстовое значение"},
+        {name: "Целочисленное значение", value: "NUMBER"},
+        {name: "Дробное значение", value: "FLOAT"},
+        {name: "Текстовое значение", value: "TEXT"},
     ]
 
     const handleChangeCharName = (newName: string) => {
-        props.onChange({...props.value, valueName: newName})
+        props.onChange({...props.value, name: newName})
     }
+
     const handleChangeCharType = (selectedItem: SelectItem<CharacteristicType>) => {
         props.onChange({...props.value, type: selectedItem})
     }

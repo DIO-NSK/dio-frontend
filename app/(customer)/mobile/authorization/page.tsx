@@ -5,7 +5,7 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {FiX} from "react-icons/fi";
 import Form from "@/components/atoms/form/Form";
 import {FormProvider, useForm} from "react-hook-form";
-import {defaultLoginSchema, LoginData, LoginUserSchema} from "@/schemas/customer/LoginUserSchema";
+import {defaultLoginSchema, LoginUserData, LoginUserSchema} from "@/schemas/customer/LoginUserSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -13,15 +13,15 @@ import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 
-const formData: (InputPrefilledData<LoginData> & { isPassword: boolean })[] = [
+const formData: InputPrefilledData[] = [
     {
         placeholder: "+7 (000) 000-00-00",
         inputMask: "+7 (999) 999-99-99",
-        labelText: "Телефон", valueName: "phoneNumber",
+        labelText: "Телефон", name: "phoneNumber",
         isPassword: false,
     }, {
         placeholder: "Введите пароль",
-        labelText: "Пароль", valueName: "password",
+        labelText: "Пароль", name: "password",
         isPassword: false
     },
 ]
@@ -30,13 +30,13 @@ const MobileAuthorizationPage = () => {
 
     const navigation = useNavigation()
 
-    const methods = useForm<LoginData>({
+    const methods = useForm<LoginUserData>({
         resolver: zodResolver(LoginUserSchema),
         defaultValues: defaultLoginSchema,
         mode: "onBlur"
     })
 
-    const onSubmit = (data: LoginData) => console.log(data)
+    const onSubmit = (data: LoginUserData) => console.log(data)
 
     return (
         <InnerPageWrapper>

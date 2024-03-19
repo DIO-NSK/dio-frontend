@@ -39,6 +39,6 @@ const notification4 : Notification = {
 }
 
 export const notificationTableContent : TableRow<Notification>[] = [
-    {item : notification1}, {item : notification2},
-    {item : notification3}, {item : notification4},
+    {id : 1, item : notification1}, {id : 2, item : notification2},
+    {id : 3, item : notification3}, {id : 4, item : notification4},
 ]

@@ -19,7 +19,7 @@ const MobileStepper = ({stepCount = 4, ...props}: StepperProps) => {
 
                     const stepCV: ClassValue[] = [
                         "w-8 h-[3px] bg-border-gray",
-                        {"bg-link-blue": stepIndex === props.activeIndex}
+                        {"bg-link-blue": stepIndex === props.active}
                     ]
 
                     return <div

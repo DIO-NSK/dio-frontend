@@ -78,11 +78,11 @@ const PopoverProductColumn = ({products}: { products: ResponseProductSearch[] })
                                 <div className={"flex flex-row items-baseline gap-2"}>
                                     <Text
                                         className={"text-link-blue font-medium"}
-                                        text={`${product.newPrice} ₽`}
+                                        text={`${product.price} ₽`}
                                     />
                                     <Text
                                         className={"text-sm text-text-gray line-through"}
-                                        text={`${product.oldPrice} ₽`}
+                                        text={`${product.price} ₽`}
                                     />
                                 </div>
                                 <Text text={product.name}/>

@@ -3,8 +3,6 @@
 import React from 'react';
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import AdminPanelSaveDiscardChangesRow
-    from "@/components/organisms/rows/admin-panel-save-discard-changes-row/AdminPanelSaveDiscardChangesRow";
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 import {useAdminPanelPromoPage} from "@/app/admin/promo/page.hooks";
 import AdminPanelPromoBlock from "@/components/organisms/blocks/promo/admin-panel-promo-block/AdminPanelPromoBlock";
@@ -50,10 +48,6 @@ const AdminPanelPromoPage = () => {
                             activeElement={context.multiselectButton.activeItem}
                             selectElement={context.multiselectButton.setActiveItem}
                             elements={context.multiselectButton.items}
-                        />
-                        <AdminPanelSaveDiscardChangesRow
-                            isEditable={editableContext.isEditable}
-                            onChange={editableContext.handleSwitchEditable}
                         />
                     </div>
                 }

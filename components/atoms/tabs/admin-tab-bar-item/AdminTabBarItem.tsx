@@ -14,7 +14,7 @@ const AdminTabBarItem = (props: TabBarItemProps) => {
 
     const textCV: ClassValue = [
         "text-text-gray group-hover:text-link-blue hoverable",
-        {"text-link-blue": props.isActive}, props.tab.className
+        {"text-link-blue": props.isActive}
     ]
 
     const iconCV : ClassValue = {"bg-light-gray text-link-blue": props.isActive}

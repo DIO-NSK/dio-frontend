@@ -13,52 +13,52 @@ import {FiX} from "react-icons/fi";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import React from "react";
 
-const formData: InputPrefilledData<LegalEntityData>[] = [
+const formData: InputPrefilledData[] = [
     {
         labelText: "Полное название организации",
         placeholder: "Введите название организации",
-        valueName: "companyName"
+        name: "companyName"
     },
     {
         labelText: "Юридический адрес",
         placeholder: "Введите адрес",
-        valueName: "legalAddress"
+        name: "legalAddress"
     },
     {
         labelText: "ИНН",
         placeholder: "Введите ИНН",
-        valueName: "ITN"
+        name: "ITN"
     },
     {
         labelText: "КПП",
         placeholder: "Введите КПП",
-        valueName: "reasonCode"
+        name: "reasonCode"
     },
     {
         labelText: "Телефон контактного лица",
         inputMask: "+7 (999) 999-99-99",
         placeholder: "+7 (000) 000-00-00",
-        valueName: "contactPerson"
+        name: "contactPerson"
     },
     {
         labelText: "Название банка",
         placeholder: "Введите название банка",
-        valueName: "bankName"
+        name: "bankName"
     },
     {
         labelText: "БИК банка",
         placeholder: "Введите БИК банка",
-        valueName: "BIC"
+        name: "BIC"
     },
     {
         labelText: "Расчётный счёт",
         placeholder: "Введите расчётный счёт",
-        valueName: "bankAccount"
+        name: "bankAccount"
     },
     {
         labelText: "Корреспондентский счёт",
         placeholder: "Введите корреспондентский счёт",
-        valueName: "correspondingAccount"
+        name: "correspondingAccount"
     },
 ]
 

@@ -5,13 +5,11 @@ import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import SearchInput from "@/components/atoms/inputs/search-input/SearchInput";
 import Button from "@/components/atoms/buttons/button/Button";
-import {mockAdminProduct} from "@/data/tables/adminProductTable";
 
 const OrderPageAddDayProductPopup = (props : AddPromoPopup<AdminProduct>) => {
 
     const [product, setProduct] = useState<string>("")
     const handleAddProduct = () => {
-        props.onAddItem(mockAdminProduct)
         props.onClose && props.onClose()
     }
 

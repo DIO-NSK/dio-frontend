@@ -13,5 +13,6 @@ export type RequestAdminProduct = {
     taxPercent : number,
     discountPercent : number,
     isProductOfTheDay : boolean,
-    filledProperties : AdminFilledProperty[]
+    filledProperties : AdminFilledProperty[],
+    externalProperties : []
 }

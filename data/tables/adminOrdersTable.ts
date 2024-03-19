@@ -20,17 +20,17 @@ export const adminOrderTableItem: AdminOrder = {
     totalPrice: 2000, creationDate: "19.11.2023",
     deliveryPrice : 0, creationTime: "20:18:22",
     customer: {
-        valueName: "Артём Третьяков",
+        name: "Артём Третьяков",
         phoneNumber: "+7 (913) 939-11-94",
         email : "tretiakovvvvv@gmail.com"
     },
     bankName : "Alfa-Bank"
 }
 
-export const adminOrderTableRow: TableRow<AdminOrder> = {item: {...adminOrderTableItem, testId: 0}}
+export const adminOrderTableRow: TableRow<AdminOrder> = {item: {...adminOrderTableItem, testId: 0}, id : 1}
 
 export const adminOrderTableContent: TableRow<AdminOrder>[] = [
-    {item: {...adminOrderTableItem, testId: 0}}, {item: {...adminOrderTableItem, testId: 1}},
-    {item: {...adminOrderTableItem, testId: 2}}, {item: {...adminOrderTableItem, testId: 3}},
+    {item: {...adminOrderTableItem, testId: 0}, id : 1}, {item: {...adminOrderTableItem, testId: 1}, id : 2},
+    {item: {...adminOrderTableItem, testId: 2}, id : 3}, {item: {...adminOrderTableItem, testId: 3}, id : 3},
 ]
 

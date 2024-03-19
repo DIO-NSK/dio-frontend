@@ -1,19 +1,18 @@
 import MockImage from "@/public/images/card-image.png";
-import {ProductCard} from "@/types/product";
+import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 
-const mockProductCard : ProductCard = {
-    price: 500,
-    header: "Кулер с длинным текстом чтобы показать ограничение по символам",
-    image: MockImage
+const mockProductCard : ResponseProductSearch = {
+    price: 500, discountPercent : 0, id : 1,
+    name: "Кулер с длинным текстом чтобы показать ограничение по символам",
+    image: MockImage.src
 }
-const mockAnotherProductCard : ProductCard = {
-    price: 7000,
-    header: "WATERPROOF",
-    image: MockImage
+const mockAnotherProductCard : ResponseProductSearch = {
+    price: 7000, discountPercent : 0, id : 1,
+    name: "WATERPROOF", image: MockImage.src
 }
 
 
-export const mockCardArray = [
+export const mockCardArray : ResponseProductSearch[] = [
     mockProductCard, mockAnotherProductCard,
     mockProductCard, mockAnotherProductCard,
 ]

@@ -1,6 +1,5 @@
 "use client"
 
-import {mockCardArray} from "@/data/productCardData";
 import HeaderSliderBlock from "@/components/wrappers/header-slider-block/HeaderSliderBlock";
 import SCHeaderDescrCol from "@/components/organisms/cards/service-full-card/sc-header-descr-col/SCHeaderDescrCol";
 import SCPriceCard from "@/components/organisms/cards/service-full-card/sc-price-card/SCPriceCard";
@@ -40,10 +39,7 @@ const SalePage = () => {
 
             </div>
 
-            <HeaderSliderBlock
-                header={"Выберите товары"}
-                cards={mockCardArray}
-            />
+            <HeaderSliderBlock header={"Выберите товары"}/>
 
         </div>
     );

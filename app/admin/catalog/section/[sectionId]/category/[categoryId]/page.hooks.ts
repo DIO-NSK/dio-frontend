@@ -1,4 +1,4 @@
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {TextAction} from "@/types/dto/text";
 import {AdminProduct} from "@/types/dto/AdminProduct";
 import {useEffect} from "react";
@@ -8,11 +8,13 @@ import {
     catalogProductPageDidMount
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
 import {ProductTableRow} from "@/types/dto/Table";
+import {AdminSale} from "@/types/dto/AdminSale";
 
 export const useAdminPanelProductsPage = (categoryId: number) => {
 
     const [pageDidMount, products] = useUnit([catalogProductPageDidMount, $products])
 
+    const pathname = usePathname()
     const router = useRouter()
 
     const breadcrumbsData: TextAction[] = [
@@ -28,7 +30,7 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
         .map(product => ({
                 item: {
                     image: product.images[0],
-                    valueName: product.name,
+                    name: product.name,
                     discount: product.discountPercent,
                     stockAmount: product.availableCount,
                     price: product.price
@@ -39,7 +41,7 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
                     discount: "col-span-1",
                     stockAmount: "col-span-1",
                     price: "col-span-1",
-                    valueName: ""
+                    name: ""
                 }
             })
         )
@@ -49,11 +51,18 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
     }, [pageDidMount])
 
     const handleExportCatalog = () => console.log("Exported")
-    const handleProductClick = (product: AdminProduct) => console.log("PRODUCT", product)
+
+    const handleProductClick = (tableRow: ProductTableRow<AdminProduct>) =>
+        router.push(pathname.concat(`/product/${tableRow.id}`))
+
+    const handleEditProduct = (tableRow: ProductTableRow<AdminProduct>) =>
+        router.push(pathname.concat(`/product/${tableRow.id}/edit`))
+
+    const handleDeleteProduct = (tableRow: ProductTableRow<AdminProduct>) => console.log("Product deleted")
 
     return {
         breadcrumbsData, handleExportCatalog, handleProductClick,
-        tableContent
+        tableContent, handleEditProduct, handleDeleteProduct
     }
 
 }

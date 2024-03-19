@@ -10,7 +10,7 @@ import ClosePopupButton from "@/components/atoms/buttons/close-popup-button/Clos
 type AdminPhotoCardProps = {
     name?: string,
     className?: string,
-    onDelete ?: () => void
+    onDelete?: () => void
 }
 
 const AdminPhotoCard = (props: AdminPhotoCardProps) => {
@@ -36,10 +36,10 @@ const AdminPhotoCard = (props: AdminPhotoCardProps) => {
                                 <img src={image} alt={"Фотография продукта"}
                                      className={"w-full h-full object-scale-down"}/>
                                 <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
-                                    <SquareIcon icon={<FiMenu size={"18px"}/>} onClick={props.onDrag}/>
+                                    <SquareIcon icon={<FiMenu size={"18px"}/>}/>
                                     <ClosePopupButton
-                                        onClose={props.onDelete}
                                         className={cn(closeButtonCV)}
+                                        onClose={props.onDelete}
                                     />
                                 </div>
                             </div>

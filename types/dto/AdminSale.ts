@@ -1,6 +1,7 @@
 export type AdminSale = {
     image : string,
-    valueName : string,
+    name : string,
     discount : number,
     stockAmount : number,
+    price ?: number
 }

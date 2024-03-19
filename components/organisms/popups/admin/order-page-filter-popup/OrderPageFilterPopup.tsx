@@ -7,10 +7,13 @@ import {cn} from "@/utlis/cn";
 import {
     useOrderPageFilterPopup
 } from "@/components/organisms/popups/admin/order-page-filter-popup/OrderPageFilterPopup.hooks";
-import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
+import {SelectItem} from "@/types/props/SelectItem";
+import {OrderStatus} from "@/types/dto/Order";
+import ControlledSelectInput
+    from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 
 const OrderPageFilterPopup = (props: PopupProps) => {
 
@@ -20,11 +23,13 @@ const OrderPageFilterPopup = (props: PopupProps) => {
     const selectInputData = [
         {
             label: "Статус заказа",
+            placeholder : "Выберите статус заказа",
             items: context.orderInput.selectItems,
             selectedItem: context.orderInput.activeOrder,
             onSelect: context.orderInput.setActiveOrder
         }, {
             label: "Статус оплаты",
+            placeholder : "Выберите статус оплаты",
             items: context.paymentInput.selectPaymentItems,
             selectedItem: context.paymentInput.activePayment,
             onSelect: context.paymentInput.setActivePayment
@@ -55,7 +60,13 @@ const OrderPageFilterPopup = (props: PopupProps) => {
                 <div className={cn(rowWrapperCV)}>
                     {
                         selectInputData.map((inputData, key) =>
-                            <SelectInput {...inputData} key={key}/>
+                            <ControlledSelectInput
+                                name={"selectItems"}
+                                labelText={inputData.label}
+                                placeholder={inputData.placeholder}
+                                items={inputData.items as SelectItem<OrderStatus>[]}
+                                key={key}
+                            />
                         )
                     }
                     <RangeInput

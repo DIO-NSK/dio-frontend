@@ -9,17 +9,19 @@ const salesTableHeader: TableHeaderItem[] = [
 ]
 
 const salesTableItem: ProductTableRow<AdminSale> = {
-    product: {
+    id: 1,
+    item: {
         image: AdminSaleImage.src,
         name: "Вода «Горная Вершина» в подарок",
         discount: 12,
         stockAmount: 20
     },
     itemsWidth: {
+        price: "col-span-1",
         image: "col-span-6",
         discount: "col-span-1",
         stockAmount: "col-span-1",
-        valueName: ""
+        name: ""
     }
 }
 

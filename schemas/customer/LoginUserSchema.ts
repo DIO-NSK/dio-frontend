@@ -7,3 +7,7 @@ export const LoginUserSchema = z.object({
 })
 
 export type LoginUserData = z.infer<typeof LoginUserSchema>
+
+export const defaultLoginSchema : LoginUserData = {
+    phoneNumber : "", password : ""
+}

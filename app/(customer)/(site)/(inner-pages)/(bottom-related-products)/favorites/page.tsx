@@ -89,7 +89,7 @@ const FavoritesPage = () => {
                     {favourites.products.map((card, index) => {
 
                         const productCard: ResponseProductSearch = {
-                            ...card, image: card.mainImage
+                            ...card, image: card.image
                         }
 
                         return <ProductCard
@@ -102,11 +102,7 @@ const FavoritesPage = () => {
                 </section>
             </div>
 
-            <ShoppingCartTotalPriceCard
-                amount={2}
-                discount={1200}
-                totalPrice={7600}
-            />
+            <ShoppingCartTotalPriceCard/>
 
             <MobileCartInfoBlock
                 infoBlockData={infoBlockData}

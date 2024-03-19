@@ -11,6 +11,7 @@ import AdminPanelSearchbarBlock
 import {useVariableItemRow} from "@/utlis/hooks/useVariableItemRow";
 import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
 import Button from "@/components/atoms/buttons/button/Button";
+import React from "react";
 
 const FirstInputRow = () => {
 
@@ -74,28 +75,26 @@ const SecondInputRow = () => {
 
 }
 
-const AdminPanelNewSalePage = () => {
+const Page = () => {
 
     const {...context} = useAdminPanelNewSalePage()
     const {...products} = useVariableItemRow<string>("")
     const {...anotherProducts} = useVariableItemRow<string>("")
 
     return (
-        <>
+        <React.Fragment>
             <HeaderRow
                 className={"w-full"}
                 theme={"bordered"}
                 header={"Новая акция"}
                 hasBackIcon
             />
-
             <FirstInputRow/>
             <SecondInputRow/>
             <ControlledTextArea
+                name={"textArea"}
                 labelText={"Описание акции"}
                 placeholder={"Придумайте привлекающее описание акции. Идеальная длина описания — 1 предложение."}
-                value={context.textArea.description}
-                onChange={context.textArea.setDescription}
                 classNames={{
                     wrapper: "mx-[-28px] px-7",
                     input: "min-h-[150px] max-h-[220px]"
@@ -120,18 +119,21 @@ const AdminPanelNewSalePage = () => {
                 items={anotherProducts.state}
             />
             <AdminPanelPhotoBlock
-                photos={context.photoBlock.photos}
-                onAddPhoto={context.photoBlock.handleAddPhoto}
-                onDeletePhoto={context.photoBlock.handleDeletePhoto}
+                header={"Фотографии"}
+                description={"Это фотографии"}
             />
             <Button
                 text={"Сохранить"}
                 onClick={context.handleSaveChanges}
                 classNames={{button : "w-[250px]"}}
             />
-        </>
-    );
+        </React.Fragment>
+    )
+}
 
+const AdminPanelNewSalePage = () => {
+
+    return (<></>);
 
 };
 

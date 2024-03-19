@@ -1,5 +1,4 @@
 import React from 'react';
-import TextM from "@/components/atoms/text/text-m/TextM";
 import Text from "@/components/atoms/text/text-base/Text";
 
 const CardBulletCol = ({header, items}: {
@@ -13,8 +12,8 @@ const CardBulletCol = ({header, items}: {
                 {
                     items.map((item, index) => {
                         return <div className={"flex flex-row items-baseline gap-[15px]"}>
-                            <TextM text={"0" + (index + 1).toString()} weight={"semibold"}/>
-                            <TextM text={item} weight={"medium"}/>
+                            <Text text={"0" + (index + 1).toString()} className={"text-lg font-medium"}/>
+                            <Text text={item} className={"text-lg font-medium"}/>
                         </div>
                     })
                 }

@@ -12,11 +12,7 @@ type AdminWaterCardProps = {
 const AdminWaterCard = (props : AdminWaterCardProps) => {
     return (
         <div className={"flex flex-col gap-4"}>
-            <AdminPhotoCard
-                className={"bg-bg-light-blue"}
-                onDelete={props.onDelete}
-                file={props.waterCard.file}
-            />
+            <AdminPhotoCard/>
             <a target="_blank" href={props.waterCard.link} rel="noopener noreferrer">
                 <div className={"flex flex-row items-center gap-2 hover:text-link-blue hoverable pointer"}>
                     <Text text={props.waterCard.link} className={"text-[18px]"}/>

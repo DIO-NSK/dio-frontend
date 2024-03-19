@@ -28,6 +28,7 @@ import React, {useEffect} from "react";
 import {cn} from "@/utlis/cn";
 import AdminPanelFilledPropertiesBlock
     from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelFilledPropertiesBlock";
+import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
 
 const productOfTheDayDescription: string =
     `Если чекбокс включён, то данный товар будет отображаться
@@ -96,10 +97,13 @@ const CreateProductSecondStep = ({categoryId}: {
 
     const onSubmit = (formData: FieldValues) => createProduct({
         categoryId: categoryId,
-        productData: formData as CreateProductData
+        productData: formData as CreateProductData,
+        productDetails : productDetails as RequestAdminProduct
     })
         .then(_ => router.back())
         .catch(e => e)
+
+    console.log(watch())
 
     useEffect(() => {
         getCategoryProperties(categoryId)
@@ -108,8 +112,6 @@ const CreateProductSecondStep = ({categoryId}: {
     useEffect(() => {
         reset({...productDetails} as DefaultValues<CreateProductData>)
     }, [productDetails])
-
-    console.log(watch())
 
     return (
         <React.Fragment>

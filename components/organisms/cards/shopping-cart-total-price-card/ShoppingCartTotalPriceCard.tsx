@@ -13,10 +13,11 @@ const ShoppingCartTotalPriceCard = () => {
     const cart = useUnit($cart)
     if (!cart) return
 
-    const totalPriceWithoutDiscount = cart.reduce((acc, item) => acc + item.price, 0)
-    const totalDiscount = cart.reduce((acc, item) => acc + 0.01 * item.discountPercent * item.price, 0.0)
+    const {products} = cart.responseCart
+    const totalPriceWithoutDiscount = products.reduce((acc, item) => acc + item.price, 0)
+    const totalDiscount = products.reduce((acc, item) => acc + 0.01 * item.discountPercent * item.price, 0.0)
     const totalPriceWithDiscount = totalPriceWithoutDiscount - totalDiscount
-    const totalAmount = cart.length
+    const totalAmount = products.length
 
     const router = useRouter()
     const pathname = usePathname()

@@ -10,7 +10,6 @@ const AdminTabBar = (props : SideTabBarProps) => {
                         key={key} tab={tab}
                         isActive={tab.text === props.activeTab.text}
                         setActive={props.setActive}
-                        className={tab.classNames}
                     />
                 )
             }

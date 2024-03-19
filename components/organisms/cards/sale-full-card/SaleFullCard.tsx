@@ -2,11 +2,9 @@
 
 import {SaleCardDTO} from "@/types/cards";
 import Text from "@/components/atoms/text/text-base/Text";
-import {COLOR} from "@/components/colors";
 import Image from "next/image";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useRouter} from "next/navigation";
-import TextM from "@/components/atoms/text/text-m/TextM";
 import LinesEllipsis from "react-lines-ellipsis";
 import React from "react";
 import {ClassValue} from "clsx";
@@ -18,24 +16,24 @@ const TopRow = ({info, duration}: {
 }) => {
     return (
         <div className={"w-full flex flex-row gap-[10px] items-baseline"}>
-            <Text text={info} color={COLOR["link-blue"]}/>
-            <Text text={`до ${duration}`} color={COLOR["text-gray"]}/>
+            <Text text={info} className={"text-link-blue"}/>
+            <Text text={`до ${duration}`} className={"text-text-gray"}/>
         </div>
     )
 }
 
-const MainCol = ({header, descr, onClick}: {
+const MainCol = ({header, description, onClick}: {
     header: string,
-    descr: string,
+    description: string,
     onClick: () => void
 }) => {
     return (
         <div className={"w-full flex flex-col gap-[20px]"}>
 
             <div className={"w-full flex flex-col gap-[10px]"}>
-                <TextM text={header} weight={"semibold"} />
+                <Text text={header} className={"text-lg font-semibold"} />
                 <LinesEllipsis
-                    text={descr} maxLine='2'
+                    text={description} maxLine='2'
                     ellipsis='..' trimRight
                     basedOn='letters'
                 />
@@ -80,7 +78,7 @@ const SaleFullCard = ({card}: {
                 />
 
                 <SaleFullCard.MainCol
-                    descr={card.descr} header={card.header}
+                    description={card.descr} header={card.header}
                     onClick={() => router.push('/')}
                 />
 

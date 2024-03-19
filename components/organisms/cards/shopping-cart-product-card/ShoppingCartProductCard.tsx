@@ -29,6 +29,9 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
 
     const handleDeleteProduct = () => removeProductFromCart(card.name)
 
+    const [isLiked, setLiked] = useState<boolean>(false)
+    const toggleLike = () => setLiked(prev => !prev)
+
     return (
         <div className={"hidden w-full sm:flex flex-row items-center justify-between"}>
             <Text text={card.name} className={"max-w-[400px] text-base font-medium"}/>
@@ -36,7 +39,7 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
                 {
                     canInteract ? <React.Fragment>
                         <div className={"flex flex-row items-center gap-5"}>
-                            <LikeButton/>
+                            <LikeButton isLiked={isLiked} toggleLike={toggleLike}/>
                             <FiTrash2
                                 size={"22px"}
                                 className={cn(trashCV)}

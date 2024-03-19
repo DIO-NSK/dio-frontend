@@ -45,10 +45,7 @@ const AddOurWaterPopup = (props: AddPromoPopup<PromoCard>) => {
         }, {
             header: "Фотография",
             description: "Данная фотография будет отображаться в блоке «Наши воды» на главной странице",
-            input: waterImage ? <AdminPhotoCard
-                file={waterImage}
-                onDelete={handleDeleteFile}
-            /> : <FileInput
+            input: waterImage ? <AdminPhotoCard/> : <FileInput
                 placeholder={"Выберите файл"}
                 onChange={setWaterImage}
             />

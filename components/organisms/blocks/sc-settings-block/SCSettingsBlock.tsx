@@ -11,15 +11,15 @@ const SCSettingsBlock = () => {
         "По названию (А-Я)"
     ]
 
-    const createItemList = (): SelectItem[] => {
+    const createItemList = (): SelectItem<boolean>[] => {
         return mockDropdownText.map((text) => {
-            return {text: text, isSelected: false}
+            return {name: text, value: false}
         })
     }
 
     const initItemList = createItemList()
-    const [itemList, setItemList] = useState<SelectItem[]>(initItemList)
-    const [selectedItem, selectItem] = useState<SelectItem>(itemList[0])
+    const [itemList, setItemList] = useState<SelectItem<boolean>[]>(initItemList)
+    const [selectedItem, selectItem] = useState<SelectItem<boolean>>(itemList[0])
 
     return (
         <ServiceBlockWrapper header={"Заполните данные"}>

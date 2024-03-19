@@ -40,6 +40,9 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
         setActivePhoto
     ] = useState<string | undefined>(product?.photos[0] ?? undefined)
 
+    const [isLiked, setLiked] = useState<boolean>(false)
+    const toggleLike = () => setLiked(prev => !prev)
+
     const handleAddProductClick = () => console.log("Product added!")
 
     useEffect(() => {
@@ -86,7 +89,7 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
                             }
                         </div>
                         <div className={"flex flex-row items-center gap-3"}>
-                            <LikeButton/>
+                            <LikeButton isLiked={isLiked} toggleLike={toggleLike}/>
                             <BuyButton/>
                         </div>
                     </div>

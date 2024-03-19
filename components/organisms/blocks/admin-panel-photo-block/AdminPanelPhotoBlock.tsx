@@ -7,12 +7,13 @@ import {useFieldArray, useFormContext} from "react-hook-form";
 type AdminPanelPhotoBlockProps = {
     header?: string,
     description?: string,
+    editMode ?: boolean
 }
 
 const AdminPanelPhotoBlock = (props: AdminPanelPhotoBlockProps) => {
 
     const {control} = useFormContext()
-    const {fields, append, remove} = useFieldArray({
+    const {fields, append, remove,} = useFieldArray({
         control, name: "photos"
     })
 
@@ -31,7 +32,7 @@ const AdminPanelPhotoBlock = (props: AdminPanelPhotoBlockProps) => {
                         <AdminPhotoCard
                             onDelete={() => remove(index)}
                             name={`photos.${index}`}
-                            key={item.id}
+                            key={item.id} {...props}
                         />
                     )
                 }
