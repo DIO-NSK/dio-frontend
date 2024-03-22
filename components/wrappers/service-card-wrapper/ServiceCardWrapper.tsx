@@ -7,7 +7,7 @@ const ServiceCardWrapper = ({children} : {
 }) => {
 
     const wrapperCV = [
-        "w-full p-5 rounded-xl sm:col-span-full sm:p-7 sm:rounded-2xl",
+        "w-full p-5 rounded-xl sm:w-full sm:p-7 sm:rounded-2xl",
         "border-2 border-light-gray flex flex-col gap-5 sm:grid sm:grid-cols-12 sm:gap-x-[40px]"
     ]
 

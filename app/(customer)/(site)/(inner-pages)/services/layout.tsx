@@ -30,7 +30,9 @@ const ServicesLayout = ({children}: {
                 activeTab={activeTab}
                 tabs={mockTabList}
             />
-            {children}
+            <section className={"w-full sm:col-span-9 flex flex-col gap-5"}>
+                {children}
+            </section>
         </InnerPageWrapper>
     )
 

@@ -19,14 +19,14 @@ const InnerPageWrapper = ({children, classNames} : {
     ]
 
     return (
-        <>
+        <React.Fragment>
             <div className={cn(wrapperCV)}>
                 {children}
             </div>
             <MobilePageWrapper className={classNames?.mobileWrapper}>
                 {children}
             </MobilePageWrapper>
-        </>
+        </React.Fragment>
     );
 };
 

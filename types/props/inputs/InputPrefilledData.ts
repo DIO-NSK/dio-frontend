@@ -6,5 +6,5 @@ export type InputPrefilledData = {
     endDecorator ?: string,
     disabled ?: boolean,
     isPassword ?: boolean,
-    name ?: string,
+    name : string,
 }

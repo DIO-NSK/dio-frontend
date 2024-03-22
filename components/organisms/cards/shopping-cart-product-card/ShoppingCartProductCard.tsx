@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Text from "@/components/atoms/text/text-base/Text";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import {FiTrash2} from "react-icons/fi";
@@ -10,6 +10,8 @@ import {
     ResponseCartItem
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {useUnit} from "effector-react";
+import {useLike} from "@/utlis/hooks/product/useLike";
+import {useCounter} from "@/utlis/hooks/product/useCounter";
 
 type ShoppingCartProductCardProps = {
     card: ResponseCartItem,
@@ -20,17 +22,15 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
 
     const removeProductFromCart = useUnit(removeProductFromCartEvent)
 
-    const [amount, setAmount] = useState<number>(1)
+    const [isLiked, toggleLike] = useLike(card.id)
+    const [amount, increase, decrease] = useCounter(card.id, card.quantity)
 
     const discountPrice = 0.01 * card.discountPercent * card.price
     const newPrice = discountPrice === 0 ? card.price : card.price - discountPrice
 
     const trashCV: ClassValue = "hoverable pointer text-info-red hover:text-red-700"
 
-    const handleDeleteProduct = () => removeProductFromCart(card.name)
-
-    const [isLiked, setLiked] = useState<boolean>(false)
-    const toggleLike = () => setLiked(prev => !prev)
+    const handleDeleteProduct = () => removeProductFromCart(card.id)
 
     return (
         <div className={"hidden w-full sm:flex flex-row items-center justify-between"}>
@@ -40,30 +40,22 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
                     canInteract ? <React.Fragment>
                         <div className={"flex flex-row items-center gap-5"}>
                             <LikeButton isLiked={isLiked} toggleLike={toggleLike}/>
-                            <FiTrash2
-                                size={"22px"}
-                                className={cn(trashCV)}
-                                onClick={handleDeleteProduct}
-                            />
+                            <FiTrash2 size={"22px"} className={cn(trashCV)} onClick={handleDeleteProduct}/>
                         </div>
-                        <Counter
-                            onChange={setAmount}
-                            value={amount}
-                            maxValue={5}
-                        />
+                        <Counter amount={amount} increase={increase} decrease={decrease}/>
                     </React.Fragment> : <Text
-                        text={"2 шт."}
                         className={"text-lg text-text-gray"}
+                        text={`${card.quantity} шт.`}
                     />
                 }
                 <div className={"flex flex-row items-baseline gap-2"}>
                     <Text
                         className={"text-[22px] font-medium"}
-                        text={`${newPrice.toFixed(2)} ₽`}
+                        text={`${(newPrice * amount).toFixed(2)} ₽`}
                     />
                     {
                         discountPrice !== 0 && <Text
-                            text={`${card.price.toFixed(2)} ₽`}
+                            text={`${(card.price * amount).toFixed(2)} ₽`}
                             className={"text-text-gray line-through"}
                         />
                     }

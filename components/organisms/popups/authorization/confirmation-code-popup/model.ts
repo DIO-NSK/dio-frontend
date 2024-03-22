@@ -4,10 +4,16 @@ import {createEffect, createStore, sample} from "effector";
 
 import {loginUserByCredentialsFx} from "@/components/organisms/popups/authorization/login-popup/model";
 import {persist} from "effector-storage/local";
+import {Auth} from "@/types/AuthContextType";
 
-const sendConfirmationCode = async (formData : UserConfirmCodeData) => {
+type ConfirmationCodeResponse = { userId : number } & Auth
+
+const sendConfirmationCode = async (formData : UserConfirmCodeData): Promise<ConfirmationCodeResponse> => {
     return api.put("/user/confirm", formData)
-        .then(response => response.data)
+        .then(response => {
+            localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
+            return response.data
+        })
         .catch(error => {throw Error(error.response.data.message)})
 }
 

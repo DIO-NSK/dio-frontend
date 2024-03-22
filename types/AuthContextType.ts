@@ -1,11 +1,13 @@
-import {Dispatch, SetStateAction} from "react";
-
-export type Auth = {
-    accessToken: string,
-    refreshToken: string
+export type AccessTokenData = {
+    sub: string,
+    userID: number,
+    role: string,
+    sessionID: number,
+    iat: number,
+    exp: number
 }
 
-export type AuthContextType = {
-    auth: Auth,
-    setAuth: Dispatch<SetStateAction<Auth>>,
+export type Auth = {
+    accessToken : string,
+    refreshToken : string
 }

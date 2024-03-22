@@ -33,6 +33,10 @@ const SelectInput = <T,>({width = "w-full", ...props}: DropdownInputProps<T>) =>
         "drop-shadow-lg flex flex-col overflow-clip"
     ]
 
+    const textCV = {"text-text-gray" : !props.selectedItem || props.selectedItem.name.length === 0}
+    const inputText = (!props.selectedItem || props.selectedItem.name.length === 0)
+        ? props.placeholder : props.selectedItem.name
+
     const handleSelectItem = (selectedItem: SelectItem<T>) => props.onSelect?.(selectedItem)
 
     return (
@@ -43,7 +47,7 @@ const SelectInput = <T,>({width = "w-full", ...props}: DropdownInputProps<T>) =>
             <div className={"relative w-full"}>
 
                 <div className={cn(inputCV)}>
-                    <Text text={props.selectedItem?.name ?? props.placeholder}/>
+                    <Text text={inputText!!} className={cn(textCV)}/>
                     <ChevronButton
                         isExpanded={isExpanded}
                         setExpanded={setExpanded}

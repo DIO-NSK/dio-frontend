@@ -1,7 +1,7 @@
 import {getRequest} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
-import {ResponseUserCart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+import {removeFromFavouritesFx} from "@/components/organisms/cards/product-price-card/model";
 
 type ResponseUserFavorites = {
     products : ResponseProductSearch[],
@@ -9,7 +9,7 @@ type ResponseUserFavorites = {
 }
 
 const getFavourites = async (): Promise<ResponseUserFavorites> => {
-    return getRequest("/favourite", {params: {id: localStorage.getItem("favouritesId")}})
+    return getRequest("/favourite")
 }
 
 const getFavouritesFx = createEffect<void, ResponseUserFavorites, Error>(getFavourites)
@@ -21,4 +21,9 @@ $favourites.on(getFavouritesFx.doneData, (_, favourites) => favourites)
 sample({
     clock: getFavouritesEvent,
     target: getFavouritesFx
+})
+
+sample({
+    clock : removeFromFavouritesFx.doneData,
+    target : getFavouritesFx
 })

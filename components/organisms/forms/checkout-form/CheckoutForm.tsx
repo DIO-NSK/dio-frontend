@@ -4,7 +4,7 @@ import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {CheckoutFormData, CheckoutFormSchema} from "@/schemas/customer/CheckoutFormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {SelectItem} from "@/types/props/SelectItem";
-import MobileFormStepper from "@/components/mobile/moleculas/MobileFormStepper/MobileFormStepper";
+import FormStepper from "@/components/mobile/moleculas/form-stepper/FormStepper";
 import useFormPersist from "react-hook-form-persist";
 import {getFormDataFromStorage} from "@/utlis/getFormDataFromStorage";
 import CheckoutFirstStepForm
@@ -50,7 +50,7 @@ const CheckoutForm = (props: CheckoutFormProps) => {
 
     return (
         <FormProvider {...methods}>
-            <MobileFormStepper {...props}/>
+            <FormStepper {...props}/>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <CheckoutFirstStepForm onSubmit={handleNextClick} {...props}/>
                 <CheckoutSecondStepForm onSubmit={handleNextClick} {...props}/>

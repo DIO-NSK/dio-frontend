@@ -10,13 +10,12 @@ import Text from "@/components/atoms/text/text-base/Text";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {useUnit} from "effector-react";
+import {addToCartEvent} from "@/components/organisms/cards/product-price-card/model";
 import {
-    addToCartEvent,
-    addToFavouritesEvent,
-    removeFromFavouritesEvent
-} from "@/components/organisms/cards/product-price-card/model";
-import {useToggle} from "@/utlis/hooks/useToggle";
-import {$favourites} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
+    $cart,
+    removeProductFromCartEvent
+} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {useLike} from "@/utlis/hooks/product/useLike";
 
 type ProductCardClassNames = {
     mainWrapper?: string,
@@ -28,23 +27,16 @@ const ProductCard = ({productCard, classNames}: {
     classNames?: ProductCardClassNames
 }) => {
 
-    const isFavourite = () : boolean => {
-        const isFavourite = favourites?.products.find(elem => elem.id === productCard.id)
-        return Boolean(isFavourite)
-    }
-
+    const [addToCart, removeFromCart, cart] = useUnit([addToCartEvent, removeProductFromCartEvent, $cart])
     const router = useRouter()
-    const [addToCart, addToFavourites, removeFromFavourites, favourites]
-        = useUnit([addToCartEvent, addToFavouritesEvent, removeFromFavouritesEvent, $favourites])
 
-    const [isSelected, setSelected] = useState<boolean>()
-    const [isLiked, setLiked] = useState<boolean>(isFavourite)
-
-    const toggleLike = () => {
-        if (isLiked) removeFromFavourites(productCard.id)
-        else addToFavourites(productCard.id)
-        setLiked(!isLiked)
+    const isInCart = (): boolean => {
+        const inCart = cart?.responseCart.products.find(product => product.name === productCard.name)
+        return Boolean(inCart)
     }
+
+    const [isSelected, setSelected] = useState<boolean>(isInCart)
+    const [isLiked, toggleLike] = useLike(productCard.id)
 
     const buttonText = isSelected ? "В корзине" : "В корзину"
     const buttonIcon = isSelected ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
@@ -59,10 +51,11 @@ const ProductCard = ({productCard, classNames}: {
     ]
 
     const handleCardClick = () => router.push(`/product/${productCard.id}`)
-    const handleBuyClick: MouseEventHandler = (e) => {
-        e.stopPropagation()
+    const handleBuyClick: MouseEventHandler = (event) => {
+        event.stopPropagation()
+        if (isSelected) removeFromCart(productCard.id)
+        else addToCart(productCard.id)
         setSelected(!isSelected)
-        addToCart(productCard.id)
     }
 
     return (

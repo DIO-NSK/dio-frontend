@@ -7,7 +7,10 @@ const loginUserByCredentials = async (formData : LoginUserData) => {
         ...formData, phoneNumber: formData.phoneNumber.replace(/[\s()-]/g, '')
     }
     return api.post("/user/login/credentials", request)
-        .then(response => response.data)
+        .then(response => {
+            localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
+            return response.data
+        })
         .catch(error => {throw Error(error.response.data.message)})
 }
 

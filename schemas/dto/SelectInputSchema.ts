@@ -1,8 +1,9 @@
 import {z} from "zod";
+import {requiredFiledError} from "@/schemas";
 
 export const SelectInputSchema = z.object({
-    name: z.string(),
-    value: z.string()
+    name: z.string().min(1, requiredFiledError),
+    value: z.string().min(1, requiredFiledError)
 })
 
 export type SelectInputData = z.infer<typeof SelectInputSchema>

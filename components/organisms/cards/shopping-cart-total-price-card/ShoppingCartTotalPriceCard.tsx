@@ -4,23 +4,29 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
-import {usePathname, useRouter} from "next/navigation";
-import {useUnit} from "effector-react";
-import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 
-const ShoppingCartTotalPriceCard = () => {
+const ShoppingCartTotalPriceCard = ({products, buttonText, onClick}: {
+    products: (ResponseCartItem | ResponseProductSearch)[],
+    buttonText: string,
+    onClick: () => void
+}) => {
 
-    const cart = useUnit($cart)
-    if (!cart) return
+    const totalPriceWithoutDiscount = products.reduce((acc, item) => {
+        return "quantity" in item ? acc + item.price * item.quantity : acc + item.price
+    }, 0)
 
-    const {products} = cart.responseCart
-    const totalPriceWithoutDiscount = products.reduce((acc, item) => acc + item.price, 0)
-    const totalDiscount = products.reduce((acc, item) => acc + 0.01 * item.discountPercent * item.price, 0.0)
+    const totalDiscount = products.reduce((acc, item) => {
+        return "quantity" in item ? acc + 0.01 * item.discountPercent * item.price * item.quantity
+            : acc + 0.01 * item.discountPercent * item.price
+    }, 0.0)
+
+    const totalAmount = products.reduce((acc, item) => {
+        return "quantity" in item ? acc + item.quantity : acc + 1
+    }, 0)
+
     const totalPriceWithDiscount = totalPriceWithoutDiscount - totalDiscount
-    const totalAmount = products.length
-
-    const router = useRouter()
-    const pathname = usePathname()
 
     const rowCV: ClassValue = "w-full flex flex-row items-baseline justify-between"
     const textCV: ClassValue = "text-base text-text-gray"
@@ -29,8 +35,6 @@ const ShoppingCartTotalPriceCard = () => {
         {header: "Количество", data: totalAmount + " шт."},
         {header: "Скидка", data: totalDiscount.toFixed(2) + " ₽"},
     ]
-
-    const handleButtonClick = () => router.push(pathname.concat('/checkout'))
 
     return (
         <StickyCardWrapper startCol={"col-start-10"}>
@@ -48,7 +52,7 @@ const ShoppingCartTotalPriceCard = () => {
                 <Text text={"Итого"} className={cn(textCV)}/>
                 <Text text={`${totalPriceWithDiscount} ₽`} className={"text-[24px] font-medium text-link-blue"}/>
             </div>
-            <Button text={"Перейти к оформлению"} onClick={handleButtonClick}/>
+            <Button text={buttonText} onClick={onClick}/>
         </StickyCardWrapper>
     );
 

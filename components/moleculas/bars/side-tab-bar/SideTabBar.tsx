@@ -4,7 +4,7 @@ import {cn} from "@/utlis/cn";
 
 const SideTabBar = (props: SideTabBarProps) => {
     return (
-        <div className={cn("hidden ml-[-20px] col-span-3 sm:flex flex-col gap-2 customScrollbar", props.className)}>
+        <div className={cn("hidden col-span-3 sm:flex flex-col gap-2 customScrollbar", props.className)}>
             {
                 props.tabs.map((tab: TabBarItem) => {
                     return <TabBarItem

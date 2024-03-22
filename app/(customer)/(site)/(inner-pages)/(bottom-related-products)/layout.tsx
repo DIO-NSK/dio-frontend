@@ -7,7 +7,6 @@ const BottomRelatedProductsLayout = ({children}: {
     return (
         <div className={"w-full flex flex-col gap-5 sm:col-span-full sm:gap-[40px]"}>
             {children}
-            <HeaderSliderBlock header={"Вам может понравиться"}/>
         </div>
     )
 }

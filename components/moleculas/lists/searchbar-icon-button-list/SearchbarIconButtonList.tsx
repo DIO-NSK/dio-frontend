@@ -6,15 +6,17 @@ import {ClassValue} from "clsx";
 import {useStore} from "@/store/Store";
 import {useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
-import {$userCredentials} from "@/app/(customer)/model";
+import {getUserCredentialsFx} from "@/app/(customer)/model";
+import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import Badge from "@/components/atoms/badge/Badge";
 
 const SearchbarIconButtonList = () => {
 
-    const userCredentials = useUnit($userCredentials)
-
     const router = useRouter()
     const switchPopupState = useStore(state => state.switchPopupState)
+    const accessToken = localStorage.getItem("ACCESS_TOKEN")
 
+    const [cart, getUserCredentials] = useUnit([$cart, getUserCredentialsFx])
     const [userName, setUserName] = useState<string>("Войти")
 
     const buttonListData = [
@@ -22,7 +24,7 @@ const SearchbarIconButtonList = () => {
             name: userName,
             icon: <FiUser size={"20px"} className={"text-link-blue"}/>,
             onClick: () => {
-                userCredentials ? router.push('/profile')
+                accessToken ? router.push('/profile')
                     : switchPopupState("login")
             }
         },
@@ -34,17 +36,25 @@ const SearchbarIconButtonList = () => {
         },
         {
             name: "Корзина",
-            icon: <FiShoppingCart size={"20px"}/>,
+            icon: <div className={"relative"}>
+                <FiShoppingCart size={"20px"}/>
+                {
+                    cart && cart.responseCart.products.length !== 0
+                    && <Badge
+                        number={cart.responseCart.products.reduce((acc, item) => acc + item.quantity, 0)}
+                        className={"absolute bottom-2 left-4 z-10"}
+                    />
+                }
+            </div>,
             onClick: () => router.push("/cart")
         },
     ]
 
     useEffect(() => {
-        if (userCredentials) {
-            const username : string = userCredentials.fullName.split(" ")[1]
-            setUserName(username)
-        }
-    }, [userCredentials])
+        getUserCredentials()
+            .then(credentials => setUserName(credentials.fullName.split(" ")[1]))
+            .catch(console.log)
+    }, [accessToken])
 
     return (
         <div className={"flex flex-row items-center gap-[30px]"}>

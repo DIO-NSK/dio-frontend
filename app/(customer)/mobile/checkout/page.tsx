@@ -4,6 +4,8 @@ import MobilePageWrapper from "@/components/mobile/wrappers/mobile-page-wrapper/
 import CheckoutForm from "@/components/organisms/forms/checkout-form/CheckoutForm";
 import {useState} from "react";
 import {SelectItem} from "@/types/props/SelectItem";
+import DesktopCheckoutFirstStep
+    from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/DesktopCheckoutFirstStep";
 
 const Page = () => {
 
@@ -27,6 +29,11 @@ const Page = () => {
                 activeStep={activeStep}
                 steps={steps}
             />
+            {
+                activeStep.value === 1
+                    ? <DesktopCheckoutFirstStep/>
+
+            }
         </MobilePageWrapper>
     )
 

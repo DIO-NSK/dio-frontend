@@ -12,23 +12,16 @@ type UserCredentials = {
     email: string
 }
 
-const getUserCredentials = async (userId: number): Promise<UserCredentials> => {
-    return api.get(`/user/${userId}`)
+const getUserCredentials = async (): Promise<UserCredentials> => {
+    return api.get(`/user`)
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
+        .catch(error => {throw Error(error.response.data.message)})
 }
 
 export const getUserCredentialsFx = createEffect(getUserCredentials)
 export const $userCredentials = createStore<UserCredentials | null>(null)
 
 $userCredentials.on(getUserCredentialsFx.doneData, (_, data) => data)
-
-persist({
-    store: $userCredentials,
-    key: "userCredentials"
-})
 
 sample({
     clock : [loginUserByCredentialsFx.doneData, loginByPhoneFx.doneData, registerUserFx.doneData],

@@ -15,6 +15,8 @@ import {
     getFavouritesEvent
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+import {addAllToCartEvent} from "@/components/organisms/cards/product-price-card/model";
+import {getCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 const FavoritesHeaderRow = ({selectedCards}: { selectedCards: any[] }) => {
 
@@ -22,25 +24,11 @@ const FavoritesHeaderRow = ({selectedCards}: { selectedCards: any[] }) => {
     const handleDeleteSelectedProducts = () => console.log("Delete Selected Products")
 
     return (
-        <div
-            className={"w-full flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"}>
+        <div className={"w-full flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"}>
 
             <div className={"flex flex-row items-baseline gap-2"}>
                 <Text text={"Избранное"} className={"text-[20px] sm:text-[24px] font-medium"}/>
-                <Text text={"Всего 6"} className={"text-[14px] sm:ext-base text-text-gray"}/>
-            </div>
-
-            <div className={"hidden sm:flex flex-row items-baseline gap-5"}>
-                <Text
-                    onClick={handleDeleteSelectedProducts}
-                    text={`Удалить (${selectedCards.length})`}
-                    className={"pointer gray-text"}
-                />
-                <Text
-                    onClick={handleDeleteAllProducts}
-                    className={"pointer red-text"}
-                    text={"Удалить все"}
-                />
+                <Text text={`Всего ${selectedCards.length}`} className={"text-[14px] sm:ext-base text-text-gray"}/>
             </div>
 
             <div className={"sm:hidden w-full flex flex-row gap-3"}>
@@ -67,18 +55,32 @@ const FavoritesHeaderRow = ({selectedCards}: { selectedCards: any[] }) => {
 
 const FavoritesPage = () => {
 
-    const [favourites, getFavourites] = useUnit([$favourites, getFavouritesEvent])
+    const [favourites, getFavourites, getCart, addAllToCart]
+        = useUnit([$favourites, getFavouritesEvent, getCartEvent, addAllToCartEvent])
 
     const infoBlockData: InfoBlockElement[] = [
-        {header: "Выбрано", description: "2 шт."},
-        {header: "Итого", description: "4700 ₽", className: "text-link-blue font-medium text-[20px]"},
+        {
+            header: "Выбрано",
+            description: `${favourites?.products.length} шт.`
+        },
+        {
+            header: "Итого",
+            description: `${favourites?.products
+                .reduce((acc, item) =>
+                    acc + item.price - 0.01 * item.price * item.discountPercent, 0)} ₽`,
+            className: "text-link-blue font-medium text-[20px]"
+        },
     ]
 
-    const handleSubmit = () => console.log("Items submitted")
+    const handleButtonClick = () => {
+        const productItemIds = favourites?.products.map(item => item.id)
+        if (productItemIds) addAllToCart(productItemIds)
+    }
 
     useEffect(() => {
+        getCart()
         getFavourites()
-    }, [getFavourites])
+    }, [])
 
     if (favourites) return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
@@ -102,12 +104,16 @@ const FavoritesPage = () => {
                 </section>
             </div>
 
-            <ShoppingCartTotalPriceCard/>
+            <ShoppingCartTotalPriceCard
+                products={favourites.products}
+                onClick={handleButtonClick}
+                buttonText={"Добавить все в корзину"}
+            />
 
             <MobileCartInfoBlock
                 infoBlockData={infoBlockData}
-                buttonText={"В корзину"}
-                onSubmit={handleSubmit}
+                buttonText={"Добавить все в корзину"}
+                onSubmit={handleButtonClick}
             />
 
         </InnerPageWrapper>

@@ -71,7 +71,7 @@ const MainPageScreen = () => {
     ]
 
     return (
-        <>
+        <React.Fragment>
             <PageWrapper>
 
                 <MobilePhotoSlider/>
@@ -179,7 +179,7 @@ const MainPageScreen = () => {
 
                 <WaterCoolerBlock/>
             </PageWrapper>
-        </>
+        </React.Fragment>
     )
 }
 
