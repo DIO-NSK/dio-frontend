@@ -36,7 +36,8 @@ const UserProfileLayout = ({children}: { children: React.ReactNode }) => {
             </div>
             {children}
         </InnerPageWrapper>
-    );
-};
+    )
 
-export default UserProfileLayout;
+}
+
+export default UserProfileLayout

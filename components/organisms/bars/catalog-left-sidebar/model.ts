@@ -1,6 +1,7 @@
 import {api, getRequest} from "@/api";
-import {createEffect, createEvent, sample} from "effector";
+import {createEffect, createEvent, createStore, sample} from "effector";
 import {$products} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
+import {FilterItem} from "@/types/dto/user/catalog/FilterItem";
 
 type CategoryFiltersParams = {
     pageable: {
@@ -19,7 +20,7 @@ type CategoryFiltersParams = {
 }
 
 const getCategoryFilters = async (categoryId : number) => {
-    return getRequest("/catalogue/category/filter")
+    return getRequest("/catalogue/category/filter", {params : {categoryId}})
 }
 
 const getCategoryFiltersFx = createEffect(getCategoryFilters)
@@ -34,7 +35,10 @@ const sendFilters = async (params : CategoryFiltersParams) => {
 const sendFiltersFx = createEffect(sendFilters)
 export const sendFiltersEvent = createEvent<CategoryFiltersParams>()
 
+export const $filters = createStore<FilterItem[]>([])
+
 $products.on(sendFiltersFx.doneData, (_, filteredProducts) => filteredProducts)
+$filters.on(getCategoryFiltersFx.doneData, (_, filters) => filters)
 
 sample({
     clock : getCategoryFiltersEvent,

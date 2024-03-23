@@ -16,6 +16,7 @@ import {
     setUserPhoneNumberEvent
 } from "@/components/organisms/popups/authorization/signup-popup/model";
 import Text from "@/components/atoms/text/text-base/Text";
+import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 
 const SignUpPopup = () => {
 
@@ -32,54 +33,48 @@ const SignUpPopup = () => {
     const {handleSubmit, formState: {isSubmitting}} = methods
 
     const onSubmit = (formData: FieldValues) => {
-        registerUserFx(formData as RegisterUserData)
+        registerUser(formData as RegisterUserData)
             .then(_ => {
                 switchPopupState("confirmationCode")
                 setUserPhoneNumber(formData.phoneNumber)
             })
             .catch(e => e)
     }
+
     const handleRegisterLegalEntity = () => console.log("Register Legal entity")
+
+    const inputData: InputPrefilledData[] = [
+        {
+            labelText: "Телефон",
+            placeholder: "+7 (___) ___-__-__",
+            inputMask: "+7 (999) 999-99-99",
+            name: "phoneNumber"
+        }, {
+            labelText: "Имя пользователя",
+            placeholder: "Иван Иванов",
+            name: "fullName"
+        }, {
+            labelText: "Пароль",
+            placeholder: "Введите пароль",
+            name: "password",
+            isPassword: true
+        }
+    ]
 
     return (
         <FormProvider {...methods}>
             <PopupWrapper>
-                <Form className={"w-[700px] rounded-xl bg-white flex flex-col gap-5"}>
+                <Form className={"w-[450px] rounded-xl bg-white flex flex-col gap-5"}>
                     <MultiselectButton
                         activeElement={authContext.multiselectElements[1]}
                         elements={authContext.multiselectElements}
                         selectElement={authContext.handleSelectElement}
                     />
-                    <div className={"w-full flex flex-row gap-5"}>
-                        <ControlledTextInput
-                            disabled={isSubmitting}
-                            labelText={"Телефон"}
-                            placeholder={"+7 (___) ___-__-__"}
-                            inputMask={"+7 (999) 999-99-99"}
-                            name={"phoneNumber"}
-                        />
-                        <ControlledTextInput
-                            disabled={isSubmitting}
-                            labelText={"Имя пользователя"}
-                            placeholder={"Иванов Иван Иванович"}
-                            name={"fullName"}
-                        />
-                    </div>
-                    <div className={"w-full flex flex-row gap-5"}>
-                        <ControlledTextInput
-                            disabled={isSubmitting}
-                            labelText={"Электронная почта"}
-                            placeholder={"example@gmail.com"}
-                            name={"email"}
-                        />
-                        <ControlledTextInput
-                            disabled={isSubmitting}
-                            labelText={"Пароль"}
-                            placeholder={"Введите пароль"}
-                            name={"password"}
-                            isPassword
-                        />
-                    </div>
+                    {
+                        inputData.map((input, key) => (
+                            <ControlledTextInput disabled={isSubmitting} key={key} {...input}/>
+                        ))
+                    }
                     <div className={"w-full flex flex-col items-center gap-5"}>
                         {
                             registerError && <Text
@@ -102,6 +97,7 @@ const SignUpPopup = () => {
             </PopupWrapper>
         </FormProvider>
     )
+
 };
 
 export default SignUpPopup;

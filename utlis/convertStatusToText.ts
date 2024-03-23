@@ -1,11 +1,12 @@
-import {OrderStatus} from "@/types/dto/Order";
+import {OrderStatus} from "@/types/dto/user/order/ResponseProfileOrder";
 
 export function convertStatusToText(orderStatus : OrderStatus) {
     switch (orderStatus) {
-        case "delivered": return "Доставлен"
-        case "pending": return "В ожидании"
-        case "processing": return "В обработке"
-        case "shipping": return "Отправлен"
-        case "stale": return "В архиве"
+        case "DRAFT": return "Черновик заказа"
+        case "PENDING": return "Ожидает обработки"
+        case "PROCESSING": return "В процессе обработки"
+        case "SHIPPED": return "Отправлен"
+        case "DELIVERED": return "Доставлен"
+        case "CANCELED" : return "Отменен"
     }
 }

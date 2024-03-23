@@ -2,15 +2,9 @@ import {CreateOrderDraftData} from "@/schemas/customer/CreateOrderDraftSchema";
 import {api} from "@/api";
 import {createEffect, createEvent, createStore} from "effector";
 import {defaultCheckoutFirstStepData} from "@/data/forms/checkoutFirstStepData";
-import {jwtDecode} from "jwt-decode";
 
 const createOrderDraft = async (formData: CreateOrderDraftData) => {
-
-    const accessToken = localStorage.getItem("ACCESS_TOKEN")!!
-    const jwtToken = jwtDecode(accessToken)
-    const userId = (jwtToken as {userID : number}).userID
-
-    return api.post("/order/draft", {...formData, userId : userId})
+    return api.post("/order/draft", {...formData})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }

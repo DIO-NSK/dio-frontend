@@ -5,8 +5,6 @@ import Text from "@/components/atoms/text/text-base/Text";
 export type RangeInputType = {
     fromValue : string,
     toValue : string,
-    fromPlaceholder : string,
-    toPlaceholder : string,
     onChangeFromValue : (newValue : string) => void,
     onChangeToValue : (newValue : string) => void,
     labelText ?: string
@@ -17,13 +15,13 @@ const RangeInput = (props : RangeInputType) => {
     const inputList = [
         {
             className: style.leftInput,
-            placeholder: props.fromPlaceholder,
+            placeholder: "от",
             value: props.fromValue,
             onChange: (event: ChangeEvent<HTMLInputElement>) =>
                 props.onChangeFromValue(event.target.value)
         }, {
             className: style.rightInput,
-            placeholder: props.toPlaceholder,
+            placeholder: "до",
             value: props.toValue,
             onChange: (event: ChangeEvent<HTMLInputElement>) =>
                 props.onChangeToValue(event.target.value)
@@ -59,8 +57,7 @@ const RangeInput = (props : RangeInputType) => {
                     {
                         inputList.map((input) => {
                             return <input
-                                type={"range"}
-                                step={"10"}
+                                type={"range"} step={"10"}
                                 className={style.selector}
                                 value={input.value}
                                 onChange={input.onChange}

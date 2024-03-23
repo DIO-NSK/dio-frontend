@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {FiHeart, FiShoppingCart, FiUser} from "react-icons/fi";
 import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconTextButton";
 import {cn} from "@/utlis/cn";
@@ -6,7 +6,7 @@ import {ClassValue} from "clsx";
 import {useStore} from "@/store/Store";
 import {useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
-import {getUserCredentialsFx} from "@/app/(customer)/model";
+import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
 import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import Badge from "@/components/atoms/badge/Badge";
 
@@ -14,17 +14,16 @@ const SearchbarIconButtonList = () => {
 
     const router = useRouter()
     const switchPopupState = useStore(state => state.switchPopupState)
-    const accessToken = localStorage.getItem("ACCESS_TOKEN")
 
-    const [cart, getUserCredentials] = useUnit([$cart, getUserCredentialsFx])
-    const [userName, setUserName] = useState<string>("Войти")
+    const [cart, userCredentials, getUserCredentials]
+        = useUnit([$cart, $userCredentials, getUserCredentialsEvent])
 
     const buttonListData = [
         {
-            name: userName,
+            name: userCredentials?.fullName.split(" ")[1] ?? "Войти",
             icon: <FiUser size={"20px"} className={"text-link-blue"}/>,
             onClick: () => {
-                accessToken ? router.push('/profile')
+                userCredentials ? router.push('/profile')
                     : switchPopupState("login")
             }
         },
@@ -52,9 +51,7 @@ const SearchbarIconButtonList = () => {
 
     useEffect(() => {
         getUserCredentials()
-            .then(credentials => setUserName(credentials.fullName.split(" ")[1]))
-            .catch(console.log)
-    }, [accessToken])
+    }, [])
 
     return (
         <div className={"flex flex-row items-center gap-[30px]"}>

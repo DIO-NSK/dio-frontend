@@ -7,45 +7,60 @@ import BonusCard from "@/components/organisms/user-profile/bonus-card/BonusCard"
 import UserInfoCard from "@/components/organisms/user-profile/user-info-card/UserInfoCard";
 import Text from "@/components/atoms/text/text-base/Text";
 import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
-import {mockOrder} from "@/data/orderData";
 import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserProfileWrapper";
-import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
+import {useUnit} from "effector-react";
+import {$orders, getOrdersEvent} from "@/app/(customer)/profile/orders/model";
+import {useEffect} from "react";
+import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
 
 const MainInformationBlock = () => {
-    return (
+
+    const [userCredentials, getUserCredentials]
+        = useUnit([$userCredentials, getUserCredentialsEvent])
+
+    useEffect(() => {
+        if (!userCredentials) getUserCredentials()
+    }, [])
+
+    if (userCredentials) return (
         <div className={"w-full flex flex-col gap-5 sm:flex-row sm:items-end"}>
-            <UserInfoCard/>
+            <UserInfoCard userCredentials={userCredentials}/>
             <BonusCard/>
         </div>
     )
+
 }
 
 const LastOrderBlock = () => {
 
+    const [orders, getOrders] = useUnit([$orders, getOrdersEvent])
+
+    useEffect(() => {
+        getOrders()
+    }, [])
+
     const handleRepeatOrder = () => console.log("Repeat order")
 
-    return (
+    if (orders?.length !== 0) return (
         <div className={"w-full flex flex-col gap-4"}>
 
             <div className={"w-full flex flex-row items-center justify-between"}>
                 <Text text={"Последний заказ"} className={"text-lg font-medium"}/>
                 <Button
-                    classNames={{button: "hidden sm:flex"}}
+                    classNames={{button: "p-0 bg-0 sm:py-3 sm:px-4 sm:bg-light-gray"}}
                     text={"Повторить заказ"}
                     onClick={handleRepeatOrder}
-                    icon={<FiRefreshCw size={"18px"}/>}
+                    icon={<FiRefreshCw size={"18px"} className={"hidden sm:flex"}/>}
                     buttonType={"SECONDARY"}
                     size={"sm"}
                 />
-                <TextButton
-                    className={"sm:hidden"}
-                    onClick={handleRepeatOrder}
-                    text={"Повторить заказ"}
-                />
             </div>
 
-            <OrderCard order={mockOrder} canRepeat={false}/>
+            <OrderCard
+                order={orders.at(-1)!!}
+                canRepeat={false}
+            />
 
         </div>
     )

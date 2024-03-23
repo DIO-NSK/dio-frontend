@@ -9,28 +9,25 @@ import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconText
 import {FiRefreshCw} from "react-icons/fi";
 import Button from "@/components/atoms/buttons/button/Button";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
-import {mockShoppingCartProducts} from "@/data/shoppingCartProducts";
-import ShoppingCartGroupWrapper from "@/components/wrappers/shopping-cart-group-wrapper/ShoppingCartGroupWrapper";
-import {ShoppingCartServiceCardDTO} from "@/types/dto/admin/cards/ServiceCard";
-import ShoppingCartServiceCard from "@/components/organisms/cards/shopping-cart-service-card/ShoppingCartServiceCard";
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
-import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
-import {Order} from "@/types/dto/Order";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
-import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {ResponseProfileOrder} from "@/types/dto/user/order/ResponseProfileOrder";
 
-const HeaderRow = ({order}: { order: Order }) => {
+const HeaderRow = ({order}: { order: ResponseProfileOrder }) => {
 
     const orderStatus = convertStatusToText(order.status)
+
+    const totalPrice = order.items.reduce((acc, item) =>
+        acc + item.price * item.quantity * (1 - item.discountPercent * 0.01), 0)
 
     return (
         <div className={"w-full flex flex-row items-center justify-between border-b-2 border-light-gray pb-5"}>
             <div className={"flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4"}>
-                <Text text={`Заказ #${order.orderId}`} className={"text-base sm:text-[20px] font-medium"}/>
+                <Text text={`Заказ #${order.id}`} className={"text-base sm:text-[20px] font-medium"}/>
                 <Text text={orderStatus} className={"text-sm sm:text-base text-text-gray"}/>
             </div>
             <Text
-                text={`${order.totalPrice} ₽`}
+                text={`${totalPrice.toFixed(2)} ₽`}
                 className={"text-xl sm:text-[24px] font-medium text-link-blue"}
             />
         </div>
@@ -38,7 +35,7 @@ const HeaderRow = ({order}: { order: Order }) => {
 
 }
 
-const InformationBlock = ({order}: { order: Order }) => {
+const InformationBlock = ({order}: { order: ResponseProfileOrder }) => {
 
     const itemCV: ClassValue[] = [
         "w-full sm:col-span-1 flex flex-row items-baseline justify-between",
@@ -46,7 +43,7 @@ const InformationBlock = ({order}: { order: Order }) => {
     ]
 
     const informationGridData: HeaderDescription[] = [
-        {header: "Количество товаров", description: `${order.products.length} шт.`},
+        {header: "Количество товаров", description: `${order.items.length} шт.`},
         {header: "Адрес доставки", description: order.address},
         {header: "Дата доставки", description: order.deliveryDate},
         {header: "Время доставки", description: order.deliveryTime},
@@ -105,7 +102,7 @@ const Footer = ({canRepeat, isOpen, setOpen}: {
                 placement={"right"}
             />
             {
-                canRepeat && <>
+                canRepeat && <React.Fragment>
                     <Button
                         classNames={{button: "hidden sm:flex"}}
                         text={"Повторить заказ"}
@@ -119,30 +116,23 @@ const Footer = ({canRepeat, isOpen, setOpen}: {
                         text={"Повторить заказ"}
                         className={"sm:hidden"}
                     />
-                </>
+                </React.Fragment>
             }
         </div>
     )
 }
 
-const Content = () => {
+const Content = ({order}: { order: ResponseProfileOrder }) => {
     return (
         <div className={"w-full flex flex-col gap-5 py-5 sm:gap-10"}>
             {
-                mockShoppingCartProducts.map((group) =>
-                    <ShoppingCartGroupWrapper className={"p-0 border-0 sm:p-5 sm:border-2"}>
-                        {
-                            group.items.map((item) =>
-                                (
-                                    item as ShoppingCartServiceCardDTO).description
-                                    ? <ShoppingCartServiceCard card={item as ShoppingCartServiceCardDTO}/>
-                                    : <ShoppingCartProductCard
-                                        card={item as unknown as ResponseCartItem}
-                                        canInteract={false}
-                                    />
-                            )
-                        }
-                    </ShoppingCartGroupWrapper>)
+                order.items.map((product, productKey) =>
+                    <ShoppingCartProductCard
+                        canInteract={false}
+                        card={product}
+                        key={productKey}
+                    />
+                )
             }
         </div>
     )
@@ -162,7 +152,7 @@ const OrderCard = ({canRepeat = true, theme = "outlined", ...props}: OrderCardPr
         <div className={cn(wrapperCV)}>
             <OrderCard.HeaderRow {...props} />
             <OrderCard.InformationBlock {...props} />
-            {isOpen && <OrderCard.Content/>}
+            {isOpen && <OrderCard.Content {...props}/>}
             <OrderCard.Footer isOpen={isOpen} setOpen={setOpen} canRepeat={canRepeat}/>
         </div>
     );

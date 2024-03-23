@@ -1,7 +1,7 @@
 import {api} from "@/api";
 import {CreateOrderData} from "@/schemas/customer/CreateOrderSchema";
-import {createEffect, createEvent, createStore, sample} from "effector";
-import {or, pending} from "patronum";
+import {createEffect, createEvent, sample} from "effector";
+import {pending} from "patronum";
 import {$checkoutSecondStepData} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/second-step/model";
 
 type CreateOrderRequest = {
@@ -16,9 +16,7 @@ type CreateOrderRequest = {
 const createOrder = async (request: CreateOrderRequest) => {
     return api.post("/order", request)
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
+        .catch(error => {throw Error(error.response.data.message)})
 }
 
 const createOrderFx = createEffect<CreateOrderRequest, void, Error>(createOrder)

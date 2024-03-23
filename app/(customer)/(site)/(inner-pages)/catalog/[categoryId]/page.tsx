@@ -48,7 +48,7 @@ const CatalogScreen = ({params}: {
                 breadcrumbs={breadcrumbs}
             />
             <InnerPageWrapper>
-                <CatalogLeftSidebar/>
+                <CatalogLeftSidebar categoryId={params.categoryId}/>
                 <section className={"col-span-9 flex flex-col gap-7"}>
                     <div className={"w-full flex flex-row gap-3 sm:col-span-full sm:grid sm:grid-cols-9 sm:gap-[20px]"}>
                         <Button

@@ -13,11 +13,11 @@ import ControlledTextInput from "@/components/atoms/inputs/text-input/Controlled
 import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
 import Button from "@/components/atoms/buttons/button/Button";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import {$userCredentials, getUserCredentialsFx} from "@/app/(customer)/model";
+import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
 
 const CallRequestPopup = () => {
 
-    const [getUser, userCredentials] = useUnit([getUserCredentialsFx, $userCredentials])
+    const [getUserCredentials, userCredentials] = useUnit([getUserCredentialsEvent, $userCredentials])
     const [popupState, togglePopupState] = useUnit([$isCallRequestOpen, toggleCallRequestOpenEvent])
     const sendCallRequest = useUnit(sendCallRequestEvent)
 
@@ -43,8 +43,7 @@ const CallRequestPopup = () => {
     }, [userCredentials])
 
     useEffect(() => {
-        const userId = localStorage.getItem("userId")
-        if (userId) getUser(+userId)
+        getUserCredentials()
     }, [])
 
     if (popupState) return (
