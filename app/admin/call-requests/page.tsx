@@ -23,6 +23,7 @@ import {
     updateCallRequestEvent
 } from "@/app/admin/call-requests/model";
 import {TableHeaderItem} from "@/types/dto/Table";
+import {SelectItem} from "@/types/props/SelectItem";
 
 const callRequestsTableHeader: TableHeaderItem[] = [
     {text: "Данные клиента", width: "col-span-2"},
@@ -40,18 +41,21 @@ const AdminPanelCallRequestsPage = () => {
 
     const [updateCallRequest, setCallRequestStatus] = useUnit([updateCallRequestEvent, setCallRequestStatusEvent])
 
-    const multiselectElements = ["Актуальные", "Архив"]
-    const [activeElement, setActiveElement] = useState<string>(multiselectElements[0])
-    const updateButtonText = activeElement === "Актуальные" ? "Поместить в архив" : "Восстановить"
+    const multiselectElements: SelectItem<CallRequestStatus>[] = [
+        {name: "Актуальные", value: "CURRENT"},
+        {name: "Архив", value: "ARCHIVE"}
+    ]
+
+    const [activeElement, setActiveElement] = useState<SelectItem<CallRequestStatus>>(multiselectElements[0])
+    const updateButtonText = activeElement.value === "CURRENT" ? "Поместить в архив" : "Восстановить"
 
     const handleUpdateCallRequests = () => {
-        if (activeElement === "Актуальные") updateCallRequest("ARCHIVE")
+        if (activeElement.value === "CURRENT") updateCallRequest("ARCHIVE")
         else updateCallRequest("CURRENT")
     }
 
     useEffect(() => {
-        const requestStatus: CallRequestStatus = activeElement === "Актуальные" ? "CURRENT" : "ARCHIVE"
-        setCallRequestStatus(requestStatus)
+        setCallRequestStatus(activeElement.value)
     }, [activeElement])
 
     return (

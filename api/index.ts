@@ -1,7 +1,7 @@
 import axios from "axios";
 import {Auth} from "@/types/AuthContextType";
 
-const BASE_URL: string = "https://diowater.ru"
+const BASE_URL: string = "https://diowater.ru/api"
 
 export const api = axios.create({
     baseURL: BASE_URL,

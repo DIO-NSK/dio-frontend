@@ -1,8 +1,7 @@
 "use client"
 
-import style from "./CatalogLeftSidebar.module.css"
 import Text from "@/components/atoms/text/text-base/Text";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import LabelInputWrapper from "@/components/wrappers/label-input-wrapper/LabelInputWrapper";
 import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
 import CheckboxList from "@/components/moleculas/lists/checkbox-list/CheckboxList";
@@ -10,26 +9,23 @@ import Button from "@/components/atoms/buttons/button/Button";
 import {CheckboxListItem} from "@/types/props/CheckboxItem";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
+import {HeaderDescription} from "@/types/dto/text";
+import {useUnit} from "effector-react";
+import {getCategoryFiltersEvent, sendFiltersEvent} from "@/components/organisms/bars/catalog-left-sidebar/model";
 
-type HeaderDescrType = {
-    header: string,
-    descr: string
-}
-
-const HeaderRow = ({header, descr}: HeaderDescrType) => {
+const HeaderRow = ({header, description}: HeaderDescription) => {
     return (
-        <div className={style.headerRow}>
+        <div className={"w-full flex flex-row justify-between items-baseline"}>
             <Text text={header} className={"text-[20px]"}/>
-            <div onClick={() => console.log(descr)}>
-                <Text text={descr}/>
-            </div>
+            <Text text={description}/>
         </div>
     )
 }
 
-const CatalogLeftSidebar = () => {
+const CatalogLeftSidebar = ({categoryId} : {categoryId : number}) => {
 
-    // range input states
+    const [getFilters, sendFilters] = useUnit([getCategoryFiltersEvent, sendFiltersEvent])
+
     const [fromInitialValue, toInitialValue] = ["200", "5000"]
     const [fromValue, setFromValue] = useState(fromInitialValue)
     const [toValue, setToValue] = useState(toInitialValue)
@@ -63,6 +59,12 @@ const CatalogLeftSidebar = () => {
         selectedTypes,
         setSelectedTypes
     ] = useState<CheckboxListItem[]>(initSelectedTypes)
+
+    const onSubmit = () => console.log("All right")
+
+    useEffect(() => {
+        getFilters(categoryId)
+    }, [])
 
     const headerCV: ClassValue[] = [
         "w-full flex flex-row justify-between items-baseline",
@@ -111,7 +113,7 @@ const CatalogLeftSidebar = () => {
 
                 <Button
                     text={"Применить фильтры"}
-                    onClick={() => console.log("Применить фильтры")}
+                    onClick={onSubmit}
                 />
 
             </div>

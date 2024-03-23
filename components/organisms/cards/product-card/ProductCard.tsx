@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, useState} from "react";
+import React from "react";
 import LinesEllipsis from 'react-lines-ellipsis'
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
@@ -9,13 +9,8 @@ import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
-import {useUnit} from "effector-react";
-import {addToCartEvent} from "@/components/organisms/cards/product-price-card/model";
-import {
-    $cart,
-    removeProductFromCartEvent
-} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {useLike} from "@/utlis/hooks/product/useLike";
+import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 
 type ProductCardClassNames = {
     mainWrapper?: string,
@@ -27,19 +22,13 @@ const ProductCard = ({productCard, classNames}: {
     classNames?: ProductCardClassNames
 }) => {
 
-    const [addToCart, removeFromCart, cart] = useUnit([addToCartEvent, removeProductFromCartEvent, $cart])
     const router = useRouter()
 
-    const isInCart = (): boolean => {
-        const inCart = cart?.responseCart.products.find(product => product.name === productCard.name)
-        return Boolean(inCart)
-    }
-
-    const [isSelected, setSelected] = useState<boolean>(isInCart)
     const [isLiked, toggleLike] = useLike(productCard.id)
+    const [isInCart, onBuyClick] = useBuyButton(productCard.name, productCard.id)
 
-    const buttonText = isSelected ? "В корзине" : "В корзину"
-    const buttonIcon = isSelected ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
+    const buttonText = isInCart ? "В корзине" : "В корзину"
+    const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
 
     const discountPrice = 0.01 * productCard.discountPercent * productCard.price
     const newPrice = discountPrice === 0 ? productCard.price : productCard.price - discountPrice
@@ -47,25 +36,17 @@ const ProductCard = ({productCard, classNames}: {
     const wrapperCV: ClassValue[] = [
         "w-[70vw] sm:w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
         "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover:shadow-xl sm:hoverable pointer",
-        "border-2 border-light-gray sm:border-0", classNames?.mainWrapper
+        "border-2 border-light-gray sm:border-0 sm:relative", classNames?.mainWrapper
     ]
 
     const handleCardClick = () => router.push(`/product/${productCard.id}`)
-    const handleBuyClick: MouseEventHandler = (event) => {
-        event.stopPropagation()
-        if (isSelected) removeFromCart(productCard.id)
-        else addToCart(productCard.id)
-        setSelected(!isSelected)
-    }
+
 
     return (
-        <div
-            className={cn(wrapperCV)}
-            onClick={handleCardClick}
-        >
+        <div className={cn(wrapperCV)} onClick={handleCardClick}>
             <img
                 src={productCard.image}
-                className={"w-full h-[100px] sm:h-[160px] object-cover"}
+                className={"w-full h-[100px] sm:h-[160px] object-scale-down"}
                 alt={'Изображение продукта'}
             />
             <div className={"w-full flex flex-col gap-4 sm:gap-5"}>
@@ -107,19 +88,31 @@ const ProductCard = ({productCard, classNames}: {
                     <div className={"flex flex-row items-center gap-4 sm:gap-5"}>
                         <Button
                             classNames={{button: "hidden sm:flex"}}
-                            buttonType={isSelected ? "PRIMARY" : "SECONDARY"}
+                            buttonType={isInCart ? "PRIMARY" : "SECONDARY"}
                             text={buttonText}
-                            onClick={handleBuyClick}
+                            onClick={onBuyClick}
                             icon={buttonIcon}
                         />
                         <LikeButton
                             toggleLike={toggleLike}
                             isLiked={isLiked}
                         />
-                        <BuyButton/>
+                        <BuyButton
+                            isInCart={isInCart}
+                            onClick={onBuyClick}
+                        />
                     </div>
                 </div>
             </div>
+            {
+                productCard.discountPercent !== 0 &&
+                <div className={"absolute left-5 top-5 z-20 px-3 py-2 rounded-lg bg-green-500"}>
+                    <Text
+                        text={`Скидка ${productCard.discountPercent} %`}
+                        className={"uppercase text-[12px] font-medium text-white"}
+                    />
+                </div>
+            }
         </div>
     )
 }

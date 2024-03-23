@@ -16,16 +16,56 @@ import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import {useToggle} from "@/utlis/hooks/useToggle";
 import MobilePhotoGalleryPopup from "@/components/mobile/popups/photo-gallery-popup/MobilePhotoGalleryPopup";
-import Button from "@/components/atoms/buttons/button/Button";
 import {useUnit} from "effector-react";
 import {
     $product,
     getProductEvent
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
+import {useLike} from "@/utlis/hooks/product/useLike";
+import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
+import {getFavouritesEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
+import {getCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
+
+const MobileHeaderRow = ({product} : {product : ResponseProduct}) => {
+
+    const discountPrice = product?.price - product?.price * 0.01 * product?.discountPercent
+    const newPrice = product.discountPercent === 0 ? product.price : discountPrice
+
+    const [isLiked, toggleLike] = useLike(product.id)
+    const [isInCart, onBuyClick] = useBuyButton(product.name, product.id)
+
+    return (
+        <div className={"sm:hidden flex flex-col gap-1 px-5"}>
+            <Text text={product.name} className={"text-[20px] font-semibold"}/>
+            <div className={"w-full flex flex-row items-center justify-between"}>
+                <div className={"flex flex-row items-center gap-3"}>
+                    <Text
+                        text={`${newPrice.toFixed(2)} ₽`}
+                        className={"text-[20px] font-medium text-link-blue"}
+                    />
+                    {
+                        product.discountPercent === 0 && <Text
+                            className={"text-base text-text-gray line-through"}
+                            text={`${product.price.toFixed(2)} ₽`}
+                        />
+                    }
+                </div>
+                <div className={"flex flex-row items-center gap-3"}>
+                    <LikeButton isLiked={isLiked} toggleLike={toggleLike}/>
+                    <BuyButton isInCart={isInCart} onClick={onBuyClick}/>
+                </div>
+            </div>
+        </div>
+    )
+
+}
 
 const ProductCardPage = ({params}: { params: { productId: number } }) => {
 
-    const [product, getProduct] = useUnit([$product, getProductEvent])
+    const [product, getProduct, getFavourites, getCart]
+        = useUnit([$product, getProductEvent, getFavouritesEvent, getCartEvent])
+
     const popupToggle = useToggle()
 
     const breadcrumbs: TextLink[] = [
@@ -40,34 +80,23 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
         setActivePhoto
     ] = useState<string | undefined>(product?.photos[0] ?? undefined)
 
-    const [isLiked, setLiked] = useState<boolean>(false)
-    const toggleLike = () => setLiked(prev => !prev)
-
-    const handleAddProductClick = () => console.log("Product added!")
-
     useEffect(() => {
         getProduct(params.productId)
-    }, [getProduct])
+        getFavourites()
+        getCart()
+    }, [])
 
     if (product) return (
         <section className={"w-full flex flex-col"}>
-
             {
                 popupToggle.state && <MobilePhotoGalleryPopup
                     onClose={popupToggle.toggleState}
                 />
             }
-
             <CatalogHeaderCol
                 text={"Кулеры"}
                 amount={mockCardArray.length}
                 breadcrumbs={breadcrumbs}
-            />
-
-            <Button
-                onClick={handleAddProductClick}
-                text={"Добавить в корзину"}
-                classNames={{button: "sm:hidden fixed z-10 w-[90vw] bottom-7 mx-5"}}
             />
 
             <InnerPageWrapper classNames={{mobileWrapper: "px-0"}}>
@@ -76,24 +105,7 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
                     <MobilePhotoSlider/>
                 </div>
 
-                <div className={"sm:hidden flex flex-col gap-1 px-5"}>
-                    <Text text={product.name} className={"text-[20px] font-semibold"}/>
-                    <div className={"w-full flex flex-row items-center justify-between"}>
-                        <div className={"flex flex-row items-center gap-3"}>
-                            <Text text={`${product.newPrice} ₽`} className={"text-[20px] font-medium text-link-blue"}/>
-                            {
-                                product.oldPrice > product.newPrice && <Text
-                                    className={"text-base text-text-gray line-through"}
-                                    text={"5200 ₽"}
-                                />
-                            }
-                        </div>
-                        <div className={"flex flex-row items-center gap-3"}>
-                            <LikeButton isLiked={isLiked} toggleLike={toggleLike}/>
-                            <BuyButton/>
-                        </div>
-                    </div>
-                </div>
+                <MobileHeaderRow product={product}/>
 
                 <ProductPhotoSlider
                     setActive={(photo) => setActivePhoto(photo)}
@@ -106,7 +118,7 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
                     <DescriptionCol text={product.description}/>
                 </div>
 
-                <ProductPriceCard/>
+                <ProductPriceCard product={product}/>
 
                 <div className={"col-span-9 h-[1px] mx-5 sm:mx-0 bg-light-gray"}/>
 
@@ -121,6 +133,7 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
             </InnerPageWrapper>
         </section>
     )
+
 }
 
 export default ProductCardPage

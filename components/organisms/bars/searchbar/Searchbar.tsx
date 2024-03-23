@@ -63,7 +63,7 @@ const Searchbar = () => {
     ]
 
     return (
-        <>
+        <React.Fragment>
             <CatalogPopup/>
             <ActivePopup/>
             <div className={cn(wrapperCV)}>
@@ -89,7 +89,7 @@ const Searchbar = () => {
                 </div>
                 <SearchbarIconButtonList/>
             </div>
-        </>
+        </React.Fragment>
     )
 }
 

@@ -5,7 +5,8 @@ export type ResponseProduct = {
     name: string,
     description: string,
     properties: ProductCharacteristic[],
-    newPrice: number,
-    oldPrice: number,
+    extraProperties: ProductCharacteristic[],
+    discountPercent : number,
+    price: number,
     photos: string[]
 }
