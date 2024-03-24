@@ -16,6 +16,7 @@ const TextNavbar = () => {
     const togglePopupState = useUnit(toggleCallRequestOpenEvent)
 
     const items: (TextLink | TextAction)[] = [
+        {text: 'Главная', link: '/'},
         {text: 'Акции', link: '/sales'},
         {text: 'Услуги', link: '/services'},
         {text: 'О компании', link: '/about-company'},

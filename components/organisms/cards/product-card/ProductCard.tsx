@@ -41,7 +41,6 @@ const ProductCard = ({productCard, classNames}: {
 
     const handleCardClick = () => router.push(`/product/${productCard.id}`)
 
-
     return (
         <div className={cn(wrapperCV)} onClick={handleCardClick}>
             <img

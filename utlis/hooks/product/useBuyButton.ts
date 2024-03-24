@@ -12,6 +12,7 @@ export const useBuyButton = (productName: string, productId: number) => {
         = useUnit([$cart, addToCartEvent, removeProductFromCartEvent])
 
     const isInCart = (): boolean => {
+        console.log(cart)
         const inCart = cart?.responseCart.products
             .find(product => product.name === productName)
         return Boolean(inCart)

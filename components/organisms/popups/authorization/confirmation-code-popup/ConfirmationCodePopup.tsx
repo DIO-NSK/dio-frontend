@@ -11,14 +11,13 @@ import {useUnit} from "effector-react";
 import {sendConfirmationCodeFx} from "@/components/organisms/popups/authorization/confirmation-code-popup/model";
 import {$userPhoneNumber} from "@/components/organisms/popups/authorization/signup-popup/model";
 import {useAuthorizationPopup} from "@/components/organisms/popups/authorization/useAuthorizationPopup";
-import {getUserCredentialsFx} from "@/app/(customer)/model";
 
 const ConfirmationCodePopup = () => {
 
     const authContext = useAuthorizationPopup()
 
-    const [userPhoneNumber, sendConfirmationCode, getUserCredentials] =
-        useUnit([$userPhoneNumber, sendConfirmationCodeFx, getUserCredentialsFx])
+    const [userPhoneNumber, sendConfirmationCode] =
+        useUnit([$userPhoneNumber, sendConfirmationCodeFx])
 
     const methods = useForm<UserConfirmCodeData>({
         defaultValues: {

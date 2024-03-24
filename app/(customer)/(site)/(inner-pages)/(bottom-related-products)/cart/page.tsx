@@ -10,16 +10,23 @@ import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-
 import {usePathname, useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
 import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {useStore} from "@/store/Store";
 
 const ShoppingCartPage = () => {
 
-    const router = useRouter()
     const pathname = usePathname()
+    const router = useRouter()
 
     const cart = useUnit($cart)
+    const switchPopupState = useStore(state => state.switchPopupState)
 
     const handleSubmit = () => router.push("/mobile/checkout/step-1")
-    const handleButtonClick = () => router.push(pathname.concat('/checkout'))
+
+    const handleButtonClick = () => {
+        const accessToken = localStorage.getItem("ACCESS_TOKEN")
+        if (accessToken) router.push(pathname.concat("/checkout"))
+        else switchPopupState("signup")
+    }
 
     if (cart) return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>

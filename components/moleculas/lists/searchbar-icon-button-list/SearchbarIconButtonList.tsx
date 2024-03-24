@@ -30,7 +30,10 @@ const SearchbarIconButtonList = () => {
         {
             name: "Избранное",
             icon: <FiHeart size={"20px"}/>,
-            onClick: () => router.push("/favorites")
+            onClick: () => {
+                if (userCredentials) router.push("/favorites")
+                else switchPopupState("signup")
+            }
 
         },
         {

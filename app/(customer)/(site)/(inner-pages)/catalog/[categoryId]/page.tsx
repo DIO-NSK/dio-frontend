@@ -15,7 +15,7 @@ import CatalogLeftSidebar from "@/components/organisms/bars/catalog-left-sidebar
 import {TextLink} from "@/types/dto/text";
 import PageContentWrapper from "@/components/wrappers/page-content-wrapper/PageContentWrapper";
 import {getFavouritesEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
-import {getCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 const CatalogScreen = ({params}: {
     params: {
@@ -29,8 +29,8 @@ const CatalogScreen = ({params}: {
         {text: "Кулеры", link: "/catalog/coolers"},
     ]
 
-    const [categories, getCategories, getFavourites]
-        = useUnit([$categories, getCategoryByNameEvent, getCartEvent, getFavouritesEvent])
+    const [cart, categories, getCategories, getFavourites]
+        = useUnit([$cart, $categories, getCategoryByNameEvent, getFavouritesEvent])
 
     const {...context} = useCatalogPage()
 
@@ -66,14 +66,12 @@ const CatalogScreen = ({params}: {
                     </div>
 
                     <PageContentWrapper>
-                        {
-                            categories.map((card) => {
-                                return <ProductCard
-                                    classNames={{mainWrapper: "w-full", textWrapper: "min-h-0"}}
-                                    productCard={card}
-                                />
-                            })
-                        }
+                        {cart && categories.map((card) => {
+                            return <ProductCard
+                                classNames={{mainWrapper: "w-full", textWrapper: "min-h-0"}}
+                                productCard={card}
+                            />
+                        })}
                     </PageContentWrapper>
                 </section>
             </InnerPageWrapper>

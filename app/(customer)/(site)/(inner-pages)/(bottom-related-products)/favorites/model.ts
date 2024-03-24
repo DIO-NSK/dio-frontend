@@ -12,7 +12,7 @@ const getFavourites = async (): Promise<ResponseUserFavorites> => {
     return getRequest("/favourite")
 }
 
-const getFavouritesFx = createEffect<void, ResponseUserFavorites, Error>(getFavourites)
+export const getFavouritesFx = createEffect<void, ResponseUserFavorites, Error>(getFavourites)
 export const getFavouritesEvent = createEvent<void>()
 export const $favourites = createStore<ResponseUserFavorites | null>(null)
 

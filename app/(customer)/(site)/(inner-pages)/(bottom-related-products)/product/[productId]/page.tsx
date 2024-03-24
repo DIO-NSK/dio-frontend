@@ -19,12 +19,11 @@ import MobilePhotoGalleryPopup from "@/components/mobile/popups/photo-gallery-po
 import {useUnit} from "effector-react";
 import {
     $product,
+    $productInformationIsDone,
     getProductEvent
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
-import {getFavouritesEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
-import {getCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
 
 const MobileHeaderRow = ({product} : {product : ResponseProduct}) => {
@@ -63,8 +62,8 @@ const MobileHeaderRow = ({product} : {product : ResponseProduct}) => {
 
 const ProductCardPage = ({params}: { params: { productId: number } }) => {
 
-    const [product, getProduct, getFavourites, getCart]
-        = useUnit([$product, getProductEvent, getFavouritesEvent, getCartEvent])
+    const [product, productIsDone, getProduct]
+        = useUnit([$product, $productInformationIsDone, getProductEvent])
 
     const popupToggle = useToggle()
 
@@ -82,11 +81,9 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
 
     useEffect(() => {
         getProduct(params.productId)
-        getFavourites()
-        getCart()
     }, [])
 
-    if (product) return (
+    if (product && productIsDone) return (
         <section className={"w-full flex flex-col"}>
             {
                 popupToggle.state && <MobilePhotoGalleryPopup
