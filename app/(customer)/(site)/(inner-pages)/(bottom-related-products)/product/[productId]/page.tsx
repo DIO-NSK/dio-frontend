@@ -19,7 +19,6 @@ import MobilePhotoGalleryPopup from "@/components/mobile/popups/photo-gallery-po
 import {useUnit} from "effector-react";
 import {
     $product,
-    $productInformationIsDone,
     getProductEvent
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 import {useLike} from "@/utlis/hooks/product/useLike";
@@ -62,8 +61,8 @@ const MobileHeaderRow = ({product} : {product : ResponseProduct}) => {
 
 const ProductCardPage = ({params}: { params: { productId: number } }) => {
 
-    const [product, productIsDone, getProduct]
-        = useUnit([$product, $productInformationIsDone, getProductEvent])
+    const [product, getProduct]
+        = useUnit([$product, getProductEvent])
 
     const popupToggle = useToggle()
 
@@ -83,7 +82,7 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
         getProduct(params.productId)
     }, [])
 
-    if (product && productIsDone) return (
+    if (product) return (
         <section className={"w-full flex flex-col"}>
             {
                 popupToggle.state && <MobilePhotoGalleryPopup
