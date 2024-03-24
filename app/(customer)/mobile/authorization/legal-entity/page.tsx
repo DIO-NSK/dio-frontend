@@ -2,7 +2,7 @@
 
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
-import {defaultLegalEntityData, LegalEntityData, LegalEntitySchema} from "@/schemas/customer/LegalEntitySchema";
+import {defaultLegalEntityData, LegalEntityData, LegalEntitySchema} from "@/schemas/customer/authorization/LegalEntitySchema";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 import {FormProvider, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";

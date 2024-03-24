@@ -7,7 +7,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import {useAuthorizationPopup} from "@/components/organisms/popups/authorization/useAuthorizationPopup";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
-import {LoginUserData, LoginUserSchema} from "@/schemas/customer/LoginUserSchema";
+import {LoginUserData, LoginUserSchema} from "@/schemas/customer/authorization/LoginUserSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import React from "react";
 import Form from "@/components/atoms/form/Form";

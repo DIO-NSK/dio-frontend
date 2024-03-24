@@ -14,7 +14,7 @@ import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 import {useUnit} from "effector-react";
 import {$userCredentials} from "@/app/(customer)/model";
 import {updateUserCredentialsEvent} from "@/app/(customer)/profile/settings/model";
-import {UserCredentials} from "@/types/dto/user/UserCredentials";
+import {UserCredentials} from "@/types/dto/user/credentials/UserCredentials";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 
 const userInputsGrid: InputPrefilledData[] = [

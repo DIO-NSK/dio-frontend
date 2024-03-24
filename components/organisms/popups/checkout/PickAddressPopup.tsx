@@ -1,27 +1,37 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {PopupProps} from "@/types/props/Popup";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import {SelectItem} from "@/types/props/SelectItem";
 import Button from "@/components/atoms/buttons/button/Button";
+import {useUnit} from "effector-react";
+import {
+    $userAddress,
+    getAddressEvent
+} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/model";
+import {UserAddress} from "@/types/dto/user/credentials/UserAddress";
 
 const PickAddressPopup = (props: PopupProps) => {
 
-    const dropdownItems: SelectItem<boolean>[] = [
-        {name: "Никитина 64, кв. 27", value: true},
-        {name: "Терешковой 10, кв. 42", value: true},
-        {name: "Морской проспект 11, кв. 12", value: true},
-        {name: "Совесткая 66/1, кв. 27", value: true},
-        {name: "Обская 50, кв. 134", value: true},
-    ]
+    const initAvailableAddresses = () => {
+        return userAddresses.map(address =>
+            ({name: `${address.street} ${address.houseNumber}`, value: address}))
+    }
+
+    const [userAddresses, getUserAddresses] = useUnit([$userAddress, getAddressEvent])
+    const availableAddresses = initAvailableAddresses()
 
     const [
         activeItem,
         setActiveItem
-    ] = useState<SelectItem<boolean>>(dropdownItems[0])
+    ] = useState<SelectItem<UserAddress>>(availableAddresses[0])
 
-    return (
+    useEffect(() => {
+        getUserAddresses()
+    }, [])
+
+    if (availableAddresses) return (
         <PopupWrapper onClose={props.onClose}>
             <div className={"w-[500px] flex flex-col gap-5"}>
                 <Text text={"Выберите существующий адрес"} className={"text-lg text-medium"}/>
@@ -31,7 +41,7 @@ const PickAddressPopup = (props: PopupProps) => {
                 />
                 <SelectInput
                     width={"w-full"}
-                    items={dropdownItems}
+                    items={availableAddresses}
                     onSelect={setActiveItem}
                     selectedItem={activeItem}
                 />
@@ -42,6 +52,7 @@ const PickAddressPopup = (props: PopupProps) => {
             </div>
         </PopupWrapper>
     );
+
 };
 
 export default PickAddressPopup;

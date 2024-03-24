@@ -3,7 +3,7 @@ import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import React from "react";
 import Text from "@/components/atoms/text/text-base/Text";
 import {FormProvider, useForm} from "react-hook-form";
-import {UserConfirmCodeData, UserConfirmCodeSchema} from "@/schemas/customer/UserConfirmCodeSchema";
+import {UserConfirmCodeData, UserConfirmCodeSchema} from "@/schemas/customer/authorization/UserConfirmCodeSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";

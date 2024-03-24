@@ -1,4 +1,4 @@
-import {UserCredentials} from "@/types/dto/user/UserCredentials";
+import {UserCredentials} from "@/types/dto/user/credentials/UserCredentials";
 import {api} from "@/api";
 import {createEffect, createEvent, sample} from "effector";
 

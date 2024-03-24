@@ -1,4 +1,4 @@
-import {UserConfirmCodeData} from "@/schemas/customer/UserConfirmCodeSchema";
+import {UserConfirmCodeData} from "@/schemas/customer/authorization/UserConfirmCodeSchema";
 import {api} from "@/api";
 import {createEffect, createStore, sample} from "effector";
 

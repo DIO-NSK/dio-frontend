@@ -1,4 +1,4 @@
-import {CreateOrderDraftData} from "@/schemas/customer/CreateOrderDraftSchema";
+import {CreateOrderDraftData} from "@/schemas/customer/checkout/CreateOrderDraftSchema";
 
 export const defaultCheckoutFirstStepData: CreateOrderDraftData = {
     userId: 0,

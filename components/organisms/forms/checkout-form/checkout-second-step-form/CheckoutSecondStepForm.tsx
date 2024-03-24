@@ -1,7 +1,7 @@
 import React from 'react';
 import InputListWrapper from "@/components/wrappers/form/input-list-wrapper/InputListWrapper";
 import {FieldName, useFormContext} from "react-hook-form";
-import {CheckoutFormData} from "@/schemas/customer/CheckoutFormSchema";
+import {CheckoutFormData} from "@/schemas/customer/checkout/CheckoutFormSchema";
 import Button from "@/components/atoms/buttons/button/Button";
 import {SelectItem} from "@/types/props/SelectItem";
 import SelectAddressPopup from "@/components/mobile/popups/select-address-popup/SelectAddressPopup";

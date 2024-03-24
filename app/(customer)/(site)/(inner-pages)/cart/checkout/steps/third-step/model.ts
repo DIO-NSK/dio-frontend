@@ -1,5 +1,5 @@
 import {api} from "@/api";
-import {CreateOrderData} from "@/schemas/customer/CreateOrderSchema";
+import {CreateOrderData} from "@/schemas/customer/checkout/CreateOrderSchema";
 import {createEffect, createEvent, sample} from "effector";
 import {pending} from "patronum";
 import {$checkoutSecondStepData} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/second-step/model";

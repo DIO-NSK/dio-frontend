@@ -1,5 +1,5 @@
 import {api} from "@/api";
-import {RegisterUserData} from "@/schemas/customer/RegisterUserSchema";
+import {RegisterUserData} from "@/schemas/customer/authorization/RegisterUserSchema";
 import {createEffect, createEvent, createStore} from "effector";
 
 const registerUser = async (request: RegisterUserData) => {

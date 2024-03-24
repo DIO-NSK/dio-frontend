@@ -1,4 +1,4 @@
-import {CreateOrderData} from "@/schemas/customer/CreateOrderSchema";
+import {CreateOrderData} from "@/schemas/customer/checkout/CreateOrderSchema";
 
 export const checkoutSecondStepData : CreateOrderData = {
     paymentMethod: "CASH",

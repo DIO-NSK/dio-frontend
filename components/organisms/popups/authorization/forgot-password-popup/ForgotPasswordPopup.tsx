@@ -4,7 +4,7 @@ import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import {PopupProps} from "@/types/props/Popup";
 import {Form, FormProvider, useForm} from "react-hook-form";
-import {LoginByPhoneData, LoginByPhoneSchema} from "@/schemas/customer/LoginByPhoneSchema";
+import {LoginByPhoneData, LoginByPhoneSchema} from "@/schemas/customer/authorization/LoginByPhoneSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 

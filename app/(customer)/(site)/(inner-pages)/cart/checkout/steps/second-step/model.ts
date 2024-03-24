@@ -1,8 +1,8 @@
-import { DeliveryDate } from "@/types/dto/user/order/DeliveryDate"
-import {api, getRequest} from "@/api";
+import {DeliveryDate} from "@/types/dto/user/order/DeliveryDate"
+import {getRequest} from "@/api";
 import {DeliveryTime} from "@/types/dto/user/order/DeliveryTime";
 import {createEffect, createEvent, createStore, sample} from "effector";
-import {CreateOrderData} from "@/schemas/customer/CreateOrderSchema";
+import {CreateOrderData} from "@/schemas/customer/checkout/CreateOrderSchema";
 import {checkoutSecondStepData} from "@/data/forms/checkoutSecondStepData";
 
 export type GetDeliveryTimeParams = {

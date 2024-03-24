@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from "@/components/atoms/form/Form";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
-import {CheckoutFormData, CheckoutFormSchema} from "@/schemas/customer/CheckoutFormSchema";
+import {CheckoutFormData, CheckoutFormSchema} from "@/schemas/customer/checkout/CheckoutFormSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {SelectItem} from "@/types/props/SelectItem";
 import FormStepper from "@/components/mobile/moleculas/form-stepper/FormStepper";

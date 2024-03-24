@@ -4,7 +4,7 @@ import MultiselectButton from "@/components/atoms/buttons/multiselect-button/Mul
 import Button from "@/components/atoms/buttons/button/Button";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
-import {RegisterUserData, RegisterUserSchema} from "@/schemas/customer/RegisterUserSchema";
+import {RegisterUserData, RegisterUserSchema} from "@/schemas/customer/authorization/RegisterUserSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";

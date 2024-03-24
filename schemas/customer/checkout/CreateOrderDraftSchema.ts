@@ -3,7 +3,6 @@ import {requiredFiledError} from "@/schemas";
 import {PhoneNumberSchema} from "@/schemas/dto/PhoneNumberSchema";
 
 export const CreateOrderDraftSchema = z.object({
-    userId: z.number(),
     firstName: z.string().min(1, requiredFiledError),
     surname: z.string().min(1, requiredFiledError),
     phoneNumber: PhoneNumberSchema,

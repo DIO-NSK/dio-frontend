@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useUnit} from "effector-react";
-import {$userId} from "@/components/organisms/popups/authorization/confirmation-code-popup/model";
 import {DefaultValues, FieldValues, FormProvider, useForm} from "react-hook-form";
-import {CreateOrderDraftData, CreateOrderDraftSchema} from "@/schemas/customer/CreateOrderDraftSchema";
+import {CreateOrderDraftData, CreateOrderDraftSchema} from "@/schemas/customer/checkout/CreateOrderDraftSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -13,11 +12,13 @@ import {FiPlus} from "react-icons/fi";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import {
     $checkoutFirstStepData,
-    createOrderDraftFx, setCheckoutFirstStepDataEvent
+    createOrderDraftFx,
+    setCheckoutFirstStepDataEvent
 } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/model";
 import {getDeliveryDateEvent} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/second-step/model";
 import {$activeStep, setActiveStepEvent} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/model";
 import {desktopCheckoutSteps} from "@/data/deskstopCheckoutSteps";
+import {$userCredentials} from "@/app/(customer)/model";
 
 const CheckoutUserDataBlock = () => {
 
@@ -123,7 +124,7 @@ const DesktopCheckoutFirstStep = () => {
 
     const [formData, setFormData] = useUnit([$checkoutFirstStepData, setCheckoutFirstStepDataEvent])
     const [activeStep, setActiveStep] = useUnit([$activeStep, setActiveStepEvent])
-    const [userId, createOrderDraft, getDeliveryDate] = useUnit([$userId, createOrderDraftFx, getDeliveryDateEvent])
+    const [userCredentials, createOrderDraft, getDeliveryDate] = useUnit([$userCredentials, createOrderDraftFx, getDeliveryDateEvent])
 
     const methods = useForm<CreateOrderDraftData>({
         resolver: zodResolver(CreateOrderDraftSchema),
@@ -143,8 +144,13 @@ const DesktopCheckoutFirstStep = () => {
     }
 
     useEffect(() => {
-        reset({...formData, userId: userId})
-    }, [formData, userId])
+        reset({
+            ...formData,
+            firstName: userCredentials?.fullName.split(" ")[0],
+            surname: userCredentials?.fullName.split(" ")[1],
+            phoneNumber: userCredentials?.phoneNumber
+        } as DefaultValues<CreateOrderDraftData>)
+    }, [formData, userCredentials])
 
     return (
         <FormProvider {...methods}>

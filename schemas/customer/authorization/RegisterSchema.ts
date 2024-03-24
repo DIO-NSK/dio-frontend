@@ -1,5 +1,5 @@
 import {z} from "zod"
-import {LoginUserSchema} from "@/schemas/customer/LoginUserSchema";
+import {LoginUserSchema} from "@/schemas/customer/authorization/LoginUserSchema";
 import {requiredFiledError} from "@/schemas";
 
 const NameSchema = z.object({

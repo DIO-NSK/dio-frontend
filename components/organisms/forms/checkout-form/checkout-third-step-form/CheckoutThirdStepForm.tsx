@@ -3,7 +3,7 @@ import {SelectItem} from "@/types/props/SelectItem";
 import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 import {RadioButtonItem} from "@/types/props/RadioButtonItem";
-import {CheckoutFormData, CheckoutPaymentType} from "@/schemas/customer/CheckoutFormSchema";
+import {CheckoutFormData, CheckoutPaymentType} from "@/schemas/customer/checkout/CheckoutFormSchema";
 import RadioGroup from "@/components/moleculas/radio-group/RadioGroup";
 import InputListWrapper from "@/components/wrappers/form/input-list-wrapper/InputListWrapper";
 import Button from "@/components/atoms/buttons/button/Button";

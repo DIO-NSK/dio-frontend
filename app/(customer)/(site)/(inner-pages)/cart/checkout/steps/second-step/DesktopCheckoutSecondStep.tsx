@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useUnit} from "effector-react";
 import {DefaultValues, FieldValues, FormProvider, useForm, useFormContext} from "react-hook-form";
-import {CreateOrderData, CreateOrderSchema} from "@/schemas/customer/CreateOrderSchema";
+import {CreateOrderData, CreateOrderSchema} from "@/schemas/customer/checkout/CreateOrderSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
 import Button from "@/components/atoms/buttons/button/Button";

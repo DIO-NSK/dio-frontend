@@ -1,4 +1,4 @@
-import {LoginByPhoneData} from "@/schemas/customer/LoginByPhoneSchema";
+import {LoginByPhoneData} from "@/schemas/customer/authorization/LoginByPhoneSchema";
 import {api} from "@/api";
 import {createEffect, createStore} from "effector";
 import {$userId} from "@/components/organisms/popups/authorization/confirmation-code-popup/model";

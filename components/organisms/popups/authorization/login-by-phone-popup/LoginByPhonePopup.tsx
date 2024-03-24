@@ -7,7 +7,7 @@ import {
     useLoginByPhonePopup
 } from "@/components/organisms/popups/authorization/login-by-phone-popup/LoginByPhonePopup.hooks";
 import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
-import {LoginByPhoneData, LoginByPhoneSchema} from "@/schemas/customer/LoginByPhoneSchema";
+import {LoginByPhoneData, LoginByPhoneSchema} from "@/schemas/customer/authorization/LoginByPhoneSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import Text from "@/components/atoms/text/text-base/Text";

@@ -1,6 +1,9 @@
 import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
-import {$userId} from "@/components/organisms/popups/authorization/confirmation-code-popup/model";
+import {
+    $userId,
+    sendConfirmationCodeFx
+} from "@/components/organisms/popups/authorization/confirmation-code-popup/model";
 import {loginUserByCredentialsFx} from "@/components/organisms/popups/authorization/login-popup/model";
 import {loginByPhoneFx} from "@/components/organisms/popups/authorization/login-by-phone-popup/model";
 import {registerUserFx} from "@/components/organisms/popups/authorization/signup-popup/model";
@@ -26,7 +29,7 @@ $userCredentials.on(getUserCredentialsFx.doneData, (_, data) => data)
 
 sample({
     clock: [
-        getUserCredentialsEvent, updateUserSettingsFx.doneData,
+        getUserCredentialsEvent, updateUserSettingsFx.doneData, sendConfirmationCodeFx.doneData,
         loginUserByCredentialsFx.doneData, loginByPhoneFx.doneData, registerUserFx.doneData
     ],
     source: $userId,

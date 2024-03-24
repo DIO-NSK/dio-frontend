@@ -1,5 +1,5 @@
 import {api} from "@/api";
-import {LoginUserData} from "@/schemas/customer/LoginUserSchema";
+import {LoginUserData} from "@/schemas/customer/authorization/LoginUserSchema";
 import {createEffect, createStore} from "effector";
 
 const loginUserByCredentials = async (formData : LoginUserData) => {
