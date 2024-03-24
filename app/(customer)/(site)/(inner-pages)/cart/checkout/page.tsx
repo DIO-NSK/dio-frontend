@@ -2,9 +2,7 @@
 
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import ShoppingCartTotalPriceCard
-    from "@/components/organisms/cards/shopping-cart-total-price-card/ShoppingCartTotalPriceCard";
-import React, {useEffect} from "react";
+import React from "react";
 import DesktopCheckoutFirstStep
     from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/DesktopCheckoutFirstStep";
 import DesktopCheckoutSecondStep
@@ -15,7 +13,7 @@ import {$activeStep, setActiveStepEvent} from "@/app/(customer)/(site)/(inner-pa
 import {desktopCheckoutSteps} from "@/data/deskstopCheckoutSteps";
 import DesktopCheckoutThirdStep
     from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/third-step/DesktopCheckoutThirdStep";
-import {$cart, getCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import CheckoutCard from "@/components/organisms/cards/checkout-card/CheckoutCard";
 
 const CheckoutSteps = () => {
@@ -35,12 +33,8 @@ const CheckoutSteps = () => {
 
 const CheckoutPage = () => {
 
-    const [cart, getCart] = useUnit([$cart, getCartEvent])
+    const cart = useUnit($cart)
     const [activeStep, setActiveStep] = useUnit([$activeStep, setActiveStepEvent])
-
-    useEffect(() => {
-        if (!cart) getCart()
-    }, [])
 
     if (cart) return (
         <InnerPageWrapper classNames={{desktopWrapper: "grid grid-cols-12 gap-7"}}>

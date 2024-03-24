@@ -7,7 +7,7 @@ import {useStore} from "@/store/Store";
 import {useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
 import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
-import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {$cart, getCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import Badge from "@/components/atoms/badge/Badge";
 
 const SearchbarIconButtonList = () => {
@@ -15,8 +15,8 @@ const SearchbarIconButtonList = () => {
     const router = useRouter()
     const switchPopupState = useStore(state => state.switchPopupState)
 
-    const [cart, userCredentials, getUserCredentials]
-        = useUnit([$cart, $userCredentials, getUserCredentialsEvent])
+    const [cart, getCart, userCredentials, getUserCredentials]
+        = useUnit([$cart, getCartEvent, $userCredentials, getUserCredentialsEvent])
 
     const buttonListData = [
         {
@@ -50,6 +50,7 @@ const SearchbarIconButtonList = () => {
     ]
 
     useEffect(() => {
+        if (!cart) getCart()
         getUserCredentials()
     }, [])
 

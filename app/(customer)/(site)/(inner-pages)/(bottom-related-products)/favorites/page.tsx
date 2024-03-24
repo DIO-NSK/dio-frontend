@@ -16,7 +16,6 @@ import {
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {addAllToCartEvent} from "@/components/organisms/cards/product-price-card/model";
-import {getCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 const FavoritesHeaderRow = ({selectedCards}: { selectedCards: any[] }) => {
 
@@ -55,8 +54,8 @@ const FavoritesHeaderRow = ({selectedCards}: { selectedCards: any[] }) => {
 
 const FavoritesPage = () => {
 
-    const [favourites, getFavourites, getCart, addAllToCart]
-        = useUnit([$favourites, getFavouritesEvent, getCartEvent, addAllToCartEvent])
+    const [favourites, getFavourites, addAllToCart]
+        = useUnit([$favourites, getFavouritesEvent, addAllToCartEvent])
 
     const infoBlockData: InfoBlockElement[] = [
         {
@@ -78,7 +77,6 @@ const FavoritesPage = () => {
     }
 
     useEffect(() => {
-        getCart()
         getFavourites()
     }, [])
 

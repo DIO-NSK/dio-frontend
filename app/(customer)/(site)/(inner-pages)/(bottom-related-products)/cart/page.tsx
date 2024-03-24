@@ -3,27 +3,23 @@
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
 import ShoppingCartTotalPriceCard
     from "@/components/organisms/cards/shopping-cart-total-price-card/ShoppingCartTotalPriceCard";
-import React, {useEffect} from "react";
+import React from "react";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
 import {usePathname, useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
-import {$cart, getCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 const ShoppingCartPage = () => {
 
     const router = useRouter()
     const pathname = usePathname()
 
-    const [cart, getCart] = useUnit([$cart, getCartEvent])
+    const cart = useUnit($cart)
 
     const handleSubmit = () => router.push("/mobile/checkout/step-1")
     const handleButtonClick = () => router.push(pathname.concat('/checkout'))
-
-    useEffect(() => {
-        getCart()
-    }, [getCart])
 
     if (cart) return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>

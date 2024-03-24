@@ -8,7 +8,8 @@ import SelectInputItem from "@/components/atoms/inputs/select-input/select-input
 
 type DropdownInputProps<T> = {
     items: SelectItem<T>[],
-    onSelect: (selectedItem: SelectItem<T>) => void
+    onSelect: (selectedItem: SelectItem<T>) => void,
+    size ?: "sm" | "md",
     selectedItem: SelectItem<T>,
     labelText?: string,
     className?: string,
@@ -17,7 +18,7 @@ type DropdownInputProps<T> = {
     error ?: string
 }
 
-const SelectInput = <T,>({width = "w-full", ...props}: DropdownInputProps<T>) => {
+const SelectInput = <T,>({width = "w-full", size = "md", ...props}: DropdownInputProps<T>) => {
 
     const [isExpanded, setExpanded] = useState(false)
 
@@ -25,6 +26,7 @@ const SelectInput = <T,>({width = "w-full", ...props}: DropdownInputProps<T>) =>
         "w-full sm:p-[20px] px-5 py-4 flex flex-row items-center",
         "justify-between rounded-xl bg-bg-light-blue",
         "border-2 border-light-gray",
+        {"sm:px-4 sm:py-3" : size === "sm"},
         props.className
     ]
 

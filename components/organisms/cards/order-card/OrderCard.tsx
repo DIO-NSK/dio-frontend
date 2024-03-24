@@ -10,7 +10,6 @@ import {FiRefreshCw} from "react-icons/fi";
 import Button from "@/components/atoms/buttons/button/Button";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
-import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import {ResponseProfileOrder} from "@/types/dto/user/order/ResponseProfileOrder";
 
 const HeaderRow = ({order}: { order: ResponseProfileOrder }) => {
@@ -102,21 +101,14 @@ const Footer = ({canRepeat, isOpen, setOpen}: {
                 placement={"right"}
             />
             {
-                canRepeat && <React.Fragment>
-                    <Button
-                        classNames={{button: "hidden sm:flex"}}
-                        text={"Повторить заказ"}
-                        icon={<FiRefreshCw size={"18px"}/>}
-                        buttonType={"SECONDARY"}
-                        onClick={handleRepeatOrder}
-                        size={"sm"}
-                    />
-                    <TextButton
-                        onClick={handleRepeatOrder}
-                        text={"Повторить заказ"}
-                        className={"sm:hidden"}
-                    />
-                </React.Fragment>
+                canRepeat && <Button
+                    classNames={{button: "p-0 bg-0 sm:py-3 sm:px-4 sm:bg-light-gray"}}
+                    text={"Повторить заказ"}
+                    onClick={handleRepeatOrder}
+                    icon={<FiRefreshCw size={"18px"} className={"hidden sm:flex"}/>}
+                    buttonType={"SECONDARY"}
+                    size={"sm"}
+                />
             }
         </div>
     )

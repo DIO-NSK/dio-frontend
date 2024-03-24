@@ -29,13 +29,12 @@ const CatalogScreen = ({params}: {
         {text: "Кулеры", link: "/catalog/coolers"},
     ]
 
-    const [categories, getCategories, getCart, getFavourites]
+    const [categories, getCategories, getFavourites]
         = useUnit([$categories, getCategoryByNameEvent, getCartEvent, getFavouritesEvent])
 
     const {...context} = useCatalogPage()
 
     useEffect(() => {
-        getCart()
         getFavourites()
         getCategories(params.categoryId)
     }, [])
