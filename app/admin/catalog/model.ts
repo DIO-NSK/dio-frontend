@@ -1,5 +1,5 @@
 import {attach, createEffect, createEvent, createStore, sample} from "effector";
-import {api} from "@/api";
+import {unauthorizedApi} from "@/api";
 import {Section} from "@/types/dto/Section";
 import {CreateSectionData} from "@/schemas/admin/CreateSectionSchema";
 import {TableRow} from "@/types/dto/Table";
@@ -27,12 +27,12 @@ export const onChangeNameToSearch = createEvent<string>()
 export const $nameToSearch = createStore<string>("")
 
 const createSection = async (sections: Section[]) => {
-    return api.post('/admin/catalogue', sections)
+    return unauthorizedApi.post('/admin/catalogue', sections)
         .then(response => response.data)
 }
 
 const getSections = async () => {
-    return api.get('/admin/catalogue')
+    return unauthorizedApi.get('/admin/catalogue')
         .then(response => response.data)
         .catch(exception => exception)
 }

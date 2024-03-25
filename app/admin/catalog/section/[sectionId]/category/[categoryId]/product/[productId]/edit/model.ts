@@ -1,4 +1,4 @@
-import {api, getRequest} from "@/api";
+import {unauthorizedApi} from "@/api";
 import {ResponseAdminProduct} from "@/types/dto/admin/product/ResponseAdminProduct";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {CreateProductData} from "@/schemas/admin/CreateProductSchema";
@@ -9,7 +9,9 @@ type EditProductParams = {
 }
 
 const getProduct = async (productId: number): Promise<ResponseAdminProduct> => {
-    return getRequest("/admin/catalogue/product", {params: {productId: productId}})
+    return unauthorizedApi.get("/admin/catalogue/product", {params: {productId: productId}})
+        .then(response => response.data)
+        .catch(error => {throw Error(error.response.data.message)})
 }
 
 const editProduct = async (reqParams : EditProductParams) => {
@@ -20,7 +22,7 @@ const editProduct = async (reqParams : EditProductParams) => {
     product.photos.map(photo => formData.append("images", photo))
     formData.append("product", new Blob([JSON.stringify(product)], {type: "application/json"}))
 
-    return api.put("/admin/catalogue/product", formData, {
+    return unauthorizedApi.put("/admin/catalogue/product", formData, {
         params: {productId: productId},
         headers: {"Content-type": "multipart/form-data"}
     })

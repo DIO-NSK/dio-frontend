@@ -1,10 +1,9 @@
-import {api} from "@/api";
+import {unauthorizedApi} from "@/api";
 import {CategoryPropertyData, CreateProductData} from "@/schemas/admin/CreateProductSchema";
 import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {Category} from "@/types/dto/Category";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
-import {ResponseAdminProduct} from "@/types/dto/admin/product/ResponseAdminProduct";
 
 type CreateProductParams = {
     categoryId: number,
@@ -27,7 +26,7 @@ const createProduct = async ({categoryId, productData, productDetails}: CreatePr
     photos.map(photo => formData.append("images", photo))
     formData.append("product", new Blob([JSON.stringify(product)], {type: "application/json"}))
 
-    return api.post("/admin/catalogue/product", formData, {
+    return unauthorizedApi.post("/admin/catalogue/product", formData, {
         params: {categoryId: categoryId},
         headers: {"Content-type": "multipart/form-data"}
     })
@@ -39,7 +38,7 @@ const createProduct = async ({categoryId, productData, productDetails}: CreatePr
 }
 
 const getCategoryProperties = async (categoryId: number): Promise<Category> => {
-    return api.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
+    return unauthorizedApi.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)
@@ -47,7 +46,7 @@ const getCategoryProperties = async (categoryId: number): Promise<Category> => {
 }
 
 const getProductDetailsFromCRM = async (params: GetProductDetailsParams) => {
-    return api.get("/admin/catalogue/product/crm", {params: {crmCode: params.crmCode, crmGroup: params.crmGroup}})
+    return unauthorizedApi.get("/admin/catalogue/product/crm", {params: {crmCode: params.crmCode, crmGroup: params.crmGroup}})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
@@ -59,7 +58,7 @@ export const $productDetails = createStore<RequestAdminProduct | null>(null)
 const getCategoryPropertiesFx = createEffect<number, Category, Error>(getCategoryProperties)
 export const getCategoryPropertiesEvent = createEvent<number>()
 export const $categoryProperties = createStore<CategoryPropertyData[]>([])
-export const $inputPrefilledData = createStore<InputPrefilledData[]>([])
+export const $inputPrefilledData = createStore<Omit<InputPrefilledData, "name">[]>([])
 
 export const createProductFx = createEffect<CreateProductParams, any, Error>(createProduct)
 export const $createProductError = createStore<string>("")
@@ -79,7 +78,7 @@ sample({
     target: getCategoryPropertiesFx
 })
 
-function convertCategoryToInputData(category: Category): InputPrefilledData[] {
+function convertCategoryToInputData(category: Category): Omit<InputPrefilledData, "name">[] {
     return category.properties.map(prop => ({
         labelText : prop.name,
         placeholder : `Введите ${prop.name.toLowerCase()}`,

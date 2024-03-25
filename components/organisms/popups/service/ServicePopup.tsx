@@ -70,7 +70,7 @@ const ServicePopup = () => {
                     <ControlledTextArea
                         labelText={"Комментарий"}
                         placeholder={"Введите здесь"}
-                        name={"comment"}
+                        name={"message"}
                     />
                     <ControlledSelectInput
                         items={serviceTypes}

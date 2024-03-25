@@ -1,5 +1,5 @@
 import {Category} from "@/types/dto/Category";
-import {api} from "@/api";
+import {unauthorizedApi} from "@/api";
 import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {TableRow} from "@/types/dto/Table";
@@ -16,19 +16,19 @@ const createCategory = async (request: { data: CreateCategoryData, sequenceNumbe
     } as Category
 
     const params = {params: {sectionId: request.id}}
-    return api.post("/admin/catalogue/category", mappedData, params)
+    return unauthorizedApi.post("/admin/catalogue/category", mappedData, params)
         .then(response => response.data)
 }
 
 const getCategoryList = async (sectionId: number) => {
     const params = {params: {sectionId: sectionId}}
-    return api.get("/admin/catalogue/category/search", params)
+    return unauthorizedApi.get("/admin/catalogue/category/search", params)
         .then(response => response.data)
 }
 
 const updateCategory = async (request: { categories: Category[], sectionId: number }) => {
     const params = {params: {sectionId: request.sectionId}}
-    return api.post("/admin/catalogue/category/v2", request.categories, params)
+    return unauthorizedApi.post("/admin/catalogue/category/v2", request.categories, params)
         .then(response => response.data)
 }
 

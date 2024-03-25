@@ -1,14 +1,17 @@
-import {api, getRequest} from "@/api";
+import {unauthorizedApi} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {ResponseCallRequest} from "@/types/dto/admin/call-request/ResponseCallRequest";
 import {CallRequestTableRow} from "@/types/dto/Table";
+import {convertTableRowsToSelectedItems} from "@/utlis/convertTableRowsToSelectedItems";
 
 export type CallRequestStatus = "CURRENT" | "ARCHIVE"
 
 //region getCallRequests
 
 const getCallRequestByStatus = async (status: CallRequestStatus) => {
-    return getRequest("/admin/call/request/by-status", {params: {nameStatus: status}})
+    return unauthorizedApi.get("/admin/call/request/by-status", {params: {nameStatus: status}})
+        .then(response => response.data)
+        .catch(error => {throw Error(error.response.data.message)})
 }
 
 const getCallRequestByStatusFx =
@@ -46,7 +49,7 @@ function convertCallRequestsToTableRows(callRequests: ResponseCallRequest[]): Ca
 
 const updateCallRequest = async ({ids, status}: { ids: number[], status: CallRequestStatus }) => {
     return Promise.all(
-        ids.map(id => api.put("/call/request/update", null, {params: {id: id, nameStatus: status}})
+        ids.map(id => unauthorizedApi.put("/call/request/update", null, {params: {id: id, nameStatus: status}})
             .then(response => response.data)
             .catch(error => {throw Error(error.response.data.message)}))
     )
@@ -91,7 +94,3 @@ sample({
     source: $callRequestStatus,
     target: getCallRequestByStatusFx
 })
-
-function convertTableRowsToSelectedItems(tableRows: CallRequestTableRow[]): number[] {
-    return tableRows.map(tableRow => tableRow.id)
-}

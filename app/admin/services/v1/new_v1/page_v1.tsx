@@ -2,7 +2,7 @@
 
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import AdminPanelBlockWrapper from "@/components/wrappers/admin-panel-block-wrapper/AdminPanelBlockWrapper";
-import {useAdminPanelNewServicePage} from "@/app/admin/services/new/page.hooks";
+import {useAdminPanelNewServicePage} from "@/app/admin/services/v1/new_v1/page.hooks";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import {useVariableItemRow} from "@/utlis/hooks/useVariableItemRow";

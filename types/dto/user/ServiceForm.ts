@@ -1,6 +1,6 @@
 export type ServiceForm = {
     name: string,
     phoneNumber: string,
-    message: string,
+    message ?: string,
     nameServiceType: string
 }

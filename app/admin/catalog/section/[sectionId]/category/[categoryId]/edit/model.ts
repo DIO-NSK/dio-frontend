@@ -3,11 +3,11 @@ import {createEffect, createEvent, createStore, sample} from "effector";
 import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
 import {combineEvents} from "patronum";
 import {CharacteristicType} from "@/types/dto/Characteristic";
-import {api} from "@/api";
+import {unauthorizedApi} from "@/api";
 import {convertInputTypeToText} from "@/utlis/convertInputTypeToText";
 
 const getCategory = async (categoryId: number) : Promise<Category> => {
-    return api.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
+    return unauthorizedApi.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
