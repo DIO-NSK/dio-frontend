@@ -30,14 +30,14 @@ const ShoppingCartPage = () => {
 
     if (cart) return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
-            <HeaderRow header={"Корзина"} leftContent={`Всего ${cart.responseCart.products.length}`}/>
+            <HeaderRow header={"Корзина"} leftContent={`Всего ${cart.products.length}`}/>
             <section className={"flex flex-col gap-3 sm:col-span-9 sm:-pt-5 sm:gap-7"}>
-                {cart.responseCart.products.map((product, productIndex) =>
+                {cart.products.map((product, productIndex) =>
                     <ShoppingCartProductCard card={product} key={productIndex}/>
                 )}
             </section>
             <ShoppingCartTotalPriceCard
-                products={cart.responseCart.products}
+                products={cart.products}
                 buttonText={"Перейти к оформлению"}
                 onClick={handleButtonClick}
             />

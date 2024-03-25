@@ -22,15 +22,15 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
 
     const removeProductFromCart = useUnit(removeProductFromCartEvent)
 
-    const [isLiked, toggleLike] = useLike(card.id)
-    const [amount, increase, decrease] = useCounter(card.id, card.quantity)
+    const [isLiked, toggleLike] = useLike(card.productId)
+    const [amount, increase, decrease] = useCounter(card.productId, card.quantity)
 
     const discountPrice = 0.01 * card.discountPercent * card.price
     const newPrice = discountPrice === 0 ? card.price : card.price - discountPrice
 
     const trashCV: ClassValue = "hoverable pointer text-info-red hover:text-red-700"
 
-    const handleDeleteProduct = () => removeProductFromCart(card.id)
+    const handleDeleteProduct = () => removeProductFromCart(card.productId)
 
     return (
         <div className={"hidden w-full sm:flex flex-row items-center justify-between"}>

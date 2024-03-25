@@ -41,9 +41,8 @@ const SearchbarIconButtonList = () => {
             icon: <div className={"relative"}>
                 <FiShoppingCart size={"20px"}/>
                 {
-                    cart && cart.responseCart.products.length !== 0
-                    && <Badge
-                        number={cart.responseCart.products.reduce((acc, item) => acc + item.quantity, 0)}
+                    cart && cart.products.length !== 0 && <Badge
+                        number={cart.products.reduce((acc, item) => acc + item.quantity, 0)}
                         className={"absolute bottom-2 left-4 z-10"}
                     />
                 }

@@ -25,13 +25,13 @@ import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
 
-const MobileHeaderRow = ({product} : {product : ResponseProduct}) => {
+const MobileHeaderRow = ({product}: { product: ResponseProduct }) => {
 
     const discountPrice = product?.price - product?.price * 0.01 * product?.discountPercent
     const newPrice = product.discountPercent === 0 ? product.price : discountPrice
 
     const [isLiked, toggleLike] = useLike(product.id)
-    const [isInCart, onBuyClick] = useBuyButton(product.name, product.id)
+    const [isInCart, onBuyClick] = useBuyButton(product.inCart, product.id)
 
     return (
         <div className={"sm:hidden flex flex-col gap-1 px-5"}>
@@ -61,8 +61,7 @@ const MobileHeaderRow = ({product} : {product : ResponseProduct}) => {
 
 const ProductCardPage = ({params}: { params: { productId: number } }) => {
 
-    const [product, getProduct]
-        = useUnit([$product, getProductEvent])
+    const [product, getProduct] = useUnit([$product, getProductEvent])
 
     const popupToggle = useToggle()
 

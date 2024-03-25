@@ -3,7 +3,8 @@ import {createEffect, createEvent, createStore, sample} from "effector";
 import {debounce} from "patronum";
 
 export type ResponseCartItem = {
-    id: number,
+    productId : number,
+    productItemId: number,
     name: string,
     price: number,
     quantity: number,
@@ -13,15 +14,12 @@ export type ResponseCartItem = {
 }
 
 export type ResponseUserCart = {
-    sessionId: string,
-    responseCart: {
-        products: ResponseCartItem[],
-        promos: ResponseCartItem[]
-    }
+    products: ResponseCartItem[],
+    promos: ResponseCartItem[]
 }
 
 export type RequestEditProductParams = {
-    productItemId : number,
+    productId : number,
     quantityProduct : number
 }
 

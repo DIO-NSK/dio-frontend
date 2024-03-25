@@ -13,7 +13,7 @@ import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
 const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
 
     const [isLiked, toggleLike] = useLike(product.id)
-    const [isInCart, onBuyClick] = useBuyButton(product.name, product.id)
+    const [isInCart, onBuyClick] = useBuyButton(product.inCart, product.id)
 
     const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
 

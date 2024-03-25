@@ -46,9 +46,9 @@ const CheckoutCard = ({cart} : {cart : ResponseUserCart}) => {
 
     const expanded = useToggle(true)
 
-    const totalDiscount = cart?.responseCart.products
+    const totalDiscount = cart?.products
         .reduce((acc, item) => acc + 0.01 * item.price * item.discountPercent * item.quantity, 0)
-    const totalPriceWithoutDiscount = cart?.responseCart.products
+    const totalPriceWithoutDiscount = cart?.products
         .reduce((acc, item) => acc + item.price * item.quantity, 0)
 
     const totalData: HeaderDescription[] = [
@@ -59,13 +59,13 @@ const CheckoutCard = ({cart} : {cart : ResponseUserCart}) => {
     return (
         <StickyCardWrapper startCol={"col-start-10"}>
             <div className={"pb-5 flex flex-row items-center justify-between border-b-2 border-light-gray"}>
-                <Text text={`Выбрано ${cart.responseCart.products.length} шт.`}/>
+                <Text text={`Выбрано ${cart.products.length} шт.`}/>
                 <ChevronButton isExpanded={expanded.state} setExpanded={expanded.toggleState}/>
             </div>
             {
                 expanded.state && <section className={"flex -mt-5 flex-col gap-4 divide-y divide-light-gray"}>
                     {
-                        cart.responseCart.products.map((productItem, key) => (
+                        cart.products.map((productItem, key) => (
                             <CheckoutCardItem productItem={productItem} key={key}/>
                         ))
                     }

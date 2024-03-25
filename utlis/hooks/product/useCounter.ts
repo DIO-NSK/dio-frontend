@@ -16,7 +16,7 @@ export const useCounter = (productId: number, initAmount: number) => {
 
     useEffect(() => {
         if (amount !== initAmount) {
-            changeAmount({productItemId: productId, quantityProduct: amount})
+            changeAmount({productId: productId, quantityProduct: amount})
         }
     }, [amount])
 

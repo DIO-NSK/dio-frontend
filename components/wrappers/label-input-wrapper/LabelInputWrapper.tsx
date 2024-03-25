@@ -7,12 +7,15 @@ type LabelRowType = {
     children : React.ReactNode
 }
 
-type LabelInputWrapperType = LabelRowType
+type LabelInputWrapperType = LabelRowType & {isDirty ?: boolean}
 
-const LabelRow = ({header, isExpanded, setExpanded}: { header : string } & ChevronButtonType) => {
+const LabelRow = ({header, isExpanded, setExpanded, isDirty}: { header : string, isDirty ?: boolean } & ChevronButtonType) => {
     return (
         <div className={"w-full flex flex-row justify-between items-center"}>
-            <Text text={header}/>
+            <div className={"flex flex-row items-center gap-3"}>
+                <Text text={header}/>
+                {isDirty && <div className={"w-[6px] h-[6px] rounded-full bg-link-blue"}/>}
+            </div>
             <ChevronButton
                 isExpanded={isExpanded}
                 setExpanded={setExpanded}
@@ -28,6 +31,7 @@ const LabelInputWrapper = (props: LabelInputWrapperType) => {
     return (
         <div className={"w-full flex flex-col gap-[20px] pb-7 border-b-2 border-light-gray"}>
             <LabelInputWrapper.LabelRow
+                isDirty={props.isDirty}
                 header={props.header}
                 isExpanded={isExpanded}
                 setExpanded={(isExpanded : boolean) => setExpanded(isExpanded)}

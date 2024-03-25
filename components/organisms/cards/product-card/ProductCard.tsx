@@ -25,7 +25,7 @@ const ProductCard = ({productCard, classNames}: {
     const router = useRouter()
 
     const [isLiked, toggleLike] = useLike(productCard.id)
-    const [isInCart, onBuyClick] = useBuyButton(productCard.name, productCard.id)
+    const [isInCart, onBuyClick] = useBuyButton(productCard.inCart, productCard.id)
 
     const buttonText = isInCart ? "В корзине" : "В корзину"
     const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
