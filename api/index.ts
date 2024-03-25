@@ -28,7 +28,5 @@ api.interceptors.response.use(config => config, async (error) => {
 export const getRequest = async (...args: any[]): Promise<any> => {
     return api.get(args[0], args[1])
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
+        .catch(error => {throw Error(error.response.data.message)})
 }
