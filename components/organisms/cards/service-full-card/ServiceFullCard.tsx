@@ -1,13 +1,31 @@
-import style from "./ServiceFullCard.module.css"
-
 import ServiceCardWrapper from "@/components/wrappers/service-card-wrapper/ServiceCardWrapper";
 import SCContentCol from "@/components/organisms/cards/service-full-card/sc-content-col/SCContentCol";
-import SCHeaderDescrCol from "@/components/organisms/cards/service-full-card/sc-header-descr-col/SCHeaderDescrCol";
 import SCPriceCard from "@/components/organisms/cards/service-full-card/sc-price-card/SCPriceCard";
 import {useState} from "react";
 import MoreButton from "@/components/atoms/buttons/more-button/MoreButton";
 import {ServiceCardDTO} from "@/types/cards";
 import {useRouter} from "next/navigation";
+import {cn} from "@/utlis/cn";
+import Text from "@/components/atoms/text/text-base/Text";
+
+const HeaderDescriptionColumn = ({header, descr}: {
+    header: string,
+    descr: string,
+}) => {
+
+    const wrapperCV = [
+        "w-full flex flex-col gap-3 sm:gap-4 pb-5",
+        "border-b-2 border-light-gray"
+    ]
+
+    return (
+        <div className={cn(wrapperCV)}>
+            <Text text={header} className={"text-[18px] sm:text-[20px] font-semibold"}/>
+            <Text text={descr}/>
+        </div>
+    )
+
+}
 
 const ServiceFullCard = ({card} : {
     card : ServiceCardDTO
@@ -19,23 +37,20 @@ const ServiceFullCard = ({card} : {
     return (
         <ServiceCardWrapper>
 
-            <div className={"w-full sm:col-span-9 flex flex-col gap-5"}>
-                <SCHeaderDescrCol header={card.header} descr={card.descr} />
-
+            <section className={"w-full sm:col-span-9 flex flex-col gap-5"}>
+                <HeaderDescriptionColumn {...card} />
                 {
                     isExpanded && <SCContentCol
                         rentTime={card.rentTime}
                         additional={card.additional}
                     />
                 }
-
                 <MoreButton
                     text={"Подробнее"}
                     isExpanded={isExpanded}
                     setExpanded={(isExpanded : boolean) => setExpanded(isExpanded)}
                 />
-
-            </div>
+            </section>
 
             <SCPriceCard
                 text={"К услуге"} price={card.price}

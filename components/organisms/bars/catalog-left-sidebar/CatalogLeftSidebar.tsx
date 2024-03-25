@@ -109,6 +109,10 @@ const CatalogLeftSidebar = ({categoryId}: { categoryId: number }) => {
             .then((filters: FilterItem[]) => changeCategoryFilters(initFilters(filters)))
     }, [])
 
+    useEffect(() => {
+
+    }, [sendFilters])
+
     if (categoryFilters) return (
         <div className={"hidden col-span-3 sm:flex flex-col gap-[30px]"}>
             <div className={`flex flex-col gap-7 sticky top-[0px]`}>

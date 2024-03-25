@@ -1,6 +1,7 @@
 import {api} from "@/api";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {createEffect, createEvent, createStore, sample} from "effector";
+import {sendFiltersFx} from "@/components/organisms/bars/catalog-left-sidebar/model";
 
 const getCategoryByName = async (categoryId : number) : Promise<ResponseProductSearch[]> => {
     return api.get("/catalogue/category", {params : {categoryId : categoryId}})
@@ -10,8 +11,10 @@ const getCategoryByName = async (categoryId : number) : Promise<ResponseProductS
 
 const getCategoryByNameFx = createEffect<number, ResponseProductSearch[], Error>(getCategoryByName)
 export const getCategoryByNameEvent = createEvent<number>()
-export const $categories = createStore<ResponseProductSearch[]>([])
-$categories.on(getCategoryByNameFx.doneData, (_, categories) => categories)
+export const $products = createStore<ResponseProductSearch[]>([])
+$products
+    .on(getCategoryByNameFx.doneData, (_, products) => products)
+    .on(sendFiltersFx.doneData, (_, products) => products)
 
 sample({
     clock : getCategoryByNameEvent,

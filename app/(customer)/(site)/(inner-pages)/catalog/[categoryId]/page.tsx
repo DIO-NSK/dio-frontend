@@ -6,7 +6,7 @@ import {useCatalogPage} from "@/app/(customer)/(site)/(inner-pages)/catalog/[cat
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiSliders} from "react-icons/fi";
 import {useUnit} from "effector-react";
-import {$categories, getCategoryByNameEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
+import {$products, getCategoryByNameEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
 import React, {useEffect} from "react";
 import CatalogHeaderCol from "@/components/moleculas/cols/catalog-header-col/CatalogHeaderCol";
 import {mockCardArray} from "@/data/productCardData";
@@ -29,8 +29,8 @@ const CatalogScreen = ({params}: {
         {text: "Кулеры", link: "/catalog/coolers"},
     ]
 
-    const [cart, categories, getCategories, getFavourites]
-        = useUnit([$cart, $categories, getCategoryByNameEvent, getFavouritesEvent])
+    const [cart, products, getCategories, getFavourites]
+        = useUnit([$cart, $products, getCategoryByNameEvent, getFavouritesEvent])
 
     const {...context} = useCatalogPage()
 
@@ -64,9 +64,8 @@ const CatalogScreen = ({params}: {
                             selectedItem={context.selectInput.selectedItem}
                         />
                     </div>
-
                     <PageContentWrapper>
-                        {cart && categories.map((card) => {
+                        {cart && products.map((card) => {
                             return <ProductCard
                                 classNames={{mainWrapper: "w-full", textWrapper: "min-h-0"}}
                                 productCard={card}

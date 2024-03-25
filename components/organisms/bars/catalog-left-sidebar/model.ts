@@ -11,11 +11,9 @@ type RequestFilterParams = {
         size: number,
         sort: string
     },
-    categoryFilterDto: {
-        filterMap: Record<string, string>,
-        categoryId: number,
-        priceRange: string
-    }
+    filterMap: Record<string, string>,
+    categoryId: number,
+    priceRange: string
 }
 
 type FilterMapItem = {
@@ -40,7 +38,7 @@ const sendFilters = async (params: RequestFilterParams) => {
         .catch(error => {throw Error(error.response.data.message)})
 }
 
-const sendFiltersFx = createEffect(sendFilters)
+export const sendFiltersFx = createEffect(sendFilters)
 export const sendFiltersEvent = createEvent<CatalogueFilterParams>()
 export const $filters = createStore<FilterItem[]>([])
 
@@ -84,11 +82,9 @@ const convertCatalogueFiltersToParams = (params: CatalogueFilterParams): Request
     }
 
     return {
-        categoryFilterDto: {
-            filterMap: filterMap,
-            categoryId: categoryId,
-            priceRange: priceRange
-        }
+        filterMap: filterMap,
+        categoryId: +categoryId,
+        priceRange: priceRange
     } as RequestFilterParams
 
 }
