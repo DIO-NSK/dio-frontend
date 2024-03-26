@@ -4,6 +4,7 @@ export type ResponseProduct = {
     id: number,
     name: string,
     description: string,
+    inFavourites : boolean,
     inCart : boolean,
     properties: ProductCharacteristic[],
     extraProperties: ProductCharacteristic[],

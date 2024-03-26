@@ -24,7 +24,7 @@ const ProductCard = ({productCard, classNames}: {
 
     const router = useRouter()
 
-    const [isLiked, toggleLike] = useLike(productCard.id)
+    const [isLiked, toggleLike] = useLike(productCard.inFavourites, productCard.id)
     const [isInCart, onBuyClick] = useBuyButton(productCard.inCart, productCard.id)
 
     const buttonText = isInCart ? "В корзине" : "В корзину"

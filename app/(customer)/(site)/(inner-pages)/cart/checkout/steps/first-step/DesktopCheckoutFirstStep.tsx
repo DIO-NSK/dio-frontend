@@ -11,6 +11,7 @@ import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapp
 import {FiPlus} from "react-icons/fi";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import {
+    $activeUserAddress,
     $checkoutFirstStepData,
     createOrderDraftFx,
     setCheckoutFirstStepDataEvent
@@ -122,6 +123,7 @@ const CheckoutDeliveryAddressBlock = () => {
 
 const DesktopCheckoutFirstStep = () => {
 
+    const pickedUserAddress = useUnit($activeUserAddress)
     const [formData, setFormData] = useUnit([$checkoutFirstStepData, setCheckoutFirstStepDataEvent])
     const [activeStep, setActiveStep] = useUnit([$activeStep, setActiveStepEvent])
     const [userCredentials, createOrderDraft, getDeliveryDate] = useUnit([$userCredentials, createOrderDraftFx, getDeliveryDateEvent])
@@ -146,11 +148,12 @@ const DesktopCheckoutFirstStep = () => {
     useEffect(() => {
         reset({
             ...formData,
+            ...pickedUserAddress?.value,
             firstName: userCredentials?.fullName.split(" ")[0],
             surname: userCredentials?.fullName.split(" ")[1],
             phoneNumber: userCredentials?.phoneNumber
         } as DefaultValues<CreateOrderDraftData>)
-    }, [formData, userCredentials])
+    }, [formData, userCredentials, pickedUserAddress])
 
     return (
         <FormProvider {...methods}>

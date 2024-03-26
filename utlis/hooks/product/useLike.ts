@@ -1,19 +1,12 @@
 import {useState} from "react";
 import {useUnit} from "effector-react";
 import {addToFavouritesEvent, removeFromFavouritesEvent} from "@/components/organisms/cards/product-price-card/model";
-import {$favourites} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
 
-export const useLike = (productId: number) => {
+export const useLike = (initState: boolean, productId: number) => {
 
-    const [addToFavourites, removeFromFavourites, favourites]
-        = useUnit([addToFavouritesEvent, removeFromFavouritesEvent, $favourites])
+    const [addToFavourites, removeFromFavourites] = useUnit([addToFavouritesEvent, removeFromFavouritesEvent])
 
-    const isFavourite = (): boolean => {
-        const isFavourite = favourites?.products.find(elem => elem.id === productId)
-        return Boolean(isFavourite)
-    }
-
-    const [isLiked, setLiked] = useState<boolean>(isFavourite)
+    const [isLiked, setLiked] = useState<boolean>(initState)
 
     const toggleLike = () => {
         if (isLiked) removeFromFavourites(productId)

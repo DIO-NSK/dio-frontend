@@ -1,37 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {PopupProps} from "@/types/props/Popup";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import {SelectItem} from "@/types/props/SelectItem";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useUnit} from "effector-react";
 import {
+    $activeUserAddress,
     $userAddress,
-    getAddressEvent
+    getAddressEvent,
+    selectUserAddressEvent
 } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/model";
-import {UserAddress} from "@/types/dto/user/credentials/UserAddress";
 
 const PickAddressPopup = (props: PopupProps) => {
 
-    const initAvailableAddresses = () => {
-        return userAddresses.map(address =>
-            ({name: `${address.street} ${address.houseNumber}`, value: address}))
-    }
+    const getUserAddresses = useUnit(getAddressEvent)
 
-    const [userAddresses, getUserAddresses] = useUnit([$userAddress, getAddressEvent])
-    const availableAddresses = initAvailableAddresses()
-
-    const [
-        activeItem,
-        setActiveItem
-    ] = useState<SelectItem<UserAddress>>(availableAddresses[0])
+    const [userAddresses, activeAddress, selectAddress]
+        = useUnit([$userAddress, $activeUserAddress, selectUserAddressEvent])
 
     useEffect(() => {
         getUserAddresses()
     }, [])
 
-    if (availableAddresses) return (
+    if (activeAddress) return (
         <PopupWrapper onClose={props.onClose}>
             <div className={"w-[500px] flex flex-col gap-5"}>
                 <Text text={"Выберите существующий адрес"} className={"text-lg text-medium"}/>
@@ -41,9 +33,9 @@ const PickAddressPopup = (props: PopupProps) => {
                 />
                 <SelectInput
                     width={"w-full"}
-                    items={availableAddresses}
-                    onSelect={setActiveItem}
-                    selectedItem={activeItem}
+                    items={userAddresses}
+                    onSelect={selectAddress}
+                    selectedItem={activeAddress}
                 />
                 <Button
                     text={"Подтвердить"}

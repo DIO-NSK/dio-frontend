@@ -46,7 +46,7 @@ const CheckoutTimeBlock = () => {
 
     useEffect(() => {
         const localDate = getValues("deliveryDate.value")
-        if (localDate) getDeliveryTimeEvent({orderId, localDate})
+        if (localDate) getDeliveryTimes({orderId, localDate})
     }, [watch("deliveryDate")])
 
     return (
@@ -148,7 +148,7 @@ const DesktopCheckoutSecondStep = () => {
     useEffect(() => {
         reset({
             ...formData,
-            pickedProducts: cart?.responseCart.products.map(i => i.id),
+            pickedProducts: cart?.products.map(i => i.productItemId),
             orderId
         } as DefaultValues<CreateOrderData>)
     }, [formData, orderId, cart])

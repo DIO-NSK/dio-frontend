@@ -4,5 +4,6 @@ export type ResponseProductSearch = {
     price: number,
     image: string,
     inCart : boolean,
+    inFavourites : boolean,
     discountPercent: number
 } & ResponsePromoSearch
