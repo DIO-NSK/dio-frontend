@@ -28,6 +28,7 @@ const InnerPageWrapper = ({children, classNames} : {
             </MobilePageWrapper>
         </React.Fragment>
     );
+
 };
 
 export default InnerPageWrapper;

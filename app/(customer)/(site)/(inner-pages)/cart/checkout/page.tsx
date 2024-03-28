@@ -37,9 +37,9 @@ const CheckoutPage = () => {
     const [activeStep, setActiveStep] = useUnit([$activeStep, setActiveStepEvent])
 
     if (cart) return (
-        <InnerPageWrapper classNames={{desktopWrapper: "grid grid-cols-12 gap-7"}}>
-            <HeaderRow header={"Оформление заказа"} className={"w-full"}/>
-            <section className={"col-span-9 flex flex-col gap-10"}>
+        <InnerPageWrapper classNames={{desktopWrapper: "sm:grid sm:grid-cols-12 gap-7"}}>
+            <HeaderRow header={"Оформление заказа"} className={"hidden sm:flex w-full"}/>
+            <section className={"w-full -mt-7 sm:mt-0 sm:col-span-9 flex flex-col gap-5 sm:gap-10"}>
                 <FormStepper
                     steps={desktopCheckoutSteps}
                     setActiveStep={setActiveStep}

@@ -7,9 +7,6 @@ import DescriptionCol from "@/components/moleculas/cols/description-col/Descript
 import ProductPriceCard from "@/components/organisms/cards/product-price-card/ProductPriceCard";
 import HeaderBlock from "@/components/wrappers/header-block/HeaderBlock";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import {mockCardArray} from "@/data/productCardData";
-import CatalogHeaderCol from "@/components/moleculas/cols/catalog-header-col/CatalogHeaderCol";
-import {TextLink} from "@/types/dto/text";
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 import Text from "@/components/atoms/text/text-base/Text";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
@@ -24,11 +21,11 @@ import {
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
+import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 
 const MobileHeaderRow = ({product}: { product: ResponseProduct }) => {
 
-    const discountPrice = product?.price - product?.price * 0.01 * product?.discountPercent
-    const newPrice = product.discountPercent === 0 ? product.price : discountPrice
+    const [newPrice, price] = useDiscount(product.price, product.discountPercent)
 
     const [isLiked, toggleLike] = useLike(product.inFavourites, product.id)
     const [isInCart, onBuyClick] = useBuyButton(product.inCart, product.id)
@@ -42,12 +39,10 @@ const MobileHeaderRow = ({product}: { product: ResponseProduct }) => {
                         text={`${newPrice.toFixed(2)} ₽`}
                         className={"text-[20px] font-medium text-link-blue"}
                     />
-                    {
-                        product.discountPercent === 0 && <Text
-                            className={"text-base text-text-gray line-through"}
-                            text={`${product.price.toFixed(2)} ₽`}
-                        />
-                    }
+                    {product.discountPercent !== 0 && <Text
+                        className={"text-base text-text-gray line-through"}
+                        text={`${price.toFixed(2)} ₽`}
+                    />}
                 </div>
                 <div className={"flex flex-row items-center gap-3"}>
                     <LikeButton isLiked={isLiked} toggleLike={toggleLike}/>
@@ -62,15 +57,7 @@ const MobileHeaderRow = ({product}: { product: ResponseProduct }) => {
 const ProductCardPage = ({params}: { params: { productId: number } }) => {
 
     const [product, getProduct] = useUnit([$product, getProductEvent])
-
     const popupToggle = useToggle()
-
-    const breadcrumbs: TextLink[] = [
-        {text: "Главная", link: "/"},
-        {text: "Каталог", link: "/catalog"},
-        {text: "Кулеры", link: "/catalog/coolers"},
-        {text: "HotFrost", link: "/catalog/coolers/hot-frost"},
-    ]
 
     const [
         activePhoto,
@@ -88,13 +75,7 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
                     onClose={popupToggle.toggleState}
                 />
             }
-            <CatalogHeaderCol
-                text={"Кулеры"}
-                amount={mockCardArray.length}
-                breadcrumbs={breadcrumbs}
-            />
-
-            <InnerPageWrapper classNames={{mobileWrapper: "px-0"}}>
+            <InnerPageWrapper classNames={{mobileWrapper: "px-0 -mt-7"}}>
 
                 <div onClick={popupToggle.toggleState}>
                     <MobilePhotoSlider/>
@@ -110,12 +91,14 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
 
                 <div className={"col-span-4 flex flex-col gap-5 px-5 sm:px-0"}>
                     <CharacteristicList characteristics={product.properties}/>
-                    <DescriptionCol text={product.description}/>
+                    <div className={"hidden sm:flex"}>
+                        <DescriptionCol text={product.description}/>
+                    </div>
                 </div>
 
                 <ProductPriceCard product={product}/>
 
-                <div className={"col-span-9 h-[1px] mx-5 sm:mx-0 bg-light-gray"}/>
+                <div className={"hidden sm:flex sm:col-span-9 sm:h-[2px] sm:bg-light-gray"}/>
 
                 <HeaderBlock header={"Описание товара"}>
                     <DescriptionCol text={product.description}/>

@@ -66,7 +66,7 @@ const DesktopCheckoutThirdStep = () => {
             <CheckoutDataBlock header={"Дата и время доставки"} items={thirdBlockData}/>
             <Button
                 text={pending ? "Отправка.." : "Оформить заказ"}
-                classNames={{button: "w-1/4"}}
+                classNames={{button: "sm:w-1/4 w-full"}}
                 onClick={createOrder}
                 disabled={pending}
             />

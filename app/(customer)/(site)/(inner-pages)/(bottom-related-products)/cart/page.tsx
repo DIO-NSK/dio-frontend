@@ -14,17 +14,14 @@ import {useStore} from "@/store/Store";
 
 const ShoppingCartPage = () => {
 
-    const pathname = usePathname()
     const router = useRouter()
 
     const cart = useUnit($cart)
     const switchPopupState = useStore(state => state.switchPopupState)
 
-    const handleSubmit = () => router.push("/mobile/checkout/step-1")
-
     const handleButtonClick = () => {
         const accessToken = localStorage.getItem("ACCESS_TOKEN")
-        if (accessToken) router.push(pathname.concat("/checkout"))
+        if (accessToken) router.push("/cart/checkout")
         else switchPopupState("signup")
     }
 
@@ -44,7 +41,7 @@ const ShoppingCartPage = () => {
             <MobileCartInfoBlock
                 infoBlockData={[]}
                 buttonText={"Перейти к оформлению"}
-                onSubmit={handleSubmit}
+                onSubmit={handleButtonClick}
             />
         </InnerPageWrapper>
     );

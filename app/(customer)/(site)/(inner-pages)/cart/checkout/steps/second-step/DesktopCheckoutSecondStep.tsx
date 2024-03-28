@@ -77,8 +77,8 @@ const CheckoutPaymentBlock = () => {
     const {setValue} = useFormContext<CreateOrderData>()
 
     const multiselectElements: SelectItem<PaymentMethod>[] = [
-        {name: "Банковской картой онлайн", value: "CARD"},
-        {name: "Наличными или картой при получении", value: "CASH"}
+        {name: window.screen.width < 640 ? "Картой" : "Банковской картой онлайн", value: "CARD"},
+        {name: window.screen.width < 640 ? "Наличными" : "Наличными или картой при получении", value: "CASH"}
     ]
 
     const [
@@ -161,7 +161,7 @@ const DesktopCheckoutSecondStep = () => {
                 <Button
                     text={isSubmitting ? "Отправка.." : "К подтверждению"}
                     onClick={handleSubmit(onSubmit)}
-                    classNames={{button: "w-1/4"}}
+                    classNames={{button: "sm:w-1/4 w-full"}}
                 />
             </Form>
         </FormProvider>

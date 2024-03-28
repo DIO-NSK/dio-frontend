@@ -103,7 +103,7 @@ const CheckoutDeliveryAddressBlock = () => {
                 header={"Адрес доставки"}
                 rightContent={
                     <Button
-                        text={"Выбрать существующий"}
+                        text={window.screen.width >= 640 ? "Выбрать существующий" : ""}
                         onClick={handleSwitchPopupState}
                         icon={<FiPlus size={"18px"}/>}
                         buttonType={"SECONDARY"}
@@ -164,7 +164,7 @@ const DesktopCheckoutFirstStep = () => {
                     disabled={isSubmitting}
                     text={isSubmitting ? "Отправка.." : "Далее"}
                     onClick={handleSubmit(onSubmit)}
-                    classNames={{button: "w-1/4"}}
+                    classNames={{button: "sm:w-1/4 w-full"}}
                 />
             </Form>
         </FormProvider>

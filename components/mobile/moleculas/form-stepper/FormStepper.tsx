@@ -20,18 +20,18 @@ const FormStepper = (props: StepperProps) => {
     }
 
     return (
-        <section className={"w-full flex flex-row gap-7 items-center justify-center"}>
+        <section className={"w-full flex flex-row gap-2 sm:gap-7 items-center justify-center"}>
             {
                 props.steps.map((step, stepIndex, steps) => {
 
                         const stepCV = [
-                            "w-[35px] h-[35px] sm:size-10 rounded-full flex items-center justify-center",
+                            "w-7 h-7 sm:w-[35px] sm:h-[35px] rounded-full flex items-center justify-center",
                             {"bg-bg-light-blue text-text-gray": stepIndex > props.activeStep.value},
                             {"bg-link-blue text-white": stepIndex < props.activeStep.value},
                             {"bg-light-gray text-link-blue": stepIndex === props.activeStep.value}
                         ]
 
-                        const textCV : ClassValue = {"text-text-gray" : stepIndex > props.activeStep.value}
+                        const textCV: ClassValue = {"text-text-gray": stepIndex > props.activeStep.value}
 
                         return (
                             <React.Fragment>
