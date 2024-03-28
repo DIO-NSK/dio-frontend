@@ -30,11 +30,12 @@ const AnalyticRow = (props: OrderRowProps) => {
         <div className={cn(mainWrapperCV)}>
             <TableOrderRow
                 {...props}
+                isSelected={false}
                 rightContent={
-                    <>
-                        <Text text={order.bankName ?? "—"} className={"col-span-1"}/>
+                    <React.Fragment>
+                        <Text text={"—"} className={"col-span-1"}/>
                         <Text text={`${order.products.length} шт.`} className={"col-span-1"}/>
-                    </>
+                    </React.Fragment>
                 }
             />
         </div>

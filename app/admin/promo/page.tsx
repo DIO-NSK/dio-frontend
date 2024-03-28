@@ -1,9 +1,7 @@
 "use client"
 
 import React from 'react';
-import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 import {useAdminPanelPromoPage} from "@/app/admin/promo/page.hooks";
 import AdminPanelPromoBlock from "@/components/organisms/blocks/promo/admin-panel-promo-block/AdminPanelPromoBlock";
 import AdminPanelDayProductsBlock
@@ -33,7 +31,6 @@ const PromoContent = ({activeItem}: { activeItem: string }) => {
 const AdminPanelPromoPage = () => {
 
     const {...context} = useAdminPanelPromoPage()
-    const {...editableContext} = useAdminPanelHeaderRow()
 
     return (
         <>
@@ -42,14 +39,7 @@ const AdminPanelPromoPage = () => {
                 className={"w-full"}
                 header={"Промо-акции"}
                 rightContent={
-                    <div className={"flex flex-row gap-5"}>
-                        <MultiselectButton
-                            size={"sm"} className={"w-[800px]"}
-                            activeElement={context.multiselectButton.activeItem}
-                            selectElement={context.multiselectButton.setActiveItem}
-                            elements={context.multiselectButton.items}
-                        />
-                    </div>
+                    <div className={"flex flex-row gap-5"}/>
                 }
             />
             <PromoContent activeItem={context.multiselectButton.activeItem}/>

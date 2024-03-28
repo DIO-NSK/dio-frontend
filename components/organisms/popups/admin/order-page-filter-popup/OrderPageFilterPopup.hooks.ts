@@ -1,15 +1,15 @@
 import {SelectItem} from "@/types/props/SelectItem";
-import {OrderStatus} from "@/types/dto/Order";
 import {useState} from "react";
+import {OrderStatus} from "@/types/dto/user/order/ResponseProfileOrder";
 
 export const useOrderPageFilterPopup = () => {
     
     const selectItems : SelectItem<OrderStatus>[] = [
-        {name : "В ожидании", value : "pending"},
-        {name : "В архиве", value : "stale"},
-        {name : "В обработке", value : "processing"},
-        {name : "В пути", value : "shipping"},
-        {name : "Отправлен", value : "delivered"},
+        {name : "В ожидании", value : "PENDING"},
+        {name : "В архиве", value : "CANCELED"},
+        {name : "В обработке", value : "PROCESSING"},
+        {name : "В пути", value : "SHIPPED"},
+        {name : "Отправлен", value : "DELIVERED"},
     ]
 
     const selectPaymentItems : SelectItem<boolean>[] = [

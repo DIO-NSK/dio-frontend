@@ -37,7 +37,6 @@ const AdminPanelProductInputGrid = () => {
                 productInputGrid
                     .map((inputData, inputIndex) => {
                         return <ControlledTextInput
-                            name={inputData.name!!}
                             classNames={{wrapper: `col-span-1`}}
                             key={inputIndex} {...inputData}
                         />

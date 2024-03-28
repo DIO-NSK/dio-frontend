@@ -33,7 +33,7 @@ const AdminPanelServicePage = () => {
             />
 
             <TextContentTable
-                className={"mt-[-28px]"}
+                classNames={{content : "mt-[-28px]"}}
                 tableContent={context.table.tableContent}
                 isDraggable={editableContext.isEditable}
                 onRowClick={context.handleRowClick}

@@ -8,7 +8,6 @@ import Checkbox from "@/components/atoms/buttons/checkbox/Checkbox";
 import Text from "@/components/atoms/text/text-base/Text";
 import {useRouter} from "next/navigation";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
-import {computeIsSelectedItem} from "@/utlis/computeIsSelectedItem";
 
 type NotificationContentTableProps = {
     tableContent: TableRow<Notification>[],
@@ -89,7 +88,7 @@ const NotificationContentTable = (props: NotificationContentTableProps) => {
             {
                 props.tableContent.map((tableRow, rowKey) => {
 
-                    const isSelected = computeIsSelectedItem(props.selectedItems, tableRow.item)
+                    const isSelected = false
 
                     return <NotificationRow
                         onSelect={props.onSelect}

@@ -68,7 +68,7 @@ const AdminPanelCatalogPage = () => {
             />
 
             <TextContentTable
-                className={"mt-[-28px]"}
+                classNames={{content : "mt-[-28px]"}}
                 tableContent={context.tableContent}
                 isDraggable={editableContext.isEditable}
                 onRowClick={context.handleRowClick}

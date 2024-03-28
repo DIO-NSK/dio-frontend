@@ -25,6 +25,7 @@ const HeroSliderRow = () => {
     ]
 
     const mockProductCard : ResponseProductSearch = {
+        inCart : false, inFavourites : false,
         price: 500, discountPercent : 20, id : 1,
         name: "Кулер с длинным текстом чтобы показать ограничение по символам",
         image: MockImage.src

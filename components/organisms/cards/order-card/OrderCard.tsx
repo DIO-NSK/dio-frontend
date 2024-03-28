@@ -11,6 +11,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
 import {ResponseProfileOrder} from "@/types/dto/user/order/ResponseProfileOrder";
+import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 const HeaderRow = ({order}: { order: ResponseProfileOrder }) => {
 
@@ -120,9 +121,8 @@ const Content = ({order}: { order: ResponseProfileOrder }) => {
             {
                 order.items.map((product, productKey) =>
                     <ShoppingCartProductCard
-                        canInteract={false}
-                        card={product}
-                        key={productKey}
+                        card={product as unknown as ResponseCartItem}
+                        canInteract={false} key={productKey}
                     />
                 )
             }

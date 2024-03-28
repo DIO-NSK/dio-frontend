@@ -1,7 +1,6 @@
 "use client"
 
 import LineChart from "@/components/organisms/charts/LineChart";
-import {adminOrderTableContent} from "@/data/tables/adminOrdersTable";
 import React from "react";
 import {adminAnalyticsTableHeader} from "@/data/tables/adminAnalyticsTable";
 import AnalyticContentTable from "@/components/organisms/tables/analytic-content-table/AnalyticContentTable";
@@ -58,7 +57,7 @@ const AdminPanelAnalyticsPage = () => {
             />
             <AnalyticContentTable
                 tableHeader={adminAnalyticsTableHeader}
-                tableContent={adminOrderTableContent}
+                tableContent={[]}
                 onClick={context.handlers.handleClickTableRow}
             />
         </>

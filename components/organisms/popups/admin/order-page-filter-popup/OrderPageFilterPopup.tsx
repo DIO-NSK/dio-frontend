@@ -11,9 +11,9 @@ import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 import {SelectItem} from "@/types/props/SelectItem";
-import {OrderStatus} from "@/types/dto/Order";
 import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
+import {OrderStatus} from "@/types/dto/user/order/ResponseProfileOrder";
 
 const OrderPageFilterPopup = (props: PopupProps) => {
 
@@ -73,8 +73,7 @@ const OrderPageFilterPopup = (props: PopupProps) => {
                         labelText={"Стоимость заказа"}
                         fromValue={context.rangeInput.fromValue}
                         toValue={context.rangeInput.toValue}
-                        fromPlaceholder={"от 100 ₽"}
-                        toPlaceholder={"до 100 000 ₽"}
+                        maxValue={"100"} minValue={"10"} unit={"rub"}
                         onChangeFromValue={context.rangeInput.setFromValue}
                         onChangeToValue={context.rangeInput.setToValue}
                     />

@@ -22,7 +22,7 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
 
     const removeProductFromCart = useUnit(removeProductFromCartEvent)
 
-    const [isLiked, toggleLike] = useLike(card.productId)
+    const [isLiked, toggleLike] = useLike(true, card.productId)
     const [amount, increase, decrease] = useCounter(card.productId, card.quantity)
 
     const discountPrice = 0.01 * card.discountPercent * card.price
