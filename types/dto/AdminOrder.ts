@@ -1,17 +1,15 @@
-import {ShoppingCartProductCardDTO} from "@/types/dto/admin/cards/ProductCard";
-import {OrderStatus} from "@/types/dto/Order";
-import {Customer} from "@/types/dto/CallRequest";
+import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 export type AdminOrder = {
-    testId ?: number,
-    orderId: number
-    status: OrderStatus,
+    id: number,
+    orderStatus: string,
+    fullName: string
+    paymentMethod: string,
+    created: string,
     deliveryDate: string,
-    products: ShoppingCartProductCardDTO[],
-    totalPrice: number,
-    creationDate ?: string,
-    creationTime ?: string,
-    deliveryPrice ?: number,
-    bankName ?: string,
-    customer : Customer
+    deliveryTime: string,
+    count: number,
+    price: number,
+    products: ResponseCartItem[]
+
 }

@@ -60,12 +60,10 @@ const LoginPopup = () => {
                         isPassword
                     />
                     <div className={"w-full flex flex-col items-center gap-5"}>
-                        {
-                            loginError && <Text
-                                text={loginError}
-                                className={"text-sm text-red-500"}
-                            />
-                        }
+                        {loginError && <Text
+                            text={loginError}
+                            className={"text-sm text-red-500"}
+                        />}
                         <div className={"w-full flex flex-col gap-3"}>
                             <Button
                                 disabled={isSubmitting}

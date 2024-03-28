@@ -6,7 +6,6 @@ import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPage
 import ShoppingCartTotalPriceCard
     from "@/components/organisms/cards/shopping-cart-total-price-card/ShoppingCartTotalPriceCard";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
-import Button from "@/components/atoms/buttons/button/Button";
 import {InfoBlockElement} from "@/types/dto/text";
 import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
 import {useUnit} from "effector-react";
@@ -18,36 +17,12 @@ import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSea
 import {addAllToCartEvent} from "@/components/organisms/cards/product-price-card/model";
 
 const FavoritesHeaderRow = ({selectedCards}: { selectedCards: any[] }) => {
-
-    const handleDeleteAllProducts = () => console.log("Delete All Products")
-    const handleDeleteSelectedProducts = () => console.log("Delete Selected Products")
-
     return (
         <div className={"w-full flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"}>
-
             <div className={"flex flex-row items-baseline gap-2"}>
                 <Text text={"Избранное"} className={"text-[20px] sm:text-[24px] font-medium"}/>
                 <Text text={`Всего ${selectedCards.length}`} className={"text-[14px] sm:ext-base text-text-gray"}/>
             </div>
-
-            <div className={"sm:hidden w-full flex flex-row gap-3"}>
-                <Button
-                    disabled={selectedCards.length === 0}
-                    classNames={{button: "w-full"}}
-                    onClick={handleDeleteSelectedProducts}
-                    text={`Удалить (${selectedCards.length})`}
-                    buttonType={"SECONDARY"}
-                    size={"sm"}
-                />
-                <Button
-                    classNames={{button: "text-info-red bg-red-50 w-full"}}
-                    onClick={handleDeleteAllProducts}
-                    buttonType={"SECONDARY"}
-                    text={"Удалить все"}
-                    size={"sm"}
-                />
-            </div>
-
         </div>
     )
 }

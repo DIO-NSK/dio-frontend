@@ -1,11 +1,17 @@
 import React from "react";
 import {ResponseCallRequest} from "@/types/dto/admin/call-request/ResponseCallRequest";
 import {AdminService} from "@/types/dto/admin/service/AdminService";
+import {AdminOrder} from "@/types/dto/AdminOrder";
+
+type TableWrapperClassNames = {
+    content ?: string,
+    header ?: string
+}
 
 export type TableWrapperProps = {
     children: React.ReactNode,
     tableHeader?: TableHeaderItem[],
-    className?: string
+    classNames?: TableWrapperClassNames
 }
 
 export type TableHeaderItem = {
@@ -19,5 +25,6 @@ export type ProductTableRow<T> = TableRow<T> & { itemsWidth: Record<keyof T, str
 
 export type CallRequestTableRow = TableRow<ResponseCallRequest>
 export type ServiceTableRow = TableRow<AdminService>
+export type AdminOrderTableRow = TableRow<AdminOrder>
 
 export type TableRow<T> = { item: T, id : number}

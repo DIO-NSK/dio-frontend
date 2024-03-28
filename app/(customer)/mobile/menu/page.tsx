@@ -10,22 +10,57 @@ import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import MobileFooterNavbar from "@/components/mobile/organisms/mobile-footer-navbar/MobileFooterNavbar";
 import MobileNavbarWrapper from "@/components/mobile/wrappers/mobile-navbar-wrapper/MobileNavbarWrapper";
-import {useRouter} from "next/navigation";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
+import {useUnit} from "effector-react";
+import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
+import {useEffect} from "react";
 
 const MobileMenuPage = () => {
 
+    const [userCredentials, getUserCredentials]
+        = useUnit([$userCredentials, getUserCredentialsEvent])
+
     const navigation = useNavigation()
     const handleTabClick = (link: string) => navigation.push(link)
+    const handleOrderCallRequest = () => navigation.push("/mobile/call-request/order")
 
     const menuTabData: IconTextAction[] = [
-        {icon: <FiLogIn className={"text-link-blue"}/>, text: "Войти", action: () => navigation.push("/mobile/authorization")},
-        {icon: <FiMenu className={"text-link-blue"}/>, text: "Каталог", action: () => handleTabClick("/catalog")},
-        {icon: <FiShoppingCart className={"text-link-blue"}/>, text: "Корзина", action: () => handleTabClick("/cart")},
-        {icon: <FiHeart className={"text-info-red"}/>, text: "Избранное", action: () => handleTabClick("/favorites")},
-        {icon: <FiZap className={"text-link-blue"}/>, text: "Услуги", action: () => handleTabClick("/services")},
-        {icon: <FiGift className={"text-link-blue"}/>, text: "Акции", action: () => handleTabClick("/sales")},
+        {
+            icon: <FiLogIn className={"text-link-blue"}/>,
+            text: userCredentials?.fullName.split(" ")[1] ?? "Войти",
+            action: userCredentials ? () => navigation.push("/profile")
+                : () => navigation.push("/mobile/authorization")
+        },
+        {
+            icon: <FiMenu className={"text-link-blue"}/>,
+            action: () => handleTabClick("/mobile/menu/catalog"),
+            text: "Каталог",
+        },
+        {
+            icon: <FiShoppingCart className={"text-link-blue"}/>,
+            action: () => handleTabClick("/cart"),
+            text: "Корзина",
+        },
+        {
+            icon: <FiHeart className={"text-info-red"}/>,
+            action: () => handleTabClick("/favorites"),
+            text: "Избранное",
+        },
+        {
+            icon: <FiZap className={"text-link-blue"}/>,
+            action: () => handleTabClick("/services"),
+            text: "Услуги",
+        },
+        {
+            icon: <FiGift className={"text-link-blue"}/>,
+            action: () => handleTabClick("/sales"),
+            text: "Акции",
+        },
     ]
+
+    useEffect(() => {
+        getUserCredentials()
+    }, [])
 
     const infoData = [
         {icon: WhatsAppIcon.src, text: "WhatsApp"},
@@ -54,7 +89,7 @@ const MobileMenuPage = () => {
 
             <Button
                 text={"Заказать звонок"}
-                onClick={() => console.log("Call request")}
+                onClick={handleOrderCallRequest}
                 buttonType={"SECONDARY"}
             />
 

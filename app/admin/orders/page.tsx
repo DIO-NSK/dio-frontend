@@ -1,9 +1,9 @@
 "use client"
 
 import AdminPanelOrderHeader from "@/components/organisms/rows/admin-panel-order-header/AdminPanelOrderHeader";
-import React from "react";
+import React, {useEffect} from "react";
 import OrderContentTable from "@/components/organisms/tables/order-content-table/OrderContentTable";
-import {adminOrdersTableHeader, adminOrderTableContent} from "@/data/tables/adminOrdersTable";
+import {adminOrdersTableHeader} from "@/data/tables/adminOrdersTable";
 import {useSelectable} from "@/utlis/hooks/useSelectable";
 import {AdminOrder} from "@/types/dto/AdminOrder";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
@@ -11,15 +11,21 @@ import Text from "@/components/atoms/text/text-base/Text";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import {useAdminPanelOrdersPage} from "@/app/admin/orders/page.hooks";
+import {useUnit} from "effector-react";
+import {$orders, getOrdersEvent} from "@/app/admin/orders/model";
 
 const AdminPanelOrderPage = () => {
 
-    const defaultItems = adminOrderTableContent.map(i => i.item)
+    const [orders, getOrders] = useUnit([$orders, getOrdersEvent])
     const {...context} = useAdminPanelOrdersPage()
-    const {...selectableContext} = useSelectable<AdminOrder>(defaultItems)
+    const {...selectableContext} = useSelectable<AdminOrder>([])
+
+    useEffect(() => {
+        getOrders()
+    }, [])
 
     return (
-        <>
+        <React.Fragment>
             <AdminPanelOrderHeader/>
             <HeaderRow
                 theme={"bordered"}
@@ -56,14 +62,16 @@ const AdminPanelOrderPage = () => {
                     />
                 }
             />
-            <OrderContentTable
-                tableHeader={adminOrdersTableHeader}
-                tableContent={adminOrderTableContent}
-                onSelect={selectableContext.handleSelectItem}
-                selectedItems={selectableContext.selectedItems}
-                onClick={context.handleRowClick}
-            />
-        </>
+            {
+                orders && <OrderContentTable
+                    tableHeader={adminOrdersTableHeader}
+                    onSelect={selectableContext.handleSelectItem}
+                    tableContent={orders}
+                    selectedItems={[]}
+                    onClick={context.handleRowClick}
+                />
+            }
+        </React.Fragment>
     );
 
 };

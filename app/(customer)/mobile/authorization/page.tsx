@@ -5,13 +5,18 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {FiX} from "react-icons/fi";
 import Form from "@/components/atoms/form/Form";
 import {FormProvider, useForm} from "react-hook-form";
-import {defaultLoginSchema, LoginUserData, LoginUserSchema} from "@/schemas/customer/authorization/LoginUserSchema";
+import {LoginUserData, LoginUserSchema} from "@/schemas/customer/authorization/LoginUserSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
-import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
+import {useUnit} from "effector-react";
+import {$loginError, loginUserByCredentialsFx} from "@/components/organisms/popups/authorization/login-popup/model";
+import {useRouter} from "next/navigation";
+import Text from "@/components/atoms/text/text-base/Text";
+import React from "react";
+import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 
 const formData: InputPrefilledData[] = [
     {
@@ -22,46 +27,52 @@ const formData: InputPrefilledData[] = [
     }, {
         placeholder: "Введите пароль",
         labelText: "Пароль", name: "password",
-        isPassword: false
+        isPassword: true
     },
 ]
 
 const MobileAuthorizationPage = () => {
 
     const navigation = useNavigation()
+    const router = useRouter()
+    const [loginUserByCredentials, loginError] = useUnit([loginUserByCredentialsFx, $loginError])
 
     const methods = useForm<LoginUserData>({
-        resolver: zodResolver(LoginUserSchema),
-        defaultValues: defaultLoginSchema,
-        mode: "onBlur"
+        resolver: zodResolver(LoginUserSchema)
     })
 
-    const onSubmit = (data: LoginUserData) => console.log(data)
+    const onSubmit = (formData: LoginUserData) => {
+        loginUserByCredentials(formData as LoginUserData)
+            .then(_ => router.push("/"))
+            .catch(e => e)
+    }
 
     return (
         <InnerPageWrapper>
             <HeaderRow
-                rightContent={<FiX onClick={navigation.back}/>}
+                rightContent={<FiX onClick={router.back}/>}
                 theme={"bordered"}
                 header={"Войти"}
             />
             <FormProvider {...methods}>
                 <Form className={"gap-4"}>
-                    {
-                        formData.map((input, inputKey) =>
-                            <TextInput {...input} key={inputKey}/>
-                        )
-                    }
+                    {formData.map((input, inputKey) =>
+                        <ControlledTextInput {...input} key={inputKey}/>
+                    )}
                     <section className={"w-full flex flex-col gap-3 items-center"}>
+                        {loginError && <Text
+                            text={loginError}
+                            className={"text-sm text-red-500"}
+                        />}
                         <Button
                             text={"Войти"}
-                            classNames={{button : "w-full"}}
+                            classNames={{button: "w-full"}}
                             onClick={methods.handleSubmit(onSubmit)}
                         />
                         <Button
                             buttonType={"SECONDARY"}
                             onClick={() => navigation.pushDeep("/register")}
-                            classNames={{button : "w-full"}}
+                            classNames={{button: "w-full"}}
                             text={"Зарегистрироваться"}
                         />
                         <div className={"w-full pt-4 flex flex-col items-center gap-3"}>

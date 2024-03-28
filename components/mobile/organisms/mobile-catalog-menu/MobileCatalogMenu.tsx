@@ -1,12 +1,14 @@
 "use client"
 
 import Text from "@/components/atoms/text/text-base/Text";
-import {Category} from "@/types/dto/Category";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
 import {cn} from "@/utlis/cn";
 import {useState} from "react";
+import {useUnit} from "effector-react";
+import {$catalog} from "@/components/organisms/bars/searchbar/model";
+import Link from "next/link";
 
-const CategoryBlock = ({category}: { category: Category }) => {
+const CategoryBlock = ({category}: { category: CatalogItem }) => {
 
     const [expandedState, setExpandedState] = useState<boolean>(false)
 
@@ -15,37 +17,39 @@ const CategoryBlock = ({category}: { category: Category }) => {
     return (
         <div className={"flex flex-col gap-5"}>
             <div className={cn(rowCN, "items-center justify-between")}>
-                <Text text={"category.text"}/>
+                <Text text={category.name}/>
                 <ChevronButton
                     setExpanded={() => setExpandedState(!expandedState)}
                     isExpanded={expandedState}
                 />
             </div>
-            {
-                expandedState && [].map((sub, index) =>
-                    <div className={cn(rowCN, "pl-5")}>
-                        <Text text={sub} key={index}/>
-                    </div>
-                )
-            }
+            {expandedState && category.categories.map((sub, index) =>
+                <div className={cn(rowCN, "pl-5")} key={index}>
+                    <Link href={`/catalog/${sub.id}`}>
+                        <Text text={sub.name} key={index}/>
+                    </Link>
+                </div>
+            )}
         </div>
     )
 
 }
 
 const MobileCatalogMenu = () => {
-    return (
+
+    const catalog = useUnit($catalog)
+
+    if (catalog) return (
         <section className={"w-full flex flex-col gap-7"}>
-            <Text text={"Товары"} className={"text-[18px]"}/>
+            <Text text={"Категории"} className={"text-[18px] font-medium"}/>
             <div className={"w-full flex flex-col gap-5"}>
-                {
-                    [].map((category, categoryIndex) =>
-                        <CategoryBlock category={category} key={categoryIndex}/>
-                    )
-                }
+                {catalog.map((category, categoryIndex) =>
+                    <CategoryBlock category={category} key={categoryIndex}/>
+                )}
             </div>
         </section>
     );
+
 };
 
 export default MobileCatalogMenu;

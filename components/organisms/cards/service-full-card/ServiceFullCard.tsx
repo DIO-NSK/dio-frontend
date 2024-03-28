@@ -8,6 +8,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/ServiceBlockWrapper";
 import {useUnit} from "effector-react";
 import {toggleServicePopupEvent} from "@/app/(customer)/(site)/(inner-pages)/services/model";
+import {useRouter} from "next/navigation";
 
 const HeaderDescriptionColumn = ({header, descr}: {
     header: string,
@@ -98,8 +99,14 @@ const ServiceFullCard = ({card} : {
     card : ServiceCardDTO
 }) => {
 
+    const router = useRouter()
     const togglePopupState = useUnit(toggleServicePopupEvent)
     const [isExpanded, setExpanded] = useState<boolean>(false)
+
+    const handleOrderService = () => {
+        if (window.screen.width < 640) router.push("/mobile/services/order")
+        else togglePopupState()
+    }
 
     return (
         <ServiceCardWrapper>
@@ -118,7 +125,7 @@ const ServiceFullCard = ({card} : {
                 />
             </section>
             <PriceCard
-                onClick={togglePopupState}
+                onClick={handleOrderService}
                 text={"Заказать услугу"}
                 price={card.price}
             />

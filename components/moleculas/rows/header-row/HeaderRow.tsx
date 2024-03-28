@@ -11,6 +11,7 @@ export type HeaderRowProps = {
     rightContent?: React.ReactNode,
     hasBackIcon?: boolean,
     className?: string,
+    headerCN ?: string,
     theme?: "default" | "bordered"
 }
 
@@ -38,7 +39,7 @@ const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRow
                     }
                     <Text
                         text={props.header}
-                        className={"text-[20px] sm:text-[24px] font-medium"}
+                        className={cn("text-[20px] sm:text-[24px] font-medium", props.headerCN)}
                     />
                 </div>
                 {

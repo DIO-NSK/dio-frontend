@@ -1,8 +1,6 @@
 "use client"
 
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
-import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import {useCatalogPage} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/page.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiSliders} from "react-icons/fi";
 import {useUnit} from "effector-react";
@@ -14,14 +12,11 @@ import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPage
 import CatalogLeftSidebar from "@/components/organisms/bars/catalog-left-sidebar/CatalogLeftSidebar";
 import {TextLink} from "@/types/dto/text";
 import PageContentWrapper from "@/components/wrappers/page-content-wrapper/PageContentWrapper";
-import {getFavouritesEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
 import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {useToggle} from "@/utlis/hooks/useToggle";
+import CatalogFilters from "@/components/organisms/catalog-filters/CatalogFilters";
 
-const CatalogScreen = ({params}: {
-    params: {
-        categoryId: number
-    }
-}) => {
+const DesktopCatalogScreen = ({categoryId, onOpenPopup}: { categoryId: number, onOpenPopup: () => void }) => {
 
     const breadcrumbs: TextLink[] = [
         {text: "Главная", link: "/"},
@@ -29,15 +24,7 @@ const CatalogScreen = ({params}: {
         {text: "Кулеры", link: "/catalog/coolers"},
     ]
 
-    const [cart, products, getCategories, getFavourites]
-        = useUnit([$cart, $products, getCategoryByNameEvent, getFavouritesEvent])
-
-    const {...context} = useCatalogPage()
-
-    useEffect(() => {
-        getFavourites()
-        getCategories(params.categoryId)
-    }, [])
+    const [cart, products] = useUnit([$cart, $products])
 
     return (
         <React.Fragment>
@@ -47,23 +34,16 @@ const CatalogScreen = ({params}: {
                 breadcrumbs={breadcrumbs}
             />
             <InnerPageWrapper>
-                <CatalogLeftSidebar categoryId={params.categoryId}/>
+                <CatalogLeftSidebar categoryId={categoryId}/>
                 <section className={"col-span-9 flex flex-col gap-7"}>
-                    <div className={"w-full flex flex-row gap-3 sm:col-span-full sm:grid sm:grid-cols-9 sm:gap-[20px]"}>
-                        <Button
-                            classNames={{button: "sm:hidden bg-bg-light-blue border-2 border-light-gray"}}
-                            onClick={context.handleFiltersClick}
-                            icon={<FiSliders size={"18px"}/>}
-                            buttonType={"SECONDARY"}
-                            size={"sm"}
-                        />
-                        <SelectInput
-                            width={"sm:col-span-3 w-full"}
-                            items={context.selectInput.itemList}
-                            onSelect={(item) => context.selectInput.selectItem(item)}
-                            selectedItem={context.selectInput.selectedItem}
-                        />
-                    </div>
+                    <Button
+                        classNames={{button: "sm:hidden bg-bg-light-blue border-2 border-light-gray"}}
+                        text={"Фильтры"}
+                        onClick={onOpenPopup}
+                        icon={<FiSliders size={"18px"}/>}
+                        buttonType={"SECONDARY"}
+                        size={"sm"}
+                    />
                     <PageContentWrapper>
                         {cart && products.map((card) => {
                             return <ProductCard
@@ -76,6 +56,37 @@ const CatalogScreen = ({params}: {
             </InnerPageWrapper>
         </React.Fragment>
     )
+}
+
+const CatalogScreen = ({params}: {
+    params: {
+        categoryId: number
+    }
+}) => {
+
+    const filtersPopup = useToggle()
+    const getCategories = useUnit(getCategoryByNameEvent)
+
+    useEffect(() => {
+        getCategories(params.categoryId)
+    }, [])
+
+    return (
+        <React.Fragment>
+            {
+                filtersPopup.state
+                    ? <CatalogFilters
+                        onClose={filtersPopup.toggleState}
+                        categoryId={params.categoryId}
+                    />
+                    : <DesktopCatalogScreen
+                        categoryId={params.categoryId}
+                        onOpenPopup={filtersPopup.toggleState}
+                    />
+            }
+        </React.Fragment>
+    )
+
 }
 
 export default CatalogScreen

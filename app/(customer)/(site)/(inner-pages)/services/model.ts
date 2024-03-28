@@ -9,7 +9,7 @@ const sendService = async (serviceForm: ServiceForm) => {
         .catch(error => {throw Error(error.response.data.message)})
 }
 
-const sendServiceFx = createEffect<ServiceForm, void, Error>(sendService)
+export const sendServiceFx = createEffect<ServiceForm, void, Error>(sendService)
 export const sendServiceEvent = createEvent<ServiceData>()
 
 export const $isServicePopupOpen = createStore<boolean>(false)

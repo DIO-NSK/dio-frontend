@@ -13,7 +13,7 @@ const sendCallRequest = async (callRequest: UserCallRequest): Promise<number> =>
         .catch(error => {throw Error(error.response.data.message)})
 }
 
-const sendCallRequestFx = createEffect<UserCallRequest, number, Error>(sendCallRequest)
+export const sendCallRequestFx = createEffect<UserCallRequest, number, Error>(sendCallRequest)
 export const sendCallRequestEvent = createEvent<UserCallRequest>()
 
 export const $isCallRequestOpen = createStore<boolean>(false)

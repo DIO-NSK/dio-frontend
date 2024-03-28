@@ -36,7 +36,7 @@ const ProductCard = ({productCard, classNames}: {
     const wrapperCV: ClassValue[] = [
         "w-[70vw] sm:w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
         "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover:shadow-xl sm:hoverable pointer",
-        "border-2 border-light-gray sm:border-0 sm:relative", classNames?.mainWrapper
+        "border-2 border-light-gray sm:border-0 relative", classNames?.mainWrapper
     ]
 
     const handleCardClick = () => router.push(`/product/${productCard.id}`)
@@ -105,7 +105,7 @@ const ProductCard = ({productCard, classNames}: {
             </div>
             {
                 productCard.discountPercent !== 0 &&
-                <div className={"absolute left-5 top-5 z-20 px-3 py-2 rounded-lg bg-green-500"}>
+                <div className={"absolute left-5 top-5 z-10 px-3 py-2 rounded-lg bg-green-500"}>
                     <Text
                         text={`Скидка ${productCard.discountPercent} %`}
                         className={"uppercase text-[12px] font-medium text-white"}

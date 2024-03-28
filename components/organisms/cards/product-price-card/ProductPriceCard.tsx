@@ -9,14 +9,13 @@ import {FiCheck} from "react-icons/fi";
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
+import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 
 const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
 
     const [isLiked, toggleLike] = useLike(product.inFavourites, product.id)
     const [isInCart, onBuyClick] = useBuyButton(product.inCart, product.id)
-
-    const discountPrice = product?.price - product?.price * 0.01 * product?.discountPercent
-    const newPrice = product.discountPercent === 0 ? product.price : discountPrice
+    const [newPrice, price] = useDiscount(product.price, product.discountPercent)
 
     return (
         <StickyCardWrapper startCol={"col-start-10"}>
@@ -28,7 +27,7 @@ const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
                 />
                 {
                     product.discountPercent !== 0 && <Text
-                        text={`${product.price.toFixed(2)} ₽`}
+                        text={`${price.toFixed(2)} ₽`}
                         className={"text-text-gray line-through"}
                     />
                 }
