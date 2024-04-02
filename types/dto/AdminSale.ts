@@ -1,7 +1,14 @@
 export type AdminSale = {
-    image : string,
     name : string,
-    discount : number,
-    stockAmount : number,
-    price ?: number
+    crmGroup : string,
+    cmrCode : string,
+    deadline : string,
+    description : string,
+    products : ProductIdDto[],
+    ruleList : string[]
+}
+
+type ProductIdDto = {
+    productId : number,
+    quantity : number
 }

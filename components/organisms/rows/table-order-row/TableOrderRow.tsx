@@ -28,7 +28,7 @@ const TableOrderRow = (props: TableOrderRowProps) => {
 
     return (
         <div className={cn(wrapperCV)} onClick={handleRowClick}>
-            <div className={"col-span-1 flex flex-col gap-1 bg-orange-500"}>
+            <div className={"col-span-1 flex flex-col gap-1"}>
                 <Text
                     text={dayjs(order.deliveryDate).format("DD.MM.YYYY")}
                     className={"text-[15px]"}
@@ -40,7 +40,7 @@ const TableOrderRow = (props: TableOrderRowProps) => {
             </div>
             <Text
                 text={order.deliveryDate}
-                className={"col-span-1 text-[15px] bg-orange-500"}
+                className={"col-span-1 text-[15px]"}
             />
             <Text
                 text={`ID ${order.id}`}

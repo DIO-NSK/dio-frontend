@@ -1,20 +1,33 @@
 "use client"
 
 import LineChart from "@/components/organisms/charts/LineChart";
-import React from "react";
-import {adminAnalyticsTableHeader} from "@/data/tables/adminAnalyticsTable";
-import AnalyticContentTable from "@/components/organisms/tables/analytic-content-table/AnalyticContentTable";
+import React, {useEffect} from "react";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {useAdminPanelAnalyticsPage} from "@/app/admin/page.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiShoppingBag, FiUpload} from "react-icons/fi";
+import {useUnit} from "effector-react";
+import {$orders, getOrdersEvent} from "@/app/admin/orders/model";
+import OrderContentTable from "@/components/organisms/tables/order-content-table/OrderContentTable";
+import {adminOrdersTableHeader} from "@/data/tables/adminOrdersTable";
+import {$graphVisitPoints, $orderGraphPoints, getOrdersGraphEvent, getVisitPointsEvent} from "@/app/admin/model";
 
 const AdminPanelAnalyticsPage = () => {
 
     const {...context} = useAdminPanelAnalyticsPage()
 
+    const [graphVisitPoints, getGraphVisitPoints] = useUnit([$graphVisitPoints, getVisitPointsEvent])
+    const [orderGraphPoints, getOrderGraphPoints] = useUnit([$orderGraphPoints, getOrdersGraphEvent])
+    const [orders, getOrders] = useUnit([$orders, getOrdersEvent])
+
+    useEffect(() => {
+        getGraphVisitPoints({beginDate : "2024-02-22", endDate : "2024-04-22"})
+        getOrderGraphPoints({beginDate : "2024-02-22", endDate : "2024-04-22"})
+        getOrders()
+    }, [])
+
     return (
-        <>
+        <React.Fragment>
             <HeaderRow
                 theme={"bordered"}
                 className={"w-full"}
@@ -39,8 +52,8 @@ const AdminPanelAnalyticsPage = () => {
                 }
             />
             <div className={"w-full mx-[-28px] px-7 grid grid-cols-8 gap-7"}>
-                <LineChart className={"col-span-4"}/>
-                <LineChart className={"col-span-4"}/>
+                {orderGraphPoints && <LineChart className={"col-span-4"} graphPoints={orderGraphPoints}/>}
+                {graphVisitPoints && <LineChart className={"col-span-4"} graphPoints={graphVisitPoints}/>}
             </div>
             <HeaderRow
                 theme={"bordered"}
@@ -55,13 +68,15 @@ const AdminPanelAnalyticsPage = () => {
                     />
                 }
             />
-            <AnalyticContentTable
-                tableHeader={adminAnalyticsTableHeader}
-                tableContent={[]}
+            {orders && <OrderContentTable
                 onClick={context.handlers.handleClickTableRow}
-            />
-        </>
+                tableHeader={adminOrdersTableHeader}
+                tableContent={orders}
+                maxItems={5}
+            />}
+        </React.Fragment>
     );
+
 };
 
 export default AdminPanelAnalyticsPage;

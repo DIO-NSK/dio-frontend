@@ -1,17 +1,19 @@
-import {api} from "@/api";
+import {api, unauthorizedApi} from "@/api";
 import {LoginUserData} from "@/schemas/customer/authorization/LoginUserSchema";
 import {createEffect, createStore} from "effector";
 
-const loginUserByCredentials = async (formData : LoginUserData) => {
+const loginUserByCredentials = async (formData: LoginUserData) => {
     const request = {
         ...formData, phoneNumber: formData.phoneNumber.replace(/[\s()-]/g, '')
     }
-    return api.post("/user/login/credentials", request)
+    return unauthorizedApi.post("/user/login/credentials", request)
         .then(response => {
             localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
             return response.data
         })
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
 export const loginUserByCredentialsFx = createEffect(loginUserByCredentials)

@@ -46,17 +46,15 @@ const AnalyticRow = (props: OrderRowProps) => {
 const AnalyticContentTable = (props: AnalyticContentTable) => {
     return (
         <TableWrapper {...props}>
-            {
-                props.tableContent.map((tableRow, rowKey) => {
+            {props.tableContent.map((tableRow, rowKey) => {
 
-                    return <AnalyticRow
-                        onClick={props.onClick}
-                        tableRow={tableRow}
-                        key={rowKey}
-                    />
+                return <AnalyticRow
+                    onClick={props.onClick}
+                    tableRow={tableRow}
+                    key={rowKey}
+                />
 
-                })
-            }
+            })}
         </TableWrapper>
     );
 };

@@ -5,24 +5,9 @@ import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconText
 import {FiCalendar} from "react-icons/fi";
 import {cn} from "@/utlis/cn";
 import {Rubik} from "next/font/google";
+import {GraphPoint, OrderGraphPoint} from "@/app/admin/model";
 
 ChartJS.register(CategoryScale, LinearScale)
-
-const chartData = [
-    {label: "янв.", ordersCount: 5000},
-    {label: "фев.", ordersCount: 5000},
-    {label: "фев.", ordersCount: 500000},
-    {label: "мар.", ordersCount: 12000},
-    {label: "апр.", ordersCount: 8000},
-    {label: "май", ordersCount: 8000},
-    {label: "июн.", ordersCount: 20000},
-    {label: "июл.", ordersCount: 40000},
-    {label: "авг.", ordersCount: 20000},
-    {label: "сен.", ordersCount: 60000},
-    {label: "окт.", ordersCount: 10000},
-    {label: "ноя.", ordersCount: 70000},
-    {label: "дек.", ordersCount: 80000},
-]
 
 const createGradientBg = (context: ScriptableContext<"line">) => {
 
@@ -43,9 +28,14 @@ const rubik = Rubik({subsets: ['latin']})
 ChartJS.defaults.font.family = rubik.style.fontFamily
 ChartJS.defaults.plugins.legend.display = false
 
-const LineChart = ({className}: { className?: string }) => {
+type LineChartProps = {
+    graphPoints : GraphPoint[],
+    className ?: string
+}
+
+const LineChart = (props : LineChartProps) => {
     return (
-        <div className={cn("w-full flex flex-col gap-5 p-6 rounded-xl border-2 border-light-gray", className)}>
+        <div className={cn("w-full flex flex-col gap-5 p-6 rounded-xl border-2 border-light-gray", props.className)}>
             <div className={"w-full flex flex-row items-center justify-between"}>
                 <Text text={"Статистика заказов"} className={"text-[20px] font-medium"}/>
                 <IconTextButton
@@ -58,11 +48,11 @@ const LineChart = ({className}: { className?: string }) => {
             </div>
             <Line
                 data={{
-                    labels: chartData.map(item => item.label),
+                    labels: props.graphPoints.map(item => item.label),
                     datasets: [
                         {
                             fill: true,
-                            data: chartData.map(item => item.ordersCount),
+                            data: props.graphPoints.map(item => item.value),
                             borderColor: "#369FE9",
                             borderWidth: 3,
                         }

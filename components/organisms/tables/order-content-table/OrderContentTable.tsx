@@ -17,16 +17,17 @@ import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 
 type OrderContentTableProps = {
     tableContent: AdminOrderTableRow[],
-    selectedItems: AdminOrderTableRow[],
-    onSelect: (order: AdminOrder) => void,
-    onClick: (tableRow: AdminOrderTableRow) => void
+    onClick: (tableRow: AdminOrderTableRow) => void,
+    maxItems ?: number,
+    onSelect?: (order: AdminOrder) => void,
+    selectedItems?: AdminOrderTableRow[],
 } & Omit<TableWrapperProps, "children">
 
 type OrderRowProps = {
     tableRow: AdminOrderTableRow,
-    onSelect: (order: AdminOrder) => void,
     onClick: (tableRow: TableRow<AdminOrder>) => void,
-    isSelected: boolean,
+    onSelect?: (order: AdminOrder) => void,
+    isSelected?: boolean,
 }
 
 const OrderRowProductCard = ({product}: { product: ResponseCartItem }) => {
@@ -57,7 +58,7 @@ const OrderRow = (props: OrderRowProps) => {
     const order = props.tableRow.item
     const orderOpened = useToggle()
 
-    const handleSelect = () => props.onSelect(order)
+    const handleSelect = () => props.onSelect?.(order)
     const handleRowClick = () => props.onClick(props.tableRow)
 
     const totalPrice = order.products.reduce((acc, item) =>
@@ -72,12 +73,15 @@ const OrderRow = (props: OrderRowProps) => {
     return (
         <div className={cn(wrapperCV)} onClick={handleRowClick}>
 
-            <div className={"absolute left-7 top-7 flex flex-row gap-3 items-center"}>
-                <Checkbox isSelected={props.isSelected} onSelect={handleSelect}/>
-                <OrderTooltip tableRow={props.tableRow}>
-                    <FiMoreHorizontal className={"hoverable pointer text-text-gray hover:text-link-blue"}/>
-                </OrderTooltip>
-            </div>
+            {
+                props.isSelected !== undefined &&
+                <div className={"absolute left-7 top-7 flex flex-row gap-3 items-center"}>
+                    <Checkbox isSelected={props.isSelected} onSelect={handleSelect}/>
+                    <OrderTooltip tableRow={props.tableRow}>
+                        <FiMoreHorizontal className={"hoverable pointer text-text-gray hover:text-link-blue"}/>
+                    </OrderTooltip>
+                </div>
+            }
 
             <div className={"col-span-1 flex flex-col gap-1"}>
                 <Text text={dayjs(order.deliveryDate).format("DD.MM.YYYY")} className={"text-[15px]"}/>
@@ -111,15 +115,19 @@ const OrderContentTable = (props: OrderContentTableProps) => {
         <TableWrapper classNames={{header: "px-[95px]"}} {...props}>
             {props.tableContent.map((tableRow, rowKey) => {
 
-                const isSelected = computeIsSelectedItem(props.selectedItems, tableRow)
+                const isSelected = props.selectedItems
+                    ? computeIsSelectedItem(props.selectedItems, tableRow)
+                    : undefined
 
-                return <OrderRow
-                    onClick={props.onClick}
-                    onSelect={props.onSelect}
-                    isSelected={isSelected}
-                    tableRow={tableRow}
-                    key={rowKey}
-                />
+                if (!props.maxItems || props.maxItems && rowKey < props.maxItems) {
+                    return <OrderRow
+                        onClick={props.onClick}
+                        onSelect={props.onSelect}
+                        isSelected={isSelected}
+                        tableRow={tableRow}
+                        key={rowKey}
+                    />
+                }
 
             })}
         </TableWrapper>
