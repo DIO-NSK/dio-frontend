@@ -1,17 +1,17 @@
 import React from 'react';
-import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import DraggableRowWrapper from "@/components/wrappers/draggable-row-wrapper/DraggableRowWrapper";
+import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import {FieldValues, Path} from "react-hook-form";
 
-type AdminPanelRuleRowProps = {
-    value: string,
-    onChange: (value: string) => void,
+type AdminPanelRuleRowProps<T extends FieldValues> = {
+    name: Path<T>,
     onDelete: () => void
 }
 
-const AdminPanelRuleRow = (props: AdminPanelRuleRowProps) => {
+const AdminPanelRuleRow = <T extends FieldValues, >(props: AdminPanelRuleRowProps<T>) => {
     return (
-        <DraggableRowWrapper {...props}>
-            <TextInput placeholder={"Введите правило"} {...props}/>
+        <DraggableRowWrapper className={"w-full"} onDelete={props.onDelete}>
+            <ControlledTextInput placeholder={"Введите правило"} name={props.name}/>
         </DraggableRowWrapper>
     );
 };

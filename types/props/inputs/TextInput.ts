@@ -9,6 +9,7 @@ export type ControlledTextInputProps<T extends FieldValues> = {
 
 export type TextInputProps = {
     placeholder: string,
+    readonly ?: boolean,
     onChange?: (value: string) => void,
     onClick?: () => void,
     value?: string,

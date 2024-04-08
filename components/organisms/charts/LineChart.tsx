@@ -1,11 +1,11 @@
-import {Chart as ChartJS, CategoryScale, LinearScale, ScriptableContext} from 'chart.js/auto'
+import {CategoryScale, Chart as ChartJS, LinearScale, ScriptableContext} from 'chart.js/auto'
 import {Line} from 'react-chartjs-2'
 import Text from "@/components/atoms/text/text-base/Text";
 import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconTextButton";
 import {FiCalendar} from "react-icons/fi";
 import {cn} from "@/utlis/cn";
 import {Rubik} from "next/font/google";
-import {GraphPoint, OrderGraphPoint} from "@/app/admin/model";
+import {GraphPoint} from "@/app/admin/model";
 
 ChartJS.register(CategoryScale, LinearScale)
 
@@ -30,6 +30,7 @@ ChartJS.defaults.plugins.legend.display = false
 
 type LineChartProps = {
     graphPoints : GraphPoint[],
+    name : string,
     className ?: string
 }
 
@@ -37,7 +38,7 @@ const LineChart = (props : LineChartProps) => {
     return (
         <div className={cn("w-full flex flex-col gap-5 p-6 rounded-xl border-2 border-light-gray", props.className)}>
             <div className={"w-full flex flex-row items-center justify-between"}>
-                <Text text={"Статистика заказов"} className={"text-[20px] font-medium"}/>
+                <Text text={props.name} className={"text-[20px] font-medium"}/>
                 <IconTextButton
                     placement={"right"}
                     icon={<FiCalendar size={"18px"}/>}

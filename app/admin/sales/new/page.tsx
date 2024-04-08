@@ -1,98 +1,118 @@
 "use client"
 
-import {useAdminPanelNewSalePage} from "@/app/admin/sales/new/page.hooks";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import TextInput from "@/components/atoms/inputs/text-input/TextInput";
-import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
 import AdminPanelSaleRuleBlock from "@/components/organisms/blocks/admin-panel-sale-rule-block/AdminPanelSaleRuleBlock";
-import AdminPanelSearchbarBlock
-    from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchbarBlock";
-import {useVariableItemRow} from "@/utlis/hooks/useVariableItemRow";
 import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
 import Button from "@/components/atoms/buttons/button/Button";
-import React from "react";
+import React, {useEffect} from "react";
+import {DefaultValues, FieldName, FieldValues, Form, FormProvider, useForm, useFormContext} from "react-hook-form";
+import {CreateSaleData, CreateSaleSchema} from "@/schemas/admin/CreateSaleSchema";
+import {zodResolver} from "@hookform/resolvers/zod";
+import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import {useUnit} from "effector-react";
+import {
+    $productDetails,
+    getProductDetailsEvent,
+    GetProductDetailsParams
+} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
+import {CreateProductData} from "@/schemas/admin/CreateProductSchema";
+import dayjs from "dayjs";
+import AdminPanelSearchbarBlock
+    from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchbarBlock";
+import {createSaleEvent} from "@/app/admin/sales/new/model";
 
 const FirstInputRow = () => {
 
-    const {...context} = useAdminPanelNewSalePage()
+    const getSaleDetails = useUnit(getProductDetailsEvent)
+    const methods = useFormContext()
+    const {trigger, getValues, formState: {isSubmitting}} = methods
+
+    const onSubmit = async () => {
+        const fieldNames: FieldName<CreateProductData>[] = ["crmCode", "crmGroup"]
+        const fieldValues = getValues(fieldNames)
+        const params: GetProductDetailsParams = {crmCode: fieldValues[0], crmGroup: fieldValues[1]}
+        if (await trigger(fieldNames)) getSaleDetails(params)
+    }
 
     const inputGridData = [
         {
-            labelText: "Название акции",
-            placeholder: "Введите название акции",
-            value: context.nameInput.name,
-            onChange: context.nameInput.setName
-        }, {
             labelText: "Код акции",
-            placeholder: "223 899",
-            inputMask: "999 999",
-            value: context.codeInput.code,
-            onChange: context.codeInput.setCode
+            placeholder: "Введите код акции",
+            inputMask: "999999",
+            name: "crmCode"
+        }, {
+            labelText: "Группа акции",
+            placeholder: "Введите группу акции",
+            name: "crmGroup"
         }
     ]
 
     return (
-        <div className={"w-full mx-[-28px] px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray"}>
-            {
-                inputGridData.map((inputData, key) =>
-                    <TextInput
-                        placeholder={inputData.placeholder}
-                        labelText={inputData.labelText}
-                        inputMask={inputData.inputMask}
-                        onChange={inputData.onChange}
-                        value={inputData.value}
-                        key={key}
-                    />
-                )
-            }
-        </div>
+        <section
+            className={"w-full mx-[-28px] px-7 grid grid-cols-5 items-end gap-7 pb-7 border-b-2 border-light-gray"}>
+            {inputGridData.map((inputData, key) =>
+                <ControlledTextInput classNames={{wrapper: "col-span-2"}} {...inputData} key={key}/>
+            )}
+            <Button
+                classNames={{button: "col-span-1 py-5"}}
+                text={"Получить акцию"}
+                onClick={onSubmit}
+            />
+        </section>
     )
+
 }
 
 const SecondInputRow = () => {
 
-    const {...context} = useAdminPanelNewSalePage()
+    const deadline = dayjs(Date.now()).format("DD.MM.YYYY")
+
+    const inputGridData = [
+        {
+            labelText: "Название акции",
+            placeholder: "Придумайте название акции",
+            name: "name"
+        }, {
+            labelText: "Длительность акции",
+            placeholder: `до ${deadline}`,
+            inputMask: "до 99.99.9999",
+            name: "deadline"
+        }
+    ]
 
     return (
-        <div className={"w-full mx-[-28px] px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray"}>
-            <SelectInput
-                labelText={"Группа акции"}
-                items={context.groupInput.selectItems}
-                onSelect={context.groupInput.setActiveSelectItem}
-                selectedItem={context.groupInput.activeSelectItem}
-                className={"col-span-1"}
-            />
-            <TextInput
-                labelText={"Длительность акции"}
-                placeholder={"до 31.12.24"}
-                inputMask={"до 99.99.99"}
-                onChange={context.durationInput.setDuration}
-                value={context.durationInput.duration}
-            />
-        </div>
+        <section className={"w-full mx-[-28px] px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray"}>
+            {inputGridData.map((inputData, key) =>
+                <ControlledTextInput classNames={{wrapper: "col-span-1"}} {...inputData} key={key}/>
+            )}
+        </section>
     )
 
 }
 
-const Page = () => {
+const AdminPanelNewSaleSecondBlock = () => {
 
-    const {...context} = useAdminPanelNewSalePage()
-    const {...products} = useVariableItemRow<string>("")
-    const {...anotherProducts} = useVariableItemRow<string>("")
+    const [saleDetails, createSale] = useUnit([$productDetails, createSaleEvent])
+
+    const {
+        handleSubmit,
+        reset
+    } = useFormContext<CreateSaleData>()
+
+    const onSubmit = (fieldValues: FieldValues) => {
+        createSale(fieldValues as CreateSaleData)
+    }
+
+    useEffect(() => {
+        reset(saleDetails as DefaultValues<CreateSaleData>)
+    }, [saleDetails])
 
     return (
         <React.Fragment>
-            <HeaderRow
-                className={"w-full"}
-                theme={"bordered"}
-                header={"Новая акция"}
-                hasBackIcon
-            />
-            <FirstInputRow/>
             <SecondInputRow/>
             <ControlledTextArea
-                name={"textArea"}
+                name={"description"}
                 labelText={"Описание акции"}
                 placeholder={"Придумайте привлекающее описание акции. Идеальная длина описания — 1 предложение."}
                 classNames={{
@@ -100,40 +120,47 @@ const Page = () => {
                     input: "min-h-[150px] max-h-[220px]"
                 }}
             />
-            <AdminPanelSaleRuleBlock/>
             <AdminPanelSearchbarBlock
                 header={"Товары, участвующие в акции"}
                 description={"Данные товары включены в акцию по умолчанию"}
-                onAddItem={products.handlers.handleAddItem}
-                onChangeItem={products.handlers.handleChangeItem}
-                onDeleteItem={products.handlers.handleDeleteItem}
-                items={products.state}
             />
-            <AdminPanelSearchbarBlock
-                header={"Дополнительные товары"}
-                description={"Данные товары дополнительно прилагаются к акции." +
-                    "Пользователь сможет выбрать один товар  из данного списка"}
-                onAddItem={anotherProducts.handlers.handleAddItem}
-                onChangeItem={anotherProducts.handlers.handleChangeItem}
-                onDeleteItem={anotherProducts.handlers.handleDeleteItem}
-                items={anotherProducts.state}
-            />
+            <AdminPanelSaleRuleBlock/>
             <AdminPanelPhotoBlock
                 header={"Фотографии"}
                 description={"Это фотографии"}
             />
             <Button
                 text={"Сохранить"}
-                onClick={context.handleSaveChanges}
-                classNames={{button : "w-[250px]"}}
+                onClick={handleSubmit(onSubmit)}
+                classNames={{button: "w-[250px]"}}
             />
         </React.Fragment>
     )
+
 }
+
 
 const AdminPanelNewSalePage = () => {
 
-    return (<></>);
+    const saleDetails = useUnit($productDetails)
+    const methods = useForm<CreateSaleData>({
+        resolver: zodResolver(CreateSaleSchema)
+    })
+
+    return (
+        <FormProvider {...methods}>
+            <Form className={"flex flex-col gap-5"}>
+                <HeaderRow
+                    className={"w-full"}
+                    theme={"bordered"}
+                    header={"Новая акция"}
+                    hasBackIcon
+                />
+                <FirstInputRow/>
+                <AdminPanelNewSaleSecondBlock/>
+            </Form>
+        </FormProvider>
+    )
 
 };
 

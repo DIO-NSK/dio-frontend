@@ -1,48 +1,48 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
-import {
-    useAdminPanelSaleRuleBlock
-} from "@/components/organisms/blocks/admin-panel-sale-rule-block/AdminPanelSaleRuleBlock.hooks";
 import AdminPanelRuleRow from "@/components/moleculas/rows/admin-panel-rule-row/AdminPanelRuleRow";
 import AdminPanelBlockWrapper from "@/components/wrappers/admin-panel-block-wrapper/AdminPanelBlockWrapper";
+import {useFieldArray, useFormContext} from "react-hook-form";
+import {CreateSaleData} from "@/schemas/admin/CreateSaleSchema";
 
 const AdminPanelSaleRuleBlock = () => {
 
-    const {...context} = useAdminPanelSaleRuleBlock()
+    const {control, reset} = useFormContext<CreateSaleData>()
+    const {fields, append, remove}
+        = useFieldArray({control, name: "ruleList"})
+
+    useEffect(() => {
+        reset({ruleList: [{rule : ""}]})
+    }, []);
 
     return (
         <AdminPanelBlockWrapper>
-
             <HeaderDescriptionButtonRow
                 header={"Правила для участия в акции"}
                 descr={"Введите каждое правило в отдельном поле для того, чтобы информация" +
                     "корректно отображалась у пользователей."}
                 button={
                     <Button
+                        onClick={() => append({rule : ""})}
                         classNames={{button: "h-fit"}}
                         icon={<FiPlus size={"18px"}/>}
                         buttonType={"SECONDARY"}
                         text={"Добавить ещё"}
-                        onClick={context.handleAddRule}
                         size={"sm"}
                     />
                 }
             />
-
-            <div className={"w-full flex flex-col gap-5"}>
-                {
-                    context.rules.map((rule, key) =>
-                        <AdminPanelRuleRow
-                            value={rule}
-                            onChange={(value: string) => context.handleChangeRule(key, value)}
-                            onDelete={() => context.handleDeleteRule(key)}
-                            key={key}
-                        />
-                    )
-                }
-            </div>
+            <section className={"w-full flex flex-col gap-5"}>
+                {fields.map((rule, key) =>
+                    <AdminPanelRuleRow
+                        name={`ruleList.${key}.rule`}
+                        onDelete={() => remove(key)}
+                        key={rule.id}
+                    />
+                )}
+            </section>
 
         </AdminPanelBlockWrapper>
     );

@@ -93,7 +93,7 @@ const CreateProductSecondStep = ({categoryId}: {
         handleSubmit,
         formState: {isSubmitting},
         reset, watch
-    } = useFormContext()
+    } = useFormContext<CreateProductData>()
 
     const onSubmit = (formData: FieldValues) => createProduct({
         categoryId: categoryId,
@@ -110,7 +110,11 @@ const CreateProductSecondStep = ({categoryId}: {
     }, [])
 
     useEffect(() => {
-        reset({...productDetails} as DefaultValues<CreateProductData>)
+        reset({
+            ...productDetails,
+            price : productDetails?.price,
+            taxPercent : productDetails?.taxPercent
+        } as DefaultValues<CreateProductData>)
     }, [productDetails])
 
     return (
@@ -164,7 +168,12 @@ const AdminPanelNewProductPage = ({params}: {
         mode: "onBlur"
     })
 
+    const {reset} = createProductMethods
     const productDetails = useUnit($productDetails)
+
+    useEffect(() => {
+        reset({isProductOfTheDay : false})
+    }, []);
 
     return (
         <FormProvider {...createProductMethods}>

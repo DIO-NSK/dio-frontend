@@ -52,8 +52,8 @@ const AdminPanelAnalyticsPage = () => {
                 }
             />
             <div className={"w-full mx-[-28px] px-7 grid grid-cols-8 gap-7"}>
-                {orderGraphPoints && <LineChart className={"col-span-4"} graphPoints={orderGraphPoints}/>}
-                {graphVisitPoints && <LineChart className={"col-span-4"} graphPoints={graphVisitPoints}/>}
+                {orderGraphPoints && <LineChart name={"История заказов"} className={"col-span-4"} graphPoints={orderGraphPoints}/>}
+                {graphVisitPoints && <LineChart name={"История посещений"} className={"col-span-4"} graphPoints={graphVisitPoints}/>}
             </div>
             <HeaderRow
                 theme={"bordered"}

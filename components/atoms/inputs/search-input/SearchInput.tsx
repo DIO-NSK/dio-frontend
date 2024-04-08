@@ -1,4 +1,4 @@
-import {FiSearch} from "react-icons/fi";
+import {FiCheck, FiSearch, FiX} from "react-icons/fi";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import {useUnit} from "effector-react";
@@ -9,20 +9,10 @@ import {ResponsePromoSearch} from "@/types/dto/user/promo/ResponsePromoSearch";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import {ResponseSearchCatalog} from "@/types/dto/user/catalog/ResponseSearchCatalog";
 import Link from "next/link";
-
-type SearchBarClassNames = {
-    mainWrapper?: string,
-    wrapper?: string,
-    input?: string
-}
-
-type SearchbarProps = {
-    placeholder: string,
-    onChange: (value: string) => void,
-    hasPopover?: boolean,
-    classNames?: SearchBarClassNames,
-    value?: string,
-}
+import {SearchbarProps} from "@/types/props/Searchbar";
+import {useDiscount} from "@/utlis/hooks/product/useDiscount";
+import {MouseEventHandler} from "react";
+import {useClickOutside} from "@/utlis/hooks/useClickOutside";
 
 const Input = (props: Omit<SearchbarProps, "hasPopover">) => {
 
@@ -34,13 +24,23 @@ const Input = (props: Omit<SearchbarProps, "hasPopover">) => {
     ]
 
     const iconCV: ClassValue[] = [
-        "absolute z-10 right-5 sm:right-[30px] top-1/3 stroke-text-gray sm:pointer",
+        "absolute z-10 right-5 sm:right-[30px] top-1/3 stroke-text-gray sm:hover:cursor-pointer",
         "w-5 h-5 sm:group-hover:stroke-blue-600 sm:hoverable"
     ]
 
+    const handleClear : MouseEventHandler = (e) => {
+        e.stopPropagation()
+        props.onChange("")
+        props.onSelect?.(undefined)
+    }
+
     return (
         <div className={cn("w-full relative group", props.classNames?.wrapper)}>
-            <FiSearch className={cn(iconCV)}/>
+            {
+                props.value
+                    ? <FiX className={cn(iconCV)} onClick={handleClear}/>
+                    : <FiSearch className={cn(iconCV)}/>
+            }
             <TextInput
                 classNames={{input: cn(inputCV)}}
                 placeholder={props.placeholder}
@@ -52,43 +52,67 @@ const Input = (props: Omit<SearchbarProps, "hasPopover">) => {
 
 }
 
-const PopoverProductColumn = ({products}: { products: ResponseProductSearch[] }) => {
+const PopoverProductColumn = ({products, ...props}: SearchbarProps & { products: ResponseProductSearch[] }) => {
 
     if (products.length === 0) return
 
-    return (
-        <section className={"w-full flex flex-col gap-5"}>
+    const productRowCV: ClassValue = [
+        "w-full right-0 p-7 pb-5 hover:bg-bg-light-blue hoverable pointer",
+        "flex flex-row items-center border-b-2",
+        "border-light-gray justify-between"
+    ]
 
-            <div className={"w-full flex flex-row items-baseline gap-4"}>
+    return (
+        <section className={"w-full flex flex-col"}>
+
+            <div className={"w-full flex flex-row items-baseline gap-4 p-7 pb-5"}>
                 <Text text={"Товары"} className={"text-lg font-medium"}/>
                 <Text text={`${products.length} шт.`} className={"text-text-gray"}/>
             </div>
 
             <section className={"w-full flex flex-col gap-5"}>
                 {
-                    products.map((product, index) => (
-                        <div className={"w-full flex flex-row items-center border-b-2 border-light-gray gap-5"}
-                             key={index}>
-                            <img
-                                className={"w-[130px] h-[70px] object-scale-down"}
-                                alt={"Изображение продукта"}
-                                src={product.image}
-                            />
-                            <div className={"w-full flex flex-col gap-2"}>
-                                <div className={"flex flex-row items-baseline gap-2"}>
-                                    <Text
-                                        className={"text-link-blue font-medium"}
-                                        text={`${product.price} ₽`}
+                    products.map((product, index, array) => {
+
+                        const [newPrice, oldPrice] = useDiscount(product.price, product.discountPercent)
+                        const itemCV = {
+                            "rounded-b-xl": index === array.length - 1,
+                            "bg-bg-light-blue" : product.id === props.selectedElement?.id
+                        }
+
+                        return (
+                            <div className={cn(productRowCV, itemCV)} onClick={() => props.onSelect?.(product)}
+                                 key={index}>
+                                <section className={"flex flex-row items-center gap-5"}>
+                                    <img
+                                        className={"w-[130px] h-[70px] object-scale-down"}
+                                        alt={"Изображение продукта"}
+                                        src={product.image}
                                     />
-                                    <Text
-                                        className={"text-sm text-text-gray line-through"}
-                                        text={`${product.price} ₽`}
-                                    />
-                                </div>
-                                <Text text={product.name}/>
+                                    <div className={"w-full flex flex-col gap-2"}>
+                                        <div className={"flex flex-row items-baseline gap-2"}>
+                                            <Text
+                                                className={"text-link-blue font-medium"}
+                                                text={`${newPrice.toFixed(2)} ₽`}
+                                            />
+                                            {
+                                                product.discountPercent !== 0 && <Text
+                                                    className={"text-sm text-text-gray line-through"}
+                                                    text={`${oldPrice} ₽`}
+                                                />
+                                            }
+                                        </div>
+                                        <Text text={product.name}/>
+                                    </div>
+                                </section>
+                                {
+                                    props.selectedElement?.id === product.id && <FiCheck
+                                        size={"20px"} className={"text-link-blue"}/>
+                                }
                             </div>
-                        </div>
-                    ))
+                        )
+
+                    })
                 }
             </section>
 
@@ -103,16 +127,16 @@ const PopoverCategoryColumn = ({categories}: { categories: ResponsePromoSearch[]
     return (
         <section className={"w-full flex flex-col gap-5"}>
 
-            <div className={"w-full flex flex-row items-baseline gap-4"}>
+            <div className={"w-full flex flex-row items-baseline gap-4 p-7 pb-5"}>
                 <Text text={"Категории"} className={"text-lg font-medium"}/>
                 <Text text={`${categories.length} шт.`} className={"text-text-gray"}/>
             </div>
 
-            <section className={"w-full flex flex-col gap-5"}>
+            <section className={"w-full flex flex-col"}>
                 {
                     categories.map((category, index) => (
                         <div
-                            className={"w-full flex flex-col gap-2 pb-5 border-b-2 border-light-gray"}
+                            className={"w-full flex flex-col gap-2 p-7 pt-0 border-b-2 border-light-gray"}
                             key={index}
                         >
                             <Link href={`/catalog/${category.id}`}>
@@ -131,20 +155,20 @@ const NotFoundMessage = ({catalog}: { catalog: ResponseSearchCatalog }) => {
     if (catalog.categoryList.length === 0 && catalog.productList.length === 0) {
         return <Text
             text={"Мы не смогли найти товар или категорию по вашему запросу"}
-            className={"text-text-gray"}
+            className={"p-7 text-text-gray"}
         />
     }
 }
 
-const PopoverList = () => {
+const PopoverList = (props: SearchbarProps) => {
 
     const [catalog, searchName] = useUnit([$searchCatalog, $searchValue])
 
     if (searchName.length === 0) return
 
     if (catalog) return (
-        <section className={"absolute z-20 top-[80px] w-full flex flex-col gap-5 p-7 rounded-xl bg-white shadow-2xl"}>
-            <PopoverProductColumn products={catalog.productList}/>
+        <section className={"absolute z-20 top-[80px] w-full flex flex-col gap-5 rounded-xl bg-white shadow-2xl"}>
+            <PopoverProductColumn products={catalog.productList} {...props}/>
             <PopoverCategoryColumn categories={catalog.categoryList}/>
             <NotFoundMessage catalog={catalog}/>
         </section>
@@ -153,10 +177,20 @@ const PopoverList = () => {
 }
 
 const SearchInput = ({hasPopover = false, ...props}: SearchbarProps) => {
+
+    const {
+        ref,
+        isComponentVisible,
+        setIsComponentVisible
+    } = useClickOutside(true)
+
     return (
-        <section className={cn("w-full relative flex flex-col gap-5", props.classNames?.mainWrapper)}>
+        <section
+            ref={ref} onClick={() => setIsComponentVisible(true)}
+            className={cn("w-full relative flex flex-col gap-5", props.classNames?.mainWrapper)}
+        >
             <Input {...props}/>
-            {hasPopover && <PopoverList/>}
+            {hasPopover && isComponentVisible && <PopoverList {...props}/>}
         </section>
     )
 }

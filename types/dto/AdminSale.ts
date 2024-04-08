@@ -1,7 +1,7 @@
 export type AdminSale = {
     name : string,
     crmGroup : string,
-    cmrCode : string,
+    crmCode : string,
     deadline : string,
     description : string,
     products : ProductIdDto[],
@@ -9,6 +9,6 @@ export type AdminSale = {
 }
 
 type ProductIdDto = {
-    productId : number,
-    quantity : number
+    productId : string,
+    quantity : string
 }

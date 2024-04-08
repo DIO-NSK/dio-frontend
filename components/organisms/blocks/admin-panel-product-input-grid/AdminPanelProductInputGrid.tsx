@@ -8,10 +8,9 @@ const productInputGrid: InputPrefilledData[] = [
         placeholder: "Введите название товара",
         name: "name"
     }, {
-        disabled : true,
         labelText: "Цена товара",
         placeholder: "Введите цену товара",
-        numbersOnly: true,
+        readOnly : true,
         name: "price"
     }, {
         labelText: "Скидка",
@@ -19,10 +18,9 @@ const productInputGrid: InputPrefilledData[] = [
         numbersOnly: true,
         name: "discountPercent"
     }, {
-        disabled : true,
         labelText: "Размер НДС",
+        readOnly : true,
         placeholder: "20",
-        numbersOnly: true,
         name: "taxPercent"
     }
 ]
@@ -33,15 +31,14 @@ const AdminPanelProductInputGrid = () => {
 
     return (
         <section className={inputRowCN}>
-            {
-                productInputGrid
-                    .map((inputData, inputIndex) => {
-                        return <ControlledTextInput
-                            classNames={{wrapper: `col-span-1`}}
-                            key={inputIndex} {...inputData}
-                        />
-                    })
-            }
+            {productInputGrid
+                .map((inputData, inputIndex) => {
+                    return <ControlledTextInput
+                        readonly={inputData.readOnly}
+                        classNames={{wrapper: `col-span-1`}}
+                        key={inputIndex} {...inputData}
+                    />
+                })}
         </section>
     )
 
