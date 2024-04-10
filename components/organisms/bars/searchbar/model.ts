@@ -51,9 +51,13 @@ export const selectActiveSectionEvent = createEvent<TabBarItem>()
 $getCatalogError.on(getCatalogFx.failData, (_, error) => error.message)
 $catalog.on(getCatalogFx.doneData, (_, catalog) => catalog)
 
+$activeSection.watch(console.log)
+
 sample({
     clock: getCatalogFx.doneData,
-    fn: (catalog: CatalogItem[]) => catalog[0],
+    source : $activeSection,
+    fn: (_, catalog: CatalogItem[]) => catalog[0],
+    filter : (section) => section !== null,
     target: $activeSection
 })
 

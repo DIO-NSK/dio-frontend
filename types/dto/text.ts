@@ -1,7 +1,7 @@
 import React from "react";
 
 export type Text = { text : string }
-export type TextLink = { link : string } & Text
+export type TextLink = { link : string | number} & Text
 export type TextAction = { action : () => void } & Text
 export type IconTextAction = {icon : React.ReactNode} & TextAction
 

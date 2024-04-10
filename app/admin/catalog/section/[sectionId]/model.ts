@@ -1,5 +1,5 @@
 import {Category} from "@/types/dto/Category";
-import {unauthorizedApi} from "@/api";
+import {api, unauthorizedApi} from "@/api";
 import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {TableRow} from "@/types/dto/Table";
@@ -22,7 +22,7 @@ const createCategory = async (request: { data: CreateCategoryData, sequenceNumbe
 
 const getCategoryList = async (sectionId: number) => {
     const params = {params: {sectionId: sectionId}}
-    return unauthorizedApi.get("/admin/catalogue/category/search", params)
+    return api.get("/admin/catalogue/category/search", params)
         .then(response => response.data)
 }
 

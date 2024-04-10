@@ -15,13 +15,54 @@ import {useToggle} from "@/utlis/hooks/useToggle";
 import MobilePhotoGalleryPopup from "@/components/mobile/popups/photo-gallery-popup/MobilePhotoGalleryPopup";
 import {useUnit} from "effector-react";
 import {
+    $breadcrumbs,
     $product,
+    getBreadcrumbsEvent,
     getProductEvent
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
+import {Breadcrumbs, Link} from "@mui/joy";
+import {selectActiveSectionEvent, toggleCatalogPopupEvent} from "@/components/organisms/bars/searchbar/model";
+
+const ProductBreadcrumbs = ({productId}: { productId: number }) => {
+
+    const [breadcrumbs, getBreadcrumbs] = useUnit([$breadcrumbs, getBreadcrumbsEvent])
+    const [togglePopup, setActiveSection] = useUnit([toggleCatalogPopupEvent, selectActiveSectionEvent])
+
+    const handleOpenCatalogue = (sectionName : string) => {
+        setActiveSection({text : sectionName} as TabBarItem)
+        togglePopup()
+    }
+
+    useEffect(() => {
+        getBreadcrumbs(productId)
+    }, [])
+
+    return (
+        <section className={"col-span-full flex flex-row"}>
+            <Breadcrumbs
+                sx={{
+                    "--Breadcrumbs-gap": "10px",
+                    marginLeft: "-10px",
+                    marginBottom: "-10px",
+                }}
+            >
+                {breadcrumbs.map((breadcrumb, key) => (
+                    typeof breadcrumb.link === "string"
+                        ? <Link color={"neutral"} href={breadcrumb.link} key={key}>
+                            <Text text={breadcrumb.text} className={"text-text-gray"}/>
+                        </Link> : <Link color={"neutral"} onClick={() => handleOpenCatalogue(breadcrumb.text)} key={key}>
+                            <Text text={breadcrumb.text} className={"text-text-gray"}/>
+                        </Link>
+                ))}
+            </Breadcrumbs>
+        </section>
+    )
+
+}
 
 const MobileHeaderRow = ({product}: { product: ResponseProduct }) => {
 
@@ -76,6 +117,8 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
                 />
             }
             <InnerPageWrapper classNames={{mobileWrapper: "px-0 -mt-7"}}>
+
+                <ProductBreadcrumbs productId={params.productId}/>
 
                 <div onClick={popupToggle.toggleState}>
                     <MobilePhotoSlider/>

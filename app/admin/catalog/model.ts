@@ -1,5 +1,5 @@
 import {attach, createEffect, createEvent, createStore, sample} from "effector";
-import {unauthorizedApi} from "@/api";
+import {api, unauthorizedApi} from "@/api";
 import {Section} from "@/types/dto/Section";
 import {CreateSectionData} from "@/schemas/admin/CreateSectionSchema";
 import {TableRow} from "@/types/dto/Table";
@@ -32,7 +32,7 @@ const createSection = async (sections: Section[]) => {
 }
 
 const getSections = async () => {
-    return unauthorizedApi.get('/admin/catalogue')
+    return api.get('/admin/catalogue')
         .then(response => response.data)
         .catch(exception => exception)
 }

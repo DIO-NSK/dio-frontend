@@ -1,5 +1,4 @@
 import axios from "axios";
-import {Auth} from "@/types/AuthContextType";
 
 const BASE_URL: string = "https://diowater.ru/api"
 
@@ -20,13 +19,14 @@ api.interceptors.request.use(config => {
 
 api.interceptors.response.use(config => config, async (error) => {
     const originalRequest = error.config
-    if (error.response.status === 401 && !originalRequest._isRetry) {
-        originalRequest._isRetry = true
-        const response = await axios.put<Auth>(
-            `${BASE_URL}/user/refresh`, null, {withCredentials: true})
+    if (error.response.status === 403 && !originalRequest._retry) {
+        originalRequest._retry = true
+        const response = await axios.put(
+            `${BASE_URL}/user/refresh`,
+            null, {withCredentials: true})
         localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
-        return api.request(originalRequest)
-    } else return Promise.reject(error)
+        return api(originalRequest)
+    }
 })
 
 export const getRequest = async (...args: any[]): Promise<any> => {

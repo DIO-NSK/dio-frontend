@@ -1,5 +1,4 @@
 import React from 'react';
-import HeaderSliderBlock from "@/components/wrappers/header-slider-block/HeaderSliderBlock";
 
 const BottomRelatedProductsLayout = ({children}: {
     children: React.ReactNode
