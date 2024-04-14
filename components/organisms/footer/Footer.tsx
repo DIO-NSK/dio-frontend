@@ -12,6 +12,8 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import MailIcon from "@/public/icons/main-icon.png";
 import GeoIcon from "@/public/icons/map-icon.png";
+import {useUnit} from "effector-react";
+import {toggleCallRequestOpenEvent} from "@/components/organisms/popups/call-request/model";
 
 const IconRow = () => {
 
@@ -77,13 +79,18 @@ const LeftRow = () => {
 }
 
 const RightCol = () => {
+
+    const togglePopupState = useUnit(toggleCallRequestOpenEvent)
+
     return (
         <div className={"flex flex-col gap-[25px]"}>
             <RightCol.IconRow/>
             <Text text={"+7 (383) 333-99-00"}/>
-            <div onClick={() => console.log("Заказать звонок")}>
-                <Text text={"Заказать звонок"} className={"text-link-blue"}/>
-            </div>
+            <Text
+                text={"Заказать звонок"}
+                className={"text-link-blue hoverable hover:text-blue-800 pointer"}
+                onClick={togglePopupState}
+            />
         </div>
     )
 }

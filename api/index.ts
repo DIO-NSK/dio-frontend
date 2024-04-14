@@ -8,7 +8,8 @@ export const api = axios.create({
 })
 
 export const unauthorizedApi = axios.create({
-    baseURL : BASE_URL
+    baseURL : BASE_URL,
+    withCredentials : true
 })
 
 api.interceptors.request.use(config => {

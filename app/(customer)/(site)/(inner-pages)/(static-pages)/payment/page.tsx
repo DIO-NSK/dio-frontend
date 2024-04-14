@@ -2,12 +2,13 @@
 
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import {HeaderDescription, TextLink} from "@/types/dto/text";
-import BreadCrumbs from "@/components/atoms/breadcrumbs/Breadcrumbs";
 import Text from "@/components/atoms/text/text-base/Text";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import {paymentData} from "@/data/static/payment";
 import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
+import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
+import React from "react";
 
 const TimeColumn = () => {
 
@@ -146,7 +147,7 @@ const PaymentPage = () => {
         <InnerPageWrapper classNames={{mobileWrapper : "pt-0"}}>
 
             <div className={"col-span-full flex flex-col gap-[10px]"}>
-                <BreadCrumbs breadcrumbs={breadcrumbs}/>
+                <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                 <Text
                     text={"Оплата и возврат товара"}
                     className={"text-xl sm:text-[24px] text-black font-semibold"}

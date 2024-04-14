@@ -1,6 +1,5 @@
-import {api} from "@/api";
+import {api, unauthorizedApi} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
-import {persist} from "effector-storage/local";
 import {getCartFx} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 
@@ -12,7 +11,7 @@ const addToCart = async (productId: number): Promise<string> => {
         quantityProduct: 1
     }
 
-    return api.put("/cart", requestBody)
+    return unauthorizedApi.put("/cart", requestBody)
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 

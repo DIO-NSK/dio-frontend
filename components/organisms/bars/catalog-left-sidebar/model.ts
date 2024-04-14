@@ -1,4 +1,4 @@
-import {api, getRequest} from "@/api";
+import {unauthorizedApi} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {$products} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
 import {FilterItem} from "@/types/dto/user/catalog/FilterItem";
@@ -27,13 +27,15 @@ export type CatalogueFilterParams = {
 }
 
 const getCategoryFilters = async (categoryId: number) => {
-    return getRequest("/catalogue/category/filter", {params: {categoryId}})
+    return unauthorizedApi.get("/catalogue/category/filter", {params: {categoryId}})
+        .then(response => response.data)
+        .catch(error => {throw Error(error.response.data.message)})
 }
 
 export const getCategoryFiltersFx = createEffect(getCategoryFilters)
 
 const sendFilters = async (params: RequestFilterParams) => {
-    return api.put("/catalogue/product/filter", params)
+    return unauthorizedApi.put("/catalogue/product/filter", params)
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }

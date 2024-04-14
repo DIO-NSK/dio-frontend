@@ -3,10 +3,11 @@ import ButtonSlider from "@/components/moleculas/sliders/button-slider/ButtonSli
 import {HeaderWrapperType} from "@/types/wrappers";
 import Text from "@/components/atoms/text/text-base/Text";
 import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
+import {cn} from "@/utlis/cn";
 
-const SliderGroup = ({header, children}: HeaderWrapperType) => {
+const SliderGroup = ({header, children, className}: HeaderWrapperType) => {
     return (
-        <div className={"sm:pl-0 w-full flex flex-col gap-5 sm:gap-7"}>
+        <div className={cn("sm:pl-0 w-full flex flex-col gap-5 sm:gap-7", className)}>
 
             <div className={"px-5 sm:px-0 col-span-full flex flex-row justify-between items-center"}>
                 {

@@ -4,35 +4,43 @@ import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiSliders} from "react-icons/fi";
 import {useUnit} from "effector-react";
-import {$products, getCategoryByNameEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
+import {
+    $catalogCategoryName,
+    $categoryBreadcrumbs,
+    $products,
+    getCategoryBreadcrumbsEvent,
+    getCategoryByNameEvent
+} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
 import React, {useEffect} from "react";
-import CatalogHeaderCol from "@/components/moleculas/cols/catalog-header-col/CatalogHeaderCol";
-import {mockCardArray} from "@/data/productCardData";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import CatalogLeftSidebar from "@/components/organisms/bars/catalog-left-sidebar/CatalogLeftSidebar";
-import {TextLink} from "@/types/dto/text";
 import PageContentWrapper from "@/components/wrappers/page-content-wrapper/PageContentWrapper";
 import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {useToggle} from "@/utlis/hooks/useToggle";
 import CatalogFilters from "@/components/organisms/catalog-filters/CatalogFilters";
+import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
+import Text from "@/components/atoms/text/text-base/Text";
 
 const DesktopCatalogScreen = ({categoryId, onOpenPopup}: { categoryId: number, onOpenPopup: () => void }) => {
 
-    const breadcrumbs: TextLink[] = [
-        {text: "Главная", link: "/"},
-        {text: "Каталог", link: "/catalog"},
-        {text: "Кулеры", link: "/catalog/coolers"},
-    ]
+    const [breadcrumbs, categoryName, getBreadcrumbs]
+        = useUnit([$categoryBreadcrumbs, $catalogCategoryName, getCategoryBreadcrumbsEvent])
 
     const [cart, products] = useUnit([$cart, $products])
 
-    return (
+    useEffect(() => {
+        getBreadcrumbs(categoryId)
+    }, [])
+
+    if (breadcrumbs.length) return (
         <React.Fragment>
-            <CatalogHeaderCol
-                text={"Кулеры"}
-                amount={mockCardArray.length}
-                breadcrumbs={breadcrumbs}
-            />
+            <section className={"px-[100px] col-span-full flex flex-col"}>
+                <div className={"flex flex-row items-baseline gap-3"}>
+                    <Text text={categoryName} className={"text-2xl font-medium"}/>
+                    <Text text={`Всего ${products.length} шт.`} className={"text-base text-text-gray"}/>
+                </div>
+                <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+            </section>
             <InnerPageWrapper>
                 <CatalogLeftSidebar categoryId={categoryId}/>
                 <section className={"col-span-9 flex flex-col gap-7"}>

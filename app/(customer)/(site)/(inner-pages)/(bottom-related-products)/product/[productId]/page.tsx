@@ -24,45 +24,7 @@ import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
-import {Breadcrumbs, Link} from "@mui/joy";
-import {selectActiveSectionEvent, toggleCatalogPopupEvent} from "@/components/organisms/bars/searchbar/model";
-
-const ProductBreadcrumbs = ({productId}: { productId: number }) => {
-
-    const [breadcrumbs, getBreadcrumbs] = useUnit([$breadcrumbs, getBreadcrumbsEvent])
-    const [togglePopup, setActiveSection] = useUnit([toggleCatalogPopupEvent, selectActiveSectionEvent])
-
-    const handleOpenCatalogue = (sectionName : string) => {
-        setActiveSection({text : sectionName} as TabBarItem)
-        togglePopup()
-    }
-
-    useEffect(() => {
-        getBreadcrumbs(productId)
-    }, [])
-
-    return (
-        <section className={"col-span-full flex flex-row"}>
-            <Breadcrumbs
-                sx={{
-                    "--Breadcrumbs-gap": "10px",
-                    marginLeft: "-10px",
-                    marginBottom: "-10px",
-                }}
-            >
-                {breadcrumbs.map((breadcrumb, key) => (
-                    typeof breadcrumb.link === "string"
-                        ? <Link color={"neutral"} href={breadcrumb.link} key={key}>
-                            <Text text={breadcrumb.text} className={"text-text-gray"}/>
-                        </Link> : <Link color={"neutral"} onClick={() => handleOpenCatalogue(breadcrumb.text)} key={key}>
-                            <Text text={breadcrumb.text} className={"text-text-gray"}/>
-                        </Link>
-                ))}
-            </Breadcrumbs>
-        </section>
-    )
-
-}
+import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 
 const MobileHeaderRow = ({product}: { product: ResponseProduct }) => {
 
@@ -97,6 +59,7 @@ const MobileHeaderRow = ({product}: { product: ResponseProduct }) => {
 
 const ProductCardPage = ({params}: { params: { productId: number } }) => {
 
+    const [breadcrumbs, getBreadcrumbs] = useUnit([$breadcrumbs, getBreadcrumbsEvent])
     const [product, getProduct] = useUnit([$product, getProductEvent])
     const popupToggle = useToggle()
 
@@ -106,6 +69,7 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
     ] = useState<string | undefined>(product?.photos[0] ?? undefined)
 
     useEffect(() => {
+        getBreadcrumbs(params.productId)
         getProduct(params.productId)
     }, [])
 
@@ -118,7 +82,7 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
             }
             <InnerPageWrapper classNames={{mobileWrapper: "px-0 -mt-7"}}>
 
-                <ProductBreadcrumbs productId={params.productId}/>
+                <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
 
                 <div onClick={popupToggle.toggleState}>
                     <MobilePhotoSlider/>

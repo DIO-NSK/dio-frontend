@@ -1,7 +1,6 @@
 "use client"
 
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import Breadcrumbs from "@/components/atoms/breadcrumbs/Breadcrumbs";
 import {TextLink} from "@/types/dto/text";
 
 import AboutCompanyBanner from "@/public/images/about-company-banner.png"
@@ -20,6 +19,7 @@ import SecondBlock from "@/app/(customer)/(site)/(inner-pages)/(static-pages)/ab
 import ThirdBlock from "@/app/(customer)/(site)/(inner-pages)/(static-pages)/about-company/blocks/ThirdBlock";
 import FourthBlock from "@/app/(customer)/(site)/(inner-pages)/(static-pages)/about-company/blocks/FourthBlock";
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
+import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 
 const AboutCompanyPage = () => {
 
@@ -32,7 +32,7 @@ const AboutCompanyPage = () => {
         <InnerPageWrapper classNames={{desktopWrapper : "gap-y-[50px]", mobileWrapper : "px-0 pt-0"}}>
 
             <div className={"w-full col-span-full flex flex-col gap-5 sm:gap-7"}>
-                <Breadcrumbs breadcrumbs={breadcrumbs} className={"px-5"}/>
+                <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                 <img
                     className={"w-full h-[200px] col-span-full sm:rounded-2xl sm:h-fit object-cover"}
                     src={AboutCompanyBanner.src}
@@ -45,12 +45,12 @@ const AboutCompanyPage = () => {
             <ThirdBlock/>
             <FourthBlock/>
 
-            <SliderGroup header={"Фотографии"}>
+            <SliderGroup header={"Фотографии"} className={"sm:col-span-full"}>
                 <ContentImage image={ProductImage4.src}/>
                 <ContentImage image={ProductImage5.src}/>
             </SliderGroup>
 
-            <div className={"hidden sm:flex w-full"}>
+            <div className={"hidden sm:flex sm:col-span-full"}>
                 <HeaderGroup header={"Наши преимущества"}>
                     {
                         advantagesCardData.map((card) => {

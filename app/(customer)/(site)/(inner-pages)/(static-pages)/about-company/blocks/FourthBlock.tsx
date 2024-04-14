@@ -17,13 +17,13 @@ const FourthBlock = () => {
     ]
 
     const wrapperCV: ClassValue[] = [
-        "hidden py-5 sm:ml-[-100px] sm:px-[100px] sm:pt-[50px] bg-light-gray w-full",
+        "hidden py-5 sm:-ml-[100px] sm:w-screen sm:px-[100px] sm:pt-[50px] bg-light-gray w-full",
         "sm:grid sm:grid-cols-12 sm:gap-x-5 sm:gap-y-10 sm:pb-[50px] border-b-2 border-light-gray"
     ]
 
     const cardWrapperCV = [
         "border-2 border-white hover:bg-bg-light-blue",
-        "hover:border-blue-200 w-[120vw] sm:col-span-4 bg-white"
+        "hover:border-blue-200 w-[120vw] sm:w-full sm:col-span-4 bg-white"
     ]
 
     return (

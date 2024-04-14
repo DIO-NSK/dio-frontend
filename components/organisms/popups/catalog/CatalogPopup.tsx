@@ -13,7 +13,7 @@ import {
 } from "@/components/organisms/bars/searchbar/model";
 import Link from "next/link";
 
-const SubcategoryItem = ({text, id}: { text: string, id : number}) => {
+const SubcategoryItem = ({text, id}: { text: string, id: number }) => {
     return (
         <Link href={`/catalog/${id}`}>
             <Text
@@ -48,29 +48,22 @@ const CatalogPopup = () => {
                 }
             }}
         >
-            {
-                activeSection && <div className={"px-3 bg-white flex flex-row gap-8"}>
-                    <SideTabBar
-                        className={"pr-8 h-[calc(100vh-64px)] overflow-y-scroll"}
-                        tabs={tabs}
-                        activeTab={activeTab!!}
-                        setActive={selectTabBar}
-                    />
-                    <div className={"min-w-[300px] flex pt-3 flex-col gap-5"}>
-                        {
-                            activeTab && <Text
-                                className={"text-lg text-black font-medium"}
-                                text={activeTab.text}
-                            />
-                        }
-                        {
-                            activeSection.categories.map((item) =>
-                                <SubcategoryItem text={item.name} id={item.id}/>)
-                        }
-                    </div>
+            {activeSection && <div className={"px-3 bg-white flex flex-row gap-8"}>
+                <SideTabBar
+                    className={"pr-8 h-[calc(100vh-64px)] overflow-y-scroll"}
+                    tabs={tabs}
+                    activeTab={activeTab!!}
+                    setActive={selectTabBar}
+                />
+                <div className={"min-w-[300px] flex pt-3 flex-col gap-5"}>
+                    {activeTab && <Text
+                        className={"text-lg text-black font-medium"}
+                        text={activeTab.text}
+                    />}
+                    {activeSection.categories.map((item) =>
+                        <SubcategoryItem text={item.name} id={item.id}/>)}
                 </div>
-            }
-
+            </div>}
         </PopupWrapper>
     );
 };

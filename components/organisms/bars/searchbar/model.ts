@@ -1,6 +1,6 @@
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {debounce} from "patronum";
-import {api} from "@/api";
+import {unauthorizedApi} from "@/api";
 import {ResponseSearchList} from "@/types/dto/user/ResponseSearchList";
 import {ResponseSearchCatalog} from "@/types/dto/user/catalog/ResponseSearchCatalog";
 
@@ -8,7 +8,7 @@ const DEBOUNCE_TIMEOUT = 400
 
 // region search catalog
 const searchCatalog = async (searchName: string) => {
-    return api.get("/catalogue/search", {params: {name: searchName}})
+    return unauthorizedApi.get("/catalogue/search", {params: {name: searchName}})
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)
@@ -34,11 +34,9 @@ sample({
 //region catalog state
 
 const getCatalog = async (): Promise<CatalogItem[]> => {
-    return api.get("/catalogue")
+    return unauthorizedApi.get("/catalogue")
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
+        .catch(error => {throw Error(error.response.data.message)})
 }
 
 const getCatalogFx = createEffect<void, CatalogItem[], Error>(getCatalog)
@@ -56,8 +54,7 @@ $activeSection.watch(console.log)
 sample({
     clock: getCatalogFx.doneData,
     source : $activeSection,
-    fn: (_, catalog: CatalogItem[]) => catalog[0],
-    filter : (section) => section !== null,
+    fn: (section, catalog: CatalogItem[]) => section ?? catalog[0],
     target: $activeSection
 })
 
@@ -88,7 +85,7 @@ $catalogPopupOpen.on(toggleCatalogPopupEvent, (state) => !state)
 //region search by name
 
 const searchCatalogByName = async (name: string): Promise<ResponseSearchCatalog> => {
-    return api.get("/catalogue/search", {params: {name: name}})
+    return unauthorizedApi.get("/catalogue/search", {params: {name: name}})
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)

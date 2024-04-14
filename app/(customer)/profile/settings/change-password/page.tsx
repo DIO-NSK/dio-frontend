@@ -9,8 +9,13 @@ import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 import ForgotPasswordPopup from "@/components/organisms/popups/authorization/forgot-password-popup/ForgotPasswordPopup";
 import MobileForgotPasswordPopup from "@/components/mobile/popups/forgot-password-popup/MobileForgotPasswordPopup";
-import axios from "axios";
-import {Auth} from "@/types/AuthContextType";
+
+const MobileChangePasswordPopup = ({isOpen, onChange}: { isOpen: boolean, onChange: () => void }) => {
+    if (isOpen) return <>
+        <ForgotPasswordPopup onClose={onChange}/>
+        <MobileForgotPasswordPopup onClose={onChange}/>
+    </>
+}
 
 const UserProfileChangePasswordPage = () => {
 
@@ -18,25 +23,18 @@ const UserProfileChangePasswordPage = () => {
     const [oldPassword, setOldPassword] = useState<string>("")
     const [newPassword, setNewPassword] = useState<string>("")
 
-    const handleSaveChanges = async () => {
-        const response = await axios.put<Auth>(
-            `https://diowater.ru/api/user/refresh`, null, {withCredentials : true})
-        localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
+
+    const handleSaveChanges = () => {
+        console.log("Saved Changes")
     }
     const handleSwitchPopupState = () => setPopupOpen(!isPopupOpen)
 
     return (
         <UserProfileWrapper>
-            {
-                isPopupOpen && <>
-                    <ForgotPasswordPopup
-                        onClose={handleSwitchPopupState}
-                    />
-                    <MobileForgotPasswordPopup
-                        onClose={handleSwitchPopupState}
-                    />
-                </>
-            }
+            <MobileChangePasswordPopup
+                onChange={handleSwitchPopupState}
+                isOpen={isPopupOpen}
+            />
             <HeaderRow
                 hasBackIcon
                 header={"Изменение пароля"}

@@ -5,15 +5,7 @@ import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
 import {getCartFx} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {getFavouritesFx} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
 import {TextLink} from "@/types/dto/text";
-
-type Breadcrumbs = {
-    sectionId: number,
-    sectionName: string,
-    categoryId: number,
-    categoryName: string,
-    productId: number,
-    productName: string
-}
+import {Breadcrumbs} from "@/types/dto/Breadcrumbs";
 
 const getBreadcrumbs = async (productId: number): Promise<Breadcrumbs> => {
     return unauthorizedApi.get("/catalogue/breadcrumb", {params: {productId: productId}})
