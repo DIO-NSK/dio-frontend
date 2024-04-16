@@ -27,7 +27,7 @@ const BreadCrumbs = ({breadcrumbs, className}: {
                         <Text
                             text={item.text}
                             className={cn(textCV)}
-                            onClick={() => router.push(item.link)}
+                            onClick={() => router.push(item.link as string)}
                         />
                         {
                             index !== breadcrumbs.length - 1 && <FiChevronRight

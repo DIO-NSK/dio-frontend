@@ -6,9 +6,9 @@ const InfoCircleIcon = () => {
             <circle cx="25" cy="25" r="25" fill="#0067B0"/>
             <path
                 d="M25 35C19.4772 35 15 30.5228 15 25C15 19.4772 19.4772 15 25 15C30.5228 15 35 19.4772 35 25C35 30.5228 30.5228 35 25 35Z"
-                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M25 29L25 25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M25 21L24.99 21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M25 29L25 25" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M25 21L24.99 21" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
 
     );

@@ -6,23 +6,23 @@ import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import {FiMenu, FiMoreHorizontal} from "react-icons/fi";
 import Text from "@/components/atoms/text/text-base/Text";
 import TableWrapper from "@/components/wrappers/table-wrapper/TableWrapper";
-import {AdminSale} from "@/types/dto/AdminSale";
 import EditDeleteTooltip from "@/components/organisms/tooltips/EditDeleteTooltip";
+import {ResponseAdminProductSearch} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
 
-type ProductContentTableProps<T> = {
-    tableContent: ProductTableRow<T>[],
+type ProductContentTableProps = {
+    tableContent: ProductTableRow<ResponseAdminProductSearch>[],
     isDraggable?: boolean,
-    onProductClick: (tableRow: ProductTableRow<T>) => void,
-    onEdit : (tableRow : ProductTableRow<T>) => void,
-    onDelete : (tableRow : ProductTableRow<T>) => void,
+    onProductClick: (tableRow: ProductTableRow<ResponseAdminProductSearch>) => void,
+    onEdit : (tableRow : ProductTableRow<ResponseAdminProductSearch>) => void,
+    onDelete : (tableRow : ProductTableRow<ResponseAdminProductSearch>) => void,
 } & Omit<TableWrapperProps, "children">
 
-const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow, ...props}: {
-    onClick: (product: ProductTableRow<T>) => void,
-    onEdit : (tableRow : ProductTableRow<T>) => void,
-    onDelete : (tableRow : ProductTableRow<T>) => void,
+const ProductRow = ({onClick, isDraggable, tableRow, ...props}: {
+    onClick: (product: ProductTableRow<ResponseAdminProductSearch>) => void,
+    onEdit : (tableRow : ProductTableRow<ResponseAdminProductSearch>) => void,
+    onDelete : (tableRow : ProductTableRow<ResponseAdminProductSearch>) => void,
     isDraggable?: boolean,
-    tableRow: ProductTableRow<T>
+    tableRow: ProductTableRow<ResponseAdminProductSearch>
 }) => {
 
     const wrapperCV: ClassValue[] = [
@@ -68,7 +68,7 @@ const ProductRow = <T extends AdminSale, >({onClick, isDraggable, tableRow, ...p
 
 }
 
-const ProductContentTable = <T extends AdminSale, >(props: ProductContentTableProps<T>) => {
+const ProductContentTable = (props: ProductContentTableProps) => {
     return (
         <TableWrapper {...props}>
             {

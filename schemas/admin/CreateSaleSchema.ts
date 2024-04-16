@@ -18,7 +18,7 @@ export const CreateSaleSchema = z.object({
     description: z.string().min(1, requiredFiledError),
     productIdList: z.array(ProductIdSchema),
     ruleList: z.array(RuleSchema),
-    photos : z.array(z.instanceof(File))
+    photos : z.array(z.custom<File>((v) => v instanceof File))
 })
 
 export type CreateSaleData = z.infer<typeof CreateSaleSchema>

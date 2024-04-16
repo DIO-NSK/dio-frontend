@@ -36,7 +36,7 @@ const TextNavbar = () => {
                             <Text
                                 text={item.text}
                                 className={linkCV}
-                                onClick={() => router.push((item as TextLink).link)}
+                                onClick={() => router.push((item as TextLink).link as string)}
                                 key={index}
                             /> :
                             <TextButton

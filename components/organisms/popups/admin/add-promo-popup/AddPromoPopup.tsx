@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {PopupProps} from "@/types/props/Popup";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -42,6 +42,10 @@ const AddPromoPopup = (props: PopupProps) => {
         createBanner(fieldValues as RequestBanner)
             .then(props.onClose)
     }
+
+    useEffect(() => {
+        console.log(methods.formState.errors)
+    }, [methods.formState.errors]);
 
     console.log(watch())
 

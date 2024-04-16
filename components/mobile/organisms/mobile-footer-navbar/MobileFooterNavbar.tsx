@@ -18,7 +18,7 @@ const MobileFooterNavbar = () => {
         <nav className={"w-full flex flex-col gap-5 py-5 border-y-2 border-light-gray"}>
             {
                 blockData.map((textLink, key) =>
-                    <Link href={textLink.link} key={key}>
+                    <Link href={textLink.link as string} key={key}>
                         <Text text={textLink.text} className={"text-text-gray"}/>
                     </Link>
                 )

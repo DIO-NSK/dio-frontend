@@ -36,7 +36,7 @@ const UserProfileOrdersPage = () => {
     }, [])
 
     const sortedOrders = useMemo(() => {
-        switch (activeItem.value) {
+        if (orders.length) switch (activeItem.value) {
             case "date":
                 return orders.toSorted((first, second) => first.id - second.id)
             case "price":
@@ -58,7 +58,7 @@ const UserProfileOrdersPage = () => {
         }
     }, [activeItem.value, orders])
 
-    return (
+    if (sortedOrders?.length) return (
         <UserProfileWrapper>
             <HeaderRow
                 header={"Мои заказы"}

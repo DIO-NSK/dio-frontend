@@ -1,4 +1,4 @@
-import {api, unauthorizedApi} from "@/api";
+import {unauthorizedApi} from "@/api";
 import {LoginUserData} from "@/schemas/customer/authorization/LoginUserSchema";
 import {createEffect, createStore} from "effector";
 

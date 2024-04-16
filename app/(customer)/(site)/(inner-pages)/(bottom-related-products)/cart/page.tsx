@@ -7,7 +7,7 @@ import React from "react";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
-import {usePathname, useRouter} from "next/navigation";
+import {useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
 import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {useStore} from "@/store/Store";

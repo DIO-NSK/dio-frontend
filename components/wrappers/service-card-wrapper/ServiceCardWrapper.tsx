@@ -1,5 +1,4 @@
 import React from 'react';
-import style from "./ServiceCardWrapper.module.css"
 import {cn} from "@/utlis/cn";
 
 const ServiceCardWrapper = ({children} : {

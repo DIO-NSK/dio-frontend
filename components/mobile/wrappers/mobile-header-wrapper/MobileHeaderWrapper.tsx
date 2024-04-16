@@ -8,7 +8,7 @@ import {cn} from "@/utlis/cn";
 const MobileHeaderWrapper = (props: HeaderWrapperProps) => {
 
     const router = useRouter()
-    const handleButtonClick = () => props.textLink && router.push(props.textLink.link)
+    const handleButtonClick = () => props.textLink && router.push(props.textLink.link as string)
 
     return (
         <section className={cn("w-full flex flex-col gap-5 sm:hidden", props.classNames?.mainWrapper)}>

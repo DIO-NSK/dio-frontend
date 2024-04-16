@@ -8,22 +8,6 @@ import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSea
 
 const HeroSliderRow = () => {
 
-    const mockBannerArray : ImageLink[] = [
-        {
-            image: MockBannerImage1,
-            path: "/"
-        }, {
-            image: MockBannerImage2,
-            path: "/"
-        }, {
-            image: MockBannerImage1,
-            path: "/"
-        }, {
-            image: MockBannerImage2,
-            path: "/"
-        }
-    ]
-
     const mockProductCard : ResponseProductSearch = {
         inCart : false, inFavourites : false,
         price: 500, discountPercent : 20, id : 1,
@@ -33,7 +17,7 @@ const HeroSliderRow = () => {
 
     return (
         <div className={"hidden col-span-full sm:grid grid-cols-12 gap-[20px]"}>
-            <ImageBannerSlider banners={mockBannerArray} />
+            <ImageBannerSlider />
             <ProductCard productCard={mockProductCard} />
         </div>
     );

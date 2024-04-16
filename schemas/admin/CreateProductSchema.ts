@@ -16,7 +16,7 @@ export const CreateProductSchema = z.object({
     discountPercent: z.string().min(1, requiredFiledError).transform(discountPercent => +discountPercent),
     isProductOfTheDay: z.boolean(),
     filledProperties: z.array(CategoryPropertySchema),
-    photos : z.array(z.instanceof(File)),
+    photos : z.array(z.custom<File>((v) => v instanceof File)),
     productImages : z.array(z.string()).optional()
 })
 

@@ -43,7 +43,7 @@ const NotificationRow = (props: NotificationRowProps) => {
         "text-link-blue hover:text-blue-800": props.tableRow.item.type === "info"
     }
 
-    const handleButtonClick = () => router.push(props.tableRow.item.textLink.link)
+    const handleButtonClick = () => router.push(props.tableRow.item.textLink.link as string)
     const handleSelectItem = () => {
         if (props.tableRow.item.type !== "critical") {
             props.onSelect(props.tableRow.item)

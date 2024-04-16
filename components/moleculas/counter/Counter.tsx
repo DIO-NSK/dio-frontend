@@ -3,7 +3,6 @@ import {FiMinus, FiPlus} from "react-icons/fi";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
-import {useCounter} from "@/utlis/hooks/product/useCounter";
 
 type CounterProps = {
     amount: number,

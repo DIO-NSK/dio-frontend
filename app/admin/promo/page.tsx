@@ -1,8 +1,7 @@
 "use client"
 
-import React from 'react';
+import React, {useState} from 'react';
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import {BannerType, useAdminPanelPromoPage} from "@/app/admin/promo/page.hooks";
 import AdminPanelPromoBlock from "@/components/organisms/blocks/promo/admin-panel-promo-block/AdminPanelPromoBlock";
 import AdminPanelDayProductsBlock
     from "@/components/organisms/blocks/promo/admin-panel-day-products-block/AdminPanelDayProductsBlock";
@@ -12,6 +11,15 @@ import AdminPanelPromotionsBlock
     from "@/components/organisms/blocks/promo/admin-panel-promotions-block/AdminPanelPromotionsBlock";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import {SelectItem} from "@/types/props/SelectItem";
+
+export type BannerType = "promo" | "banner" | "day_products" | "our_waters"
+
+const items: SelectItem<BannerType>[] = [
+    {name: "Баннеры", value: "banner"},
+    {name: "Товары дня", value: "day_products"},
+    {name: "Наши воды", value: "our_waters"},
+    {name: "Акции и предложения", value: "promo"},
+]
 
 const PromoContent = ({activeItem}: { activeItem: SelectItem<BannerType> }) => {
     switch (activeItem.value) {
@@ -28,7 +36,10 @@ const PromoContent = ({activeItem}: { activeItem: SelectItem<BannerType> }) => {
 
 const AdminPanelPromoPage = () => {
 
-    const {...context} = useAdminPanelPromoPage()
+    const [
+        activeItem,
+        setActiveItem
+    ] = useState<SelectItem<BannerType>>(items[0])
 
     return (
         <React.Fragment>
@@ -39,13 +50,13 @@ const AdminPanelPromoPage = () => {
                 rightContent={
                     <MultiselectButton
                         className={"max-w-[60vw]"}
-                        selectElement={context.multiselectButton.setActiveItem}
-                        activeElement={context.multiselectButton.activeItem}
-                        elements={context.multiselectButton.items}
+                        selectElement={setActiveItem}
+                        activeElement={activeItem}
+                        elements={items}
                     />
                 }
             />
-            <PromoContent activeItem={context.multiselectButton.activeItem}/>
+            <PromoContent activeItem={activeItem}/>
         </React.Fragment>
     );
 

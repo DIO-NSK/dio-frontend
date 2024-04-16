@@ -1,33 +1,41 @@
-import style from "./ImageBannerSlider.module.css"
-
-import {useState} from "react";
-import Image from "next/image";
+import {useEffect, useState} from "react";
 import PagingSlider from "@/components/atoms/paging-slider/PagingSlider";
-import {ImageLink} from "@/types/links";
+import {$banners, getAllBannersEvent} from "@/app/admin/promo/model";
+import {useUnit} from "effector-react";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
+import Link from "next/link";
 
-type BannerSliderTypes = {
-    banners: ImageLink[]
-}
+const sliderCV : ClassValue[] = [
+    "absolute z-20 bottom-[30px] w-full",
+    "flex flex-col justify-end items-center"
+]
 
-const ImageBannerSlider = ({banners}: BannerSliderTypes) => {
+const ImageBannerSlider = () => {
 
+    const [banners, getBanners] = useUnit([$banners, getAllBannersEvent])
     const [activeBanner, setActiveBanner] = useState<number>(0)
 
-    return (
-        <div className={style.wrapper}>
-            <Image
-                className={style.image}
-                src={banners[activeBanner].image}
-                quality={100}
-                alt={'/'}
-            />
-            <div className={style.absoluteDiv}>
+    useEffect(() => {
+        getBanners()
+    }, []);
+
+    if (banners.length) return (
+        <div className={"relative cursor-pointer h-[390px] col-span-9 rounded-2xl overflow-clip"}>
+            <div className={cn(sliderCV)}>
                 <PagingSlider
                     activePage={activeBanner}
-                    setActivePage={(banner : number) => setActiveBanner(banner)}
+                    setActivePage={setActiveBanner}
                     pageNumber={banners.length}
                 />
             </div>
+            <Link href={banners[activeBanner].link}>
+                <img
+                    className={"w-full h-full object-cover"}
+                    src={banners[activeBanner].image}
+                    alt={'/'}
+                />
+            </Link>
         </div>
     )
 }

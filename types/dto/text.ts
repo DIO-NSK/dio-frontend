@@ -19,10 +19,6 @@ export type InfoBlockElement = {
     className?: string
 } & HeaderDescription
 
-export type Text2XLTypes = {
-    isUppercase?: boolean
-}
-
 export type HeaderDescription = {
     header: string,
     description: string

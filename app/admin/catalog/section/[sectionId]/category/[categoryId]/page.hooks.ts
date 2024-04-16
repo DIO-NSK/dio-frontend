@@ -1,6 +1,5 @@
 import {usePathname, useRouter} from "next/navigation";
 import {TextAction} from "@/types/dto/text";
-import {AdminProduct} from "@/types/dto/AdminProduct";
 import {useEffect} from "react";
 import {useUnit} from "effector-react";
 import {
@@ -8,7 +7,14 @@ import {
     catalogProductPageDidMount
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
 import {ProductTableRow} from "@/types/dto/Table";
-import {AdminSale} from "@/types/dto/AdminSale";
+
+export type ResponseAdminProductSearch = {
+    image: string,
+    name: string,
+    discount: number,
+    stockAmount: number,
+    price: number
+}
 
 export const useAdminPanelProductsPage = (categoryId: number) => {
 
@@ -26,7 +32,7 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
         }
     ]
 
-    const tableContent: ProductTableRow<AdminProduct>[] = products
+    const tableContent: ProductTableRow<ResponseAdminProductSearch>[] = products
         .map(product => ({
                 item: {
                     image: product.images[0],
@@ -52,13 +58,13 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
 
     const handleExportCatalog = () => console.log("Exported")
 
-    const handleProductClick = (tableRow: ProductTableRow<AdminProduct>) =>
+    const handleProductClick = (tableRow: ProductTableRow<ResponseAdminProductSearch>) =>
         router.push(pathname.concat(`/product/${tableRow.id}`))
 
-    const handleEditProduct = (tableRow: ProductTableRow<AdminProduct>) =>
+    const handleEditProduct = (tableRow: ProductTableRow<ResponseAdminProductSearch>) =>
         router.push(pathname.concat(`/product/${tableRow.id}/edit`))
 
-    const handleDeleteProduct = (tableRow: ProductTableRow<AdminProduct>) => console.log("Product deleted")
+    const handleDeleteProduct = (tableRow: ProductTableRow<ResponseAdminProductSearch>) => console.log("Product deleted")
 
     return {
         breadcrumbsData, handleExportCatalog, handleProductClick,

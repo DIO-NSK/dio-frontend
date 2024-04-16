@@ -9,6 +9,7 @@ import OrderPageAddDayProductPopup
     from "@/components/organisms/popups/admin/order-page-add-day-product-popup/OrderPageAddDayProductPopup";
 import ProductContentTable from "@/components/organisms/tables/product-content-table/ProductContentTable";
 import {adminProductTableHeader} from "@/data/tables/adminProductTable";
+import {ResponseAdminProductSearch} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
 
 const AdminPanelDayProductsBlock = () => {
 
@@ -24,7 +25,7 @@ const AdminPanelDayProductsBlock = () => {
     const [
         tableRows,
         setTableRows
-    ] = useState<ProductTableRow<AdminProduct>[]>([])
+    ] = useState<ProductTableRow<ResponseAdminProductSearch>[]>([])
 
     return (
         <>

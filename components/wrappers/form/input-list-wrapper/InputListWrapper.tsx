@@ -1,6 +1,5 @@
 import React from 'react';
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
-import {FieldValues} from "react-hook-form";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 
 type InputListWrapperProps = {
