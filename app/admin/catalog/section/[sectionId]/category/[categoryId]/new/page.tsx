@@ -92,7 +92,7 @@ const CreateProductSecondStep = ({categoryId}: {
     const {
         handleSubmit,
         formState: {isSubmitting},
-        reset, watch
+        reset
     } = useFormContext<CreateProductData>()
 
     const onSubmit = (formData: FieldValues) => createProduct({
@@ -102,8 +102,6 @@ const CreateProductSecondStep = ({categoryId}: {
     })
         .then(_ => router.back())
         .catch(e => e)
-
-    console.log(watch())
 
     useEffect(() => {
         getCategoryProperties(categoryId)
