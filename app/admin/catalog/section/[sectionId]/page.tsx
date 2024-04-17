@@ -4,8 +4,6 @@ import AdminPanelHeaderButtonRow
     from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow";
 import {useAdminPanelCategoriesPage} from "@/app/admin/catalog/section/[sectionId]/page.hooks";
 import TextContentTable from "@/components/organisms/tables/text-content-table/TextContentTable";
-import {Breadcrumbs, Link} from "@mui/joy";
-import Text from "@/components/atoms/text/text-base/Text";
 import {useRouter} from "next/navigation";
 import {
     useAdminPanelHeaderButtonRow
@@ -14,11 +12,15 @@ import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-he
 import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 import {useUnit} from "effector-react";
 import {
-    $categoryToDelete, cancelChangesEvent, deleteCategoryEvent,
-    onCloseCategoryToDeleteEvent, saveChangesEvent,
+    $categoryToDelete,
+    cancelChangesEvent,
+    deleteCategoryEvent,
+    onCloseCategoryToDeleteEvent,
+    saveChangesEvent,
     selectCategoryToDeleteEvent
 } from "@/app/admin/catalog/section/[sectionId]/model";
 import DeletePopup from "@/components/organisms/popups/admin/delete-popup/DeletePopup";
+import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 
 const deletePopupMessage =
     `Предупреждаем, это действие невозможно отменить
@@ -49,18 +51,7 @@ const AdminPanelCategoryPage = ({params}: {
                 />
 
                 <div className={"w-full flex flex-col"}>
-                    <Breadcrumbs
-                        sx={{
-                            "--Breadcrumbs-gap": "10px",
-                            marginLeft: "-10px",
-                            marginBottom: "-10px"
-                        }}
-                    >
-                        <Link color={"neutral"} onClick={() => router.push('/admin/catalog')}>
-                            <Text text={"Бытовая химия и гигиена"} className={"text-text-gray"}/>
-                        </Link>
-                        <Text text={"Категории"}/>
-                    </Breadcrumbs>
+                    <CatalogBreadcrumbs breadcrumbs={context.breadcrumbs}/>
                     <AdminPanelHeaderRow
                         header={"Категории"}
                         isEditable={editableContext.isEditable}

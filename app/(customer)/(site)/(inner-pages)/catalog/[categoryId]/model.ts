@@ -4,6 +4,9 @@ import {createEffect, createEvent, createStore, sample} from "effector";
 import {sendFiltersFx} from "@/components/organisms/bars/catalog-left-sidebar/model";
 import {TextLink} from "@/types/dto/text";
 import {Breadcrumbs} from "@/types/dto/Breadcrumbs";
+import {
+    $adminProductBreadcrumbs
+} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 
 const getCategoryByName = async (categoryId : number) : Promise<ResponseProductSearch[]> => {
     return unauthorizedApi.get("/catalogue/category", {params : {categoryId : categoryId}})
@@ -23,8 +26,17 @@ export const $products = createStore<ResponseProductSearch[]>([])
 
 const getCategoryBreadcrumbsFx = createEffect<number, Breadcrumbs, Error>(getCategoryBreadcrumbs)
 export const getCategoryBreadcrumbsEvent = createEvent<number>()
+export const getAdminCategoryBreadcrumbsEvent = createEvent<number>()
+export const getAdminProductBreadcrumbsEvent = createEvent<number>()
+export const $adminCategoryBreadcrumbs = createStore<TextLink[]>([])
 export const $categoryBreadcrumbs = createStore<TextLink[]>([])
 export const $catalogCategoryName = createStore<string>("")
+
+$adminProductBreadcrumbs.on(getCategoryBreadcrumbsFx.doneData,
+    (_, breadcrumbs) => convertAdminProductBreadcrumbsToList(breadcrumbs))
+
+$adminCategoryBreadcrumbs.on(getCategoryBreadcrumbsFx.doneData,
+    (_, breadcrumbs) => convertAdminBreadcrumbsToList(breadcrumbs))
 
 $categoryBreadcrumbs.on(getCategoryBreadcrumbsFx.doneData,
     (_, breadcrumbs) => convertBreadcrumbsToList(breadcrumbs))
@@ -33,7 +45,7 @@ $catalogCategoryName.on(getCategoryBreadcrumbsFx.doneData,
     (_, breadcrumbs) => breadcrumbs.categoryName)
 
 sample({
-    clock : getCategoryBreadcrumbsEvent,
+    clock : [getCategoryBreadcrumbsEvent, getAdminCategoryBreadcrumbsEvent, getAdminProductBreadcrumbsEvent],
     target : getCategoryBreadcrumbsFx
 })
 
@@ -45,6 +57,21 @@ sample({
     clock : getCategoryByNameEvent,
     target : getCategoryByNameFx
 })
+
+const convertAdminProductBreadcrumbsToList = (breadcrumbs : Breadcrumbs) : TextLink[] => {
+    return [
+        {text: "Разделы", link: `/admin/catalog`},
+        {text: breadcrumbs.sectionName, link: `/admin/catalog/section/${breadcrumbs.categoryId}`},
+        {text: breadcrumbs.categoryName, link: `/admin/catalog/section/${breadcrumbs.categoryId}/category/${breadcrumbs.categoryId}`},
+    ]
+}
+
+const convertAdminBreadcrumbsToList = (breadcrumbs : Breadcrumbs) : TextLink[] => {
+    return [
+        {text: "Разделы", link: `/admin/catalog`},
+        {text: breadcrumbs.sectionName, link: `/admin/catalog/section/${breadcrumbs.categoryId}`},
+    ]
+}
 
 const convertBreadcrumbsToList = (breadcrumbs: Breadcrumbs): TextLink[] => {
     return [

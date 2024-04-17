@@ -18,6 +18,7 @@ const getBreadcrumbs = async (productId: number): Promise<Breadcrumbs> => {
 const getBreadcrumbsFx = createEffect<number, Breadcrumbs, Error>(getBreadcrumbs)
 export const getBreadcrumbsEvent = createEvent<number>()
 
+export const $adminProductBreadcrumbs = createStore<TextLink[]>([])
 export const $breadcrumbs = createStore<TextLink[]>([])
 
 $breadcrumbs.on(getBreadcrumbsFx.doneData, (_, data) => convertBreadcrumbsToList(data))
@@ -46,7 +47,6 @@ const convertBreadcrumbsToList = (breadcrumbs: Breadcrumbs): TextLink[] => {
     return [
         {text: "Главная", link: "/"},
         {text: breadcrumbs.sectionName, link: breadcrumbs.sectionId},
-        {text: breadcrumbs.categoryName, link: `/catalog/${breadcrumbs.categoryId}`},
-        {text: breadcrumbs.productName, link: `/product/${breadcrumbs.productId}`},
+        {text: breadcrumbs.categoryName, link: `/catalog/${breadcrumbs.categoryId}`}
     ]
 }

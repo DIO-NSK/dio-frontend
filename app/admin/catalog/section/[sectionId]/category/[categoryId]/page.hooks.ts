@@ -1,5 +1,4 @@
 import {usePathname, useRouter} from "next/navigation";
-import {TextAction} from "@/types/dto/text";
 import {useEffect} from "react";
 import {useUnit} from "effector-react";
 import {
@@ -7,6 +6,10 @@ import {
     catalogProductPageDidMount
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
 import {ProductTableRow} from "@/types/dto/Table";
+import {
+    $adminProductBreadcrumbs
+} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
+import {getAdminProductBreadcrumbsEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
 
 export type ResponseAdminProductSearch = {
     image: string,
@@ -18,19 +21,11 @@ export type ResponseAdminProductSearch = {
 
 export const useAdminPanelProductsPage = (categoryId: number) => {
 
+    const [breadcrumbs, getBreadcrumbs] = useUnit([$adminProductBreadcrumbs, getAdminProductBreadcrumbsEvent])
     const [pageDidMount, products] = useUnit([catalogProductPageDidMount, $products])
 
     const pathname = usePathname()
     const router = useRouter()
-
-    const breadcrumbsData: TextAction[] = [
-        {text: "Бытовая химия и гигиена", action: () => router.push("/admin/catalog")},
-        {text: "Губки, перчатки и салфетки", action: () => router.push("/admin/catalog/section/sectionId")},
-        {
-            text: "Товары", action: () => {
-            }
-        }
-    ]
 
     const tableContent: ProductTableRow<ResponseAdminProductSearch>[] = products
         .map(product => ({
@@ -53,8 +48,9 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
         )
 
     useEffect(() => {
+        getBreadcrumbs(categoryId)
         pageDidMount(categoryId)
-    }, [pageDidMount])
+    }, [])
 
     const handleExportCatalog = () => console.log("Exported")
 
@@ -67,7 +63,7 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
     const handleDeleteProduct = (tableRow: ProductTableRow<ResponseAdminProductSearch>) => console.log("Product deleted")
 
     return {
-        breadcrumbsData, handleExportCatalog, handleProductClick,
+        breadcrumbs, handleExportCatalog, handleProductClick,
         tableContent, handleEditProduct, handleDeleteProduct
     }
 
