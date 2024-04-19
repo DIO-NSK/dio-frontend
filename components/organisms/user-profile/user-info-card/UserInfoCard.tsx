@@ -15,10 +15,7 @@ const UserInfoCard = ({userCredentials} : {userCredentials : ResponseUserCredent
     ]
 
     return (
-        <BackgroundBlockWrapper
-            header={"Основная информация"}
-            theme={"outlined"}
-        >
+        <BackgroundBlockWrapper theme={"outlined"}>
             {
                 userInfoData.map((row, key) => {
 

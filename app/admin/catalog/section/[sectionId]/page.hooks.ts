@@ -2,16 +2,12 @@ import {TableRow, TextTableRow} from "@/types/dto/Table";
 import {usePathname, useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
 import {$categories, pageDidMountEvent} from "./model";
-import {$nameToSearch} from "@/app/admin/catalog/model";
+import {$adminSectionBreadcrumbs, $nameToSearch, getSectionBreadcrumbsEvent} from "@/app/admin/catalog/model";
 import {useEffect} from "react";
-import {
-    $adminCategoryBreadcrumbs,
-    getAdminCategoryBreadcrumbsEvent
-} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
 
 export const useAdminPanelCategoriesPage = (sectionId: number) => {
 
-    const [breadcrumbs, getBreadcrumbs] = useUnit([$adminCategoryBreadcrumbs, getAdminCategoryBreadcrumbsEvent])
+    const [breadcrumbs, getBreadcrumbs] = useUnit([$adminSectionBreadcrumbs, getSectionBreadcrumbsEvent])
 
     const [nameToSearch, pageDidMount, categories] =
         useUnit([$nameToSearch, pageDidMountEvent, $categories])

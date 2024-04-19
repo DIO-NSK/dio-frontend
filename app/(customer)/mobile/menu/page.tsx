@@ -1,7 +1,18 @@
 "use client"
 
 import {IconTextAction} from "@/types/dto/text";
-import {FiGift, FiHeart, FiLogIn, FiMenu, FiShoppingCart, FiZap} from "react-icons/fi";
+import {
+    FiFile,
+    FiGift,
+    FiHeart,
+    FiLogIn,
+    FiLogOut,
+    FiMenu,
+    FiSettings,
+    FiShoppingCart,
+    FiUser,
+    FiZap
+} from "react-icons/fi";
 import WhatsAppIcon from "@/public/icons/whatsapp-icon.png";
 import TelegramIcon from "@/public/icons/telegram-icon.png";
 import ViberIcon from "@/public/icons/viber-icon.png";
@@ -13,7 +24,7 @@ import MobileNavbarWrapper from "@/components/mobile/wrappers/mobile-navbar-wrap
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 import {useUnit} from "effector-react";
 import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 
 const MobileMenuPage = () => {
 
@@ -24,10 +35,26 @@ const MobileMenuPage = () => {
     const handleTabClick = (link: string) => navigation.push(link)
     const handleOrderCallRequest = () => navigation.push("/mobile/call-request/order")
 
+    const authorizedTabData: IconTextAction[] = [
+        {
+            icon: <FiUser className={"text-link-blue"}/>,
+            text: "Мой профиль",
+            action: () => navigation.push("/profile")
+        }, {
+            icon: <FiFile className={"text-link-blue"}/>,
+            text: "Мои заказы",
+            action: () => navigation.push("/profile/orders")
+        }, {
+            icon: <FiSettings className={"text-link-blue"}/>,
+            text: "Настройки",
+            action: () => navigation.push("/profile/settings")
+        },
+    ]
+
     const menuTabData: IconTextAction[] = [
         {
-            icon: <FiLogIn className={"text-link-blue"}/>,
-            text: userCredentials?.fullName.split(" ")[1] ?? "Войти",
+            icon: userCredentials ? <FiLogOut className={"text-info-red"}/> : <FiLogIn className={"text-link-blue"}/>,
+            text: userCredentials ? "Выйти" : "Войти",
             action: userCredentials ? () => navigation.push("/profile")
                 : () => navigation.push("/mobile/authorization")
         },
@@ -76,16 +103,25 @@ const MobileMenuPage = () => {
             <div className={cn(rowCN, "pb-7 border-b-2 border-light-gray")} onClick={menuTabData[0].action}>
                 {menuTabData[0].icon}
                 <Text text={menuTabData[0].text}/>
-
             </div>
+
             {
-                menuTabData.slice(1).map((tab, tabIndex) =>
-                    <div className={rowCN} onClick={tab.action} key={tabIndex}>
-                        {tab.icon}
-                        <Text text={tab.text}/>
-                    </div>
-                )
+                userCredentials && <section className={"w-full flex flex-col gap-7 pb-7 border-b-2 border-light-gray"}>
+                    {authorizedTabData.map((tab, tabIndex) => (
+                        <div className={rowCN} onClick={tab.action} key={tabIndex}>
+                            {tab.icon}
+                            <Text text={tab.text}/>
+                        </div>
+                    ))}
+                </section>
             }
+
+            {menuTabData.slice(1).map((tab, tabIndex) =>
+                <div className={rowCN} onClick={tab.action} key={tabIndex}>
+                    {tab.icon}
+                    <Text text={tab.text}/>
+                </div>
+            )}
 
             <Button
                 text={"Заказать звонок"}

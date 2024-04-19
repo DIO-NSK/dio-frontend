@@ -38,7 +38,7 @@ const SelectableVariants = <T, >({variants, onSelectVariant, selectedVariant}: S
     )
 }
 
-const Input = <T, >(props: Omit<SearchbarProps<T>, "hasPopover">) => {
+const Input = <T, >({selectable = false, ...props}: Omit<SearchbarProps<T>, "hasPopover">) => {
 
     const inputCV: ClassValue[] = [
         "w-full p-5 sm:px-[30px] py-4 rounded-xl bg-bg-light-blue border-0",
@@ -55,7 +55,7 @@ const Input = <T, >(props: Omit<SearchbarProps<T>, "hasPopover">) => {
     const absoluteWrapperCV = [
         "absolute flex flex-row items-center gap-3",
         "z-10 top-3 right-5 sm:right-[30px]",
-        {"top-1/2": !props.selectable}
+        {"top-1/3": !selectable}
     ]
 
     const handleClear: MouseEventHandler = (e) => {
@@ -67,7 +67,7 @@ const Input = <T, >(props: Omit<SearchbarProps<T>, "hasPopover">) => {
     return (
         <div className={cn("w-full relative group", props.classNames?.wrapper)}>
             <div className={cn(absoluteWrapperCV)}>
-                {props.selectable && <SelectableVariants {...props}/>}
+                {selectable && <SelectableVariants {...props}/>}
                 {props.value ? <FiX className={cn(iconCV)} onClick={handleClear}/>
                     : <FiSearch className={cn(iconCV)}/>}
             </div>

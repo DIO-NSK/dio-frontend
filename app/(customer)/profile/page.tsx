@@ -24,9 +24,12 @@ const MainInformationBlock = () => {
     }, [])
 
     if (userCredentials) return (
-        <div className={"w-full flex flex-col gap-5 sm:flex-row sm:items-end"}>
-            <UserInfoCard userCredentials={userCredentials}/>
-            <BonusCard/>
+        <div className={"w-full flex flex-col gap-1"}>
+            <Text className={"text-lg font-medium hidden sm:flex"} text={"Основная информация"}/>
+            <div className={"w-full flex flex-col gap-5 sm:flex-row sm:items-start"}>
+                <UserInfoCard userCredentials={userCredentials}/>
+                <BonusCard/>
+            </div>
         </div>
     )
 

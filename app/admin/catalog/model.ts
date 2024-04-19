@@ -3,6 +3,7 @@ import {api, unauthorizedApi} from "@/api";
 import {Section} from "@/types/dto/Section";
 import {CreateSectionData} from "@/schemas/admin/CreateSectionSchema";
 import {TableRow} from "@/types/dto/Table";
+import {TextLink} from "@/types/dto/text";
 
 export const $sections = createStore<Section[]>([])
 export const pageDidMountEvent = createEvent()
@@ -36,6 +37,26 @@ const getSections = async () => {
         .then(response => response.data)
         .catch(exception => exception)
 }
+
+const getSectionBreadcrumbs = async (categoryId : number) : Promise<{ id : number, name : string }> => {
+    return api.get("/catalogue/breadcrumb/section", {params : {sectionId : categoryId}})
+        .then(response => ({id : categoryId, name : response.data}))
+}
+
+const getSectionBreadcrumbsFx = createEffect(getSectionBreadcrumbs)
+export const getSectionBreadcrumbsEvent = createEvent<number>()
+
+sample({
+    clock : getSectionBreadcrumbsEvent,
+    target : getSectionBreadcrumbsFx
+})
+
+export const $adminSectionBreadcrumbs = createStore<TextLink[]>([])
+$adminSectionBreadcrumbs.on(getSectionBreadcrumbsFx.doneData, (_, section) => [
+    {text : "Каталог", link : "/admin/catalog"},
+    {text : section.name, link : `/admin/catalog/section/${section.id}`},
+] as TextLink[])
+
 
 const getSectionsFx = createEffect(getSections)
 const updateSectionsFx = createEffect(createSection)
