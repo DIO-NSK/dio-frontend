@@ -1,4 +1,4 @@
-import {CallRequestStatus} from "@/app/admin/call-requests/model";
+import {CallRequestStatus} from "@/app/admin/call-requests/main.model";
 import {ServiceForm} from "@/types/dto/user/ServiceForm";
 
 export type AdminService = {

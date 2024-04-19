@@ -13,9 +13,9 @@ import {
 } from "@/components/organisms/bars/searchbar/model";
 import Link from "next/link";
 
-const SubcategoryItem = ({text, id}: { text: string, id: number }) => {
+const SubcategoryItem = ({onClose, text, id}: { text: string, id: number, onClose : () => void}) => {
     return (
-        <Link href={`/catalog/${id}`}>
+        <Link href={`/catalog/${id}`} onClick={onClose}>
             <Text
                 className={"text-base text-text-gray pointer hoverable hover:text-link-blue"}
                 text={text}
@@ -61,7 +61,7 @@ const CatalogPopup = () => {
                         text={activeTab.text}
                     />}
                     {activeSection.categories.map((item) =>
-                        <SubcategoryItem text={item.name} id={item.id}/>)}
+                        <SubcategoryItem onClose={togglePopup} text={item.name} id={item.id}/>)}
                 </div>
             </div>}
         </PopupWrapper>

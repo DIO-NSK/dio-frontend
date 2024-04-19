@@ -1,5 +1,5 @@
 import {unauthorizedApi} from "@/api";
-import {CallRequestStatus} from "@/app/admin/call-requests/model";
+import {CallRequestStatus} from "@/app/admin/call-requests/main.model";
 import {AdminService, ServiceType} from "@/types/dto/admin/service/AdminService";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {ServiceTableRow} from "@/types/dto/Table";

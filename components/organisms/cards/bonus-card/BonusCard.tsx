@@ -26,9 +26,9 @@ const BonusCard = ({bonusCard}: { bonusCard: ImageHeaderDescrCard }) => {
                 />
             </div>
 
-            <div className={"flex flex-col gap-2 sm:gap-[15px]"}>
+            <div className={"flex flex-col gap-2 sm:gap-3"}>
                 <Text text={bonusCard.header} className={"text-[16px] sm:text-[24px] font-semibold text-link-blue"}/>
-                <Text text={bonusCard.descr} className={"text-[14px] sm:text-[20px] font-medium"}/>
+                <Text text={bonusCard.descr} className={"text-[14px] sm:text-lg font-medium"}/>
             </div>
 
         </div>

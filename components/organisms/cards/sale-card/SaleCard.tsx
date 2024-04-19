@@ -12,21 +12,21 @@ const SaleCard = ({saleCard}: {saleCard : ImageHeaderDescrCard}) => {
 
     return (
         <div className={cn(wrapperCV)}>
-            <div className={"flex flex-col gap-1 sm:gap-[10px]"}>
+            <img
+                className={"absolute z-0 -right-7 bottom-0 h-full object-fill"}
+                src={saleCard.image}
+                alt={'/'}
+            />
+            <div className={"z-10 flex flex-col gap-1 sm:gap-[10px]"}>
                 <Text
                     className={"text-base sm:text-[24px] font-semibold uppercase text-link-blue"}
                     text={saleCard.header}
                 />
                 <Text
-                    className={"w-[40vw] sm:w-full text-base sm:text-[24px] font-semibold"}
+                    className={"w-[40vw] sm:w-full text-base sm:text-[20px] font-semibold"}
                     text={saleCard.descr}
                 />
             </div>
-            <img
-                className={"absolute right-0 bottom-0 h-full object-fill"}
-                src={saleCard.image}
-                alt={'/'}
-            />
         </div>
     )
 }

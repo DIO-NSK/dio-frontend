@@ -24,7 +24,7 @@ const ServiceCard = ({number, text} : ServiceCardTypes) => {
                     text={"0" + number.toString()}
                 />
                 <Text
-                    className={"text-[15px] sm:text-[24px] font-semibold break-words"}
+                    className={"text-[15px] sm:text-[20px] font-semibold break-words"}
                     text={text}
                 />
 

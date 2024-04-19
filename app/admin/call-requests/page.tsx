@@ -21,9 +21,10 @@ import {
     setCallRequestStatusEvent,
     setSearchCallRequestEvent,
     updateCallRequestEvent
-} from "@/app/admin/call-requests/model";
+} from "@/app/admin/call-requests/main.model";
 import {TableHeaderItem} from "@/types/dto/Table";
 import {SelectItem} from "@/types/props/SelectItem";
+import {$selectedVariant, selectVariantEvent, VariantType} from "@/app/admin/call-requests/variants.model";
 
 const callRequestsTableHeader: TableHeaderItem[] = [
     {text: "Данные клиента", width: "col-span-2"},
@@ -31,20 +32,26 @@ const callRequestsTableHeader: TableHeaderItem[] = [
     {text: "Комментарий", width: "col-span-5"},
 ]
 
+const multiselectElements: SelectItem<CallRequestStatus>[] = [
+    {name: "Актуальные", value: "CURRENT"},
+    {name: "Архив", value: "ARCHIVE"}
+]
+
+const variants: SelectItem<VariantType>[] = [
+    {name: "по телефону", value: "phone_number"},
+    {name: "по имени", value: "name"},
+]
+
 const AdminPanelCallRequestsPage = () => {
 
     const callRequests = useUnit($callRequestTableRows)
+    const [selectedVariant, selectVariants] = useUnit([$selectedVariant, selectVariantEvent])
     const [searchCallRequest, setSearchCallRequest] = useUnit([$searchCallRequest, setSearchCallRequestEvent])
 
     const [selectedItems, select, selectAll, removeAll] = useUnit([$selectedCallRequests,
         selectCallRequestEvent, selectAllCallRequestEvent, removeAllCallRequests])
 
     const [updateCallRequest, setCallRequestStatus] = useUnit([updateCallRequestEvent, setCallRequestStatusEvent])
-
-    const multiselectElements: SelectItem<CallRequestStatus>[] = [
-        {name: "Актуальные", value: "CURRENT"},
-        {name: "Архив", value: "ARCHIVE"}
-    ]
 
     const [activeElement, setActiveElement] = useState<SelectItem<CallRequestStatus>>(multiselectElements[0])
     const updateButtonText = activeElement.value === "CURRENT" ? "Поместить в архив" : "Восстановить"
@@ -73,6 +80,10 @@ const AdminPanelCallRequestsPage = () => {
                     placeholder={"Поиск заявок"}
                     onChange={setSearchCallRequest}
                     value={searchCallRequest}
+                    variants={variants}
+                    selectedVariant={selectedVariant}
+                    onSelectVariant={selectVariants}
+                    selectable
                 />
             </div>
 

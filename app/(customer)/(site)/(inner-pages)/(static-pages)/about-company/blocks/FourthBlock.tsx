@@ -7,13 +7,14 @@ import {cn} from "@/utlis/cn";
 import AdvantageCard from "@/components/organisms/cards/advantage-card/AdvantageCard";
 import {ClassValue} from "clsx";
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
+import {CrossIcon, DropletIcon, WavesIcon} from "lucide-react";
 
 const FourthBlock = () => {
 
     const cardData: IconHeaderCard[] = [
-        {icon: CrownIcon.src, header: "Поддерживает водно-солевой баланс минеральных и органических веществ"},
-        {icon: WaterIcon.src, header: "При кипячении не теряет своих свойств, так как не оставляет накипи"},
-        {icon: SettingsIcon.src, header: "Оптимальная для сибиряков. Обогащена кальцием, магнием и калием"},
+        {icon: <WavesIcon size={28}/>, header: "Поддерживает водно-солевой баланс минеральных и органических веществ"},
+        {icon: <DropletIcon size={28}/>, header: "При кипячении не теряет своих свойств, так как не оставляет накипи"},
+        {icon: <CrossIcon size={28}/>, header: "Оптимальная для сибиряков. Обогащена кальцием, магнием и калием"},
     ]
 
     const wrapperCV: ClassValue[] = [

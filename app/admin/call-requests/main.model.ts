@@ -1,18 +1,36 @@
-import {unauthorizedApi} from "@/api";
+import {api, unauthorizedApi} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {ResponseCallRequest} from "@/types/dto/admin/call-request/ResponseCallRequest";
 import {CallRequestTableRow} from "@/types/dto/Table";
 import {convertTableRowsToSelectedItems} from "@/utlis/convertTableRowsToSelectedItems";
+import {$selectedVariant} from "@/app/admin/call-requests/variants.model";
+import {undefined} from "zod";
 
 export type CallRequestStatus = "CURRENT" | "ARCHIVE"
+
+export type FilterCallRequest = {
+    nameStatus: CallRequestStatus,
+    phoneNumber?: string,
+    name?: string
+}
 
 //region getCallRequests
 
 const getCallRequestByStatus = async (status: CallRequestStatus) => {
     return unauthorizedApi.get("/admin/call/request/by-status", {params: {nameStatus: status}})
         .then(response => response.data)
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
+}
+
+const filterCallRequest = async (filterCallRequest: FilterCallRequest): Promise<ResponseCallRequest[]> => {
+    return api.get("/admin/call/request/filter", {params: { callRequestFilter : filterCallRequest}})
+        .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
+
+const filterCallRequestFx = createEffect<FilterCallRequest, ResponseCallRequest[], Error>(filterCallRequest)
 
 const getCallRequestByStatusFx =
     createEffect<CallRequestStatus, ResponseCallRequest[], Error>(getCallRequestByStatus)
@@ -25,17 +43,35 @@ $callRequestStatus.on(setCallRequestStatusEvent, (_, status) => status)
 
 sample({
     clock: setCallRequestStatusEvent,
-    target: getCallRequestByStatusFx
+    fn : (status) => ({nameStatus : status}),
+    target: filterCallRequestFx
 })
 
+/*
 sample({
-    clock: getCallRequestByStatusFx.doneData,
+    clock : setCallRequestStatusEvent,
+    target : getCallRequestByStatusFx
+})
+*/
+
+sample({
+    clock: filterCallRequestFx.doneData,
     fn: (callRequests: ResponseCallRequest[]) => convertCallRequestsToTableRows(callRequests),
     target: $callRequestTableRows
 })
 
 export const setSearchCallRequestEvent = createEvent<string>()
 export const $searchCallRequest = createStore<string>("")
+
+sample({
+    clock: setCallRequestStatusEvent,
+    source: {variant: $selectedVariant, filter: $searchCallRequest},
+    fn: ({variant}, status) => ({
+        nameStatus: status,
+        name: variant?.value === "name" ? $searchCallRequest : undefined,
+        phoneNumber: variant?.value === "phone_number" ? $searchCallRequest : undefined,
+    })
+})
 
 $searchCallRequest.on(setSearchCallRequestEvent, (_, searchCallRequest) => searchCallRequest)
 
@@ -51,7 +87,9 @@ const updateCallRequest = async ({ids, status}: { ids: number[], status: CallReq
     return Promise.all(
         ids.map(id => unauthorizedApi.put("/call/request/update", null, {params: {id: id, nameStatus: status}})
             .then(response => response.data)
-            .catch(error => {throw Error(error.response.data.message)}))
+            .catch(error => {
+                throw Error(error.response.data.message)
+            }))
     )
 }
 

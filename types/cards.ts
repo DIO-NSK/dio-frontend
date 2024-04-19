@@ -1,9 +1,10 @@
 import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import {Side} from "@/data/enums/side";
 import {TextLink} from "@/types/dto/text";
+import React from "react";
 
 export type IconHeaderCard = {
-    icon : string,
+    icon : React.ReactNode,
     header : string
 }
 

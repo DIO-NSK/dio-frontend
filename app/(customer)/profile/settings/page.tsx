@@ -27,6 +27,10 @@ const userInputsGrid: InputPrefilledData[] = [
         placeholder: "Введите фамилию",
         name: "lastName"
     }, {
+        labelText: "Электронная почта",
+        placeholder: "Введите почту",
+        name: "email"
+    }, {
         labelText: "Номер телефона",
         placeholder: "+7 (___) ___-__-__",
         inputMask: "+9 (999) 999-99-99",
@@ -61,6 +65,7 @@ const UserProfileSettingsPage = () => {
         reset({
             firstName: userCredentials?.fullName.split(" ")[0],
             lastName: userCredentials?.fullName.split(" ")[1],
+            email: userCredentials?.email,
             phoneNumber: userCredentials?.phoneNumber
         })
     }, [userCredentials])

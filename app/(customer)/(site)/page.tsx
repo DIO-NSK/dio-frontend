@@ -23,13 +23,12 @@ import {bonusCardData} from "@/data/bonusCardData";
 import BonusCard from "@/components/organisms/cards/bonus-card/BonusCard";
 import WaveHeaderWrapper from "@/components/wrappers/wave-header-wrapper/WaveHeaderWrapper";
 import {ContentImage} from "@/components/organisms/cards/fullwidth-main-card/content-image/ContentImage";
-import AdvantageCard from "@/components/organisms/cards/advantage-card/AdvantageCard";
-import {advantagesCardData} from "@/data/advantagesCardData";
 import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/WaterCoolerBlock";
 import {mockCardArray} from "@/data/productCardData";
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
 import React from "react";
+import AdvantagesBlock from "@/components/organisms/blocks/advantages-block/AdvantagesBlock";
 
 const MainPageScreen = () => {
 
@@ -77,7 +76,7 @@ const MainPageScreen = () => {
                 <MobilePhotoSlider/>
                 <HeroSliderRow/>
 
-                <SliderGroup header={"Товары по акции"}>
+                <SliderGroup id={"sale"} header={"Товары по акции"}>
                     {
                         mockCardArray.map((productCard) => {
                             return <ProductCard productCard={productCard}/>
@@ -156,26 +155,7 @@ const MainPageScreen = () => {
                     <ContentImage image={ProductImage5.src} className={"w-[80vw] sm:w-full"}/>
                 </SliderGroup>
 
-                <section className={"w-full hidden sm:flex"}>
-                    <HeaderGroup header={"Наши преимущества"}>
-                        {
-                            advantagesCardData.map((card) => {
-                                return <AdvantageCard card={card}/>
-                            })
-                        }
-                    </HeaderGroup>
-                </section>
-
-                <MobileHeaderWrapper
-                    header={"Наши преимущества"}
-                    classNames={{contentWrapper: "w-full pr-5 grid grid-cols-2 gap-3"}}
-                >
-                    {
-                        advantagesCardData.map((card) => {
-                            return <AdvantageCard card={card}/>
-                        })
-                    }
-                </MobileHeaderWrapper>
+                <AdvantagesBlock/>
 
                 <WaterCoolerBlock/>
             </PageWrapper>

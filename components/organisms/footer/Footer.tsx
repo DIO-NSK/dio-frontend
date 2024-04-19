@@ -4,7 +4,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 
 import WhatsAppIcon from "@/public/icons/whatsapp-icon.png"
 import TelegramIcon from "@/public/icons/telegram-icon.png"
-import ViberIcon from "@/public/icons/viber-icon.png"
+import VKIcon from "@/public/icons/vk.png"
 import IconButton from "@/components/atoms/buttons/icon-button/IconButton";
 import {footerData} from "@/data/footerData";
 import {useRouter} from "next/navigation";
@@ -14,26 +14,29 @@ import MailIcon from "@/public/icons/main-icon.png";
 import GeoIcon from "@/public/icons/map-icon.png";
 import {useUnit} from "effector-react";
 import {toggleCallRequestOpenEvent} from "@/components/organisms/popups/call-request/model";
+import Link from "next/link";
+import {useNavigation} from "@/utlis/hooks/useNavigation";
 
 const IconRow = () => {
 
-    const imageCN = "sm:w-6 sm:h-6 w-5 h-5"
-
     const iconData = [
-        {src: WhatsAppIcon.src, onClick: () => console.log("WhatsApp")},
-        {src: TelegramIcon.src, onClick: () => console.log("Telegram")},
-        {src: ViberIcon.src, onClick: () => console.log("Viber"), className : "w-6 h-6"},
+        {src: WhatsAppIcon.src, href : "https://t.me/DioSiberianWater"},
+        {src: TelegramIcon.src, href: "https://api.whatsapp.com/send?phone=79134869900&text=Здравствуйте%2C+у+меня+есть+вопрос"},
+        {src: VKIcon.src, href: "https://vk.com/club31485239"},
     ]
 
     return (
         <div className={"flex flex-row items-center gap-[15px]"}>
             {
                 iconData.map((iconButton, key) =>
-                    <IconButton
-                        src={iconButton.src}
-                        onClick={iconButton.onClick}
-                        className={cn(imageCN, iconButton?.className)} key={key}
-                    />
+                    <Link href={iconButton.href} target={"_blank"} rel={"noopener noreferer"}>
+                        <img
+                            src={iconButton.src}
+                            alt={"Социальная сеть"}
+                            className={"size-6"}
+                            key={key}
+                        />
+                    </Link>
                 )
             }
         </div>
@@ -62,11 +65,22 @@ const LeftRow = () => {
                                                 alt={'/'}
                                             />
                                         }
-                                        <Text
-                                            text={item.text}
-                                            className={"hoverable pointer text-text-gray hover:text-link-blue"}
-                                            onClick={() => handleAnchorClick(item.path)}
-                                        />
+                                        {item.href ? (
+                                                <Link href={item.href} rel={"noopener noreferer"} target={"_blank"}>
+                                                    <Text
+                                                        text={item.text}
+                                                        className={"hoverable pointer text-text-gray hover:text-link-blue"}
+                                                    />
+                                                </Link>
+                                            )
+                                            : (
+                                                <Text
+                                                    text={item.text}
+                                                    className={"hoverable pointer text-text-gray hover:text-link-blue"}
+                                                    onClick={() => handleAnchorClick(item.path)}
+                                                />
+                                            )
+                                        }
                                     </div>
                                 }
                             })
@@ -85,7 +99,12 @@ const RightCol = () => {
     return (
         <div className={"flex flex-col gap-[25px]"}>
             <RightCol.IconRow/>
-            <Text text={"+7 (383) 333-99-00"}/>
+            <Link href={"tel:+733339900"}>
+                <Text
+                    className={"text-link-blue hoverable hover:text-blue-800 pointer"}
+                    text={"+7 (383) 333-99-00"}
+                />
+            </Link>
             <Text
                 text={"Заказать звонок"}
                 className={"text-link-blue hoverable hover:text-blue-800 pointer"}
@@ -98,10 +117,6 @@ const RightCol = () => {
 const BottomRow = () => {
     return (
         <div className={"flex flex-row items-baseline justify-between"}>
-            <Text
-                text={"1998-2023 OOO «Интернет Решения». Все права защищены."}
-                className={"text-text-gray"}
-            />
             <Text
                 text={"Разработка сайта — SiberSite"}
                 className={"text-text-gray"}
@@ -126,11 +141,24 @@ const TopCol = () => {
 }
 
 const MobileFirstRow = () => {
+
+    const navigation = useNavigation()
+    const handleOrderCallRequest = () => navigation.push("/mobile/call-request/order")
+
     return (
         <section className={"mobileFooterRow flex-row items-center justify-between"}>
             <div className={"flex flex-col gap-1"}>
-                <Text text={"Заказать звонок"} className={"text-link-blue font-medium"}/>
-                <Text text={"+7 (383) 333-99-00"} className={"text-[14px]"}/>
+                <Text
+                    text={"Заказать звонок"}
+                    className={"text-link-blue font-medium"}
+                    onClick={handleOrderCallRequest}
+                />
+                <Link href={"tel:+733339900"}>
+                    <Text
+                        className={"text-link-blue text-[14px]"}
+                        text={"+7 (383) 333-99-00"}
+                    />
+                </Link>
             </div>
             <IconRow/>
         </section>
@@ -140,10 +168,10 @@ const MobileFirstRow = () => {
 const MobileSecondRow = () => {
 
     const phoneData = [
-        {phone: "+7 (383) 255-99-00", company: "Билайн"},
-        {phone: "+7 (923) 775-99-00", company: "МегаФон"},
-        {phone: "+7 (951) 378-99-00", company: "TELE2"},
-        {phone: "+7 (913) 788-99-00", company: "МТС"},
+        {phone: "+7 (383) 255-99-00", company: "Билайн", tel: "tel:+73832559900"},
+        {phone: "+7 (923) 775-99-00", company: "МегаФон", tel: "tel:+79237759900"},
+        {phone: "+7 (951) 378-99-00", company: "TELE2", tel: "tel:+79513789900"},
+        {phone: "+7 (913) 788-99-00", company: "МТС", tel: "tel:+79137889900"},
     ]
 
     return (
@@ -152,7 +180,9 @@ const MobileSecondRow = () => {
             {
                 phoneData.map((phoneRow, rowKey) =>
                     <div className={"w-full flex flex-row justify-between items-baseline"} key={rowKey}>
-                        <Text text={phoneRow.phone} className={"text-text-gray"}/>
+                        <Link href={phoneRow.tel}>
+                            <Text text={phoneRow.phone} className={"text-text-gray"}/>
+                        </Link>
                         <Text text={phoneRow.company} className={"text-text-gray"}/>
                     </div>
                 )
@@ -191,8 +221,8 @@ const MobileThirdRow = () => {
 const MobileFourthRow = () => {
 
     const iconTextData = [
-        {icon: MailIcon.src, text: "info@dio.ru", path: "/about"},
-        {icon: GeoIcon.src, text: "Россия, г. Новосибирск, ул. Тимакова 6/1", path: "/about"}
+        {icon: MailIcon.src, text: "info@3339900.ru", href: "mailto:info@3339900.ru"},
+        {icon: GeoIcon.src, text: "Россия, г. Новосибирск, ул. Тимакова 6/1", href: "https://go.2gis.com/wjb501"}
     ]
 
     return (
@@ -203,7 +233,9 @@ const MobileFourthRow = () => {
                         iconTextData.map((iconRow, rowKey) =>
                             <div className={"w-full flex flex-row items-center gap-5"} key={rowKey}>
                                 <img src={iconRow.icon} className={"w-5 h-5"} alt={"/"}/>
-                                <Text text={iconRow.text} className={"text-text-gray"}/>
+                                <Link rel={"noopener noreferer"} target={"_blank"} href={iconRow.href}>
+                                    <Text text={iconRow.text} className={"text-text-gray"}/>
+                                </Link>
                             </div>
                         )
                     }

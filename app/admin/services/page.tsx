@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import {TableHeaderItem} from "@/types/dto/Table";
 import {useUnit} from "effector-react";
-import {CallRequestStatus} from "@/app/admin/call-requests/model";
+import {CallRequestStatus} from "@/app/admin/call-requests/main.model";
 import {SelectItem} from "@/types/props/SelectItem";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";

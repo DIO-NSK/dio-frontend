@@ -27,7 +27,7 @@ const BannerCard = () => {
                     text={`DIO — Вода из Сибири для сибиряков`}
                 />
                 <Text
-                    className={"text-[15px] sm:text-[24px] text-text-gray"}
+                    className={"text-[15px] sm:text-[20px] text-text-gray"}
                     text={"Посмотреть все товары"}
                 />
             </div>

@@ -14,7 +14,31 @@ import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 import {MouseEventHandler} from "react";
 import {useClickOutside} from "@/utlis/hooks/useClickOutside";
 
-const Input = (props: Omit<SearchbarProps, "hasPopover">) => {
+const SelectableVariants = <T, >({variants, onSelectVariant, selectedVariant}: SearchbarProps<T>) => {
+    return (
+        <div className={"flex flex-row gap-2"}>
+            {variants?.map((variant, key) => {
+                const variantCV: ClassValue[] = [
+                    "flex flex-row items-center gap-1 rounded-lg py-2 px-3 text-sm bg-bg-light-blue text-text-gray",
+                    "hoverable pointer hover:bg-light-gray hover:text-link-blue",
+                    {"bg-light-gray text-link-blue": selectedVariant?.value === variant.value}
+                ]
+                return (
+                    <div
+                        className={cn(variantCV)}
+                        onClick={() => onSelectVariant?.(variant)}
+                        key={key}
+                    >
+                        {selectedVariant?.value === variant.value && <FiX size={"14px"}/>}
+                        {variant.name}
+                    </div>
+                )
+            })}
+        </div>
+    )
+}
+
+const Input = <T, >(props: Omit<SearchbarProps<T>, "hasPopover">) => {
 
     const inputCV: ClassValue[] = [
         "w-full p-5 sm:px-[30px] py-4 rounded-xl bg-bg-light-blue border-0",
@@ -24,11 +48,17 @@ const Input = (props: Omit<SearchbarProps, "hasPopover">) => {
     ]
 
     const iconCV: ClassValue[] = [
-        "absolute z-10 right-5 sm:right-[30px] top-1/3 stroke-text-gray sm:hover:cursor-pointer",
+        "stroke-text-gray sm:hover:cursor-pointer",
         "w-5 h-5 sm:group-hover:stroke-blue-600 sm:hoverable"
     ]
 
-    const handleClear : MouseEventHandler = (e) => {
+    const absoluteWrapperCV = [
+        "absolute flex flex-row items-center gap-3",
+        "z-10 top-3 right-5 sm:right-[30px]",
+        {"top-1/2": !props.selectable}
+    ]
+
+    const handleClear: MouseEventHandler = (e) => {
         e.stopPropagation()
         props.onChange("")
         props.onSelect?.(undefined)
@@ -36,11 +66,11 @@ const Input = (props: Omit<SearchbarProps, "hasPopover">) => {
 
     return (
         <div className={cn("w-full relative group", props.classNames?.wrapper)}>
-            {
-                props.value
-                    ? <FiX className={cn(iconCV)} onClick={handleClear}/>
-                    : <FiSearch className={cn(iconCV)}/>
-            }
+            <div className={cn(absoluteWrapperCV)}>
+                {props.selectable && <SelectableVariants {...props}/>}
+                {props.value ? <FiX className={cn(iconCV)} onClick={handleClear}/>
+                    : <FiSearch className={cn(iconCV)}/>}
+            </div>
             <TextInput
                 classNames={{input: cn(inputCV)}}
                 placeholder={props.placeholder}
@@ -52,7 +82,7 @@ const Input = (props: Omit<SearchbarProps, "hasPopover">) => {
 
 }
 
-const PopoverProductColumn = ({products, ...props}: SearchbarProps & { products: ResponseProductSearch[] }) => {
+const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { products: ResponseProductSearch[] }) => {
 
     if (products.length === 0) return
 
@@ -77,7 +107,7 @@ const PopoverProductColumn = ({products, ...props}: SearchbarProps & { products:
                         const [newPrice, oldPrice] = useDiscount(product.price, product.discountPercent)
                         const itemCV = {
                             "rounded-b-xl": index === array.length - 1,
-                            "bg-bg-light-blue" : product.id === props.selectedElement?.id
+                            "bg-bg-light-blue": product.id === props.selectedElement?.id
                         }
 
                         return (
@@ -160,7 +190,7 @@ const NotFoundMessage = ({catalog}: { catalog: ResponseSearchCatalog }) => {
     }
 }
 
-const PopoverList = (props: SearchbarProps) => {
+const PopoverList = <T, >(props: SearchbarProps<T>) => {
 
     const [catalog, searchName] = useUnit([$searchCatalog, $searchValue])
 
@@ -176,7 +206,7 @@ const PopoverList = (props: SearchbarProps) => {
 
 }
 
-const SearchInput = ({hasPopover = false, ...props}: SearchbarProps) => {
+const SearchInput = <T, >({hasPopover = false, ...props}: SearchbarProps<T>) => {
 
     const {
         ref,

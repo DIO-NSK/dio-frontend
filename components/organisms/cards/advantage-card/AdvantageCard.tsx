@@ -16,21 +16,29 @@ const AdvantageCard = ({card, classNames}: {
 
     const wrapperCV: ClassValue[] = [
         "sm:col-span-3 col-span-1 sm:p-[30px] p-6 rounded-xl bg-bg-light-blue flex",
+        "hover:bg-transparent border-2 border-light-gray group",
         "flex-col gap-3 sm:gap-[15px] hoverable pointer", classNames?.wrapper
+    ]
+
+    const iconWrapperCV : ClassValue[] = [
+        "text-link-blue group-hover:bg-blue-100",
+        "w-fit p-2 rounded-lg hoverable"
+    ]
+
+    const textCV = [
+        "group-hover:text-link-blue text-black sm:leading-none",
+        "sm:text-lg text-[14px] font-medium", classNames?.text
     ]
 
     return (
         <div className={cn(wrapperCV)}>
-            <img
-                className={"w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] object-fill"}
-                src={card.icon} alt={'/'}
-            />
-            <Text
-                className={cn("text-black text-[14px] font-medium", classNames?.text)}
-                text={card.header}
-            />
+            <div className={cn(iconWrapperCV)}>
+                {card.icon}
+            </div>
+            <Text className={cn(textCV)} text={card.header}/>
         </div>
     )
+
 }
 
 export default AdvantageCard

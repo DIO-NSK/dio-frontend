@@ -8,7 +8,8 @@ export type ImageLink = {
 
 export type TextLink = {
     text : string,
-    path : string
+    path : string,
+    href ?: string
 }
 
 export type IconTextLink = TextLink & {icon? : string | React.ReactNode}

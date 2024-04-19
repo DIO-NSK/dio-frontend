@@ -5,7 +5,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
 import {cn} from "@/utlis/cn";
 
-const SliderGroup = ({header, children, className}: HeaderWrapperType) => {
+const SliderGroup = ({header, children, id, className}: HeaderWrapperType) => {
     return (
         <div className={cn("sm:pl-0 w-full flex flex-col gap-5 sm:gap-7", className)}>
 
@@ -22,7 +22,7 @@ const SliderGroup = ({header, children, className}: HeaderWrapperType) => {
                 />
             </div>
 
-            <div className={"hidden w-full sm:overflow-visible sm:grid-cols-12 sm:grid sm:gap-5"}>
+            <div id={id} className={"hidden w-full sm:overflow-visible sm:grid-cols-12 sm:grid sm:gap-5"}>
                 {children}
             </div>
 

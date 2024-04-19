@@ -10,6 +10,7 @@ import {registerUserFx} from "@/components/organisms/popups/authorization/signup
 import {updateUserSettingsFx} from "@/app/(customer)/profile/settings/model";
 
 export type ResponseUserCredentials = {
+    email : string,
     phoneNumber: string,
     fullName: string
 }
