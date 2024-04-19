@@ -53,7 +53,7 @@ sample({
 
 export const $adminSectionBreadcrumbs = createStore<TextLink[]>([])
 $adminSectionBreadcrumbs.on(getSectionBreadcrumbsFx.doneData, (_, section) => [
-    {text : "Каталог", link : "/admin/catalog"},
+    {text : "Разделы", link : "/admin/catalog"},
     {text : section.name, link : `/admin/catalog/section/${section.id}`},
 ] as TextLink[])
 

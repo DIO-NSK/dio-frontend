@@ -46,7 +46,12 @@ const CreateProductFirstStep = () => {
     const getProductDetails = useUnit(getProductDetailsEvent)
 
     const methods = useFormContext()
-    const {trigger, getValues, formState: {isSubmitting}} = methods
+
+    const {
+        trigger,
+        getValues,
+        formState: {isSubmitting}
+    } = methods
 
     const onSubmit = async () => {
         const fieldNames: FieldName<CreateProductData>[] = ["crmCode", "crmGroup"]
@@ -72,9 +77,9 @@ const CreateProductFirstStep = () => {
             />
             <Button
                 disabled={isSubmitting}
+                text={isSubmitting ? "Отправка" : "Получить товар"}
                 classNames={{button: "h-[65px]"}}
                 onClick={onSubmit}
-                text={"Получить товар"}
             />
         </div>
     )

@@ -71,7 +71,7 @@ const AdminPanelCatalogPage = () => {
                 classNames={{content : "mt-[-28px]"}}
                 tableContent={context.tableContent}
                 isDraggable={editableContext.isEditable}
-                onRowClick={context.handleRowClick}
+                onRowClick={(rowIndex) => !editableContext.isEditable && context.handleRowClick(rowIndex)}
                 onEdit={selectSectionToEdit}
                 onDelete={selectSectionToDelete}
             />

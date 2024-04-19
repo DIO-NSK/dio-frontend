@@ -45,7 +45,7 @@ sample({
 
 const convertBreadcrumbsToList = (breadcrumbs: Breadcrumbs): TextLink[] => {
     return [
-        {text: "Каталог", link: "/"},
+        {text: "Разделы", link: "/"},
         {text: breadcrumbs.sectionName, link: breadcrumbs.sectionId},
         {text: breadcrumbs.categoryName, link: `/catalog/${breadcrumbs.categoryId}`}
     ]

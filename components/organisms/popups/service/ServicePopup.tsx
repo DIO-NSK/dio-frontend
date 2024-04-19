@@ -38,7 +38,10 @@ const ServicePopup = () => {
     const [userCredentials, sendService] = useUnit([$userCredentials, sendServiceEvent])
     const [popupState, togglePopupState] = useUnit([$isServicePopupOpen, toggleServicePopupEvent])
 
-    const onSubmit = (formData: FieldValues) => sendService(formData as ServiceData)
+    const onSubmit = (formData: FieldValues) => {
+        sendService(formData as ServiceData)
+        togglePopupState()
+    }
 
     useEffect(() => {
         if (userCredentials) {

@@ -4,7 +4,6 @@ import AdminPanelHeaderButtonRow
     from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow";
 import {useAdminPanelCategoriesPage} from "@/app/admin/catalog/section/[sectionId]/page.hooks";
 import TextContentTable from "@/components/organisms/tables/text-content-table/TextContentTable";
-import {useRouter} from "next/navigation";
 import {
     useAdminPanelHeaderButtonRow
 } from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
@@ -37,8 +36,6 @@ const AdminPanelCategoryPage = ({params}: {
     const headerContext = useAdminPanelHeaderButtonRow()
     const editableContext = useAdminPanelHeaderRow()
 
-    const router = useRouter()
-
     return (
         <>
             <DeleteCategoryPopup/>
@@ -67,7 +64,7 @@ const AdminPanelCategoryPage = ({params}: {
                 classNames={{content : "mt-[-28px]"}}
                 tableContent={context.tableContent}
                 isDraggable={editableContext.isEditable}
-                onRowClick={context.handleRowClick}
+                onRowClick={(rowIndex) => !editableContext.isEditable && context.handleRowClick(rowIndex)}
                 onDelete={selectCategoryToDelete}
                 onEdit={context.handleEditCategory}
             />

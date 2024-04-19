@@ -33,6 +33,7 @@ const CallRequestPopup = () => {
 
     const onSubmit = (fieldValues: FieldValues) => {
         sendCallRequest(fieldValues as UserCallRequest)
+        togglePopupState()
     }
 
     useEffect(() => {
