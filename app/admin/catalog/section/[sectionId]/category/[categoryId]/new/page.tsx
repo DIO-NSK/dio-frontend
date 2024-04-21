@@ -19,7 +19,8 @@ import {
     createProductFx,
     getCategoryPropertiesEvent,
     getProductDetailsEvent,
-    GetProductDetailsParams
+    GetProductDetailsParams,
+    newProductPageDidMountEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
 import Text from "@/components/atoms/text/text-base/Text";
 import AdminPanelProductInputGrid
@@ -31,7 +32,6 @@ import AdminPanelFilledPropertiesBlock
     from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelFilledPropertiesBlock";
 import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
-import {useToggle} from "@/utlis/hooks/useToggle";
 
 const productOfTheDayDescription: string =
     `Если чекбокс включён, то данный товар будет отображаться
@@ -106,7 +106,7 @@ const CreateProductSecondStep = ({categoryId}: {
     const {
         handleSubmit,
         formState: {isSubmitting},
-        reset
+        reset, watch
     } = useFormContext<CreateProductData>()
 
     const onSubmit = (formData: FieldValues) => createProduct({
@@ -183,19 +183,16 @@ const AdminPanelNewProductPage = ({params}: {
     }
 }) => {
 
-    const router = useRouter()
-
     const createProductMethods = useForm<CreateProductData>({
         resolver: zodResolver(CreateProductSchema),
         mode: "onSubmit"
     })
 
     const {reset} = createProductMethods
-    const productDetails = useUnit($productDetails)
-
-    const snackbarClosed = useToggle()
+    const [productDetails, pageDidMount] = useUnit([$productDetails, newProductPageDidMountEvent])
 
     useEffect(() => {
+        pageDidMount()
         reset({isProductOfTheDay: false})
     }, []);
 

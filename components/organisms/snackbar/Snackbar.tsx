@@ -28,7 +28,7 @@ const StyledSnackbar = styled(JoySnackbar)`
 
 const ActionIcon = (props: SnackbarProps) => (
     props.success ? <FiArrowRight
-        className={"text-green-600 hoverabe hover:text-green-800 pointer"}
+        className={"text-green-600 hoverabe hover:text-green-700 pointer"}
         onClick={props.action} size={"24px"}
     /> : <FiX
         className={"text-info-red hoverable hover:text-red-700 pointer"}

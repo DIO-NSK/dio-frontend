@@ -36,8 +36,8 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
         "drop-shadow-lg flex flex-col overflow-clip"
     ]
 
-    const textCV = {"text-text-gray": !props.selectedItem || props.selectedItem.name.length === 0}
-    const inputText = (!props.selectedItem || props.selectedItem.name.length === 0)
+    const textCV = {"text-text-gray": !props.selectedItem || props.selectedItem?.name?.length === 0}
+    const inputText = (!props.selectedItem || props.selectedItem?.name?.length === 0)
         ? props.placeholder : props.selectedItem.name
 
     const handleSelectItem = (selectedItem: SelectItem<T>) => {

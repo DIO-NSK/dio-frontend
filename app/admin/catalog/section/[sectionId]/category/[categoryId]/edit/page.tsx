@@ -14,6 +14,8 @@ import {$formData, editCategoryPageDidMountEvent} from "./model";
 import {$creationStatus, createCategoryFx} from "../../../model";
 import {useRouter} from "next/navigation";
 
+const textInputCN = "w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"
+
 const AdminEditCategoryPage = ({params}: {
     params: {
         sectionId: number
@@ -39,7 +41,7 @@ const AdminEditCategoryPage = ({params}: {
     const {
         formState: {isSubmitting},
         handleSubmit,
-        reset
+        reset, watch
     } = methods
 
     const onSaveChanges = (formData: FieldValues) => {
@@ -51,6 +53,8 @@ const AdminEditCategoryPage = ({params}: {
         createCategory(request).then((_) => router.back())
     };
 
+    console.log(watch())
+
     useEffect(() => {
         pageDidMount(params.categoryId)
     }, [])
@@ -60,7 +64,7 @@ const AdminEditCategoryPage = ({params}: {
     }, [formData])
 
     return (
-        <>
+        <React.Fragment>
             <HeaderRow
                 className={"w-full"}
                 theme={"bordered"}
@@ -70,11 +74,7 @@ const AdminEditCategoryPage = ({params}: {
             {
                 formData && <FormProvider {...methods}>
                     <Form>
-                        <div
-                            className={
-                                "w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"
-                            }
-                        >
+                        <div className={textInputCN}>
                             <ControlledTextInput
                                 labelText={"Название категории"}
                                 placeholder={"Введите название категории"}
@@ -99,7 +99,7 @@ const AdminEditCategoryPage = ({params}: {
                     </Form>
                 </FormProvider>
             }
-        </>
+        </React.Fragment>
     );
 
 };

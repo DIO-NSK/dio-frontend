@@ -57,6 +57,7 @@ export const $isProductDetailsLoading = pending([getProductDetailsFx])
 
 export const getProductDetailsEvent = createEvent<GetProductDetailsParams>()
 export const $productDetails = createStore<RequestAdminProduct | null>(null)
+export const newProductPageDidMountEvent = createEvent()
 
 const getCategoryPropertiesFx = createEffect<number, Category, Error>(getCategoryProperties)
 export const getCategoryPropertiesEvent = createEvent<number>()
@@ -66,7 +67,10 @@ export const $inputPrefilledData = createStore<Omit<InputPrefilledData, "name">[
 export const createProductFx = createEffect<CreateProductParams, any, Error>(createProduct)
 export const $createProductError = createStore<string>("")
 
-$productDetails.on(getProductDetailsFx.doneData, (_, details) => details)
+$productDetails
+    .on(getProductDetailsFx.doneData, (_, details) => details)
+    .reset(newProductPageDidMountEvent)
+
 $categoryProperties.on(getCategoryPropertiesFx.doneData, (_, category) => convertCategoryToFormData(category))
 $createProductError.on(createProductFx.failData, (_, error) => error.message)
 $inputPrefilledData.on(getCategoryPropertiesFx.doneData, (_, category) => convertCategoryToInputData(category))
