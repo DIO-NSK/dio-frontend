@@ -9,10 +9,14 @@ import {useAuthorizationPopup} from "@/components/organisms/popups/authorization
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {LoginUserData, LoginUserSchema} from "@/schemas/customer/authorization/LoginUserSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
-import React from "react";
+import React, {useEffect} from "react";
 import Form from "@/components/atoms/form/Form";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
-import {$loginError, loginUserByCredentialsFx} from "@/components/organisms/popups/authorization/login-popup/model";
+import {
+    $loginError,
+    loginPopupDidMountEvent,
+    loginUserByCredentialsFx
+} from "@/components/organisms/popups/authorization/login-popup/model";
 import {useUnit} from "effector-react";
 import Text from "@/components/atoms/text/text-base/Text";
 
@@ -21,7 +25,8 @@ const LoginPopup = () => {
     const loginContext = useLoginPopup()
     const authContext = useAuthorizationPopup()
 
-    const [loginUserByCredentials, loginError] = useUnit([loginUserByCredentialsFx, $loginError])
+    const [loginUserByCredentials, popupDidMount, loginError]
+        = useUnit([loginUserByCredentialsFx, loginPopupDidMountEvent, $loginError])
 
     const methods = useForm<LoginUserData>({
         resolver: zodResolver(LoginUserSchema),
@@ -35,6 +40,10 @@ const LoginPopup = () => {
             .then(_ => authContext.switchPopupState(undefined))
             .catch(e => e)
     }
+
+    useEffect(() => {
+        popupDidMount()
+    }, [])
 
     return (
         <FormProvider {...methods}>

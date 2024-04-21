@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import Button from "@/components/atoms/buttons/button/Button";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
@@ -14,12 +14,13 @@ import Text from "@/components/atoms/text/text-base/Text";
 import {useUnit} from "effector-react/effector-react.mjs";
 import {
     $loginByPhoneError,
-    loginByPhoneFx
+    loginByPhoneFx, loginByPhonePopupDidMountEvent
 } from "@/components/organisms/popups/authorization/login-by-phone-popup/model";
 
 const LoginByPhonePopup = () => {
 
-    const [loginByPhone, loginByPhoneError] = useUnit([loginByPhoneFx, $loginByPhoneError])
+    const [loginByPhone, popupDidMount, loginByPhoneError]
+        = useUnit([loginByPhoneFx, loginByPhonePopupDidMountEvent, $loginByPhoneError])
 
     const methods = useForm<LoginByPhoneData>({
         resolver : zodResolver(LoginByPhoneSchema),
@@ -36,6 +37,10 @@ const LoginByPhonePopup = () => {
             .then(_ => authContext.switchPopupState(undefined))
             .catch(e => e)
     }
+
+    useEffect(() => {
+        popupDidMount()
+    }, []);
 
     return (
         <FormProvider {...methods}>

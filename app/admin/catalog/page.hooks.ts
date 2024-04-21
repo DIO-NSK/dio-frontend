@@ -15,8 +15,7 @@ export const useAdminPanelCatalogPage = () => {
     const router = useRouter()
     const pathname = usePathname()
 
-    const tableContent: TextTableRow[] = sections
-        .filter(section => section.name.includes(nameToSearch))
+    const tableContent: TextTableRow[] = sections?.filter(section => section.name.includes(nameToSearch))
         .map(section => ({id: +section.id!!, item: [section.name], itemsWidth: ["col-span-full"]}))
 
     const [

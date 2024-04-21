@@ -58,7 +58,7 @@ const AdvantagesBlock = () => {
 
             <MobileHeaderWrapper
                 header={"Наши преимущества"}
-                classNames={{contentWrapper: "w-full pr-5 grid grid-cols-2 gap-3"}}
+                classNames={{contentWrapper: "w-full pr-5 grid grid-cols-2 gap-3 mb-7"}}
             >
                 {advantagesCardData.map((card) => {
                     return <AdvantageCard card={card}/>

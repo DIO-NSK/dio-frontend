@@ -58,7 +58,7 @@ const UserProfileOrdersPage = () => {
         }
     }, [activeItem.value, orders])
 
-    if (sortedOrders?.length) return (
+    return (
         <UserProfileWrapper>
             <HeaderRow
                 header={"Мои заказы"}
@@ -88,7 +88,7 @@ const UserProfileOrdersPage = () => {
                 onSelect={setActiveItem}
             />
             <section className={"w-full flex flex-col gap-5 sm:-mt-5"}>
-                {!!sortedOrders.length && sortedOrders.map((order, key) =>
+                {sortedOrders?.length && sortedOrders.map((order, key) =>
                     <OrderCard key={key} order={order}/>
                 )}
             </section>

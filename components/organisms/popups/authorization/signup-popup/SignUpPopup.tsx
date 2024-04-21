@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -11,17 +11,35 @@ import ControlledTextInput from "@/components/atoms/inputs/text-input/Controlled
 import {useAuthorizationPopup} from "@/components/organisms/popups/authorization/useAuthorizationPopup";
 import {useUnit} from "effector-react";
 import {
-    $registerUserError,
+    $registerUserError, registerPopupDidMountEvent,
     registerUserFx,
     setUserPhoneNumberEvent
 } from "@/components/organisms/popups/authorization/signup-popup/model";
 import Text from "@/components/atoms/text/text-base/Text";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 
+const inputData: InputPrefilledData[] = [
+    {
+        labelText: "Телефон",
+        placeholder: "+7 (___) ___-__-__",
+        inputMask: "+7 (999) 999-99-99",
+        name: "phoneNumber"
+    }, {
+        labelText: "Имя пользователя",
+        placeholder: "Иван Иванов",
+        name: "fullName"
+    }, {
+        labelText: "Пароль",
+        placeholder: "Введите пароль",
+        name: "password",
+        isPassword: true
+    }
+]
+
 const SignUpPopup = () => {
 
-    const [registerUser, registerError, setUserPhoneNumber] =
-        useUnit([registerUserFx, $registerUserError, setUserPhoneNumberEvent])
+    const [registerUser, registerError, setUserPhoneNumber, popupDidMount]
+        = useUnit([registerUserFx, $registerUserError, setUserPhoneNumberEvent, registerPopupDidMountEvent])
 
     const {switchPopupState, ...authContext} = useAuthorizationPopup()
 
@@ -43,23 +61,9 @@ const SignUpPopup = () => {
 
     const handleRegisterLegalEntity = () => console.log("Register Legal entity")
 
-    const inputData: InputPrefilledData[] = [
-        {
-            labelText: "Телефон",
-            placeholder: "+7 (___) ___-__-__",
-            inputMask: "+7 (999) 999-99-99",
-            name: "phoneNumber"
-        }, {
-            labelText: "Имя пользователя",
-            placeholder: "Иван Иванов",
-            name: "fullName"
-        }, {
-            labelText: "Пароль",
-            placeholder: "Введите пароль",
-            name: "password",
-            isPassword: true
-        }
-    ]
+    useEffect(() => {
+        popupDidMount()
+    }, []);
 
     return (
         <FormProvider {...methods}>

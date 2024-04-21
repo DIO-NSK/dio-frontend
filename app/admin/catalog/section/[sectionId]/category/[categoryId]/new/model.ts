@@ -4,6 +4,7 @@ import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {Category} from "@/types/dto/Category";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
+import {pending} from "patronum";
 
 type CreateProductParams = {
     categoryId: number,
@@ -52,6 +53,8 @@ const getProductDetailsFromCRM = async (params: GetProductDetailsParams) => {
 }
 
 const getProductDetailsFx = createEffect<GetProductDetailsParams, RequestAdminProduct, Error>(getProductDetailsFromCRM)
+export const $isProductDetailsLoading = pending([getProductDetailsFx])
+
 export const getProductDetailsEvent = createEvent<GetProductDetailsParams>()
 export const $productDetails = createStore<RequestAdminProduct | null>(null)
 

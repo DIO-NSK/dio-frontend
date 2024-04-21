@@ -1,6 +1,6 @@
 import {LoginByPhoneData} from "@/schemas/customer/authorization/LoginByPhoneSchema";
 import {api} from "@/api";
-import {createEffect, createStore} from "effector";
+import {createEffect, createEvent, createStore} from "effector";
 import {$userId} from "@/components/organisms/popups/authorization/confirmation-code-popup/model";
 
 const loginByPhone = async (formData : LoginByPhoneData) => {
@@ -10,7 +10,10 @@ const loginByPhone = async (formData : LoginByPhoneData) => {
 }
 
 export const loginByPhoneFx = createEffect(loginByPhone)
+export const loginByPhonePopupDidMountEvent = createEvent<void>()
 export const $loginByPhoneError = createStore<string>("")
 
-$loginByPhoneError.on(loginByPhoneFx.failData, (_, error) => error.message)
+$loginByPhoneError
+    .on(loginByPhoneFx.failData, (_, error) => error.message)
+    .reset(loginByPhonePopupDidMountEvent)
 $userId.on(loginByPhoneFx.doneData, (_, userId) => userId)

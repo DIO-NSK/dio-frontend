@@ -14,6 +14,7 @@ import {useUnit} from "effector-react";
 import {useRouter} from "next/navigation";
 import {
     $createProductError,
+    $isProductDetailsLoading,
     $productDetails,
     createProductFx,
     getCategoryPropertiesEvent,
@@ -24,11 +25,13 @@ import Text from "@/components/atoms/text/text-base/Text";
 import AdminPanelProductInputGrid
     from "@/components/organisms/blocks/admin-panel-product-input-grid/AdminPanelProductInputGrid";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {cn} from "@/utlis/cn";
 import AdminPanelFilledPropertiesBlock
     from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelFilledPropertiesBlock";
 import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import {useToggle} from "@/utlis/hooks/useToggle";
 
 const productOfTheDayDescription: string =
     `Если чекбокс включён, то данный товар будет отображаться
@@ -43,22 +46,26 @@ const CreateProductFirstStep = () => {
         "gap-7 pb-7 border-b-2 border-light-gray"
     ]
 
-    const getProductDetails = useUnit(getProductDetailsEvent)
+    const [getProductDetails, isSubmitting] = useUnit([getProductDetailsEvent, $isProductDetailsLoading])
 
     const methods = useFormContext()
 
     const {
         trigger,
         getValues,
-        formState: {isSubmitting}
+        reset
     } = methods
 
     const onSubmit = async () => {
         const fieldNames: FieldName<CreateProductData>[] = ["crmCode", "crmGroup"]
         const fieldValues = getValues(fieldNames)
-        const params : GetProductDetailsParams = {crmCode : fieldValues[0], crmGroup : fieldValues[1]}
+        const params: GetProductDetailsParams = {crmCode: fieldValues[0], crmGroup: fieldValues[1]}
         if (await trigger(fieldNames)) getProductDetails(params)
     }
+
+    useEffect(() => {
+        reset()
+    }, []);
 
     return (
         <div className={cn(rowCV)}>
@@ -94,6 +101,8 @@ const CreateProductSecondStep = ({categoryId}: {
     const [createProduct, createError, getCategoryProperties, productDetails]
         = useUnit([createProductFx, $createProductError, getCategoryPropertiesEvent, $productDetails])
 
+    const [creationStatus, setCreationStatus] = useState<boolean | undefined>(undefined)
+
     const {
         handleSubmit,
         formState: {isSubmitting},
@@ -103,10 +112,10 @@ const CreateProductSecondStep = ({categoryId}: {
     const onSubmit = (formData: FieldValues) => createProduct({
         categoryId: categoryId,
         productData: formData as CreateProductData,
-        productDetails : productDetails as RequestAdminProduct
+        productDetails: productDetails as RequestAdminProduct
     })
-        .then(_ => router.back())
-        .catch(e => e)
+        .then(_ => setCreationStatus(true))
+        .catch(_ => setCreationStatus(false))
 
     useEffect(() => {
         getCategoryProperties(categoryId)
@@ -115,13 +124,21 @@ const CreateProductSecondStep = ({categoryId}: {
     useEffect(() => {
         reset({
             ...productDetails,
-            price : productDetails?.price,
-            taxPercent : productDetails?.taxPercent
+            price: productDetails?.price,
+            taxPercent: productDetails?.taxPercent
         } as DefaultValues<CreateProductData>)
     }, [productDetails])
 
     return (
         <React.Fragment>
+            <Snackbar
+                success={creationStatus === true}
+                header={creationStatus ? "Товар успешно создан!" : "Возникли ошибки при создании товара"}
+                message={creationStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
+                action={() => router.back()}
+                open={creationStatus !== undefined}
+                onClose={() => setCreationStatus(undefined)}
+            />
             <AdminPanelProductInputGrid/>
             <AdminPanelFilledPropertiesBlock/>
             <ControlledTextArea
@@ -166,16 +183,20 @@ const AdminPanelNewProductPage = ({params}: {
     }
 }) => {
 
+    const router = useRouter()
+
     const createProductMethods = useForm<CreateProductData>({
         resolver: zodResolver(CreateProductSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {reset} = createProductMethods
     const productDetails = useUnit($productDetails)
 
+    const snackbarClosed = useToggle()
+
     useEffect(() => {
-        reset({isProductOfTheDay : false})
+        reset({isProductOfTheDay: false})
     }, []);
 
     return (
@@ -188,11 +209,9 @@ const AdminPanelNewProductPage = ({params}: {
                     hasBackIcon
                 />
                 <CreateProductFirstStep/>
-                {
-                    productDetails && <CreateProductSecondStep
-                        categoryId={params.categoryId}
-                    />
-                }
+                {productDetails && <CreateProductSecondStep
+                    categoryId={params.categoryId}
+                />}
             </Form>
         </FormProvider>
     );

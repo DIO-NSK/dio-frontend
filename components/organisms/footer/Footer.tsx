@@ -5,7 +5,6 @@ import Text from "@/components/atoms/text/text-base/Text";
 import WhatsAppIcon from "@/public/icons/whatsapp-icon.png"
 import TelegramIcon from "@/public/icons/telegram-icon.png"
 import VKIcon from "@/public/icons/vk.png"
-import IconButton from "@/components/atoms/buttons/icon-button/IconButton";
 import {footerData} from "@/data/footerData";
 import {useRouter} from "next/navigation";
 import {ClassValue} from "clsx";
@@ -16,12 +15,17 @@ import {useUnit} from "effector-react";
 import {toggleCallRequestOpenEvent} from "@/components/organisms/popups/call-request/model";
 import Link from "next/link";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
+import React from "react";
+import {TextLink} from "@/types/links";
 
 const IconRow = () => {
 
     const iconData = [
-        {src: WhatsAppIcon.src, href : "https://t.me/DioSiberianWater"},
-        {src: TelegramIcon.src, href: "https://api.whatsapp.com/send?phone=79134869900&text=Здравствуйте%2C+у+меня+есть+вопрос"},
+        {src: WhatsAppIcon.src, href: "https://t.me/DioSiberianWater"},
+        {
+            src: TelegramIcon.src,
+            href: "https://api.whatsapp.com/send?phone=79134869900&text=Здравствуйте%2C+у+меня+есть+вопрос"
+        },
         {src: VKIcon.src, href: "https://vk.com/club31485239"},
     ]
 
@@ -194,26 +198,37 @@ const MobileSecondRow = () => {
 
 const MobileThirdRow = () => {
 
-    const blockData = [
-        ["О компании", "Контакты", "Доставка", "Оплата"],
-        ["Бонусная программа", "Возврат и обмен товара", "Сервисный центр",
-            "Рассрочка", "Политика конфиденциальности"]
+    const blockData: TextLink[][] = [
+        [
+            {text: "О компании", path: "/about-company"},
+            {text: "Контакты", path: "/contacts"},
+            {text: "Доставка", path: "payment"},
+            {text: "Оплата", path: "/payment"},
+            {text: "Товары по акции", path: "/#sales"},
+            {text: "Акции", path: "/sales"},
+            {text: "Услуги", path: "/services"},
+        ],
+        [
+            {text: "Бонусная программа", path: "/about"},
+            {text: "Возврат и обмен товара", path: "/returning"},
+            {text: "Сервисный центр", path: "/about"},
+            {text: "Рассрочка", path: "/installment-plan"},
+            {text: "Политика конфиденциальности", path: "/policy"}
+        ]
     ]
 
     return (
-        <>
-            {
-                blockData.map((block, blockKey) =>
-                    <section className={"mobileFooterRow flex-col gap-5"} key={blockKey}>
-                        {
-                            block.map((text, textKey) =>
-                                <Text text={text} className={"text-text-gray"} key={textKey}/>
-                            )
-                        }
-                    </section>
-                )
-            }
-        </>
+        <React.Fragment>
+            {blockData.map((block, blockKey) =>
+                <section className={"mobileFooterRow flex-col gap-5"} key={blockKey}>
+                    {block.map((link, textKey) =>
+                        <Link href={link.path} target={"_self"}>
+                            <Text text={link.text} className={"text-text-gray"} key={textKey}/>
+                        </Link>
+                    )}
+                </section>
+            )}
+        </React.Fragment>
     )
 
 }
@@ -227,7 +242,7 @@ const MobileFourthRow = () => {
 
     return (
         <>
-            <section className={"mobileFooterRow flex-col gap-7"}>
+            <section className={cn("mobileFooterRow flex-col gap-7", "border-b-0")}>
                 <div className={"w-full flex flex-col gap-5"}>
                     {
                         iconTextData.map((iconRow, rowKey) =>
@@ -241,10 +256,6 @@ const MobileFourthRow = () => {
                     }
                 </div>
             </section>
-            <Text
-                className={"text-text-gray"}
-                text={"1998-2023 OOO «Интернет Решения» Все права защищены."}
-            />
         </>
 
     )

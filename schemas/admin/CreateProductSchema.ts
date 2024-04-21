@@ -13,7 +13,7 @@ export const CreateProductSchema = z.object({
     crmCode: z.string().min(1, requiredFiledError),
     price: z.string().min(0).optional(),
     taxPercent: z.string().min(0).optional(),
-    discountPercent: z.string().min(1, requiredFiledError).transform(discountPercent => +discountPercent),
+    discountPercent: z.string().optional().transform(discountPercent => discountPercent && +discountPercent),
     isProductOfTheDay: z.boolean(),
     filledProperties: z.array(CategoryPropertySchema),
     photos : z.array(z.custom<File>((v) => v instanceof File)),

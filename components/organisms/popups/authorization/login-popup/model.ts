@@ -1,6 +1,6 @@
 import {unauthorizedApi} from "@/api";
 import {LoginUserData} from "@/schemas/customer/authorization/LoginUserSchema";
-import {createEffect, createStore} from "effector";
+import {createEffect, createEvent, createStore} from "effector";
 
 const loginUserByCredentials = async (formData: LoginUserData) => {
     const request = {
@@ -16,9 +16,12 @@ const loginUserByCredentials = async (formData: LoginUserData) => {
         })
 }
 
+export const loginPopupDidMountEvent = createEvent<void>()
+
 export const loginUserByCredentialsFx = createEffect(loginUserByCredentials)
 
 export const $loginError = createStore<string>("")
 
-$loginError.on(loginUserByCredentialsFx.failData, (_, error) => error.message)
-$loginError.watch(e => console.log(e))
+$loginError
+    .on(loginUserByCredentialsFx.failData, (_, error) => error.message)
+    .reset(loginPopupDidMountEvent)

@@ -3,8 +3,12 @@ import {cn} from "@/utlis/cn";
 import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import Text from "@/components/atoms/text/text-base/Text";
 import {ClassValue} from "clsx";
+import {useUnit} from "effector-react";
+import {$isFolded} from "@/app/admin/folded.model";
 
 const AdminTabBarItem = (props: TabBarItemProps) => {
+
+    const isFolded = useUnit($isFolded)
 
     const itemCV: ClassValue[] = [
         "w-full flex flex-row items-center gap-4 px-10 py-3",
@@ -24,7 +28,7 @@ const AdminTabBarItem = (props: TabBarItemProps) => {
     return (
         <div className={cn(itemCV)} onClick={handleSelectTab}>
             <SquareIcon icon={props.tab.icon} className={cn(iconCV)} />
-            <Text text={props.tab.text} className={cn(textCV)}/>
+            {!isFolded && <Text text={props.tab.text} className={cn(textCV)}/>}
         </div>
     )
 
