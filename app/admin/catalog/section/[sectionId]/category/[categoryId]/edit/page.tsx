@@ -11,8 +11,9 @@ import {useUnit} from "effector-react";
 import React, {useEffect} from "react";
 import {DefaultValues, FieldValues, Form, FormProvider, useForm} from "react-hook-form";
 import {$formData, editCategoryPageDidMountEvent} from "./model";
-import {$creationStatus, createCategoryFx} from "../../../model";
+import {$creationStatus, createCategoryFx, resetEditStatusEvent} from "../../../model";
 import {useRouter} from "next/navigation";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
 
 const textInputCN = "w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"
 
@@ -27,11 +28,14 @@ const AdminEditCategoryPage = ({params}: {
 
     const [
         pageDidMount, createCategory,
-        creationStatus, formData
+        creationStatus, resetStatus, formData
     ] = useUnit([
         editCategoryPageDidMountEvent, createCategoryFx,
-        $creationStatus, $formData
+        $creationStatus, resetEditStatusEvent, $formData
     ]);
+
+    const editHeader = creationStatus === "success" ? "Категория успешщно изменена!" : "Ошибка"!
+    const editMessage = creationStatus === "success" ? "Вы можете вернуться назад" : "Возникли ошибки при редактировании категории"
 
     const methods = useForm<CreateCategoryData>({
         resolver: zodResolver(CreateCategorySchema),
@@ -41,7 +45,7 @@ const AdminEditCategoryPage = ({params}: {
     const {
         formState: {isSubmitting},
         handleSubmit,
-        reset, watch
+        reset
     } = methods
 
     const onSaveChanges = (formData: FieldValues) => {
@@ -50,12 +54,11 @@ const AdminEditCategoryPage = ({params}: {
             data: formData as CreateCategoryData,
             id: params.sectionId,
         }
-        createCategory(request).then((_) => router.back())
+        createCategory(request)
     };
 
-    console.log(watch())
-
     useEffect(() => {
+        resetStatus()
         pageDidMount(params.categoryId)
     }, [])
 
@@ -65,6 +68,13 @@ const AdminEditCategoryPage = ({params}: {
 
     return (
         <React.Fragment>
+            <Snackbar
+                success={creationStatus === "success"}
+                header={editHeader} message={editMessage}
+                action={() => router.back()}
+                open={creationStatus !== "stale"}
+                onClose={resetStatus}
+            />
             <HeaderRow
                 className={"w-full"}
                 theme={"bordered"}

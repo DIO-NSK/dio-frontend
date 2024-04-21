@@ -8,10 +8,11 @@ import {
     $inputPrefilledData
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import Text from "@/components/atoms/text/text-base/Text";
 
 const AdminPanelFilledPropertiesBlock = () => {
 
-    const {control, reset} = useFormContext<CreateProductData>()
+    const {control, getValues, reset} = useFormContext<CreateProductData>()
     const {fields} = useFieldArray({control, name: "filledProperties"})
 
     const [properties, categoryInputGrid] = useUnit([$categoryProperties, $inputPrefilledData])
@@ -27,11 +28,17 @@ const AdminPanelFilledPropertiesBlock = () => {
             <section className={inputRowCN}>
                 {
                     fields.map((field, index) => (
-                        <ControlledTextInput
-                            classNames={{wrapper: "col-span-1"}}
-                            name={`filledProperties.${index}.value`}
-                            key={field.id} {...categoryInputGrid[index]}
-                        />
+                        <div className={"col-span-1 flex flex-col gap-3"}>
+                            <ControlledTextInput
+                                classNames={{wrapper: "col-span-1"}}
+                                name={`filledProperties.${index}.value`}
+                                key={field.id} {...categoryInputGrid[index]}
+                            />
+                            <Text
+                                text={getValues(`filledProperties.${index}.valueType`)}
+                                className={"text-text-gray text-sm"}
+                            />
+                        </div>
                     ))
                 }
             </section>

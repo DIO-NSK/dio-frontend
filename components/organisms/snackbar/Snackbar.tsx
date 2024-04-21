@@ -21,7 +21,6 @@ const StyledSnackbar = styled(JoySnackbar)`
     border-radius: 10px;
     font-family: inherit;
     flex-direction: row;
-    gap: 20px;
     align-items: center;
     justify-content: space-between;
 `

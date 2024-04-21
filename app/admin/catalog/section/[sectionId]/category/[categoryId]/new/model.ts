@@ -107,6 +107,7 @@ const convertFormDataToProduct = (productData: Omit<CreateProductData, "photos">
 function convertCategoryToFormData(category: Category): CategoryPropertyData[] {
     return category.properties.map(prop => ({
             propertyId: prop.id!!,
+            valueType : prop.valueType,
             value: ""
         })
     )

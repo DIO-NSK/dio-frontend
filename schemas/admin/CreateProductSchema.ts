@@ -2,6 +2,7 @@ import z from "zod"
 import {requiredFiledError} from "@/schemas";
 
 export const CategoryPropertySchema = z.object({
+    valueType : z.string().min(1, requiredFiledError),
     value: z.string().min(1, requiredFiledError),
     propertyId: z.number()
 })

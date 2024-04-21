@@ -50,15 +50,20 @@ export const pageDidMountEvent = createEvent<number>()
 export const $categories = createStore<Category[]>([])
 export const $sectionId = createStore<number>(0)
 export const $creationStatus = createStore<"success" | "failure" | "pending" | "stale">("stale")
+export const resetEditStatusEvent = createEvent()
 
 $categoryToDelete
     .on(selectCategoryToDeleteEvent, (_, tableRow) => tableRow)
     .on(onCloseCategoryToDeleteEvent, (_,) => null)
 
 $categories.on(getCategoryFx.doneData, (_, categories) => categories)
-$creationStatus.on(createCategoryFx.doneData, () => "success")
+
+$creationStatus
+    .on(createCategoryFx.doneData, () => "success")
     .on(createCategoryFx.failData, () => "failure")
-    .on(createCategoryFx.pending, () => "pending")
+    .reset(resetEditStatusEvent)
+
+$creationStatus.watch(console.log)
 
 $sectionId.on(pageDidMountEvent, (_, sectionId: number) => sectionId)
 
