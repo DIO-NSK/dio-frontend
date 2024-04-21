@@ -21,7 +21,7 @@ const getUserCredentials = async (): Promise<ResponseUserCredentials> => {
         .catch(error => {throw Error(error.response.data.message)})
 }
 
-const getUserCredentialsFx = createEffect(getUserCredentials)
+export const getUserCredentialsFx = createEffect(getUserCredentials)
 export const getUserCredentialsEvent = createEvent<void>()
 
 export const $userCredentials = createStore<ResponseUserCredentials | null>(null)

@@ -11,8 +11,42 @@ import {useNavigation} from "@/utlis/hooks/useNavigation";
 import {useUnit} from "effector-react";
 import {$orders, getOrdersEvent} from "@/app/(customer)/profile/orders/model";
 import {ProfileOrderItem} from "@/types/dto/user/order/ResponseProfileOrder";
+import {useRouter} from "next/navigation";
+
+import Text from "@/components/atoms/text/text-base/Text";
+import Button from "@/components/atoms/buttons/button/Button";
+import QuestionMark from "@/components/atoms/svg/question-mark/QuestionMark";
 
 type OrderFilters = "date" | "price" | "amount"
+
+const noOrdersHeader = "Нет информации о заказах"
+const noOrdersMessage = "Похоже, что Вы еще не сделали ни одного заказа.\n" +
+    "Чтобы сделать заказ, выберите продукты в каталоге\n" +
+    "и оформите заказ в корзине."
+
+const EmptyOrderPage = () => {
+
+    const router = useRouter()
+    const handleGoToCart = () => router.push("/cart")
+    const handleGoToMain = () => router.push("/")
+
+    return (
+        <section className={"col-span-6 flex flex-row gap-12 rounded-xl p-10 bg-bg-light-blue"}>
+            <QuestionMark/>
+            <section className={"flex flex-col gap-7 w-full"}>
+                <div className={"flex flex-col gap-3 w-full"}>
+                    <Text text={noOrdersHeader} className={"sm:text-xl text-lg font-medium"}/>
+                    <Text text={noOrdersMessage} className={"sm:text-lg text-base text-text-gray"}/>
+                </div>
+                <div className={"flex flex-row gap-3"}>
+                    <Button text={"В корзину"} onClick={handleGoToCart}/>
+                    <Button text={"На главную"} onClick={handleGoToMain} buttonType={"SECONDARY"}/>
+                </div>
+            </section>
+        </section>
+    )
+
+}
 
 const UserProfileOrdersPage = () => {
 
@@ -58,7 +92,9 @@ const UserProfileOrdersPage = () => {
         }
     }, [activeItem.value, orders])
 
-    return (
+    if (!sortedOrders?.length) return (<EmptyOrderPage/>)
+
+    if (sortedOrders?.length) return (
         <UserProfileWrapper>
             <HeaderRow
                 header={"Мои заказы"}
@@ -88,7 +124,7 @@ const UserProfileOrdersPage = () => {
                 onSelect={setActiveItem}
             />
             <section className={"w-full flex flex-col gap-5 sm:-mt-5"}>
-                {sortedOrders?.length && sortedOrders.map((order, key) =>
+                {sortedOrders.map((order, key) =>
                     <OrderCard key={key} order={order}/>
                 )}
             </section>

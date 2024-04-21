@@ -6,6 +6,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 
 const ShoppingCartTotalPriceCard = ({products, buttonText, onClick}: {
     products: (ResponseCartItem | ResponseProductSearch)[],
@@ -14,19 +15,20 @@ const ShoppingCartTotalPriceCard = ({products, buttonText, onClick}: {
 }) => {
 
     const totalPriceWithoutDiscount = products.reduce((acc, item) => {
-        return "quantity" in item ? acc + item.price * item.quantity : acc + item.price
+        const [_, price] = useDiscount(item.price, item.discountPercent)
+        return "quantity" in item ? acc + price * item.quantity : acc + price
     }, 0)
 
-    const totalDiscount = products.reduce((acc, item) => {
-        return "quantity" in item ? acc + 0.01 * item.discountPercent * item.price * item.quantity
-            : acc + 0.01 * item.discountPercent * item.price
+    const totalPriceWithDiscount = products.reduce((acc, item) => {
+        const [newPrice, _] = useDiscount(item.price, item.discountPercent)
+        return "quantity" in item ? acc + newPrice * item.quantity : acc + newPrice
     }, 0.0)
 
     const totalAmount = products.reduce((acc, item) => {
         return "quantity" in item ? acc + item.quantity : acc + 1
     }, 0)
 
-    const totalPriceWithDiscount = totalPriceWithoutDiscount - totalDiscount
+    const totalDiscount = totalPriceWithoutDiscount - totalPriceWithDiscount
 
     const rowCV: ClassValue = "w-full flex flex-row items-baseline justify-between"
     const textCV: ClassValue = "text-base text-text-gray"

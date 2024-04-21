@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapper/BackgroundBlockWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useUnit} from "effector-react";
@@ -8,8 +8,10 @@ import {HeaderDescription} from "@/types/dto/text";
 import Text from "@/components/atoms/text/text-base/Text";
 import {
     $createOrderPending,
-    createOrderEvent
+    confirmOrderFx
 } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/third-step/model";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import {useRouter} from "next/navigation";
 
 const CheckoutDataBlock = ({header, items}: { header: string, items: HeaderDescription[] }) => {
     return (
@@ -29,8 +31,10 @@ const CheckoutDataBlock = ({header, items}: { header: string, items: HeaderDescr
 
 const DesktopCheckoutThirdStep = () => {
 
+    const router = useRouter()
+
     const [pending, createOrder, firstFormData, secondFormData]
-        = useUnit([$createOrderPending, createOrderEvent, $checkoutFirstStepData, $checkoutSecondStepData])
+        = useUnit([$createOrderPending, confirmOrderFx, $checkoutFirstStepData, $checkoutSecondStepData])
 
     const firstBlockData: HeaderDescription[] = [
         {header: "Имя", description: firstFormData.firstName},
@@ -59,15 +63,31 @@ const DesktopCheckoutThirdStep = () => {
         },
     ]
 
+    const [requestSuccess, setRequestSuccess] = useState<boolean | undefined>(undefined)
+    const headerSnackbar = requestSuccess ? "Заявка на звонок отправлена!" : "Произошла ошибка"
+    const messageSnackbar = requestSuccess ? "В скором времени с вами свяжется специалист" : "Заполните данные заново и попробуйте снова"
+
+    const handleConfirmOrder = () => createOrder()
+        .then(_ => setRequestSuccess(true))
+        .catch(_ => setRequestSuccess(false))
+
     return (
         <section className={"flex flex-col gap-7"}>
+            <Snackbar
+                success={requestSuccess === true}
+                header={headerSnackbar}
+                message={messageSnackbar}
+                action={() => router.back()}
+                open={requestSuccess !== undefined}
+                onClose={() => setRequestSuccess(undefined)}
+            />
             <CheckoutDataBlock header={"Данные получателя"} items={firstBlockData}/>
             <CheckoutDataBlock header={"Адрес доставки"} items={secondBlockData}/>
             <CheckoutDataBlock header={"Дата и время доставки"} items={thirdBlockData}/>
             <Button
                 text={pending ? "Отправка.." : "Оформить заказ"}
                 classNames={{button: "sm:w-1/4 w-full"}}
-                onClick={createOrder}
+                onClick={handleConfirmOrder}
                 disabled={pending}
             />
         </section>

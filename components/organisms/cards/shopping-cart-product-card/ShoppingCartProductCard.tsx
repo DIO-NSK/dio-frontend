@@ -12,6 +12,7 @@ import {
 import {useUnit} from "effector-react";
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useCounter} from "@/utlis/hooks/product/useCounter";
+import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 
 type ShoppingCartProductCardProps = {
     card: ResponseCartItem,
@@ -25,8 +26,7 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
     const [isLiked, toggleLike] = useLike(true, card.productId)
     const [amount, increase, decrease] = useCounter(card.productId, card.quantity)
 
-    const discountPrice = 0.01 * card.discountPercent * card.price
-    const newPrice = discountPrice === 0 ? card.price : card.price - discountPrice
+    const [newPrice, price] = useDiscount(card.price, card.discountPercent)
 
     const trashCV: ClassValue = "hoverable pointer text-info-red hover:text-red-700"
 
@@ -53,12 +53,10 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
                         className={"text-[22px] font-medium"}
                         text={`${(newPrice * amount).toFixed(2)} ₽`}
                     />
-                    {
-                        discountPrice !== 0 && <Text
-                            text={`${(card.price * amount).toFixed(2)} ₽`}
-                            className={"text-text-gray line-through"}
-                        />
-                    }
+                    {card.discountPercent !== 0 && <Text
+                        text={`${(price * amount).toFixed(2)} ₽`}
+                        className={"text-text-gray line-through"}
+                    />}
                 </div>
 
             </div>
@@ -68,8 +66,7 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
 
 const MobileHeaderRow = (props: ShoppingCartProductCardProps) => {
 
-    const discountPrice = 0.01 * props.card.discountPercent * props.card.price
-    const newPrice = discountPrice === 0 ? props.card.price : props.card.price - discountPrice
+    const [newPrice, price] = useDiscount(props.card.price, props.card.discountPercent)
 
     return (
         <section className={"sm:hidden flex flex-col gap-1"}>
@@ -78,12 +75,10 @@ const MobileHeaderRow = (props: ShoppingCartProductCardProps) => {
                     text={`${newPrice.toFixed(2)} ₽`}
                     className={"text-lg text-link-blue font-semibold"}
                 />
-                {
-                    discountPrice !== 0 && <Text
-                        text={`${props.card.price.toFixed(2)} ₽`}
-                        className={"text-text-gray line-through"}
-                    />
-                }
+                {props.card.discountPercent !== 0 && <Text
+                    text={`${price.toFixed(2)} ₽`}
+                    className={"text-text-gray line-through"}
+                />}
             </div>
             <Text text={props.card.name}/>
         </section>
@@ -94,7 +89,7 @@ const MobileHeaderRow = (props: ShoppingCartProductCardProps) => {
 const ShoppingCartProductCard = (props: ShoppingCartProductCardProps) => {
 
     const imageCV: ClassValue[] = [
-        "w-[76px] h-[60px] rounded-lg object-cover",
+        "w-[76px] h-[60px] rounded-lg object-scale-down",
         "sm:w-[150px] sm:h-[90px] sm:rounded-xl"
     ]
 

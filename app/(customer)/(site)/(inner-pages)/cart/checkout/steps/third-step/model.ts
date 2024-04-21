@@ -20,11 +20,11 @@ const createOrder = async (request: CreateOrderRequest) => {
 }
 
 const createOrderFx = createEffect<CreateOrderRequest, void, Error>(createOrder)
-export const createOrderEvent = createEvent<void>()
+export const confirmOrderFx = createEffect<void, void, Error>()
 export const $createOrderPending = pending([createOrderFx])
 
 sample({
-    clock: createOrderEvent,
+    clock: confirmOrderFx,
     source: $checkoutSecondStepData,
     fn: (data) => convertFormDataToRequest(data),
     target: createOrderFx
