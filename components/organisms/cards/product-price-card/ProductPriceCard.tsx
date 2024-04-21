@@ -22,7 +22,7 @@ const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
 
             <div className={"w-full flex flex-row items-baseline gap-[10px]"}>
                 <Text
-                    text={`${newPrice} ₽`}
+                    text={`${newPrice.toFixed(2)} ₽`}
                     className={"text-[24px] font-semibold text-link-blue"}
                 />
                 {

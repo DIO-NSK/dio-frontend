@@ -1,5 +1,4 @@
 export const useDiscount = (price: number, discountPercent: number) => {
-    const discountPrice = price - price * 0.01 * discountPercent
-    const newPrice = discountPercent === 0 ? price : discountPrice
-    return [newPrice, price] as const
+    const oldPrice = price / (1 - 0.01 * discountPercent)
+    return [price, oldPrice] as const
 }

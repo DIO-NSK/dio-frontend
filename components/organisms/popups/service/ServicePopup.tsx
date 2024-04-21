@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
@@ -8,7 +8,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import {useUnit} from "effector-react";
 import {
     $isServicePopupOpen,
-    sendServiceEvent,
+    sendServiceFx,
     toggleServicePopupEvent
 } from "@/app/(customer)/(site)/(inner-pages)/services/model";
 import {ServiceData, ServiceSchema} from "@/schemas/customer/ServiceSchema";
@@ -17,6 +17,8 @@ import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 import {SelectItem} from "@/types/props/SelectItem";
 import {$userCredentials} from "@/app/(customer)/model";
+import {ServiceForm} from "@/types/dto/user/ServiceForm";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
 
 const serviceTypes: SelectItem<string>[] = [
     {name: "Другое", value: "OTHER"}
@@ -35,12 +37,21 @@ const ServicePopup = () => {
         reset
     } = methods
 
-    const [userCredentials, sendService] = useUnit([$userCredentials, sendServiceEvent])
+    const [userCredentials, sendService] = useUnit([$userCredentials, sendServiceFx])
     const [popupState, togglePopupState] = useUnit([$isServicePopupOpen, toggleServicePopupEvent])
 
+    const [requestSuccess, setRequestSuccess] = useState<boolean | undefined>(undefined)
+    const headerSnackbar = requestSuccess ? "Заявка на услугу отправлена!" : "Произошла ошибка"
+    const messageSnackbar = requestSuccess ? "В скором времени с вами свяжется специалист" : "Заполните данные заново и попробуйте снова"
+
     const onSubmit = (formData: FieldValues) => {
-        sendService(formData as ServiceData)
-        togglePopupState()
+        const req = {
+            ...formData,
+            nameServiceType: formData.nameServiceType.value
+        } as ServiceForm
+        sendService(req as ServiceForm)
+            .then(_ => setRequestSuccess(true))
+            .catch(_ => setRequestSuccess(false))
     }
 
     useEffect(() => {
@@ -54,6 +65,14 @@ const ServicePopup = () => {
 
     if (popupState) return (
         <PopupWrapper onClose={togglePopupState}>
+            <Snackbar
+                success={requestSuccess === true}
+                header={headerSnackbar}
+                message={messageSnackbar}
+                action={togglePopupState}
+                open={requestSuccess !== undefined}
+                onClose={() => setRequestSuccess(undefined)}
+            />
             <HeaderRow header={"Заявка на услугу"}/>
             <FormProvider {...methods}>
                 <Form className={"w-[500px] rounded-xl bg-white flex flex-col gap-5"}>

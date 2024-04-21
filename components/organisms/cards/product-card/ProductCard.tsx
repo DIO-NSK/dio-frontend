@@ -11,6 +11,7 @@ import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
+import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 
 type ProductCardClassNames = {
     mainWrapper?: string,
@@ -26,12 +27,10 @@ const ProductCard = ({productCard, classNames}: {
 
     const [isLiked, toggleLike] = useLike(productCard.inFavourites, productCard.id)
     const [isInCart, onBuyClick] = useBuyButton(productCard.inCart, productCard.id)
+    const [newPrice, price] = useDiscount(productCard.price, productCard.discountPercent)
 
     const buttonText = isInCart ? "В корзине" : "В корзину"
     const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
-
-    const discountPrice = 0.01 * productCard.discountPercent * productCard.price
-    const newPrice = discountPrice === 0 ? productCard.price : productCard.price - discountPrice
 
     const wrapperCV: ClassValue[] = [
         "w-[70vw] sm:w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
@@ -55,12 +54,10 @@ const ProductCard = ({productCard, classNames}: {
                             text={newPrice.toFixed(2) + " ₽"}
                             className={"text-[22px] font-semibold text-link-blue"}
                         />
-                        {
-                            discountPrice !== 0 && <Text
-                                text={productCard?.price?.toFixed(2) + " ₽"}
-                                className={"text-base text-text-gray line-through"}
-                            />
-                        }
+                        {productCard.discountPercent !== 0 && <Text
+                            text={price.toFixed(2) + " ₽"}
+                            className={"text-base text-text-gray line-through"}
+                        />}
                     </div>
                     <LinesEllipsis
                         className={"font-medium text-base"}
@@ -74,8 +71,8 @@ const ProductCard = ({productCard, classNames}: {
                 <div className={"w-full flex flex-row items-center justify-between"}>
                     <div className={"sm:hidden flex flex-col"}>
                         {
-                            discountPrice !== 0 && <Text
-                                text={productCard?.price?.toFixed(2) + " ₽"}
+                            productCard.discountPercent !== 0 && <Text
+                                text={price.toFixed(2) + " ₽"}
                                 className={"text-sm text-text-gray line-through"}
                             />
                         }

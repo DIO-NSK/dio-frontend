@@ -17,6 +17,8 @@ const selectItems: SelectItem<CharacteristicType>[] = [
     {name: "Текстовое значение", value: "TEXT"},
 ]
 
+const characteristicMessage = "С помощью данных характеристик пользователь сможет отфильтровать каталог и найти нужные товары."
+
 const AdminPanelCharBlock = ({blockName}: {
     blockName: string
 }) => {
@@ -37,9 +39,8 @@ const AdminPanelCharBlock = ({blockName}: {
         <div className={"w-full mx-[-28px] px-7 flex flex-col gap-5 pb-7 border-b-2 border-light-gray"}>
 
             <HeaderDescriptionButtonRow
-                header={"Дополнительные характеристики"}
-                descr={"Данные характеристики будут видны только в карточке товара" +
-                    " и не будут учитываться при поиске продукта"}
+                header={"Характеристики"}
+                descr={characteristicMessage}
                 button={
                     <Button
                         classNames={{button: "h-fit"}}

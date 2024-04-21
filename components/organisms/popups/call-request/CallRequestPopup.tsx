@@ -1,4 +1,6 @@
-import React, {useEffect} from 'react';
+"use client"
+
+import React, {useEffect, useState} from 'react';
 import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
 import {CallRequestData, CallRequestSchema} from "@/schemas/customer/CallRequestSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -6,20 +8,26 @@ import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import {useUnit} from "effector-react";
 import {
     $isCallRequestOpen,
-    sendCallRequestEvent,
-    toggleCallRequestOpenEvent, UserCallRequest
+    sendCallRequestFx,
+    toggleCallRequestOpenEvent,
+    UserCallRequest
 } from "@/components/organisms/popups/call-request/model";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
 import Button from "@/components/atoms/buttons/button/Button";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
 
 const CallRequestPopup = () => {
 
     const [getUserCredentials, userCredentials] = useUnit([getUserCredentialsEvent, $userCredentials])
     const [popupState, togglePopupState] = useUnit([$isCallRequestOpen, toggleCallRequestOpenEvent])
-    const sendCallRequest = useUnit(sendCallRequestEvent)
+    const sendCallRequest = useUnit(sendCallRequestFx)
+
+    const [requestSuccess, setRequestSuccess] = useState<boolean | undefined>(undefined)
+    const headerSnackbar = requestSuccess ? "Заявка на звонок отправлена!" : "Произошла ошибка"
+    const messageSnackbar = requestSuccess ? "В скором времени с вами свяжется специалист" : "Заполните данные заново и попробуйте снова"
 
     const methods = useForm<CallRequestData>({
         resolver: zodResolver(CallRequestSchema),
@@ -33,7 +41,8 @@ const CallRequestPopup = () => {
 
     const onSubmit = (fieldValues: FieldValues) => {
         sendCallRequest(fieldValues as UserCallRequest)
-        togglePopupState()
+            .then(_ => setRequestSuccess(true))
+            .catch(_ => setRequestSuccess(false))
     }
 
     useEffect(() => {
@@ -49,6 +58,14 @@ const CallRequestPopup = () => {
 
     if (popupState) return (
         <PopupWrapper onClose={togglePopupState}>
+            <Snackbar
+                success={requestSuccess === true}
+                header={headerSnackbar}
+                message={messageSnackbar}
+                action={togglePopupState}
+                open={requestSuccess !== undefined}
+                onClose={() => setRequestSuccess(undefined)}
+            />
             <HeaderRow header={"Заказать звонок"}/>
             <FormProvider {...methods}>
                 <Form className={"w-[500px] rounded-xl bg-white flex flex-col gap-5"}>

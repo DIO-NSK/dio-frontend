@@ -75,14 +75,15 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
 
     if (product) return (
         <section className={"w-full flex flex-col"}>
-            {
-                popupToggle.state && <MobilePhotoGalleryPopup
-                    onClose={popupToggle.toggleState}
-                />
-            }
+            {popupToggle.state && <MobilePhotoGalleryPopup
+                onClose={popupToggle.toggleState}
+            />}
             <InnerPageWrapper classNames={{mobileWrapper: "px-0 -mt-7"}}>
 
-                <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+                <div className={"col-span-full flex flex-col gap-2 -mb-7"}>
+                    <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+                    <Text text={product.name} className={"text-2xl font-medium"}/>
+                </div>
 
                 <div onClick={popupToggle.toggleState}>
                     <MobilePhotoSlider/>

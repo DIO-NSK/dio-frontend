@@ -1,13 +1,17 @@
 import {useEffect, useState} from "react";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 import {COLOR} from "@/components/colors";
+import {cn} from "@/utlis/cn";
 
 const MainPhotoCard = ({photo}: { photo ?: string }) => {
+
+    const imageCV = [
+        "w-full h-[300px] object-scale-down rounded-xl",
+        "border-2 border-light-gray"
+    ]
+
     return (
-        <img
-            className={"w-full h-[300px] object-cover rounded-xl"}
-            src={photo} alt={'/'}
-        />
+        <img className={cn(imageCV)} src={photo} alt={'Изображение продукта'}/>
     )
 }
 
@@ -18,7 +22,7 @@ const PhotoCard = ({photo, isActive, setActive}: {
 }) => {
     return (
         <img
-            className={"h-[100px] w-full rounded-xl border-light-gray object-fill border-[2px] hover:pointer"}
+            className={"h-[100px] w-full rounded-xl border-light-gray object-scale-down border-[2px] hover:pointer"}
             style={{borderColor: isActive ? COLOR["light-gray"] : COLOR["white"]}}
             onClick={() => setActive(photo)}
             src={photo} alt={'/'}

@@ -8,7 +8,7 @@ import {TextLink} from "@/types/dto/text";
 import {Breadcrumbs} from "@/types/dto/Breadcrumbs";
 
 const getBreadcrumbs = async (productId: number): Promise<Breadcrumbs> => {
-    return unauthorizedApi.get("/catalogue/breadcrumb", {params: {productId: productId}})
+    return unauthorizedApi.get("/catalogue/breadcrumb/product", {params: {productId: productId}})
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.result)
@@ -45,7 +45,7 @@ sample({
 
 const convertBreadcrumbsToList = (breadcrumbs: Breadcrumbs): TextLink[] => {
     return [
-        {text: "Разделы", link: "/"},
+        {text: "Главная", link: "/"},
         {text: breadcrumbs.sectionName, link: breadcrumbs.sectionId},
         {text: breadcrumbs.categoryName, link: `/catalog/${breadcrumbs.categoryId}`}
     ]
