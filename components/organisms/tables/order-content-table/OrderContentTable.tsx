@@ -84,11 +84,11 @@ const OrderRow = (props: OrderRowProps) => {
             }
 
             <div className={"col-span-1 flex flex-col gap-1"}>
-                <Text text={dayjs(order.deliveryDate).format("DD.MM.YYYY")} className={"text-[15px]"}/>
-                <Text text={order.deliveryTime ?? ""} className={"text-[15px]"}/>
+                <Text text={dayjs(order.created).format("DD.MM.YYYY")} className={"text-[15px]"}/>
+                <Text text={dayjs(order.created).format("HH:mm")} className={"text-[15px]"}/>
             </div>
 
-            <Text text={order.deliveryDate} className={"col-span-1 text-[15px]"}/>
+            <Text text={dayjs(order.deliveryDate).format("DD.MM.YYYY")} className={"col-span-1 text-[15px]"}/>
             <Text text={`ID ${order.id}`} className={"col-span-1 text-[15px]"}/>
             <Text text={order.orderStatus} className={"col-span-1 text-[15px]"}/>
             <Text text={order.fullName} className={"col-span-1 text-[15px]"}/>

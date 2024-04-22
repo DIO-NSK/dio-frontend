@@ -9,8 +9,8 @@ type SnackbarProps = {
     success: boolean,
     open: boolean,
     header: string,
-    message: string,
     onClose: () => void,
+    message?: string,
     action?: () => void
 }
 
@@ -19,6 +19,7 @@ const StyledSnackbar = styled(JoySnackbar)`
     padding: 25px;
     margin-bottom: 20px;
     border-radius: 10px;
+    gap : 20px;
     font-family: inherit;
     flex-direction: row;
     align-items: center;
@@ -28,7 +29,7 @@ const StyledSnackbar = styled(JoySnackbar)`
 const ActionIcon = (props: SnackbarProps) => (
     props.success ? <FiArrowRight
         className={"text-green-600 hoverabe hover:text-green-700 pointer"}
-        onClick={props.action} size={"24px"}
+        onClick={() => props?.action ? props.action() : props.onClose()} size={"24px"}
     /> : <FiX
         className={"text-info-red hoverable hover:text-red-700 pointer"}
         onClick={props.onClose} size={"24px"}
@@ -49,7 +50,10 @@ const Snackbar = (props: SnackbarProps) => {
         >
             <section className={"flex flex-col"}>
                 <Text text={props.header} className={cn("text-lg font-medium", textClassName)}/>
-                <Text text={props.message} className={cn("text-base", textClassName)}/>
+                {props.message && <Text
+                    className={cn("text-base", textClassName)}
+                    text={props.message}
+                />}
             </section>
         </StyledSnackbar>
     );

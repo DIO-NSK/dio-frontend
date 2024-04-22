@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapper/BackgroundBlockWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -13,9 +13,10 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 import {useUnit} from "effector-react";
 import {$userCredentials} from "@/app/(customer)/model";
-import {updateUserCredentialsEvent} from "@/app/(customer)/profile/settings/model";
+import {updateUserCredentialsEvent, updateUserSettingsFx} from "@/app/(customer)/profile/settings/model";
 import {UserCredentials} from "@/types/dto/user/credentials/UserCredentials";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
 
 const userInputsGrid: InputPrefilledData[] = [
     {
@@ -41,7 +42,7 @@ const userInputsGrid: InputPrefilledData[] = [
 const UserProfileSettingsPage = () => {
 
     const [userCredentials, updateUserSettings]
-        = useUnit([$userCredentials, updateUserCredentialsEvent])
+        = useUnit([$userCredentials, updateUserSettingsFx])
 
     const navigation = useNavigation()
     const router = useRouter()
@@ -59,6 +60,12 @@ const UserProfileSettingsPage = () => {
     } = methods
 
     const onSubmit = (formData: FieldValues) => updateUserSettings(formData as UserCredentials)
+        .then(_ => setRequestSuccess(true))
+        .catch(_ => setRequestSuccess(false))
+
+    const [requestSuccess, setRequestSuccess] = useState<boolean | undefined>(undefined)
+    const headerSnackbar = requestSuccess ? "Изменения сохранены!" : "Возникла ошибка при сохранении изменений"
+
     const handleChangePassword = () => router.push(pathname.concat("/change-password"))
 
     useEffect(() => {
@@ -72,6 +79,12 @@ const UserProfileSettingsPage = () => {
 
     return (
         <FormProvider {...methods}>
+            <Snackbar
+                success={requestSuccess === true}
+                header={headerSnackbar}
+                open={requestSuccess !== undefined}
+                onClose={() => setRequestSuccess(undefined)}
+            />
             <Form className={"w-full sm:col-span-9 flex flex-col gap-5"}>
                 <HeaderRow
                     header={"Настройки аккаунта"}

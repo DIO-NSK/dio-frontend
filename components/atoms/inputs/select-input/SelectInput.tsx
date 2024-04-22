@@ -1,5 +1,5 @@
 import {SelectItem} from "@/types/props/SelectItem";
-import React from "react";
+import React, {LegacyRef} from "react";
 import Text from "@/components/atoms/text/text-base/Text";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
 import {cn} from "@/utlis/cn";
@@ -50,7 +50,7 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
 
             {props.labelText && <Text text={props.labelText}/>}
 
-            <div className={"relative w-full"} ref={clickOutsideMethods.ref}>
+            <div className={"relative w-full"} ref={clickOutsideMethods.ref as LegacyRef<HTMLDivElement>}>
 
                 <div className={cn(inputCV)}>
                     <Text text={inputText!!} className={cn(textCV)}/>
