@@ -4,11 +4,18 @@ import {useEffect, useState} from "react";
 import {CatalogueFilter, FilterGroup, RangeInputFilter, SelectFilter} from "@/types/dto/user/catalog/Filters";
 import {FilterItem} from "@/types/dto/user/catalog/FilterItem";
 import {CheckboxListItem} from "@/types/props/CheckboxItem";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {convertCatalogueFiltersToParams} from "@/utlis/convertCatalogueFilterToParams";
+import {createURLFilters} from "@/utlis/createURLFilters";
 
 export const useFilters = (categoryId: number) => {
 
     const [filters, getFilters, sendFilters]
         = useUnit([$filters, getCategoryFiltersFx, sendFiltersEvent])
+
+    const searchParams = useSearchParams()
+    const router = useRouter()
+    const pathname = usePathname()
 
     const [
         categoryFilters,
@@ -74,7 +81,20 @@ export const useFilters = (categoryId: number) => {
         })
     )
 
-    const onSubmit = () => sendFilters({filters: categoryFilters, categoryId: categoryId})
+    const onSubmit = () => {
+
+        const request = {filters: categoryFilters, categoryId: categoryId}
+        sendFilters(request)
+        const convertedRequest = convertCatalogueFiltersToParams(request)
+        const urlFilters = createURLFilters(convertedRequest)
+
+        const current = new URLSearchParams(Array.from(searchParams.entries()));
+        current.set("filterMap", urlFilters)
+        const search = current.toString()
+        const query = search ? `?${search}` : ""
+        router.push(`${pathname}${query}`)
+
+    }
     const handleClearFilters = () => changeCategoryFilters(initFilters(filters))
 
     useEffect(() => {

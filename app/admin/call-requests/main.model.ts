@@ -3,7 +3,7 @@ import {createEffect, createEvent, createStore, sample} from "effector";
 import {ResponseCallRequest} from "@/types/dto/admin/call-request/ResponseCallRequest";
 import {CallRequestTableRow} from "@/types/dto/Table";
 import {convertTableRowsToSelectedItems} from "@/utlis/convertTableRowsToSelectedItems";
-import {$selectedVariant} from "@/app/admin/call-requests/variants.model";
+import {$selectedVariant, searchCallRequestEvent, selectVariantEvent} from "@/app/admin/call-requests/variants.model";
 import {undefined} from "zod";
 
 export type CallRequestStatus = "CURRENT" | "ARCHIVE"
@@ -16,24 +16,15 @@ export type FilterCallRequest = {
 
 //region getCallRequests
 
-const getCallRequestByStatus = async (status: CallRequestStatus) => {
-    return unauthorizedApi.get("/admin/call/request/by-status", {params: {nameStatus: status}})
+const filterCallRequest = async (filterCallRequest: FilterCallRequest): Promise<ResponseCallRequest[]> => {
+    return api.get("/admin/call/request/filter", {params: filterCallRequest})
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)
         })
 }
 
-const filterCallRequest = async (filterCallRequest: FilterCallRequest): Promise<ResponseCallRequest[]> => {
-    return api.get("/admin/call/request/filter", {params: { callRequestFilter : filterCallRequest}})
-        .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
-}
-
-const filterCallRequestFx = createEffect<FilterCallRequest, ResponseCallRequest[], Error>(filterCallRequest)
-
-const getCallRequestByStatusFx =
-    createEffect<CallRequestStatus, ResponseCallRequest[], Error>(getCallRequestByStatus)
+export const filterCallRequestFx = createEffect<FilterCallRequest, ResponseCallRequest[], Error>(filterCallRequest)
 
 export const $callRequestTableRows = createStore<CallRequestTableRow[]>([])
 
@@ -43,16 +34,9 @@ $callRequestStatus.on(setCallRequestStatusEvent, (_, status) => status)
 
 sample({
     clock: setCallRequestStatusEvent,
-    fn : (status) => ({nameStatus : status}),
+    fn: (status) => ({nameStatus: status}),
     target: filterCallRequestFx
 })
-
-/*
-sample({
-    clock : setCallRequestStatusEvent,
-    target : getCallRequestByStatusFx
-})
-*/
 
 sample({
     clock: filterCallRequestFx.doneData,
@@ -64,13 +48,41 @@ export const setSearchCallRequestEvent = createEvent<string>()
 export const $searchCallRequest = createStore<string>("")
 
 sample({
-    clock: setCallRequestStatusEvent,
-    source: {variant: $selectedVariant, filter: $searchCallRequest},
-    fn: ({variant}, status) => ({
-        nameStatus: status,
-        name: variant?.value === "name" ? $searchCallRequest : undefined,
-        phoneNumber: variant?.value === "phone_number" ? $searchCallRequest : undefined,
-    })
+    clock: setSearchCallRequestEvent,
+    source: {status: $callRequestStatus, variant: $selectedVariant},
+    fn: (source, searchName) => ({
+        nameStatus: source.status as CallRequestStatus,
+        phoneNumber: source.variant?.value === "phone_number" ? searchName : undefined,
+        name: source.variant?.value === "name" ? searchName : undefined
+    }) as FilterCallRequest,
+    target: filterCallRequestFx
+})
+
+sample({
+    clock: selectVariantEvent,
+    source: {status: $callRequestStatus, name: $searchCallRequest},
+    filter: (_, variant) => variant !== null,
+    fn: (source, variant) => ({
+        nameStatus: source.status as CallRequestStatus,
+        phoneNumber: variant?.value === "phone_number" ? source.name : undefined,
+        name: variant?.value === "name" ? source.name : undefined
+    }) as FilterCallRequest,
+    target: filterCallRequestFx
+})
+
+sample({
+    clock: setSearchCallRequestEvent,
+    source: $callRequestStatus,
+    filter: (_, name) => name === "",
+    fn: (status) => ({nameStatus: status}),
+    target: filterCallRequestFx
+})
+
+sample({
+    clock: setSearchCallRequestEvent,
+    filter: (name) => name === "",
+    fn: () => null,
+    target: $selectedVariant
 })
 
 $searchCallRequest.on(setSearchCallRequestEvent, (_, searchCallRequest) => searchCallRequest)
@@ -130,5 +142,6 @@ sample({
 sample({
     clock: updateCallRequestFx.doneData,
     source: $callRequestStatus,
-    target: getCallRequestByStatusFx
+    fn: (status) => ({nameStatus: status}),
+    target: filterCallRequestFx
 })

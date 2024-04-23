@@ -3,6 +3,8 @@ import {api, unauthorizedApi} from "@/api";
 import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {TableRow} from "@/types/dto/Table";
+import {DragEndEvent} from "@dnd-kit/core";
+import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
 
 const createCategory = async (request: { data: CreateCategoryData, sequenceNumber: number, id: number }) => {
 
@@ -34,6 +36,8 @@ const updateCategory = async (request: { categories: Category[], sectionId: numb
 
 export const deleteCategoryEvent = createEvent<number>()
 
+export const changeCategoryOrderEvent = createEvent<DragEndEvent>()
+
 export const saveChangesEvent = createEvent<void>()
 export const cancelChangesEvent = createEvent<void>()
 
@@ -56,7 +60,9 @@ $categoryToDelete
     .on(selectCategoryToDeleteEvent, (_, tableRow) => tableRow)
     .on(onCloseCategoryToDeleteEvent, (_,) => null)
 
-$categories.on(getCategoryFx.doneData, (_, categories) => categories)
+$categories
+    .on(getCategoryFx.doneData, (_, categories) => categories)
+    .on(changeCategoryOrderEvent, (categories, event) => handleDragEnd(event, categories))
 
 $creationStatus
     .on(createCategoryFx.doneData, () => "success")

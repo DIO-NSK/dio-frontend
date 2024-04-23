@@ -1,12 +1,22 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {TableWrapperProps} from "@/types/dto/Table";
 import Text from "@/components/atoms/text/text-base/Text";
 import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
+import {
+    closestCenter,
+    DndContext,
+    DragEndEvent,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors
+} from "@dnd-kit/core";
+import {SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy} from "@dnd-kit/sortable";
 
 const Header = (props: TableWrapperProps) => {
 
-    const wrapperCV : ClassValue[] = [
+    const wrapperCV: ClassValue[] = [
         "w-full mx-[-28px] px-7 grid grid-cols-8",
         "gap-x-7 pb-7 border-b-2 border-light-gray"
     ]

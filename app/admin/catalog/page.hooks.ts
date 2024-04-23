@@ -16,7 +16,13 @@ export const useAdminPanelCatalogPage = () => {
     const pathname = usePathname()
 
     const tableContent: TextTableRow[] = sections?.filter(section => section.name.includes(nameToSearch))
-        .map(section => ({id: +section.id!!, item: [section.name], itemsWidth: ["col-span-full"]}))
+        .map(section => ({
+                id: +section.id!!,
+                sequenceNumber: section.sequenceNumber,
+                item: [section.name],
+                itemsWidth: ["col-span-full"]
+            })
+        )
 
     const [
         isPopupVisible,
@@ -25,7 +31,7 @@ export const useAdminPanelCatalogPage = () => {
 
     const handleExportCatalog = () => console.log("Exported")
     const handleSwitchPopupState = () => setPopupVisible(!isPopupVisible)
-    const handleRowClick = (id : number) => router.push(pathname.concat(`/section/${id}`))
+    const handleRowClick = (id: number) => router.push(pathname.concat(`/section/${id}`))
 
     useEffect(() => {
         pageDidMount()

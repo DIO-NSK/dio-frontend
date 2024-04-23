@@ -7,6 +7,7 @@ export type ResponseAdminProduct = {
     discountPercent: number,
     price: number,
     availableCount: number,
+    sequenceNumber ?: number,
     images: string[],
     id : number
 }

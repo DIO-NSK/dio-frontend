@@ -10,4 +10,4 @@ $selectedVariant.on(selectVariantEvent, (state, variant) => {
     return state?.value === variant.value ? null : variant
 })
 
-$selectedVariant.watch(console.log)
+export const searchCallRequestEvent = createEvent<string>()

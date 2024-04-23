@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dnd-kit/modifiers": "^7.0.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@farfetched/core": "^0.11.4",
@@ -35,6 +38,7 @@
     "react-hook-form": "^7.50.1",
     "react-hook-form-persist": "^3.0.0",
     "react-icons": "^4.11.0",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-input-mask": "3.0.0-alpha.2",
     "react-lines-ellipsis": "^0.15.4",
     "react-range-slider-input": "^3.0.7",

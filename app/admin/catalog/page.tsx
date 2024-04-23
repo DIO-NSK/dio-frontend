@@ -18,7 +18,7 @@ import {useUnit} from "effector-react";
 import {
     $sectionToDelete,
     $sectionToEdit,
-    cancelChangesEvent,
+    cancelChangesEvent, changeOrderEvent,
     deleteSectionEvent,
     onCloseSectionToDeleteEvent,
     onCloseSectionToEditEvent,
@@ -31,10 +31,12 @@ const AdminPanelCatalogPage = () => {
 
     const [
         saveChanges, cancelChanges,
-        selectSectionToDelete, selectSectionToEdit
+        selectSectionToDelete, selectSectionToEdit,
+        changeOrder
     ] = useUnit([
         saveChangesEvent, cancelChangesEvent,
-        selectSectionToDeleteEvent, selectSectionToEditEvent
+        selectSectionToDeleteEvent, selectSectionToEditEvent,
+        changeOrderEvent
     ])
 
     const {...context} = useAdminPanelCatalogPage()
@@ -42,23 +44,19 @@ const AdminPanelCatalogPage = () => {
     const {...editableContext} = useAdminPanelHeaderRow()
 
     return (
-        <>
+        <React.Fragment>
             <EditSectionPopup/>
             <DeleteSectionPopup/>
-            {
-                context.popup.isPopupVisible && <AdminSectionPopup
-                    placement={"center"}
-                    onClose={context.popup.handleSwitchPopupState}
-                />
-            }
-
+            {context.popup.isPopupVisible && <AdminSectionPopup
+                placement={"center"}
+                onClose={context.popup.handleSwitchPopupState}
+            />}
             <AdminPanelHeaderButtonRow
                 searchInputOnChange={headerContext.searchbar.setSearchValue}
                 searchInputValue={headerContext.searchbar.searchValue}
                 onExportCatalog={context.handleExportCatalog}
                 onAddNewItem={context.popup.handleSwitchPopupState}
             />
-
             <AdminPanelHeaderRow
                 header={"Разделы"}
                 isEditable={editableContext.isEditable}
@@ -66,17 +64,16 @@ const AdminPanelCatalogPage = () => {
                 onCancelChanges={cancelChanges}
                 onSaveChanges={saveChanges}
             />
-
-            <TextContentTable
-                classNames={{content : "mt-[-28px]"}}
+            {context.tableContent && <TextContentTable
+                classNames={{content: "mt-[-28px]"}}
                 tableContent={context.tableContent}
                 isDraggable={editableContext.isEditable}
+                onDragEnd={changeOrder}
                 onRowClick={(rowIndex) => !editableContext.isEditable && context.handleRowClick(rowIndex)}
                 onEdit={selectSectionToEdit}
                 onDelete={selectSectionToDelete}
-            />
-
-        </>
+            />}
+        </React.Fragment>
     );
 
 };

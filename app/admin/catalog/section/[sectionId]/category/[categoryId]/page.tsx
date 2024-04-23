@@ -11,6 +11,8 @@ import {
 import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
+import {useUnit} from "effector-react";
+import {changeProductsOrderEvent} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
 
 const AdminPanelProductsPage = ({params}: {
     params: {
@@ -18,6 +20,8 @@ const AdminPanelProductsPage = ({params}: {
         categoryId: number
     }
 }) => {
+
+    const changeOrder = useUnit(changeProductsOrderEvent)
 
     const {...context} = useAdminPanelProductsPage(params.categoryId)
     const {...headerContext} = useAdminPanelHeaderButtonRow()
@@ -52,7 +56,11 @@ const AdminPanelProductsPage = ({params}: {
                 isDraggable={editableContext.isEditable}
                 tableHeader={adminProductTableHeader}
                 tableContent={context.tableContent}
-                onProductClick={context.handleProductClick}
+                onProductClick={(product) => {
+                    if (!editableContext.isEditable) {
+                        context.handleProductClick(product)
+                    }
+                }}
                 onEdit={context.handleEditProduct}
                 onDelete={context.handleDeleteProduct}
             />

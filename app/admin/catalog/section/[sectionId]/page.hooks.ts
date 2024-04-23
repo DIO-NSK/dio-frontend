@@ -17,7 +17,13 @@ export const useAdminPanelCategoriesPage = (sectionId: number) => {
 
     const tableContent: TextTableRow[] = categories
         .filter(category => category.name.includes(nameToSearch))
-        .map(category => ({item: [category.name], id: category.id!!, itemsWidth: ["col-span-full"]}))
+        .map(category => ({
+                item: [category.name],
+                id: category.id!!,
+                sequenceNumber: category.sequenceNumber,
+                itemsWidth: ["col-span-full"]
+            })
+        )
 
     useEffect(() => {
         getBreadcrumbs(sectionId)
@@ -25,7 +31,7 @@ export const useAdminPanelCategoriesPage = (sectionId: number) => {
     }, [])
 
     const handleExportCatalog = () => console.log("Exported")
-    const handleRowClick = (itemId : number) => router.push(pathname.concat(`/category/${itemId}`))
+    const handleRowClick = (itemId: number) => router.push(pathname.concat(`/category/${itemId}`))
 
     const handleEditCategory = (tableRow: TableRow<string[]>) => {
         router.push(pathname.concat(`/category/${tableRow.id}/edit`))

@@ -13,7 +13,7 @@ import {
 } from "@/components/organisms/bars/searchbar/model";
 import Link from "next/link";
 
-const SubcategoryItem = ({onClose, text, id}: { text: string, id: number, onClose : () => void}) => {
+const SubcategoryItem = ({onClose, text, id}: { text: string, id: number, onClose: () => void }) => {
     return (
         <Link href={`/catalog/${id}`} onClick={onClose}>
             <Text
@@ -31,7 +31,10 @@ const CatalogPopup = () => {
     const [getCatalog, catalog] = useUnit([getCatalogEvent, $catalog])
 
     const activeTab: TabBarItem | undefined = activeSection ? {text: activeSection.name} : undefined
-    const tabs: TabBarItem[] = catalog.map(item => ({text: item.name} as TabBarItem))
+
+    const tabs: TabBarItem[] = catalog.length ? catalog
+        .toSorted((fst, snd) => fst.sequenceNumber - snd.sequenceNumber)
+        .map(item => ({text: item.name} as TabBarItem)) : []
 
     useEffect(() => {
         popupOpen && getCatalog()
@@ -60,8 +63,10 @@ const CatalogPopup = () => {
                         className={"text-lg text-black font-medium"}
                         text={activeTab.text}
                     />}
-                    {activeSection.categories.map((item) =>
-                        <SubcategoryItem onClose={togglePopup} text={item.name} id={item.id}/>)}
+                    {activeSection.categories
+                        .toSorted((fst, snd) => fst.sequenceNumber - snd.sequenceNumber)
+                        .map((item) =>
+                            <SubcategoryItem onClose={togglePopup} text={item.name} id={item.id}/>)}
                 </div>
             </div>}
         </PopupWrapper>

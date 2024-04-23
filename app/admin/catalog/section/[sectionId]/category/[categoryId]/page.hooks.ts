@@ -16,7 +16,7 @@ export type ResponseAdminProductSearch = {
     name: string,
     discount: number,
     stockAmount: number,
-    price: number
+    price: number,
 }
 
 export const useAdminPanelProductsPage = (categoryId: number) => {
@@ -28,7 +28,7 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
     const router = useRouter()
 
     const tableContent: ProductTableRow<ResponseAdminProductSearch>[] = products
-        .map(product => ({
+        .map((product, index) => ({
                 item: {
                     image: product.images[0],
                     name: product.name,
@@ -43,7 +43,8 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
                     stockAmount: "col-span-1",
                     price: "col-span-1",
                     name: ""
-                }
+                },
+                sequenceNumber: index + 10
             })
         )
 

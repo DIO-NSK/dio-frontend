@@ -36,7 +36,9 @@ sample({
 const getCatalog = async (): Promise<CatalogItem[]> => {
     return unauthorizedApi.get("/catalogue")
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
 const getCatalogFx = createEffect<void, CatalogItem[], Error>(getCatalog)
@@ -47,13 +49,14 @@ export const $catalog = createStore<CatalogItem[]>([])
 export const $activeSection = createStore<CatalogItem | null>(null)
 export const selectActiveSectionEvent = createEvent<TabBarItem>()
 $getCatalogError.on(getCatalogFx.failData, (_, error) => error.message)
-$catalog.on(getCatalogFx.doneData, (_, catalog) => catalog)
+$catalog.on(getCatalogFx.doneData, (_, catalog) =>
+    catalog.toSorted((fst, snd) => fst.sequenceNumber - snd.sequenceNumber))
 
 $activeSection.watch(console.log)
 
 sample({
     clock: getCatalogFx.doneData,
-    source : $activeSection,
+    source: $activeSection,
     fn: (section, catalog: CatalogItem[]) => section ?? catalog[0],
     target: $activeSection
 })
@@ -107,6 +110,6 @@ const debouncedSearchCatalogEvent = debounce({
 
 sample({
     clock: debouncedSearchCatalogEvent,
-    filter : (name : string) => name.length !== 0,
+    filter: (name: string) => name.length !== 0,
     target: searchCatalogByNameFx
 })

@@ -12,7 +12,7 @@ import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-
 import {useUnit} from "effector-react";
 import {
     $categoryToDelete,
-    cancelChangesEvent,
+    cancelChangesEvent, changeCategoryOrderEvent,
     deleteCategoryEvent,
     onCloseCategoryToDeleteEvent,
     saveChangesEvent,
@@ -29,7 +29,7 @@ const AdminPanelCategoryPage = ({params}: {
     params: { sectionId: number }
 }) => {
 
-    const selectCategoryToDelete = useUnit(selectCategoryToDeleteEvent)
+    const [selectCategoryToDelete, changeOrder] = useUnit([selectCategoryToDeleteEvent, changeCategoryOrderEvent])
     const [saveChanges, cancelChanges] = useUnit([saveChangesEvent, cancelChangesEvent])
 
     const context = useAdminPanelCategoriesPage(params.sectionId)
@@ -61,8 +61,9 @@ const AdminPanelCategoryPage = ({params}: {
             </div>
 
             <TextContentTable
-                classNames={{content : "mt-[-28px]"}}
+                classNames={{content: "mt-[-28px]"}}
                 tableContent={context.tableContent}
+                onDragEnd={changeOrder}
                 isDraggable={editableContext.isEditable}
                 onRowClick={(rowIndex) => !editableContext.isEditable && context.handleRowClick(rowIndex)}
                 onDelete={selectCategoryToDelete}
