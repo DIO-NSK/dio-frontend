@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import PagingSlider from "@/components/atoms/paging-slider/PagingSlider";
-import {$banners, getAllBannersEvent} from "@/app/admin/promo/model";
+import {$banners, getAllBannersEvent} from "@/app/admin/promo/models/banner.model";
 import {useUnit} from "effector-react";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";

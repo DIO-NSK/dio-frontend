@@ -1,36 +1,40 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import {useToggle} from "@/utlis/hooks/useToggle";
-import {PromoCard} from "@/types/dto/PromoCard";
 import AddOurWaterPopup from "@/components/organisms/popups/admin/add-our-water-popup/AddOurWaterPopup";
 import AdminWaterCard from "@/components/organisms/cards/admin-water-card/AdminWaterCard";
+import {
+    $ourWaters,
+    deleteOurWaterEvent,
+    getAllOurWatersEvent,
+    setOurWaterToEditEvent
+} from "@/app/admin/promo/models/our_waters.model";
+import {useUnit} from "effector-react";
 
 const AdminPanelOurWatersBlock = () => {
 
-    const {...toggle} = useToggle()
-    const [waterCards, setWaterCards] = useState<PromoCard[]>([])
-    const handleAddCard = (card: PromoCard) => setWaterCards([...waterCards, card])
-    const handleDeleteCard = (indexToDelete: number) => {
-        const filteredCards = waterCards.filter((_, index) => index !== indexToDelete)
-        setWaterCards(filteredCards)
-    }
+    const popupToggle = useToggle()
+
+    const [ourWaters, getOurWaters, deleteCard, editCard]
+        = useUnit([$ourWaters, getAllOurWatersEvent, deleteOurWaterEvent, setOurWaterToEditEvent])
+
+    useEffect(() => {
+        getOurWaters()
+    }, []);
 
     return (
-        <>
-            {
-                toggle.state && <AddOurWaterPopup
-                    onAddItem={handleAddCard}
-                    onClose={toggle.toggleState}
-                />
-            }
+        <React.Fragment>
+            {popupToggle.state && <AddOurWaterPopup
+                onClose={popupToggle.toggleState}
+            />}
             <HeaderDescriptionButtonRow
                 button={
                     <Button
                         size={"sm"} buttonType={"SECONDARY"}
                         icon={<FiPlus size={"18px"}/>}
-                        onClick={toggle.toggleState}
+                        onClick={popupToggle.toggleState}
                         text={"Добавить"}
                     />
                 }
@@ -39,17 +43,17 @@ const AdminPanelOurWatersBlock = () => {
                 className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
             />
             <div className={"w-full grid grid-cols-3 gap-7"}>
-                {
-                    waterCards.map((waterCard, index) =>
-                        waterCard && <AdminWaterCard
+                {ourWaters.map((waterCard, index) => (
+                        <AdminWaterCard
                             waterCard={waterCard}
-                            onDelete={() => handleDeleteCard(index)}
+                            onEdit={() => editCard(waterCard)}
+                            onDelete={() => deleteCard(waterCard.id)}
                             key={index}
                         />
                     )
-                }
+                )}
             </div>
-        </>
+        </React.Fragment>
     );
 };
 

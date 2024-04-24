@@ -104,7 +104,8 @@ const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { p
                 {
                     products.map((product, index, array) => {
 
-                        const [newPrice, oldPrice] = useDiscount(product.price, product.discountPercent)
+                        const [newPrice, price] = useDiscount(product.price, product.discountPercent)
+
                         const itemCV = {
                             "rounded-b-xl": index === array.length - 1,
                             "bg-bg-light-blue": product.id === props.selectedElement?.id
@@ -117,7 +118,7 @@ const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { p
                                     <img
                                         className={"w-[130px] h-[70px] object-scale-down"}
                                         alt={"Изображение продукта"}
-                                        src={product.image}
+                                        src={product.mainImage}
                                     />
                                     <div className={"w-full flex flex-col gap-2"}>
                                         <div className={"flex flex-row items-baseline gap-2"}>
@@ -125,12 +126,10 @@ const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { p
                                                 className={"text-link-blue font-medium"}
                                                 text={`${newPrice.toFixed(2)} ₽`}
                                             />
-                                            {
-                                                product.discountPercent !== 0 && <Text
-                                                    className={"text-sm text-text-gray line-through"}
-                                                    text={`${oldPrice} ₽`}
-                                                />
-                                            }
+                                            {product.discountPercent !== 0 && <Text
+                                                className={"text-sm text-text-gray line-through"}
+                                                text={`${price.toFixed(2)} ₽`}
+                                            />}
                                         </div>
                                         <Text text={product.name}/>
                                     </div>
@@ -197,7 +196,8 @@ const PopoverList = <T, >(props: SearchbarProps<T>) => {
     if (searchName.length === 0) return
 
     if (catalog) return (
-        <section className={"absolute z-20 top-[80px] w-full flex flex-col gap-5 rounded-xl bg-white shadow-2xl"}>
+        <section
+            className={"absolute overflow-y-scroll z-20 top-[80px] w-full flex flex-col gap-5 rounded-xl bg-white shadow-2xl"}>
             <PopoverProductColumn products={catalog.productList} {...props}/>
             <PopoverCategoryColumn categories={catalog.categoryList}/>
             <NotFoundMessage catalog={catalog}/>

@@ -7,7 +7,7 @@ const SquareIcon = (props : IconButton) => {
 
     const iconCV: ClassValue[] = [
         "p-2 rounded-lg bg-bg-light-blue group-hover:bg-light-gray",
-        "hoverable text-text-gray group-hover:text-link-blue",
+        "hoverable text-text-gray group-hover:text-link-blue hover:cursor-pointer",
         props.className
     ]
 

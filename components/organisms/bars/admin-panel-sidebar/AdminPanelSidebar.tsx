@@ -24,10 +24,17 @@ import {usePathname, useRouter} from "next/navigation";
 import DIOLogoSmall from "@/components/atoms/svg/dio-logo-small/DIOLogoSmall";
 import {useUnit} from "effector-react";
 import {$isFolded, toggleFoldedStateEvent} from "@/app/admin/folded.model";
+import {logoutUserFx} from "@/app/(customer)/model";
+
+const itemCV: ClassValue[] = [
+    "flex flex-row items-center gap-4 group",
+    "rounded-xl pointer hoverable"
+]
 
 const Footer = () => {
 
-    const [isFolded, foldState] = useUnit([$isFolded, toggleFoldedStateEvent])
+    const [isFolded, foldState, logout] = useUnit([$isFolded, toggleFoldedStateEvent, logoutUserFx])
+    const router = useRouter()
 
     const footerData: (TextAction & { icon: React.ReactNode })[] = [
         {
@@ -37,13 +44,8 @@ const Footer = () => {
         }, {
             text: "Выйти",
             icon: <FiLogOut size={"18px"}/>,
-            action: () => console.log("Выйти")
+            action: () => logout().then(_ => router.push("/"))
         }
-    ]
-
-    const itemCV: ClassValue[] = [
-        "flex flex-row items-center gap-4 group",
-        "rounded-xl pointer hoverable"
     ]
 
     return (
@@ -93,7 +95,7 @@ const AdminPanelSidebar = () => {
     const wrapperCV: ClassValue[] = [
         "sticky top-0 col-span-2 my-[-20px] py-5 h-screen flex flex-col",
         "justify-between border-r-2 border-light-gray",
-        {"col-span-1" : isFolded}
+        {"col-span-1": isFolded}
     ]
 
     const handleTabClick = (tab: TabBarItem) => {

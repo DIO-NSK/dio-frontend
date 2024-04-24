@@ -1,4 +1,4 @@
-import {unauthorizedApi} from "@/api";
+import {api} from "@/api";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {sendFiltersFx} from "@/components/organisms/bars/catalog-left-sidebar/model";
@@ -9,13 +9,13 @@ import {
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 
 const getCategoryByName = async (categoryId : number) : Promise<ResponseProductSearch[]> => {
-    return unauthorizedApi.get("/catalogue/category", {params : {categoryId : categoryId}})
+    return api.get("/catalogue/category", {params : {categoryId : categoryId}})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
 
 const getCategoryBreadcrumbs = async (categoryId : number) : Promise<Breadcrumbs> => {
-    return unauthorizedApi.get("/catalogue/breadcrumb/category", {params : {categoryId : categoryId}})
+    return api.get("/catalogue/breadcrumb/category", {params : {categoryId : categoryId}})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }

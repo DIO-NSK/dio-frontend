@@ -44,7 +44,7 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
                     price: "col-span-1",
                     name: ""
                 },
-                sequenceNumber: index + 10
+                sequenceNumber: product.sequenceNumber
             })
         )
 

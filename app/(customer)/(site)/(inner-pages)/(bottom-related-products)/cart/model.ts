@@ -1,4 +1,4 @@
-import {unauthorizedApi} from "@/api";
+import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {debounce} from "patronum";
 
@@ -24,7 +24,7 @@ export type RequestEditProductParams = {
 }
 
 const getCart = async (): Promise<ResponseUserCart> => {
-    return unauthorizedApi.get("/cart")
+    return api.get("/cart")
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
@@ -33,7 +33,7 @@ export const getCartFx = createEffect<void, ResponseUserCart, Error>(getCart)
 export const getCartEvent = createEvent()
 
 const removeProductFromCart = async (productId : number) => {
-    return unauthorizedApi.delete("/cart", {data : {productId}})
+    return api.delete("/cart", {data : {productId}})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
@@ -48,7 +48,7 @@ $cart.on(getCartFx.doneData, (_, cart) => cart)
 $removeProductFromCartError.on(removeProductFromCartFx.failData, (_, error) => error.message)
 
 const editProductAmount = async (params : RequestEditProductParams) => {
-    return unauthorizedApi.put("/cart/edit", params)
+    return api.put("/cart/edit", params)
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }

@@ -15,6 +15,8 @@ export type SortableHandlerProps = {
 
 const SortableItemWrapper = (props: SortableItemWrapperProps) => {
 
+    console.log(props.sequenceNumber)
+
     const {
         attributes,
         listeners,

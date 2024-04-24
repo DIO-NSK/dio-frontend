@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import Slider from "react-slick";
 import {cn} from "@/utlis/cn";
 import {useUnit} from "effector-react";
-import {$banners, getAllBannersEvent} from "@/app/admin/promo/model";
+import {$banners, getAllBannersEvent} from "@/app/admin/promo/models/banner.model";
 import Link from "next/link";
 
 const MobilePhotoSlider = () => {

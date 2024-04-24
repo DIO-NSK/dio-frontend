@@ -4,13 +4,15 @@ import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
 import {Controller, FieldValues, Path, UseFormReturn} from "react-hook-form";
 import {cn} from "@/utlis/cn";
 import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
-import {FiMenu} from "react-icons/fi";
+import {FiEdit, FiMenu} from "react-icons/fi";
 import ClosePopupButton from "@/components/atoms/buttons/close-popup-button/ClosePopupButton";
 
 type AdminPhotoCardProps = {
     name?: string,
     className?: string,
     defaultImage?: string,
+    editable?: boolean,
+    onEdit?: () => void,
     onDelete?: () => void
 }
 
@@ -20,21 +22,33 @@ const closeButtonCV: ClassValue[] = [
 ]
 
 const PhotoCard = (props: AdminPhotoCardProps & {
-    value?: File
-}) => (
-    <div
-        className={cn("col-span-1 relative h-[150px] rounded-xl border-2 border-light-gray overflow-clip", props.className)}>
-        <img src={props.value ? URL.createObjectURL(props.value) : props.defaultImage} alt={"Фотография продукта"}
-             className={"w-full h-full object-cover"}/>
-        <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
-            <SquareIcon icon={<FiMenu size={"18px"}/>}/>
-            <ClosePopupButton
-                className={cn(closeButtonCV)}
-                onClose={props.onDelete}
-            />
+    value?: File | string
+}) => {
+
+    const resolvedImage = props.value ? (
+        typeof props.value === "string" ? props.value : URL.createObjectURL(props.value)
+    ) : props.defaultImage
+
+    return (
+        <div
+            className={cn("col-span-1 relative h-[150px] rounded-xl border-2 border-light-gray overflow-clip", props.className)}>
+            <img src={resolvedImage} alt={"Фотография продукта"}
+                 className={"w-full h-full object-cover"}/>
+            <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
+                {props.editable && <SquareIcon
+                    icon={<FiEdit size={"18px"}/>}
+                    onClick={props.onEdit}
+                />}
+                <SquareIcon icon={<FiMenu size={"18px"}/>}/>
+                <ClosePopupButton
+                    className={cn(closeButtonCV)}
+                    onClose={props.onDelete}
+                />
+            </div>
         </div>
-    </div>
-)
+    )
+
+}
 
 const ControlledPhotoCard = (props: AdminPhotoCardProps) => (
     <ConnectForm>

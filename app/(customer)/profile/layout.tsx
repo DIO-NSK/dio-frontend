@@ -8,6 +8,8 @@ import {FiLogOut} from "react-icons/fi";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import {useRouter} from "next/navigation";
+import {logoutUserFx} from "@/app/(customer)/model";
+import {useUnit} from "effector-react";
 
 const UserProfileLayout = ({children}: { children: React.ReactNode }) => {
 
@@ -17,9 +19,10 @@ const UserProfileLayout = ({children}: { children: React.ReactNode }) => {
     ]
 
     const router = useRouter()
+    const logout = useUnit(logoutUserFx)
+
     const handleLogout = () => {
-        localStorage.removeItem("ACCESS_TOKEN")
-        router.push("/")
+        logout().then(_ => router.push("/"))
     }
 
     return (

@@ -26,7 +26,7 @@ const ServiceRow = ({tableRow, isSelected, onSelect}: {
 
     const wrapperCV: ClassValue[] = [
         "relative w-full grid grid-cols-8 gap-x-7 py-7 border-b-2 border-light-gray",
-        "hoverable hover:bg-bg-light-blue px-7 relative pointer",
+        "hoverable hover:bg-bg-light-blue -mx-7 px-7 relative pointer",
         {"bg-bg-light-blue": isSelected}
     ]
 

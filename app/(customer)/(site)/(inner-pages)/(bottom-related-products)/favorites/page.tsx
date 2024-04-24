@@ -59,7 +59,7 @@ const FavoritesPage = () => {
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
 
             <div className={"w-full sm:col-span-9 flex flex-col gap-7"}>
-                <FavoritesHeaderRow selectedCards={[]}/>
+                <FavoritesHeaderRow selectedCards={favourites.products}/>
                 <section className={"w-full flex flex-col gap-3 sm:gap-7 sm:grid sm:grid-cols-9"}>
                     {favourites.products.map((card, index) => {
 

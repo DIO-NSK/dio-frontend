@@ -21,12 +21,26 @@ const getUserCredentials = async (): Promise<ResponseUserCredentials> => {
         .catch(error => {throw Error(error.response.data.message)})
 }
 
+const logoutUser = async () => {
+    return api.delete("/user/logout")
+        .then(_ => localStorage.removeItem("ACCESS_TOKEN"))
+        .catch(error => {throw Error(error.message.data.response)})
+}
+
+export const logoutUserFx = createEffect(logoutUser)
+
 export const getUserCredentialsFx = createEffect(getUserCredentials)
 export const getUserCredentialsEvent = createEvent<void>()
 
 export const $userCredentials = createStore<ResponseUserCredentials | null>(null)
 
 $userCredentials.on(getUserCredentialsFx.doneData, (_, data) => data)
+    .on(getUserCredentialsFx.failData, () => null)
+
+sample({
+    clock : logoutUserFx.doneData,
+    target : getUserCredentialsFx
+})
 
 sample({
     clock: [

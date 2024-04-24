@@ -26,7 +26,7 @@ const CallRequestRow = ({tableRow, isSelected, onSelect}: {
 
     const wrapperCV: ClassValue[] = [
         "relative w-full grid grid-cols-8 gap-x-7 py-7 border-b-2 border-light-gray",
-        "hoverable hover:bg-bg-light-blue px-7 relative pointer",
+        "hoverable hover:bg-bg-light-blue -mx-7 px-7 relative pointer",
         {"bg-bg-light-blue": isSelected}
     ]
 
@@ -76,20 +76,18 @@ const CallRequestsContentTable = (props: CallRequestsContentTable) => {
 
     return (
         <TableWrapper {...props}>
-            {
-                props.tableContent.map((tableRow, rowKey) => {
+            {props.tableContent.map((tableRow, rowKey) => {
 
-                    const isSelected = computeIsSelectedItem(tableRow.item)
+                const isSelected = computeIsSelectedItem(tableRow.item)
 
-                    return <CallRequestRow
-                        onSelect={props.onSelect}
-                        isSelected={isSelected}
-                        tableRow={tableRow}
-                        key={rowKey}
-                    />
+                return <CallRequestRow
+                    onSelect={props.onSelect}
+                    isSelected={isSelected}
+                    tableRow={tableRow}
+                    key={rowKey}
+                />
 
-                })
-            }
+            })}
         </TableWrapper>
     );
 

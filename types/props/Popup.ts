@@ -5,10 +5,6 @@ export type PopupProps = {
     placement ?: "center" | "default"
 }
 
-export type AddPromoPopup<T> = {
-    onAddItem : (item : T) => void,
-} & PopupProps
-
 export type TableItemPopup<T> = {
     tableRow : TableRow<T>
 } & PopupProps
