@@ -6,6 +6,7 @@ import {cn} from "@/utlis/cn";
 import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import {FiEdit, FiMenu} from "react-icons/fi";
 import ClosePopupButton from "@/components/atoms/buttons/close-popup-button/ClosePopupButton";
+import {SortableHandlerProps} from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
 
 type AdminPhotoCardProps = {
     name?: string,
@@ -21,7 +22,7 @@ const closeButtonCV: ClassValue[] = [
     "pointer hoverable hover:text-white hover:bg-opacity-50 m-0",
 ]
 
-const PhotoCard = (props: AdminPhotoCardProps & {
+const PhotoCard = (props: AdminPhotoCardProps & SortableHandlerProps & {
     value?: File | string
 }) => {
 
@@ -39,7 +40,14 @@ const PhotoCard = (props: AdminPhotoCardProps & {
                     icon={<FiEdit size={"18px"}/>}
                     onClick={props.onEdit}
                 />}
-                <SquareIcon icon={<FiMenu size={"18px"}/>}/>
+                <div
+                    className={"hover:cursor-grab"}
+                    ref={props.setActivatorNodeRef}
+                    {...props.attributes}
+                    {...props.listeners}
+                >
+                    <SquareIcon icon={<FiMenu size={"18px"}/>}/>
+                </div>
                 <ClosePopupButton
                     className={cn(closeButtonCV)}
                     onClose={props.onDelete}

@@ -1,5 +1,7 @@
 import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
+import {DragEndEvent} from "@dnd-kit/core";
+import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
 
 export type RequestBanner = {
     link: string,
@@ -88,6 +90,8 @@ const deleteBanner = async (bannerId: number) => {
 
 const deleteBannerFx = createEffect<number, void, Error>(deleteBanner)
 export const deleteBannerEvent = createEvent<number>()
+export const changeBannersOrderEvent = createEvent<DragEndEvent>()
+$banners.on(changeBannersOrderEvent, (banners, event) => handleDragEnd(event, banners))
 
 sample({
     clock: deleteBannerEvent,
@@ -98,10 +102,3 @@ sample({
     clock: deleteBannerFx.doneData,
     target: getAllBannersFx
 })
-
-async function createFile(url: string): Promise<File> {
-    const response = await fetch(url);
-    const data = await response.blob();
-    const metadata = {type: 'image/jpeg'};
-    return new File([data], "test.jpg", metadata);
-}

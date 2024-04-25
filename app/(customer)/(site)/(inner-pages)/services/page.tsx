@@ -47,7 +47,7 @@ const ServiceCatalogScreen = () => {
                 />
                 <section className={"w-full flex flex-col gap-5 sm:-mt-5"}>
                     {serviceGroup?.items.map((card) => (
-                        <ServiceFullCard card={card}/>
+                        <ServiceFullCard card={card} шы/>
                     ))}
                 </section>
             </section>

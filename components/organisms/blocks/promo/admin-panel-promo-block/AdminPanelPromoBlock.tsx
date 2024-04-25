@@ -8,32 +8,68 @@ import AddPromoPopup from "@/components/organisms/popups/admin/add-promo-popup/A
 import {useUnit} from "effector-react";
 import {
     $banners,
+    changeBannersOrderEvent,
     deleteBannerEvent,
     getAllBannersEvent,
     ResponseBanner,
     setBannerIdToEditEvent
 } from "@/app/admin/promo/models/banner.model";
+import {closestCenter, DndContext} from "@dnd-kit/core";
+import {restrictToHorizontalAxis} from "@dnd-kit/modifiers";
+import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
 
-const AdminPanelPromoBlock = () => {
-
-    const editMode = useToggle()
+const BannersBlock = ({editMode, openPopup}: { editMode: boolean, openPopup: () => void }) => {
 
     const setBannerIdToEdit = useUnit(setBannerIdToEditEvent)
-    const [banners, getAllBanners, deleteBanner]
-        = useUnit([$banners, getAllBannersEvent, deleteBannerEvent])
 
-    const toggle = useToggle()
+    const [banners, getAllBanners, deleteBanner, changeOrder]
+        = useUnit([$banners, getAllBannersEvent, deleteBannerEvent, changeBannersOrderEvent])
 
     const handleEditBanner = (banner: ResponseBanner) => {
-        if (editMode.state) {
+        if (editMode) {
             setBannerIdToEdit(banner)
-            toggle.toggleState()
+            openPopup()
         }
     }
 
     useEffect(() => {
         getAllBanners()
     }, []);
+
+    if (banners.length) return (
+        <DndContext
+            onDragEnd={changeOrder}
+            collisionDetection={closestCenter}
+            modifiers={[restrictToHorizontalAxis]}
+        >
+            <SortableContext
+                items={banners.map(banner => banner.id)}
+                strategy={horizontalListSortingStrategy}
+            >
+                <div className={"-mx-7 px-7 w-full grid grid-cols-3 gap-7"}>
+                    {banners?.map((banner, index) =>
+                        <SortableItemWrapper sequenceNumber={banner.id} key={banner.id}>
+                            <AdminPhotoCard
+                                editable={editMode}
+                                onEdit={() => handleEditBanner(banner)}
+                                onDelete={() => deleteBanner(banner.id)}
+                                defaultImage={banner.image}
+                                key={index}
+                            />
+                        </SortableItemWrapper>
+                    )}
+                </div>
+            </SortableContext>
+        </DndContext>
+    )
+
+}
+
+const AdminPanelPromoBlock = () => {
+
+    const editMode = useToggle()
+    const toggle = useToggle()
 
     return (
         <React.Fragment>
@@ -60,19 +96,10 @@ const AdminPanelPromoBlock = () => {
                     header={"Промо-акции"}
                     className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
                 />
-
-                <div className={"-mx-7 px-7 w-full grid grid-cols-3 gap-7"}>
-                    {banners?.map((banner, index) =>
-                        <AdminPhotoCard
-                            editable={editMode.state}
-                            onEdit={() => handleEditBanner(banner)}
-                            onDelete={() => deleteBanner(banner.id)}
-                            defaultImage={banner.image}
-                            key={index}
-                        />
-                    )}
-                </div>
-
+                <BannersBlock
+                    editMode={editMode.state}
+                    openPopup={toggle.toggleState}
+                />
             </div>
         </React.Fragment>
     );

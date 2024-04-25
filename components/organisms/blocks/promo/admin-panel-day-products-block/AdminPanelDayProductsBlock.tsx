@@ -28,12 +28,10 @@ const AdminPanelDayProductsBlock = () => {
     ] = useState<ProductTableRow<ResponseAdminProductSearch>[]>([])
 
     return (
-        <>
-            {
-                toggle.state && <OrderPageAddDayProductPopup
-                    onClose={toggle.toggleState}
-                />
-            }
+        <React.Fragment>
+            {toggle.state && <OrderPageAddDayProductPopup
+                onClose={toggle.toggleState}
+            />}
             <div className={"flex flex-col gap-7"}>
 
                 <HeaderDescriptionButtonRow
@@ -54,12 +52,14 @@ const AdminPanelDayProductsBlock = () => {
                     onProductClick={() => console.log("Click")}
                     tableHeader={adminProductTableHeader}
                     tableContent={tableRows}
-                    onDelete={() => {}}
-                    onEdit={() => {}}
+                    onDelete={() => {
+                    }}
+                    onEdit={() => {
+                    }}
                 />
 
             </div>
-        </>
+        </React.Fragment>
     );
 };
 

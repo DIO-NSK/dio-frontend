@@ -2,7 +2,7 @@ import {useState} from "react";
 import {DragEndEvent} from "@dnd-kit/core";
 import {arrayMove} from "@dnd-kit/sortable";
 
-type SortableItem<T> = T & { sequenceNumber: number }
+type SortableItem<T> = T & { id: number }
 
 export const useDraggable = <T>(initialState: SortableItem<T>[]) => {
 
@@ -12,13 +12,13 @@ export const useDraggable = <T>(initialState: SortableItem<T>[]) => {
         const {active, over} = event
         if (active.id !== over?.id) {
             setState((items) => {
-                const oldIndex = items.findIndex((item) => item.sequenceNumber == active.id);
-                const newIndex = items.findIndex((item) => item.sequenceNumber == over?.id);
+                const oldIndex = items.findIndex((item) => item.id === active.id);
+                const newIndex = items.findIndex((item) => item.id === over?.id);
                 return arrayMove(items, oldIndex, newIndex);
             });
         }
     }
 
-    return [state, setState, onDragEnd]
+    return [state, setState, onDragEnd] as const
 
 }

@@ -27,6 +27,8 @@ api.interceptors.response.use(config => config, async (error) => {
             null, {withCredentials: true})
         localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
         return api(originalRequest)
+    } else if (error.response.status === 401) {
+        console.log(error.response)
     }
 })
 

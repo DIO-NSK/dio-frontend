@@ -12,7 +12,11 @@ import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import {useUnit} from "effector-react";
-import {changeProductsOrderEvent} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
+import {
+    catalogProductPageDidMount,
+    changeProductsOrderEvent, changeProductStateEvent
+} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
+import React from "react";
 
 const AdminPanelProductsPage = ({params}: {
     params: {
@@ -21,14 +25,15 @@ const AdminPanelProductsPage = ({params}: {
     }
 }) => {
 
-    const changeOrder = useUnit(changeProductsOrderEvent)
+    const [changeOrder, getProducts, changeProducts]
+        = useUnit([changeProductsOrderEvent, catalogProductPageDidMount, changeProductStateEvent])
 
     const {...context} = useAdminPanelProductsPage(params.categoryId)
     const {...headerContext} = useAdminPanelHeaderButtonRow()
     const {...editableContext} = useAdminPanelHeaderRow()
 
     return (
-        <>
+        <React.Fragment>
 
             <div className={"w-full flex flex-col gap-4"}>
 
@@ -45,8 +50,8 @@ const AdminPanelProductsPage = ({params}: {
                         header={"Товары"}
                         isEditable={editableContext.isEditable}
                         onChange={editableContext.handleSwitchEditable}
-                        onSaveChanges={() => console.log("AA")}
-                        onCancelChanges={() => console.log("BB")}
+                        onSaveChanges={() => changeProducts(+params.categoryId)}
+                        onCancelChanges={() => getProducts(+params.categoryId)}
                     />
                 </div>
 
@@ -54,6 +59,7 @@ const AdminPanelProductsPage = ({params}: {
 
             <ProductContentTable
                 isDraggable={editableContext.isEditable}
+                onDragEnd={changeOrder}
                 tableHeader={adminProductTableHeader}
                 tableContent={context.tableContent}
                 onProductClick={(product) => {
@@ -65,7 +71,7 @@ const AdminPanelProductsPage = ({params}: {
                 onDelete={context.handleDeleteProduct}
             />
 
-        </>
+        </React.Fragment>
     );
 };
 

@@ -62,7 +62,7 @@ const RentTimeBlock = ({rentTime}: {
                 rentTime.map((item, key) => {
                     return <section className={"col-span-3 flex flex-row items-baseline justify-between"} key={key}>
                         <Text text={item.name} className={"text-text-gray"}/>
-                        <Text text={item.value + " ₽"} className={"text-text-gray"}/>
+                        <Text text={item.value} className={"text-text-gray"}/>
                     </section>
                 })
             }
@@ -78,7 +78,7 @@ const AdditionalBlock = ({additional}: {
             {
                 additional.map((item, index) => {
                     return <div
-                        className={"w-full sm:col-span-full flex flex-row gap-[15px] items-start sm:items-center"}>
+                        className={"w-full sm:col-span-full flex flex-row gap-[15px] items-start"}>
                         <Text text={`0${index + 1}`} className={"font-semibold"}/>
                         <Text text={item}/>
                     </div>

@@ -21,8 +21,8 @@ const TableContent = (props: ProductContentTableProps) => (
         {props.tableContent.map((tableRow, rowKey) =>
             props.isDraggable ? (
                 <SortableItemWrapper
-                    sequenceNumber={tableRow.sequenceNumber!!}
-                    key={tableRow.sequenceNumber!!}
+                    sequenceNumber={tableRow.id}
+                    key={tableRow.id}
                 >
                     <ProductRow
                         onClick={props.onProductClick}
@@ -43,7 +43,7 @@ const TableContent = (props: ProductContentTableProps) => (
 
 const ProductContentTable = (props: ProductContentTableProps) => (
     props.isDraggable ? (
-        <SortableWrapper {...props} items={props.tableContent.map(row => row.sequenceNumber!!)}>
+        <SortableWrapper {...props} items={props.tableContent.map(row => row.id)}>
             <TableContent {...props}/>
         </SortableWrapper>
     ) : (
