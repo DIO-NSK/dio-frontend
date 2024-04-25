@@ -22,9 +22,9 @@ export type FullwidthMainCardType = {
 export type ServiceCardDTO = {
     header : string,
     descr : string,
-    rentTime : {name : string, value : string}[],
-    additional : string[],
-    price : number
+    rentTime ?: {name : string, value : string}[],
+    additional ?: string[],
+    price ?: number
 }
 
 export type SaleCardDTO = {

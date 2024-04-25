@@ -30,16 +30,20 @@ const HeaderDescriptionColumn = ({header, descr}: {
 }
 
 const PriceCard = ({price, text, onClick}: {
-    price: number,
+    price?: number,
     text: string,
     onClick: () => void
 }) => {
     return (
-        <div className={"sm:col-span-3 flex flex-row items-center justify-between sm:flex-col sm:gap-5 h-fit"}>
-            <div className={"w-full flex flex-col sm:flex-row sm:gap-[10px] sm:items-baseline"}>
-                <Text text={`от ${price} ₽`} className={"text-[20px] sm:text-[24px] font-semibold text-link-blue"}/>
-                <Text text={"в мес."} className={"text-text-gray"}/>
-            </div>
+        <div className={"sm:col-span-3 flex flex-row items-center justify-between sm:flex-col sm:gap-3 h-fit"}>
+            {price !== undefined ? price !== 0 ? (
+                        <div className={"w-full flex flex-col sm:flex-row sm:gap-[10px] sm:items-baseline"}>
+                            <Text text={`от ${price} ₽`} className={"text-[20px] sm:text-[24px] font-semibold text-link-blue"}/>
+                            <Text text={"в мес."} className={"text-text-gray"}/>
+                        </div>) :
+                    <Text text={"Бесплатно"} className={"w-full text-[20px] sm:text-[24px] font-semibold text-link-blue"}/>
+                : null
+            }
             <Button
                 classNames={{button: "px-7 sm:px-[50px]"}}
                 text={text} onClick={onClick}
@@ -73,7 +77,8 @@ const AdditionalBlock = ({additional}: {
         <ServiceBlockWrapper header={"В стоимость включено"}>
             {
                 additional.map((item, index) => {
-                    return <div className={"w-full sm:col-span-full flex flex-row gap-[15px] items-start sm:items-center"}>
+                    return <div
+                        className={"w-full sm:col-span-full flex flex-row gap-[15px] items-start sm:items-center"}>
                         <Text text={`0${index + 1}`} className={"font-semibold"}/>
                         <Text text={item}/>
                     </div>
@@ -84,19 +89,19 @@ const AdditionalBlock = ({additional}: {
 }
 
 const ContentColumn = ({rentTime, additional}: {
-    rentTime: { name: string, value: string }[],
-    additional: string[]
+    rentTime?: { name: string, value: string }[],
+    additional?: string[]
 }) => {
     return (
         <div className={"w-full flex flex-col gap-5"}>
-            <RentTimeBlock rentTime={rentTime}/>
-            <AdditionalBlock additional={additional}/>
+            {rentTime && <RentTimeBlock rentTime={rentTime}/>}
+            {additional && <AdditionalBlock additional={additional}/>}
         </div>
     )
 }
 
-const ServiceFullCard = ({card} : {
-    card : ServiceCardDTO
+const ServiceFullCard = ({card}: {
+    card: ServiceCardDTO
 }) => {
 
     const router = useRouter()

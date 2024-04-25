@@ -1,36 +1,34 @@
 "use client"
 
-import {mockServiceCardArray} from "@/data/serviceCardData";
 import ServiceFullCard from "@/components/organisms/cards/service-full-card/ServiceFullCard";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {SelectItem} from "@/types/props/SelectItem";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import SideTabBar from "@/components/moleculas/bars/side-tab-bar/SideTabBar";
 import ServicePopup from "@/components/organisms/popups/service/ServicePopup";
-
-const mockTabList: TabBarItem[] = [
-    {text: "Все услуги"},
-    {text: "Подписка на воду «DIO»"},
-    {text: "Аренда кулеров и пурифаеров"},
-    {text: "Бесплатное пользование кулеров"},
-    {text: "Ремонт кулеров, пурифайеров"},
-    {text: "Санитарная обработка оборудования"},
-    {text: "Сервисное обслуживание пурифайеров"},
-]
-
-const selectedItems: SelectItem<string>[] = [
-    {name: "Все услуги", value: "all"},
-    {name: "Подписка на воду «DIO»", value: "subscribe"},
-    {name: "Аренда кулеров и пурифаеров", value: "rent"},
-    {name: "Бесплатное пользование кулеров", value: "free_use"},
-    {name: "Ремонт кулеров, пурифайеров", value: "fixing"},
-]
+import {Group, services} from "@/data/static/services";
+import {ServiceCardDTO} from "@/types/cards";
 
 const ServiceCatalogScreen = () => {
 
-    const [activeTab, setActive] = useState<TabBarItem>(mockTabList[0])
+    const tabBarItems = services.map(s => ({text: s.groupHeader} as TabBarItem))
+    const selectedItems = services.map((s, index) => ({name: s.groupHeader, value: `${index}`} as SelectItem<string>))
+
+    const [activeTab, setActive] = useState<TabBarItem>(tabBarItems[0])
     const [activeSelectItem, setActiveSelectItem] = useState<SelectItem<string>>(selectedItems[0])
+
+    const [serviceGroup, setServiceGroup] = useState<Group<ServiceCardDTO>>()
+
+    useEffect(() => {
+        const activeServiceGroup = services.find(s => s.groupHeader === activeTab.text)
+        setServiceGroup(activeServiceGroup!!)
+    }, [activeTab])
+
+    useEffect(() => {
+        const activeServiceGroup = services.find(s => s.groupHeader === activeSelectItem.name)
+        setServiceGroup(activeServiceGroup!!)
+    }, [activeSelectItem])
 
     return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
@@ -38,7 +36,7 @@ const ServiceCatalogScreen = () => {
             <SideTabBar
                 setActive={setActive}
                 activeTab={activeTab}
-                tabs={mockTabList}
+                tabs={tabBarItems}
             />
             <section className={"w-full sm:col-span-9 flex flex-col gap-5"}>
                 <SelectInput
@@ -48,7 +46,7 @@ const ServiceCatalogScreen = () => {
                     items={selectedItems}
                 />
                 <section className={"w-full flex flex-col gap-5 sm:-mt-5"}>
-                    {mockServiceCardArray.map((card) => (
+                    {serviceGroup?.items.map((card) => (
                         <ServiceFullCard card={card}/>
                     ))}
                 </section>

@@ -118,7 +118,7 @@ const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { p
                                     <img
                                         className={"w-[130px] h-[70px] object-scale-down"}
                                         alt={"Изображение продукта"}
-                                        src={product.mainImage}
+                                        src={product?.mainImage}
                                     />
                                     <div className={"w-full flex flex-col gap-2"}>
                                         <div className={"flex flex-row items-baseline gap-2"}>

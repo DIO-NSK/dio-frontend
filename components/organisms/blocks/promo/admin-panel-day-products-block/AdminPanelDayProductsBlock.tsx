@@ -31,7 +31,6 @@ const AdminPanelDayProductsBlock = () => {
         <>
             {
                 toggle.state && <OrderPageAddDayProductPopup
-                    onAddItem={handleAddProduct}
                     onClose={toggle.toggleState}
                 />
             }

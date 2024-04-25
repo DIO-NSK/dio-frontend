@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import {AdminProduct} from "@/types/dto/AdminProduct";
-import {AddPromoPopup} from "@/types/props/Popup";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import SearchInput from "@/components/atoms/inputs/search-input/SearchInput";
 import Button from "@/components/atoms/buttons/button/Button";
+import {PopupProps} from "@/types/props/Popup";
 
-const OrderPageAddDayProductPopup = (props : AddPromoPopup<AdminProduct>) => {
+const OrderPageAddDayProductPopup = (props : PopupProps) => {
 
     const [product, setProduct] = useState<string>("")
     const handleAddProduct = () => {
