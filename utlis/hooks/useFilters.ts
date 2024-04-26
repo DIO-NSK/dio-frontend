@@ -22,30 +22,39 @@ export const useFilters = (categoryId: number) => {
         changeCategoryFilters
     ] = useState<CatalogueFilter[]>([])
 
-    const initFilters = (filters: FilterItem[]): CatalogueFilter[] => filters.map(filter => {
-        if (filter.variants) {
-            const selectItems: CheckboxListItem[] = filter.variants.map(variant => ({name: variant, isSelected: false}))
-            return {
-                id: filter.id,
-                header: filter.name,
-                isDirty: false,
-                filter: {selectableItems: selectItems}
-            } as FilterGroup<SelectFilter>
-        } else {
-            const maxValue = Object.values(filter.range)[0]
-            const minValue = Object.keys(filter.range)[0]
-            return {
-                id: filter.id,
-                header: filter.name,
-                isDirty: false,
-                filter: {
-                    maxValue: maxValue, minValue: minValue,
-                    toValue: maxValue, fromValue: minValue,
-                    unit: filter.valueName
-                },
-            } as FilterGroup<RangeInputFilter>
-        }
-    })
+    const initFilters = (filters: FilterItem[]): CatalogueFilter[] => {
+        const urlFilterMap = createURLFilterMap()
+        const categoryFilters: CatalogueFilter[] = filters.map(filter => {
+            if (filter.variants) {
+                const selectItems: CheckboxListItem[] = filter.variants.map(variant => ({
+                    name: variant,
+                    isSelected: Boolean(urlFilterMap?.[filter.id]?.includes(variant))
+                }))
+                return {
+                    id: filter.id,
+                    header: filter.name,
+                    isDirty: false,
+                    filter: {selectableItems: selectItems}
+                } as FilterGroup<SelectFilter>
+            } else {
+                const maxValue = Object.values(filter.range)[0]
+                const minValue = Object.keys(filter.range)[0]
+                return {
+                    id: filter.id,
+                    header: filter.name,
+                    isDirty: false,
+                    filter: {
+                        maxValue: maxValue, minValue: minValue,
+                        fromValue: urlFilterMap?.[filter.id]?.[0] ?? minValue,
+                        toValue: urlFilterMap?.[filter.id]?.[1] ?? maxValue,
+                        unit: filter.valueName
+                    },
+                } as FilterGroup<RangeInputFilter>
+            }
+        })
+        sendFilters({filters: categoryFilters, categoryId: categoryId})
+        return categoryFilters
+    }
 
     const handleSelectItem = (isSelected: boolean, itemIndex: number, inputIndex: number) => changeCategoryFilters(
         filters => filters.map((filterGroup, curInputIndex) => {
@@ -81,6 +90,21 @@ export const useFilters = (categoryId: number) => {
         })
     )
 
+    const createURLFilterMap = () => {
+
+        const urlFilterMap: Record<string, string[]> = {}
+        const entries = Array.from(searchParams.entries())
+        if (!entries.length) return
+
+        const urlFilters = Array.from(searchParams.entries())[0][1].split(',')
+        urlFilters.forEach(filter => {
+            const [key, value] = filter.split(':')
+            urlFilterMap[key] = value.split('-')
+        })
+        return urlFilterMap
+
+    }
+
     const onSubmit = () => {
 
         const request = {filters: categoryFilters, categoryId: categoryId}
@@ -103,6 +127,7 @@ export const useFilters = (categoryId: number) => {
             .then((filters: FilterItem[]) => filters.toSorted(sortFn))
             .then((filters: FilterItem[]) => changeCategoryFilters(initFilters(filters)))
     }, [])
+
 
     return {
         categoryFilters, handleSelectItem, handleChangeRangeInput,

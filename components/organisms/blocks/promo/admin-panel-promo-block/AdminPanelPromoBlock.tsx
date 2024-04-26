@@ -52,8 +52,8 @@ const BannersBlock = ({editMode, openPopup}: { editMode: boolean, openPopup: () 
                         <SortableItemWrapper sequenceNumber={banner.id} key={banner.id}>
                             <AdminPhotoCard
                                 editable={editMode}
-                                onEdit={() => handleEditBanner(banner)}
-                                onDelete={() => deleteBanner(banner.id)}
+                                onEdit={() => editMode && handleEditBanner(banner)}
+                                onDelete={() => editMode && deleteBanner(banner.id)}
                                 defaultImage={banner.image}
                                 key={index}
                             />
@@ -85,11 +85,27 @@ const AdminPanelPromoBlock = () => {
                                 onClick={toggle.toggleState}
                                 text={"Добавить"}
                             />
-                            <Button
-                                size={"sm"} buttonType={"SECONDARY"}
-                                onClick={editMode.toggleState}
-                                text={"Редактировать"}
-                            />
+                            {editMode.state ? (
+                                <div className={"flex flex-row gap-3"}>
+                                    <Button
+                                        size={"sm"} buttonType={"SECONDARY"}
+                                        onClick={editMode.toggleState}
+                                        text={"Сохранить изменения"}
+                                    />
+                                    <Button
+                                        classNames={{button: "bg-bg-light-blue hover:bg-gray-100 text-text-gray"}}
+                                        size={"sm"} buttonType={"SECONDARY"}
+                                        onClick={editMode.toggleState}
+                                        text={"Отменить"}
+                                    />
+                                </div>
+                            ) : (
+                                <Button
+                                    size={"sm"} buttonType={"SECONDARY"}
+                                    onClick={editMode.toggleState}
+                                    text={"Редактировать"}
+                                />
+                            )}
                         </div>
                     }
                     descr={"Вы можете изменить расположение промо-акций в слайдере в режиме редактирования"}

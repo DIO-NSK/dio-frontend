@@ -6,21 +6,22 @@ import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminP
 import FileInput from "@/components/atoms/inputs/file-input/FileInput";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
-import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import {HeaderDescription} from "@/types/dto/text";
 import {WrapperProps} from "@/types/props/Wrapper";
 import {useUnit} from "effector-react";
-import {CreateBannerData, CreateBannerSchema} from "@/schemas/admin/CreateBannerSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {
     $ourWaterToEdit,
-    $rangeOurWaters,
-    createOurWaterFx,
-    editOurWaterFx,
+    $selectOurWaters,
     getRangeOurWatersEvent,
-    RequestOurWater
+    RequestOurWater,
+    submitEditOurWaterFx,
+    submitOurWaterFx
 } from "@/app/admin/promo/models/our_waters.model";
 import {PopupProps} from "@/types/props/Popup";
+import ControlledSelectInput
+    from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
+import {CreateOurWaterData, CreateOurWaterSchema} from "@/schemas/admin/CreateOurWaterSchema";
 
 const blockCV = "w-full flex flex-col gap-4"
 
@@ -41,22 +42,23 @@ const AddOurWaterPopup = (props: PopupProps) => {
     const [createStatus, setCreateStatus] = useState<boolean | undefined>(undefined)
     const [editStatus, setEditStatus] = useState<boolean | undefined>(undefined)
 
+    const [ourWaters, getRangeOurWaters] = useUnit([$selectOurWaters, getRangeOurWatersEvent])
 
-    const [rangeOurWaters, getRangeOurWaters] = useUnit([$rangeOurWaters, getRangeOurWatersEvent])
     const [ourWaterToEdit, createOurWater, editOurWater]
-        = useUnit([$ourWaterToEdit, createOurWaterFx, editOurWaterFx])
+        = useUnit([$ourWaterToEdit, submitOurWaterFx, submitEditOurWaterFx])
 
-    const methods = useForm<CreateBannerData>({
-        resolver : zodResolver(CreateBannerSchema),
-        mode : "onSubmit"
+    const methods = useForm<CreateOurWaterData>({
+        resolver: zodResolver(CreateOurWaterSchema),
+        mode: "onSubmit"
     })
+
+    const {reset} = methods
 
     console.log(methods.watch())
 
-    // TODO fix props
-    const onSubmit = (fieldValues : FieldValues) => {
+    const onSubmit = (fieldValues: FieldValues) => {
         if (ourWaterToEdit) {
-            editOurWater({...fieldValues, id : ourWaterToEdit.id} as RequestOurWater)
+            editOurWater(fieldValues as RequestOurWater)
                 .then(_ => setEditStatus(true))
                 .catch(_ => setEditStatus(false))
         } else {
@@ -69,6 +71,15 @@ const AddOurWaterPopup = (props: PopupProps) => {
     useEffect(() => {
         getRangeOurWaters()
     }, [])
+
+    useEffect(() => {
+        if (ourWaterToEdit) {
+            reset({
+                ourWater: {name: ourWaterToEdit.name, value: ourWaterToEdit.name},
+                image: ourWaterToEdit.image
+            })
+        }
+    }, [ourWaterToEdit]);
 
     return (
         <PopupWrapper {...props}>
@@ -95,7 +106,11 @@ const AddOurWaterPopup = (props: PopupProps) => {
                         description={"Данный продукт будет отображаться на главной странице в разделе «Наши воды»"}
                         header={"Продукт «Наши воды»"}
                     >
-                        <ControlledTextInput name={"link"} placeholder={"Вставьте ссылку на акцию"}/>
+                        <ControlledSelectInput
+                            placeholder={"Выберите продукт из категории «Воды»"}
+                            items={ourWaters}
+                            name={"ourWater"}
+                        />
                     </PopupBlock>
                     <PopupBlock
                         header={"Фотография карточки"}
@@ -116,7 +131,7 @@ const AddOurWaterPopup = (props: PopupProps) => {
                         )}
                     </PopupBlock>
                     <Button
-                        text={"Добавить"}
+                        text={ourWaterToEdit ? "Редактировать" : "Добавить"}
                         disabled={methods.formState.isSubmitting}
                         onClick={methods.handleSubmit(onSubmit)}
                         classNames={{button: "w-[250px]"}}

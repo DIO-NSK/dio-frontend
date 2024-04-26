@@ -35,11 +35,11 @@ const PhotoCard = (props: AdminPhotoCardProps & SortableHandlerProps & {
             className={cn("col-span-1 relative h-[150px] rounded-xl border-2 border-light-gray overflow-clip", props.className)}>
             <img src={resolvedImage} alt={"Фотография продукта"}
                  className={"w-full h-full object-cover"}/>
-            <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
-                {props.editable && <SquareIcon
+            {props.editable && <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
+                <SquareIcon
                     icon={<FiEdit size={"18px"}/>}
                     onClick={props.onEdit}
-                />}
+                />
                 <div
                     className={"hover:cursor-grab"}
                     ref={props.setActivatorNodeRef}
@@ -52,7 +52,7 @@ const PhotoCard = (props: AdminPhotoCardProps & SortableHandlerProps & {
                     className={cn(closeButtonCV)}
                     onClose={props.onDelete}
                 />
-            </div>
+            </div>}
         </div>
     )
 

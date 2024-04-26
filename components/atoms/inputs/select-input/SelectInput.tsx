@@ -26,7 +26,7 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
     const inputCV: ClassValue[] = [
         "w-full sm:p-[20px] px-5 py-4 flex flex-row items-center",
         "justify-between rounded-xl bg-bg-light-blue",
-        "border-2 border-light-gray",
+        "border-2 border-light-gray pointer",
         {"sm:px-4 sm:py-3": size === "sm"},
         props.className
     ]
@@ -45,6 +45,10 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
         clickOutsideMethods.setIsComponentVisible(false)
     }
 
+    const handleOnClick = () => {
+        clickOutsideMethods.setIsComponentVisible(!clickOutsideMethods.isComponentVisible)
+    }
+
     return (
         <div className={`flex flex-col gap-[10px] ${width}`}>
 
@@ -52,7 +56,7 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
 
             <div className={"relative w-full"} ref={clickOutsideMethods.ref as LegacyRef<HTMLDivElement>}>
 
-                <div className={cn(inputCV)}>
+                <div className={cn(inputCV)} onClick={handleOnClick}>
                     <Text text={inputText!!} className={cn(textCV)}/>
                     <ChevronButton
                         isExpanded={clickOutsideMethods.isComponentVisible}

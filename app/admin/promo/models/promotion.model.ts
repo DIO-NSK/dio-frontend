@@ -52,7 +52,7 @@ export const editPromotionFx = createEffect(editPromotion)
 export const createPromotionFx = createEffect<RequestPromotion, void, Error>(createPromotion)
 
 const getAllPromotions = async (): Promise<ResponsePromotion[]> => {
-    return api.get("/banner/promotion/all")
+    return api.get("/admin/banner/promotion/all")
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)

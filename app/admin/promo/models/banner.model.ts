@@ -55,7 +55,7 @@ export const editBannerFx = createEffect(editBanner)
 export const createBannerFx = createEffect<RequestBanner, void, Error>(createBanner)
 
 const getAllBanners = async (): Promise<ResponseBanner[]> => {
-    return api.get("/banner/all")
+    return api.get("/admin/banner/all")
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
