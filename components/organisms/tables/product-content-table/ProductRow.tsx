@@ -8,13 +8,14 @@ import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import {FiMenu, FiMoreHorizontal} from "react-icons/fi";
 import Text from "@/components/atoms/text/text-base/Text";
 import EditDeleteTooltip from "@/components/organisms/tooltips/EditDeleteTooltip";
+import {ResponseShortSale} from "@/app/admin/sales/model";
 
 const ProductRow = ({onClick, isDraggable, tableRow, ...props}: {
-    onClick: (product: ProductTableRow<ResponseAdminProductSearch>) => void,
-    onEdit: (tableRow: ProductTableRow<ResponseAdminProductSearch>) => void,
-    onDelete: (tableRow: ProductTableRow<ResponseAdminProductSearch>) => void,
+    onClick: (product: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
+    onEdit: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
+    onDelete: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
     isDraggable?: boolean,
-    tableRow: ProductTableRow<ResponseAdminProductSearch>
+    tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>
 } & SortableHandlerProps) => {
 
     const wrapperCV: ClassValue[] = [
@@ -47,15 +48,15 @@ const ProductRow = ({onClick, isDraggable, tableRow, ...props}: {
                 />
                 <Text text={tableRow.item.name} className={"font-medium"}/>
             </div>
-
             <Text text={`${tableRow.item.discount}%`} className={tableRow.itemsWidth["discount"]}/>
-            <Text text={`${tableRow.item.stockAmount} шт.`} className={tableRow.itemsWidth["stockAmount"]}/>
-            {
-                tableRow.item.price && <Text
-                    text={`${tableRow.item.price} ₽`}
-                    className={tableRow.itemsWidth["price"]}
-                />
-            }
+            {(tableRow.item as ResponseAdminProductSearch).stockAmount && <Text
+                text={`${(tableRow.item as ResponseAdminProductSearch).stockAmount} шт.`}
+                className={(tableRow as ProductTableRow<ResponseAdminProductSearch>).itemsWidth?.["stockAmount"]}
+            />}
+            {(tableRow.item as ResponseAdminProductSearch).price && <Text
+                text={`${(tableRow.item as ResponseAdminProductSearch).price} ₽`}
+                className={(tableRow as ProductTableRow<ResponseAdminProductSearch>).itemsWidth["price"]}
+            />}
             {isDraggable && (
                 <EditDeleteTooltip tableRow={tableRow} {...props}>
                     <SquareIcon icon={<FiMoreHorizontal size={"18px"}/>}/>

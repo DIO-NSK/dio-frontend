@@ -2,7 +2,10 @@
 
 import AdminPanelHeaderButtonRow
     from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow";
-import {useAdminPanelProductsPage} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
+import {
+    ResponseAdminProductSearch,
+    useAdminPanelProductsPage
+} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
 import ProductContentTable from "@/components/organisms/tables/product-content-table/ProductContentTable";
 import {adminProductTableHeader} from "@/data/tables/adminProductTable";
 import {
@@ -17,6 +20,7 @@ import {
     changeProductsOrderEvent, changeProductStateEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
 import React from "react";
+import {ProductTableRow} from "@/types/dto/Table";
 
 const AdminPanelProductsPage = ({params}: {
     params: {

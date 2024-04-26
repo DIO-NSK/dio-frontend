@@ -2,21 +2,27 @@
 
 import AdminPanelHeaderButtonRow
     from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow";
-import {useAdminPanelSalesPage} from "@/app/admin/sales/page.hooks";
 import ProductContentTable from "@/components/organisms/tables/product-content-table/ProductContentTable";
-import {salesTableContent, salesTableHeader} from "@/data/tables/adminSalesTable";
+import {salesTableHeader} from "@/data/tables/adminSalesTable";
 import {
     useAdminPanelHeaderButtonRow
 } from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
 import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
-import React from "react";
+import React, {useEffect} from "react";
+import {useUnit} from "effector-react";
+import {$sales, getSalesEvent} from "@/app/admin/sales/model";
 
 const AdminPanelSalesPage = () => {
 
-    const {...context} = useAdminPanelSalesPage()
-    const {...headerContext} = useAdminPanelHeaderButtonRow()
-    const {...editableContext} = useAdminPanelHeaderRow()
+    const [sales, getSales] = useUnit([$sales, getSalesEvent])
+
+    const headerContext = useAdminPanelHeaderButtonRow()
+    const editableContext = useAdminPanelHeaderRow()
+
+    useEffect(() => {
+        getSales()
+    }, [])
 
     return (
         <React.Fragment>
@@ -33,11 +39,12 @@ const AdminPanelSalesPage = () => {
                 onCancelChanges={() => {}}
             />
             <ProductContentTable
+                isDraggable={editableContext.isEditable}
                 tableHeader={salesTableHeader}
-                tableContent={salesTableContent}
-                onProductClick={context.handleProductClick}
-                onDelete={() => {}}
-                onEdit={() => {}}
+                tableContent={sales}
+                onProductClick={(product) => console.log(product)}
+                onDelete={(product) => console.log(product)}
+                onEdit={(product) => console.log(product)}
             />
         </React.Fragment>
     );

@@ -6,14 +6,15 @@ import SortableItemWrapper, {SortableHandlerProps} from "@/components/wrappers/s
 import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
 import {DragEndEvent} from "@dnd-kit/core";
 import ProductRow from "@/components/organisms/tables/product-content-table/ProductRow";
+import {ResponseShortSale} from "@/app/admin/sales/model";
 
 type ProductContentTableProps = {
     onDragEnd?: (event: DragEndEvent) => void,
-    tableContent: ProductTableRow<ResponseAdminProductSearch>[],
+    tableContent: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>[],
     isDraggable?: boolean,
-    onProductClick: (tableRow: ProductTableRow<ResponseAdminProductSearch>) => void,
-    onEdit: (tableRow: ProductTableRow<ResponseAdminProductSearch>) => void,
-    onDelete: (tableRow: ProductTableRow<ResponseAdminProductSearch>) => void,
+    onProductClick: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
+    onEdit: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
+    onDelete: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
 } & Omit<TableWrapperProps, "children"> & SortableHandlerProps
 
 const TableContent = (props: ProductContentTableProps) => (
@@ -33,7 +34,8 @@ const TableContent = (props: ProductContentTableProps) => (
             ) : (
                 <ProductRow
                     onClick={props.onProductClick}
-                    tableRow={tableRow} key={rowKey}
+                    tableRow={tableRow}
+                    key={rowKey}
                     {...props}
                 />
             )
