@@ -11,10 +11,11 @@ import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 import React, {useEffect} from "react";
 import {useUnit} from "effector-react";
-import {$sales, getSalesEvent} from "@/app/admin/sales/model";
+import {$sales, changeSalesOrderEvent, changeSalesRowOrder, getSalesEvent} from "@/app/admin/sales/model";
 
 const AdminPanelSalesPage = () => {
 
+    const [changeOrder, saveChanges] = useUnit([changeSalesRowOrder, changeSalesOrderEvent])
     const [sales, getSales] = useUnit([$sales, getSalesEvent])
 
     const headerContext = useAdminPanelHeaderButtonRow()
@@ -35,10 +36,11 @@ const AdminPanelSalesPage = () => {
                 header={"Акции"}
                 isEditable={editableContext.isEditable}
                 onChange={editableContext.handleSwitchEditable}
-                onSaveChanges={() => {}}
-                onCancelChanges={() => {}}
+                onSaveChanges={saveChanges}
+                onCancelChanges={getSales}
             />
             <ProductContentTable
+                onDragEnd={changeOrder}
                 isDraggable={editableContext.isEditable}
                 tableHeader={salesTableHeader}
                 tableContent={sales}

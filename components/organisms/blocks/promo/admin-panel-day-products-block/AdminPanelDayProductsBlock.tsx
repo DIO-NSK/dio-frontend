@@ -39,6 +39,7 @@ const AdminPanelDayProductsBlock = () => {
 
                 <ProductContentTable
                     isDraggable={true}
+                    onDragEnd={context.changeOrder}
                     onProductClick={() => console.log("Click")}
                     tableHeader={adminDayProductTableHeader}
                     //@ts-ignore

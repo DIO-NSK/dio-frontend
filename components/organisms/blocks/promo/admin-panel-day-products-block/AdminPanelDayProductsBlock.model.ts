@@ -1,13 +1,18 @@
 import {useUnit} from "effector-react";
-import {$dayProducts, deleteDayProductEvent, getAllDayProductsEvent} from "@/app/admin/promo/models/day_products.model";
+import {
+    $dayProducts,
+    changeDayProductsOrderEvent,
+    deleteDayProductEvent,
+    getAllDayProductsEvent
+} from "@/app/admin/promo/models/day_products.model";
 import {useEffect} from "react";
 import {ProductTableRow} from "@/types/dto/Table";
 import {ProductEntity} from "@/components/organisms/tables/product-content-table/ProductContentTable";
 
 export const useAdminPanelProductsBlock = () => {
 
-    const [dayProducts, getDayProducts, deleteDayProduct]
-        = useUnit([$dayProducts, getAllDayProductsEvent, deleteDayProductEvent])
+    const [dayProducts, getDayProducts, deleteDayProduct, changeOrder]
+        = useUnit([$dayProducts, getAllDayProductsEvent, deleteDayProductEvent, changeDayProductsOrderEvent])
 
     const tableContent = dayProducts.map(product => ({
         item: {
@@ -34,6 +39,6 @@ export const useAdminPanelProductsBlock = () => {
         deleteDayProduct(productRow.id)
     }
 
-    return {tableContent, handleDelete}
+    return {tableContent, handleDelete, changeOrder}
 
 }

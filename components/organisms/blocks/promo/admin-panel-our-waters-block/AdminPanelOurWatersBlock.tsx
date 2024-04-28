@@ -41,7 +41,7 @@ const OurWatersBlock = ({openPopup}: { openPopup: () => void }) => {
                 items={ourWaters.map(banner => banner.id)}
                 strategy={horizontalListSortingStrategy}
             >
-                <div className={"w-full grid grid-cols-3 gap-7"}>
+                <div className={"w-full grid grid-cols-3 gap-7 -mx-7 px-7"}>
                     {ourWaters.map((waterCard, index) => (
                             <SortableItemWrapper sequenceNumber={waterCard.id} key={waterCard.id}>
                                 <AdminWaterCard

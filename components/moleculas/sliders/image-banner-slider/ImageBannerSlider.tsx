@@ -41,6 +41,7 @@ const ImageBannerSlider = ({banners, width}: { banners: ResponseBanner[], width:
                 <ArrowButton icon={<FiChevronRight size={"20px"}/>} onClick={() => swiperRef.current?.slideNext()}/>
             </section>
             <Swiper
+                className={"w-full h-full"}
                 onSwiper={swiper => {swiperRef.current = swiper}}
                 slidesPerView={1}
                 modules={[Autoplay, Scrollbar]}

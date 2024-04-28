@@ -1,11 +1,5 @@
 "use client"
 
-import MockWaterImage from "@/public/images/water-image.png"
-
-import MockSaleImage1 from "@/public/images/sale-image-1.png"
-import MockSaleImage2 from "@/public/images/sale-image-2.png"
-import MockSaleImage3 from "@/public/images/sale-image-3.png"
-
 import ProductImage4 from "@/public/images/product-image-4.png"
 import ProductImage5 from "@/public/images/product-image-5.png"
 
@@ -18,7 +12,6 @@ import BannerCard from "@/components/organisms/cards/banner-card/BannerCard";
 import HeaderGroup from "@/components/wrappers/header-group/HeaderGroup";
 import PageWrapper from "@/components/wrappers/page-wrapper/PageWrapper";
 import SaleCard from "@/components/organisms/cards/sale-card/SaleCard";
-import {ImageHeaderDescrCard, WaterCardDTO} from "@/types/cards";
 import {bonusCardData} from "@/data/bonusCardData";
 import BonusCard from "@/components/organisms/cards/bonus-card/BonusCard";
 import WaveHeaderWrapper from "@/components/wrappers/wave-header-wrapper/WaveHeaderWrapper";
@@ -27,21 +20,15 @@ import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/W
 import {mockCardArray} from "@/data/productCardData";
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
-import React from "react";
+import React, {useEffect} from "react";
 import AdvantagesBlock from "@/components/organisms/blocks/advantages-block/AdvantagesBlock";
-
-const mockWaterCard: WaterCardDTO = {
-    image: MockWaterImage.src,
-    textLink: {
-        text: "Вода «Evian»",
-        link: "/mock-path"
-    }
-}
-
-const mockWaterCardList = [
-    mockWaterCard, mockWaterCard,
-    mockWaterCard, mockWaterCard,
-]
+import {useUnit} from "effector-react";
+import {
+    $userOurWaters,
+    $userPromotions,
+    getUserOurWatersEvent,
+    getUserPromotionsEvent
+} from "@/app/(customer)/(site)/model";
 
 const serviceDataList = [
     "Аренда кулеров и пурифаеров",
@@ -51,37 +38,30 @@ const serviceDataList = [
     "Сервисное обслуживание пурифаеров",
 ]
 
-const mockSaleCardArray: ImageHeaderDescrCard[] = [
-    {
-        header: "Бесплатно",
-        descr: "Минеральная вода «DIO»",
-        image: MockSaleImage1.src
-    }, {
-        header: "Скидки до 50%",
-        descr: `Для детских учреждений`,
-        image: MockSaleImage2.src
-    }, {
-        header: "Бесплатное",
-        descr: "Обслуживание при покупке кулера",
-        image: MockSaleImage3.src
-    },
-]
-
 const MainPageScreen = () => {
+
+    const [ourWaters, getOurWaters] = useUnit([$userOurWaters, getUserOurWatersEvent])
+    const [promotions, getPromotions] = useUnit([$userPromotions, getUserPromotionsEvent])
+
+    useEffect(() => {
+        getOurWaters()
+        getPromotions()
+    }, []);
+
     return (
         <React.Fragment>
             <PageWrapper>
                 <MobilePhotoSlider/>
                 <HeroSliderRow/>
                 <SliderGroup id={"sale"} header={"Товары по акции"}>
-                    {mockCardArray.map((productCard) => (
-                        <ProductCard productCard={productCard}/>
+                    {mockCardArray.map((productCard, key) => (
+                        <ProductCard productCard={productCard} key={key}/>
                     ))}
                 </SliderGroup>
                 <section className={"w-full hidden sm:flex"}>
                     <SliderGroup header={"Наши воды"}>
-                        {mockWaterCardList.map((waterCard) => (
-                            <WaterCard waterCard={waterCard}/>
+                        {ourWaters.map((waterCard, key) => (
+                            <WaterCard waterCard={waterCard} key={key}/>
                         ))}
                     </SliderGroup>
                 </section>
@@ -89,21 +69,21 @@ const MainPageScreen = () => {
                     header={"Наши воды"}
                     textLink={{text: "Смотреть все", link: "/our-waters"}}
                 >
-                    {mockWaterCardList.map((waterCard) => {
-                        return <WaterCard waterCard={waterCard}/>
+                    {ourWaters.map((waterCard, key) => {
+                        return <WaterCard waterCard={waterCard} key={key}/>
                     })}
                 </MobileHeaderWrapper>
                 <HeaderGroup header={"Попробуйте наши услуги"}>
-                    {serviceDataList.map((item, index) => {
-                        return index !== serviceDataList.length - 1 ?
-                            <ServiceCard number={index + 1} text={item}/> :
-                            <BannerCard/>
+                    {serviceDataList.map((item, key) => {
+                        return key !== serviceDataList.length - 1 ?
+                            <ServiceCard number={key + 1} text={item} key={key}/> :
+                            <BannerCard key={key}/>
                     })}
                 </HeaderGroup>
                 <section className={"w-full hidden sm:flex"}>
                     <SliderGroup desktopSlidesPerView={3} header={"Акции и предложения"}>
-                        {mockSaleCardArray.map((saleCard) => (
-                            <SaleCard saleCard={saleCard}/>
+                        {promotions.map((promotion, key) => (
+                            <SaleCard promotion={promotion} key={key}/>
                         ))}
                     </SliderGroup>
                 </section>
@@ -112,16 +92,16 @@ const MainPageScreen = () => {
                     textLink={{text: "Смотреть все", link: "/our-waters"}}
                     classNames={{contentWrapper: "w-full pr-5 flex flex-col gap-3"}}
                 >
-                    {mockSaleCardArray.map((saleCard) => (
-                        <SaleCard saleCard={saleCard}/>
+                    {promotions.map((promotion, key) => (
+                        <SaleCard promotion={promotion} key={key}/>
                     ))}
                 </MobileHeaderWrapper>
                 <HeaderGroup
                     header={"Бонусная программа"}
                     textLink={{text: "Подробнее", path: "/bonuses"}}
                 >
-                    {bonusCardData.map((bonusCard) => (
-                        <BonusCard bonusCard={bonusCard}/>
+                    {bonusCardData.map((bonusCard, key) => (
+                        <BonusCard bonusCard={bonusCard} key={key}/>
                     ))}
                 </HeaderGroup>
                 <WaveHeaderWrapper header={"Почему нам доверяют"}/>

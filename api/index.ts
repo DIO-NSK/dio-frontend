@@ -1,4 +1,5 @@
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 
 const BASE_URL: string = "https://diowater.ru/api"
 
@@ -8,13 +9,20 @@ export const api = axios.create({
 })
 
 export const unauthorizedApi = axios.create({
-    baseURL : BASE_URL,
-    withCredentials : true
+    baseURL: BASE_URL,
+    withCredentials: true
 })
 
 api.interceptors.request.use(config => {
     const accessToken = localStorage.getItem("ACCESS_TOKEN")
-    if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`
+    if (accessToken) {
+        const token = jwtDecode(accessToken)
+        if (Date.now() <= token.exp!! * 1000) {
+            config.headers.Authorization = `Bearer ${accessToken}`
+        } else {
+            localStorage.removeItem("ACCESS_TOKEN")
+        }
+    }
     return config
 })
 
@@ -27,13 +35,13 @@ api.interceptors.response.use(config => config, async (error) => {
             null, {withCredentials: true})
         localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
         return api(originalRequest)
-    } else if (error.response.status === 401) {
-        console.log(error.response)
     }
 })
 
 export const getRequest = async (...args: any[]): Promise<any> => {
     return api.get(args[0], args[1])
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }

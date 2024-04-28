@@ -33,7 +33,7 @@ const HeroSliderRow = () => {
         <div className={"hidden col-span-full sm:grid grid-cols-12 gap-[20px]"}>
             <ImageBannerSlider width={bannerWidth} banners={banners}/>
             {dayProducts && <Swiper
-                className={"col-span-3"}
+                className={"col-span-3 w-full"}
                 slidesPerView={1}
                 modules={[Autoplay, Scrollbar]}
                 loop={true}

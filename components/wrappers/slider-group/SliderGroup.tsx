@@ -1,3 +1,5 @@
+"use client"
+
 import React, {useRef} from "react";
 import {HeaderWrapperType} from "@/types/wrappers";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -30,11 +32,9 @@ const SliderGroup = (
     }: SliderGroupProps
 ) => {
 
-    if (typeof window === 'undefined') return
-
     const swiperRef = useRef<SwiperRef>()
 
-    const isMobile = window.screen.width <= MOBILE_BREAKPOINT
+    const isMobile = false
     const slidesPerView = isMobile ? mobileSlidesPerView : desktopSlidesPerView
     const spacing = isMobile ? 12 : 20
 
@@ -56,7 +56,7 @@ const SliderGroup = (
                 onSwiper={(swiper) => {
                     swiperRef.current = swiper
                 }}
-                className={"active:cursor-grab hidden w-full sm:flex"}
+                className={"active:cursor-grab hidden w-full sm:col-span-full sm:flex"}
                 spaceBetween={spacing}
                 slidesPerView={slidesPerView}
                 modules={[Autoplay, Scrollbar]}

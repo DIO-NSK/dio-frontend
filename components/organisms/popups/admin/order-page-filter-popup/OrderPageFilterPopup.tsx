@@ -37,10 +37,6 @@ const OrderPageFilterPopup = (props: PopupProps) => {
     const [fromValue, changeFromValue] = useState<string>("0")
     const [toValue, changeToValue] = useState<string>("100000")
 
-    const orderStatusItems: SelectItem<OrderStatus>[] = [
-        {name: "Новый", value: "new"}
-    ]
-
     const paymentStatusItems: SelectItem<string>[] = [
         {name: "Оффлайн", value: "offline"},
         {name: "Онлайн", value: "online"},
@@ -55,7 +51,7 @@ const OrderPageFilterPopup = (props: PopupProps) => {
         {
             label: "Статус заказа",
             placeholder: "Выберите статус заказа",
-            items: orderStatusItems,
+            items: [],
             name: "orderStatus"
         }, {
             label: "Статус оплаты",
