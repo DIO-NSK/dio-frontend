@@ -1,11 +1,10 @@
 import {unauthorizedApi} from "@/api";
 import {CallRequestStatus} from "@/app/admin/call-requests/main.model";
-import {AdminService, ServiceType} from "@/types/dto/admin/service/AdminService";
+import {AdminService, optionalServiceTypes, ServiceType} from "@/types/dto/admin/service/AdminService";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {ServiceTableRow} from "@/types/dto/Table";
 import {convertTableRowsToSelectedItems} from "@/utlis/convertTableRowsToSelectedItems";
 import {SelectItem} from "@/types/props/SelectItem";
-import {selectableServiceTypes} from "@/data/adminServiceData";
 
 //region getServicesByType
 
@@ -16,8 +15,8 @@ const getServicesByType = async (nameType: ServiceType): Promise<AdminService[]>
 }
 
 const getServiceByTypeFx = createEffect<ServiceType, AdminService[], Error>(getServicesByType)
-export const getServiceByTypeEvent = createEvent<SelectItem<ServiceType>>()
-export const $activeServiceType = createStore<SelectItem<ServiceType>>(selectableServiceTypes[0])
+export const getServiceByTypeEvent = createEvent<SelectItem<ServiceType | "ALL">>()
+export const $activeServiceType = createStore<SelectItem<ServiceType | "ALL">>(optionalServiceTypes[0])
 
 $activeServiceType.on(getServiceByTypeEvent, (_, serviceType) => serviceType)
 
@@ -116,17 +115,18 @@ sample({
 //endregion
 
 sample({
+    //@ts-ignore
     clock : getServiceByTypeEvent,
     source : $serviceStatus,
-    filter : (_, serviceType : SelectItem<ServiceType>) => serviceType.value !== "ALL",
-    fn : (_, serviceType : SelectItem<ServiceType>) => serviceType.value,
+    filter : (_, serviceType) => serviceType.value !== "ALL",
+    fn : (_, serviceType) => serviceType.value as ServiceType,
     target : getServiceByTypeFx
 })
 
 sample({
     clock : getServiceByTypeEvent,
     source : $serviceStatus,
-    filter : (_, serviceType : SelectItem<ServiceType>) => serviceType.value === "ALL",
+    filter : (_, serviceType : SelectItem<ServiceType | "ALL">) => serviceType.value === "ALL",
     fn : (status : CallRequestStatus, _) => status,
     target : getServicesByStatusFx
 })

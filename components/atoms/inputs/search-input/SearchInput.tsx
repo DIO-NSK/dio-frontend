@@ -197,7 +197,7 @@ const PopoverList = <T, >(props: SearchbarProps<T>) => {
 
     if (catalog) return (
         <section
-            className={"absolute overflow-y-scroll z-20 top-[80px] w-full flex flex-col gap-5 rounded-xl bg-white shadow-2xl"}>
+            className={"absolute overflow-y-auto customScrollbar max-h-[400px] z-20 top-[80px] w-full flex flex-col gap-5 rounded-xl bg-white shadow-2xl"}>
             <PopoverProductColumn products={catalog.productList} {...props}/>
             <PopoverCategoryColumn categories={catalog.categoryList}/>
             <NotFoundMessage catalog={catalog}/>

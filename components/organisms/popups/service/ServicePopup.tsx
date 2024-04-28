@@ -15,14 +15,10 @@ import {ServiceData, ServiceSchema} from "@/schemas/customer/ServiceSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
-import {SelectItem} from "@/types/props/SelectItem";
 import {$userCredentials} from "@/app/(customer)/model";
 import {ServiceForm} from "@/types/dto/user/ServiceForm";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
-
-const serviceTypes: SelectItem<string>[] = [
-    {name: "Другое", value: "OTHER"}
-]
+import {selectableServiceTypes} from "@/types/dto/admin/service/AdminService";
 
 const ServicePopup = () => {
 
@@ -64,7 +60,7 @@ const ServicePopup = () => {
     }, [userCredentials]);
 
     if (popupState) return (
-        <PopupWrapper onClose={togglePopupState}>
+        <PopupWrapper placement={'center'} onClose={togglePopupState}>
             <Snackbar
                 success={requestSuccess === true}
                 header={headerSnackbar}
@@ -75,35 +71,40 @@ const ServicePopup = () => {
             />
             <HeaderRow header={"Заявка на услугу"}/>
             <FormProvider {...methods}>
-                <Form className={"w-[500px] rounded-xl bg-white flex flex-col gap-5"}>
-                    <ControlledTextInput
-                        disabled={isSubmitting}
-                        labelText={"ФИО"}
-                        placeholder={"Иванов Иван Иванович"}
-                        name={"name"}
-                    />
-                    <ControlledTextInput
-                        disabled={isSubmitting}
-                        inputMask={"+7 (999) 999-99-99"}
-                        labelText={"Номер телефона"}
-                        placeholder={"+7 (___) ___-__-__"}
-                        name={"phoneNumber"}
-                    />
+                <Form className={"w-[700px] rounded-xl bg-white flex flex-col gap-5"}>
+                    <div className={"w-full flex flex-row gap-5"}>
+                        <ControlledTextInput
+                            disabled={isSubmitting}
+                            labelText={"ФИО"}
+                            placeholder={"Иванов Иван Иванович"}
+                            name={"name"}
+                        />
+                        <ControlledTextInput
+                            disabled={isSubmitting}
+                            inputMask={"+7 (999) 999-99-99"}
+                            labelText={"Номер телефона"}
+                            placeholder={"+7 (___) ___-__-__"}
+                            name={"phoneNumber"}
+                        />
+                    </div>
                     <ControlledTextArea
                         labelText={"Комментарий"}
                         placeholder={"Введите здесь"}
                         name={"message"}
                     />
-                    <ControlledSelectInput
-                        items={serviceTypes}
-                        name={"nameServiceType"}
-                        placeholder={"Выберите вид услуги"}
-                    />
-                    <Button
-                        text={isSubmitting ? "Отправка.." : "Отправить"}
-                        onClick={handleSubmit(onSubmit)}
-                        disabled={isSubmitting}
-                    />
+                    <div className={"flex flex-row gap-5"}>
+                        <ControlledSelectInput
+                            items={selectableServiceTypes}
+                            name={"nameServiceType"}
+                            placeholder={"Выберите вид услуги"}
+                        />
+                        <Button
+                            classNames={{button : "w-[200px]"}}
+                            text={isSubmitting ? "Отправка.." : "Отправить"}
+                            onClick={handleSubmit(onSubmit)}
+                            disabled={isSubmitting}
+                        />
+                    </div>
                 </Form>
             </FormProvider>
         </PopupWrapper>

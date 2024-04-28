@@ -61,7 +61,7 @@ sample({
 const convertAdminProductBreadcrumbsToList = (breadcrumbs : Breadcrumbs) : TextLink[] => {
     return [
         {text: "Разделы", link: `/admin/catalog`},
-        {text: breadcrumbs.sectionName, link: `/admin/catalog/section/${breadcrumbs.categoryId}`},
+        {text: breadcrumbs.sectionName, link: `/admin/catalog/section/${breadcrumbs.sectionId}`},
         {text: breadcrumbs.categoryName, link: `/admin/catalog/section/${breadcrumbs.categoryId}/category/${breadcrumbs.categoryId}`},
     ]
 }

@@ -46,9 +46,21 @@ const editBanner = async (banner: RequestBanner) => {
         headers: {"Content-type": "multipart/form-data"}
     })
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 
 }
+
+const changeBannerOrder = async (ids: { id: number }[]) => {
+    return api.put("/admin/banner", ids)
+        .then(response => response.data)
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
+}
+
+const changeBannerOrderFx = createEffect<{ id: number }[], void, Error>(changeBannerOrder)
 
 export const editBannerFx = createEffect(editBanner)
 
@@ -57,13 +69,15 @@ export const createBannerFx = createEffect<RequestBanner, void, Error>(createBan
 const getAllBanners = async (): Promise<ResponseBanner[]> => {
     return api.get("/admin/banner/all")
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
 const getAllBannersFx = createEffect<void, ResponseBanner[], Error>(getAllBanners)
 export const getAllBannersEvent = createEvent<void>()
 export const $banners = createStore<ResponseBanner[]>([])
-export const setBannerIdToEditEvent = createEvent<ResponseBanner>()
+export const setBannerIdToEditEvent = createEvent<ResponseBanner | null>()
 export const $bannerIdToEdit = createStore<ResponseBanner | null>(null)
 
 $bannerIdToEdit.on(setBannerIdToEditEvent, (_, banner) => banner)
@@ -71,7 +85,7 @@ $bannerIdToEdit.on(setBannerIdToEditEvent, (_, banner) => banner)
 $banners.on(getAllBannersFx.doneData, (_, banners) => banners)
 
 sample({
-    clock: getAllBannersEvent,
+    clock: [getAllBannersEvent, changeBannerOrderFx.doneData],
     target: getAllBannersFx
 })
 
@@ -92,6 +106,13 @@ const deleteBannerFx = createEffect<number, void, Error>(deleteBanner)
 export const deleteBannerEvent = createEvent<number>()
 export const changeBannersOrderEvent = createEvent<DragEndEvent>()
 $banners.on(changeBannersOrderEvent, (banners, event) => handleDragEnd(event, banners))
+
+sample({
+    clock : changeBannersOrderEvent,
+    source : $banners,
+    fn : (banners, _) => banners.map(item => ({id : item.id})),
+    target : changeBannerOrderFx
+})
 
 sample({
     clock: deleteBannerEvent,

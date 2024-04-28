@@ -46,7 +46,7 @@ const OrderRowProductCard = ({product}: { product: ResponseCartItem }) => {
                 <Text text={`${newPrice.toFixed(2)} ₽`} className={"text-link-blue"}/>
                 {product.discountPercent !== 0 && <Text
                     className={"text-text-gray text-sm line-through"}
-                    text={`${price} ₽`}
+                    text={`${price.toFixed(2)} ₽`}
                 />}
             </section>
         </div>

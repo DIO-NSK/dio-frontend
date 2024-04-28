@@ -7,14 +7,18 @@ import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrap
 import {DragEndEvent} from "@dnd-kit/core";
 import ProductRow from "@/components/organisms/tables/product-content-table/ProductRow";
 import {ResponseShortSale} from "@/app/admin/sales/model";
+import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+
+export type ProductEntity = ResponseAdminProductSearch | ResponseShortSale | ResponseProductSearch
 
 type ProductContentTableProps = {
     onDragEnd?: (event: DragEndEvent) => void,
-    tableContent: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>[],
+    tableContent: ProductTableRow<ProductEntity>[],
     isDraggable?: boolean,
-    onProductClick: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
-    onEdit: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
-    onDelete: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
+    onProductClick: (tableRow: ProductTableRow<ProductEntity>) => void,
+    onEdit ?: (tableRow: ProductTableRow<ProductEntity>) => void,
+    onDelete: (tableRow: ProductTableRow<ProductEntity>) => void,
+    overrideTooltip ?: React.ReactNode,
 } & Omit<TableWrapperProps, "children"> & SortableHandlerProps
 
 const TableContent = (props: ProductContentTableProps) => (

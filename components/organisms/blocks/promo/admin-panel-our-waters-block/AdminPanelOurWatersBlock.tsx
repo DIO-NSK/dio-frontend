@@ -9,14 +9,14 @@ import {
     $ourWaters,
     changeOurWatersOrderEvent,
     deleteOurWaterEvent,
-    getAllOurWatersEvent, ResponseOurWater,
+    getAllOurWatersEvent,
+    ResponseOurWater,
     setOurWaterToEditEvent
 } from "@/app/admin/promo/models/our_waters.model";
 import {useUnit} from "effector-react";
 import {closestCenter, DndContext} from "@dnd-kit/core";
 import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
 import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
-import {ResponseBanner} from "@/app/admin/promo/models/banner.model";
 
 const OurWatersBlock = ({openPopup}: { openPopup: () => void }) => {
 
@@ -45,11 +45,10 @@ const OurWatersBlock = ({openPopup}: { openPopup: () => void }) => {
                     {ourWaters.map((waterCard, index) => (
                             <SortableItemWrapper sequenceNumber={waterCard.id} key={waterCard.id}>
                                 <AdminWaterCard
-                                    editable={true}
+                                    editable
                                     waterCard={waterCard}
                                     onEdit={() => handleEditBanner(waterCard)}
                                     onDelete={() => deleteCard(waterCard.id)}
-                                    key={index}
                                 />
                             </SortableItemWrapper>
                         )

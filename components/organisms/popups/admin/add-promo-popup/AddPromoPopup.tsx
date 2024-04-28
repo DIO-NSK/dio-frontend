@@ -12,7 +12,13 @@ import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminP
 import FileInput from "@/components/atoms/inputs/file-input/FileInput";
 import {HeaderDescription} from "@/types/dto/text";
 import {WrapperProps} from "@/types/props/Wrapper";
-import {$bannerIdToEdit, createBannerFx, editBannerFx, RequestBanner} from "@/app/admin/promo/models/banner.model";
+import {
+    $bannerIdToEdit,
+    createBannerFx,
+    editBannerFx,
+    RequestBanner,
+    setBannerIdToEditEvent
+} from "@/app/admin/promo/models/banner.model";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 
 const blockCV = "w-full flex flex-col gap-4"
@@ -34,8 +40,8 @@ const AddPromoPopup = (props: PopupProps) => {
     const [reqStatus, setReqStatus] = useState<boolean>()
     const [editStatus, setEditStatus] = useState<boolean>()
 
-    const [bannerIdToEdit, createBanner, editBanner]
-        = useUnit([$bannerIdToEdit, createBannerFx, editBannerFx])
+    const [bannerIdToEdit, setBannerIdToEdit, createBanner, editBanner]
+        = useUnit([$bannerIdToEdit, setBannerIdToEditEvent, createBannerFx, editBannerFx])
 
     const methods = useForm<CreateBannerData>({
         resolver: zodResolver(CreateBannerSchema),
@@ -44,14 +50,21 @@ const AddPromoPopup = (props: PopupProps) => {
 
     const {watch, reset} = methods
 
+    const handleClose = () => {
+        setBannerIdToEdit(null)
+        props.onClose?.()
+    }
+
     const onSubmit = (fieldValues: FieldValues) => {
         if (bannerIdToEdit) {
             editBanner({...fieldValues, id: bannerIdToEdit.id} as RequestBanner)
                 .then(_ => setEditStatus(true))
+                .then(_ => setBannerIdToEdit(null))
                 .catch(_ => setEditStatus(false))
         } else {
             createBanner(fieldValues as RequestBanner)
                 .then(_ => setReqStatus(true))
+                .then(_ => setBannerIdToEdit(null))
                 .catch(_ => setReqStatus(false))
         }
     }
@@ -68,23 +81,23 @@ const AddPromoPopup = (props: PopupProps) => {
     }, []);
 
     return (
-        <PopupWrapper {...props}>
+        <PopupWrapper onClose={handleClose}>
             <FormProvider {...methods}>
                 <Snackbar
                     success={reqStatus === true}
                     header={reqStatus ? "Промо-баннер успешно создан!" : "Возникли ошибки при создании промо-баннера"}
                     message={reqStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
                     open={reqStatus !== undefined}
-                    action={props.onClose}
-                    onClose={() => props.onClose?.()}
+                    action={handleClose}
+                    onClose={handleClose}
                 />
                 <Snackbar
                     success={editStatus === true}
                     header={editStatus ? "Редактирование прошло успешно!" : "Возникли ошибки при редактировании"}
                     message={editStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
                     open={editStatus !== undefined}
-                    action={props.onClose}
-                    onClose={() => props.onClose?.()}
+                    action={handleClose}
+                    onClose={handleClose}
                 />
                 <Form className={"w-[800px] flex flex-col gap-5"}>
                     <Text text={"Новый промо-баннер"} className={"text-[20px] font-medium"}/>
@@ -100,6 +113,7 @@ const AddPromoPopup = (props: PopupProps) => {
                     >
                         {methods.getValues("image") ? (
                             <AdminPhotoCard
+                                canDelete
                                 onDelete={() => methods.setValue("image", null)}
                                 name={"image"}
                                 className={"w-full"}

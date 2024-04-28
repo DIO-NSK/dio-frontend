@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {PopupProps} from "@/types/props/Popup";
 import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
 import FileInput from "@/components/atoms/inputs/file-input/FileInput";
@@ -12,10 +12,12 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {CreateBannerData, CreateBannerSchema} from "@/schemas/admin/CreateBannerSchema";
 import {useUnit} from "effector-react";
 import {
+    $editPromotionStatus,
     $promotionToEdit,
     createPromotionFx,
-    editPromotionFx,
-    RequestPromotion
+    editPromotionEvent,
+    RequestPromotion,
+    setPromotionToEditEvent
 } from "@/app/admin/promo/models/promotion.model";
 import {HeaderDescription} from "@/types/dto/text";
 import {WrapperProps} from "@/types/props/Wrapper";
@@ -36,49 +38,64 @@ const PopupBlock = (props: HeaderDescription & WrapperProps) => (
 
 const AddPromotionPopup = (props: PopupProps) => {
 
+    const editPromotionStatus = useUnit($editPromotionStatus)
     const [createStatus, setCreateStatus] = useState<boolean | undefined>(undefined)
-    const [editStatus, setEditStatus] = useState<boolean | undefined>(undefined)
 
-    const [promotionToEdit, createPromotion, editPromotion]
-        = useUnit([$promotionToEdit, createPromotionFx, editPromotionFx])
+    const [promotionToEdit, setPromotionToEdit, createPromotion, editPromotion]
+        = useUnit([$promotionToEdit, setPromotionToEditEvent, createPromotionFx, editPromotionEvent])
 
     const methods = useForm<CreateBannerData>({
-        resolver : zodResolver(CreateBannerSchema),
-        mode : "onSubmit"
+        resolver: zodResolver(CreateBannerSchema),
+        mode: "onSubmit"
     })
+
+    const {reset} = methods
 
     console.log(methods.watch())
 
-    const onSubmit = (fieldValues : FieldValues) => {
+    const handleClose = () => {
+        setPromotionToEdit(null)
+        props.onClose?.()
+    }
+
+    const onSubmit = (fieldValues: FieldValues) => {
         if (promotionToEdit) {
-            editPromotion({...fieldValues, id : promotionToEdit.id} as RequestPromotion)
-                .then(_ => setEditStatus(true))
-                .catch(_ => setEditStatus(false))
+            editPromotion({...fieldValues, id: promotionToEdit.id} as RequestPromotion)
         } else {
             createPromotion(fieldValues as RequestPromotion)
                 .then(_ => setCreateStatus(true))
+                .then(_ => setPromotionToEdit(null))
                 .catch(_ => setCreateStatus(false))
         }
     }
 
+    useEffect(() => {
+        if (promotionToEdit) {
+            reset({
+                link: `/sales/${promotionToEdit.promoId}`,
+                image: promotionToEdit.image
+            })
+        }
+    }, []);
+
     return (
-        <PopupWrapper {...props}>
+        <PopupWrapper onClose={handleClose}>
             <FormProvider {...methods}>
                 <Snackbar
                     success={createStatus === true}
                     header={createStatus ? "Промо-акция успешно создан!" : "Возникли ошибки при создании промо-акции"}
                     message={createStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
                     open={createStatus !== undefined}
-                    onClose={() => props.onClose?.()}
-                    action={props.onClose}
+                    onClose={handleClose}
+                    action={handleClose}
                 />
                 <Snackbar
-                    success={editStatus === true}
-                    header={editStatus ? "Промо-акция отредактирована успешо!" : "Возникли ошибки при редактировании промо-акции"}
-                    message={editStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
-                    open={editStatus !== undefined}
-                    action={props.onClose}
-                    onClose={() => props.onClose?.()}
+                    success={editPromotionStatus === true}
+                    header={editPromotionStatus ? "Промо-акция отредактирована успешо!" : "Возникли ошибки при редактировании промо-акции"}
+                    message={editPromotionStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
+                    open={editPromotionStatus !== null}
+                    action={handleClose}
+                    onClose={handleClose}
                 />
                 <Form className={"w-[800px] flex flex-col gap-5"}>
                     <Text text={"Новая "} className={"text-[20px] font-medium"}/>
@@ -94,6 +111,7 @@ const AddPromotionPopup = (props: PopupProps) => {
                     >
                         {methods.getValues("image") ? (
                             <AdminPhotoCard
+                                canDelete={true}
                                 onDelete={() => methods.setValue("image", null)}
                                 name={"image"}
                                 className={"w-full"}
@@ -107,7 +125,7 @@ const AddPromotionPopup = (props: PopupProps) => {
                         )}
                     </PopupBlock>
                     <Button
-                        text={"Добавить"}
+                        text={promotionToEdit ? "Редактировать" : "Добавить"}
                         disabled={methods.formState.isSubmitting}
                         onClick={methods.handleSubmit(onSubmit)}
                         classNames={{button: "w-[250px]"}}

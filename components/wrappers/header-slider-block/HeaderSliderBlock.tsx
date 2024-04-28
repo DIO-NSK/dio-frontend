@@ -38,10 +38,7 @@ const HeaderSliderBlock = ({header}: {header : string}) => {
 
             <div className={"w-full sm:col-span-full flex flex-row items-center justify-between"}>
                 <Text className={"text-[20px] sm:text-[24px] font-semibold leading-none"} text={header}/>
-                <ButtonSlider
-                    onBackClick={() => handleStartIndex(startIndex - 1)}
-                    onNextClick={() => handleEndIndex(endIndex + 1)}
-                />
+                <ButtonSlider/>
             </div>
 
             <div className={"hidden w-full grid-cols-12 gap-x-[20px] gap-y-[30px] sm:grid"}>

@@ -1,31 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import Button from "@/components/atoms/buttons/button/Button";
-import {FiPlus} from "react-icons/fi";
+import {FiPlus, FiTrash2} from "react-icons/fi";
 import {useToggle} from "@/utlis/hooks/useToggle";
-import {ProductTableRow} from "@/types/dto/Table";
-import {AdminProduct} from "@/types/dto/AdminProduct";
 import OrderPageAddDayProductPopup
     from "@/components/organisms/popups/admin/order-page-add-day-product-popup/OrderPageAddDayProductPopup";
 import ProductContentTable from "@/components/organisms/tables/product-content-table/ProductContentTable";
-import {adminProductTableHeader} from "@/data/tables/adminProductTable";
-import {ResponseAdminProductSearch} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
+import {adminDayProductTableHeader} from "@/data/tables/adminProductTable";
+import {
+    useAdminPanelProductsBlock
+} from "@/components/organisms/blocks/promo/admin-panel-day-products-block/AdminPanelDayProductsBlock.model";
 
 const AdminPanelDayProductsBlock = () => {
 
-    const {...toggle} = useToggle()
-
-    const [products, setProducts] = useState<AdminProduct[]>([])
-    const handleAddProduct = (product: AdminProduct) => setProducts([...products, product])
-    const handleDeleteProduct = (indexToDelete: number) => {
-        const filteredProducts = products.filter((_, index) => index !== indexToDelete)
-        setProducts(filteredProducts)
-    }
-
-    const [
-        tableRows,
-        setTableRows
-    ] = useState<ProductTableRow<ResponseAdminProductSearch>[]>([])
+    const toggle = useToggle()
+    const context = useAdminPanelProductsBlock()
 
     return (
         <React.Fragment>
@@ -49,13 +38,18 @@ const AdminPanelDayProductsBlock = () => {
                 />
 
                 <ProductContentTable
+                    isDraggable={true}
                     onProductClick={() => console.log("Click")}
-                    tableHeader={adminProductTableHeader}
-                    tableContent={tableRows}
-                    onDelete={() => {
-                    }}
-                    onEdit={() => {
-                    }}
+                    tableHeader={adminDayProductTableHeader}
+                    //@ts-ignore
+                    tableContent={context.tableContent}
+                    onDelete={context.handleDelete}
+                    overrideTooltip={
+                        <FiTrash2
+                            className={"hover:text-red-700 text-info-red"}
+                            size={"18px"}
+                        />
+                    }
                 />
 
             </div>

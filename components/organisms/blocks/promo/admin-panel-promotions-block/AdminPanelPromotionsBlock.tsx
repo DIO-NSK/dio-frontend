@@ -8,20 +8,67 @@ import AddPromotionPopup from "@/components/organisms/popups/admin/add-promotion
 import {useUnit} from "effector-react";
 import {
     $promotions,
+    changePromotionsOrderEvent,
     deletePromotionEvent,
     getAllPromotionsEvent,
+    ResponsePromotion,
     setPromotionToEditEvent
 } from "@/app/admin/promo/models/promotion.model";
+import {closestCenter, DndContext} from "@dnd-kit/core";
+import {restrictToHorizontalAxis} from "@dnd-kit/modifiers";
+import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
+import {BannersBlockProps} from "@/components/organisms/blocks/promo/admin-panel-promo-block/AdminPanelPromoBlock";
 
-const AdminPanelPromotionsBlock = () => {
 
-    const toggle = useToggle()
+const PromotionBlock = ({openPopup}: BannersBlockProps) => {
+
+    const [setPromotionToEdit, deletePromo, changeOrder]
+        = useUnit([setPromotionToEditEvent, deletePromotionEvent, changePromotionsOrderEvent])
+
     const [promos, getPromos] = useUnit([$promotions, getAllPromotionsEvent])
-    const [deletePromo, setPromoToEdit] = useUnit([deletePromotionEvent, setPromotionToEditEvent])
+
+    const handleEditPromo = (promotion: ResponsePromotion) => {
+        setPromotionToEdit(promotion)
+        openPopup()
+    }
 
     useEffect(() => {
         getPromos()
     }, [])
+
+    if (promos.length) return (
+        <DndContext
+            onDragEnd={changeOrder}
+            collisionDetection={closestCenter}
+            modifiers={[restrictToHorizontalAxis]}
+        >
+            <SortableContext
+                items={promos.map(banner => banner.id)}
+                strategy={horizontalListSortingStrategy}
+            >
+                <div className={"-mx-7 px-7 w-full grid grid-cols-3 gap-7"}>
+                    {promos?.map((banner, index) =>
+                        <SortableItemWrapper sequenceNumber={banner.id} key={banner.id}>
+                            <AdminPhotoCard
+                                canDelete={true} editable={true}
+                                onEdit={() => handleEditPromo(banner)}
+                                onDelete={() => deletePromo(banner.id)}
+                                defaultImage={banner.image}
+                                key={index}
+                            />
+                        </SortableItemWrapper>
+                    )}
+                </div>
+            </SortableContext>
+        </DndContext>
+    )
+
+}
+
+const AdminPanelPromotionsBlock = () => {
+
+    const toggle = useToggle()
 
     return (
         <React.Fragment>
@@ -41,17 +88,7 @@ const AdminPanelPromotionsBlock = () => {
                 header={"Акции и предложения"}
                 className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
             />
-            <div className={"w-full grid grid-cols-3 gap-7"}>
-                {promos.map((promotion, index) =>
-                    <AdminPhotoCard
-                        editable={toggle.state}
-                        defaultImage={promotion.image}
-                        onEdit={() => setPromoToEdit(promotion)}
-                        onDelete={() => deletePromo(promotion.id)}
-                        key={index}
-                    />
-                )}
-            </div>
+            <PromotionBlock openPopup={toggle.toggleState}/>
         </React.Fragment>
     );
 };

@@ -14,7 +14,7 @@ type RequestCreateOurWater = {
     ourWater: RequestOurWater,
     categoryId: number,
     filterId: number,
-    id ?: number
+    id?: number
 }
 
 export type ResponseOurWater = {
@@ -46,7 +46,9 @@ const createOurWater = async (req: RequestCreateOurWater) => {
         headers: {"Content-type": "multipart/form-data"}
     })
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 
 }
 
@@ -60,7 +62,7 @@ const editOurWater = async (req: RequestCreateOurWater) => {
     formData.append("waterManufacturerDto", new Blob([JSON.stringify({
         name: req.ourWater.ourWater.name,
         filterCharacteristic: filterCharacteristic,
-        id : req.id
+        id: req.id
     })], {type: "application/json"}))
 
     return api.patch("/admin/banner/water", formData, {
@@ -100,7 +102,7 @@ export const editOurWaterFx = createEffect(editOurWater)
 
 export const createOurWaterFx = createEffect<RequestCreateOurWater, void, Error>(createOurWater)
 export const submitOurWaterFx = createEffect<RequestOurWater, void, Error>()
-export const submitEditOurWaterFx = createEffect<RequestOurWater, void, Error>()
+export const submitOurWaterEvent = createEvent<RequestOurWater>()
 
 const getAllOurWaters = async (): Promise<ResponseOurWater[]> => {
     return api.get("/admin/banner/water/all")
@@ -113,9 +115,14 @@ const getAllOurWaters = async (): Promise<ResponseOurWater[]> => {
 const getAllOurWatersFx = createEffect<void, ResponseOurWater[], Error>(getAllOurWaters)
 export const getAllOurWatersEvent = createEvent<void>()
 export const $ourWaters = createStore<ResponseOurWater[]>([])
-export const setOurWaterToEditEvent = createEvent<ResponseOurWater>()
+export const setOurWaterToEditEvent = createEvent<ResponseOurWater | null>()
 export const changeOurWatersOrderEvent = createEvent<DragEndEvent>()
 export const $ourWaterToEdit = createStore<ResponseOurWater | null>(null)
+export const $editOurWaterStatus = createStore<boolean | null>(null)
+$editOurWaterStatus
+    .reset(setOurWaterToEditEvent)
+    .on(editOurWaterFx.doneData, () => true)
+    .on(editOurWaterFx.failData, () => false)
 
 $ourWaterToEdit.on(setOurWaterToEditEvent, (_, promo) => promo)
 
@@ -135,8 +142,8 @@ sample({
 })
 
 sample({
-    clock: submitOurWaterFx,
-    source: {range : $rangeOurWaters, waterToEdit : $ourWaterToEdit},
+    clock: submitOurWaterEvent,
+    source: {range: $rangeOurWaters, waterToEdit: $ourWaterToEdit},
     fn: (source, clock) => ({
         categoryId: source?.range?.categoryId,
         filterId: source?.range?.manufacturerFilterId,
@@ -175,4 +182,21 @@ sample({
 sample({
     clock: deleteOurWaterFx.doneData,
     target: getAllOurWatersFx
+})
+
+const changeOurWatersOrder = async (ids: { id: number }[]) => {
+    return api.put("/admin/banner/water", ids)
+        .then(response => response.data)
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
+}
+
+const changeOurWaterOrderFx = createEffect<{ id: number }[], void, Error>(changeOurWatersOrder)
+
+sample({
+    clock: changeOurWatersOrderEvent,
+    source: $ourWaters,
+    fn: (waters) => waters.map(item => ({id: item.id})),
+    target: changeOurWaterOrderFx
 })

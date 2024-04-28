@@ -8,14 +8,17 @@ import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import {FiMenu, FiMoreHorizontal} from "react-icons/fi";
 import Text from "@/components/atoms/text/text-base/Text";
 import EditDeleteTooltip from "@/components/organisms/tooltips/EditDeleteTooltip";
-import {ResponseShortSale} from "@/app/admin/sales/model";
+import {ProductEntity} from "@/components/organisms/tables/product-content-table/ProductContentTable";
+
+const draggableCN = "absolute cursor-grab active:cursor-grabbing top-1/3 left-7"
 
 const ProductRow = ({onClick, isDraggable, tableRow, ...props}: {
-    onClick: (product: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
-    onEdit: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
-    onDelete: (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => void,
+    onClick: (product: ProductTableRow<ProductEntity>) => void,
+    onEdit?: (tableRow: ProductTableRow<ProductEntity>) => void,
+    onDelete: (tableRow: ProductTableRow<ProductEntity>) => void,
+    tableRow: ProductTableRow<ProductEntity>,
+    overrideTooltip?: React.ReactNode,
     isDraggable?: boolean,
-    tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>
 } & SortableHandlerProps) => {
 
     const wrapperCV: ClassValue[] = [
@@ -23,8 +26,6 @@ const ProductRow = ({onClick, isDraggable, tableRow, ...props}: {
         "hoverable group hover:bg-bg-light-blue -mx-7 px-7 relative pointer",
         {"pl-20": isDraggable}
     ]
-
-    const draggableCN = "absolute cursor-grab active:cursor-grabbing top-1/3 left-7"
 
     const handleProductClick = () => onClick(tableRow)
 
@@ -48,7 +49,10 @@ const ProductRow = ({onClick, isDraggable, tableRow, ...props}: {
                 />
                 <Text text={tableRow.item.name} className={"font-medium"}/>
             </div>
-            <Text text={`${tableRow.item.discount}%`} className={tableRow.itemsWidth["discount"]}/>
+            <Text
+                text={`${(tableRow.item as ResponseAdminProductSearch).discount}%`}
+                className={(tableRow as ProductTableRow<ResponseAdminProductSearch>).itemsWidth["discount"]}
+            />
             {(tableRow.item as ResponseAdminProductSearch).stockAmount && <Text
                 text={`${(tableRow.item as ResponseAdminProductSearch).stockAmount} шт.`}
                 className={(tableRow as ProductTableRow<ResponseAdminProductSearch>).itemsWidth?.["stockAmount"]}
@@ -57,10 +61,20 @@ const ProductRow = ({onClick, isDraggable, tableRow, ...props}: {
                 text={`${(tableRow.item as ResponseAdminProductSearch).price} ₽`}
                 className={(tableRow as ProductTableRow<ResponseAdminProductSearch>).itemsWidth["price"]}
             />}
-            {isDraggable && (
+            {isDraggable && !props.overrideTooltip ? (
                 <EditDeleteTooltip tableRow={tableRow} {...props}>
                     <SquareIcon icon={<FiMoreHorizontal size={"18px"}/>}/>
                 </EditDeleteTooltip>
+            ) : (
+                <SquareIcon
+                    className={"absolute pointer top-1/3 right-7"}
+                    icon={props.overrideTooltip}
+                    //@ts-ignore
+                    onClick={(e: MouseEvent) => {
+                        e.stopPropagation()
+                        props.onDelete?.(tableRow)
+                    }}
+                />
             )}
         </div>
     )

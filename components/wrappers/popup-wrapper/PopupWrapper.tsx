@@ -38,6 +38,7 @@ const PopupWrapper = ({placement = "default", ...props} : PopupWrapperProps) => 
             <div className={"w-full absolute z-10 h-screen bg-black bg-opacity-50"}/>
         </div>
     );
+
 };
 
 export default PopupWrapper;

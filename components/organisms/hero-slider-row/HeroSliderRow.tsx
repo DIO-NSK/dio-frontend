@@ -1,24 +1,53 @@
 import ImageBannerSlider from "@/components/moleculas/sliders/image-banner-slider/ImageBannerSlider";
-import MockBannerImage1 from "@/public/images/banner-image-1.png";
-import MockBannerImage2 from "@/public/images/banner-image-2.jpg";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
-import MockImage from "@/public/images/card-image.png";
-import {ImageLink} from "@/types/links";
-import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+import {useEffect, useState} from "react";
+import {useUnit} from "effector-react";
+import {$userBanners, $userDayProducts, getBannersEvent, getDayProductsFx} from "@/app/(customer)/(site)/model";
+
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Autoplay, Scrollbar} from "swiper/modules";
+
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
+import 'swiper/css';
+
+import {AUTOPLAY_DELAY} from "@/constants/swiper";
 
 const HeroSliderRow = () => {
 
-    const mockProductCard : ResponseProductSearch = {
-        inCart : false, inFavourites : false,
-        price: 500, discountPercent : 20, id : 1,
-        name: "Кулер с длинным текстом чтобы показать ограничение по символам",
-        image: MockImage.src
-    }
+    const [dayProducts, getDayProducts] = useUnit([$userDayProducts, getDayProductsFx])
+    const [bannerWidth, updateBannerWidth] = useState<string>("")
+    const [banners, getBanners] = useUnit([$userBanners, getBannersEvent])
 
-    return (
+    useEffect(() => {
+        getDayProducts()
+            .then(products => {
+                if (!products.length) {
+                    updateBannerWidth("col-span-full")
+                } else updateBannerWidth("col-span-9")
+            })
+            .then(_ => getBanners())
+    }, []);
+
+    if (banners) return (
         <div className={"hidden col-span-full sm:grid grid-cols-12 gap-[20px]"}>
-            <ImageBannerSlider />
-            <ProductCard productCard={mockProductCard} />
+            <ImageBannerSlider width={bannerWidth} banners={banners}/>
+            {dayProducts && <Swiper
+                className={"col-span-3"}
+                slidesPerView={1}
+                modules={[Autoplay, Scrollbar]}
+                loop={true}
+                autoplay={{
+                    delay: AUTOPLAY_DELAY,
+                    disableOnInteraction: true,
+                }}
+            >
+                {dayProducts.map((product, key) => (
+                    <SwiperSlide key={key}>
+                        <ProductCard productCard={product}/>
+                    </SwiperSlide>
+                ))}
+            </Swiper>}
         </div>
     );
 

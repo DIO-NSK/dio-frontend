@@ -12,6 +12,7 @@ type AdminPhotoCardProps = {
     name?: string,
     className?: string,
     defaultImage?: string,
+    canDelete?: boolean,
     editable?: boolean,
     onEdit?: () => void,
     onDelete?: () => void
@@ -35,24 +36,26 @@ const PhotoCard = (props: AdminPhotoCardProps & SortableHandlerProps & {
             className={cn("col-span-1 relative h-[150px] rounded-xl border-2 border-light-gray overflow-clip", props.className)}>
             <img src={resolvedImage} alt={"Фотография продукта"}
                  className={"w-full h-full object-cover"}/>
-            {props.editable && <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
-                <SquareIcon
-                    icon={<FiEdit size={"18px"}/>}
-                    onClick={props.onEdit}
-                />
-                <div
-                    className={"hover:cursor-grab"}
-                    ref={props.setActivatorNodeRef}
-                    {...props.attributes}
-                    {...props.listeners}
-                >
-                    <SquareIcon icon={<FiMenu size={"18px"}/>}/>
-                </div>
-                <ClosePopupButton
+            <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
+                {props.editable && <React.Fragment>
+                    <SquareIcon
+                        icon={<FiEdit size={"18px"}/>}
+                        onClick={props.onEdit}
+                    />
+                    <div
+                        className={"hover:cursor-grab"}
+                        ref={props.setActivatorNodeRef}
+                        {...props.attributes}
+                        {...props.listeners}
+                    >
+                        <SquareIcon icon={<FiMenu size={"18px"}/>}/>
+                    </div>
+                </React.Fragment>}
+                {props.canDelete && <ClosePopupButton
                     className={cn(closeButtonCV)}
                     onClose={props.onDelete}
-                />
-            </div>}
+                />}
+            </div>
         </div>
     )
 

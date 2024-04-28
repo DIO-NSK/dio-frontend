@@ -12,6 +12,7 @@ const EditDeleteTooltip = ({
                                children,
                                ...props
                            }: TooltipProps<string[]>) => {
+
     const rowCV: ClassValue[] = [
         "w-full flex flex-row items-center gap-3 text-text-gray",
         "hoverable hover:text-black pointer",

@@ -62,15 +62,13 @@ const AdminPanelOrderPage = () => {
                     />
                 }
             />
-            {
-                orders && <OrderContentTable
-                    tableHeader={adminOrdersTableHeader}
-                    onSelect={selectableContext.handleSelectItem}
-                    tableContent={orders}
-                    selectedItems={[]}
-                    onClick={context.handleRowClick}
-                />
-            }
+            {orders && <OrderContentTable
+                tableHeader={adminOrdersTableHeader}
+                onSelect={selectableContext.handleSelectItem}
+                tableContent={orders}
+                selectedItems={[]}
+                onClick={context.handleRowClick}
+            />}
         </React.Fragment>
     );
 

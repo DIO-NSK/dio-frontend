@@ -23,7 +23,7 @@ import {
 } from "@/app/admin/services/model";
 import ServicesContentTable from "@/components/organisms/tables/services-content-table/ServicesContentTable";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import {selectableServiceTypes} from "@/data/adminServiceData";
+import {optionalServiceTypes} from "@/types/dto/admin/service/AdminService";
 
 const servicesTableHeader: TableHeaderItem[] = [
     {text: "Данные клиента", width: "col-span-2"},
@@ -71,7 +71,7 @@ const AdminPanelServicesPage = () => {
                 />
                 <SelectInput
                     width={"col-span-3 col-start-6"}
-                    items={selectableServiceTypes}
+                    items={optionalServiceTypes}
                     onSelect={setActiveServiceType}
                     selectedItem={activeServiceType}
                 />

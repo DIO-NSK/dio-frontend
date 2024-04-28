@@ -20,7 +20,7 @@ const AdminWaterCard = (props: AdminWaterCardProps) => {
 
     return (
         <div className={"flex flex-col gap-4"}>
-            <AdminPhotoCard defaultImage={props.waterCard.image} {...props}/>
+            <AdminPhotoCard canDelete={true} defaultImage={props.waterCard.image} {...props}/>
             <div className={"flex flex-row items-center gap-2 hover:text-link-blue hoverable pointer"} onClick={onClick}>
                 <Text text={props.waterCard.name} className={"text-[18px]"}/>
                 <FiChevronRight size={"18px"}/>

@@ -11,11 +11,13 @@ import {WrapperProps} from "@/types/props/Wrapper";
 import {useUnit} from "effector-react";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {
+    $editOurWaterStatus,
     $ourWaterToEdit,
     $selectOurWaters,
     getRangeOurWatersEvent,
     RequestOurWater,
-    submitEditOurWaterFx,
+    setOurWaterToEditEvent,
+    submitOurWaterEvent,
     submitOurWaterFx
 } from "@/app/admin/promo/models/our_waters.model";
 import {PopupProps} from "@/types/props/Popup";
@@ -40,12 +42,10 @@ const PopupBlock = (props: HeaderDescription & WrapperProps) => (
 const AddOurWaterPopup = (props: PopupProps) => {
 
     const [createStatus, setCreateStatus] = useState<boolean | undefined>(undefined)
-    const [editStatus, setEditStatus] = useState<boolean | undefined>(undefined)
-
     const [ourWaters, getRangeOurWaters] = useUnit([$selectOurWaters, getRangeOurWatersEvent])
 
-    const [ourWaterToEdit, createOurWater, editOurWater]
-        = useUnit([$ourWaterToEdit, submitOurWaterFx, submitEditOurWaterFx])
+    const [ourWaterToEdit, setOurWaterToEdit, createOurWater, editOurWater, editStatus]
+        = useUnit([$ourWaterToEdit, setOurWaterToEditEvent, submitOurWaterFx, submitOurWaterEvent, $editOurWaterStatus])
 
     const methods = useForm<CreateOurWaterData>({
         resolver: zodResolver(CreateOurWaterSchema),
@@ -56,14 +56,18 @@ const AddOurWaterPopup = (props: PopupProps) => {
 
     console.log(methods.watch())
 
+    const handleClose = () => {
+        setOurWaterToEdit(null)
+        props.onClose?.()
+    }
+
     const onSubmit = (fieldValues: FieldValues) => {
         if (ourWaterToEdit) {
             editOurWater(fieldValues as RequestOurWater)
-                .then(_ => setEditStatus(true))
-                .catch(_ => setEditStatus(false))
         } else {
             createOurWater(fieldValues as RequestOurWater)
                 .then(_ => setCreateStatus(true))
+                .then(_ => setOurWaterToEdit(null))
                 .catch(_ => setCreateStatus(false))
         }
     }
@@ -82,23 +86,23 @@ const AddOurWaterPopup = (props: PopupProps) => {
     }, [ourWaterToEdit]);
 
     return (
-        <PopupWrapper {...props}>
+        <PopupWrapper onClose={handleClose}>
             <FormProvider {...methods}>
                 <Snackbar
                     success={createStatus === true}
                     header={createStatus ? "Карточка успешно создана!" : "Возникли ошибки при создании карточки"}
                     message={createStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
                     open={createStatus !== undefined}
-                    onClose={() => props.onClose?.()}
-                    action={props.onClose}
+                    onClose={handleClose}
+                    action={handleClose}
                 />
                 <Snackbar
                     success={editStatus === true}
                     header={editStatus ? "Карточка отредактирована успешо!" : "Возникли ошибки при редактировании карточки"}
                     message={editStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
-                    open={editStatus !== undefined}
-                    action={props.onClose}
-                    onClose={() => props.onClose?.()}
+                    open={editStatus !== null}
+                    action={handleClose}
+                    onClose={handleClose}
                 />
                 <Form className={"w-[800px] flex flex-col gap-5"}>
                     <Text text={"Новая карточка"} className={"text-[20px] font-medium"}/>
@@ -118,6 +122,7 @@ const AddOurWaterPopup = (props: PopupProps) => {
                     >
                         {methods.getValues("image") ? (
                             <AdminPhotoCard
+                                canDelete
                                 onDelete={() => methods.setValue("image", null)}
                                 name={"image"}
                                 className={"w-full"}

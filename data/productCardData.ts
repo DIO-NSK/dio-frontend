@@ -17,4 +17,5 @@ const mockAnotherProductCard : ResponseProductSearch = {
 export const mockCardArray : ResponseProductSearch[] = [
     mockProductCard, mockAnotherProductCard,
     mockProductCard, mockAnotherProductCard,
+    mockProductCard, mockAnotherProductCard,
 ]

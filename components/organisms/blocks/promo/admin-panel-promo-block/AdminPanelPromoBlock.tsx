@@ -15,11 +15,14 @@ import {
     setBannerIdToEditEvent
 } from "@/app/admin/promo/models/banner.model";
 import {closestCenter, DndContext} from "@dnd-kit/core";
-import {restrictToHorizontalAxis} from "@dnd-kit/modifiers";
 import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
 import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
 
-const BannersBlock = ({editMode, openPopup}: { editMode: boolean, openPopup: () => void }) => {
+export type BannersBlockProps = {
+    openPopup: () => void
+}
+
+const BannersBlock = ({openPopup}: BannersBlockProps) => {
 
     const setBannerIdToEdit = useUnit(setBannerIdToEditEvent)
 
@@ -27,10 +30,8 @@ const BannersBlock = ({editMode, openPopup}: { editMode: boolean, openPopup: () 
         = useUnit([$banners, getAllBannersEvent, deleteBannerEvent, changeBannersOrderEvent])
 
     const handleEditBanner = (banner: ResponseBanner) => {
-        if (editMode) {
-            setBannerIdToEdit(banner)
-            openPopup()
-        }
+        setBannerIdToEdit(banner)
+        openPopup()
     }
 
     useEffect(() => {
@@ -41,21 +42,19 @@ const BannersBlock = ({editMode, openPopup}: { editMode: boolean, openPopup: () 
         <DndContext
             onDragEnd={changeOrder}
             collisionDetection={closestCenter}
-            modifiers={[restrictToHorizontalAxis]}
         >
             <SortableContext
                 items={banners.map(banner => banner.id)}
                 strategy={horizontalListSortingStrategy}
             >
                 <div className={"-mx-7 px-7 w-full grid grid-cols-3 gap-7"}>
-                    {banners?.map((banner, index) =>
+                    {banners.map((banner, index) =>
                         <SortableItemWrapper sequenceNumber={banner.id} key={banner.id}>
                             <AdminPhotoCard
-                                editable={editMode}
-                                onEdit={() => editMode && handleEditBanner(banner)}
-                                onDelete={() => editMode && deleteBanner(banner.id)}
+                                canDelete={true} editable={true}
+                                onEdit={() => handleEditBanner(banner)}
+                                onDelete={() => deleteBanner(banner.id)}
                                 defaultImage={banner.image}
-                                key={index}
                             />
                         </SortableItemWrapper>
                     )}
@@ -68,54 +67,26 @@ const BannersBlock = ({editMode, openPopup}: { editMode: boolean, openPopup: () 
 
 const AdminPanelPromoBlock = () => {
 
-    const editMode = useToggle()
     const toggle = useToggle()
 
     return (
         <React.Fragment>
             {toggle.state && <AddPromoPopup onClose={toggle.toggleState}/>}
             <div className={"flex flex-col gap-7"}>
-
                 <HeaderDescriptionButtonRow
                     button={
-                        <div className={"flex flex-row gap-5"}>
-                            <Button
-                                size={"sm"} buttonType={"SECONDARY"}
-                                icon={<FiPlus size={"18px"}/>}
-                                onClick={toggle.toggleState}
-                                text={"Добавить"}
-                            />
-                            {editMode.state ? (
-                                <div className={"flex flex-row gap-3"}>
-                                    <Button
-                                        size={"sm"} buttonType={"SECONDARY"}
-                                        onClick={editMode.toggleState}
-                                        text={"Сохранить изменения"}
-                                    />
-                                    <Button
-                                        classNames={{button: "bg-bg-light-blue hover:bg-gray-100 text-text-gray"}}
-                                        size={"sm"} buttonType={"SECONDARY"}
-                                        onClick={editMode.toggleState}
-                                        text={"Отменить"}
-                                    />
-                                </div>
-                            ) : (
-                                <Button
-                                    size={"sm"} buttonType={"SECONDARY"}
-                                    onClick={editMode.toggleState}
-                                    text={"Редактировать"}
-                                />
-                            )}
-                        </div>
+                        <Button
+                            size={"sm"} buttonType={"SECONDARY"}
+                            icon={<FiPlus size={"18px"}/>}
+                            onClick={toggle.toggleState}
+                            text={"Добавить"}
+                        />
                     }
                     descr={"Вы можете изменить расположение промо-акций в слайдере в режиме редактирования"}
                     header={"Промо-акции"}
                     className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
                 />
-                <BannersBlock
-                    editMode={editMode.state}
-                    openPopup={toggle.toggleState}
-                />
+                <BannersBlock openPopup={toggle.toggleState}/>
             </div>
         </React.Fragment>
     );

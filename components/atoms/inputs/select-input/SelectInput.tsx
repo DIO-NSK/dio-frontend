@@ -11,7 +11,7 @@ type DropdownInputProps<T> = {
     items: SelectItem<T>[],
     onSelect: (selectedItem: SelectItem<T>) => void,
     size?: "sm" | "md",
-    selectedItem: SelectItem<T>,
+    selectedItem: SelectItem<T> | null,
     labelText?: string,
     className?: string,
     placeholder?: string,
@@ -32,8 +32,8 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
     ]
 
     const itemListCV: ClassValue[] = [
-        "absolute w-full z-10 top-[80px] rounded-xl bg-white",
-        "drop-shadow-lg flex flex-col overflow-clip"
+        "overflow-y-auto max-h-[150px] dropdownScrollbar absolute w-full z-10",
+        "top-[80px] rounded-xl bg-white drop-shadow-lg flex flex-col"
     ]
 
     const textCV = {"text-text-gray": !props.selectedItem || props.selectedItem?.name?.length === 0}
@@ -69,17 +69,17 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
                     className={"text-info-red"}
                 />}
 
-                {clickOutsideMethods.isComponentVisible && <div className={cn(itemListCV)}>
-                    {
-                        props.items.map((item, index) => {
+                {
+                    clickOutsideMethods.isComponentVisible && <div className={cn(itemListCV)}>
+                        {props.items.map((item, index) => {
                             return <SelectInputItem
                                 key={index} item={item}
                                 isSelected={props.selectedItem === item}
                                 onSelect={handleSelectItem}
                             />
-                        })
-                    }
-                </div>}
+                        })}
+                    </div>
+                }
 
             </div>
 

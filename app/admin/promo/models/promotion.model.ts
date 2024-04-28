@@ -1,14 +1,16 @@
 import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
+import {DragEndEvent} from "@dnd-kit/core";
+import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
 
 export type RequestPromotion = {
-    link : string,
+    link: string,
     image: File,
-    id ?: number
+    id?: number
 }
 
-type ResponsePromotion = {
-    promotionId: number,
+export type ResponsePromotion = {
+    promoId: number,
     image: string,
     id: number
 }
@@ -21,7 +23,7 @@ const createPromotion = async (promotion: RequestPromotion) => {
     const id = promotion.link.slice(-1)
 
     return api.post("/admin/banner/promotion", formData, {
-        params: {promotionId : id},
+        params: {promotionId: id},
         headers: {"Content-type": "multipart/form-data"}
     })
         .then(response => response.data)
@@ -36,8 +38,11 @@ const editPromotion = async (promotion: RequestPromotion) => {
     const formData = new FormData()
     formData.append("image", promotion.image)
 
+    const id = promotion.link.slice(-1)
+    const data = {promoId: id, promotionId: promotion.id}
+    formData.append("promotionDto", new Blob([JSON.stringify(data)], {type: "application/json"}))
+
     return api.patch("/admin/banner/promotion", formData, {
-        params: promotion.id,
         headers: {"Content-type": "multipart/form-data"}
     })
         .then(response => response.data)
@@ -47,7 +52,18 @@ const editPromotion = async (promotion: RequestPromotion) => {
 
 }
 
-export const editPromotionFx = createEffect(editPromotion)
+const changePromotionOrder = async (ids: { id: number }[]) => {
+    return api.put("/admin/banner/promotion", ids)
+        .then(response => response.data)
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
+}
+
+const changePromotionOrderFx = createEffect<{ id: number }[], void, Error>(changePromotionOrder)
+
+const editPromotionFx = createEffect<RequestPromotion, void, Error>(editPromotion)
+export const editPromotionEvent = createEvent<RequestPromotion>()
 
 export const createPromotionFx = createEffect<RequestPromotion, void, Error>(createPromotion)
 
@@ -62,12 +78,14 @@ const getAllPromotions = async (): Promise<ResponsePromotion[]> => {
 const getAllPromotionsFx = createEffect<void, ResponsePromotion[], Error>(getAllPromotions)
 export const getAllPromotionsEvent = createEvent<void>()
 export const $promotions = createStore<ResponsePromotion[]>([])
-export const setPromotionToEditEvent = createEvent<ResponsePromotion>()
+export const setPromotionToEditEvent = createEvent<ResponsePromotion | null>()
+export const changePromotionsOrderEvent = createEvent<DragEndEvent>()
 export const $promotionToEdit = createStore<ResponsePromotion | null>(null)
 
 $promotionToEdit.on(setPromotionToEditEvent, (_, promo) => promo)
-
-$promotions.on(getAllPromotionsFx.doneData, (_, promos) => promos)
+$promotions
+    .on(getAllPromotionsFx.doneData, (_, promos) => promos)
+    .on(changePromotionsOrderEvent, (promos, event) => handleDragEnd(event, promos))
 
 sample({
     clock: getAllPromotionsEvent,
@@ -78,6 +96,17 @@ sample({
     clock: [createPromotionFx.doneData, editPromotionFx.doneData],
     target: getAllPromotionsFx
 })
+
+sample({
+    clock: editPromotionEvent,
+    target: editPromotionFx
+})
+
+export const $editPromotionStatus = createStore<boolean | null>(null)
+$editPromotionStatus
+    .reset(setPromotionToEditEvent)
+    .on(editPromotionFx.doneData, () => true)
+    .on(editPromotionFx.failData, () => false)
 
 const deletePromotion = async (promoId: number) => {
     return api.delete("/admin/banner/promotion", {params: {id: promoId}})
@@ -98,4 +127,11 @@ sample({
 sample({
     clock: deletePromotionFx.doneData,
     target: getAllPromotionsFx
+})
+
+sample({
+    clock: changePromotionsOrderEvent,
+    source: $promotions,
+    fn: (promotions) => promotions.map(item => ({id: item.id})),
+    target: changePromotionOrderFx
 })

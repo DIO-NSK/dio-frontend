@@ -34,3 +34,11 @@
 .customScrollbar::-webkit-scrollbar-thumb {
     @apply rounded-full w-20 bg-gray-200 cursor-grab active:cursor-grabbing;
 }
+
+.dropdownScrollbar::-webkit-scrollbar {
+    @apply w-3 bg-gray-100 rounded-full rounded-bl-none;
+}
+
+.dropdownScrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full h-14 bg-gray-200 cursor-grab active:cursor-grabbing;
+}

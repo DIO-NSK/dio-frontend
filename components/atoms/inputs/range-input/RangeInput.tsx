@@ -37,46 +37,40 @@ const RangeInput = ({...props}: RangeInputType) => {
 
     return (
         <div className={"w-full flex flex-col gap-2"}>
-            {
-                props.labelText && <Text
-                    text={props.labelText}
-                    className={"text-base text-black"}
-                />
-            }
+            {props.labelText && <Text
+                text={props.labelText}
+                className={"text-base text-black"}
+            />}
             <div className={"w-full flex flex-col gap-[20px]"}>
 
                 <div className={"w-full flex flex-row items-center gap-[0px]"}>
-                    {
-                        inputList.map((input) => {
-                            return <input
-                                type={"text"}
-                                pattern={"[0-9]*"}
-                                onKeyPress={handleKeyPress}
-                                max={props.maxValue}
-                                min={props.minValue}
-                                placeholder={input.placeholder}
-                                className={input.className}
-                                value={input.value}
-                                onChange={(event) => input.onChange(event.target.value)}
-                            />
-                        })
-                    }
+                    {inputList.map((input) => {
+                        return <input
+                            type={"text"}
+                            pattern={"[0-9]*"}
+                            onKeyPress={handleKeyPress}
+                            max={props.maxValue}
+                            min={props.minValue}
+                            placeholder={input.placeholder}
+                            className={input.className}
+                            value={input.value}
+                            onChange={(event) => input.onChange(event.target.value)}
+                        />
+                    })}
                 </div>
 
                 <div className={"w-full flex flex-row"}>
-                    {
-                        inputList.map((input) => {
-                            return <input
-                                type={"range"} step={step}
-                                className={style.selector}
-                                max={props.maxValue}
-                                min={props.minValue}
-                                value={input.value}
-                                onChange={(event) =>
-                                    input.onChange(event.target.value)}
-                            />
-                        })
-                    }
+                    {inputList.map((input) => {
+                        return <input
+                            type={"range"} step={step}
+                            className={style.selector}
+                            max={props.maxValue}
+                            min={props.minValue}
+                            value={input.value}
+                            onChange={(event) =>
+                                input.onChange(event.target.value)}
+                        />
+                    })}
                 </div>
 
             </div>

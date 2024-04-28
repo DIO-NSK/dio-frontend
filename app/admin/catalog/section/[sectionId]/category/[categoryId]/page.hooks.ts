@@ -10,7 +10,7 @@ import {
     $adminProductBreadcrumbs
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 import {getAdminProductBreadcrumbsEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
-import {ResponseShortSale} from "@/app/admin/sales/model";
+import {ProductEntity} from "@/components/organisms/tables/product-content-table/ProductContentTable";
 
 export type ResponseAdminProductSearch = {
     image: string,
@@ -56,13 +56,13 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
 
     const handleExportCatalog = () => console.log("Exported")
 
-    const handleProductClick = (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) =>
+    const handleProductClick = (tableRow: ProductTableRow<ProductEntity>) =>
         router.push(pathname.concat(`/product/${tableRow.id}`))
 
-    const handleEditProduct = (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) =>
+    const handleEditProduct = (tableRow: ProductTableRow<ProductEntity>) =>
         router.push(pathname.concat(`/product/${tableRow.id}/edit`))
 
-    const handleDeleteProduct = (tableRow: ProductTableRow<ResponseAdminProductSearch | ResponseShortSale>) => console.log("Product deleted")
+    const handleDeleteProduct = (tableRow: ProductTableRow<ProductEntity>) => console.log("Product deleted")
 
     return {
         breadcrumbs, handleExportCatalog, handleProductClick,
