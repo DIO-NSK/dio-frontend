@@ -4,6 +4,11 @@ export type AdminFilledProperty = {
     propertyId : number
 }
 
+export type AdminExternalProperty = {
+    value : string,
+    name : string
+}
+
 export type RequestAdminProduct = {
     name : string,
     description : string,
@@ -14,5 +19,5 @@ export type RequestAdminProduct = {
     discountPercent : number,
     isProductOfTheDay : boolean,
     filledProperties : AdminFilledProperty[],
-    externalProperties : []
+    externalProperties ?: AdminExternalProperty[]
 }

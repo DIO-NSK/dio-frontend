@@ -41,7 +41,6 @@ const PromotionBlock = ({openPopup}: BannersBlockProps) => {
         <DndContext
             onDragEnd={changeOrder}
             collisionDetection={closestCenter}
-            modifiers={[restrictToHorizontalAxis]}
         >
             <SortableContext
                 items={promos.map(banner => banner.id)}

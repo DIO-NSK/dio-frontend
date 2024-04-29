@@ -1,14 +1,13 @@
 "use client"
 
-import {SaleCardDTO} from "@/types/cards";
 import Text from "@/components/atoms/text/text-base/Text";
-import Image from "next/image";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useRouter} from "next/navigation";
 import LinesEllipsis from "react-lines-ellipsis";
 import React from "react";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
+import {ResponseShortSale} from "@/app/admin/sales/model";
 
 const TopRow = ({info, duration}: {
     info: string,
@@ -31,9 +30,10 @@ const MainCol = ({header, description, onClick}: {
         <div className={"w-full flex flex-col gap-[20px]"}>
 
             <div className={"w-full flex flex-col gap-[10px]"}>
-                <Text text={header} className={"text-lg font-semibold"} />
+                <Text text={header} className={"text-lg font-semibold"}/>
                 <LinesEllipsis
-                    text={description} maxLine='2'
+                    className={"w-full"}
+                    text={description} maxLine='3'
                     ellipsis='..' trimRight
                     basedOn='letters'
                 />
@@ -52,36 +52,32 @@ const MainCol = ({header, description, onClick}: {
 }
 
 const SaleFullCard = ({card}: {
-    card: SaleCardDTO
+    card: ResponseShortSale
 }) => {
 
     const router = useRouter()
 
-    const wrapperCV : ClassValue[] = [
+    const wrapperCV: ClassValue[] = [
         "col-span-6 bg-white p-[20px] rounded-xl flex flex-row gap-[20px]",
-        "hover:drop-shadow-lg pointer hoverable"
+        "sm:hover:z-10 border-2 border-light-gray sm:hover:shadow-lg sm:hover:shadow-gray-200/50 sm:hover:scale-[1.01] sm:hoverable pointer"
     ]
 
     return (
         <div className={cn(wrapperCV)}>
-            <Image
-                className={"h-full w-[200px] rounded-xl object-scale-down"}
+            <img
+                className={"w-[180px] h-fit rounded-xl object-cover"}
                 src={card.image} alt={'/'}
-                width={200} height={200}
-                quality={100}
             />
             <div className={"w-full flex flex-col gap-[10px]"}>
-
                 <SaleFullCard.TopRow
-                    info={"БЕСПЛАТНО"}
-                    duration={card.duration}
+                    info={card.discount === 100 ? "Бесплатно" : `Скидка ${card.discount}%`}
+                    duration={card.deadline!!}
                 />
-
                 <SaleFullCard.MainCol
-                    description={card.descr} header={card.header}
-                    onClick={() => router.push('/')}
+                    onClick={() => router.push(`/sales/${card.id}`)}
+                    description={card.description!!}
+                    header={card.name}
                 />
-
             </div>
         </div>
     )

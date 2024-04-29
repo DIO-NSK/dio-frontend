@@ -126,8 +126,7 @@ export const useFilters = (categoryId: number) => {
         getFilters(categoryId)
             .then((filters: FilterItem[]) => filters.toSorted(sortFn))
             .then((filters: FilterItem[]) => changeCategoryFilters(initFilters(filters)))
-    }, [])
-
+    }, [searchParams])
 
     return {
         categoryFilters, handleSelectItem, handleChangeRangeInput,

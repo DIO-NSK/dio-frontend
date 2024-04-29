@@ -34,7 +34,7 @@ const ProductCard = ({productCard, classNames}: {
 
     const wrapperCV: ClassValue[] = [
         "w-[70vw] sm:w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
-        "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover: sm:hover:shadow-gray-200/50 sm:hover:scale-[1.01] sm:hoverable pointer",
+        "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover:shadow-lg sm:hover:shadow-gray-200/50 sm:hover:scale-[1.01] sm:hoverable pointer",
         "border-2 border-light-gray sm:border-0 relative", classNames?.mainWrapper
     ]
 

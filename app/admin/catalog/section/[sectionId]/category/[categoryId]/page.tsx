@@ -17,7 +17,7 @@ import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/Catal
 import {useUnit} from "effector-react";
 import {
     catalogProductPageDidMount,
-    changeProductsOrderEvent, changeProductStateEvent
+    changeProductsOrderEvent, changeProductStateEvent, deleteProductEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
 import React from "react";
 import {ProductTableRow} from "@/types/dto/Table";
@@ -29,8 +29,8 @@ const AdminPanelProductsPage = ({params}: {
     }
 }) => {
 
-    const [changeOrder, getProducts, changeProducts]
-        = useUnit([changeProductsOrderEvent, catalogProductPageDidMount, changeProductStateEvent])
+    const [changeOrder, deleteProducts, getProducts, changeProducts]
+        = useUnit([changeProductsOrderEvent, deleteProductEvent, catalogProductPageDidMount, changeProductStateEvent])
 
     const {...context} = useAdminPanelProductsPage(params.categoryId)
     const {...headerContext} = useAdminPanelHeaderButtonRow()
@@ -72,7 +72,7 @@ const AdminPanelProductsPage = ({params}: {
                     }
                 }}
                 onEdit={context.handleEditProduct}
-                onDelete={context.handleDeleteProduct}
+                onDelete={(tableRow) => deleteProducts(tableRow.id)}
             />
 
         </React.Fragment>

@@ -1,15 +1,16 @@
 "use client"
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/navigation";
 import {useUnit} from "effector-react";
 import {
     $categoryProperties,
-    createProductFx,
+    $inputPrefilledData,
+    editProductFx,
     getCategoryPropertiesEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
 import {DefaultValues, FieldValues, FormProvider, useForm} from "react-hook-form";
-import {CreateProductData, CreateProductSchema} from "@/schemas/admin/CreateProductSchema";
+import {CategoryPropertyData, CreateProductData, CreateProductSchema} from "@/schemas/admin/CreateProductSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Form from "@/components/atoms/form/Form";
@@ -29,6 +30,9 @@ import AdminPanelFilledPropertiesBlock
 import {cn} from "@/utlis/cn";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import Text from "@/components/atoms/text/text-base/Text";
+import AdminPanelExternalPropertiesBlock
+    from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelExternalPropertiesBlock";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
 
 const editMessage: string =
     `На данный момент нельзя отредактировать группу и код товара.
@@ -49,12 +53,16 @@ const AdminPanelEditProductPage = ({params}: {
 
     const router = useRouter()
 
+    const categoryData = useUnit($inputPrefilledData)
+
     const [getCategoryProperties, properties] = useUnit([getCategoryPropertiesEvent, $categoryProperties])
-    const [getProduct, createProduct, product] = useUnit([getProductToEditEvent, createProductFx, $productToEdit])
+    const [getProduct, editProduct, product] = useUnit([getProductToEditEvent, editProductFx, $productToEdit])
+
+    const [creationStatus, setCreationStatus] = useState<boolean | undefined>(undefined)
 
     const editProductMethods = useForm<CreateProductData>({
         resolver: zodResolver(CreateProductSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {
@@ -68,85 +76,111 @@ const AdminPanelEditProductPage = ({params}: {
         "gap-7 pb-7 border-b-2 border-light-gray"
     ]
 
-    const onSubmit = (formData: FieldValues) => createProduct({
-        categoryId: params.categoryId,
-        productData: formData as CreateProductData
+    const onSubmit = (formData: FieldValues) => editProduct({
+        productId: params.productId,
+        productData: {
+            ...formData,
+            isInvisible: false,
+            filledProperties: formData.filledProperties.map((prop: CategoryPropertyData) =>
+                ({value: prop.value, propertyId: prop.propertyId})
+            )
+        } as CreateProductData
     })
-        .then(_ => router.back())
-        .catch(e => e)
-
-    //region effects
 
     useEffect(() => {
-        reset({
-            ...product,
-            filledProperties: properties,
-        } as DefaultValues<CreateProductData>)
+        if (product) {
+            const productProperties = categoryData.map((inputData, index) => {
+                const filledValue = product.properties?.find(p => p.name === inputData.labelText)
+                return filledValue && ({value: filledValue?.value, valueType: properties[index].valueType, propertyId: properties[index].propertyId})
+            })
+            reset({
+                ...product,
+                photos: product.images,
+                filledProperties: productProperties,
+                externalProperties: product.extraProperties
+            } as DefaultValues<CreateProductData>)
+        }
     }, [product])
+
+    console.log(watch())
+
+    useEffect(() => {
+        console.log(errors)
+    }, [errors]);
+
 
     useEffect(() => {
         getCategoryProperties(params.categoryId)
         getProduct(params.productId)
     }, [])
 
-    //endregion
-
     return (
-        <FormProvider {...editProductMethods}>
-            <Form>
-                <HeaderRow
-                    className={"w-full"}
-                    theme={"bordered"}
-                    header={"Редактирование товара"}
-                    hasBackIcon
-                />
-                <div className={cn(rowCV)}>
-                    <ControlledTextInput
-                        disabled
-                        labelText={"Код товара"}
-                        placeholder={"Введите код товара"}
-                        name={"crmCode"}
-                        numbersOnly
+        <React.Fragment>
+            <Snackbar
+                success={creationStatus === true}
+                header={creationStatus ? "Товар успешно отредактирован!" : "Возникли ошибки при редактировании товара"}
+                message={creationStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
+                action={() => router.back()}
+                open={creationStatus !== undefined}
+                onClose={() => setCreationStatus(undefined)}
+            />
+            <FormProvider {...editProductMethods}>
+                <Form>
+                    <HeaderRow
+                        className={"w-full"}
+                        theme={"bordered"}
+                        header={"Редактирование товара"}
+                        hasBackIcon
                     />
-                    <ControlledTextInput
-                        disabled
-                        labelText={"Группа товара"}
-                        placeholder={"Введите группу товара"}
-                        name={"crmGroup"}
+                    <div className={cn(rowCV)}>
+                        <ControlledTextInput
+                            disabled
+                            labelText={"Код товара"}
+                            placeholder={"Введите код товара"}
+                            name={"crmCode"}
+                            numbersOnly
+                        />
+                        <ControlledTextInput
+                            disabled
+                            labelText={"Группа товара"}
+                            placeholder={"Введите группу товара"}
+                            name={"crmGroup"}
+                        />
+                        <Text
+                            className={"text-text-gray"}
+                            text={editMessage}
+                        />
+                    </div>
+                    <AdminPanelProductInputGrid/>
+                    <AdminPanelFilledPropertiesBlock/>
+                    <AdminPanelExternalPropertiesBlock blockName={"externalProperties"}/>
+                    <ControlledTextArea
+                        labelText={"Описание товара"}
+                        placeholder={textAreaDescription}
+                        name={"description"}
+                        classNames={{
+                            wrapper: "w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray",
+                            input: "min-h-[150px] max-h-[300px]"
+                        }}
                     />
-                    <Text
-                        className={"text-text-gray"}
-                        text={editMessage}
+                    <AdminPanelPhotoBlock/>
+                    <HeaderDescriptionButtonRow
+                        className={"mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
+                        button={<ControlledSwitch name={"isProductOfTheDay"}/>}
+                        descr={productOfTheDayDescription}
+                        header={"Товар дня"}
                     />
-                </div>
-                <AdminPanelProductInputGrid/>
-                <AdminPanelFilledPropertiesBlock/>
-                <ControlledTextArea
-                    labelText={"Описание товара"}
-                    placeholder={textAreaDescription}
-                    name={"description"}
-                    classNames={{
-                        wrapper: "w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray",
-                        input: "min-h-[150px] max-h-[300px]"
-                    }}
-                />
-                <AdminPanelPhotoBlock/>
-                <HeaderDescriptionButtonRow
-                    className={"mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
-                    button={<ControlledSwitch name={"isProductOfTheDay"}/>}
-                    descr={productOfTheDayDescription}
-                    header={"Товар дня"}
-                />
-                <div className={"flex flex-row gap-5 items-center"}>
-                    <Button
-                        text={isSubmitting ? "Отправка.." : "Сохранить"}
-                        disabled={isSubmitting}
-                        onClick={handleSubmit(onSubmit)}
-                        classNames={{button: "w-[250px]"}}
-                    />
-                </div>
-            </Form>
-        </FormProvider>
+                    <div className={"flex flex-row gap-5 items-center"}>
+                        <Button
+                            text={isSubmitting ? "Отправка.." : "Сохранить"}
+                            disabled={isSubmitting}
+                            onClick={handleSubmit(onSubmit)}
+                            classNames={{button: "w-[250px]"}}
+                        />
+                    </div>
+                </Form>
+            </FormProvider>
+        </React.Fragment>
     );
 
 };

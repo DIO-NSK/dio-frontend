@@ -32,6 +32,8 @@ import AdminPanelFilledPropertiesBlock
     from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelFilledPropertiesBlock";
 import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import AdminPanelExternalPropertiesBlock
+    from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelExternalPropertiesBlock";
 
 const productOfTheDayDescription: string =
     `Если чекбокс включён, то данный товар будет отображаться
@@ -141,6 +143,7 @@ const CreateProductSecondStep = ({categoryId}: {
             />
             <AdminPanelProductInputGrid/>
             <AdminPanelFilledPropertiesBlock/>
+            <AdminPanelExternalPropertiesBlock blockName={"externalProperties"}/>
             <ControlledTextArea
                 labelText={"Описание товара"}
                 placeholder={textAreaDescription}
@@ -164,12 +167,10 @@ const CreateProductSecondStep = ({categoryId}: {
                     onClick={handleSubmit(onSubmit)}
                     classNames={{button: "w-[250px]"}}
                 />
-                {
-                    createError && <Text
-                        className={"text-info-red"}
-                        text={createError}
-                    />
-                }
+                {createError && <Text
+                    className={"text-info-red"}
+                    text={createError}
+                />}
             </div>
         </React.Fragment>
     )

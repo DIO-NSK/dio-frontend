@@ -73,11 +73,6 @@ const CatalogScreen = ({params}: {
 }) => {
 
     const filtersPopup = useToggle()
-    const getCategories = useUnit(getCategoryByNameEvent)
-
-    useEffect(() => {
-        getCategories(params.categoryId)
-    }, [])
 
     return (
         <React.Fragment>

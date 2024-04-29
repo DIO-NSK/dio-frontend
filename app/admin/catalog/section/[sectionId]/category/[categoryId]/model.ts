@@ -31,6 +31,7 @@ export const getProductsFx = createEffect<number, ResponseAdminProduct[], Error>
 export const $products = createStore<ResponseAdminProduct[]>([])
 export const catalogProductPageDidMount = createEvent<number>()
 export const changeProductsOrderEvent = createEvent<DragEndEvent>()
+export const deleteProductEvent = createEvent<number>()
 
 const $categoryId = createStore<number>(0)
 $categoryId.on(catalogProductPageDidMount, (_, id) => id)
@@ -38,6 +39,7 @@ $categoryId.on(catalogProductPageDidMount, (_, id) => id)
 $products
     .on(getProductsFx.doneData, (_, products) => products)
     .on(changeProductsOrderEvent, (products, event) => handleDragEnd(event, products))
+    .on(deleteProductEvent, (products, id) => products.filter(product => product.id !== id))
 
 sample({
     clock: catalogProductPageDidMount,
@@ -46,14 +48,14 @@ sample({
 
 sample({
     clock: changeProductStateFx.doneData,
-    source : $categoryId,
+    source: $categoryId,
     target: getProductsFx
 })
 
 sample({
     clock: changeProductStateEvent,
     source: $products,
-    fn: (products, categoryId) => ({products : products, categoryId : categoryId}),
+    fn: (products, categoryId) => ({products: products, categoryId: categoryId}),
     target: changeProductStateFx
 })
 

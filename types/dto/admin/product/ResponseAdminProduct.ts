@@ -1,3 +1,9 @@
+type ResponseAdminProperty = {
+    name : string,
+    value : string,
+    valueName : string
+}
+
 export type ResponseAdminProduct = {
     name: string,
     description: string,
@@ -7,7 +13,9 @@ export type ResponseAdminProduct = {
     discountPercent: number,
     price: number,
     availableCount: number,
-    sequenceNumber ?: number,
+    sequenceNumber?: number,
+    properties?: ResponseAdminProperty[],
+    extraProperties?: ResponseAdminProperty[]
     images: string[],
-    id : number
+    id: number
 }

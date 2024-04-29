@@ -11,8 +11,22 @@ import {ResponseSearchCatalog} from "@/types/dto/user/catalog/ResponseSearchCata
 import Link from "next/link";
 import {SearchbarProps} from "@/types/props/Searchbar";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
-import {MouseEventHandler} from "react";
+import React, {MouseEventHandler, useEffect} from "react";
 import {useClickOutside} from "@/utlis/hooks/useClickOutside";
+import {useSearchParams} from "next/navigation";
+
+const LinkWrapper = ({hasLink, href, className, children}: {
+    hasLink?: boolean,
+    href: string,
+    className: string,
+    children: React.ReactNode
+}) => (
+    hasLink ? <Link className={className} href={href}>
+        {children}
+    </Link> : <section className={className}>
+        {children}
+    </section>
+)
 
 const SelectableVariants = <T, >({variants, onSelectVariant, selectedVariant}: SearchbarProps<T>) => {
     return (
@@ -101,48 +115,50 @@ const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { p
             </div>
 
             <section className={"w-full flex flex-col gap-5"}>
-                {
-                    products.map((product, index, array) => {
+                {products.map((product, index, array) => {
 
-                        const [newPrice, price] = useDiscount(product.price, product.discountPercent)
+                    const [newPrice, price] = useDiscount(product.price, product.discountPercent)
 
-                        const itemCV = {
-                            "rounded-b-xl": index === array.length - 1,
-                            "bg-bg-light-blue": product.id === props.selectedElement?.id
-                        }
+                    const itemCV = {
+                        "rounded-b-xl": index === array.length - 1,
+                        "bg-bg-light-blue": product.id === props.selectedElement?.id
+                    }
 
-                        return (
-                            <div className={cn(productRowCV, itemCV)} onClick={() => props.onSelect?.(product)}
-                                 key={index}>
-                                <section className={"flex flex-row items-center gap-5"}>
-                                    <img
-                                        className={"w-[130px] h-[70px] object-scale-down"}
-                                        alt={"Изображение продукта"}
-                                        src={product?.mainImage}
-                                    />
-                                    <div className={"w-full flex flex-col gap-2"}>
-                                        <div className={"flex flex-row items-baseline gap-2"}>
-                                            <Text
-                                                className={"text-link-blue font-medium"}
-                                                text={`${newPrice.toFixed(2)} ₽`}
-                                            />
-                                            {product.discountPercent !== 0 && <Text
-                                                className={"text-sm text-text-gray line-through"}
-                                                text={`${price.toFixed(2)} ₽`}
-                                            />}
-                                        </div>
-                                        <Text text={product.name}/>
+                    return (
+                        <LinkWrapper
+                            className={cn(productRowCV, itemCV)}
+                            hasLink={props.hasLink}
+                            href={`/product/${product.id}`}
+                            key={index}
+                        >
+                            <section className={"flex flex-row items-center gap-5"}
+                                     onClick={() => props.onSelect?.(product)}>
+                                <img
+                                    className={"w-[130px] h-[70px] object-scale-down"}
+                                    alt={"Изображение продукта"}
+                                    src={product?.mainImage}
+                                />
+                                <div className={"w-full flex flex-col gap-2"}>
+                                    <div className={"flex flex-row items-baseline gap-2"}>
+                                        <Text
+                                            className={"text-link-blue font-medium"}
+                                            text={`${newPrice.toFixed(2)} ₽`}
+                                        />
+                                        {product.discountPercent !== 0 && <Text
+                                            className={"text-sm text-text-gray line-through"}
+                                            text={`${price.toFixed(2)} ₽`}
+                                        />}
                                     </div>
-                                </section>
-                                {
-                                    props.selectedElement?.id === product.id && <FiCheck
-                                        size={"20px"} className={"text-link-blue"}/>
-                                }
-                            </div>
-                        )
-
-                    })
-                }
+                                    <Text text={product.name}/>
+                                </div>
+                            </section>
+                            {
+                                props.selectedElement?.id === product.id && <FiCheck
+                                    size={"20px"} className={"text-link-blue"}/>
+                            }
+                        </LinkWrapper>
+                    )
+                })}
             </section>
 
         </section>
@@ -208,11 +224,17 @@ const PopoverList = <T, >(props: SearchbarProps<T>) => {
 
 const SearchInput = <T, >({hasPopover = false, ...props}: SearchbarProps<T>) => {
 
+    const searchParams = useSearchParams()
+
     const {
         ref,
         isComponentVisible,
         setIsComponentVisible
     } = useClickOutside(true)
+
+    useEffect(() => {
+        setIsComponentVisible(false)
+    }, [searchParams])
 
     return (
         <section

@@ -11,7 +11,7 @@ const addToCart = async (productId: number): Promise<string> => {
         quantityProduct: 1
     }
 
-    return unauthorizedApi.put("/cart", requestBody)
+    return api.put("/cart", requestBody)
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 

@@ -1,4 +1,3 @@
-
 import React from "react"
 import {Tooltip} from "@mui/joy";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -7,11 +6,7 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import {TooltipProps} from "@/types/props/Tooltip";
 
-const EditDeleteTooltip = ({
-                               tableRow,
-                               children,
-                               ...props
-                           }: TooltipProps<string[]>) => {
+const EditDeleteTooltip = ({tableRow, children, ...props}: TooltipProps<string[]>) => {
 
     const rowCV: ClassValue[] = [
         "w-full flex flex-row items-center gap-3 text-text-gray",

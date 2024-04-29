@@ -9,13 +9,13 @@ export const useAdminPanelOrdersPage = () => {
     const router = useRouter()
     const pathname = usePathname()
 
-    const handleRowClick = (tableRow : TableRow<AdminOrder>) => router.push(pathname.concat("/orderId"))
+    const handleRowClick = (tableRow: TableRow<AdminOrder>) => router.push(pathname.concat(`/${tableRow.id}`))
 
-    const multiselectData : SelectItem<string>[] = [
-        {name : "Все", value : "Все"},
-        {name : "Активные", value : "Активные"},
-        {name : "Принятые", value : "Принятые"},
-        {name : "Отмеченные", value : "Отмеченные"}
+    const multiselectData: SelectItem<string>[] = [
+        {name: "Все", value: "Все"},
+        {name: "Активные", value: "Активные"},
+        {name: "Принятые", value: "Принятые"},
+        {name: "Отмеченные", value: "Отмеченные"}
     ]
 
     const [
@@ -24,7 +24,7 @@ export const useAdminPanelOrdersPage = () => {
     ] = useState<SelectItem<string>>(multiselectData[0])
 
     return {
-        multiselectButton : {multiselectData, activeItem, setActiveItem},
+        multiselectButton: {multiselectData, activeItem, setActiveItem},
         handleRowClick
     }
 

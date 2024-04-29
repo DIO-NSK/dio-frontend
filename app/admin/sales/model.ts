@@ -8,6 +8,8 @@ export type ResponseShortSale = {
     id: number,
     name: string,
     discount: number,
+    deadline ?: string,
+    description ?: string
     image: string
 }
 
@@ -60,4 +62,4 @@ const createTableRows = (sales: ResponseShortSale[]) => sales.map((sale) => ({
         name: "",
         id: ""
     },
-}))
+}) as ProductTableRow<ResponseShortSale>)

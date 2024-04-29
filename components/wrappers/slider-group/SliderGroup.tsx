@@ -16,12 +16,12 @@ import 'swiper/css';
 import SlideButton from "@/components/atoms/buttons/slide-button/SlideButton";
 import {Side} from "@/data/enums/side";
 import {AUTOPLAY_DELAY, DESKTOP_SLIDES_PER_VIEW, MOBILE_SLIDES_PER_VIEW} from "@/constants/swiper";
-
-const MOBILE_BREAKPOINT = 768
+import Link from "next/link";
 
 type SliderGroupProps = {
     desktopSlidesPerView?: number,
     mobileSlidesPerView?: number
+    href?: string
 } & HeaderWrapperType
 
 const SliderGroup = (
@@ -41,10 +41,18 @@ const SliderGroup = (
     return (
         <section id={props.id} className={cn("sm:pl-0 w-full flex flex-col gap-5 sm:gap-7", props.className)}>
             <div className={"px-5 sm:px-0 col-span-full flex flex-row justify-between items-center"}>
-                {props.header && <Text
-                    className={"text-[20px] sm:text-[32px] font-bold leading-none"}
-                    text={props.header}
-                />}
+                <div className={"flex flex-row items-baseline gap-5"}>
+                    {props.header && <Text
+                        className={"text-[20px] sm:text-[32px] font-bold leading-none"}
+                        text={props.header}
+                    />}
+                    {props.href && <Link href={props.href}>
+                        <Text
+                            className={"hidden sm:flex sm:text-[18px] text-link-blue"}
+                            text={"Перейти"}
+                        />
+                    </Link>}
+                </div>
                 <div className={"hidden sm:flex flex-row items-center gap-[20px]"}>
                     <SlideButton side={Side["LEFT"]} onClick={() => swiperRef.current?.slidePrev()}/>
                     <SlideButton side={Side["RIGHT"]} onClick={() => swiperRef.current?.slideNext()}/>

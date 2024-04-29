@@ -10,6 +10,7 @@ export type SearchBarClassNames = {
 export type SearchbarProps<T> = {
     placeholder: string,
     onChange: (value: string) => void,
+    hasLink ?: boolean,
     selectedElement ?: ResponseProductSearch,
     onSelect ?: (product : ResponseProductSearch | undefined) => void,
     hasPopover?: boolean,

@@ -1,4 +1,4 @@
-import {unauthorizedApi} from "@/api";
+import {api} from "@/api";
 import {CategoryPropertyData, CreateProductData} from "@/schemas/admin/CreateProductSchema";
 import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
 import {createEffect, createEvent, createStore, sample} from "effector";
@@ -9,8 +9,12 @@ import {pending} from "patronum";
 type CreateProductParams = {
     categoryId: number,
     productData: CreateProductData,
-    productDetails ?: RequestAdminProduct
+    productDetails?: RequestAdminProduct
 }
+
+type EditProductParams = {
+    productId : number
+} & Omit<CreateProductParams, "categoryId">
 
 export type GetProductDetailsParams = {
     crmCode: string,
@@ -27,7 +31,7 @@ const createProduct = async ({categoryId, productData, productDetails}: CreatePr
     photos.map(photo => formData.append("images", photo))
     formData.append("product", new Blob([JSON.stringify(product)], {type: "application/json"}))
 
-    return unauthorizedApi.post("/admin/catalogue/product", formData, {
+    return api.post("/admin/catalogue/product", formData, {
         params: {categoryId: categoryId},
         headers: {"Content-type": "multipart/form-data"}
     })
@@ -38,8 +42,31 @@ const createProduct = async ({categoryId, productData, productDetails}: CreatePr
 
 }
 
+const editProduct = async ({productId, productData}: EditProductParams) => {
+
+    const {photos, ...rest} = productData
+    const formData = new FormData()
+
+    const newPhotos = photos.filter(photo => typeof photo !== "string")
+    const oldImageUrl = photos.filter(photo => typeof photo === "string")
+
+    newPhotos.map(photo => formData.append("images", photo))
+    formData.append("product", new Blob([JSON.stringify({...rest, oldImagesUrl : oldImageUrl})], {type: "application/json"}))
+
+    return api.put("/admin/catalogue/product", formData, {
+        params: {productId: productId},
+        headers: {"Content-type": "multipart/form-data"}
+    })
+        .then(response => response.data)
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
+}
+
+export const editProductFx = createEffect<EditProductParams, void, Error>(editProduct)
+
 const getCategoryProperties = async (categoryId: number): Promise<Category> => {
-    return unauthorizedApi.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
+    return api.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)
@@ -47,9 +74,11 @@ const getCategoryProperties = async (categoryId: number): Promise<Category> => {
 }
 
 const getProductDetailsFromCRM = async (params: GetProductDetailsParams) => {
-    return unauthorizedApi.get("/admin/catalogue/product/crm", {params: {crmCode: params.crmCode, crmGroup: params.crmGroup}})
+    return api.get("/admin/catalogue/product/crm", {params: {crmCode: params.crmCode, crmGroup: params.crmGroup}})
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
 const getProductDetailsFx = createEffect<GetProductDetailsParams, RequestAdminProduct, Error>(getProductDetailsFromCRM)
@@ -71,7 +100,9 @@ $productDetails
     .on(getProductDetailsFx.doneData, (_, details) => details)
     .reset(newProductPageDidMountEvent)
 
-$categoryProperties.on(getCategoryPropertiesFx.doneData, (_, category) => convertCategoryToFormData(category))
+$categoryProperties
+    .on(getCategoryPropertiesFx.doneData, (_, category) => convertCategoryToFormData(category))
+
 $createProductError.on(createProductFx.failData, (_, error) => error.message)
 $inputPrefilledData.on(getCategoryPropertiesFx.doneData, (_, category) => convertCategoryToInputData(category))
 
@@ -87,27 +118,27 @@ sample({
 
 function convertCategoryToInputData(category: Category): Omit<InputPrefilledData, "name">[] {
     return category.properties.map(prop => ({
-        labelText : prop.name,
-        placeholder : `Введите ${prop.name.toLowerCase()}`,
-        endDecorator : prop.valueName,
+        labelText: prop.name,
+        placeholder: `Введите ${prop.name.toLowerCase()}`,
+        endDecorator: prop.valueName,
     }))
 }
 
-const convertFormDataToProduct = (productData: Omit<CreateProductData, "photos">, productDetails : RequestAdminProduct): RequestAdminProduct => {
+const convertFormDataToProduct = (productData: Omit<CreateProductData, "photos">, productDetails: RequestAdminProduct): RequestAdminProduct => {
     return {
         ...productData,
-        price : productDetails.price,
-        taxPercent : productDetails.taxPercent,
+        price: productDetails.price,
+        taxPercent: productDetails.taxPercent,
         crmGroup: productData.crmGroup,
         filledProperties: productData.filledProperties,
-        externalProperties : []
+        externalProperties: productData?.externalProperties
     } as RequestAdminProduct
 }
 
 function convertCategoryToFormData(category: Category): CategoryPropertyData[] {
     return category.properties.map(prop => ({
             propertyId: prop.id!!,
-            valueType : prop.valueType,
+            valueType: prop.valueType,
             value: ""
         })
     )
