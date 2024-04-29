@@ -8,7 +8,6 @@ import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
 import HeroSliderRow from "@/components/organisms/hero-slider-row/HeroSliderRow";
 import WaterCard from "@/components/organisms/cards/water-card/WaterCard";
 import ServiceCard from "@/components/organisms/cards/service-card/ServiceCard";
-import BannerCard from "@/components/organisms/cards/banner-card/BannerCard";
 import HeaderGroup from "@/components/wrappers/header-group/HeaderGroup";
 import PageWrapper from "@/components/wrappers/page-wrapper/PageWrapper";
 import SaleCard from "@/components/organisms/cards/sale-card/SaleCard";
@@ -29,14 +28,7 @@ import {
     getUserOurWatersEvent,
     getUserPromotionsEvent
 } from "@/app/(customer)/(site)/model";
-
-const serviceDataList = [
-    "Аренда кулеров и пурифаеров",
-    "Бесплатное пользование кулеров",
-    "Ремон кулеров пурифаеров и кофемашин",
-    "Санитарная обработка кулеров и кофемашин",
-    "Сервисное обслуживание пурифаеров",
-]
+import {mainServiceCards} from "@/data/static/services";
 
 const MainPageScreen = () => {
 
@@ -74,11 +66,9 @@ const MainPageScreen = () => {
                     })}
                 </MobileHeaderWrapper>
                 <HeaderGroup header={"Попробуйте наши услуги"}>
-                    {serviceDataList.map((item, key) => {
-                        return key !== serviceDataList.length - 1 ?
-                            <ServiceCard number={key + 1} text={item} key={key}/> :
-                            <BannerCard key={key}/>
-                    })}
+                    {mainServiceCards.map((item, key) => (
+                        <ServiceCard number={key + 1} item={item} key={key}/>
+                    ))}
                 </HeaderGroup>
                 <section className={"w-full hidden sm:flex"}>
                     <SliderGroup desktopSlidesPerView={3} header={"Акции и предложения"}>

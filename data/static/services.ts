@@ -1,12 +1,26 @@
 import {ServiceCardDTO} from "@/types/cards";
+import {TextLink} from "@/types/dto/text";
+
+type ServiceGroupType = "rent" | "diagnostic" | "sanitization" | "mount" | "maintenance" | "free_use"
 
 export type Group<T> = {
     groupHeader : string,
+    value : ServiceGroupType,
     items : T[]
 }
 
+export const mainServiceCards : TextLink[] = [
+    {text : "Аренда кулеров и пурифайеров", link : "rent"},
+    {text : "Ремонт и диагностика оборудования", link : "diagnostic"},
+    {text : "Санитарная обработка оборудования", link : "sanitization"},
+    {text : "Установка пурифаеров", link : "mount"},
+    {text : "Сервисное обслуживание оборудования", link : "maintenance"},
+    {text : "Бесплатное пользование", link : "free_use"},
+]
+
 const rentGroup : Group<ServiceCardDTO> = {
     groupHeader : "Аренда кулеров и пурифайеров",
+    value : "rent",
     items : [
         {
             header : "Аренда напольного кулера с холодильником",
@@ -101,6 +115,7 @@ const rentGroup : Group<ServiceCardDTO> = {
 
 const diagnosticsGroup : Group<ServiceCardDTO> = {
     groupHeader : "Ремонт и диагностика оборудования",
+    value : "diagnostic",
     items : [
         {
             header : "Гарантийный ремонт пурифайера",
@@ -188,6 +203,7 @@ const diagnosticsGroup : Group<ServiceCardDTO> = {
 
 const sanitizationGroup : Group<ServiceCardDTO> = {
     groupHeader : "Санитарная обработка оборудования",
+    value : "sanitization",
     items : [
         {
             header : "Санитарная обработка кулера",
@@ -241,6 +257,7 @@ const sanitizationGroup : Group<ServiceCardDTO> = {
 
 const mountGroup : Group<ServiceCardDTO> = {
     groupHeader : "Установка пурифаеров",
+    value : "mount",
     items : [
         {
             header : "Простая установка пуриайера",
@@ -273,6 +290,7 @@ const mountGroup : Group<ServiceCardDTO> = {
 
 const maintenanceGroup : Group<ServiceCardDTO> = {
     groupHeader : "Сервисное обслуживание оборудования",
+    value : "maintenance",
     items : [
         {
             header : "Годовое 4-х разовое сервисное обслуживание пурифайера(офис более 50 человек)",
@@ -330,6 +348,7 @@ const maintenanceGroup : Group<ServiceCardDTO> = {
 
 const freeUseGroup : Group<ServiceCardDTO> = {
     groupHeader : "Бесплатное пользование",
+    value : "free_use",
     items : [
         {
             header : "Cтеллаж для хранения 4-х бутылей в бесплатное пользование",

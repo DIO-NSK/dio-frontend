@@ -15,10 +15,12 @@ export type ResponseUserCredentials = {
     fullName: string
 }
 
-const getUserCredentials = async (): Promise<ResponseUserCredentials> => {
-    return api.get(`/user`)
-        .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+const getUserCredentials = async (): Promise<ResponseUserCredentials | void> => {
+    if (localStorage.getItem("ACCESS_TOKEN")) {
+        return api.get(`/user`)
+            .then(response => response.data)
+            .catch(error => {throw Error(error.response.data.message)})
+    }
 }
 
 const logoutUser = async () => {
