@@ -4,6 +4,11 @@ import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSea
 import {DragEndEvent} from "@dnd-kit/core";
 import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
 import {$ourWaters, changeOurWatersOrderEvent} from "@/app/admin/promo/models/our_waters.model";
+import {ProductTableRow} from "@/types/dto/Table";
+
+type DayProduct = {
+    productDayId: number
+} & ResponseProductSearch
 
 const addDayProducts = async (id: number) => {
     return api.post("/admin/catalogue/product/day", null, {params: {productId: id}})
@@ -13,27 +18,33 @@ const addDayProducts = async (id: number) => {
         })
 }
 
-const deleteDayProduct = async (id : number) => {
-    return api.delete("/admin/catalogue/product/day", {params : {productId : id}})
+const deleteDayProduct = async (id: number) => {
+    return api.delete("/admin/catalogue/product/day", {params: {productId: id}})
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
-const getAllDayProducts = async (): Promise<ResponseProductSearch[]> => {
+const getAllDayProducts = async (): Promise<DayProduct[]> => {
     return api.get("/catalogue/product/day")
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
-const changeDayProductsOrder = async (ids : {id : number}[]) => {
+const changeDayProductsOrder = async (ids: { id: number }[]) => {
     return api.put("/admin/catalogue/product/day/state", ids)
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
 const changeDayProductOrderFx = createEffect(changeDayProductsOrder)
 
-const getAllDayProductsFx = createEffect<void, ResponseProductSearch[], Error>(getAllDayProducts)
+const getAllDayProductsFx = createEffect<void, DayProduct[], Error>(getAllDayProducts)
 export const getAllDayProductsEvent = createEvent<void>()
 
 const addDayProductsFx = createEffect<number, void, Error>(addDayProducts)
@@ -43,22 +54,22 @@ const deleteDayProductFx = createEffect<number, void, Error>(deleteDayProduct)
 export const deleteDayProductEvent = createEvent<number>()
 export const changeDayProductsOrderEvent = createEvent<DragEndEvent>()
 
-export const $dayProducts = createStore<ResponseProductSearch[]>([])
+export const $dayProducts = createStore<DayProduct[]>([])
 
 $dayProducts
     .on(getAllDayProductsFx.doneData, (_, products) => products)
-    .on(changeDayProductsOrderEvent, (products, event) => handleDragEnd(event, products))
+    .on(changeDayProductsOrderEvent, (products, event) => handleDragEnd(event, products, "productDayId"))
 
 sample({
     clock: changeDayProductsOrderEvent,
     source: $dayProducts,
-    fn: (products) => products.map(item => ({id: item.id})),
+    fn: (products) => products.map(item => ({id: item.productDayId})),
     target: changeDayProductOrderFx
 })
 
 sample({
-    clock : deleteDayProductEvent,
-    target : deleteDayProductFx
+    clock: deleteDayProductEvent,
+    target: deleteDayProductFx
 })
 
 sample({

@@ -10,8 +10,7 @@ import {createURLFilters} from "@/utlis/createURLFilters";
 
 export const useFilters = (categoryId: number) => {
 
-    const [filters, getFilters, sendFilters]
-        = useUnit([$filters, getCategoryFiltersFx, sendFiltersEvent])
+    const [getFilters, sendFilters] = useUnit([getCategoryFiltersFx, sendFiltersEvent])
 
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -24,7 +23,7 @@ export const useFilters = (categoryId: number) => {
 
     const initFilters = (filters: FilterItem[]): CatalogueFilter[] => {
         const urlFilterMap = createURLFilterMap()
-        const categoryFilters: CatalogueFilter[] = filters.map(filter => {
+        const categoryFilters: CatalogueFilter[] = filters.map((filter, filterIndex) => {
             if (filter.variants) {
                 const selectItems: CheckboxListItem[] = filter.variants.map(variant => ({
                     name: variant,
@@ -39,14 +38,16 @@ export const useFilters = (categoryId: number) => {
             } else {
                 const maxValue = Object.values(filter.range)[0]
                 const minValue = Object.keys(filter.range)[0]
+                const priceFromValue = filterIndex === 0 ? urlFilterMap?.["price"]?.[0] : undefined
+                const priceToValue = filterIndex === 0 ? urlFilterMap?.["price"]?.[1] : undefined
                 return {
                     id: filter.id,
                     header: filter.name,
                     isDirty: false,
                     filter: {
                         maxValue: maxValue, minValue: minValue,
-                        fromValue: urlFilterMap?.[filter.id]?.[0] ?? minValue,
-                        toValue: urlFilterMap?.[filter.id]?.[1] ?? maxValue,
+                        fromValue: priceFromValue ?? urlFilterMap?.[filter.id]?.[0] ?? minValue,
+                        toValue: priceToValue ?? urlFilterMap?.[filter.id]?.[1] ?? maxValue,
                         unit: filter.valueName
                     },
                 } as FilterGroup<RangeInputFilter>
@@ -108,9 +109,11 @@ export const useFilters = (categoryId: number) => {
     const onSubmit = () => {
 
         const request = {filters: categoryFilters, categoryId: categoryId}
-        sendFilters(request)
         const convertedRequest = convertCatalogueFiltersToParams(request)
-        const urlFilters = createURLFilters(convertedRequest)
+        let urlFilters = createURLFilters(convertedRequest)
+
+        // отдельный случай для цены
+        urlFilters = urlFilters.concat(`,price:${convertedRequest.priceRange}`)
 
         const current = new URLSearchParams(Array.from(searchParams.entries()));
         current.set("filterMap", urlFilters)
@@ -118,8 +121,11 @@ export const useFilters = (categoryId: number) => {
         const query = search ? `?${search}` : ""
         router.push(`${pathname}${query}`)
 
+        sendFilters(request)
+
     }
-    const handleClearFilters = () => changeCategoryFilters(initFilters(filters))
+
+    const handleClearFilters = () => router.push(pathname)
 
     useEffect(() => {
         const sortFn = (first: FilterItem, second: FilterItem) => !first.id ? 1 : first.id - second.id

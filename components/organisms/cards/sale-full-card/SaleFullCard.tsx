@@ -32,8 +32,8 @@ const MainCol = ({header, description, onClick}: {
             <div className={"w-full flex flex-col gap-[10px]"}>
                 <Text text={header} className={"text-lg font-semibold"}/>
                 <LinesEllipsis
-                    className={"w-full"}
-                    text={description} maxLine='3'
+                    className={"w-full max-h-[70px] overflow-clip"}
+                    text={description} maxLine='2'
                     ellipsis='..' trimRight
                     basedOn='letters'
                 />
@@ -65,7 +65,7 @@ const SaleFullCard = ({card}: {
     return (
         <div className={cn(wrapperCV)}>
             <img
-                className={"w-[180px] h-fit rounded-xl object-cover"}
+                className={"w-[170px] h-[170px] rounded-xl object-cover"}
                 src={card.image} alt={'/'}
             />
             <div className={"w-full flex flex-col gap-[10px]"}>

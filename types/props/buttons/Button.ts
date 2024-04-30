@@ -1,4 +1,4 @@
-import React, {MouseEventHandler} from "react";
+import React, {CSSProperties, MouseEventHandler} from "react";
 
 export type ButtonProps = {
     onClick : MouseEventHandler,
@@ -7,6 +7,7 @@ export type ButtonProps = {
     classNames?: ButtonClassnames,
     buttonType?: ButtonType,
     size ?: ButtonSize,
+    style ?: CSSProperties,
     disabled ?: boolean
 }
 

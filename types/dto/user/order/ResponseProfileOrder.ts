@@ -1,3 +1,5 @@
+import {SelectItem} from "@/types/props/SelectItem";
+
 export type ResponseProfileOrder = {
     id: number,
     items: ProfileOrderItem[],
@@ -18,3 +20,11 @@ export type ProfileOrderItem = {
 }
 
 export type OrderStatus = "DRAFT" | "PENDING" | "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELED"
+export const selectableOrderStatuses : SelectItem<OrderStatus>[] = [
+    {name : "Черновик заказа", value : "DRAFT"},
+    {name : "Ожидает обработки", value : "PENDING"},
+    {name : "В процессе обработки", value : "PROCESSING"},
+    {name : "Отправлен", value : "SHIPPED"},
+    {name : "Доставлен", value : "DELIVERED"},
+    {name : "Отменен", value : "CANCELED"}
+]

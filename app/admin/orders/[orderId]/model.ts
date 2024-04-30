@@ -34,6 +34,7 @@ export type ResponseOrderDetails = {
     deliveryTime: string,
     deliveryDate: string,
     paymentMethod: string,
+    city : string,
     productItemDtoList: ResponseCartItem[],
     comment: string
 }

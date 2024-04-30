@@ -21,7 +21,7 @@ export const useAdminPanelProductsBlock = () => {
             discount: product.discountPercent,
             price: product.price
         },
-        id: product.id,
+        id: product.productDayId,
         itemsWidth: {
             image: "col-span-6",
             discount: "col-span-1",

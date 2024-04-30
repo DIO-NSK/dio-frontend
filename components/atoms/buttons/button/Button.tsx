@@ -35,7 +35,7 @@ const Button = (
             type={"button"}
             disabled={disabled}
             className={cn(buttonCV)}
-            onClick={props.onClick}
+            {...props}
         >
             {props.icon}
             {props?.text}

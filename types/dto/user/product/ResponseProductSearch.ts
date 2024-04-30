@@ -6,5 +6,5 @@ export type ResponseProductSearch = {
     mainImage?: string,
     inCart : boolean,
     inFavourites : boolean,
-    discountPercent: number
+    discountPercent: number,
 } & ResponsePromoSearch
