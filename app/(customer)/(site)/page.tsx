@@ -23,34 +23,75 @@ import React, {useEffect} from "react";
 import AdvantagesBlock from "@/components/organisms/blocks/advantages-block/AdvantagesBlock";
 import {useUnit} from "effector-react";
 import {
+    $userBanners,
     $userOurWaters,
-    $userPromotions,
+    $userPromotions, getBannersEvent,
     getUserOurWatersEvent,
     getUserPromotionsEvent
 } from "@/app/(customer)/(site)/model";
 import {TextLink} from "@/types/dto/text";
 import {HandshakeIcon, MicroscopeIcon, PencilRulerIcon, PercentIcon, StethoscopeIcon, WrenchIcon} from "lucide-react";
+import {cn} from "@/utlis/cn";
+import {$banners} from "@/app/admin/promo/models/banner.model";
+import Loading from "@/components/mobile/loading/Loading";
 
 const ICON_SIZE = 28
+
+const productCardCV = {
+    mainWrapper: cn([
+        "sm:border-2 sm:border-light-gray sm:scale-[0.95]",
+        "sm:hover:scale-[0.95]"
+    ])
+}
 
 const MainPageScreen = () => {
 
     const [ourWaters, getOurWaters] = useUnit([$userOurWaters, getUserOurWatersEvent])
     const [promotions, getPromotions] = useUnit([$userPromotions, getUserPromotionsEvent])
+    const [banners, getBanners] = useUnit([$userBanners, getBannersEvent])
 
     useEffect(() => {
         getOurWaters()
         getPromotions()
+        getBanners()
     }, []);
 
     const mainServiceCards: (TextLink & { icon: React.ReactNode })[] = [
-        {text: "Аренда кулеров и пурифайеров", link: "rent", icon: <HandshakeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
-        {text: "Ремонт и диагностика оборудования", link: "diagnostic", icon: <StethoscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
-        {text: "Санитарная обработка оборудования", link: "sanitization", icon: <MicroscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
-        {text: "Установка пурифаеров", link: "mount", icon: <PencilRulerIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
-        {text: "Сервисное обслуживание оборудования", link: "maintenance", icon: <WrenchIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
-        {text: "Бесплатное пользование", link: "free_use", icon: <PercentIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
+        {
+            text: "Аренда кулеров и пурифайеров",
+            link: "rent",
+            icon: <HandshakeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+        },
+        {
+            text: "Ремонт и диагностика оборудования",
+            link: "diagnostic",
+            icon: <StethoscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+        },
+        {
+            text: "Санитарная обработка оборудования",
+            link: "sanitization",
+            icon: <MicroscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+        },
+        {
+            text: "Установка пурифаеров",
+            link: "mount",
+            icon: <PencilRulerIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+        },
+        {
+            text: "Сервисное обслуживание оборудования",
+            link: "maintenance",
+            icon: <WrenchIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+        },
+        {
+            text: "Бесплатное пользование",
+            link: "free_use",
+            icon: <PercentIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+        },
     ]
+
+    if (!banners.length) return (
+        <Loading className={"h-[500px]"}/>
+    )
 
     return (
         <React.Fragment>
@@ -59,7 +100,11 @@ const MainPageScreen = () => {
                 <HeroSliderRow/>
                 <SliderGroup id={"sale"} header={"Товары по акции"}>
                     {mockCardArray.map((productCard, key) => (
-                        <ProductCard productCard={productCard} key={key}/>
+                        <ProductCard
+                            classNames={productCardCV}
+                            productCard={productCard}
+                            key={key}
+                        />
                     ))}
                 </SliderGroup>
                 <section className={"w-full hidden sm:flex"}>

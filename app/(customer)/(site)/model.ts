@@ -35,8 +35,14 @@ const getDayProducts = async (): Promise<ResponseProductSearch[]> => {
         })
 }
 
-export const getDayProductsFx = createEffect<void, ResponseProductSearch[], Error>(getDayProducts)
-const getDayProductsEvent = createEvent<void>()
+const getDayProductsFx = createEffect<void, ResponseProductSearch[], Error>(getDayProducts)
+export const getDayProductsEvent = createEvent<void>()
+
+sample({
+    clock : getDayProductsEvent,
+    target : getDayProductsFx
+})
+
 export const $userDayProducts = createStore<ResponseProductSearch[]>([])
 
 sample({

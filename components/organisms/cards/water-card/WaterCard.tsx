@@ -19,7 +19,7 @@ const WaterCard = ({waterCard, className}: WaterCardType) => {
                 className={"flex items-center justify-center w-full h-[150px] sm:h-[300px] rounded-xl bg-bg-light-blue"}>
                 <img
                     src={waterCard.image}
-                    className={"p-3 sm:p-10 w-full h-full object-scale-down"}
+                    className={"p-3 sm:p-10 w-full h-full object-scale-down select-none"}
                     alt={waterCard.name}
                 />
             </div>

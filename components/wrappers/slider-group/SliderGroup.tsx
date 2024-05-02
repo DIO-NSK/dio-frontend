@@ -1,12 +1,12 @@
 "use client"
 
-import React, {useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {HeaderWrapperType} from "@/types/wrappers";
 import Text from "@/components/atoms/text/text-base/Text";
 import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
 import {cn} from "@/utlis/cn";
 
-import {Autoplay, Scrollbar} from 'swiper/modules';
+import {Autoplay, Navigation, Scrollbar} from 'swiper/modules';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {type Swiper as SwiperRef} from 'swiper'
 
@@ -33,10 +33,22 @@ const SliderGroup = (
 ) => {
 
     const swiperRef = useRef<SwiperRef>()
+    const isInitEnd = React.Children.count(props.children) <= desktopSlidesPerView
+    const [isBegin, setBegin] = useState<boolean>(true)
+    const [isEnd, setEnd] = useState<boolean>(isInitEnd)
 
     const isMobile = false
     const slidesPerView = isMobile ? mobileSlidesPerView : desktopSlidesPerView
     const spacing = isMobile ? 12 : 20
+
+    useEffect(() => {
+        if (swiperRef.current) {
+            swiperRef.current.on("slideChange", (swipe) => {
+                setBegin(Boolean(swipe.isBeginning))
+                setEnd(Boolean(swipe.isEnd))
+            })
+        }
+    }, [swiperRef.current]);
 
     return (
         <section id={props.id} className={cn("sm:pl-0 w-full flex flex-col gap-5 sm:gap-7", props.className)}>
@@ -54,12 +66,19 @@ const SliderGroup = (
                     </Link>}
                 </div>
                 <div className={"hidden sm:flex flex-row items-center gap-[20px]"}>
-                    <SlideButton side={Side["LEFT"]} onClick={() => swiperRef.current?.slidePrev()}/>
-                    <SlideButton side={Side["RIGHT"]} onClick={() => swiperRef.current?.slideNext()}/>
+                    <SlideButton
+                        disabled={isBegin}
+                        onClick={() => swiperRef.current?.slidePrev()}
+                        side={Side["LEFT"]}
+                    />
+                    <SlideButton
+                        disabled={isEnd}
+                        onClick={() => swiperRef.current?.slideNext()}
+                        side={Side["RIGHT"]}
+                    />
                 </div>
             </div>
             <Swiper
-                loop={true}
                 grabCursor={true}
                 onSwiper={(swiper) => {
                     swiperRef.current = swiper
@@ -67,14 +86,14 @@ const SliderGroup = (
                 className={"active:cursor-grab hidden w-full sm:col-span-full sm:flex"}
                 spaceBetween={spacing}
                 slidesPerView={slidesPerView}
-                modules={[Autoplay, Scrollbar]}
+                modules={[Navigation, Autoplay, Scrollbar]}
                 autoplay={{
                     delay: AUTOPLAY_DELAY,
-                    disableOnInteraction: true,
+                    pauseOnMouseEnter: true,
                 }}
             >
-                {React.Children.map(props.children, child => (
-                    <SwiperSlide>{child}</SwiperSlide>
+                {React.Children.map(props.children, (child, index) => (
+                    <SwiperSlide key={index}>{child}</SwiperSlide>
                 ))}
             </Swiper>
             <MobileSliderWrapper>{props.children}</MobileSliderWrapper>

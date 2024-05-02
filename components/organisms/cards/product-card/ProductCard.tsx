@@ -12,6 +12,7 @@ import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSea
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
+import {useSwiper} from "swiper/react";
 
 type ProductCardClassNames = {
     mainWrapper?: string,
@@ -44,7 +45,7 @@ const ProductCard = ({productCard, classNames}: {
         <div className={cn(wrapperCV)} onClick={handleCardClick}>
             <img
                 src={productCard.image}
-                className={"w-full h-[100px] sm:h-[160px] object-scale-down"}
+                className={"select-none w-full h-[100px] sm:h-[160px] object-scale-down"}
                 alt={'Изображение продукта'}
             />
             <div className={"w-full flex flex-col gap-4 sm:gap-5"}>
