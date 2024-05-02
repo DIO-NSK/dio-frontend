@@ -25,12 +25,10 @@ const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
                     text={`${newPrice.toFixed(2)} ₽`}
                     className={"text-[24px] font-semibold text-link-blue"}
                 />
-                {
-                    product.discountPercent !== 0 && <Text
+                {product.discountPercent !== 0 && <Text
                         text={`${price.toFixed(2)} ₽`}
                         className={"text-text-gray line-through"}
-                    />
-                }
+                    />}
             </div>
 
             <div className={"w-full flex flex-row items-center gap-[20px]"}>

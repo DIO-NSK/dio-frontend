@@ -11,7 +11,7 @@ type FileInputProps = {
     className?: string
 }
 
-const FileInput = ({accept = ".img,.png,.jpg", ...props}: FileInputProps) => {
+const FileInput = ({accept = ".img,.png,.jpg,.jpeg", ...props}: FileInputProps) => {
 
     const wrapperCV: ClassValue[] = [
         "w-full h-[140px] rounded-xl flex items-center justify-center border-dashed border-2",

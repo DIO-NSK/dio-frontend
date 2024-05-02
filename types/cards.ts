@@ -2,6 +2,8 @@ import {StaticImport} from "next/dist/shared/lib/get-img-props";
 import {Side} from "@/data/enums/side";
 import {TextLink} from "@/types/dto/text";
 import React from "react";
+import {ServiceType} from "@/types/dto/admin/service/AdminService";
+import {SelectItem} from "@/types/props/SelectItem";
 
 export type IconHeaderCard = {
     icon : React.ReactNode,

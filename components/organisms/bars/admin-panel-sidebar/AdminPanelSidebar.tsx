@@ -99,18 +99,13 @@ const AdminPanelSidebar = () => {
     ]
 
     const handleTabClick = (tab: TabBarItem) => {
-        setActiveTab(tab)
         router.push(tab.path!!)
     }
 
-    const computeActiveTab = () => {
-        const activeRoute = adminTabBarData.find(tab => (tab.path!!).includes(pathname))
-        setActiveTab(activeRoute ?? adminTabBarData[0])
-    }
-
     useEffect(() => {
-        computeActiveTab()
-    }, [])
+        const activeRoute = adminTabBarData.slice(1).find(tab => (tab.path!!).includes(pathname))
+        setActiveTab(activeRoute ?? adminTabBarData[0])
+    }, [pathname]);
 
     return (
         <div className={cn(wrapperCV)}>

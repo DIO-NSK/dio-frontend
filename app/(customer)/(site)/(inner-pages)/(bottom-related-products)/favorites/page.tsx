@@ -5,7 +5,6 @@ import Text from "@/components/atoms/text/text-base/Text";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import ShoppingCartTotalPriceCard
     from "@/components/organisms/cards/shopping-cart-total-price-card/ShoppingCartTotalPriceCard";
-import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 import {InfoBlockElement} from "@/types/dto/text";
 import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
 import {useUnit} from "effector-react";
@@ -13,8 +12,14 @@ import {
     $favourites,
     getFavouritesEvent
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
-import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {addAllToCartEvent} from "@/components/organisms/cards/product-price-card/model";
+import dynamic from "next/dynamic";
+import Loading from "@/components/mobile/loading/Loading";
+
+const FavoritesContentBlock = dynamic(
+    () => import("@/components/organisms/loading-blocks/favorites/FavoritesContentBlock"),
+    {loading: () => <Loading className={"col-span-9"}/>}
+)
 
 const FavoritesHeaderRow = ({selectedCards}: { selectedCards: any[] }) => {
     return (
@@ -60,21 +65,7 @@ const FavoritesPage = () => {
 
             <div className={"w-full sm:col-span-9 flex flex-col gap-7"}>
                 <FavoritesHeaderRow selectedCards={favourites.products}/>
-                <section className={"w-full flex flex-col gap-3 sm:gap-7 sm:grid sm:grid-cols-9"}>
-                    {favourites.products.map((card, index) => {
-
-                        const productCard: ResponseProductSearch = {
-                            ...card, image: card.image
-                        }
-
-                        return <ProductCard
-                            classNames={{mainWrapper: "w-full"}}
-                            productCard={productCard}
-                            key={index}
-                        />
-
-                    })}
-                </section>
+                <FavoritesContentBlock products={favourites.products}/>
             </div>
 
             <ShoppingCartTotalPriceCard

@@ -2,23 +2,26 @@ import React from 'react';
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import {SelectItem} from "@/types/props/SelectItem";
+import Text from "@/components/atoms/text/text-base/Text";
 
-type MultiselectButtonProps<T> = {
+export type MultiselectButtonProps<T> = {
     activeElement: SelectItem<T>,
     elements: SelectItem<T>[],
     selectElement: (element: SelectItem<T>) => void,
+    labelText?: string,
     className?: string,
     size?: "sm" | "md"
 }
 
 const MultiselectButton = <T, >({size = "md", ...props}: MultiselectButtonProps<T>) => {
     return (
-        <div className={cn("w-full flex flex-row items-center", props.className)}>
-            {
-                props.elements.map((element, index, array) => {
+        <div className={cn("w-full h-fit flex flex-col gap-2", props.className)}>
+            {props.labelText && <Text text={props.labelText} className={"text-base text-black"}/>}
+            <div className={"w-full h-full flex flex-row items-center"}>
+                {props.elements.map((element, index, array) => {
 
                     const wrapperCV: ClassValue[] = [
-                        "w-full py-4 flex items-center justify-center",
+                        "w-full h-full py-4 flex items-center justify-center",
                         "border-2 border-light-gray text-text-gray",
                         "hoverable pointer",
                         {
@@ -32,14 +35,14 @@ const MultiselectButton = <T, >({size = "md", ...props}: MultiselectButtonProps<
 
                     return (
                         <div
-                            onClick={() => props.selectElement(element)}
                             className={cn(wrapperCV)}
+                            onClick={() => props.selectElement(element)}
                         >
                             {element.name}
                         </div>
                     )
-                })
-            }
+                })}
+            </div>
         </div>
     );
 };

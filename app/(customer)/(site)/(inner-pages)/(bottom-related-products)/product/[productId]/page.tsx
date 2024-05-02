@@ -18,15 +18,18 @@ import {
     $breadcrumbs,
     $product,
     getBreadcrumbsEvent,
-    getProductEvent
+    getProductEvent, productPageDidMountEvent
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
+import Loading from "@/components/mobile/loading/Loading";
 
-const MobileHeaderRow = ({product}: { product: ResponseProduct }) => {
+const MobileHeaderRow = ({product}: {
+    product: ResponseProduct
+}) => {
 
     const [newPrice, price] = useDiscount(product.price, product.discountPercent)
 
@@ -57,10 +60,14 @@ const MobileHeaderRow = ({product}: { product: ResponseProduct }) => {
 
 }
 
-const ProductCardPage = ({params}: { params: { productId: number } }) => {
+const ProductCardPage = ({params}: {
+    params: {
+        productId: number
+    }
+}) => {
 
     const [breadcrumbs, getBreadcrumbs] = useUnit([$breadcrumbs, getBreadcrumbsEvent])
-    const [product, getProduct] = useUnit([$product, getProductEvent])
+    const [pageDidMount, product, getProduct] = useUnit([productPageDidMountEvent, $product, getProductEvent])
     const popupToggle = useToggle()
 
     const [
@@ -69,11 +76,16 @@ const ProductCardPage = ({params}: { params: { productId: number } }) => {
     ] = useState<string | undefined>(product?.photos[0] ?? undefined)
 
     useEffect(() => {
+        pageDidMount()
         getBreadcrumbs(params.productId)
         getProduct(params.productId)
     }, [])
 
-    if (product) return (
+    if (!product) return (
+        <Loading/>
+    )
+
+    return (
         <section className={"w-full flex flex-col"}>
             {popupToggle.state && <MobilePhotoGalleryPopup
                 onClose={popupToggle.toggleState}

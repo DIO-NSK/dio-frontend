@@ -34,9 +34,13 @@ const getProduct = async (productId: number): Promise<ResponseProduct> => {
 
 const getProductFx = createEffect<number, ResponseProduct, Error>(getProduct)
 export const getProductEvent = createEvent<number>()
+
+export const productPageDidMountEvent = createEvent()
 export const $product = createStore<ResponseProduct | null>(null)
 
-$product.on(getProductFx.doneData, (_, product) => product)
+$product
+    .reset(productPageDidMountEvent)
+    .on(getProductFx.doneData, (_, product) => product)
 
 sample({
     clock: getProductEvent,

@@ -19,14 +19,18 @@ export const CreateProductSchema = z.object({
     crmCode: z.string().min(1, requiredFiledError),
     price: z.string().min(0).or(z.number()).optional(),
     taxPercent: z.string().min(0).or(z.number()).optional(),
-    discountPercent: z.string().or(z.null()).or(z.number()).optional().transform(discountPercent => discountPercent && +discountPercent),
+    discountPercent: z
+        .string()
+        .transform(discountPercent => discountPercent && +discountPercent)
+        .or(z.null())
+        .or(z.number())
+        .optional(),
     isProductOfTheDay: z.boolean(),
     filledProperties: z.array(CategoryPropertySchema),
     externalProperties: z.array(ExternalPropertySchema),
     photos: z.array(z.custom<File>((v) => v instanceof File).or(z.string())),
-    isInvisible : z.boolean().optional()
+    isInvisible: z.boolean().optional()
 })
 
 export type CategoryPropertyData = z.infer<typeof CategoryPropertySchema>
-export type ExternalPropertyData = z.infer<typeof ExternalPropertySchema>
 export type CreateProductData = z.infer<typeof CreateProductSchema>

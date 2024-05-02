@@ -2,7 +2,6 @@
 
 import AdminPanelOrderHeader from "@/components/organisms/rows/admin-panel-order-header/AdminPanelOrderHeader";
 import React, {useEffect} from "react";
-import OrderContentTable from "@/components/organisms/tables/order-content-table/OrderContentTable";
 import {adminOrdersTableHeader} from "@/data/tables/adminOrdersTable";
 import {useSelectable} from "@/utlis/hooks/useSelectable";
 import {AdminOrder} from "@/types/dto/AdminOrder";
@@ -13,6 +12,13 @@ import MultiselectButton from "@/components/atoms/buttons/multiselect-button/Mul
 import {useAdminPanelOrdersPage} from "@/app/admin/orders/page.hooks";
 import {useUnit} from "effector-react";
 import {$orders, getOrdersEvent} from "@/app/admin/orders/model";
+import dynamic from "next/dynamic";
+import Loading from "@/components/mobile/loading/Loading";
+
+const OrderContentTable = dynamic(
+    () => import("@/components/organisms/tables/order-content-table/OrderContentTable"),
+    {loading: () => <Loading/>}
+)
 
 const AdminPanelOrderPage = () => {
 
@@ -33,8 +39,7 @@ const AdminPanelOrderPage = () => {
                 header={"Заказы"}
                 leftContent={
                     <div className={"w-fit flex flex-row items-baseline gap-4"}>
-                        {
-                            selectableContext.selectedItems.length > 0 &&
+                        {selectableContext.selectedItems.length > 0 &&
                             <div className={"flex flex-row items-baseline gap-4"}>
                                 <Text
                                     text={`Выбрано ${selectableContext.selectedItems.length}`}
@@ -45,8 +50,7 @@ const AdminPanelOrderPage = () => {
                                     text={"Отменить выбор"}
                                     className={"text-info-red hover:text-red-700"}
                                 />
-                            </div>
-                        }
+                            </div>}
                         <TextButton
                             onClick={selectableContext.handleSelectAllItems}
                             text={"Выбрать всё"}

@@ -28,7 +28,10 @@ import {
     getUserOurWatersEvent,
     getUserPromotionsEvent
 } from "@/app/(customer)/(site)/model";
-import {mainServiceCards} from "@/data/static/services";
+import {TextLink} from "@/types/dto/text";
+import {HandshakeIcon, MicroscopeIcon, PencilRulerIcon, PercentIcon, StethoscopeIcon, WrenchIcon} from "lucide-react";
+
+const ICON_SIZE = 28
 
 const MainPageScreen = () => {
 
@@ -39,6 +42,15 @@ const MainPageScreen = () => {
         getOurWaters()
         getPromotions()
     }, []);
+
+    const mainServiceCards: (TextLink & { icon: React.ReactNode })[] = [
+        {text: "Аренда кулеров и пурифайеров", link: "rent", icon: <HandshakeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
+        {text: "Ремонт и диагностика оборудования", link: "diagnostic", icon: <StethoscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
+        {text: "Санитарная обработка оборудования", link: "sanitization", icon: <MicroscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
+        {text: "Установка пурифаеров", link: "mount", icon: <PencilRulerIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
+        {text: "Сервисное обслуживание оборудования", link: "maintenance", icon: <WrenchIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
+        {text: "Бесплатное пользование", link: "free_use", icon: <PercentIcon className={"stroke-link-blue"} size={ICON_SIZE}/>},
+    ]
 
     return (
         <React.Fragment>
@@ -67,7 +79,7 @@ const MainPageScreen = () => {
                 </MobileHeaderWrapper>
                 <HeaderGroup header={"Попробуйте наши услуги"}>
                     {mainServiceCards.map((item, key) => (
-                        <ServiceCard number={key + 1} item={item} key={key}/>
+                        <ServiceCard item={item} key={key}/>
                     ))}
                 </HeaderGroup>
                 <section className={"w-full hidden sm:flex"}>

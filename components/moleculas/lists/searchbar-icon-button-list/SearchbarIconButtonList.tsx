@@ -32,7 +32,7 @@ const SearchbarIconButtonList = () => {
             icon: <FiHeart size={"20px"}/>,
             onClick: () => {
                 if (userCredentials) router.push("/favorites")
-                else switchPopupState("signup")
+                else switchPopupState("login")
             }
 
         },

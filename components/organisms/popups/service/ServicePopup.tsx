@@ -7,7 +7,7 @@ import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/C
 import Button from "@/components/atoms/buttons/button/Button";
 import {useUnit} from "effector-react";
 import {
-    $isServicePopupOpen,
+    $isServicePopupOpen, $serviceName,
     sendServiceFx,
     toggleServicePopupEvent
 } from "@/app/(customer)/(site)/(inner-pages)/services/model";
@@ -33,6 +33,9 @@ const ServicePopup = () => {
         reset
     } = methods
 
+    const serviceName = useUnit($serviceName)
+    const selectedServiceType = selectableServiceTypes.find(s => s.name === serviceName)!!
+
     const [userCredentials, sendService] = useUnit([$userCredentials, sendServiceFx])
     const [popupState, togglePopupState] = useUnit([$isServicePopupOpen, toggleServicePopupEvent])
 
@@ -51,13 +54,12 @@ const ServicePopup = () => {
     }
 
     useEffect(() => {
-        if (userCredentials) {
-            reset({
-                name: userCredentials.fullName,
-                phoneNumber: userCredentials.phoneNumber
-            })
-        }
-    }, [userCredentials]);
+        reset({
+            name: userCredentials?.fullName,
+            phoneNumber: userCredentials?.phoneNumber,
+            nameServiceType: selectedServiceType
+        })
+    }, [selectedServiceType]);
 
     if (popupState) return (
         <PopupWrapper placement={'center'} onClose={togglePopupState}>
@@ -99,7 +101,7 @@ const ServicePopup = () => {
                             placeholder={"Выберите вид услуги"}
                         />
                         <Button
-                            classNames={{button : "w-[200px]"}}
+                            classNames={{button: "w-[200px]"}}
                             text={isSubmitting ? "Отправка.." : "Отправить"}
                             onClick={handleSubmit(onSubmit)}
                             disabled={isSubmitting}

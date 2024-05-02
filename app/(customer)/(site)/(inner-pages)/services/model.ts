@@ -14,6 +14,10 @@ export const sendServiceEvent = createEvent<ServiceData>()
 
 export const $isServicePopupOpen = createStore<boolean>(false)
 export const toggleServicePopupEvent = createEvent<void>()
+export const selectServiceNameEvent = createEvent<string>()
+export const $serviceName = createStore<string>("")
+
+$serviceName.on(selectServiceNameEvent, (_, name) => name)
 
 $isServicePopupOpen.on(toggleServicePopupEvent, (state) => !state)
 

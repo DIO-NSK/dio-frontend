@@ -96,9 +96,14 @@ const Input = <T, >({selectable = false, ...props}: Omit<SearchbarProps<T>, "has
 
 }
 
-const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { products: ResponseProductSearch[] }) => {
+type PopoverProps<T> = {
+    products?: ResponseProductSearch[],
+    setIsComponentVisible: (isVisible: boolean) => void
+} & SearchbarProps<T>
 
-    if (products.length === 0) return
+const PopoverProductColumn = <T, >({products, ...props}: PopoverProps<T>) => {
+
+    if (products?.length === 0) return
 
     const productRowCV: ClassValue = [
         "w-full right-0 p-7 pb-5 hover:bg-bg-light-blue hoverable pointer",
@@ -106,16 +111,21 @@ const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { p
         "border-light-gray justify-between"
     ]
 
+    const handleSelectProduct = (product: ResponseProductSearch) => {
+        props.onSelect?.(product)
+        props.setIsComponentVisible(false)
+    }
+
     return (
         <section className={"w-full flex flex-col"}>
 
             <div className={"w-full flex flex-row items-baseline gap-4 p-7 pb-5"}>
                 <Text text={"Товары"} className={"text-lg font-medium"}/>
-                <Text text={`${products.length} шт.`} className={"text-text-gray"}/>
+                <Text text={`${products?.length} шт.`} className={"text-text-gray"}/>
             </div>
 
             <section className={"w-full flex flex-col gap-5"}>
-                {products.map((product, index, array) => {
+                {products?.map((product, index, array) => {
 
                     const [newPrice, price] = useDiscount(product.price, product.discountPercent)
 
@@ -132,7 +142,7 @@ const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { p
                             key={index}
                         >
                             <section className={"flex flex-row items-center gap-5"}
-                                     onClick={() => props.onSelect?.(product)}>
+                                     onClick={() => handleSelectProduct(product)}>
                                 <img
                                     className={"w-[130px] h-[70px] object-scale-down"}
                                     alt={"Изображение продукта"}
@@ -165,7 +175,9 @@ const PopoverProductColumn = <T, >({products, ...props}: SearchbarProps<T> & { p
     )
 }
 
-const PopoverCategoryColumn = ({categories}: { categories: ResponsePromoSearch[] }) => {
+const PopoverCategoryColumn = ({categories}: {
+    categories: ResponsePromoSearch[]
+}) => {
 
     if (categories.length === 0) return
 
@@ -178,25 +190,25 @@ const PopoverCategoryColumn = ({categories}: { categories: ResponsePromoSearch[]
             </div>
 
             <section className={"w-full flex flex-col"}>
-                {
-                    categories.map((category, index) => (
-                        <div
-                            className={"w-full flex flex-col gap-2 p-7 pt-0 border-b-2 border-light-gray"}
-                            key={index}
-                        >
-                            <Link href={`/catalog/${category.id}`}>
-                                <Text className={"font-medium"} text={category.name}/>
-                            </Link>
-                        </div>
-                    ))
-                }
+                {categories.map((category, index) => (
+                    <div
+                        className={"w-full flex flex-col gap-2 p-7 pt-0 border-b-2 border-light-gray"}
+                        key={index}
+                    >
+                        <Link href={`/catalog/${category.id}`}>
+                            <Text className={"font-medium"} text={category.name}/>
+                        </Link>
+                    </div>
+                ))}
             </section>
 
         </section>
     )
 }
 
-const NotFoundMessage = ({catalog}: { catalog: ResponseSearchCatalog }) => {
+const NotFoundMessage = ({catalog}: {
+    catalog: ResponseSearchCatalog
+}) => {
     if (catalog.categoryList.length === 0 && catalog.productList.length === 0) {
         return <Text
             text={"Мы не смогли найти товар или категорию по вашему запросу"}
@@ -205,7 +217,7 @@ const NotFoundMessage = ({catalog}: { catalog: ResponseSearchCatalog }) => {
     }
 }
 
-const PopoverList = <T, >(props: SearchbarProps<T>) => {
+const PopoverList = <T, >(props: PopoverProps<T>) => {
 
     const [catalog, searchName] = useUnit([$searchCatalog, $searchValue])
 
@@ -214,7 +226,7 @@ const PopoverList = <T, >(props: SearchbarProps<T>) => {
     if (catalog) return (
         <section
             className={"absolute overflow-y-auto customScrollbar max-h-[400px] z-20 top-[80px] w-full flex flex-col gap-5 rounded-xl bg-white shadow-2xl"}>
-            <PopoverProductColumn products={catalog.productList} {...props}/>
+            <PopoverProductColumn {...props} products={catalog.productList}/>
             <PopoverCategoryColumn categories={catalog.categoryList}/>
             <NotFoundMessage catalog={catalog}/>
         </section>
@@ -224,25 +236,21 @@ const PopoverList = <T, >(props: SearchbarProps<T>) => {
 
 const SearchInput = <T, >({hasPopover = false, ...props}: SearchbarProps<T>) => {
 
-    const searchParams = useSearchParams()
-
     const {
         ref,
         isComponentVisible,
         setIsComponentVisible
-    } = useClickOutside(true)
-
-    useEffect(() => {
-        setIsComponentVisible(false)
-    }, [searchParams])
+    } = useClickOutside(false)
 
     return (
         <section
-            ref={ref} onClick={() => setIsComponentVisible(true)}
+            ref={ref}
             className={cn("w-full relative flex flex-col gap-5", props.classNames?.mainWrapper)}
         >
-            <Input {...props}/>
-            {hasPopover && isComponentVisible && <PopoverList {...props}/>}
+            <div className={"w-full"} onClick={() => setIsComponentVisible(true)}>
+                <Input {...props}/>
+            </div>
+            {hasPopover && isComponentVisible && <PopoverList setIsComponentVisible={setIsComponentVisible} {...props}/>}
         </section>
     )
 }

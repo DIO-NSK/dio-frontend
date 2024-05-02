@@ -9,17 +9,22 @@ import {
     $categoryBreadcrumbs,
     $products,
     getCategoryBreadcrumbsEvent,
-    getCategoryByNameEvent
 } from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
 import React, {useEffect} from "react";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import CatalogLeftSidebar from "@/components/organisms/bars/catalog-left-sidebar/CatalogLeftSidebar";
-import PageContentWrapper from "@/components/wrappers/page-content-wrapper/PageContentWrapper";
 import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {useToggle} from "@/utlis/hooks/useToggle";
 import CatalogFilters from "@/components/organisms/catalog-filters/CatalogFilters";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import Text from "@/components/atoms/text/text-base/Text";
+import Loading from "@/components/mobile/loading/Loading";
+import dynamic from "next/dynamic";
+
+const PageContentWrapper = dynamic(
+    () => import("@/components/wrappers/page-content-wrapper/PageContentWrapper"),
+    {loading: () => <Loading/>}
+)
 
 const DesktopCatalogScreen = ({categoryId, onOpenPopup}: { categoryId: number, onOpenPopup: () => void }) => {
 

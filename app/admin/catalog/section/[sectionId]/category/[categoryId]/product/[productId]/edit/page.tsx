@@ -86,6 +86,8 @@ const AdminPanelEditProductPage = ({params}: {
             )
         } as CreateProductData
     })
+        .then(_ => setCreationStatus(true))
+        .catch(_ => setCreationStatus(false))
 
     useEffect(() => {
         if (product) {
@@ -101,13 +103,6 @@ const AdminPanelEditProductPage = ({params}: {
             } as DefaultValues<CreateProductData>)
         }
     }, [product])
-
-    console.log(watch())
-
-    useEffect(() => {
-        console.log(errors)
-    }, [errors]);
-
 
     useEffect(() => {
         getCategoryProperties(params.categoryId)

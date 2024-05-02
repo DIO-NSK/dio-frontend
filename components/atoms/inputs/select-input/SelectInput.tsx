@@ -7,7 +7,7 @@ import {ClassValue} from "clsx";
 import SelectInputItem from "@/components/atoms/inputs/select-input/select-input-item/SelectInputItem";
 import {useClickOutside} from "@/utlis/hooks/useClickOutside";
 
-type DropdownInputProps<T> = {
+export type DropdownInputProps<T> = {
     items: SelectItem<T>[],
     onSelect: (selectedItem: SelectItem<T>) => void,
     size?: "sm" | "md",

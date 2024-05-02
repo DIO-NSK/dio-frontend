@@ -7,7 +7,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/ServiceBlockWrapper";
 import {useUnit} from "effector-react";
-import {toggleServicePopupEvent} from "@/app/(customer)/(site)/(inner-pages)/services/model";
+import {selectServiceNameEvent, toggleServicePopupEvent} from "@/app/(customer)/(site)/(inner-pages)/services/model";
 import {useRouter} from "next/navigation";
 
 const HeaderDescriptionColumn = ({header, descr}: {
@@ -105,10 +105,11 @@ const ServiceFullCard = ({card}: {
 }) => {
 
     const router = useRouter()
-    const togglePopupState = useUnit(toggleServicePopupEvent)
+    const [togglePopupState, selectServiceName] = useUnit([toggleServicePopupEvent, selectServiceNameEvent])
     const [isExpanded, setExpanded] = useState<boolean>(false)
 
     const handleOrderService = () => {
+        selectServiceName(card.header)
         if (window.screen.width < 640) router.push("/mobile/services/order")
         else togglePopupState()
     }
@@ -117,12 +118,10 @@ const ServiceFullCard = ({card}: {
         <ServiceCardWrapper>
             <section className={"w-full sm:col-span-9 flex flex-col gap-5"}>
                 <HeaderDescriptionColumn {...card} />
-                {
-                    isExpanded && <ContentColumn
-                        rentTime={card.rentTime}
-                        additional={card.additional}
-                    />
-                }
+                {isExpanded && <ContentColumn
+                    rentTime={card.rentTime}
+                    additional={card.additional}
+                />}
                 <MoreButton
                     text={"Подробнее"}
                     isExpanded={isExpanded}

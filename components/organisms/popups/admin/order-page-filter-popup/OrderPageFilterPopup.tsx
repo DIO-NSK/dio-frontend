@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {PopupProps} from "@/types/props/Popup";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -21,6 +21,8 @@ import {
     RequestOrderFilters
 } from "@/components/organisms/popups/admin/order-page-filter-popup/model";
 import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
+import ControlledRangeInput from "@/components/atoms/inputs/range-input/ControlledRangeInput";
+import ControlledMultiSelectButton from "@/components/atoms/buttons/multiselect-button/ControlledMultiSelectButton";
 
 const rowWrapperCV: ClassValue = "w-full flex flex-row gap-5 pb-7 border-b-2 border-light-gray"
 
@@ -43,8 +45,8 @@ const OrderPageFilterPopup = (props: PopupProps) => {
     const filterOrders = useUnit(filterOrdersEvent)
 
     const paymentStatusItems: SelectItem<PaymentMethod>[] = [
-        {name: "Наличными или картой при получении", value: "CASH"},
-        {name: "Банковской картой онлайн", value: "CARD"},
+        {name: "Наличными", value: "CASH"},
+        {name: "Онлайн", value: "CARD"},
     ]
 
     const methods = useForm<OrderFilterData>({
@@ -52,23 +54,15 @@ const OrderPageFilterPopup = (props: PopupProps) => {
         mode: "onSubmit"
     })
 
-    const selectInputData = [
-        {
-            label: "Статус заказа",
-            placeholder: "Выберите статус заказа",
-            items: selectableOrderStatuses,
-            name: "status"
-        }, {
-            label: "Статус оплаты",
-            placeholder: "Выберите статус оплаты",
-            items: paymentStatusItems,
-            name: "paymentType"
-        }
-    ]
+    const {watch} = methods
 
     const onSubmit = (fieldValues: FieldValues) => {
-        filterOrders(fieldValues as RequestOrderFilters)
+        filterOrders(fieldValues as OrderFilterData)
     }
+
+    useEffect(() => {
+        watch()
+    }, []);
 
     return (
         <PopupWrapper onClose={props.onClose} placement={"center"}>
@@ -76,9 +70,23 @@ const OrderPageFilterPopup = (props: PopupProps) => {
                 <Form className={"w-[900px] flex flex-col gap-7"}>
                     <Text text={"Фильтры"} className={"text-[24px] font-medium"}/>
                     <div className={cn(rowWrapperCV)}>
-                        {selectInputData.map((inputData, key) =>
-                            <ControlledSelectInput {...inputData} key={key}/>
-                        )}
+                        <ControlledSelectInput
+                            items={selectableOrderStatuses}
+                            placeholder={"Выберите статус заказа"}
+                            labelText={"Статус заказа"}
+                            name={"status"}
+                        />
+                        <ControlledMultiSelectButton
+                            labelText={"Способ оплаты"}
+                            items={paymentStatusItems}
+                            name={"paymentType"}
+                        />
+                        <ControlledRangeInput
+                            labelText={"Цена заказа"}
+                            maxValue={"10000"}
+                            minValue={"0"}
+                            name={"cost"}
+                        />
                     </div>
                     <div className={cn(rowWrapperCV)}>
                         {dateInputData.map((inputData, key) => (
@@ -86,7 +94,7 @@ const OrderPageFilterPopup = (props: PopupProps) => {
                         )}
                     </div>
                     <Button
-                        text={"Сохранить"}
+                        text={methods.formState.isSubmitting ? "Отправка.." : "Применить"}
                         onClick={methods.handleSubmit(onSubmit)}
                         disabled={methods.formState.isSubmitting}
                         classNames={{button: "w-[250px]"}}

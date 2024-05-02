@@ -1,29 +1,31 @@
 "use client"
 
-import ServiceFullCard from "@/components/organisms/cards/service-full-card/ServiceFullCard";
-import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import React from "react";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import SideTabBar from "@/components/moleculas/bars/side-tab-bar/SideTabBar";
 import ServicePopup from "@/components/organisms/popups/service/ServicePopup";
 import {useServicesPage} from "@/app/(customer)/(site)/(inner-pages)/services/page.hooks";
 
+import dynamic from "next/dynamic";
+import Loading from "@/components/mobile/loading/Loading";
+
+const ServiceContentBlock = dynamic(
+    () => import("@/components/organisms/loading-blocks/services/ServiceContentBlock"),
+    {loading: () => <Loading className={"col-span-9"}/>, ssr: false}
+)
+
 const ServiceCatalogScreen = () => {
 
     const context = useServicesPage()
 
-    if (context.sidebar.activeTab && context.selectInput.selectedItem) return (
+    return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
             <ServicePopup/>
             <SideTabBar {...context.sidebar}/>
-            <section className={"w-full sm:col-span-9 flex flex-col gap-5"}>
-                <SelectInput className={"sm:hidden"} {...context.selectInput}/>
-                <section className={"w-full flex flex-col gap-5 sm:-mt-5"}>
-                    {context.serviceGroup?.items.map((card, key) => (
-                        <ServiceFullCard card={card} key={key}/>
-                    ))}
-                </section>
-            </section>
+            <ServiceContentBlock
+                services={context.serviceGroup?.items}
+                {...context.selectInput}
+            />
         </InnerPageWrapper>
     )
 
