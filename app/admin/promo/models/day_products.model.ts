@@ -3,8 +3,6 @@ import {createEffect, createEvent, createStore, sample} from "effector";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {DragEndEvent} from "@dnd-kit/core";
 import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
-import {$ourWaters, changeOurWatersOrderEvent} from "@/app/admin/promo/models/our_waters.model";
-import {ProductTableRow} from "@/types/dto/Table";
 
 type DayProduct = {
     productDayId: number
@@ -69,6 +67,11 @@ sample({
 
 sample({
     clock: deleteDayProductEvent,
+    source : $dayProducts,
+    fn : (products, dayProductId) => {
+        const productToDelete = products.find(item => item.productDayId === dayProductId)!!
+        return productToDelete.id
+    },
     target: deleteDayProductFx
 })
 
