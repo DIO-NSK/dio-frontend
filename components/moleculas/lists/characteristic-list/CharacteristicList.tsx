@@ -12,9 +12,11 @@ const Item = ({characteristic}: {
         "pb-[20px] border-b-2 border-light-gray"
     ]
 
+    const prefix = characteristic.valueName?.trim().length ? `, ${characteristic.valueName}` : ''
+
     return (
         <div className={cn(wrapperCV)}>
-            <Text text={`${characteristic.name}, ${characteristic.valueName}`}/>
+            <Text text={`${characteristic.name}${prefix}`}/>
             <Text text={characteristic.value}/>
         </div>
     )
@@ -26,11 +28,9 @@ const CharacteristicList = ({characteristics}: {
 }) => {
     return (
         <section className={"col-span-4 flex flex-col gap-[20px]"}>
-            {
-                characteristics.map((item) => {
-                    return <CharacteristicList.Item characteristic={item}/>
-                })
-            }
+            {characteristics.map((item) => {
+                return <CharacteristicList.Item characteristic={item}/>
+            })}
         </section>
     )
 }

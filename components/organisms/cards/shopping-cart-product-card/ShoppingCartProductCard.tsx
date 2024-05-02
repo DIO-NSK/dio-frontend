@@ -48,7 +48,7 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
                         text={`${card.quantity} шт.`}
                     />
                 }
-                <div className={"flex flex-row items-baseline gap-2"}>
+                <div className={"flex flex-col items-end"}>
                     <Text
                         className={"text-[22px] font-medium"}
                         text={`${(newPrice * amount).toFixed(2)} ₽`}

@@ -110,7 +110,7 @@ const ProductCardPage = ({params}: {
                 />
 
                 <div className={"col-span-4 flex flex-col gap-5 px-5 sm:px-0"}>
-                    <CharacteristicList characteristics={product.properties}/>
+                    <CharacteristicList characteristics={[...product.properties, ...product.extraProperties]}/>
                     <div className={"hidden sm:flex"}>
                         <DescriptionCol text={product.description}/>
                     </div>

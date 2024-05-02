@@ -80,10 +80,10 @@ const UserProfileSettingsPage = () => {
     return (
         <FormProvider {...methods}>
             <Snackbar
+                onClose={() => setRequestSuccess(undefined)}
+                open={requestSuccess !== undefined}
                 success={requestSuccess === true}
                 header={headerSnackbar}
-                open={requestSuccess !== undefined}
-                onClose={() => setRequestSuccess(undefined)}
             />
             <Form className={"w-full sm:col-span-9 flex flex-col gap-5"}>
                 <HeaderRow

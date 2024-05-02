@@ -6,7 +6,7 @@ import {CircularProgress} from "@mui/joy";
 
 const Button = (
     {
-        buttonType = "PRIMARY",
+        buttonType = "PRIMARY", hasSpinner = true,
         size = "md", disabled = false,
         ...props
     }: ButtonProps
@@ -28,7 +28,10 @@ const Button = (
         "sm:hover:duration-200 transition duration-200 pointer text-base",
         buttonTypeCV, buttonSizeCV, props.classNames?.button,
         {"bg-bg-light-blue text-text-gray border-2 border-light-gray": disabled},
+        {"sm:hover:bg-bg-light-blue sm:hover:text-text-gray sm:hover:border-2": disabled},
+        {"sm:hover:border-light-gray sm:hover:cursor-not-allowed" : disabled}
     ]
+
 
     return (
         <button
@@ -39,7 +42,7 @@ const Button = (
         >
             {props.icon}
             {props?.text}
-            {disabled && <CircularProgress variant={"soft"} size={"sm"}/>}
+            {disabled && hasSpinner && <CircularProgress variant={"soft"} size={"sm"}/>}
         </button>
     )
 

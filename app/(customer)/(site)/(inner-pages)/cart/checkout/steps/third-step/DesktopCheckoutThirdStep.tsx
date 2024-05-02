@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapper/BackgroundBlockWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useUnit} from "effector-react";
@@ -8,10 +8,13 @@ import {HeaderDescription} from "@/types/dto/text";
 import Text from "@/components/atoms/text/text-base/Text";
 import {
     $createOrderPending,
-    confirmOrderFx
+    $createOrderStatus,
+    createOrderEvent,
+    thirdStepDidMountEvent
 } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/third-step/model";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {useRouter} from "next/navigation";
+import {convertPhoneNumber} from "@/utlis/convertPhoneNumber";
 
 const CheckoutDataBlock = ({header, items}: { header: string, items: HeaderDescription[] }) => {
     return (
@@ -33,13 +36,13 @@ const DesktopCheckoutThirdStep = () => {
 
     const router = useRouter()
 
-    const [pending, createOrder, firstFormData, secondFormData]
-        = useUnit([$createOrderPending, confirmOrderFx, $checkoutFirstStepData, $checkoutSecondStepData])
+    const [resetRequestStatus, requestStatus, pending] = useUnit([thirdStepDidMountEvent, $createOrderStatus, $createOrderPending])
+    const [createOrder, firstFormData, secondFormData] = useUnit([createOrderEvent, $checkoutFirstStepData, $checkoutSecondStepData])
 
     const firstBlockData: HeaderDescription[] = [
         {header: "Имя", description: firstFormData.firstName},
         {header: "Фамилия", description: firstFormData.surname},
-        {header: "Телефон", description: firstFormData.phoneNumber},
+        {header: "Телефон", description: convertPhoneNumber(firstFormData.phoneNumber)},
         {header: "Почта", description: firstFormData.email},
     ]
 
@@ -57,29 +60,32 @@ const DesktopCheckoutThirdStep = () => {
         {header: "Время доставки", description: secondFormData.deliveryTime.name},
         {
             header: "Способ оплаты",
-            description: secondFormData.paymentMethod !== "CARD"
+            description: secondFormData.paymentMethod.value !== "CARD"
                 ? "Банковской картой онлайн"
                 : "Наличными или картой при получении"
         },
     ]
 
-    const [requestSuccess, setRequestSuccess] = useState<boolean | undefined>(undefined)
-    const headerSnackbar = requestSuccess ? "Заявка на звонок отправлена!" : "Произошла ошибка"
-    const messageSnackbar = requestSuccess ? "В скором времени с вами свяжется специалист" : "Заполните данные заново и попробуйте снова"
+    const headerSnackbar = requestStatus === true ? "Заявка на звонок отправлена!" : "Произошла ошибка"
+    const messageSnackbar = requestStatus === true ? "В скором времени с вами свяжется специалист" : "Заполните данные заново и попробуйте снова"
 
-    const handleConfirmOrder = () => createOrder()
-        .then(_ => setRequestSuccess(true))
-        .catch(_ => setRequestSuccess(false))
+    useEffect(() => {
+        resetRequestStatus()
+    }, []);
 
     return (
         <section className={"flex flex-col gap-7"}>
             <Snackbar
-                success={requestSuccess === true}
+                autoHide={false}
+                success={requestStatus === true}
                 header={headerSnackbar}
                 message={messageSnackbar}
-                action={() => router.back()}
-                open={requestSuccess !== undefined}
-                onClose={() => setRequestSuccess(undefined)}
+                open={requestStatus !== null}
+                onClose={resetRequestStatus}
+                action={() => {
+                    resetRequestStatus()
+                    router.back()
+                }}
             />
             <CheckoutDataBlock header={"Данные получателя"} items={firstBlockData}/>
             <CheckoutDataBlock header={"Адрес доставки"} items={secondBlockData}/>
@@ -87,7 +93,7 @@ const DesktopCheckoutThirdStep = () => {
             <Button
                 text={pending ? "Отправка.." : "Оформить заказ"}
                 classNames={{button: "sm:w-1/4 w-full"}}
-                onClick={handleConfirmOrder}
+                onClick={createOrder}
                 disabled={pending}
             />
         </section>

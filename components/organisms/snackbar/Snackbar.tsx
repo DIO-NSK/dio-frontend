@@ -11,15 +11,18 @@ type SnackbarProps = {
     header: string,
     onClose: () => void,
     message?: string,
-    action?: () => void
+    action?: () => void,
+    autoHide?: boolean,
 }
+
+const HIDE_DURATION = 3000
 
 const StyledSnackbar = styled(JoySnackbar)`
     display: flex;
     padding: 25px;
     margin-bottom: 20px;
     border-radius: 10px;
-    gap : 20px;
+    gap: 20px;
     font-family: inherit;
     flex-direction: row;
     align-items: center;
@@ -36,7 +39,7 @@ const ActionIcon = (props: SnackbarProps) => (
     />
 )
 
-const Snackbar = (props: SnackbarProps) => {
+const Snackbar = ({autoHide = true, ...props}: SnackbarProps) => {
 
     const textClassName = props.success ? "text-green-600" : "text-info-red"
 
@@ -47,6 +50,7 @@ const Snackbar = (props: SnackbarProps) => {
             endDecorator={<ActionIcon {...props}/>}
             color={props.success ? "success" : "danger"}
             anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+            autoHideDuration={autoHide ? HIDE_DURATION : null}
         >
             <section className={"flex flex-col"}>
                 <Text text={props.header} className={cn("text-lg font-medium", textClassName)}/>

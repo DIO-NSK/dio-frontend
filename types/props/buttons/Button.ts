@@ -8,6 +8,7 @@ export type ButtonProps = {
     buttonType?: ButtonType,
     size ?: ButtonSize,
     style ?: CSSProperties,
+    hasSpinner ?: boolean,
     disabled ?: boolean
 }
 

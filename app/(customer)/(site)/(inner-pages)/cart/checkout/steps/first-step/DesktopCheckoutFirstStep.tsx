@@ -94,11 +94,9 @@ const CheckoutDeliveryAddressBlock = () => {
 
     return (
         <React.Fragment>
-            {
-                isPopupVisible && <PickAddressPopup
-                    onClose={handleSwitchPopupState}
-                />
-            }
+            {isPopupVisible && <PickAddressPopup
+                onClose={handleSwitchPopupState}
+            />}
             <BackgroundBlockWrapper
                 header={"Адрес доставки"}
                 rightContent={
@@ -111,11 +109,9 @@ const CheckoutDeliveryAddressBlock = () => {
                     />
                 }
             >
-                {
-                    deliveryAddressInputs.map((input, key) =>
-                        <ControlledTextInput {...input} theme={"filled"} key={key}/>
-                    )
-                }
+                {deliveryAddressInputs.map((input, key) =>
+                    <ControlledTextInput {...input} theme={"filled"} key={key}/>
+                )}
             </BackgroundBlockWrapper>
         </React.Fragment>
     )
@@ -148,12 +144,28 @@ const DesktopCheckoutFirstStep = () => {
     useEffect(() => {
         reset({
             ...formData,
-            ...pickedUserAddress?.value,
             firstName: userCredentials?.fullName.split(" ")[0],
             surname: userCredentials?.fullName.split(" ")[1],
             phoneNumber: userCredentials?.phoneNumber
-        } as DefaultValues<CreateOrderDraftData>)
-    }, [formData, userCredentials, pickedUserAddress])
+        })
+    }, [formData, userCredentials])
+
+    useEffect(() => {
+        if (pickedUserAddress) {
+            reset({...pickedUserAddress?.value})
+        }
+    }, [pickedUserAddress]);
+
+    useEffect(() => {
+        if (userCredentials) {
+            reset({
+                ...formData,
+                firstName: userCredentials?.fullName.split(" ")[0],
+                surname: userCredentials?.fullName.split(" ")[1],
+                phoneNumber: userCredentials?.phoneNumber
+            })
+        }
+    }, []);
 
     return (
         <FormProvider {...methods}>

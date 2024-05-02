@@ -1,8 +1,9 @@
 import {api} from "@/api";
 import {CreateOrderData} from "@/schemas/customer/checkout/CreateOrderSchema";
-import {createEffect, createEvent, sample} from "effector";
+import {createEffect, createEvent, createStore, sample} from "effector";
 import {pending} from "patronum";
 import {$checkoutSecondStepData} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/second-step/model";
+import {getCartFx} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 type CreateOrderRequest = {
     orderId: number,
@@ -20,21 +21,34 @@ const createOrder = async (request: CreateOrderRequest) => {
 }
 
 const createOrderFx = createEffect<CreateOrderRequest, void, Error>(createOrder)
-export const confirmOrderFx = createEffect<void, void, Error>()
-export const $createOrderPending = pending([createOrderFx])
+export const createOrderEvent = createEvent<void>()
 
 sample({
-    clock: confirmOrderFx,
+    clock: createOrderEvent,
     source: $checkoutSecondStepData,
     fn: (data) => convertFormDataToRequest(data),
     target: createOrderFx
 })
 
+export const $createOrderPending = pending([createOrderFx])
+export const $createOrderStatus = createStore<boolean | null>(null)
+export const thirdStepDidMountEvent = createEvent<void>()
+
+sample({
+    clock : createOrderFx.doneData,
+    target : getCartFx
+})
+
+$createOrderStatus
+    .reset(thirdStepDidMountEvent)
+    .on(createOrderFx.doneData, () => true)
+    .on(createOrderFx.failData, () => false)
+
 const convertFormDataToRequest = (data: CreateOrderData): CreateOrderRequest => {
     return ({
         orderId: data.orderId,
         pickedProducts: data.pickedProducts,
-        paymentMethod: data.paymentMethod,
+        paymentMethod: data.paymentMethod.value,
         deliveryTime: data.deliveryTime.name,
         deliveryDate: data.deliveryDate.value,
         routeCode: +data.deliveryTime.value

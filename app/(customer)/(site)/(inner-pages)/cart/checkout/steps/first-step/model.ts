@@ -12,14 +12,14 @@ const createOrderDraft = async (formData: CreateOrderDraftData) => {
 }
 
 const getAddresses = async (): Promise<UserAddress[]> => getRequest("/order/address")
-const getAddressFx = createEffect<void, UserAddress[], Error>(getAddresses)
+
+export const getAddressFx = createEffect<void, UserAddress[], Error>(getAddresses)
 export const getAddressEvent = createEvent()
 
 export const $userAddress = createStore<SelectItem<UserAddress>[]>([])
 export const $activeUserAddress = createStore<SelectItem<UserAddress> | null>(null)
 export const selectUserAddressEvent = createEvent<SelectItem<UserAddress>>()
 
-$activeUserAddress.on(getAddressFx.doneData, (_, addresses) => toSelectItem(addresses[0]))
 $activeUserAddress.on(selectUserAddressEvent, (_, selectItem) => selectItem)
 
 export const createOrderDraftFx = createEffect<CreateOrderDraftData, number, Error>(createOrderDraft)

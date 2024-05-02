@@ -16,6 +16,7 @@ import {useRouter} from "next/navigation";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import QuestionMark from "@/components/atoms/svg/question-mark/QuestionMark";
+import EmptyPage from "@/components/organisms/empty-page/EmptyPage";
 
 type OrderFilters = "date" | "price" | "amount"
 
@@ -23,30 +24,6 @@ const noOrdersHeader = "Нет информации о заказах"
 const noOrdersMessage = "Похоже, что Вы еще не сделали ни одного заказа.\n" +
     "Чтобы сделать заказ, выберите продукты в каталоге\n" +
     "и оформите заказ в корзине."
-
-const EmptyOrderPage = () => {
-
-    const router = useRouter()
-    const handleGoToCart = () => router.push("/cart")
-    const handleGoToMain = () => router.push("/")
-
-    return (
-        <section className={"col-span-6 flex flex-row gap-12 rounded-xl p-10 bg-bg-light-blue"}>
-            <QuestionMark/>
-            <section className={"flex flex-col gap-7 w-full"}>
-                <div className={"flex flex-col gap-3 w-full"}>
-                    <Text text={noOrdersHeader} className={"sm:text-xl text-lg font-medium"}/>
-                    <Text text={noOrdersMessage} className={"sm:text-lg text-base text-text-gray"}/>
-                </div>
-                <div className={"flex flex-row gap-3"}>
-                    <Button text={"В корзину"} onClick={handleGoToCart}/>
-                    <Button text={"На главную"} onClick={handleGoToMain} buttonType={"SECONDARY"}/>
-                </div>
-            </section>
-        </section>
-    )
-
-}
 
 const UserProfileOrdersPage = () => {
 
@@ -92,7 +69,17 @@ const UserProfileOrdersPage = () => {
         }
     }, [activeItem.value, orders])
 
-    if (!sortedOrders?.length) return (<EmptyOrderPage/>)
+    if (!sortedOrders?.length) return (
+        <EmptyPage
+            header={noOrdersHeader}
+            description={noOrdersMessage}
+        >
+            <Button
+                text={"В корзину"}
+                onClick={() => navigation.push("/cart")}
+            />
+        </EmptyPage>
+    )
 
     if (sortedOrders?.length) return (
         <UserProfileWrapper>

@@ -41,20 +41,23 @@ const ShoppingCartTotalPriceCard = ({products, buttonText, onClick}: {
     return (
         <StickyCardWrapper startCol={"col-start-10"}>
             <div className={"border-b-2 border-light-gray"}>
-                {
-                    cardRows.map((row) =>
-                        <div className={cn(rowCV, "pb-5")}>
-                            <Text text={row.header} className={cn(textCV)}/>
-                            <Text text={row.data} className={cn(textCV)}/>
-                        </div>
-                    )
-                }
+                {cardRows.map((row) =>
+                    <div className={cn(rowCV, "pb-5")}>
+                        <Text text={row.header} className={cn(textCV)}/>
+                        <Text text={row.data} className={cn(textCV)}/>
+                    </div>
+                )}
             </div>
             <div className={cn(rowCV)}>
                 <Text text={"Итого"} className={cn(textCV)}/>
                 <Text text={`${totalPriceWithDiscount} ₽`} className={"text-[24px] font-medium text-link-blue"}/>
             </div>
-            <Button text={buttonText} onClick={onClick}/>
+            <Button
+                hasSpinner={false}
+                disabled={!products.length}
+                text={products.length ? buttonText : "Корзина пуста"}
+                onClick={onClick}
+            />
         </StickyCardWrapper>
     );
 

@@ -26,6 +26,7 @@ import {PaymentMethod} from "@/types/dto/user/order/PaymentMethod";
 import {$activeStep, setActiveStepEvent} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/model";
 import {desktopCheckoutSteps} from "@/data/deskstopCheckoutSteps";
 import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import ControlledMultiSelectButton from "@/components/atoms/buttons/multiselect-button/ControlledMultiSelectButton";
 
 const CheckoutTimeBlock = () => {
 
@@ -35,7 +36,7 @@ const CheckoutTimeBlock = () => {
         = useUnit([$orderId, $deliveryTimes, $deliveryDates, getDeliveryTimeEvent])
 
     const selectedTimeItems: SelectItem<string>[] = deliveryTimes.map(item => ({
-        name: item.deliveryTime,
+        name: `с ${item.deliveryTime.split('-')[0]}:00 по ${item.deliveryTime.split('-')[1]}:00`,
         value: item.routeCode.toString()
     }))
 
@@ -74,29 +75,18 @@ const CheckoutTimeBlock = () => {
 
 const CheckoutPaymentBlock = () => {
 
-    const {setValue} = useFormContext<CreateOrderData>()
-
     const multiselectElements: SelectItem<PaymentMethod>[] = [
         {name: window.screen.width < 640 ? "Картой" : "Банковской картой онлайн", value: "CARD"},
         {name: window.screen.width < 640 ? "Наличными" : "Наличными или картой при получении", value: "CASH"}
     ]
 
-    const [
-        activeElement,
-        setActiveElement
-    ] = useState<SelectItem<PaymentMethod>>(multiselectElements[0])
-
-    useEffect(() => {
-        setValue("paymentMethod", activeElement.value)
-    }, [activeElement])
-
     return (
         <div className={"w-full flex flex-col gap-3"}>
             <Text text={"Способ оплаты"} className={"text-lg font-medium"}/>
-            <MultiselectButton
-                activeElement={activeElement}
-                elements={multiselectElements}
-                selectElement={setActiveElement}
+            <ControlledMultiSelectButton
+                className={"h-[70px]"}
+                items={multiselectElements}
+                name={"paymentMethod"}
             />
         </div>
     )
@@ -152,6 +142,10 @@ const DesktopCheckoutSecondStep = () => {
             orderId
         } as DefaultValues<CreateOrderData>)
     }, [formData, orderId, cart])
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, []);
 
     if (orderId !== 0) return (
         <FormProvider {...methods}>

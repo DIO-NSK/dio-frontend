@@ -4,7 +4,7 @@ import {SelectInputSchema} from "@/schemas/dto/SelectInputSchema";
 
 export const CreateOrderSchema = z.object({
     orderId: z.number(),
-    paymentMethod: z.string().min(1, requiredFiledError),
+    paymentMethod: SelectInputSchema,
     deliveryDate: SelectInputSchema,
     deliveryTime: SelectInputSchema,
     pickedProducts : z.array(z.number()).optional()
