@@ -20,6 +20,10 @@ import {getDeliveryDateEvent} from "@/app/(customer)/(site)/(inner-pages)/cart/c
 import {$activeStep, setActiveStepEvent} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/model";
 import {desktopCheckoutSteps} from "@/data/deskstopCheckoutSteps";
 import {$userCredentials} from "@/app/(customer)/model";
+import {$orderToRepeat} from "@/app/(customer)/profile/orders/model";
+import {
+    convertOrderToFormData
+} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/DesktopCheckoutFirstStep.utils";
 
 const CheckoutUserDataBlock = () => {
 
@@ -119,7 +123,7 @@ const CheckoutDeliveryAddressBlock = () => {
 
 const DesktopCheckoutFirstStep = () => {
 
-    const pickedUserAddress = useUnit($activeUserAddress)
+    const [pickedUserAddress, orderToRepeat] = useUnit([$activeUserAddress, $orderToRepeat])
     const [formData, setFormData] = useUnit([$checkoutFirstStepData, setCheckoutFirstStepDataEvent])
     const [activeStep, setActiveStep] = useUnit([$activeStep, setActiveStepEvent])
     const [userCredentials, createOrderDraft, getDeliveryDate] = useUnit([$userCredentials, createOrderDraftFx, getDeliveryDateEvent])
@@ -157,15 +161,21 @@ const DesktopCheckoutFirstStep = () => {
     }, [pickedUserAddress]);
 
     useEffect(() => {
-        if (userCredentials) {
-            reset({
-                ...formData,
-                firstName: userCredentials?.fullName.split(" ")[0],
-                surname: userCredentials?.fullName.split(" ")[1],
-                phoneNumber: userCredentials?.phoneNumber
-            })
-        }
+        const convertedOrder = convertOrderToFormData(orderToRepeat)
+        reset({
+            ...formData,
+            firstName: userCredentials?.fullName.split(" ")[0],
+            surname: userCredentials?.fullName.split(" ")[1],
+            phoneNumber: userCredentials?.phoneNumber,
+            houseNumber: convertedOrder?.houseNumber,
+            flatNumber: convertedOrder?.flatNumber,
+            street: convertedOrder?.street
+        })
     }, []);
+
+    useEffect(() => {
+        console.log(orderToRepeat)
+    }, [orderToRepeat]);
 
     return (
         <FormProvider {...methods}>

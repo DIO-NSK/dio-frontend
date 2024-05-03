@@ -5,3 +5,8 @@ export const desktopCheckoutSteps: SelectItem<number>[] = [
     {name: "Дата и время доставки", value: 1},
     {name: "Подтверждение", value: 2}
 ]
+
+export const legalEntityCheckoutSteps : SelectItem<number>[] = [
+    {name : "Основная информация", value : 0},
+    {name : "Дополнительно", value : 1},
+]

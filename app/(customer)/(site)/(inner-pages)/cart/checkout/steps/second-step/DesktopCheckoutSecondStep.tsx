@@ -27,6 +27,7 @@ import {$activeStep, setActiveStepEvent} from "@/app/(customer)/(site)/(inner-pa
 import {desktopCheckoutSteps} from "@/data/deskstopCheckoutSteps";
 import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import ControlledMultiSelectButton from "@/components/atoms/buttons/multiselect-button/ControlledMultiSelectButton";
+import {$orderToRepeat} from "@/app/(customer)/profile/orders/model";
 
 const CheckoutTimeBlock = () => {
 
@@ -115,6 +116,7 @@ const CheckoutAdditionalBlock = () => {
 
 const DesktopCheckoutSecondStep = () => {
 
+    const orderToRepeat = useUnit($orderToRepeat)
     const [activeStep, setActiveStep] = useUnit([$activeStep, setActiveStepEvent])
 
     const [cart, orderId, formData, setFormData]
@@ -136,12 +138,18 @@ const DesktopCheckoutSecondStep = () => {
     }
 
     useEffect(() => {
+
+        const pickedProducts = orderToRepeat
+            ? orderToRepeat.items.map(i => i.productItemId)
+            : cart?.products.map(i => i.productItemId)
+
         reset({
             ...formData,
-            pickedProducts: cart?.products.map(i => i.productItemId),
+            pickedProducts: pickedProducts,
             orderId
         } as DefaultValues<CreateOrderData>)
-    }, [formData, orderId, cart])
+
+    }, [formData, orderId, cart, orderToRepeat])
 
     useEffect(() => {
         window.scrollTo(0, 0)

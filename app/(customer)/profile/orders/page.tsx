@@ -9,7 +9,7 @@ import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserP
 import {FiX} from "react-icons/fi";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 import {useUnit} from "effector-react";
-import {$orders, getOrdersEvent} from "@/app/(customer)/profile/orders/model";
+import {$orders, getOrdersEvent, selectOrderToRepeatEvent} from "@/app/(customer)/profile/orders/model";
 import {ProfileOrderItem} from "@/types/dto/user/order/ResponseProfileOrder";
 import {useRouter} from "next/navigation";
 

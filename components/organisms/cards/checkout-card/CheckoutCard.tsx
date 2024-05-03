@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     ResponseCartItem,
     ResponseUserCart
@@ -8,8 +8,11 @@ import Text from "@/components/atoms/text/text-base/Text";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
 import {useToggle} from "@/utlis/hooks/useToggle";
 import {HeaderDescription} from "@/types/dto/text";
+import {useUnit} from "effector-react";
+import {$orderToRepeat} from "@/app/(customer)/profile/orders/model";
+import {ProfileOrderItem} from "@/types/dto/user/order/ResponseProfileOrder";
 
-const CheckoutCardItem = ({productItem}: { productItem: ResponseCartItem }) => {
+const CheckoutCardItem = ({productItem}: { productItem: ResponseCartItem | ProfileOrderItem}) => {
 
     const discountPrice = 0.01 * productItem.discountPercent * productItem.price
     const newPrice = discountPrice === 0 ? productItem.price : productItem.price - discountPrice
@@ -44,11 +47,12 @@ const CheckoutCardItem = ({productItem}: { productItem: ResponseCartItem }) => {
 
 const CheckoutCard = ({cart} : {cart : ResponseUserCart}) => {
 
+    const orderToRepeat = useUnit($orderToRepeat)
     const expanded = useToggle(true)
 
-    const totalDiscount = cart?.products
+    const totalDiscount = (orderToRepeat?.items ?? cart?.products)
         .reduce((acc, item) => acc + 0.01 * item.price * item.discountPercent * item.quantity, 0)
-    const totalPriceWithoutDiscount = cart?.products
+    const totalPriceWithoutDiscount = (orderToRepeat?.items ?? cart?.products)
         .reduce((acc, item) => acc + item.price * item.quantity, 0)
 
     const totalData: HeaderDescription[] = [
@@ -59,13 +63,13 @@ const CheckoutCard = ({cart} : {cart : ResponseUserCart}) => {
     return (
         <StickyCardWrapper startCol={"col-start-10"}>
             <div className={"pb-5 flex flex-row items-center justify-between border-b-2 border-light-gray"}>
-                <Text text={`Выбрано ${cart.products.length} шт.`}/>
+                <Text text={`Выбрано ${(orderToRepeat?.items ?? cart.products).length} шт.`}/>
                 <ChevronButton isExpanded={expanded.state} setExpanded={expanded.toggleState}/>
             </div>
             {
                 expanded.state && <section className={"flex -mt-5 flex-col gap-4 divide-y divide-light-gray"}>
                     {
-                        cart.products.map((productItem, key) => (
+                        (orderToRepeat?.items ?? cart.products).map((productItem, key) => (
                             <CheckoutCardItem productItem={productItem} key={key}/>
                         ))
                     }

@@ -12,6 +12,9 @@ import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButt
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
 import {ResponseProfileOrder} from "@/types/dto/user/order/ResponseProfileOrder";
 import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {useUnit} from "effector-react";
+import {selectOrderToRepeatEvent} from "@/app/(customer)/profile/orders/model";
+import {useRouter} from "next/navigation";
 
 const HeaderRow = ({order}: { order: ResponseProfileOrder }) => {
 
@@ -78,14 +81,21 @@ const InformationBlock = ({order}: { order: ResponseProfileOrder }) => {
 
 }
 
-const Footer = ({canRepeat, isOpen, setOpen}: {
+const Footer = ({canRepeat, isOpen, setOpen, order}: {
     canRepeat: boolean,
     isOpen: boolean,
-    setOpen: (isOpen: boolean) => void
+    setOpen: (isOpen: boolean) => void,
+    order: ResponseProfileOrder
 }) => {
 
+    const selectOrderToRepeat = useUnit(selectOrderToRepeatEvent)
+
+    const router = useRouter()
     const handleOpenState = () => setOpen(!isOpen)
-    const handleRepeatOrder = () => console.log("Repeated")
+    const handleRepeatOrder = () => {
+        selectOrderToRepeat(order)
+        router.push('/cart/checkout')
+    }
 
     return (
         <div className={"w-full flex flex-row items-center justify-between"}>
@@ -145,7 +155,12 @@ const OrderCard = ({canRepeat = true, theme = "outlined", ...props}: OrderCardPr
             <OrderCard.HeaderRow {...props} />
             <OrderCard.InformationBlock {...props} />
             {isOpen && <OrderCard.Content {...props}/>}
-            <OrderCard.Footer isOpen={isOpen} setOpen={setOpen} canRepeat={canRepeat}/>
+            <OrderCard.Footer
+                order={props.order}
+                isOpen={isOpen}
+                setOpen={setOpen}
+                canRepeat={canRepeat}
+            />
         </div>
     );
 

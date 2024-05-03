@@ -27,7 +27,7 @@ export const CreateProductSchema = z.object({
         .optional(),
     isProductOfTheDay: z.boolean(),
     filledProperties: z.array(CategoryPropertySchema),
-    externalProperties: z.array(ExternalPropertySchema),
+    externalProperties: z.array(ExternalPropertySchema).optional(),
     photos: z.array(z.custom<File>((v) => v instanceof File).or(z.string())),
     isInvisible: z.boolean().optional()
 })

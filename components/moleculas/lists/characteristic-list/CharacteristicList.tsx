@@ -28,7 +28,7 @@ const CharacteristicList = ({characteristics}: {
 }) => {
     return (
         <section className={"col-span-4 flex flex-col gap-[20px]"}>
-            {characteristics.map((item) => {
+            {characteristics.slice(0, 5).map((item) => {
                 return <CharacteristicList.Item characteristic={item}/>
             })}
         </section>

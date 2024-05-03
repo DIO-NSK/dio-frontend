@@ -10,9 +10,15 @@ import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
 import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserProfileWrapper";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 import {useUnit} from "effector-react";
-import {$orders, getOrdersEvent} from "@/app/(customer)/profile/orders/model";
+import {
+    $orders,
+    getOrdersEvent,
+    resetOrderToRepeatEvent,
+    selectOrderToRepeatEvent
+} from "@/app/(customer)/profile/orders/model";
 import {useEffect} from "react";
 import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
+import {useRouter} from "next/navigation";
 
 const MainInformationBlock = () => {
 
@@ -37,13 +43,19 @@ const MainInformationBlock = () => {
 
 const LastOrderBlock = () => {
 
+    const router = useRouter()
+    const [resetOrderToRepeat, selectOrderToRepeat] = useUnit([resetOrderToRepeatEvent, selectOrderToRepeatEvent])
     const [orders, getOrders] = useUnit([$orders, getOrdersEvent])
 
     useEffect(() => {
+        resetOrderToRepeat()
         getOrders()
     }, [])
 
-    const handleRepeatOrder = () => console.log("Repeat order")
+    const handleRepeatOrder = () => {
+        selectOrderToRepeat(orders.at(-1)!!)
+        router.push('/cart/checkout')
+    }
 
     if (orders?.length !== 0) return (
         <div className={"w-full flex flex-col gap-4"}>

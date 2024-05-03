@@ -121,11 +121,11 @@ const ProductCardPage = ({params}: {
                 <div className={"hidden sm:flex sm:col-span-9 sm:h-[2px] sm:bg-light-gray"}/>
 
                 <HeaderBlock header={"Описание товара"}>
-                    <DescriptionCol text={product.description}/>
+                    <DescriptionCol maxSymbols={500} text={product.description}/>
                 </HeaderBlock>
 
                 <HeaderBlock header={"Характеристики товара"}>
-                    <CharacteristicList characteristics={product.properties}/>
+                    <CharacteristicList characteristics={[...product.properties, ...product.extraProperties]}/>
                 </HeaderBlock>
 
             </InnerPageWrapper>

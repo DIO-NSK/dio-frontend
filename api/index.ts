@@ -28,7 +28,7 @@ api.interceptors.request.use(config => {
 
 api.interceptors.response.use(config => config, async (error) => {
     const originalRequest = error.config
-    if (error.response.status === 403 && !originalRequest._retry) {
+    if ((error.response.status === 403 || error.response.status === 401) && !originalRequest._retry) {
         originalRequest._retry = true
         const response = await axios.put(
             `${BASE_URL}/user/refresh`,
