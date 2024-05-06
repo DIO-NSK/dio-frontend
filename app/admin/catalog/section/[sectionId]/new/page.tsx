@@ -38,7 +38,7 @@ const AdminPanelNewCategoryPage = ({params}: {
                 {...defaultCharacteristicData, sequenceNumber: 2},
             ]
         },
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {

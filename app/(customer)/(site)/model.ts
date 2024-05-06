@@ -92,3 +92,23 @@ sample({
 
 $userPromotions.on(getUserPromotionsFx.doneData, (_, promotions) => promotions)
 //endregion
+
+//region getSaleProducts
+
+const getSaleProducts = async () : Promise<ResponseProductSearch[]> => {
+    return unauthorizedApi.get('/catalogue/product/filter?filterMap=discountPercent=0')
+        .then(response => response.data)
+        .catch(error => {throw Error(error.response.data.message)})
+}
+
+const getSaleProductsFx = createEffect<void, ResponseProductSearch[], Error>(getSaleProducts)
+export const getSaleProductsEvent = createEvent<void>()
+
+sample({
+    clock : getSaleProductsEvent,
+    target : getSaleProductsFx
+})
+
+export const $saleProducts = createStore<ResponseProductSearch[]>([])
+
+$saleProducts.on(getSaleProductsFx.doneData, (_, products) => products)

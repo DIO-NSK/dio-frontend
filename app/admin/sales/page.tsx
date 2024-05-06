@@ -9,17 +9,73 @@ import {
 } from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
 import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
 import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useUnit} from "effector-react";
-import {$sales, changeSalesOrderEvent, changeSalesRowOrder, getSalesEvent} from "@/app/admin/sales/model";
+import {
+    $sales,
+    changeSalesOrderEvent,
+    changeSalesRowOrder, deleteSaleFx,
+    getSalesEvent,
+    ResponseShortSale
+} from "@/app/admin/sales/model";
+import AdminPanelSaveDiscardChangesRow
+    from "@/components/organisms/rows/admin-panel-save-discard-changes-row/AdminPanelSaveDiscardChangesRow";
+import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
+import {AdminSale} from "@/types/dto/AdminSale";
+import {ProductTableRow} from "@/types/dto/Table";
+import {usePathname, useRouter} from "next/navigation";
+import DeletePopup from "@/components/organisms/popups/admin/delete-popup/DeletePopup";
+import {PopupProps} from "@/types/props/Popup";
+import Text from "@/components/atoms/text/text-base/Text";
+import TextInput from "@/components/atoms/inputs/text-input/TextInput";
+import Button from "@/components/atoms/buttons/button/Button";
+import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
+
+type DeleteAdminSalePopupProps = {
+    tableRow: ProductTableRow<ResponseShortSale>
+} & PopupProps
+
+const DeleteAminSalePopup = (props: DeleteAdminSalePopupProps) => {
+
+    const deleteSale = useUnit(deleteSaleFx)
+    const handleDeleteSale = () => deleteSale(props.tableRow.id).then(props.onClose)
+
+    return (
+        <PopupWrapper placement={"center"} {...props}>
+            <div className={"w-[500px] flex flex-col gap-5"}>
+
+                <div className={"flex flex-row items-baseline gap-3"}>
+                    <Text text={"Удалить акцию"} className={"text-[20px] font-medium"}/>
+                    <Text text={props.tableRow.item.name} className={"text-text-gray"}/>
+                </div>
+
+                <Text text={"Предупреждаем, это действие невозможно отменить."}/>
+
+                <Button
+                    classNames={{button: "bg-info-red sm:hover:bg-red-700"}}
+                    onClick={handleDeleteSale}
+                    text={"Я понимаю и хочу удалить акцию"}
+                />
+
+            </div>
+        </PopupWrapper>
+    )
+
+}
 
 const AdminPanelSalesPage = () => {
 
-    const [changeOrder, saveChanges] = useUnit([changeSalesRowOrder, changeSalesOrderEvent])
+    const router = useRouter()
+    const pathname = usePathname()
+
+    const changeOrder = useUnit(changeSalesRowOrder)
     const [sales, getSales] = useUnit([$sales, getSalesEvent])
 
     const headerContext = useAdminPanelHeaderButtonRow()
-    const editableContext = useAdminPanelHeaderRow()
+
+    const [saleIdToDelete, setSaleIdToDelete] = useState<ProductTableRow<ResponseShortSale> | null>(null)
+
+    const handleEditSale = (tableRow: ProductTableRow<ResponseShortSale>) => router.push(pathname.concat(`/${tableRow.id}/edit`))
 
     useEffect(() => {
         getSales()
@@ -27,26 +83,27 @@ const AdminPanelSalesPage = () => {
 
     return (
         <React.Fragment>
+            {saleIdToDelete && <DeleteAminSalePopup
+                onClose={() => setSaleIdToDelete(null)}
+                tableRow={saleIdToDelete}
+            />}
             <AdminPanelHeaderButtonRow
                 searchInputOnChange={headerContext.searchbar.setSearchValue}
                 searchInputValue={headerContext.searchbar.searchValue}
                 onAddNewItem={headerContext.handleAddItem}
             />
-            <AdminPanelHeaderRow
+            <HeaderRow
+                className={"w-full"}
+                theme={"bordered"}
                 header={"Акции"}
-                isEditable={editableContext.isEditable}
-                onChange={editableContext.handleSwitchEditable}
-                onSaveChanges={saveChanges}
-                onCancelChanges={getSales}
             />
             <ProductContentTable
                 onDragEnd={changeOrder}
-                isDraggable={editableContext.isEditable}
                 tableHeader={salesTableHeader}
                 tableContent={sales}
-                onProductClick={(product) => console.log(product)}
-                onDelete={(product) => console.log(product)}
-                onEdit={(product) => console.log(product)}
+                onDelete={(productRow) => setSaleIdToDelete(productRow as ProductTableRow<ResponseShortSale>)}
+                onEdit={(productRow) => handleEditSale(productRow as ProductTableRow<ResponseShortSale>)}
+                isDraggable={true}
             />
         </React.Fragment>
     );

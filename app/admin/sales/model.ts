@@ -27,6 +27,14 @@ const changeSalesOrder = async (ids : {id : number}[]) => {
         .catch(error => {throw Error(error.response.data.message)})
 }
 
+const deleteSale = async (id : number) => {
+    return api.delete('admin/catalogue/promo', {params : {id : id}})
+        .then(response => response.data)
+        .catch(error => {throw Error(error.response.data.message)})
+}
+
+export const deleteSaleFx = createEffect(deleteSale)
+
 const changeSalesOrderFx = createEffect<{id : number}[], void, Error>(changeSalesOrder)
 export const changeSalesOrderEvent = createEvent<void>()
 
@@ -41,14 +49,14 @@ $sales
     .on(changeSalesRowOrder, (sales, event) => handleDragEnd(event, sales))
 
 sample({
-    clock : changeSalesOrderEvent,
+    clock : changeSalesRowOrder,
     source: $sales,
     fn : (sales) => sales.map(item => ({id : item.id})),
     target : changeSalesOrderFx
 })
 
 sample({
-    clock: [getSalesEvent, changeSalesOrderFx.doneData],
+    clock: [getSalesEvent, changeSalesOrderFx.doneData, deleteSaleFx.doneData],
     target: getSalesFx
 })
 

@@ -10,5 +10,6 @@ export type ResponseProduct = {
     extraProperties: ProductCharacteristic[],
     discountPercent : number,
     price: number,
+    inStock: boolean,
     photos: string[]
 }

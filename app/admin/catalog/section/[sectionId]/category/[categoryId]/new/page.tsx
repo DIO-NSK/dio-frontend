@@ -6,13 +6,14 @@ import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-phot
 import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import Button from "@/components/atoms/buttons/button/Button";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {CreateProductData, CreateProductSchema} from "@/schemas/admin/CreateProductSchema";
+import {CreateProductData, CreateProductSchema, priceTypeItems} from "@/schemas/admin/CreateProductSchema";
 import {DefaultValues, FieldName, FieldValues, FormProvider, useForm, useFormContext} from "react-hook-form";
 import Form from "@/components/atoms/form/Form";
 import ControlledSwitch from "@/components/atoms/switch/ControlledSwitch";
 import {useUnit} from "effector-react";
 import {useRouter} from "next/navigation";
 import {
+    $categoryProperties,
     $createProductError,
     $isProductDetailsLoading,
     $productDetails,
@@ -62,7 +63,9 @@ const CreateProductFirstStep = () => {
         const fieldNames: FieldName<CreateProductData>[] = ["crmCode", "crmGroup"]
         const fieldValues = getValues(fieldNames)
         const params: GetProductDetailsParams = {crmCode: fieldValues[0], crmGroup: fieldValues[1]}
-        if (await trigger(fieldNames)) getProductDetails(params)
+        if (await trigger(fieldNames)) {
+            getProductDetails(params)
+        }
     }
 
     useEffect(() => {
@@ -100,6 +103,7 @@ const CreateProductSecondStep = ({categoryId}: {
 }) => {
 
     const router = useRouter()
+    const filledProperties = useUnit($categoryProperties)
     const [createProduct, createError, getCategoryProperties, productDetails]
         = useUnit([createProductFx, $createProductError, getCategoryPropertiesEvent, $productDetails])
 
@@ -107,7 +111,7 @@ const CreateProductSecondStep = ({categoryId}: {
 
     const {
         handleSubmit,
-        formState: {isSubmitting},
+        formState: {isSubmitting, errors},
         reset, watch
     } = useFormContext<CreateProductData>()
 
@@ -124,8 +128,11 @@ const CreateProductSecondStep = ({categoryId}: {
     }, [])
 
     useEffect(() => {
+        reset()
         reset({
             ...productDetails,
+            photos: [],
+            filledProperties: filledProperties,
             price: productDetails?.price,
             taxPercent: productDetails?.taxPercent
         } as DefaultValues<CreateProductData>)

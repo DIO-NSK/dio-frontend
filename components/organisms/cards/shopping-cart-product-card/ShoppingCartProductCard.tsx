@@ -13,6 +13,8 @@ import {useUnit} from "effector-react";
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useCounter} from "@/utlis/hooks/product/useCounter";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
+import Chip from "@/components/atoms/chip/Chip";
+import Link from "next/link";
 
 type ShoppingCartProductCardProps = {
     card: ResponseCartItem,
@@ -34,7 +36,12 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
 
     return (
         <div className={"hidden w-full sm:flex flex-row items-center justify-between"}>
-            <Text text={card.name} className={"max-w-[400px] text-base font-medium"}/>
+            <div className={"flex flex-col gap-2"}>
+                {!card.inStock && <Chip className={"bg-gray-100"}>
+                    <Text text={"Нет в наличии"} className={"text-xs uppercase text-text-gray"}/>
+                </Chip>}
+                <Text text={card.name} className={"max-w-[400px] text-base font-medium"}/>
+            </div>
             <div className={"flex flex-row items-center gap-7"}>
                 {
                     canInteract ? <React.Fragment>
@@ -95,7 +102,9 @@ const ShoppingCartProductCard = (props: ShoppingCartProductCardProps) => {
 
     return (
         <div className={"w-full flex flex-row gap-3 sm:gap-5"}>
-            <img src={props.card.mainImage as string} alt={"/"} className={cn(imageCV)}/>
+            <Link href={`/product/${props.card.productId}`} target={'_blank'} rel={'noopener noferrer'}>
+                <img src={props.card.mainImage as string} alt={"/"} className={cn(imageCV)}/>
+            </Link>
             <div className={"w-full flex flex-col"}>
                 <HeaderRow {...props}/>
                 <MobileHeaderRow {...props}/>

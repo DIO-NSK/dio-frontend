@@ -23,7 +23,7 @@ type CheckoutFormProps = {
 const CheckoutForm = (props: CheckoutFormProps) => {
 
     const methods = useForm<CheckoutFormData>({
-        mode: "onBlur",
+        mode: "onSubmit",
         resolver: zodResolver(CheckoutFormSchema),
         defaultValues: getFormDataFromStorage("checkoutForm"),
     })

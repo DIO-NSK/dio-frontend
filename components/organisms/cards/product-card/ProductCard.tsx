@@ -30,11 +30,11 @@ const ProductCard = ({productCard, classNames}: {
     const [isInCart, onBuyClick] = useBuyButton(productCard.inCart, productCard.id)
     const [newPrice, price] = useDiscount(productCard.price, productCard.discountPercent)
 
-    const buttonText = isInCart ? "В корзине" : "В корзину"
+    const buttonText = productCard.inStock ? isInCart ? "В корзине" : "В корзину" : "Нет в наличии"
     const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
 
     const wrapperCV: ClassValue[] = [
-        "w-[70vw] sm:w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
+        "w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
         "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover:shadow-lg sm:hover:shadow-gray-200/50 sm:hover:scale-[1.01] sm:hoverable pointer",
         "border-2 border-light-gray sm:border-0 relative", classNames?.mainWrapper
     ]
@@ -71,12 +71,10 @@ const ProductCard = ({productCard, classNames}: {
                 </div>
                 <div className={"w-full flex flex-row items-center justify-between"}>
                     <div className={"sm:hidden flex flex-col"}>
-                        {
-                            productCard.discountPercent !== 0 && <Text
-                                text={price.toFixed(2) + " ₽"}
-                                className={"text-sm text-text-gray line-through"}
-                            />
-                        }
+                        {productCard.discountPercent !== 0 && <Text
+                            text={price.toFixed(2) + " ₽"}
+                            className={"text-sm text-text-gray line-through"}
+                        />}
                         <Text
                             text={newPrice.toFixed(2) + " ₽"}
                             className={"text-[20px] sm:text-[24px] font-semibold text-link-blue"}
@@ -84,8 +82,10 @@ const ProductCard = ({productCard, classNames}: {
                     </div>
                     <div className={"flex flex-row items-center gap-4 sm:gap-5"}>
                         <Button
+                            hasSpinner={false}
                             classNames={{button: "hidden sm:flex"}}
                             buttonType={isInCart ? "PRIMARY" : "SECONDARY"}
+                            disabled={!productCard.inStock}
                             text={buttonText}
                             onClick={onBuyClick}
                             icon={buttonIcon}
@@ -101,15 +101,27 @@ const ProductCard = ({productCard, classNames}: {
                     </div>
                 </div>
             </div>
-            {
-                productCard.discountPercent !== 0 &&
-                <div className={"absolute left-5 top-5 z-10 px-3 py-2 rounded-lg bg-green-500"}>
-                    <Text
-                        text={`Скидка ${productCard.discountPercent} %`}
-                        className={"uppercase text-[12px] font-medium text-white"}
-                    />
-                </div>
-            }
+            <div className={"absolute left-5 top-5 z-10 flex flex-row gap-2"}>
+                {
+                    productCard.discountPercent !== 0 &&
+                    <div className={"px-3 py-2 rounded-lg bg-green-500"}>
+                        <Text
+                            text={`Скидка ${productCard.discountPercent} %`}
+                            className={"uppercase text-[12px] font-medium text-white"}
+                        />
+                    </div>
+                }
+                {
+                    !productCard.inStock &&
+                    <div className={"px-3 py-2 rounded-lg bg-gray-100"}>
+                        <Text
+                            className={"uppercase text-[12px] font-medium text-text-gray"}
+                            text={"Нет в наличии"}
+                        />
+                    </div>
+                }
+            </div>
+
         </div>
     )
 }

@@ -15,6 +15,8 @@ export type RequestAdminProduct = {
     crmGroup : string,
     crmCode : string,
     price : string,
+    pricePackage ?: string,
+    inPackage ?: boolean,
     taxPercent : string,
     discountPercent : number,
     isProductOfTheDay : boolean,

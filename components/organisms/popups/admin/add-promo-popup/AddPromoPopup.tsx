@@ -45,7 +45,7 @@ const AddPromoPopup = (props: PopupProps) => {
 
     const methods = useForm<CreateBannerData>({
         resolver: zodResolver(CreateBannerSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {watch, reset} = methods

@@ -13,6 +13,7 @@ import {type Swiper as SwiperRef} from 'swiper'
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import 'swiper/css';
+
 import SlideButton from "@/components/atoms/buttons/slide-button/SlideButton";
 import {Side} from "@/data/enums/side";
 import {AUTOPLAY_DELAY, DESKTOP_SLIDES_PER_VIEW, MOBILE_SLIDES_PER_VIEW} from "@/constants/swiper";
@@ -36,10 +37,6 @@ const SliderGroup = (
     const isInitEnd = React.Children.count(props.children) <= desktopSlidesPerView
     const [isBegin, setBegin] = useState<boolean>(true)
     const [isEnd, setEnd] = useState<boolean>(isInitEnd)
-
-    const isMobile = false
-    const slidesPerView = isMobile ? mobileSlidesPerView : desktopSlidesPerView
-    const spacing = isMobile ? 12 : 20
 
     useEffect(() => {
         if (swiperRef.current) {
@@ -78,25 +75,29 @@ const SliderGroup = (
                     />
                 </div>
             </div>
-            <Swiper
-                grabCursor={true}
-                onSwiper={(swiper) => {
-                    swiperRef.current = swiper
-                }}
-                className={"active:cursor-grab hidden w-full sm:col-span-full sm:flex"}
-                spaceBetween={spacing}
-                slidesPerView={slidesPerView}
-                modules={[Navigation, Autoplay, Scrollbar]}
-                autoplay={{
-                    delay: AUTOPLAY_DELAY,
-                    pauseOnMouseEnter: true,
-                }}
-            >
-                {React.Children.map(props.children, (child, index) => (
-                    <SwiperSlide key={index}>{child}</SwiperSlide>
-                ))}
-            </Swiper>
-            <MobileSliderWrapper>{props.children}</MobileSliderWrapper>
+            <section className={"hidden sm:flex w-full"}>
+                <Swiper
+                    grabCursor={true}
+                    onSwiper={(swiper) => {
+                        swiperRef.current = swiper
+                    }}
+                    className={"active:cursor-grab hidden w-full sm:col-span-full sm:flex"}
+                    spaceBetween={20}
+                    slidesPerView={desktopSlidesPerView}
+                    modules={[Navigation, Autoplay, Scrollbar]}
+                    autoplay={{
+                        delay: AUTOPLAY_DELAY,
+                        pauseOnMouseEnter: true,
+                    }}
+                >
+                    {React.Children.map(props.children, (child, index) => (
+                        <SwiperSlide key={index}>{child}</SwiperSlide>
+                    ))}
+                </Swiper>
+            </section>
+            <section className={"sm:hidden flex w-full ml-5"}>
+                <MobileSliderWrapper>{props.children}</MobileSliderWrapper>
+            </section>
         </section>
     )
 }

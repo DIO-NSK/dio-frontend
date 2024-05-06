@@ -5,7 +5,7 @@ import {ClassValue} from "clsx";
 const TabBarItem = (props: TabBarItemProps) => {
 
     const wrapperCV: ClassValue[] = [
-        "w-full flex flex-row text-start gap-3 px-4 py-4 text-base rounded-xl",
+        "w-full flex flex-row items-center text-start gap-3 px-4 py-4 text-base rounded-xl",
         "hoverable pointer hover:bg-bg-light-blue",
         {
             "bg-bg-light-blue text-link-blue": props.isActive,

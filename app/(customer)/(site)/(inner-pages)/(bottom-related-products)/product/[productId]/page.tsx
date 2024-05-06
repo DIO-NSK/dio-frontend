@@ -26,6 +26,7 @@ import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import Loading from "@/components/mobile/loading/Loading";
+import Chip from "@/components/atoms/chip/Chip";
 
 const MobileHeaderRow = ({product}: {
     product: ResponseProduct
@@ -94,7 +95,27 @@ const ProductCardPage = ({params}: {
 
                 <div className={"col-span-full flex flex-col gap-2 -mb-7"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
-                    <Text text={product.name} className={"text-2xl font-medium"}/>
+                    <div className={"flex flex-col gap-3"}>
+                        <Text text={product.name} className={"text-2xl font-medium"}/>
+                        <div className={"flex flex-row items-center gap-3"}>
+                            {
+                                product.discountPercent !== 0 && <Chip className={"bg-green-500"}>
+                                    <Text
+                                        className={"text-sm uppercase text-white font-medium"}
+                                        text={`Скидка ${product.discountPercent}%`}
+                                    />
+                                </Chip>
+                            }
+                            {
+                                !product.inStock && <Chip className={"bg-gray-100"}>
+                                    <Text
+                                        className={"text-sm uppercase text-text-gray"}
+                                        text={"Нет в наличии"}
+                                    />
+                                </Chip>
+                            }
+                        </div>
+                    </div>
                 </div>
 
                 <div onClick={popupToggle.toggleState}>

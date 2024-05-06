@@ -16,23 +16,24 @@ import BonusCard from "@/components/organisms/cards/bonus-card/BonusCard";
 import WaveHeaderWrapper from "@/components/wrappers/wave-header-wrapper/WaveHeaderWrapper";
 import {ContentImage} from "@/components/organisms/cards/fullwidth-main-card/content-image/ContentImage";
 import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/WaterCoolerBlock";
-import {mockCardArray} from "@/data/productCardData";
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
 import React, {useEffect} from "react";
 import AdvantagesBlock from "@/components/organisms/blocks/advantages-block/AdvantagesBlock";
 import {useUnit} from "effector-react";
 import {
+    $saleProducts,
     $userBanners,
     $userOurWaters,
-    $userPromotions, getBannersEvent,
+    $userPromotions,
+    getBannersEvent,
+    getSaleProductsEvent,
     getUserOurWatersEvent,
     getUserPromotionsEvent
 } from "@/app/(customer)/(site)/model";
 import {TextLink} from "@/types/dto/text";
 import {HandshakeIcon, MicroscopeIcon, PencilRulerIcon, PercentIcon, StethoscopeIcon, WrenchIcon} from "lucide-react";
 import {cn} from "@/utlis/cn";
-import {$banners} from "@/app/admin/promo/models/banner.model";
 import Loading from "@/components/mobile/loading/Loading";
 
 const ICON_SIZE = 28
@@ -46,14 +47,16 @@ const productCardCV = {
 
 const MainPageScreen = () => {
 
+    const [saleProducts, getSaleProducts] = useUnit([$saleProducts, getSaleProductsEvent])
     const [ourWaters, getOurWaters] = useUnit([$userOurWaters, getUserOurWatersEvent])
     const [promotions, getPromotions] = useUnit([$userPromotions, getUserPromotionsEvent])
     const [banners, getBanners] = useUnit([$userBanners, getBannersEvent])
 
     useEffect(() => {
-        getOurWaters()
-        getPromotions()
         getBanners()
+        getPromotions()
+        getSaleProducts()
+        getOurWaters()
     }, []);
 
     const mainServiceCards: (TextLink & { icon: React.ReactNode })[] = [
@@ -99,13 +102,14 @@ const MainPageScreen = () => {
                 <MobilePhotoSlider/>
                 <HeroSliderRow/>
                 <SliderGroup id={"sale"} header={"Товары по акции"}>
-                    {mockCardArray.map((productCard, key) => (
-                        <ProductCard
-                            classNames={productCardCV}
-                            productCard={productCard}
-                            key={key}
-                        />
-                    ))}
+                    {saleProducts.filter(prod => prod.discountPercent !== 0)
+                        .map((productCard, key) => (
+                            <ProductCard
+                                classNames={productCardCV}
+                                productCard={productCard}
+                                key={key}
+                            />
+                        ))}
                 </SliderGroup>
                 <section className={"w-full hidden sm:flex"}>
                     <SliderGroup header={"Наши воды"}>

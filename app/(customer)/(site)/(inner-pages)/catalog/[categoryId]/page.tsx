@@ -58,7 +58,7 @@ const DesktopCatalogScreen = ({categoryId, onOpenPopup}: { categoryId: number, o
                         size={"sm"}
                     />
                     <PageContentWrapper>
-                        {cart && products.map((card) => {
+                        {products.map((card) => {
                             return <ProductCard
                                 classNames={{mainWrapper: "w-full", textWrapper: "min-h-0"}}
                                 productCard={card}

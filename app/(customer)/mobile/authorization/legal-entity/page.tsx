@@ -71,7 +71,7 @@ const MobileLegalEntityPage = () => {
 
     const methods = useForm<LegalEntityData>({
         resolver: zodResolver(LegalEntitySchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const onSubmit = (_ : LegalEntityData) => navigation.push("/")

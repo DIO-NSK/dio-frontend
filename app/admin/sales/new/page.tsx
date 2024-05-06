@@ -14,7 +14,7 @@ import {useUnit} from "effector-react";
 import {
     $productDetails,
     getProductDetailsEvent,
-    GetProductDetailsParams
+    GetProductDetailsParams, newProductPageDidMountEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
 import {CreateProductData} from "@/schemas/admin/CreateProductSchema";
 import dayjs from "dayjs";
@@ -94,6 +94,7 @@ const SecondInputRow = () => {
 const AdminPanelNewSaleSecondBlock = () => {
 
     const [saleDetails, createSale] = useUnit([$productDetails, createSaleEvent])
+    const pageDidMount = useUnit(newProductPageDidMountEvent)
 
     const {
         handleSubmit,
@@ -107,6 +108,10 @@ const AdminPanelNewSaleSecondBlock = () => {
     useEffect(() => {
         reset(saleDetails as DefaultValues<CreateSaleData>)
     }, [saleDetails])
+
+    useEffect(() => {
+        pageDidMount()
+    }, []);
 
     return (
         <React.Fragment>

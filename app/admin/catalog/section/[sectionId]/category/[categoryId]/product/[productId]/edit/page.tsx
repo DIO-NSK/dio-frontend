@@ -146,7 +146,7 @@ const AdminPanelEditProductPage = ({params}: {
                             text={editMessage}
                         />
                     </div>
-                    <AdminPanelProductInputGrid/>
+                    <AdminPanelProductInputGrid hasPriceToggle={false}/>
                     <AdminPanelFilledPropertiesBlock/>
                     <AdminPanelExternalPropertiesBlock blockName={"externalProperties"}/>
                     <ControlledTextArea

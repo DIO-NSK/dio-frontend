@@ -2,10 +2,10 @@ import {unauthorizedApi} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {$products} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
 import {FilterItem} from "@/types/dto/user/catalog/FilterItem";
-import {CatalogueFilter, FilterGroup, RangeInputFilter, SelectFilter} from "@/types/dto/user/catalog/Filters";
-import {CheckboxListItem} from "@/types/props/CheckboxItem";
+import {CatalogueFilter} from "@/types/dto/user/catalog/Filters";
 import {createURLFilters} from "@/utlis/createURLFilters";
 import {convertCatalogueFiltersToParams} from "@/utlis/convertCatalogueFilterToParams";
+import {getCategoryByNameEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
 
 export type RequestFilterParams = {
     page: number,
@@ -53,6 +53,7 @@ $filters.on(getCategoryFiltersFx.doneData, (_, filters) => filters)
 
 sample({
     clock: sendFiltersEvent,
+    filter : (params : CatalogueFilterParams) => params.filters.length !== 0,
     fn: (params: CatalogueFilterParams) => convertCatalogueFiltersToParams(params),
     target: sendFiltersFx
 })

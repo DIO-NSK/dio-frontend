@@ -130,7 +130,7 @@ const DesktopCheckoutFirstStep = () => {
 
     const methods = useForm<CreateOrderDraftData>({
         resolver: zodResolver(CreateOrderDraftSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {

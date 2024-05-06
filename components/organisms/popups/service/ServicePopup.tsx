@@ -24,7 +24,7 @@ const ServicePopup = () => {
 
     const methods = useForm<ServiceData>({
         resolver: zodResolver(ServiceSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {

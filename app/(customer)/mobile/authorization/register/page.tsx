@@ -38,7 +38,7 @@ const MobileRegisterPage = () => {
     const methods = useForm<RegisterData>({
         defaultValues: defaultRegisterSchema,
         resolver: zodResolver(RegisterSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const onSubmit = (data: RegisterData) => console.log(data)

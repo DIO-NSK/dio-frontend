@@ -32,7 +32,7 @@ const MobileNewPasswordPage = () => {
     const methods = useForm<ForgotPasswordData>({
         defaultValues: defaultForgotPasswordData,
         resolver: zodResolver(ForgotPasswordSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const onSubmit = (data: ForgotPasswordData) => console.log(data)

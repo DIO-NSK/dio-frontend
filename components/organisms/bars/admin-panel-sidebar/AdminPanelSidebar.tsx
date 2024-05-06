@@ -103,7 +103,10 @@ const AdminPanelSidebar = () => {
     }
 
     useEffect(() => {
-        const activeRoute = adminTabBarData.slice(1).find(tab => (tab.path!!).includes(pathname))
+        const activeRoute = adminTabBarData.find(tab => {
+            const activeRoutePrefix = '/' + (tab.path!!).split('/').slice(1, 3).join('/')
+            return activeRoutePrefix === pathname
+        })
         setActiveTab(activeRoute ?? adminTabBarData[0])
     }, [pathname]);
 

@@ -18,7 +18,7 @@ const AdminSectionPopup = (props: PopupProps) => {
 
     const methods = useForm<CreateSectionData>({
         resolver: zodResolver(CreateSectionSchema),
-        mode: "onBlur",
+        mode: "onSubmit",
     })
 
     const {

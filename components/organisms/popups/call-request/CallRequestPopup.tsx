@@ -31,7 +31,7 @@ const CallRequestPopup = () => {
 
     const methods = useForm<CallRequestData>({
         resolver: zodResolver(CallRequestSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {

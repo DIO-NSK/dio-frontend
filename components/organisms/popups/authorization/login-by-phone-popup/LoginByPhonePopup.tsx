@@ -24,7 +24,7 @@ const LoginByPhonePopup = () => {
 
     const methods = useForm<LoginByPhoneData>({
         resolver : zodResolver(LoginByPhoneSchema),
-        mode : "onBlur"
+        mode : "onSubmit"
     })
 
     const {handleSubmit, formState : {isSubmitting}} = methods

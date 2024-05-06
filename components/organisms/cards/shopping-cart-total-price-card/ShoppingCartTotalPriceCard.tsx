@@ -14,6 +14,8 @@ const ShoppingCartTotalPriceCard = ({products, buttonText, onClick}: {
     onClick: () => void
 }) => {
 
+    const hasProductNotInStock = products.some(product => !product.inStock)
+
     const totalPriceWithoutDiscount = products.reduce((acc, item) => {
         const [_, price] = useDiscount(item.price, item.discountPercent)
         return "quantity" in item ? acc + price * item.quantity : acc + price
@@ -54,7 +56,7 @@ const ShoppingCartTotalPriceCard = ({products, buttonText, onClick}: {
             </div>
             <Button
                 hasSpinner={false}
-                disabled={!products.length}
+                disabled={!products.length || hasProductNotInStock}
                 text={products.length ? buttonText : "Корзина пуста"}
                 onClick={onClick}
             />

@@ -3,12 +3,12 @@ import React, {useState} from 'react';
 import Slider from "react-slick";
 import {cn} from "@/utlis/cn";
 import {useUnit} from "effector-react";
-import {$banners, getAllBannersEvent} from "@/app/admin/promo/models/banner.model";
 import Link from "next/link";
+import {$userBanners} from "@/app/(customer)/(site)/model";
 
 const MobilePhotoSlider = () => {
 
-    const [banners, getBanners] = useUnit([$banners, getAllBannersEvent])
+    const banners = useUnit($userBanners)
     const [activeSlide, setActiveSlide] = useState<number>(0)
 
     const settings = {
@@ -37,7 +37,11 @@ const MobilePhotoSlider = () => {
             <Slider {...settings} className={"w-full"}>
                 {banners.map((banner, key) =>
                     <Link href={banner.link}>
-                        <img src={banner.image} alt={'/'} className={"w-full h-[200px] object-fit"} key={key}/>
+                        <img
+                            src={banner.image} alt={'/'}
+                            className={"w-full h-[200px] object-cover"}
+                            key={key}
+                        />
                     </Link>
                 )}
             </Slider>

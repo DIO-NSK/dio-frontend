@@ -1,7 +1,11 @@
 import {api} from "@/api";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {createEffect, createEvent, createStore, sample} from "effector";
-import {sendFiltersFx} from "@/components/organisms/bars/catalog-left-sidebar/model";
+import {
+    CatalogueFilterParams,
+    sendFiltersEvent,
+    sendFiltersFx
+} from "@/components/organisms/bars/catalog-left-sidebar/model";
 import {TextLink} from "@/types/dto/text";
 import {Breadcrumbs} from "@/types/dto/Breadcrumbs";
 import {
@@ -56,6 +60,13 @@ $products
 sample({
     clock : getCategoryByNameEvent,
     target : getCategoryByNameFx
+})
+
+sample({
+    clock : sendFiltersEvent,
+    filter : (params : CatalogueFilterParams) => params.filters.length === 0,
+    fn: (params: CatalogueFilterParams) => +params.categoryId,
+    target: getCategoryByNameFx
 })
 
 const convertAdminProductBreadcrumbsToList = (breadcrumbs : Breadcrumbs) : TextLink[] => {

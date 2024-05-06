@@ -14,7 +14,7 @@ import {useSearchbar} from "@/components/organisms/bars/searchbar/Searchbar.hook
 import SignUpPopup from "@/components/organisms/popups/authorization/signup-popup/SignUpPopup";
 import ForgotPasswordPopup from "@/components/organisms/popups/authorization/forgot-password-popup/ForgotPasswordPopup";
 import ConfirmationCodePopup
-    from "@/components/organisms/popups/authorization/confirmation-code-popup/ConfirmationCodePopup";
+    from "@/components/organisms/popups/authorization/confirmation-code-popup/user/ConfirmationCodePopup";
 import LoginByPhonePopup from "@/components/organisms/popups/authorization/login-by-phone-popup/LoginByPhonePopup";
 import ChangePasswordPopup from "@/components/organisms/popups/authorization/change-password-popup/ChangePasswordPopup";
 import SuccessPopup from "@/components/organisms/popups/authorization/success-popup/SuccessPopup";

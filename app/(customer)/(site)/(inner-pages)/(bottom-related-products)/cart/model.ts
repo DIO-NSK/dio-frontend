@@ -11,7 +11,8 @@ export type ResponseCartItem = {
     mainImage: string,
     description: string,
     discountPercent: number,
-    inFavourites : boolean
+    inFavourites : boolean,
+    inStock : boolean
 }
 
 export type ResponseUserCart = {

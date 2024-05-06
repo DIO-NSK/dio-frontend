@@ -39,7 +39,7 @@ const AdminEditCategoryPage = ({params}: {
 
     const methods = useForm<CreateCategoryData>({
         resolver: zodResolver(CreateCategorySchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {

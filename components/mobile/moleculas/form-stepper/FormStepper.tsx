@@ -8,7 +8,8 @@ import {ClassValue} from "clsx";
 type StepperProps = {
     steps: SelectItem<number>[],
     activeStep: SelectItem<number>,
-    setActiveStep: (activeStep: SelectItem<number>) => void
+    setActiveStep: (activeStep: SelectItem<number>) => void,
+    className?: string
 }
 
 const FormStepper = (props: StepperProps) => {
@@ -20,7 +21,7 @@ const FormStepper = (props: StepperProps) => {
     }
 
     return (
-        <section className={"w-full flex flex-row gap-2 sm:gap-7 items-center justify-center"}>
+        <section className={cn("w-full flex flex-row gap-2 sm:gap-7 items-center justify-center", props.className)}>
             {
                 props.steps.map((step, stepIndex, steps) => {
 

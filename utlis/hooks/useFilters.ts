@@ -53,6 +53,7 @@ export const useFilters = (categoryId: number) => {
                 } as FilterGroup<RangeInputFilter>
             }
         })
+        console.log("HEREEEE")
         sendFilters({filters: categoryFilters, categoryId: categoryId})
         return categoryFilters
     }

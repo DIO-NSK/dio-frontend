@@ -25,7 +25,7 @@ const ConfirmationCodePopup = () => {
             code: "",
         },
         resolver: zodResolver(UserConfirmCodeSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {handleSubmit, formState: {isSubmitting}} = methods

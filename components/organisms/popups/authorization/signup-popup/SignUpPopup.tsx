@@ -17,6 +17,7 @@ import {
 } from "@/components/organisms/popups/authorization/signup-popup/model";
 import Text from "@/components/atoms/text/text-base/Text";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
+import {useRouter} from "next/navigation";
 
 const inputData: InputPrefilledData[] = [
     {
@@ -38,6 +39,8 @@ const inputData: InputPrefilledData[] = [
 
 const SignUpPopup = () => {
 
+    const router = useRouter()
+
     const [registerUser, registerError, setUserPhoneNumber, popupDidMount]
         = useUnit([registerUserFx, $registerUserError, setUserPhoneNumberEvent, registerPopupDidMountEvent])
 
@@ -45,7 +48,7 @@ const SignUpPopup = () => {
 
     const methods = useForm<RegisterUserData>({
         resolver: zodResolver(RegisterUserSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {handleSubmit, formState: {isSubmitting}} = methods
@@ -59,7 +62,10 @@ const SignUpPopup = () => {
             .catch(e => e)
     }
 
-    const handleRegisterLegalEntity = () => console.log("Register Legal entity")
+    const handleRegisterLegalEntity = () => {
+        router.push('/register/legal-entity')
+        switchPopupState(undefined)
+    }
 
     useEffect(() => {
         popupDidMount()

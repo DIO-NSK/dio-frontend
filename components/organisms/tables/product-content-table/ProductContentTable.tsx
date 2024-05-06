@@ -15,7 +15,7 @@ type ProductContentTableProps = {
     onDragEnd?: (event: DragEndEvent) => void,
     tableContent: ProductTableRow<ProductEntity>[],
     isDraggable?: boolean,
-    onProductClick: (tableRow: ProductTableRow<ProductEntity>) => void,
+    onProductClick ?: (tableRow: ProductTableRow<ProductEntity>) => void,
     onEdit ?: (tableRow: ProductTableRow<ProductEntity>) => void,
     onDelete: (tableRow: ProductTableRow<ProductEntity>) => void,
     overrideTooltip ?: React.ReactNode,
@@ -30,14 +30,14 @@ const TableContent = (props: ProductContentTableProps) => (
                     key={tableRow.id}
                 >
                     <ProductRow
-                        onClick={props.onProductClick}
+                        onClick={(item) => props.onProductClick?.(item)}
                         tableRow={tableRow}
                         {...props}
                     />
                 </SortableItemWrapper>
             ) : (
                 <ProductRow
-                    onClick={props.onProductClick}
+                    onClick={(item) => props.onProductClick?.(item)}
                     tableRow={tableRow}
                     key={rowKey}
                     {...props}

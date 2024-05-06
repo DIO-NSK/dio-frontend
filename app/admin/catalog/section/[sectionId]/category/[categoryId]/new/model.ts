@@ -51,7 +51,10 @@ const editProduct = async ({productId, productData}: EditProductParams) => {
     const oldImageUrl = photos.filter(photo => typeof photo === "string")
 
     newPhotos.map(photo => formData.append("images", photo))
-    formData.append("product", new Blob([JSON.stringify({...rest, oldImagesUrl: oldImageUrl})], {type: "application/json"}))
+    formData.append("product", new Blob([JSON.stringify({
+        ...rest,
+        oldImagesUrl: oldImageUrl
+    })], {type: "application/json"}))
 
     return api.put("/admin/catalogue/product", formData, {
         params: {productId: productId},
@@ -125,15 +128,21 @@ function convertCategoryToInputData(category: Category): Omit<InputPrefilledData
 }
 
 const convertFormDataToProduct = (productData: Omit<CreateProductData, "photos">, productDetails: RequestAdminProduct): RequestAdminProduct => {
-    return {
+
+    const reqProduct = {
         ...productData,
         discountPercent: productDetails.discountPercent ?? 0,
         price: productDetails.price,
         taxPercent: productDetails.taxPercent,
         crmGroup: productData.crmGroup,
         filledProperties: productData.filledProperties,
-        externalProperties: productData?.externalProperties
-    } as RequestAdminProduct
+        externalProperties: productData?.externalProperties ?? [],
+        inPackage: productData.priceType?.value === 'package'
+    }
+
+    delete reqProduct['priceType']
+    return reqProduct as RequestAdminProduct
+
 }
 
 function convertCategoryToFormData(category: Category): CategoryPropertyData[] {

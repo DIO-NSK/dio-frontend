@@ -30,7 +30,7 @@ const LoginPopup = () => {
 
     const methods = useForm<LoginUserData>({
         resolver: zodResolver(LoginUserSchema),
-        mode: "onBlur"
+        mode: "onSubmit"
     })
 
     const {handleSubmit, formState: {isSubmitting}} = methods
