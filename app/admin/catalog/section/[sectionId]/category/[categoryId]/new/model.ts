@@ -34,11 +34,7 @@ const createProduct = async ({categoryId, productData, productDetails}: CreatePr
     return api.post("/admin/catalogue/product", formData, {
         params: {categoryId: categoryId},
         headers: {"Content-type": "multipart/form-data"}
-    })
-        .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
+    }).then(response => response.data)
 
 }
 
@@ -59,11 +55,7 @@ const editProduct = async ({productId, productData}: EditProductParams) => {
     return api.put("/admin/catalogue/product", formData, {
         params: {productId: productId},
         headers: {"Content-type": "multipart/form-data"}
-    })
-        .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
+    }).then(response => response.data)
 }
 
 export const editProductFx = createEffect<EditProductParams, void, Error>(editProduct)
@@ -71,9 +63,6 @@ export const editProductFx = createEffect<EditProductParams, void, Error>(editPr
 const getCategoryProperties = async (categoryId: number): Promise<Category> => {
     return api.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
 }
 
 const getProductDetailsFromCRM = async (params: GetProductDetailsParams) => {
@@ -97,7 +86,6 @@ export const $categoryProperties = createStore<CategoryPropertyData[]>([])
 export const $inputPrefilledData = createStore<Omit<InputPrefilledData, "name">[]>([])
 
 export const createProductFx = createEffect<CreateProductParams, any, Error>(createProduct)
-export const $createProductError = createStore<string>("")
 
 $productDetails
     .on(getProductDetailsFx.doneData, (_, details) => details)
@@ -106,7 +94,6 @@ $productDetails
 $categoryProperties
     .on(getCategoryPropertiesFx.doneData, (_, category) => convertCategoryToFormData(category))
 
-$createProductError.on(createProductFx.failData, (_, error) => error.message)
 $inputPrefilledData.on(getCategoryPropertiesFx.doneData, (_, category) => convertCategoryToInputData(category))
 
 sample({
@@ -132,7 +119,7 @@ const convertFormDataToProduct = (productData: Omit<CreateProductData, "photos">
     const reqProduct = {
         ...productData,
         discountPercent: productDetails.discountPercent ?? 0,
-        price: productDetails.price,
+        price: productData.price,
         taxPercent: productDetails.taxPercent,
         crmGroup: productData.crmGroup,
         filledProperties: productData.filledProperties,

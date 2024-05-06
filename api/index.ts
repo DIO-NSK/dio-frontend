@@ -35,7 +35,7 @@ api.interceptors.response.use(config => config, async (error) => {
             null, {withCredentials: true})
         localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
         return api(originalRequest)
-    }
+    } else return Promise.reject(error.response.data.message)
 })
 
 export const getRequest = async (...args: any[]): Promise<any> => {

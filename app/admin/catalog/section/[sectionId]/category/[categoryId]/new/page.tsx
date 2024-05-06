@@ -6,7 +6,7 @@ import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-phot
 import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import Button from "@/components/atoms/buttons/button/Button";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {CreateProductData, CreateProductSchema, priceTypeItems} from "@/schemas/admin/CreateProductSchema";
+import {CreateProductData, CreateProductSchema} from "@/schemas/admin/CreateProductSchema";
 import {DefaultValues, FieldName, FieldValues, FormProvider, useForm, useFormContext} from "react-hook-form";
 import Form from "@/components/atoms/form/Form";
 import ControlledSwitch from "@/components/atoms/switch/ControlledSwitch";
@@ -14,7 +14,6 @@ import {useUnit} from "effector-react";
 import {useRouter} from "next/navigation";
 import {
     $categoryProperties,
-    $createProductError,
     $isProductDetailsLoading,
     $productDetails,
     createProductFx,
@@ -104,10 +103,10 @@ const CreateProductSecondStep = ({categoryId}: {
 
     const router = useRouter()
     const filledProperties = useUnit($categoryProperties)
-    const [createProduct, createError, getCategoryProperties, productDetails]
-        = useUnit([createProductFx, $createProductError, getCategoryPropertiesEvent, $productDetails])
 
-    const [creationStatus, setCreationStatus] = useState<boolean | undefined>(undefined)
+    const [createProduct, getCategoryProperties, productDetails] = useUnit([createProductFx, getCategoryPropertiesEvent, $productDetails])
+    const [creationSuccess, setCreationSuccess] = useState<boolean>(false)
+    const [creationError, setCreationError] = useState<string>('')
 
     const {
         handleSubmit,
@@ -120,8 +119,8 @@ const CreateProductSecondStep = ({categoryId}: {
         productData: formData as CreateProductData,
         productDetails: productDetails as RequestAdminProduct
     })
-        .then(_ => setCreationStatus(true))
-        .catch(_ => setCreationStatus(false))
+        .then(_ => setCreationSuccess(true))
+        .catch(error => setCreationError(error))
 
     useEffect(() => {
         getCategoryProperties(categoryId)
@@ -141,12 +140,19 @@ const CreateProductSecondStep = ({categoryId}: {
     return (
         <React.Fragment>
             <Snackbar
-                success={creationStatus === true}
-                header={creationStatus ? "Товар успешно создан!" : "Возникли ошибки при создании товара"}
-                message={creationStatus ? "Вы можете вернуться назад" : "Заполните все поля и попробуйте снова"}
+                onClose={() => setCreationSuccess(false)}
+                message={"Вы можете вернуться назад"}
+                header={"Товар успешно создан!"}
                 action={() => router.back()}
-                open={creationStatus !== undefined}
-                onClose={() => setCreationStatus(undefined)}
+                open={creationSuccess}
+                success={true}
+            />
+            <Snackbar
+                onClose={() => setCreationError('')}
+                message={creationError}
+                header={"Ошибка при создании товара"}
+                open={creationError.length !== 0}
+                success={false}
             />
             <AdminPanelProductInputGrid/>
             <AdminPanelFilledPropertiesBlock/>
@@ -174,10 +180,6 @@ const CreateProductSecondStep = ({categoryId}: {
                     onClick={handleSubmit(onSubmit)}
                     classNames={{button: "w-[250px]"}}
                 />
-                {createError && <Text
-                    className={"text-info-red"}
-                    text={createError}
-                />}
             </div>
         </React.Fragment>
     )

@@ -89,7 +89,7 @@ const PhotoSlider = ({photos, activePhoto, setActive}: {
 const ProductPhotoSlider = ({photos, activePhoto, setActive}: {
     photos: string[],
     activePhoto ?: string,
-    setActive: (photo ?: string) => void
+    setActive ?: (photo ?: string) => void
 }) => {
 
     return (
@@ -97,7 +97,7 @@ const ProductPhotoSlider = ({photos, activePhoto, setActive}: {
             <ProductPhotoSlider.MainPhotoCard photo={activePhoto}/>
             <ProductPhotoSlider.PhotoSlider
                 activePhoto={activePhoto}
-                setActive={setActive}
+                setActive={(photo) => setActive?.(photo)}
                 photos={photos}
             />
         </div>

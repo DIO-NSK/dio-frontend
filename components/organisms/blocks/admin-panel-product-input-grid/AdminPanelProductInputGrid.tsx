@@ -47,6 +47,8 @@ const AdminPanelProductInputGrid = ({hasPriceToggle = true}: { hasPriceToggle?: 
         }
     }, []);
 
+    console.log(methods.watch())
+
     return (
         <React.Fragment>
             <section className={inputRowCN}>

@@ -44,7 +44,7 @@ const ProductCard = ({productCard, classNames}: {
     return (
         <div className={cn(wrapperCV)} onClick={handleCardClick}>
             <img
-                src={productCard.image}
+                src={productCard.image ?? (productCard as any).mainImage}
                 className={"select-none w-full h-[100px] sm:h-[160px] object-scale-down"}
                 alt={'Изображение продукта'}
             />
@@ -60,14 +60,20 @@ const ProductCard = ({productCard, classNames}: {
                             className={"text-base text-text-gray line-through"}
                         />}
                     </div>
-                    <LinesEllipsis
-                        className={"font-medium text-base"}
-                        text={productCard.name}
-                        maxLine={'2'}
-                        ellipsis={'..'}
-                        basedOn={'letters'}
-                        trimRight
-                    />
+                    <div className={"w-full flex flex-col gap-2"}>
+                        <LinesEllipsis
+                            className={"font-medium text-base"}
+                            text={productCard.name}
+                            maxLine={'2'}
+                            ellipsis={'..'}
+                            basedOn={'letters'}
+                            trimRight
+                        />
+                        {(productCard as any)?.quantity && <Text
+                            text={`${(productCard as any)?.quantity} шт.`}
+                            className={"text-base text-text-gray"}
+                        />}
+                    </div>
                 </div>
                 <div className={"w-full flex flex-row items-center justify-between"}>
                     <div className={"sm:hidden flex flex-col"}>

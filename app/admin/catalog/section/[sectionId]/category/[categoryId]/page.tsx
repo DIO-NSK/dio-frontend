@@ -66,11 +66,6 @@ const AdminPanelProductsPage = ({params}: {
                 onDragEnd={changeOrder}
                 tableHeader={adminProductTableHeader}
                 tableContent={context.tableContent}
-                onProductClick={(product) => {
-                    if (!editableContext.isEditable) {
-                        context.handleProductClick(product)
-                    }
-                }}
                 onEdit={context.handleEditProduct}
                 onDelete={(tableRow) => deleteProducts(tableRow.id)}
             />

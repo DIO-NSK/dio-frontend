@@ -7,25 +7,9 @@ import Text from "@/components/atoms/text/text-base/Text";
 import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
+import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
 
-const HeaderSliderBlock = ({header}: { header: string }) => {
-
-    const [startIndex, setStartIndex] = useState<number>(0)
-    const [endIndex, setEndIndex] = useState<number>(4)
-
-    const handleStartIndex = (newIndex: number): void => {
-        if (newIndex >= 0) {
-            setStartIndex(newIndex)
-            setEndIndex(endIndex - 1)
-        }
-    }
-
-    const handleEndIndex = (newIndex: number): void => {
-        if (newIndex <= [].length) {
-            setEndIndex(newIndex)
-            setStartIndex(startIndex + 1)
-        }
-    }
+const HeaderSliderBlock = ({header, children}: { header: string, children : React.ReactNode}) => {
 
     const wrapperCV: ClassValue[] = [
         "sm:px-[100px] w-full flex flex-col gap-7 sm:gap-10 px-5",
@@ -34,28 +18,14 @@ const HeaderSliderBlock = ({header}: { header: string }) => {
 
     return (
         <div className={cn(wrapperCV)}>
-
             <div className={"w-full sm:col-span-full flex flex-row items-center justify-between"}>
                 <Text className={"text-[20px] sm:text-[24px] font-semibold leading-none"} text={header}/>
                 <ButtonSlider/>
             </div>
-
             <div className={"hidden w-full grid-cols-12 gap-x-[20px] gap-y-[30px] sm:grid"}>
-                {
-                    [].slice(startIndex, endIndex).map((card) => {
-                        return <ProductCard productCard={card}/>
-                    })
-                }
+                <SliderGroup>{children}</SliderGroup>
             </div>
-
-            <MobileSliderWrapper>
-                {
-                    [].slice(startIndex, endIndex).map((card) => {
-                        return <ProductCard productCard={card}/>
-                    })
-                }
-            </MobileSliderWrapper>
-
+            <MobileSliderWrapper>{children}</MobileSliderWrapper>
         </div>
     )
 }

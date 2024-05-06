@@ -3,7 +3,7 @@
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import {TextLink} from "@/types/dto/text";
 
-import AboutCompanyBanner from "@/public/images/about-company-banner.png"
+import AboutCompanyBanner from "@/public/images/dio-main-banner.png"
 
 import AdvantageCard from "@/components/organisms/cards/advantage-card/AdvantageCard";
 import {ContentImage} from "@/components/organisms/cards/fullwidth-main-card/content-image/ContentImage";
@@ -72,7 +72,7 @@ const AboutCompanyPage = () => {
             <div className={"w-full col-span-full flex flex-col gap-5 sm:gap-7"}>
                 <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                 <img
-                    className={"w-full h-[200px] col-span-full sm:rounded-2xl sm:h-fit object-cover"}
+                    className={"w-full h-[200px] col-span-full sm:rounded-2xl sm:h-fit object-cover border-2 border-light-gray"}
                     src={AboutCompanyBanner.src}
                     alt={"/"}
                 />

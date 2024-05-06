@@ -8,12 +8,12 @@ const CardBulletCol = ({header, items}: {
     return (
         <div className={"col-span-9 flex flex-col gap-[20px]"}>
             <Text text={header} className={"text-[20px] font-semibold"}/>
-            <div className={"w-full flex flex-col gap-[15px]"}>
+            <div className={"w-full flex flex-col gap-2"}>
                 {
                     items.map((item, index) => {
                         return <div className={"flex flex-row items-baseline gap-[15px]"}>
-                            <Text text={"0" + (index + 1).toString()} className={"text-lg font-medium"}/>
-                            <Text text={item} className={"text-lg font-medium"}/>
+                            <Text text={"0" + (index + 1).toString()} className={"text-base text-link-blue"}/>
+                            <Text text={item} className={"text-base"}/>
                         </div>
                     })
                 }

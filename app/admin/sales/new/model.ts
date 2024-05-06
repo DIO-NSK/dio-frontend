@@ -14,7 +14,7 @@ const createSale = async (request : CreateSaleRequest) : Promise<void> => {
     const formData = new FormData()
 
     images.map(photo => formData.append("images", photo))
-    formData.append("promoDto", new Blob([JSON.stringify(sale)], {type: "application/json"}))
+    formData.append("adminPromoDto", new Blob([JSON.stringify(sale)], {type: "application/json"}))
 
     return api.post("/admin/catalogue/promo", formData, {headers: {"Content-type": "multipart/form-data"}})
         .then(response => response.data)

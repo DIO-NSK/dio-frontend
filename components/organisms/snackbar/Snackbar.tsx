@@ -47,15 +47,17 @@ const Snackbar = ({autoHide = true, ...props}: SnackbarProps) => {
         <StyledSnackbar
             {...props}
             variant={"soft"}
-            endDecorator={<ActionIcon {...props}/>}
             color={props.success ? "success" : "danger"}
             anchorOrigin={{vertical: "bottom", horizontal: "right"}}
             autoHideDuration={autoHide ? HIDE_DURATION : null}
         >
-            <section className={"flex flex-col"}>
-                <Text text={props.header} className={cn("text-lg font-medium", textClassName)}/>
+            <section className={"flex flex-col gap-2"}>
+                <div className={"w-full flex items-center justify-between"}>
+                    <Text text={props.header} className={cn("text-lg font-medium", textClassName)}/>
+                    <ActionIcon {...props}/>
+                </div>
                 {props.message && <Text
-                    className={cn("text-base", textClassName)}
+                    className={cn("text-base max-w-[400px]", textClassName)}
                     text={props.message}
                 />}
             </section>

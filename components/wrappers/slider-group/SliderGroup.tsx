@@ -22,13 +22,15 @@ import Link from "next/link";
 type SliderGroupProps = {
     desktopSlidesPerView?: number,
     mobileSlidesPerView?: number
-    href?: string
+    href?: string,
+    headerSize ?: string
 } & HeaderWrapperType
 
 const SliderGroup = (
     {
         desktopSlidesPerView = DESKTOP_SLIDES_PER_VIEW,
         mobileSlidesPerView = MOBILE_SLIDES_PER_VIEW,
+        headerSize = 'xl',
         ...props
     }: SliderGroupProps
 ) => {
@@ -37,6 +39,8 @@ const SliderGroup = (
     const isInitEnd = React.Children.count(props.children) <= desktopSlidesPerView
     const [isBegin, setBegin] = useState<boolean>(true)
     const [isEnd, setEnd] = useState<boolean>(isInitEnd)
+
+    const headerCV = headerSize === 'xl' ? 'sm:text-[32px]' : 'sm:text-2xl font-medium'
 
     useEffect(() => {
         if (swiperRef.current) {
@@ -52,7 +56,7 @@ const SliderGroup = (
             <div className={"px-5 sm:px-0 col-span-full flex flex-row justify-between items-center"}>
                 <div className={"flex flex-row items-baseline gap-5"}>
                     {props.header && <Text
-                        className={"text-[20px] sm:text-[32px] font-bold leading-none"}
+                        className={cn("text-[20px] font-bold leading-none", headerCV)}
                         text={props.header}
                     />}
                     {props.href && <Link href={props.href}>
