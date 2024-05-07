@@ -96,8 +96,8 @@ $userPromotions.on(getUserPromotionsFx.doneData, (_, promotions) => promotions)
 //region getSaleProducts
 
 const getSaleProducts = async () : Promise<ResponseProductSearch[]> => {
-    return unauthorizedApi.get('/catalogue/product/filter?filterMap=discountPercent=0')
-        .then(response => response.data)
+    return unauthorizedApi.get('/catalogue/product/filter?discountPercent=0')
+        .then(response => response.data.products)
         .catch(error => {throw Error(error.response.data.message)})
 }
 

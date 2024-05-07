@@ -6,8 +6,8 @@ const CardBulletCol = ({header, items}: {
     items: string[]
 }) => {
     return (
-        <div className={"col-span-9 flex flex-col gap-[20px]"}>
-            <Text text={header} className={"text-[20px] font-semibold"}/>
+        <div className={"col-span-9 flex flex-col gap-3 sm:gap-[20px]"}>
+            <Text text={header} className={"text-lg sm:text-[20px] font-semibold"}/>
             <div className={"w-full flex flex-col gap-2"}>
                 {
                     items.map((item, index) => {

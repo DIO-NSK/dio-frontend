@@ -69,19 +69,7 @@ const UserProfileOrdersPage = () => {
         }
     }, [activeItem.value, orders])
 
-    if (!sortedOrders?.length) return (
-        <EmptyPage
-            header={noOrdersHeader}
-            description={noOrdersMessage}
-        >
-            <Button
-                text={"В корзину"}
-                onClick={() => navigation.push("/cart")}
-            />
-        </EmptyPage>
-    )
-
-    if (sortedOrders?.length) return (
+    return (
         <UserProfileWrapper>
             <HeaderRow
                 header={"Мои заказы"}
@@ -110,11 +98,26 @@ const UserProfileOrdersPage = () => {
                 selectedItem={activeItem}
                 onSelect={setActiveItem}
             />
-            <section className={"w-full flex flex-col gap-5 sm:-mt-5"}>
-                {sortedOrders.map((order, key) =>
-                    <OrderCard key={key} order={order}/>
-                )}
-            </section>
+            {
+                sortedOrders?.length !== 0 ? (
+                    <section className={"w-full flex flex-col gap-5 sm:-mt-5"}>
+                        {sortedOrders?.map((order, key) =>
+                            <OrderCard key={key} order={order}/>
+                        )}
+                    </section>
+                ) : (
+                    <EmptyPage
+                        header={noOrdersHeader}
+                        description={noOrdersMessage}
+                    >
+                        <Button
+                            text={"В корзину"}
+                            onClick={() => navigation.push("/cart")}
+                        />
+                    </EmptyPage>
+                )
+            }
+
         </UserProfileWrapper>
     );
 

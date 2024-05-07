@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Children} from 'react';
 import {WrapperProps} from "@/types/props/Wrapper";
 import {Autoplay, Navigation, Scrollbar} from "swiper/modules";
 import {AUTOPLAY_DELAY} from "@/constants/swiper";
@@ -19,7 +19,7 @@ const MobileSliderWrapper = ({slidesPerView = 1.5, ...props}: MobileSliderWrappe
             grabCursor={true}
             className={"w-full"}
             spaceBetween={10}
-            slidesPerView={slidesPerView}
+            slidesPerView={Children.count(props.children) === 1 ? 1 : slidesPerView}
             modules={[Navigation, Autoplay, Scrollbar]}
             autoplay={{delay: AUTOPLAY_DELAY}}
         >

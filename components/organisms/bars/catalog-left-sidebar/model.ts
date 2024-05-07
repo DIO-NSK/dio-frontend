@@ -1,11 +1,10 @@
 import {unauthorizedApi} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
-import {$products} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/model";
 import {FilterItem} from "@/types/dto/user/catalog/FilterItem";
 import {CatalogueFilter} from "@/types/dto/user/catalog/Filters";
 import {createURLFilters} from "@/utlis/createURLFilters";
 import {convertCatalogueFiltersToParams} from "@/utlis/convertCatalogueFilterToParams";
-import {getCategoryByNameEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
+import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 
 export type RequestFilterParams = {
     page: number,
@@ -25,6 +24,11 @@ export type CatalogueFilterParams = {
     categoryId: number
 }
 
+export type CatalogProducts = {
+    products: ResponseProductSearch[],
+    count: number
+}
+
 const getCategoryFilters = async (categoryId: number) => {
     return unauthorizedApi.get("/catalogue/category/filter", {params: {categoryId}})
         .then(response => response.data)
@@ -35,25 +39,31 @@ const getCategoryFilters = async (categoryId: number) => {
 
 export const getCategoryFiltersFx = createEffect(getCategoryFilters)
 
-const sendFilters = async (params: RequestFilterParams) => {
-    const filterMap = createURLFilters(params)
+const sendFilters = async (params: RequestFilterParams): Promise<CatalogProducts> => {
+    const filterMap = params.filterMap ? createURLFilters(params) : undefined
     return unauthorizedApi.get("/catalogue/product/filter", {
-        params: {...params, filterMap: filterMap}
+        params: {
+            categoryId: params.categoryId,
+            page: params?.page ?? 0,
+            size: params.size ?? 9,
+            filterMap: filterMap
+        }
     })
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
 export const sendFiltersFx = createEffect(sendFilters)
 export const sendFiltersEvent = createEvent<CatalogueFilterParams>()
 export const $filters = createStore<FilterItem[]>([])
 
-$products.on(sendFiltersFx.doneData, (_, filteredProducts) => filteredProducts)
 $filters.on(getCategoryFiltersFx.doneData, (_, filters) => filters)
 
 sample({
     clock: sendFiltersEvent,
-    filter : (params : CatalogueFilterParams) => params.filters.length !== 0,
+    filter: (params: CatalogueFilterParams) => params.filters.length !== 0,
     fn: (params: CatalogueFilterParams) => convertCatalogueFiltersToParams(params),
     target: sendFiltersFx
 })

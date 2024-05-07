@@ -20,10 +20,8 @@ import {cn} from "@/utlis/cn";
 import Loading from "@/components/mobile/loading/Loading";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {FiCheck} from "react-icons/fi";
-import MobilePhotoSlider, {
-    MobilePhotoSliderWrapper
-} from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
-import Link from "next/link";
+import {MobilePhotoSliderWrapper} from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
+import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
 
 const productCardCV = {
     mainWrapper: cn([
@@ -66,6 +64,8 @@ const SalePage = ({params}: {
     }
 }) => {
 
+    const [isInCart, onBuyClick] = useBuyButton(false, params.saleId, true)
+
     const resetSaleDetails = useUnit(resetSaleDetailsEvent)
     const [saleDetails, getSaleDetails] = useUnit([$saleDetails, getSaleDetailsEvent])
 
@@ -76,6 +76,13 @@ const SalePage = ({params}: {
         {text: "Главная", link: "/"},
         {text: "Акции", link: "/sales"},
         {text: saleDetails?.name ?? "", link: `/sales/${params.saleId}`},
+    ]
+
+    const totalProducts = saleDetails?.products.reduce((acc, item) => acc + (item as any).quantity, 0)
+
+    const infoBlockData = [
+        {header : "Товаров в акции", description : `${totalProducts} шт.`},
+        {header : "Стоимость", description : (saleDetails as any)?.price, className : "text-link-blue font-medium text-lg"},
     ]
 
     useEffect(() => {
@@ -92,7 +99,7 @@ const SalePage = ({params}: {
     if (saleDetails) return (
         <div className={"w-full sm:col-span-full flex flex-col gap-5 sm:gap-7"}>
             <div className={"sm:px-[100px] px-5 w-full sm:col-span-full sm:grid sm:grid-cols-12 sm:gap-x-5 sm:gap-y-7"}>
-                <section className={"sm:col-span-full flex flex-col gap-2"}>
+                <section className={"sm:col-span-full flex flex-col gap-2 -mt-5 sm:mt-0"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                     <Text text={saleDetails.name} className={"sm:text-2xl text-xl font-medium"}/>
                 </section>
@@ -132,6 +139,14 @@ const SalePage = ({params}: {
                         <ProductCard classNames={productCardCV} productCard={product} key={index}/>
                     ))}
                 </SliderGroup>
+            </div>
+            <div className={"w-full p-5"}>
+                <MobileCartInfoBlock
+                    infoBlockData={infoBlockData}
+                    buttonText={isInCart ? "В корзине" : "В корзину"}
+                    //@ts-ignore
+                    onSubmit={onBuyClick}
+                />
             </div>
         </div>
     );

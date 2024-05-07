@@ -28,6 +28,8 @@ const getCategoryByNameFx = createEffect<number, ResponseProductSearch[], Error>
 export const getCategoryByNameEvent = createEvent<number>()
 export const $products = createStore<ResponseProductSearch[]>([])
 
+export const $productsAmount = createStore<number>(0)
+
 const getCategoryBreadcrumbsFx = createEffect<number, Breadcrumbs, Error>(getCategoryBreadcrumbs)
 export const getCategoryBreadcrumbsEvent = createEvent<number>()
 export const getAdminCategoryBreadcrumbsEvent = createEvent<number>()
@@ -55,7 +57,9 @@ sample({
 
 $products
     .on(getCategoryByNameFx.doneData, (_, products) => products)
-    .on(sendFiltersFx.doneData, (_, products) => products)
+    .on(sendFiltersFx.doneData, (_, catalog) => catalog.products)
+
+$productsAmount.on(sendFiltersFx.doneData, (_, catalog) => catalog.count)
 
 sample({
     clock : getCategoryByNameEvent,

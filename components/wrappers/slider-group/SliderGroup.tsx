@@ -100,7 +100,7 @@ const SliderGroup = (
                 </Swiper>
             </section>
             <section className={"sm:hidden flex w-full ml-5"}>
-                <MobileSliderWrapper>{props.children}</MobileSliderWrapper>
+                <MobileSliderWrapper slidesPerView={mobileSlidesPerView}>{props.children}</MobileSliderWrapper>
             </section>
         </section>
     )

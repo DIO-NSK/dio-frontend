@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useUnit} from "effector-react";
-import {DefaultValues, FieldValues, FormProvider, useForm} from "react-hook-form";
+import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {CreateOrderDraftData, CreateOrderDraftSchema} from "@/schemas/customer/checkout/CreateOrderDraftSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
@@ -50,23 +50,22 @@ const CheckoutUserDataBlock = () => {
 
     return (
         <BackgroundBlockWrapper header={"Данные получателя"}>
-            {
-                userDataInputs.map((input, key) =>
-                    <ControlledTextInput {...input} key={key} theme={"filled"}/>
-                )
-            }
+            {userDataInputs.map((input, key) =>
+                <ControlledTextInput {...input} key={key} theme={"filled"}/>
+            )}
         </BackgroundBlockWrapper>
     )
 }
 
-const CheckoutDeliveryAddressBlock = () => {
+const CheckoutDeliveryAddressBlock = ({onOpenMobilePopup}: { onOpenMobilePopup: () => void }) => {
 
-    const [
-        isPopupVisible,
-        setPopupVisible
-    ] = useState<boolean>(false)
+    const [isPopupVisible, setPopupVisible] = useState<boolean>(false)
+    const [buttonText, setButtonText] = useState<string>('')
 
     const handleSwitchPopupState = () => setPopupVisible(!isPopupVisible)
+    const handleOpenPopup = () => {
+        onOpenMobilePopup()
+    }
 
     const deliveryAddressInputs: InputPrefilledData[] = [
         {
@@ -96,6 +95,12 @@ const CheckoutDeliveryAddressBlock = () => {
         }
     ]
 
+    useEffect(() => {
+        if (window.screen.width >= 640) {
+            setButtonText('Выбрать существующий')
+        }
+    }, []);
+
     return (
         <React.Fragment>
             {isPopupVisible && <PickAddressPopup
@@ -105,8 +110,8 @@ const CheckoutDeliveryAddressBlock = () => {
                 header={"Адрес доставки"}
                 rightContent={
                     <Button
-                        text={window.screen.width >= 640 ? "Выбрать существующий" : ""}
-                        onClick={handleSwitchPopupState}
+                        text={buttonText}
+                        onClick={handleOpenPopup}
                         icon={<FiPlus size={"18px"}/>}
                         buttonType={"SECONDARY"}
                         size={"sm"}
@@ -121,7 +126,7 @@ const CheckoutDeliveryAddressBlock = () => {
     )
 }
 
-const DesktopCheckoutFirstStep = () => {
+const DesktopCheckoutFirstStep = (props : {onOpenMobilePopup : () => void}) => {
 
     const [pickedUserAddress, orderToRepeat] = useUnit([$activeUserAddress, $orderToRepeat])
     const [formData, setFormData] = useUnit([$checkoutFirstStepData, setCheckoutFirstStepDataEvent])
@@ -161,27 +166,31 @@ const DesktopCheckoutFirstStep = () => {
     }, [pickedUserAddress]);
 
     useEffect(() => {
-        const convertedOrder = convertOrderToFormData(orderToRepeat)
         reset({
             ...formData,
+            ...pickedUserAddress?.value,
             firstName: userCredentials?.fullName.split(" ")[0],
             surname: userCredentials?.fullName.split(" ")[1],
-            phoneNumber: userCredentials?.phoneNumber,
-            houseNumber: convertedOrder?.houseNumber,
-            flatNumber: convertedOrder?.flatNumber,
-            street: convertedOrder?.street
+            phoneNumber: userCredentials?.phoneNumber
         })
     }, []);
 
     useEffect(() => {
-        console.log(orderToRepeat)
+        if (orderToRepeat) {
+            const convertedOrder = convertOrderToFormData(orderToRepeat)
+            reset({
+                houseNumber: convertedOrder?.houseNumber,
+                flatNumber: convertedOrder?.flatNumber,
+                street: convertedOrder?.street
+            })
+        }
     }, [orderToRepeat]);
 
     return (
         <FormProvider {...methods}>
             <Form>
                 <CheckoutUserDataBlock/>
-                <CheckoutDeliveryAddressBlock/>
+                <CheckoutDeliveryAddressBlock {...props}/>
                 <Button
                     disabled={isSubmitting}
                     text={isSubmitting ? "Отправка.." : "Далее"}

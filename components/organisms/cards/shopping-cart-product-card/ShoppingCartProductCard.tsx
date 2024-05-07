@@ -71,12 +71,23 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
     )
 }
 
-const MobileHeaderRow = (props: ShoppingCartProductCardProps) => {
+const MobileHeaderRow = ({canInteract = true, ...props}: ShoppingCartProductCardProps) => {
+
+    const removeProductFromCart = useUnit(removeProductFromCartEvent)
+
+    const [isLiked, toggleLike] = useLike(props.card.inFavourites, props.card.productId)
+    const [amount, increase, decrease] = useCounter(props.card.productId, props.card.quantity)
 
     const [newPrice, price] = useDiscount(props.card.price, props.card.discountPercent)
 
+    const handleDeleteProduct = () => removeProductFromCart({productId : props.card.productId})
+
     return (
-        <section className={"sm:hidden flex flex-col gap-1"}>
+        <section className={"sm:hidden flex flex-col gap-2"}>
+            {!props.card.inStock && <Chip className={"bg-gray-100"}>
+                <Text text={"Нет в наличии"} className={"text-xs uppercase text-text-gray"}/>
+            </Chip>}
+            <Text text={props.card.name}/>
             <div className={"flex flex-row items-baseline gap-2"}>
                 <Text
                     text={`${newPrice.toFixed(2)} ₽`}
@@ -87,7 +98,15 @@ const MobileHeaderRow = (props: ShoppingCartProductCardProps) => {
                     className={"text-text-gray line-through"}
                 />}
             </div>
-            <Text text={props.card.name}/>
+            {
+                canInteract ? <div className={"flex flex-row items-center gap-7"}>
+                    <Counter amount={amount} increase={increase} decrease={decrease}/>
+                    <FiTrash2 size={"18px"} className={"text-info-red"} onClick={handleDeleteProduct}/>
+                </div> : <Text
+                    className={"text-base sm:text-lg text-text-gray"}
+                    text={`${props.card.quantity} шт.`}
+                />
+            }
         </section>
     )
 
@@ -96,12 +115,12 @@ const MobileHeaderRow = (props: ShoppingCartProductCardProps) => {
 const ShoppingCartProductCard = (props: ShoppingCartProductCardProps) => {
 
     const imageCV: ClassValue[] = [
-        "w-[76px] h-[60px] rounded-lg object-scale-down",
+        "w-[90px] aspect-square rounded-lg object-scale-down",
         "sm:w-[150px] sm:h-[90px] sm:rounded-xl"
     ]
 
     return (
-        <div className={"w-full flex flex-row gap-3 sm:gap-5"}>
+        <div className={"w-full flex flex-row gap-4 sm:gap-5"}>
             <Link href={`/product/${props.card.productId}`} target={'_blank'} rel={'noopener noferrer'}>
                 <img src={props.card.mainImage as string} alt={"/"} className={cn(imageCV)}/>
             </Link>

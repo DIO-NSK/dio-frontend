@@ -46,9 +46,9 @@ const ShoppingCartPage = () => {
 
     if (cart) return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
-            <HeaderRow header={"Корзина"} leftContent={`Всего ${cart.products.length}`}/>
+            <HeaderRow className={"sm:flex hidden"} header={"Корзина"} leftContent={`Всего ${cart.products.length}`}/>
             {
-                cart.products.length ? (<CartContentBlock/>) :
+                (cart.products.length || cart.promos.length) ? (<CartContentBlock/>) :
                     (<EmptyPage
                         header={emptyHeader}
                         description={emptyMessage}
@@ -65,11 +65,13 @@ const ShoppingCartPage = () => {
                 buttonText={"Перейти к оформлению"}
                 onClick={handleButtonClick}
             />
-            <MobileCartInfoBlock
-                infoBlockData={[]}
-                buttonText={"Перейти к оформлению"}
-                onSubmit={handleButtonClick}
-            />
+            {
+                (cart.products.length !== 0 || cart.promos.length !== 0) && <MobileCartInfoBlock
+                    infoBlockData={[]}
+                    buttonText={"Перейти к оформлению"}
+                    onSubmit={handleButtonClick}
+                />
+            }
         </InnerPageWrapper>
     );
 

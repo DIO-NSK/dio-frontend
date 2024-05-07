@@ -23,7 +23,7 @@ const ShoppingCartSaleCard = ({promo}: { promo: ResponseCartSaleItem }) => {
 
     const handleDeleteProduct = () => console.log("Deleted")
 
-    const trashCV: ClassValue = "hoverable pointer text-info-red hover:text-red-700"
+    const trashCV: ClassValue = "w-[18px] sm:w-[22px] hoverable pointer text-info-red hover:text-red-700"
 
     return (
         <section className={"w-full flex flex-col gap-5 pb-5 border-b-2 border-light-gray"}>
@@ -37,15 +37,22 @@ const ShoppingCartSaleCard = ({promo}: { promo: ResponseCartSaleItem }) => {
                     <div className={"w-full flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:justify-between"}>
                         <div className={"flex flex-col gap-1"}>
                             <Text text={promo.duration ?? "до 06.05.2024"} className={"text-text-gray text-sm"}/>
-                            <Text text={promo.name} className={"font-medium"}/>
+                            <div className={"w-full flex flex-col gap-2 sm:gap-1"}>
+                                <Text text={promo.name} className={"sm:font-medium"}/>
+                                <Text
+                                    text={`${(promo.price * amount).toFixed(2)} ₽`}
+                                    className={"sm:hidden text-lg font-semibold text-link-blue"}
+                                />
+                            </div>
                         </div>
                         <div className={"flex flex-row items-center gap-5"}>
-                            <Text
-                                text={`${(promo.price * amount).toFixed(2)} ₽`}
-                                className={"sm:hidden text-lg font-medium"}
-                            />
+                            <div className={"sm:hidden"}>
+                                <Counter amount={amount} increase={increase} decrease={decrease}/>
+                            </div>
                             <FiTrash2 size={"22px"} className={cn(trashCV)} onClick={handleDeleteProduct}/>
-                            <Counter amount={amount} increase={increase} decrease={decrease}/>
+                            <div className={"sm:flex hidden"}>
+                                <Counter amount={amount} increase={increase} decrease={decrease}/>
+                            </div>
                             <Text
                                 text={`${(promo.price * amount).toFixed(2)} ₽`}
                                 className={"sm:flex hidden text-[22px] font-medium"}

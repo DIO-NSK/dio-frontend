@@ -10,7 +10,6 @@ import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapp
 import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 import Text from "@/components/atoms/text/text-base/Text";
-import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
 import {$orderId} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/model";
 import {

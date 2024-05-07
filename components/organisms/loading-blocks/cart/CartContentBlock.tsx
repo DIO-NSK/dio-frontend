@@ -14,31 +14,34 @@ const CartContentBlock = () => {
 
     return (
         <section className={"w-full sm:col-span-9 flex flex-col gap-7"}>
-
-            <section className={cn("w-full flex flex-col gap-7", productsBlockCV)}>
-                <div className={"w-full flex flex-row items-baseline gap-3"}>
-                    <Text text={"Продукты"} className={"font-medium sm:text-xl text-lg"}/>
-                    <Text text={`Всего ${cart?.products.length} шт.`}
-                          className={"text-sm sm:text-base text-text-gray"}/>
-                </div>
-                <section className={"flex flex-col gap-3 w-full sm:gap-7"}>
-                    {cart?.products.map((product, productIndex) =>
-                        <ShoppingCartProductCard card={product} key={productIndex}/>
-                    )}
+            {
+                cart?.products.length !== 0 && <section className={cn("w-full flex flex-col gap-7", productsBlockCV)}>
+                    <div className={"w-full flex flex-row items-baseline gap-3"}>
+                        <Text text={"Продукты"} className={"font-medium sm:text-xl text-lg"}/>
+                        <Text text={`Всего ${cart?.products.length} шт.`}
+                              className={"text-sm sm:text-base text-text-gray"}/>
+                    </div>
+                    <section className={"flex flex-col gap-3 w-full sm:gap-7"}>
+                        {cart?.products.map((product, productIndex) =>
+                            <ShoppingCartProductCard card={product} key={productIndex}/>
+                        )}
+                    </section>
                 </section>
-            </section>
-            <section className={"w-full flex flex-col gap-7"}>
-                <div className={"w-full flex flex-row items-baseline gap-3"}>
-                    <Text text={"Акции"} className={"font-medium sm:text-xl text-lg"}/>
-                    <Text text={`Всего ${cart?.promos.length} шт.`}
-                          className={"text-sm sm:text-base text-text-gray"}/>
-                </div>
-                <section className={"flex flex-col gap-3 sm:gap-7"}>
-                    {cart?.promos.map((promo, promoIndex) =>
-                        <ShoppingCartSaleCard promo={promo} key={promoIndex}/>
-                    )}
+            }
+            {
+                cart?.promos.length !== 0 && <section className={"w-full flex flex-col gap-7"}>
+                    <div className={"w-full flex flex-row items-baseline gap-3"}>
+                        <Text text={"Акции"} className={"font-medium sm:text-xl text-lg"}/>
+                        <Text text={`Всего ${cart?.promos.length} шт.`}
+                              className={"text-sm sm:text-base text-text-gray"}/>
+                    </div>
+                    <section className={"flex flex-col gap-3 sm:gap-7"}>
+                        {cart?.promos.map((promo, promoIndex) =>
+                            <ShoppingCartSaleCard promo={promo} key={promoIndex}/>
+                        )}
+                    </section>
                 </section>
-            </section>
+            }
         </section>
     )
 

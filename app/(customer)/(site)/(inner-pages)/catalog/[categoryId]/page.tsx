@@ -7,7 +7,7 @@ import {useUnit} from "effector-react";
 import {
     $catalogCategoryName,
     $categoryBreadcrumbs,
-    $products,
+    $products, $productsAmount,
     getCategoryBreadcrumbsEvent,
 } from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
 import React, {useEffect} from "react";
@@ -20,6 +20,7 @@ import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/Catal
 import Text from "@/components/atoms/text/text-base/Text";
 import Loading from "@/components/mobile/loading/Loading";
 import dynamic from "next/dynamic";
+import CatalogPagination from "@/components/moleculas/pagination/CatalogPagination";
 
 const PageContentWrapper = dynamic(
     () => import("@/components/wrappers/page-content-wrapper/PageContentWrapper"),
@@ -31,7 +32,7 @@ const DesktopCatalogScreen = ({categoryId, onOpenPopup}: { categoryId: number, o
     const [breadcrumbs, categoryName, getBreadcrumbs]
         = useUnit([$categoryBreadcrumbs, $catalogCategoryName, getCategoryBreadcrumbsEvent])
 
-    const [cart, products] = useUnit([$cart, $products])
+    const [amount, products] = useUnit([$productsAmount, $products])
 
     useEffect(() => {
         getBreadcrumbs(categoryId)
@@ -39,12 +40,17 @@ const DesktopCatalogScreen = ({categoryId, onOpenPopup}: { categoryId: number, o
 
     if (breadcrumbs.length) return (
         <React.Fragment>
-            <section className={"w-full sm:px-[100px] sm:col-span-full flex flex-col"}>
-                <div className={"w-full flex flex-col gap-1 sm:flex-row items-baseline sm:gap-3"}>
-                    <Text text={categoryName} className={"text-2xl font-medium"}/>
-                    <Text text={`Всего ${products.length} шт.`} className={"text-base text-text-gray"}/>
+            <section className={"w-full gap-3 sm:gap-0 px-5 sm:px-[100px] sm:col-span-full flex flex-col"}>
+                <div className={"w-full sm:hidden"}>
+                    <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                 </div>
-                <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+                <div className={"w-full flex flex-col sm:flex-row items-baseline sm:gap-3"}>
+                    <Text text={categoryName} className={"text-lg sm:text-2xl font-medium"}/>
+                    <Text text={`Всего ${amount} шт.`} className={"text-base text-text-gray"}/>
+                </div>
+                <div className={"w-full sm:flex hidden"}>
+                    <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+                </div>
             </section>
             <InnerPageWrapper>
                 <CatalogLeftSidebar categoryId={categoryId}/>
@@ -64,6 +70,7 @@ const DesktopCatalogScreen = ({categoryId, onOpenPopup}: { categoryId: number, o
                                 productCard={card}
                             />
                         })}
+                        <CatalogPagination categoryId={categoryId}/>
                     </PageContentWrapper>
                 </section>
             </InnerPageWrapper>

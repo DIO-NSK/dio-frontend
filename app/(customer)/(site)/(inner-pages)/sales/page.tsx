@@ -32,9 +32,11 @@ const SaleCatalogScreen = () => {
 
     return (
         <InnerPageWrapper>
-            <section className={"col-span-full flex flex-col gap-0"}>
-                <Text text={"Акции"} className={"text-2xl font-medium leading-none"}/>
-                <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+            <section className={"w-full col-span-full flex flex-col gap-0 -mt-7 sm:mt-0"}>
+                <Text text={"Акции"} className={"text-lg sm:text-2xl font-medium leading-none"}/>
+                <div className={"w-full -mt-1 sm:pt-0"}>
+                    <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+                </div>
             </section>
             <SalesContentBlock sales={sales}/>
         </InnerPageWrapper>

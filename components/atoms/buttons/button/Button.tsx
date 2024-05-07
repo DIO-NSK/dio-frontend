@@ -26,10 +26,11 @@ const Button = (
         "flex flex-row items-center",
         "justify-center rounded-xl whitespace-nowrap",
         "sm:hover:duration-200 transition duration-200 pointer text-base",
-        buttonTypeCV, buttonSizeCV, props.classNames?.button,
+        buttonTypeCV, buttonSizeCV,
         {"bg-bg-light-blue text-text-gray border-2 border-light-gray": disabled},
         {"sm:hover:bg-bg-light-blue sm:hover:text-text-gray sm:hover:border-2": disabled},
-        {"sm:hover:border-light-gray sm:hover:cursor-not-allowed" : disabled}
+        {"sm:hover:border-light-gray sm:hover:cursor-not-allowed" : disabled},
+        props.classNames?.button
     ]
 
 
