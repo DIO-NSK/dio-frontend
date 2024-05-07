@@ -2,23 +2,27 @@ import {api, unauthorizedApi} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {getCartFx} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
-
-//region addToCart
-const addToCart = async (productId: number): Promise<string> => {
-
-    const requestBody = {
-        productId: productId,
-        quantityProduct: 1
-    }
-
-    return api.put("/cart", requestBody)
-        .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
-
+type RequestAddCartProduct = {
+    productId: number,
+    quantityProduct : number
 }
 
-const addToCartFx = createEffect<number, string, Error>(addToCart)
-export const addToCartEvent = createEvent<number>()
+type RequestAddCartSale = {
+    promoId: number,
+    quantityPromo: number
+}
+
+type RequestAddToCart = RequestAddCartSale | RequestAddCartProduct
+
+//region addToCart
+const addToCart = async (req: RequestAddToCart): Promise<string> => {
+    return api.put("/cart", req)
+        .then(response => response.data)
+        .catch(error => {throw Error(error.response.data.message)})
+}
+
+const addToCartFx = createEffect<RequestAddToCart, string, Error>(addToCart)
+export const addToCartEvent = createEvent<RequestAddToCart>()
 export const $addToCartError = createStore<string>("")
 
 sample({
@@ -74,7 +78,7 @@ sample({
 //region addAllToCart
 
 const addAllToCart = async (productItemIds : number[]) => {
-    return Promise.all(productItemIds.map(addToCart))
+    return Promise.all(productItemIds.map(product => addToCart({productId : product, quantityProduct : 1})))
 }
 
 const addAllToCartFx = createEffect(addAllToCart)

@@ -3,17 +3,27 @@ import {useUnit} from "effector-react";
 import {removeProductFromCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {addToCartEvent} from "@/components/organisms/cards/product-price-card/model";
 
-export const useBuyButton = (inCart : boolean, productId: number) => {
+export const useBuyButton = (inCart: boolean, productId: number, isSale ?: boolean) => {
 
-    const [addToCart, removeFromCart]
-        = useUnit([addToCartEvent, removeProductFromCartEvent])
+    const [addToCart, removeFromCart] = useUnit([addToCartEvent, removeProductFromCartEvent])
 
     const [isSelected, setSelected] = useState<boolean>(inCart)
 
     const onClick: MouseEventHandler = (event) => {
         event.stopPropagation()
-        if (isSelected) removeFromCart(productId)
-        else addToCart(productId)
+        if (isSelected) {
+            if (isSale) {
+                removeFromCart({promoId: productId})
+            } else {
+                removeFromCart({productId: productId})
+            }
+        } else {
+            if (isSale) {
+                addToCart({promoId: productId, quantityPromo: 1})
+            } else {
+                addToCart({productId: productId, quantityProduct: 1})
+            }
+        }
         setSelected(!isSelected)
     }
 

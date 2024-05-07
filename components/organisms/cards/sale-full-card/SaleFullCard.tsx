@@ -58,14 +58,14 @@ const SaleFullCard = ({card}: {
     const router = useRouter()
 
     const wrapperCV: ClassValue[] = [
-        "col-span-6 bg-white p-[20px] rounded-xl flex flex-row gap-[20px]",
+        "w-full sm:col-span-6 bg-white p-5 rounded-xl flex flex-col sm:flex-row gap-5",
         "sm:hover:z-10 border-2 border-light-gray sm:hover:shadow-lg sm:hover:shadow-gray-200/50 sm:hover:scale-[1.01] sm:hoverable pointer"
     ]
 
     return (
         <div className={cn(wrapperCV)}>
             <img
-                className={"w-[170px] h-[170px] rounded-xl object-cover"}
+                className={"w-full sm:w-[170px] h-[170px] rounded-xl object-cover"}
                 src={card.image} alt={'/'}
             />
             <div className={"w-full flex flex-col gap-[10px]"}>

@@ -13,13 +13,9 @@ type DeletePopupProps = {
 
 const DeletePopup = (props : DeletePopupProps) => {
 
-    const [sectionName, setSectionName] = useState<string>("")
-
     const onDeleteCategory = () => {
-        if (sectionName === props.tableRow.item[0]) {
-            props.onDelete(props.tableRow.id)
-            props.onClose?.()
-        }
+        props.onDelete(props.tableRow.id)
+        props.onClose?.()
     }
 
     return (
@@ -34,13 +30,6 @@ const DeletePopup = (props : DeletePopupProps) => {
                 <Text text={props.message ?? "Предупреждаем, это действие невозможно отменить" +
                     " и все категории и товары данного раздела удалятся" +
                     " без возможности восстановления"}/>
-
-                <TextInput
-                    labelText={"Подтвердите действие"}
-                    placeholder={"Напишите название раздела, который вы хотите удалить"}
-                    onChange={setSectionName}
-                    value={sectionName}
-                />
 
                 <Button
                     text={"Удалить раздел"}

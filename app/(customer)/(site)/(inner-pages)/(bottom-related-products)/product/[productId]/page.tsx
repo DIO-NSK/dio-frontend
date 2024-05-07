@@ -7,7 +7,9 @@ import DescriptionCol from "@/components/moleculas/cols/description-col/Descript
 import ProductPriceCard from "@/components/organisms/cards/product-price-card/ProductPriceCard";
 import HeaderBlock from "@/components/wrappers/header-block/HeaderBlock";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
+import MobilePhotoSlider, {
+    MobilePhotoSliderWrapper
+} from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 import Text from "@/components/atoms/text/text-base/Text";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
@@ -27,6 +29,7 @@ import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import Loading from "@/components/mobile/loading/Loading";
 import Chip from "@/components/atoms/chip/Chip";
+import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
 
 const MobileHeaderRow = ({product}: {
     product: ResponseProduct
@@ -71,10 +74,8 @@ const ProductCardPage = ({params}: {
     const [pageDidMount, product, getProduct] = useUnit([productPageDidMountEvent, $product, getProductEvent])
     const popupToggle = useToggle()
 
-    const [
-        activePhoto,
-        setActivePhoto
-    ] = useState<string | undefined>(product?.photos[0] ?? undefined)
+    const [activePhoto, setActivePhoto] = useState<string | undefined>(product?.photos[0] ?? undefined)
+    const [activePhotoIndex, setActivePhotoIndex] = useState<number>(0)
 
     useEffect(() => {
         pageDidMount()
@@ -91,17 +92,17 @@ const ProductCardPage = ({params}: {
             {popupToggle.state && <MobilePhotoGalleryPopup
                 onClose={popupToggle.toggleState}
             />}
-            <InnerPageWrapper classNames={{mobileWrapper: "px-0 -mt-7"}}>
 
-                <div className={"col-span-full flex flex-col gap-2 -mb-7"}>
+            <InnerPageWrapper classNames={{mobileWrapper: "px-0 -mt-7"}}>
+                <div className={"px-5 w-full sm:px-0 sm:col-span-full flex flex-col gap-2 -mb-7"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
-                    <div className={"flex flex-col gap-3"}>
-                        <Text text={product.name} className={"text-2xl font-medium"}/>
+                    <div className={"flex flex-col gap-4 sm:gap-3"}>
+                        <Text text={product.name} className={"text-2xl hidden font-medium"}/>
                         <div className={"flex flex-row items-center gap-3"}>
                             {
                                 product.discountPercent !== 0 && <Chip className={"bg-green-500"}>
                                     <Text
-                                        className={"text-sm uppercase text-white font-medium"}
+                                        className={"text-xs sm:text-sm uppercase text-white font-medium"}
                                         text={`Скидка ${product.discountPercent}%`}
                                     />
                                 </Chip>
@@ -109,7 +110,7 @@ const ProductCardPage = ({params}: {
                             {
                                 !product.inStock && <Chip className={"bg-gray-100"}>
                                     <Text
-                                        className={"text-sm uppercase text-text-gray"}
+                                        className={"text-xs sm:text-sm uppercase text-text-gray"}
                                         text={"Нет в наличии"}
                                     />
                                 </Chip>
@@ -119,7 +120,19 @@ const ProductCardPage = ({params}: {
                 </div>
 
                 <div onClick={popupToggle.toggleState}>
-                    <MobilePhotoSlider/>
+                    <MobilePhotoSliderWrapper
+                        className={"mt-5 mb-0"}
+                        activeIndex={activePhotoIndex}
+                        onChange={setActivePhotoIndex}
+                    >
+                        {product?.photos.map((banner, key) =>
+                            <img
+                                src={banner} alt={'Фотография товара'}
+                                className={"w-full h-[200px] object-cover"}
+                                key={key}
+                            />
+                        )}
+                    </MobilePhotoSliderWrapper>
                 </div>
 
                 <MobileHeaderRow product={product}/>

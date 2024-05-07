@@ -39,8 +39,8 @@ const DesktopCatalogScreen = ({categoryId, onOpenPopup}: { categoryId: number, o
 
     if (breadcrumbs.length) return (
         <React.Fragment>
-            <section className={"px-[100px] col-span-full flex flex-col"}>
-                <div className={"flex flex-row items-baseline gap-3"}>
+            <section className={"w-full sm:px-[100px] sm:col-span-full flex flex-col"}>
+                <div className={"w-full flex flex-col gap-1 sm:flex-row items-baseline sm:gap-3"}>
                     <Text text={categoryName} className={"text-2xl font-medium"}/>
                     <Text text={`Всего ${products.length} шт.`} className={"text-base text-text-gray"}/>
                 </div>

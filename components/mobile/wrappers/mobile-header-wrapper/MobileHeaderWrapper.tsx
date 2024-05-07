@@ -6,7 +6,7 @@ import {useRouter} from "next/navigation";
 import {cn} from "@/utlis/cn";
 import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
 
-const MobileHeaderWrapper = (props: HeaderWrapperProps) => {
+const MobileHeaderWrapper = ({canSlide = true, ...props}: HeaderWrapperProps) => {
 
     const router = useRouter()
     const handleButtonClick = () => props.textLink && router.push(props.textLink.link as string)
@@ -24,9 +24,13 @@ const MobileHeaderWrapper = (props: HeaderWrapperProps) => {
                     text={props.textLink.text}
                 />}
             </div>
-            <MobileSliderWrapper>
-                {props.children}
-            </MobileSliderWrapper>
+            {
+                canSlide ? <section className={"sm:hidden flex w-full ml-5"}>
+                    <MobileSliderWrapper>{props.children}</MobileSliderWrapper>
+                </section> : <section className={"w-full px-5 grid grid-cols-2 gap-2 pb-5"}>
+                    {props.children}
+                </section>
+            }
         </section>
     );
 

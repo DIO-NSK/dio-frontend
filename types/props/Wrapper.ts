@@ -14,5 +14,6 @@ type HeaderWrapperClassNames = {
 export type HeaderWrapperProps = {
     header ?: string,
     textLink ?: TextLink,
-    classNames ?: HeaderWrapperClassNames
+    classNames ?: HeaderWrapperClassNames,
+    canSlide ? : boolean
 } & WrapperProps

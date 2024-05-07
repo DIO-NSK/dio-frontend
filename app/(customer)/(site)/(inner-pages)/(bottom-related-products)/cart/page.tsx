@@ -48,7 +48,7 @@ const ShoppingCartPage = () => {
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
             <HeaderRow header={"Корзина"} leftContent={`Всего ${cart.products.length}`}/>
             {
-                cart.products.length ? (<CartContentBlock products={cart.products}/>) :
+                cart.products.length ? (<CartContentBlock/>) :
                     (<EmptyPage
                         header={emptyHeader}
                         description={emptyMessage}

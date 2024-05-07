@@ -18,6 +18,9 @@ const SearchbarIconButtonList = () => {
     const [cart, getCart, userCredentials, getUserCredentials]
         = useUnit([$cart, getCartEvent, $userCredentials, getUserCredentialsEvent])
 
+    const productsInCart = cart?.products.reduce((acc, item) => acc + item.quantity, 0)
+    const promosInCart = cart?.promos.reduce((acc, item) => acc + item.quantity, 0)
+
     const buttonListData = [
         {
             name: userCredentials?.fullName.split(" ")[1] ?? "Войти",
@@ -42,7 +45,7 @@ const SearchbarIconButtonList = () => {
                 <FiShoppingCart size={"20px"}/>
                 {
                     cart && cart.products.length !== 0 && <Badge
-                        number={cart.products.reduce((acc, item) => acc + item.quantity, 0)}
+                        number={productsInCart!! + promosInCart!!}
                         className={"absolute bottom-2 left-4 z-10"}
                     />
                 }

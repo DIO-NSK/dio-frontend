@@ -32,7 +32,7 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
 
     const trashCV: ClassValue = "hoverable pointer text-info-red hover:text-red-700"
 
-    const handleDeleteProduct = () => removeProductFromCart(card.productId)
+    const handleDeleteProduct = () => removeProductFromCart({productId : card.productId})
 
     return (
         <div className={"hidden w-full sm:flex flex-row items-center justify-between"}>

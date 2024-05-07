@@ -113,7 +113,7 @@ const ProductCard = ({productCard, classNames}: {
                     <div className={"px-3 py-2 rounded-lg bg-green-500"}>
                         <Text
                             text={`Скидка ${productCard.discountPercent} %`}
-                            className={"uppercase text-[12px] font-medium text-white"}
+                            className={"uppercase sm:text-[12px] text-[10px] font-medium text-white"}
                         />
                     </div>
                 }
@@ -121,7 +121,7 @@ const ProductCard = ({productCard, classNames}: {
                     !productCard.inStock &&
                     <div className={"px-3 py-2 rounded-lg bg-gray-100"}>
                         <Text
-                            className={"uppercase text-[12px] font-medium text-text-gray"}
+                            className={"uppercase sm:text-[12px] text-[10px] font-medium text-text-gray"}
                             text={"Нет в наличии"}
                         />
                     </div>

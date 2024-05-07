@@ -11,7 +11,7 @@ import {waterCoolerBlockData} from "@/data/waterCoolerBlockData";
 import Text from "@/components/atoms/text/text-base/Text";
 
 const DescrCol = ({header, description, top, left}: {
-    description : string,
+    description: string,
     top: number,
     left: number
 } & HeaderDescription) => {
@@ -51,17 +51,15 @@ const WaterCoolerBlock = () => {
                    width={160} height={100} quality={100}
             />
 
-            {
-                waterCoolerBlockData.map((item, index) => {
-                    return <WaterCoolerBlock.DescrCol
-                        top={item.top}
-                        left={item.left}
-                        header={item.header}
-                        description={item.descr}
-                        key={index}
-                    />
-                })
-            }
+            {waterCoolerBlockData.map((item, index) => {
+                return <WaterCoolerBlock.DescrCol
+                    top={item.top}
+                    left={item.left}
+                    header={item.header}
+                    description={item.descr}
+                    key={index}
+                />
+            })}
 
             <Image src={WaterCoolerImage.src} alt={'/'}
                    className={"w-[545px] h-[700px] object-fill"} width={500}

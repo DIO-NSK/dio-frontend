@@ -18,6 +18,12 @@ import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
 import ProductPhotoSlider from "@/components/moleculas/sliders/product-photo-slider/ProductPhotoSlider";
 import {cn} from "@/utlis/cn";
 import Loading from "@/components/mobile/loading/Loading";
+import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
+import {FiCheck} from "react-icons/fi";
+import MobilePhotoSlider, {
+    MobilePhotoSliderWrapper
+} from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
+import Link from "next/link";
 
 const productCardCV = {
     mainWrapper: cn([
@@ -26,12 +32,12 @@ const productCardCV = {
     ])
 }
 
-const SalePriceCard = () => {
+const SalePriceCard = ({saleId} : {saleId : number}) => {
+
+    const [isInCart, onBuyClick] = useBuyButton(false, saleId, true)
 
     const saleDetails = useUnit($saleDetails)
     const totalProducts = saleDetails?.products.reduce((acc, item) => acc + (item as any).quantity, 0)
-
-    const handleAddToCart = () => console.log("Added to cart")
 
     return (
         <StickyCardWrapper startCol={"col-start-10"}>
@@ -44,9 +50,10 @@ const SalePriceCard = () => {
                 <Text text={`${(saleDetails as any).price} ₽`} className={"text-link-blue font-medium text-xl"}/>
             </div>
             <Button
-                buttonType={'SECONDARY'}
-                text={'Добавить в корзину'}
-                onClick={handleAddToCart}
+                icon={isInCart && <FiCheck className={"stroke-[3px]"}/>}
+                text={isInCart ? "В корзине" : "В корзину"}
+                buttonType={isInCart ? "PRIMARY" : "SECONDARY"}
+                onClick={onBuyClick}
             />
         </StickyCardWrapper>
     )
@@ -61,7 +68,9 @@ const SalePage = ({params}: {
 
     const resetSaleDetails = useUnit(resetSaleDetailsEvent)
     const [saleDetails, getSaleDetails] = useUnit([$saleDetails, getSaleDetailsEvent])
+
     const [activePhoto, setActivePhoto] = useState<string>()
+    const [activePhotoIndex, setActivePhotoIndex] = useState<number>(0)
 
     const breadcrumbs: TextLink[] = [
         {text: "Главная", link: "/"},
@@ -81,33 +90,43 @@ const SalePage = ({params}: {
     }
 
     if (saleDetails) return (
-        <div className={"col-span-full flex flex-col gap-7"}>
-            <div
-                style={{padding: "0 100px 0 100px"}}
-                className={"col-span-full grid grid-cols-12 gap-x-[20px] gap-y-[30px]"}
-            >
-                <section className={"col-span-full flex flex-col gap-2"}>
+        <div className={"w-full sm:col-span-full flex flex-col gap-5 sm:gap-7"}>
+            <div className={"sm:px-[100px] px-5 w-full sm:col-span-full sm:grid sm:grid-cols-12 sm:gap-x-5 sm:gap-y-7"}>
+                <section className={"sm:col-span-full flex flex-col gap-2"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
-                    <Text text={saleDetails.name} className={"text-2xl font-medium"}/>
+                    <Text text={saleDetails.name} className={"sm:text-2xl text-xl font-medium"}/>
                 </section>
-                <div className={"col-span-9 flex flex-col gap-7"}>
+                <div className={"w-full sm:col-span-9 flex flex-col gap-7"}>
                     <ProductPhotoSlider
                         setActive={setActivePhoto}
                         activePhoto={activePhoto}
                         photos={saleDetails.images}
                     />
+                    <MobilePhotoSliderWrapper
+                        className={"mt-5 mb-0"}
+                        activeIndex={activePhotoIndex}
+                        onChange={setActivePhotoIndex}
+                    >
+                        {saleDetails.images.map((banner, key) =>
+                            <img
+                                src={banner} alt={'Изображение акции'}
+                                className={"w-full h-[200px] object-cover"}
+                                key={key}
+                            />
+                        )}
+                    </MobilePhotoSliderWrapper>
                     <div className={"w-full flex flex-col gap-2"}>
-                        <Text text={"Описание"} className={"text-xl font-medium"}/>
-                        <Text text={saleDetails.description}/>
+                        <Text text={"Описание"} className={"sm:text-xl text-lg font-medium"}/>
+                        <Text text={saleDetails.description} className={"w-full"}/>
                     </div>
                     <CardBulletCol
                         header={"Для участия в акции"}
                         items={saleDetails.ruleList}
                     />
                 </div>
-                <SalePriceCard/>
+                <SalePriceCard saleId={params.saleId}/>
             </div>
-            <div className={"w-full py-7 px-[100px] border-y-2 border-light-gray"}>
+            <div className={"w-full py-7 sm:px-[100px] border-y-2 border-light-gray"}>
                 <SliderGroup headerSize={'sm'} header={"Товары, участвующие в акции"}>
                     {saleDetails.products.map((product, index) => (
                         <ProductCard classNames={productCardCV} productCard={product} key={index}/>
