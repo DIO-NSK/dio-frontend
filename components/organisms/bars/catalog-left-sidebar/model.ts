@@ -21,6 +21,8 @@ export type FilterMapItem = {
 
 export type CatalogueFilterParams = {
     filters: CatalogueFilter[],
+    page ?: number,
+    size ?: number,
     categoryId: number
 }
 
@@ -44,15 +46,14 @@ const sendFilters = async (params: RequestFilterParams): Promise<CatalogProducts
     return unauthorizedApi.get("/catalogue/product/filter", {
         params: {
             categoryId: params.categoryId,
-            page: params?.page ?? 0,
-            size: params.size ?? 9,
+            priceRange : params.priceRange,
+            page: params.page,
+            size: params.size,
             filterMap: filterMap
         }
     })
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
+        .catch(error => {throw Error(error.response.data.message)})
 }
 
 export const sendFiltersFx = createEffect(sendFilters)

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useUnit} from "effector-react";
 import {$productsAmount} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
 import {WrapperProps} from "@/types/props/Wrapper";
@@ -6,6 +6,7 @@ import {cn} from "@/utlis/cn";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 import Button from "@/components/atoms/buttons/button/Button";
 import {RequestFilterParams, sendFiltersFx} from "@/components/organisms/bars/catalog-left-sidebar/model";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 const CARDS_PER_VIEW = 9
 
@@ -30,7 +31,12 @@ const IconButton = (props: IconButtonProps) => {
 
 }
 
-const CatalogPagination = ({categoryId} : {categoryId : number}) => {
+const CatalogPagination = ({categoryId}: { categoryId: number }) => {
+
+    const searchParams = useSearchParams()
+
+    const pathname = usePathname()
+    const router = useRouter()
 
     const [amount, changePage] = useUnit([$productsAmount, sendFiltersFx])
     const [activeIndex, setActiveIndex] = useState<number>(1)
@@ -38,17 +44,25 @@ const CatalogPagination = ({categoryId} : {categoryId : number}) => {
     const pageCount = Math.ceil(amount / CARDS_PER_VIEW)
     const pages = Array.from({length: pageCount}, (_, index) => index + 1)
 
-    const handleChangePage = (page: number) => {
-        changePage({categoryId : categoryId, page: page - 1, size: CARDS_PER_VIEW} as RequestFilterParams)
-        window.scrollTo(0,0)
-        setActiveIndex(page)
-    }
+    useEffect(() => {
+        const currentPage = searchParams.get('page')
+        if (currentPage && !isNaN(+currentPage)) {
+            setActiveIndex(+currentPage)
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
+        const current = new URLSearchParams(Array.from(searchParams.entries()));
+        current.set('page', activeIndex.toString())
+        router.push(pathname.concat(`?${current.toString()}`))
+        window.scrollTo(0, 0)
+    }, [activeIndex]);
 
     return (
         <section
             className={'col-span-9 pt-7 px-7 border-t-2 border-light-gray flex flex-row items-center justify-between'}>
             <IconButton
-                onClick={() => handleChangePage(activeIndex - 1)}
+                onClick={() => setActiveIndex(activeIndex - 1)}
                 isActive={activeIndex !== 1}
             >
                 <FiChevronLeft size={'20px'}/>
@@ -63,13 +77,13 @@ const CatalogPagination = ({categoryId} : {categoryId : number}) => {
                             ])
                         }}
                         buttonType={'SECONDARY'}
-                        onClick={() => handleChangePage(page)}
+                        onClick={() => setActiveIndex(page)}
                         text={`${page}`} key={index}
                     />
                 ))}
             </section>
             <IconButton
-                onClick={() => handleChangePage(activeIndex + 1)}
+                onClick={() => setActiveIndex(activeIndex + 1)}
                 isActive={activeIndex !== pageCount}
             >
                 <FiChevronRight size={'20px'}/>

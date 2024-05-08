@@ -1,5 +1,10 @@
 import {useUnit} from "effector-react";
-import {$filters, getCategoryFiltersFx, sendFiltersEvent} from "@/components/organisms/bars/catalog-left-sidebar/model";
+import {
+    $filters,
+    CatalogueFilterParams,
+    getCategoryFiltersFx,
+    sendFiltersEvent
+} from "@/components/organisms/bars/catalog-left-sidebar/model";
 import {useEffect, useState} from "react";
 import {CatalogueFilter, FilterGroup, RangeInputFilter, SelectFilter} from "@/types/dto/user/catalog/Filters";
 import {FilterItem} from "@/types/dto/user/catalog/FilterItem";
@@ -53,7 +58,8 @@ export const useFilters = (categoryId: number) => {
                 } as FilterGroup<RangeInputFilter>
             }
         })
-        sendFilters({filters: categoryFilters, categoryId: categoryId})
+        const pageQuery = searchParams.has('page') ? +searchParams.get('page')!! : 1
+        sendFilters({filters: categoryFilters, categoryId: categoryId, page: pageQuery - 1, size : 9} as CatalogueFilterParams)
         return categoryFilters
     }
 
@@ -94,14 +100,15 @@ export const useFilters = (categoryId: number) => {
     const createURLFilterMap = () => {
 
         const urlFilterMap: Record<string, string[]> = {}
-        const entries = Array.from(searchParams.entries())
-        if (!entries.length) return
 
-        const urlFilters = Array.from(searchParams.entries())[0][1].split(',')
+        if (!searchParams.has('filterMap')) return
+
+        const urlFilters = searchParams.get('filterMap')!!.split(',')
         urlFilters.forEach(filter => {
             const [key, value] = filter.split(':')
             urlFilterMap[key] = value.split('-')
         })
+
         return urlFilterMap
 
     }
@@ -113,15 +120,9 @@ export const useFilters = (categoryId: number) => {
         let urlFilters = createURLFilters(convertedRequest)
 
         // отдельный случай для цены
-        urlFilters = urlFilters.concat(`,price:${convertedRequest.priceRange}`)
-
-        const current = new URLSearchParams(Array.from(searchParams.entries()));
-        current.set("filterMap", urlFilters)
-        const search = current.toString()
-        const query = search ? `?${search}` : ""
-        router.push(`${pathname}${query}`)
-
-        sendFilters(request)
+        urlFilters = urlFilters.concat(`${urlFilters.length ? ',' : ''}price:${convertedRequest.priceRange}`)
+        router.push(`${pathname}?page=1&filterMap=${urlFilters}`)
+        sendFilters({...request, size : 9} as CatalogueFilterParams)
 
     }
 

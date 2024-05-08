@@ -30,6 +30,7 @@ export const convertCatalogueFiltersToParams = (params: CatalogueFilterParams): 
         !filterGroup.id) as FilterGroup<RangeInputFilter>
 
     const priceRange: string = reduceRange(priceFilterGroup)
+
     const filterMap = Object.assign(variantsRecord, rangeRecord)
 
     for (const [key, value] of Object.entries(filterMap)) {
@@ -39,7 +40,9 @@ export const convertCatalogueFiltersToParams = (params: CatalogueFilterParams): 
     return {
         filterMap: filterMap,
         categoryId: +categoryId,
-        priceRange: priceRange
+        priceRange: priceRange,
+        size : params?.size,
+        page : params?.page
     } as RequestFilterParams
 
 }
