@@ -7,6 +7,10 @@
     overflow-x: hidden;
 }
 
+body, html {
+    overflow-x : hidden;
+}
+
 .pointer {
     @apply hover:cursor-pointer;
 }
