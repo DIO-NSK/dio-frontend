@@ -6,7 +6,12 @@ import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import Button from "@/components/atoms/buttons/button/Button";
 import React, {useEffect} from "react";
 import {useUnit} from "effector-react";
-import {$notifications, getNotificationsEvent} from "@/app/admin/notifications/model";
+import {
+    $notifications, $selectedNotifications, deleteAllNotificationsEvent,
+    getNotificationsEvent, resetSelectedNotificationsEvent,
+    selectAllNotificationsEvent,
+    selectOneNotificationEvent
+} from "@/app/admin/notifications/model";
 import dynamic from "next/dynamic";
 import Loading from "@/components/mobile/loading/Loading";
 
@@ -17,8 +22,10 @@ const NotificationTable = dynamic(
 
 const AdminPanelNotificationsPage = () => {
 
+    const resetSelectedNotification = useUnit(resetSelectedNotificationsEvent)
+    const [selectedNotifications, deleteAllNotifications] = useUnit([$selectedNotifications, deleteAllNotificationsEvent])
+    const [selectOneNotification, selectAllNotifications] = useUnit([selectOneNotificationEvent, selectAllNotificationsEvent])
     const [notifications, getNotifications] = useUnit([$notifications, getNotificationsEvent])
-    const handleDeleteNotifications = () => console.log("Notifications deleted")
 
     useEffect(() => {
         getNotifications()
@@ -33,28 +40,28 @@ const AdminPanelNotificationsPage = () => {
                 leftContent={
                     <div className={"w-fit flex flex-row items-baseline gap-4"}>
                         {
-                            [].length > 0 &&
+                            selectedNotifications.length > 0 &&
                             <div className={"flex flex-row items-baseline gap-4"}>
                                 <Text
-                                    text={`Выбрано ${[].length}`}
+                                    text={`Выбрано ${selectedNotifications.length}`}
                                     className={"text-text-gray"}
                                 />
                                 <TextButton
-                                    onClick={() => console.log('Отменить выбор')}
+                                    onClick={resetSelectedNotification}
                                     text={"Отменить выбор"}
                                     className={"text-info-red hover:text-red-700"}
                                 />
                             </div>
                         }
                         <TextButton
-                            onClick={() => console.log('Выбрать все')}
+                            onClick={selectAllNotifications}
                             text={"Выбрать всё"}
                         />
                     </div>
                 }
                 rightContent={
                     <Button
-                        onClick={handleDeleteNotifications}
+                        onClick={deleteAllNotifications}
                         text={"Удалить"} buttonType={"SECONDARY"}
                         size={"sm"}
                     />
@@ -63,8 +70,8 @@ const AdminPanelNotificationsPage = () => {
 
             <NotificationTable
                 tableContent={notifications}
-                selectedItems={[]}
-                onSelect={console.log}
+                selectedItems={selectedNotifications}
+                onSelect={selectOneNotification}
             />
 
         </React.Fragment>

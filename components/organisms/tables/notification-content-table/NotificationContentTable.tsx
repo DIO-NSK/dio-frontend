@@ -7,17 +7,18 @@ import Checkbox from "@/components/atoms/buttons/checkbox/Checkbox";
 import Text from "@/components/atoms/text/text-base/Text";
 import {useRouter} from "next/navigation";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
-import {AdminNotification} from "@/app/admin/notifications/model";
+import {$selectedNotifications, AdminNotification} from "@/app/admin/notifications/model";
+import {useUnit} from "effector-react";
 
 type NotificationContentTableProps = {
     tableContent: TableRow<AdminNotification>[],
-    selectedItems: AdminNotification[],
-    onSelect: (notification: AdminNotification) => void
+    selectedItems: TableRow<AdminNotification>[],
+    onSelect: (notification: TableRow<AdminNotification>) => void
 } & Omit<TableWrapperProps, "children">
 
 type NotificationRowProps = {
     tableRow: TableRow<AdminNotification>,
-    onSelect: (notification: AdminNotification) => void
+    onSelect: (notification: TableRow<AdminNotification>) => void
     isSelected: boolean,
 }
 
@@ -46,7 +47,7 @@ const NotificationRow = (props: NotificationRowProps) => {
     const handleButtonClick = () => console.log('Clicked')
     const handleSelectItem = () => {
         if (props.tableRow.item.type !== "Проблема") {
-            props.onSelect(props.tableRow.item)
+            props.onSelect(props.tableRow)
         }
     }
 
@@ -83,22 +84,18 @@ const NotificationRow = (props: NotificationRowProps) => {
 
 const NotificationContentTable = (props: NotificationContentTableProps) => {
 
+    const selectedNotifications = useUnit($selectedNotifications)
+
     return (
-        <TableWrapper classNames={{content : "-mt-7"}} {...props}>
-            {
-                props.tableContent.map((tableRow, rowKey) => {
-
-                    const isSelected = false
-
-                    return <NotificationRow
-                        onSelect={props.onSelect}
-                        isSelected={isSelected}
-                        tableRow={tableRow}
-                        key={rowKey}
-                    />
-
-                })
-            }
+        <TableWrapper classNames={{content: "-mt-7"}} {...props}>
+            {props.tableContent.map((tableRow, rowKey) => (
+                <NotificationRow
+                    onSelect={props.onSelect}
+                    isSelected={selectedNotifications.includes(tableRow)}
+                    tableRow={tableRow}
+                    key={rowKey}
+                />
+            ))}
         </TableWrapper>
     );
 
