@@ -72,7 +72,7 @@ const AdminPanelEditProductPage = ({params}: {
     } = editProductMethods
 
     const rowCV = [
-        "mx-[-28px] items-end px-7 w-full grid grid-cols-3",
+        "items-end px-7 w-full grid grid-cols-3",
         "gap-7 pb-7 border-b-2 border-light-gray"
     ]
 
@@ -90,19 +90,25 @@ const AdminPanelEditProductPage = ({params}: {
         .catch(_ => setCreationStatus(false))
 
     useEffect(() => {
-        if (product) {
-            const productProperties = categoryData.map((inputData, index) => {
-                const filledValue = product.properties?.find(p => p.name === inputData.labelText)
-                return filledValue && ({value: filledValue?.value, valueType: properties[index].valueType, propertyId: properties[index].propertyId})
+        const productProperties = categoryData.map((inputData, index) => {
+            const filledValue = product?.properties?.find(p => p.name === inputData.labelText)
+            return filledValue && ({
+                value: filledValue?.value,
+                valueType: properties[index].valueType,
+                propertyId: properties[index].propertyId
             })
-            reset({
-                ...product,
-                photos: product.images,
-                filledProperties: productProperties,
-                externalProperties: product.extraProperties
-            } as DefaultValues<CreateProductData>)
-        }
+        })
+        reset({
+            ...product,
+            photos: product?.images,
+            filledProperties: productProperties,
+            externalProperties: product?.extraProperties
+        } as DefaultValues<CreateProductData>)
     }, [product])
+
+    useEffect(() => {
+        reset({isProductOfTheDay: (product as any)?.isProductOfTheDay})
+    }, []);
 
     useEffect(() => {
         getCategoryProperties(params.categoryId)
@@ -129,14 +135,14 @@ const AdminPanelEditProductPage = ({params}: {
                     />
                     <div className={cn(rowCV)}>
                         <ControlledTextInput
-                            disabled
+                            readonly={true}
                             labelText={"Код товара"}
                             placeholder={"Введите код товара"}
                             name={"crmCode"}
                             numbersOnly
                         />
                         <ControlledTextInput
-                            disabled
+                            readonly={true}
                             labelText={"Группа товара"}
                             placeholder={"Введите группу товара"}
                             name={"crmGroup"}
@@ -154,25 +160,23 @@ const AdminPanelEditProductPage = ({params}: {
                         placeholder={textAreaDescription}
                         name={"description"}
                         classNames={{
-                            wrapper: "w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray",
+                            wrapper: "w-full px-7 pb-7 border-b-2 border-light-gray",
                             input: "min-h-[150px] max-h-[300px]"
                         }}
                     />
                     <AdminPanelPhotoBlock/>
                     <HeaderDescriptionButtonRow
-                        className={"mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
+                        className={"px-7 pb-7 border-b-2 border-light-gray"}
                         button={<ControlledSwitch name={"isProductOfTheDay"}/>}
                         descr={productOfTheDayDescription}
                         header={"Товар дня"}
                     />
-                    <div className={"flex flex-row gap-5 items-center"}>
-                        <Button
-                            text={isSubmitting ? "Отправка.." : "Сохранить"}
-                            disabled={isSubmitting}
-                            onClick={handleSubmit(onSubmit)}
-                            classNames={{button: "w-[250px]"}}
-                        />
-                    </div>
+                    <Button
+                        text={isSubmitting ? "Отправка.." : "Сохранить"}
+                        disabled={isSubmitting}
+                        onClick={handleSubmit(onSubmit)}
+                        classNames={{button: "mx-7 w-[250px]"}}
+                    />
                 </Form>
             </FormProvider>
         </React.Fragment>

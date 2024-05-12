@@ -41,7 +41,7 @@ const OurWatersBlock = ({openPopup}: { openPopup: () => void }) => {
                 items={ourWaters.map(banner => banner.id)}
                 strategy={horizontalListSortingStrategy}
             >
-                <div className={"w-full grid grid-cols-3 gap-7 -mx-7 px-7"}>
+                <div className={"w-full grid grid-cols-3 gap-7 px-7"}>
                     {ourWaters.map((waterCard, index) => (
                             <SortableItemWrapper sequenceNumber={waterCard.id} key={waterCard.id}>
                                 <AdminWaterCard
@@ -82,7 +82,7 @@ const AdminPanelOurWatersBlock = () => {
                 }
                 descr={"Вы можете изменить расположение карточек дня в слайдере в режиме редактирования"}
                 header={"Наши воды"}
-                className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
+                className={"w-full px-7 pb-7 border-b-2 border-light-gray"}
             />
             <OurWatersBlock openPopup={popupToggle.toggleState}/>
         </React.Fragment>

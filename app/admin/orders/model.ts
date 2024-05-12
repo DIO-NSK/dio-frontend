@@ -7,18 +7,16 @@ import {filterOrdersFx} from "@/components/organisms/popups/admin/order-page-fil
 const getOrders = async () => {
     return unauthorizedApi.get("/admin/stat/last/order")
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
 }
 
 const getOrdersFx = createEffect<void, AdminOrder[], Error>(getOrders)
 export const getOrdersEvent = createEvent<void>()
 export const $orders = createStore<AdminOrderTableRow[]>([])
 
-$orders
-    .on(getOrdersFx.doneData, (_, orders) => convertOrdersToTableRows(orders))
-    .on(filterOrdersFx.doneData, (_, orders) => convertOrdersToTableRows(orders))
+$orders.on(
+    filterOrdersFx.doneData,
+    (_, orders) => convertOrdersToTableRows(orders)
+)
 
 sample({
     clock: getOrdersEvent,
@@ -26,5 +24,5 @@ sample({
 })
 
 const convertOrdersToTableRows = (orders: AdminOrder[]): AdminOrderTableRow[] => {
-    return orders.map(order => ({id: order.id, item: order}))
+    return orders.map(order => ({id: order.id, item: {...order, products: (order as any).items}}))
 }

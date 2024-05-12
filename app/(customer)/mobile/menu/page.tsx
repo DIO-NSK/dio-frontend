@@ -23,11 +23,12 @@ import MobileFooterNavbar from "@/components/mobile/organisms/mobile-footer-navb
 import MobileNavbarWrapper from "@/components/mobile/wrappers/mobile-navbar-wrapper/MobileNavbarWrapper";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 import {useUnit} from "effector-react";
-import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
+import {$userCredentials, getUserCredentialsEvent, logoutUserFx} from "@/app/(customer)/model";
 import React, {useEffect} from "react";
 
 const MobileMenuPage = () => {
 
+    const logout = useUnit(logoutUserFx)
     const [userCredentials, getUserCredentials]
         = useUnit([$userCredentials, getUserCredentialsEvent])
 
@@ -55,7 +56,7 @@ const MobileMenuPage = () => {
         {
             icon: userCredentials ? <FiLogOut className={"text-info-red"}/> : <FiLogIn className={"text-link-blue"}/>,
             text: userCredentials ? "Выйти" : "Войти",
-            action: userCredentials ? () => navigation.push("/profile")
+            action: userCredentials ? () => logout().then(_ => navigation.push('/'))
                 : () => navigation.push("/mobile/authorization")
         },
         {

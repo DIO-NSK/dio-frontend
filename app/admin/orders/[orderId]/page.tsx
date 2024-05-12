@@ -18,7 +18,7 @@ import {OrderStatus} from "@/types/dto/user/order/ResponseProfileOrder";
 import {convertPhoneNumber} from "@/utlis/convertPhoneNumber";
 
 const rowCV = [
-    "mx-[-28px] px-7 w-full flex flex-row gap-5 pb-7",
+    "w-full flex flex-row gap-5 pb-7",
     "border-b-2 border-light-gray"
 ]
 
@@ -165,7 +165,7 @@ const OrderStickyCard = () => {
     ]
 
     return (
-        <StickyCardWrapper startCol={"col-start-7"}>
+        <StickyCardWrapper startCol={"col-start-7 top-0"}>
             <section className={"flex flex-col gap-5"}>
                 {infoData.map((row, key) => (
                     <div

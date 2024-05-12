@@ -20,6 +20,7 @@ import {
 } from "@/app/admin/catalog/section/[sectionId]/model";
 import DeletePopup from "@/components/organisms/popups/admin/delete-popup/DeletePopup";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
+import React from "react";
 
 const deletePopupMessage =
     `Предупреждаем, это действие невозможно отменить
@@ -37,7 +38,7 @@ const AdminPanelCategoryPage = ({params}: {
     const editableContext = useAdminPanelHeaderRow()
 
     return (
-        <>
+        <React.Fragment>
             <DeleteCategoryPopup/>
             <div className={"w-full flex flex-col gap-4"}>
                 <AdminPanelHeaderButtonRow
@@ -48,7 +49,9 @@ const AdminPanelCategoryPage = ({params}: {
                 />
 
                 <div className={"w-full flex flex-col"}>
-                    <CatalogBreadcrumbs breadcrumbs={context.breadcrumbs}/>
+                    <div className={"w-full px-7"}>
+                        <CatalogBreadcrumbs breadcrumbs={context.breadcrumbs}/>
+                    </div>
                     <AdminPanelHeaderRow
                         header={"Категории"}
                         isEditable={editableContext.isEditable}
@@ -70,7 +73,7 @@ const AdminPanelCategoryPage = ({params}: {
                 onEdit={context.handleEditCategory}
             />
 
-        </>
+        </React.Fragment>
     );
 
 };

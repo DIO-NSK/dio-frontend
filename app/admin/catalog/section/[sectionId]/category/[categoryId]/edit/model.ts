@@ -1,8 +1,16 @@
-import {Category} from "@/types/dto/Category";
+import {Category, CategoryProperty} from "@/types/dto/Category";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
 import {combineEvents} from "patronum";
-import {unauthorizedApi} from "@/api";
+import {api, unauthorizedApi} from "@/api";
+
+export type ChangeCategoryRequest = {
+    id: number,
+    name: string,
+    sequenceNumber: number,
+    properties: CategoryProperty[],
+    canBeDeleted ?: boolean
+}
 
 const getCategory = async (categoryId: number): Promise<Category> => {
     return unauthorizedApi.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
@@ -11,6 +19,13 @@ const getCategory = async (categoryId: number): Promise<Category> => {
             throw Error(error.response.data.message)
         })
 }
+
+const changeCategory = async (req : ChangeCategoryRequest) => {
+    return api.post('/admin/catalogue/category/change', req)
+        .then(response => response.data)
+}
+
+export const changeCategoryFx = createEffect<ChangeCategoryRequest, void, Error>(changeCategory)
 
 const getCategoryFx = createEffect<number, Category, Error>(getCategory)
 
@@ -50,6 +65,6 @@ function createFormData(category: Category): CreateCategoryData {
 function convertNameToValueType(name: string): string {
     return name === "Текстовое значение" ? "TEXT"
         : name === "Целочисленное значение" ? "NUMBER"
-            : name === "Дробное значнеие" ? "FLOAT"
+            : name === "Дробное значение" ? "FLOAT"
                 : ""
 }

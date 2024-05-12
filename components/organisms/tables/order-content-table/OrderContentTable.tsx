@@ -61,11 +61,11 @@ const OrderRow = (props: OrderRowProps) => {
     const handleSelect = () => props.onSelect?.(order)
     const handleRowClick = () => props.onClick(props.tableRow)
 
-    const totalPrice = order.products.reduce((acc, item) =>
+    const totalPrice = order.products?.reduce((acc, item) =>
         acc + item.price * item.quantity * (1 - 0.01 * item.discountPercent), 0)
 
     const wrapperCV: ClassValue[] = [
-        "pointer relative hoverable w-full -mx-7 px-[95px] grid grid-cols-8 gap-x-7",
+        "pointer relative hoverable w-full px-[95px] grid grid-cols-8 gap-x-7",
         "py-7 border-b-2 border-light-gray hover:bg-bg-light-blue",
         {"bg-bg-light-blue": props.isSelected}
     ]
@@ -95,7 +95,7 @@ const OrderRow = (props: OrderRowProps) => {
             <Text text={`${totalPrice} ₽`} className={"col-span-1 text-[15px]"}/>
 
             <div className={"col-span-2 flex flex-col gap-3"}>
-                {order.products.map((product, key) =>
+                {order.products?.map((product, key) =>
                     (orderOpened.state || key == 0) &&
                     <OrderRowProductCard product={product} key={key}/>
                 )}

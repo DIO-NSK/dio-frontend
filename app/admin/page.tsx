@@ -1,7 +1,7 @@
 "use client"
 
 import LineChart from "@/components/organisms/charts/LineChart";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {useAdminPanelAnalyticsPage} from "@/app/admin/page.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -13,6 +13,7 @@ import {adminOrdersTableHeader} from "@/data/tables/adminOrdersTable";
 import {$graphVisitPoints, $orderGraphPoints, getOrdersGraphEvent, getVisitPointsEvent} from "@/app/admin/model";
 import dayjs from "dayjs";
 import moment from "moment";
+import {CalendarValue} from "@/components/moleculas/calendar/Calendar";
 
 const AdminPanelAnalyticsPage = () => {
 
@@ -23,13 +24,34 @@ const AdminPanelAnalyticsPage = () => {
     const [orders, getOrders] = useUnit([$orders, getOrdersEvent])
 
     const endDate = dayjs(Date.now()).format("YYYY-MM-DD")
-    const beginDate = moment(Date.now()).subtract(1,'months').format('YYYY-MM-DD')
+    const beginDate = moment(Date.now()).subtract(1, 'months').format('YYYY-MM-DD')
+
+    const [visitRange, setVisitRange] = useState<CalendarValue>([])
+    const [ordersRange, setOrdersRange] = useState<CalendarValue>([])
 
     useEffect(() => {
         getGraphVisitPoints({beginDate: beginDate, endDate: endDate})
         getOrderGraphPoints({beginDate: beginDate, endDate: endDate})
         getOrders()
     }, [])
+
+    useEffect(() => {
+        if (visitRange) {
+            const [from, to] = visitRange.map(date => dayjs(date).format("YYYY-MM-DD"))
+            getGraphVisitPoints({beginDate: from, endDate: to})
+        } else {
+            getGraphVisitPoints({beginDate: beginDate, endDate: endDate})
+        }
+    }, [visitRange])
+
+    useEffect(() => {
+        if (ordersRange) {
+            const [from, to] = ordersRange.map(date => dayjs(date).format("YYYY-MM-DD"))
+            getOrderGraphPoints({beginDate: from, endDate: to})
+        } else {
+            getOrderGraphPoints({beginDate: beginDate, endDate: endDate})
+        }
+    }, [ordersRange])
 
     return (
         <React.Fragment>
@@ -41,6 +63,7 @@ const AdminPanelAnalyticsPage = () => {
                     <div className={"flex flex-row items-center gap-5"}>
                         <Button
                             text={"Сгенерировать фид"}
+                            disabled={true} hasSpinner={false}
                             onClick={context.handlers.handleGenerateFeed}
                             icon={<FiShoppingBag size={"18px"}/>}
                             buttonType={"SECONDARY"}
@@ -48,6 +71,7 @@ const AdminPanelAnalyticsPage = () => {
                         />
                         <Button
                             text={"Экспортировать базу данных"}
+                            disabled={true} hasSpinner={false}
                             onClick={context.handlers.handleExportDatabase}
                             icon={<FiUpload size={"18px"}/>}
                             buttonType={"SECONDARY"}
@@ -56,16 +80,20 @@ const AdminPanelAnalyticsPage = () => {
                     </div>
                 }
             />
-            <div className={"w-full mx-[-28px] px-7 grid grid-cols-8 gap-7"}>
+            <div className={"px-7 w-full grid grid-cols-8 gap-7"}>
                 {orderGraphPoints && <LineChart
                     name={"История заказов"}
                     className={"col-span-4"}
                     graphPoints={orderGraphPoints}
+                    onChange={setOrdersRange}
+                    value={ordersRange}
                 />}
                 {graphVisitPoints && <LineChart
                     name={"История посещений"}
                     className={"col-span-4"}
                     graphPoints={graphVisitPoints}
+                    onChange={setVisitRange}
+                    value={visitRange}
                 />}
             </div>
             <HeaderRow

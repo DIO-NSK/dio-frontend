@@ -4,25 +4,27 @@ import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
-import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
-import {SelectItem} from "@/types/props/SelectItem";
 import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 import {selectableOrderStatuses} from "@/types/dto/user/order/ResponseProfileOrder";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {zodResolver} from '@hookform/resolvers/zod';
 import Form from "@/components/atoms/form/Form";
-import {PaymentMethod} from "@/types/dto/user/order/PaymentMethod";
 import {OrderFilterData, OrderFilterSchema} from "@/schemas/admin/OrderFiltersSchema";
 import {useUnit} from "effector-react";
 import {
+    $savedFilters,
+    $savedPriceRange,
     filterOrdersEvent,
-    RequestOrderFilters
+    saveFiltersEvent
 } from "@/components/organisms/popups/admin/order-page-filter-popup/model";
-import RangeInput from "@/components/atoms/inputs/range-input/RangeInput";
 import ControlledRangeInput from "@/components/atoms/inputs/range-input/ControlledRangeInput";
 import ControlledMultiSelectButton from "@/components/atoms/buttons/multiselect-button/ControlledMultiSelectButton";
+import {$orders} from "@/app/admin/orders/model";
+import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import {SelectItem} from "@/types/props/SelectItem";
+import {PaymentMethod} from "@/types/dto/user/order/PaymentMethod";
 
 const rowWrapperCV: ClassValue = "w-full flex flex-row gap-5 pb-7 border-b-2 border-light-gray"
 
@@ -30,39 +32,55 @@ const dateInputData = [
     {
         labelText: "Дата создания",
         placeholder: "31.12.24",
-        inputMask: "99.99.99",
+        inputMask: "99.99.9999",
         name: "created"
     }, {
         labelText: "Дата оплаты",
         placeholder: "31.12.24",
-        inputMask: "99.99.99",
+        inputMask: "99.99.9999",
         name: "deliveryTime"
     }
 ]
 
+const paymentStatusItems: SelectItem<PaymentMethod>[] = [
+    {name: "Наличными", value: "CASH"},
+    {name: "Онлайн", value: "CARD"},
+]
+
 const OrderPageFilterPopup = (props: PopupProps) => {
 
-    const filterOrders = useUnit(filterOrdersEvent)
-
-    const paymentStatusItems: SelectItem<PaymentMethod>[] = [
-        {name: "Наличными", value: "CASH"},
-        {name: "Онлайн", value: "CARD"},
-    ]
+    const savedPriceRange = useUnit($savedPriceRange)
+    const [orders, filterOrders] = useUnit([$orders, filterOrdersEvent])
+    const [savedFilters, saveFilters] = useUnit([$savedFilters, saveFiltersEvent])
 
     const methods = useForm<OrderFilterData>({
         resolver: zodResolver(OrderFilterSchema),
         mode: "onSubmit"
     })
 
-    const {watch} = methods
-
     const onSubmit = (fieldValues: FieldValues) => {
+        saveFilters(fieldValues as OrderFilterData)
         filterOrders(fieldValues as OrderFilterData)
+        props.onClose?.()
+    }
+
+    const handleResetFilters = () => {
+        methods.reset()
+        saveFilters({})
+        filterOrders({} as OrderFilterData)
+        props.onClose?.()
     }
 
     useEffect(() => {
-        watch()
-    }, []);
+        methods.reset({
+            ...savedFilters,
+            cost: {
+                max: String(savedPriceRange?.max),
+                min: String(savedPriceRange?.min)
+            }
+        } as OrderFilterData)
+        methods.watch()
+    }, [savedFilters]);
 
     return (
         <PopupWrapper onClose={props.onClose} placement={"center"}>
@@ -82,23 +100,28 @@ const OrderPageFilterPopup = (props: PopupProps) => {
                             name={"paymentType"}
                         />
                         <ControlledRangeInput
+                            minValue={'0'} maxValue={'10000'}
                             labelText={"Цена заказа"}
-                            maxValue={"10000"}
-                            minValue={"0"}
                             name={"cost"}
                         />
                     </div>
                     <div className={cn(rowWrapperCV)}>
                         {dateInputData.map((inputData, key) => (
-                            <TextInput {...inputData} key={key}/>)
+                            <ControlledTextInput {...inputData} key={key}/>)
                         )}
                     </div>
-                    <Button
-                        text={methods.formState.isSubmitting ? "Отправка.." : "Применить"}
-                        onClick={methods.handleSubmit(onSubmit)}
-                        disabled={methods.formState.isSubmitting}
-                        classNames={{button: "w-[250px]"}}
-                    />
+                    <div className={"flex flex-row items-center gap-5 w-[600px]"}>
+                        <Button
+                            text={methods.formState.isSubmitting ? "Отправка.." : "Применить"}
+                            onClick={methods.handleSubmit(onSubmit)}
+                            disabled={methods.formState.isSubmitting}
+                        />
+                        <Button
+                            buttonType={'SECONDARY'}
+                            onClick={handleResetFilters}
+                            text={"Сбросить фильтры"}
+                        />
+                    </div>
                 </Form>
             </FormProvider>
         </PopupWrapper>

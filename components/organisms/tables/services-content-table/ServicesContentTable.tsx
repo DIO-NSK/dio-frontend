@@ -26,7 +26,7 @@ const ServiceRow = ({tableRow, isSelected, onSelect}: {
 
     const wrapperCV: ClassValue[] = [
         "relative w-full grid grid-cols-8 gap-x-7 py-7 border-b-2 border-light-gray",
-        "hoverable hover:bg-bg-light-blue -mx-7 px-7 relative pointer",
+        "hoverable hover:bg-bg-light-blue px-7 relative pointer",
         {"bg-bg-light-blue": isSelected}
     ]
 
@@ -52,8 +52,8 @@ const ServiceRow = ({tableRow, isSelected, onSelect}: {
                 <Text text={date} className={"text-text-gray"}/>
                 <Text text={time} className={"text-text-gray"}/>
             </div>
-            <Text text={tableRow.item.nameServiceType}/>
-            <div className={"col-span-4 flex flex-col gap-1"}>
+            <Text text={tableRow.item.nameServiceType} className={"col-span-2"}/>
+            <div className={"col-span-3 flex flex-col gap-1"}>
                 {
                     tableRow.item.message ? <React.Fragment>
                         <Text text={

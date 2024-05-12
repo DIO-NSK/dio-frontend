@@ -10,9 +10,6 @@ const registerUser = async (request: RegisterUserData) => {
 
     return api.post("/user/register", userData)
         .then(response => response.data.code as string)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
 }
 
 export const registerUserFx = createEffect(registerUser)
@@ -26,7 +23,3 @@ export const $confirmationCode = createStore<string>("")
 $userPhoneNumber.on(setUserPhoneNumberEvent, (_, phoneNumber) => phoneNumber.replace(/[\s()-]/g, ''))
 
 $confirmationCode.on(registerUserFx.doneData, (_, code: string) => code)
-
-$registerUserError
-    .on(registerUserFx.failData, (_, error) => error.message)
-    .reset(registerPopupDidMountEvent)

@@ -70,7 +70,7 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
     }, [productRows]);
 
     return (
-        <AdminPanelBlockWrapper>
+        <AdminPanelBlockWrapper className={"mx-0 px-7"}>
             <HeaderDescriptionButtonRow
                 header={props.header}
                 descr={props.description}

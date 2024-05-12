@@ -16,6 +16,9 @@ const ControlledRangeInput = <T extends FieldValues, >(props: ControlledRangeInp
 
     const methods = useFormContext()
 
+    const min = methods.getValues(`${props.name}.min`) ?? props.minValue
+    const max = methods.getValues(`${props.name}.max`) ?? props.maxValue
+
     const handleChangeFromValue = (newValue: string) => {
         methods.setValue(`${props.name}.from`, newValue as FieldPathValue<FieldValues, Path<T>>)
     }
@@ -31,11 +34,11 @@ const ControlledRangeInput = <T extends FieldValues, >(props: ControlledRangeInp
             render={() => (
                 <div className={cn("w-full flex flex-col gap-2", props.className)}>
                     <RangeInput
+                        fromValue={methods.getValues(`${props.name}.from`) ?? min}
+                        toValue={methods.getValues(`${props.name}.to`) ?? max}
                         onChangeFromValue={handleChangeFromValue}
                         onChangeToValue={handleChangeToValue}
-                        minValue={props.minValue} maxValue={props.maxValue}
-                        fromValue={methods.getValues(`${props.name}.from`) ?? props.minValue}
-                        toValue={methods.getValues(`${props.name}.to`) ?? props.maxValue}
+                        minValue={min} maxValue={max}
                         labelText={props.labelText}
                     />
                     {methods.formState?.errors[props.name]?.message && <Text

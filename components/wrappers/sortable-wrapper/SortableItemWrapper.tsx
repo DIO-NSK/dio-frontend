@@ -5,7 +5,7 @@ import {CSS} from "@dnd-kit/utilities";
 import {SyntheticListenerMap} from "@dnd-kit/core/dist/hooks/utilities";
 import {DraggableAttributes} from "@dnd-kit/core";
 
-type SortableItemWrapperProps = { sequenceNumber : number } & WrapperProps
+type SortableItemWrapperProps = { sequenceNumber: number | string } & WrapperProps
 
 export type SortableHandlerProps = {
     setActivatorNodeRef?: (element: (HTMLElement | null)) => void,
@@ -14,8 +14,6 @@ export type SortableHandlerProps = {
 }
 
 const SortableItemWrapper = (props: SortableItemWrapperProps) => {
-
-    console.log(props.sequenceNumber)
 
     const {
         attributes,

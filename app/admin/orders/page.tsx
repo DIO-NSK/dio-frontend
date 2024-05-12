@@ -14,6 +14,7 @@ import {useUnit} from "effector-react";
 import {$orders, getOrdersEvent} from "@/app/admin/orders/model";
 import dynamic from "next/dynamic";
 import Loading from "@/components/mobile/loading/Loading";
+import {filterOrdersEvent} from "@/components/organisms/popups/admin/order-page-filter-popup/model";
 
 const OrderContentTable = dynamic(
     () => import("@/components/organisms/tables/order-content-table/OrderContentTable"),
@@ -22,12 +23,12 @@ const OrderContentTable = dynamic(
 
 const AdminPanelOrderPage = () => {
 
-    const [orders, getOrders] = useUnit([$orders, getOrdersEvent])
+    const [orders, getOrders] = useUnit([$orders, filterOrdersEvent])
     const {...context} = useAdminPanelOrdersPage()
     const {...selectableContext} = useSelectable<AdminOrder>([])
 
     useEffect(() => {
-        getOrders()
+        getOrders({})
     }, [])
 
     return (

@@ -33,6 +33,11 @@ export const catalogProductPageDidMount = createEvent<number>()
 export const changeProductsOrderEvent = createEvent<DragEndEvent>()
 export const deleteProductEvent = createEvent<number>()
 
+export const $isProductsEditable = createStore<boolean>(false)
+export const toggleEditableEvent = createEvent<void>()
+
+$isProductsEditable.on(toggleEditableEvent, (state) => !state)
+
 const $categoryId = createStore<number>(0)
 $categoryId.on(catalogProductPageDidMount, (_, id) => id)
 

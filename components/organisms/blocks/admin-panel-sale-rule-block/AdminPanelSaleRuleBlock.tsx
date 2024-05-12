@@ -18,7 +18,7 @@ const AdminPanelSaleRuleBlock = () => {
     }, []);
 
     return (
-        <AdminPanelBlockWrapper>
+        <AdminPanelBlockWrapper className={"mx-0 px-7"}>
             <HeaderDescriptionButtonRow
                 header={"Правила для участия в акции"}
                 descr={"Введите каждое правило в отдельном поле для того, чтобы информация" +

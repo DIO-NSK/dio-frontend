@@ -50,7 +50,7 @@ const FirstInputRow = () => {
 
     return (
         <section
-            className={"w-full mx-[-28px] px-7 grid grid-cols-5 items-end gap-7 pb-7 border-b-2 border-light-gray"}>
+            className={"w-full px-7 grid grid-cols-5 items-end gap-7 pb-7 border-b-2 border-light-gray"}>
             {inputGridData.map((inputData, key) =>
                 <ControlledTextInput classNames={{wrapper: "col-span-2"}} {...inputData} key={key}/>
             )}
@@ -82,7 +82,7 @@ const SecondInputRow = () => {
     ]
 
     return (
-        <section className={"w-full mx-[-28px] px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray"}>
+        <section className={"w-full px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray"}>
             {inputGridData.map((inputData, key) =>
                 <ControlledTextInput classNames={{wrapper: "col-span-1"}} {...inputData} key={key}/>
             )}
@@ -121,7 +121,7 @@ const AdminPanelNewSaleSecondBlock = () => {
                 labelText={"Описание акции"}
                 placeholder={"Придумайте привлекающее описание акции. Идеальная длина описания — 1 предложение."}
                 classNames={{
-                    wrapper: "mx-[-28px] px-7",
+                    wrapper: "px-7",
                     input: "min-h-[150px] max-h-[220px]"
                 }}
             />
@@ -132,12 +132,12 @@ const AdminPanelNewSaleSecondBlock = () => {
             <AdminPanelSaleRuleBlock/>
             <AdminPanelPhotoBlock
                 header={"Фотографии"}
-                description={"Это фотографии"}
+                description={"Данные фотографии будут видны пользователю на сайте"}
             />
             <Button
                 text={"Сохранить"}
                 onClick={handleSubmit(onSubmit)}
-                classNames={{button: "w-[250px]"}}
+                classNames={{button: "mx-7 w-[250px]"}}
             />
         </React.Fragment>
     )

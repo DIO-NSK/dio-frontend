@@ -47,7 +47,7 @@ const BannersBlock = ({openPopup}: BannersBlockProps) => {
                 items={banners.map(banner => banner.id)}
                 strategy={horizontalListSortingStrategy}
             >
-                <div className={"-mx-7 px-7 w-full grid grid-cols-3 gap-7"}>
+                <div className={"px-7 w-full grid grid-cols-3 gap-7"}>
                     {banners.map((banner, index) =>
                         <SortableItemWrapper sequenceNumber={banner.id} key={banner.id}>
                             <AdminPhotoCard
@@ -84,7 +84,7 @@ const AdminPanelPromoBlock = () => {
                     }
                     descr={"Вы можете изменить расположение промо-акций в слайдере в режиме редактирования"}
                     header={"Промо-акции"}
-                    className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
+                    className={"w-full px-7 pb-7 border-b-2 border-light-gray"}
                 />
                 <BannersBlock openPopup={toggle.toggleState}/>
             </div>

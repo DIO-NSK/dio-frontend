@@ -10,6 +10,9 @@ import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 import {SelectItem} from "@/types/props/SelectItem";
 import {defaultCharacteristicData} from "@/schemas/dto/CharacteristicSchema";
+import {closestCenter, DndContext, DragEndEvent} from "@dnd-kit/core";
+import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
 
 const selectItems: SelectItem<CharacteristicType>[] = [
     {name: "Целочисленное значение", value: "NUMBER"},
@@ -24,7 +27,7 @@ const AdminPanelCharBlock = ({blockName}: {
 }) => {
 
     const {control, formState: {errors}} = useFormContext()
-    const {fields, append, remove} = useFieldArray({
+    const {fields, append, remove, swap} = useFieldArray({
         control, name: blockName
     })
 
@@ -35,9 +38,17 @@ const AdminPanelCharBlock = ({blockName}: {
 
     const handleDeleteRow = (index: number) => remove(index)
 
-    return (
-        <div className={"w-full mx-[-28px] px-7 flex flex-col gap-5 pb-7 border-b-2 border-light-gray"}>
+    const handleChangeOrder = (event: DragEndEvent) => {
+        const {active, over} = event
+        if (active.id !== over?.id) {
+            const oldIndex = fields.findIndex((item) => item.id === active.id);
+            const newIndex = fields.findIndex((item) => item.id === over?.id);
+            swap(oldIndex, newIndex);
+        }
+    }
 
+    return (
+        <div className={"w-full px-7 pb-7 flex flex-col gap-5 border-b-2 border-light-gray"}>
             <HeaderDescriptionButtonRow
                 header={"Характеристики"}
                 descr={characteristicMessage}
@@ -52,40 +63,48 @@ const AdminPanelCharBlock = ({blockName}: {
                     />
                 }
             />
-
             <div className={"w-full flex flex-col gap-5"}>
-                {
-                    fields.map((item, index) =>
-                        <DraggableRowWrapper
-                            className={"w-full grid grid-cols-7 gap-5"}
-                            onDelete={() => handleDeleteRow(index)}
-                            key={item.id}
-                        >
-                            <ControlledTextInput
-                                classNames={{wrapper: "col-span-3"}}
-                                placeholder={"Введите название характеристики"}
-                                name={`${blockName}.${index}.name` as const}
-                                //@ts-ignore
-                                errors={errors?.[blockName]?.[index]?.name}
-                            />
-                            <ControlledTextInput
-                                classNames={{wrapper: "col-span-2"}}
-                                placeholder={"Единица характеристики"}
-                                name={`${blockName}.${index}.valueName` as const}
-                                //@ts-ignore
-                                errors={errors?.[blockName]?.[index]?.valueName}
-                            />
-                            <ControlledSelectInput
-                                width={"col-span-2"}
-                                placeholder={"Целочисленное значение"}
-                                name={`${blockName}.${index}.valueType` as const}
-                                items={selectItems}
-                            />
-                        </DraggableRowWrapper>
-                    )
-                }
+                <DndContext
+                    onDragEnd={handleChangeOrder}
+                    collisionDetection={closestCenter}
+                >
+                    <SortableContext
+                        items={fields.map(field => field.id)}
+                        strategy={horizontalListSortingStrategy}
+                    >
+                        {fields.map((item, index) =>
+                            <SortableItemWrapper sequenceNumber={item.id} key={item.id}>
+                                <DraggableRowWrapper
+                                    className={"w-full grid grid-cols-7 gap-5"}
+                                    onDelete={() => handleDeleteRow(index)}
+                                    key={item.id}
+                                >
+                                    <ControlledTextInput
+                                        classNames={{wrapper: "col-span-3"}}
+                                        placeholder={"Введите название характеристики"}
+                                        name={`${blockName}.${index}.name` as const}
+                                        //@ts-ignore
+                                        errors={errors?.[blockName]?.[index].name}
+                                    />
+                                    <ControlledTextInput
+                                        classNames={{wrapper: "col-span-2"}}
+                                        placeholder={"Единица характеристики"}
+                                        name={`${blockName}.${index}.valueName` as const}
+                                        //@ts-ignore
+                                        errors={errors?.[blockName]?.[index]?.valueName}
+                                    />
+                                    <ControlledSelectInput
+                                        width={"col-span-2"}
+                                        placeholder={"Целочисленное значение"}
+                                        name={`${blockName}.${index}.valueType` as const}
+                                        items={selectItems}
+                                    />
+                                </DraggableRowWrapper>
+                            </SortableItemWrapper>
+                        )}
+                    </SortableContext>
+                </DndContext>
             </div>
-
         </div>
     );
 

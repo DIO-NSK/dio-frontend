@@ -13,6 +13,7 @@ type AdminPhotoCardProps = {
     className?: string,
     defaultImage?: string,
     canDelete?: boolean,
+    draggable?: boolean,
     editable?: boolean,
     onEdit?: () => void,
     onDelete?: () => void
@@ -37,11 +38,15 @@ const PhotoCard = (props: AdminPhotoCardProps & SortableHandlerProps & {
             <img src={resolvedImage} alt={"Фотография продукта"}
                  className={"w-full h-full object-cover"}/>
             <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
-                {props.editable && <React.Fragment>
-                    <SquareIcon
-                        icon={<FiEdit size={"18px"}/>}
-                        onClick={props.onEdit}
-                    />
+                {(props.editable || props.draggable) && <React.Fragment>
+                    {
+                        props.editable && (
+                            <SquareIcon
+                                icon={<FiEdit size={"18px"}/>}
+                                onClick={props.onEdit}
+                            />
+                        )
+                    }
                     <div
                         className={"hover:cursor-grab"}
                         ref={props.setActivatorNodeRef}

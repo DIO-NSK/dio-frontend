@@ -16,6 +16,8 @@ export type ResponseCartItem = {
 }
 
 export type ResponseCartSaleItem = {
+    promoId : number,
+    promoItemId : number,
     description : string,
     mainImage : string
     name : string,
@@ -53,6 +55,14 @@ const removeProductFromCart = async (req : RequestRemoveCart) => {
 
 const removeProductFromCartFx = createEffect(removeProductFromCart)
 export const removeProductFromCartEvent = createEvent<RequestRemoveCart>()
+
+export const removeSaleFromCartEvent = createEvent<number>()
+
+sample({
+    clock : removeSaleFromCartEvent,
+    fn : (saleId : number) => ({promoId : saleId}),
+    target : removeProductFromCartFx
+})
 
 export const $removeProductFromCartError = createStore<string>("")
 export const $cart = createStore<ResponseUserCart | null>(null)

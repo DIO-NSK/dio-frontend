@@ -28,8 +28,8 @@ import {optionalServiceTypes} from "@/types/dto/admin/service/AdminService";
 const servicesTableHeader: TableHeaderItem[] = [
     {text: "Данные клиента", width: "col-span-2"},
     {text: "Дата", width: "col-span-1"},
-    {text: "Тип услуги", width: "col-span-1"},
-    {text: "Комментарий", width: "col-span-4"},
+    {text: "Тип услуги", width: "col-span-2"},
+    {text: "Комментарий", width: "col-span-3"},
 ]
 
 const multiselectElements: SelectItem<CallRequestStatus>[] = [
@@ -62,7 +62,7 @@ const AdminPanelServicesPage = () => {
 
     return (
         <React.Fragment>
-            <div className={"w-full mx-[-28px] px-7 grid grid-cols-8 gap-5"}>
+            <div className={"w-full px-7 grid grid-cols-8 gap-5"}>
                 <MultiselectButton
                     activeElement={activeElement}
                     selectElement={setActiveElement}
@@ -70,6 +70,7 @@ const AdminPanelServicesPage = () => {
                     className={"col-span-3"}
                 />
                 <SelectInput
+                    classNames={{modal : "max-h-[400px]"}}
                     width={"col-span-3 col-start-6"}
                     items={optionalServiceTypes}
                     onSelect={setActiveServiceType}

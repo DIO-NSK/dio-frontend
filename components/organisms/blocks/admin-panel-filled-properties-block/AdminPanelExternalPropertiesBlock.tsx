@@ -5,6 +5,9 @@ import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr
 import {useFieldArray, useFormContext} from "react-hook-form";
 import DraggableRowWrapper from "@/components/wrappers/draggable-row-wrapper/DraggableRowWrapper";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import {closestCenter, DndContext, DragEndEvent} from "@dnd-kit/core";
+import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
 
 const characteristicMessage = "Данные характеристики будут отражаться только в карточке товара"
 
@@ -13,7 +16,7 @@ const AdminPanelExternalPropertiesBlock = ({blockName}: {
 }) => {
 
     const {control, formState: {errors}} = useFormContext()
-    const {fields, append, remove} = useFieldArray({
+    const {fields, append, remove, swap} = useFieldArray({
         control, name: blockName
     })
 
@@ -23,8 +26,17 @@ const AdminPanelExternalPropertiesBlock = ({blockName}: {
 
     const handleDeleteRow = (index: number) => remove(index)
 
+    const handleChangeOrder = (event: DragEndEvent) => {
+        const {active, over} = event
+        if (active.id !== over?.id) {
+            const oldIndex = fields.findIndex((item) => item.id === active.id);
+            const newIndex = fields.findIndex((item) => item.id === over?.id);
+            swap(oldIndex, newIndex);
+        }
+    }
+
     return (
-        <div className={"w-full mx-[-28px] px-7 flex flex-col gap-5 pb-7 border-b-2 border-light-gray"}>
+        <div className={"w-full px-7 flex flex-col gap-5 pb-7 border-b-2 border-light-gray"}>
             <HeaderDescriptionButtonRow
                 header={"Дополнительные характеристики"}
                 descr={characteristicMessage}
@@ -40,28 +52,40 @@ const AdminPanelExternalPropertiesBlock = ({blockName}: {
                 }
             />
             <div className={"w-full flex flex-col gap-5"}>
-                {fields.map((item, index) =>
-                    <DraggableRowWrapper
-                        className={"w-full flex flex-row gap-5"}
-                        onDelete={() => handleDeleteRow(index)}
-                        key={item.id}
+                <DndContext
+                    onDragEnd={handleChangeOrder}
+                    collisionDetection={closestCenter}
+                >
+                    <SortableContext
+                        items={fields.map(field => field.id)}
+                        strategy={horizontalListSortingStrategy}
                     >
-                        <ControlledTextInput
-                            classNames={{wrapper : "w-full"}}
-                            placeholder={"Введите название характеристики"}
-                            name={`${blockName}.${index}.name` as const}
-                            //@ts-ignore
-                            errors={errors?.[blockName]?.[index]?.name}
-                        />
-                        <ControlledTextInput
-                            classNames={{wrapper : "w-full"}}
-                            placeholder={"Введите значение характеристки"}
-                            name={`${blockName}.${index}.value` as const}
-                            //@ts-ignore
-                            errors={errors?.[blockName]?.[index]?.value}
-                        />
-                    </DraggableRowWrapper>
-                )}
+                        {fields.map((item, index) =>
+                            <SortableItemWrapper sequenceNumber={item.id} key={item.id}>
+                                <DraggableRowWrapper
+                                    className={"w-full flex flex-row gap-5"}
+                                    onDelete={() => handleDeleteRow(index)}
+                                    key={item.id}
+                                >
+                                    <ControlledTextInput
+                                        classNames={{wrapper: "w-full"}}
+                                        placeholder={"Введите название характеристики"}
+                                        name={`${blockName}.${index}.name` as const}
+                                        //@ts-ignore
+                                        errors={errors?.[blockName]?.[index]?.name}
+                                    />
+                                    <ControlledTextInput
+                                        classNames={{wrapper: "w-full"}}
+                                        placeholder={"Введите значение характеристки"}
+                                        name={`${blockName}.${index}.value` as const}
+                                        //@ts-ignore
+                                        errors={errors?.[blockName]?.[index]?.value}
+                                    />
+                                </DraggableRowWrapper>
+                            </SortableItemWrapper>
+                        )}
+                    </SortableContext>
+                </DndContext>
             </div>
         </div>
     );

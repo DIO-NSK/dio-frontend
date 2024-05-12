@@ -44,7 +44,7 @@ const textAreaDescription: string = "Придумайте привлекающе
 const CreateProductFirstStep = () => {
 
     const rowCV = [
-        "mx-[-28px] items-end px-7 w-full grid grid-cols-3",
+        "items-end px-7 w-full grid grid-cols-3",
         "gap-7 pb-7 border-b-2 border-light-gray"
     ]
 
@@ -108,6 +108,10 @@ const CreateProductSecondStep = ({categoryId}: {
     const [creationSuccess, setCreationSuccess] = useState<boolean>(false)
     const [creationError, setCreationError] = useState<string>('')
 
+    const handleBack = () => {
+        router.back()
+    }
+
     const {
         handleSubmit,
         formState: {isSubmitting, errors},
@@ -143,7 +147,7 @@ const CreateProductSecondStep = ({categoryId}: {
                 onClose={() => setCreationSuccess(false)}
                 message={"Вы можете вернуться назад"}
                 header={"Товар успешно создан!"}
-                action={() => router.back()}
+                action={handleBack}
                 open={creationSuccess}
                 success={true}
             />
@@ -162,25 +166,23 @@ const CreateProductSecondStep = ({categoryId}: {
                 placeholder={textAreaDescription}
                 name={"description"}
                 classNames={{
-                    wrapper: "w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray",
+                    wrapper: "w-full px-7 pb-7 border-b-2 border-light-gray",
                     input: "min-h-[150px] max-h-[300px]"
                 }}
             />
             <AdminPanelPhotoBlock/>
             <HeaderDescriptionButtonRow
-                className={"mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
+                className={"px-7 pb-7 border-b-2 border-light-gray"}
                 button={<ControlledSwitch name={"isProductOfTheDay"}/>}
                 descr={productOfTheDayDescription}
                 header={"Товар дня"}
             />
-            <div className={"flex flex-row gap-5 items-center"}>
-                <Button
-                    text={isSubmitting ? "Отправка.." : "Сохранить"}
-                    disabled={isSubmitting}
-                    onClick={handleSubmit(onSubmit)}
-                    classNames={{button: "w-[250px]"}}
-                />
-            </div>
+            <Button
+                text={isSubmitting ? "Отправка.." : "Сохранить"}
+                disabled={isSubmitting}
+                onClick={handleSubmit(onSubmit)}
+                classNames={{button: "mx-7 w-[250px]"}}
+            />
         </React.Fragment>
     )
 
@@ -193,6 +195,8 @@ const AdminPanelNewProductPage = ({params}: {
     }
 }) => {
 
+    const router = useRouter()
+
     const createProductMethods = useForm<CreateProductData>({
         resolver: zodResolver(CreateProductSchema),
         mode: "onSubmit"
@@ -200,6 +204,10 @@ const AdminPanelNewProductPage = ({params}: {
 
     const {reset} = createProductMethods
     const [productDetails, pageDidMount] = useUnit([$productDetails, newProductPageDidMountEvent])
+
+    const handleBack = () => {
+        router.back()
+    }
 
     useEffect(() => {
         pageDidMount()
@@ -214,6 +222,7 @@ const AdminPanelNewProductPage = ({params}: {
                     theme={"bordered"}
                     header={"Новый товар"}
                     hasBackIcon
+                    onBackClick={handleBack}
                 />
                 <CreateProductFirstStep/>
                 {productDetails && <CreateProductSecondStep

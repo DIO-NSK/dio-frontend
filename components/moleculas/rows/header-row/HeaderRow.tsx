@@ -10,6 +10,7 @@ export type HeaderRowProps = {
     leftContent?: string | React.ReactNode,
     rightContent?: React.ReactNode,
     hasBackIcon?: boolean,
+    onBackClick ?: () => void,
     className?: string,
     headerCN ?: string,
     theme?: "default" | "bordered"
@@ -18,11 +19,11 @@ export type HeaderRowProps = {
 const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRowProps) => {
 
     const router = useRouter()
-    const handleBackClick = () => router.back()
+    const handleBackClick = () => props.onBackClick ? props.onBackClick() : router.back()
 
     const wrapperCV: ClassValue[] = [
         "w-full sm:col-span-full flex flex-row items-center justify-between",
-        {"sm:mx-[-28px] sm:px-7 pb-7 border-b-2 border-light-gray": theme == "bordered"},
+        {"sm:px-7 pb-7 border-b-2 border-light-gray": theme == "bordered"},
         props.className,
     ]
 

@@ -1,12 +1,13 @@
 import {api} from "@/api";
-import {createEffect, createEvent, sample} from "effector";
+import {createEffect, createEvent, createStore, sample} from "effector";
 import {AdminOrder} from "@/types/dto/AdminOrder";
-import {OrderFilterData, RangeInputData} from "@/schemas/admin/OrderFiltersSchema";
+import {OrderFilterData} from "@/schemas/admin/OrderFiltersSchema";
 
 type OrderFilters = {
     status: string,
     created: string,
-    deliveryTime: string,
+    paymentType: string,
+    paymentTime: string,
     numberPhone: string,
     firstName: string,
     lastName: string,
@@ -15,18 +16,28 @@ type OrderFilters = {
     orderId: number
 }
 
+type PriceRange = {
+    min : number,
+    max : number
+}
+
 export type RequestOrderFilters = Partial<OrderFilters>
 
 const filterOrders = async (filters: RequestOrderFilters): Promise<AdminOrder[]> => {
     return api.get("/order/admin/filter", {params: filters})
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
 }
 
 export const filterOrdersFx = createEffect<RequestOrderFilters, AdminOrder[], Error>(filterOrders)
 export const filterOrdersEvent = createEvent<OrderFilterData>()
+export const saveFiltersEvent = createEvent<OrderFilterData>()
+export const savePriceRangeEvent = createEvent<PriceRange>()
+
+export const $savedFilters = createStore<OrderFilterData | null>(null)
+export const $savedPriceRange = createStore<PriceRange | null>(null)
+$savedFilters.on(saveFiltersEvent, (_, filters) => filters)
+
+$savedPriceRange.on(savePriceRangeEvent, (_, range) => range)
 
 sample({
     clock: filterOrdersEvent,
@@ -35,8 +46,10 @@ sample({
 })
 
 const convertDataToRequest = (data: OrderFilterData): RequestOrderFilters => ({
-    costFrom: data.cost?.from ? +data.cost.from : 0,
-    costTo: data.cost?.to ? +data.cost.to : 100_000,
-    created: data.created,
+    created : data.created?.length ? data.created : undefined,
+    costFrom : data?.cost?.from ?? undefined,
+    costTo : data?.cost?.to ?? undefined,
+    paymentType: data.paymentType?.value,
+    paymentTime: data.paymentDate,
     status: data.status?.value
-})
+} as RequestOrderFilters)

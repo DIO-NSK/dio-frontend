@@ -17,7 +17,7 @@ import {SortableContext, sortableKeyboardCoordinates, verticalListSortingStrateg
 const Header = (props: TableWrapperProps) => {
 
     const wrapperCV: ClassValue[] = [
-        "w-full mx-[-28px] px-7 grid grid-cols-8",
+        "w-full px-7 grid grid-cols-8",
         "gap-x-7 pb-7 border-b-2 border-light-gray"
     ]
 

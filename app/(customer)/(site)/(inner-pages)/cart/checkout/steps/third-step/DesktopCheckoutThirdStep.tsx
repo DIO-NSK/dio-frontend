@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapper/BackgroundBlockWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useUnit} from "effector-react";
@@ -9,12 +9,25 @@ import Text from "@/components/atoms/text/text-base/Text";
 import {
     $createOrderPending,
     $createOrderStatus,
-    createOrderEvent,
+    createOrderFx,
+    CreateOrderRequest,
     thirdStepDidMountEvent
 } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/third-step/model";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {useRouter} from "next/navigation";
 import {convertPhoneNumber} from "@/utlis/convertPhoneNumber";
+import {CreateOrderData} from "@/schemas/customer/checkout/CreateOrderSchema";
+
+const convertFormDataToRequest = (data: CreateOrderData): CreateOrderRequest => {
+    return ({
+        orderId: data.orderId,
+        pickedProducts: data.pickedProducts,
+        paymentMethod: data.paymentMethod.value,
+        deliveryTime: data.deliveryTime.name,
+        deliveryDate: data.deliveryDate.value,
+        routeCode: +data.deliveryTime.value
+    }) as CreateOrderRequest
+}
 
 const CheckoutDataBlock = ({header, items}: { header: string, items: HeaderDescription[] }) => {
     return (
@@ -36,8 +49,9 @@ const DesktopCheckoutThirdStep = () => {
 
     const router = useRouter()
 
+    const orderData = useUnit($checkoutSecondStepData)
     const [resetRequestStatus, requestStatus, pending] = useUnit([thirdStepDidMountEvent, $createOrderStatus, $createOrderPending])
-    const [createOrder, firstFormData, secondFormData] = useUnit([createOrderEvent, $checkoutFirstStepData, $checkoutSecondStepData])
+    const [createOrder, firstFormData, secondFormData] = useUnit([createOrderFx, $checkoutFirstStepData, $checkoutSecondStepData])
 
     const firstBlockData: HeaderDescription[] = [
         {header: "Имя", description: firstFormData.firstName},
@@ -69,6 +83,13 @@ const DesktopCheckoutThirdStep = () => {
     const headerSnackbar = requestStatus === true ? "Заявка на звонок отправлена!" : "Произошла ошибка"
     const messageSnackbar = requestStatus === true ? "В скором времени с вами свяжется специалист" : "Заполните данные заново и попробуйте снова"
 
+    const [errorMessage, setErrorMessage] = useState<string>('')
+
+    const handleCreateOrder = () => {
+        createOrder(convertFormDataToRequest(orderData))
+            .catch(error => setErrorMessage(error))
+    }
+
     useEffect(() => {
         resetRequestStatus()
     }, []);
@@ -79,7 +100,7 @@ const DesktopCheckoutThirdStep = () => {
                 autoHide={false}
                 success={requestStatus === true}
                 header={headerSnackbar}
-                message={messageSnackbar}
+                message={requestStatus ? messageSnackbar : errorMessage}
                 open={requestStatus !== null}
                 onClose={resetRequestStatus}
                 action={() => {
@@ -93,7 +114,7 @@ const DesktopCheckoutThirdStep = () => {
             <Button
                 text={pending ? "Отправка.." : "Оформить заказ"}
                 classNames={{button: "sm:w-1/4 w-full"}}
-                onClick={createOrder}
+                onClick={handleCreateOrder}
                 disabled={pending}
             />
         </section>

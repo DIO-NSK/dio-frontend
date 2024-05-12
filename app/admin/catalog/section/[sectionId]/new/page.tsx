@@ -16,6 +16,7 @@ import {useRouter} from "next/navigation";
 import {$categories, $creationStatus, createCategoryFx} from "../model";
 import Text from "@/components/atoms/text/text-base/Text";
 import {defaultCharacteristicData} from "@/schemas/dto/CharacteristicSchema";
+import React from "react";
 
 const AdminPanelNewCategoryPage = ({params}: {
     params: { sectionId: number }
@@ -56,7 +57,7 @@ const AdminPanelNewCategoryPage = ({params}: {
     }
 
     return (
-        <>
+        <React.Fragment>
             <HeaderRow
                 className={"w-full"}
                 theme={"bordered"}
@@ -65,7 +66,7 @@ const AdminPanelNewCategoryPage = ({params}: {
             />
             <FormProvider {...methods}>
                 <Form>
-                    <div className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}>
+                    <div className={"w-full px-7 pb-7 border-b-2 border-light-gray"}>
                         <ControlledTextInput
                             labelText={"Название категории"}
                             placeholder={"Введите название категории"}
@@ -73,7 +74,7 @@ const AdminPanelNewCategoryPage = ({params}: {
                         />
                     </div>
                     <AdminPanelCharBlock blockName={"properties"}/>
-                    <div className={"flex flex-row items-center gap-5"}>
+                    <div className={"px-7 flex flex-row items-center gap-5"}>
                         <Button
                             disabled={isSubmitting}
                             classNames={{button: "w-[250px]"}}
@@ -90,7 +91,7 @@ const AdminPanelNewCategoryPage = ({params}: {
 
                 </Form>
             </FormProvider>
-        </>
+        </React.Fragment>
     );
 };
 

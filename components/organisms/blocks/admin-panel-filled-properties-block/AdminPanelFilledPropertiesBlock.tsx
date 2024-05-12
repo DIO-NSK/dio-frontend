@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import HeaderBlock from "@/components/wrappers/header-block/HeaderBlock";
-import {useFieldArray, useFormContext} from "react-hook-form";
+import {FieldError, useFieldArray, useFormContext} from "react-hook-form";
 import {CreateProductData} from "@/schemas/admin/CreateProductSchema";
 import {useUnit} from "effector-react";
 import {
@@ -15,7 +15,7 @@ import {
 
 const AdminPanelFilledPropertiesBlock = () => {
 
-    const {control, getValues, reset} = useFormContext<CreateProductData>()
+    const {formState: {errors}, control, getValues, reset} = useFormContext<CreateProductData>()
     const {fields} = useFieldArray({control, name: "filledProperties"})
 
     const [properties, categoryInputGrid] = useUnit([$categoryProperties, $inputPrefilledData])
@@ -24,17 +24,19 @@ const AdminPanelFilledPropertiesBlock = () => {
         reset({filledProperties: properties})
     }, [properties]);
 
-    const inputRowCN: string = "mx-[-28px] px-7 w-full grid grid-cols-3 gap-7 pb-7 border-b-2 border-light-gray"
+    const inputRowCN: string = "w-full grid grid-cols-3 gap-7"
 
     return (
-        <HeaderBlock header={"Обязательные характеристики"}>
+        <HeaderBlock header={"Обязательные характеристики"} className={"sm:px-7 pb-7 border-b-2 border-light-gray"}>
             <section className={inputRowCN}>
                 {fields.map((field, index) => (
                     <div className={"col-span-1 flex flex-col gap-3"}>
                         <ControlledTextInput
+                            {...categoryInputGrid[index]}
                             classNames={{wrapper: "col-span-1"}}
                             name={`filledProperties.${index}.value`}
-                            key={field.id} {...categoryInputGrid[index]}
+                            errors={errors.filledProperties?.[index]?.value}
+                            key={field.id}
                         />
                         <Text
                             text={getValues(`filledProperties.${index}.valueType`)}

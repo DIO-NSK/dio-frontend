@@ -3,14 +3,23 @@ import {requiredFiledError} from "@/schemas";
 import {SelectInputSchema} from "@/schemas/dto/SelectInputSchema";
 import {SelectItem} from "@/types/props/SelectItem";
 
-export const priceTypeItems : SelectItem<string>[] = [
-    {name : "Цена за штуку", value : "unit"},
-    {name : "Цена за упаковку", value : "package"},
+export const priceTypeItems: SelectItem<string>[] = [
+    {name: "Цена за штуку", value: "unit"},
+    {name: "Цена за упаковку", value: "package"},
 ]
+
+export const disallowSymbolsMessage = "Поле не должно содержать запятой, двоеточия и тире"
+export const disallowSymbolsRegex = /^[^,:-]+$/
 
 export const CategoryPropertySchema = z.object({
     valueType: z.string().min(1, requiredFiledError),
     value: z.string().min(1, requiredFiledError),
+    propertyId: z.number()
+})
+
+const SpecialSymbolsCategoryPropertySchema = z.object({
+    valueType: z.string().min(1, requiredFiledError),
+    value: z.string().min(1, requiredFiledError).refine(item => disallowSymbolsRegex.test(item), disallowSymbolsMessage),
     propertyId: z.number()
 })
 
@@ -33,7 +42,7 @@ export const CreateProductSchema = z.object({
         .or(z.number())
         .optional(),
     isProductOfTheDay: z.boolean(),
-    filledProperties: z.array(CategoryPropertySchema),
+    filledProperties: z.array(SpecialSymbolsCategoryPropertySchema),
     externalProperties: z.array(ExternalPropertySchema).optional(),
     photos: z.array(z.custom<File>((v) => v instanceof File).or(z.string())),
     isInvisible: z.boolean().optional(),

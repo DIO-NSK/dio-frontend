@@ -12,9 +12,9 @@ const AdminPanelLayout = ({children}: { children: React.ReactNode }) => {
     const foldedCN = isFolded && "col-span-9"
 
     return (
-        <div className={"w-full grid grid-cols-10 my-5 gap-x-7 gap-y-5"}>
+        <div className={"w-full h-screen overflow-hidden grid grid-cols-10 gap-y-5"}>
             <AdminPanelSidebar/>
-            <div className={cn("col-span-8 flex flex-col gap-7 mr-[-28px] pb-7", foldedCN)}>
+            <div className={cn("overflow-y-auto col-span-8 flex flex-col gap-7 py-5", foldedCN)}>
                 {children}
             </div>
         </div>

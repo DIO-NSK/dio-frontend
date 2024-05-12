@@ -65,7 +65,7 @@ const AdminPanelCatalogPage = () => {
                 onSaveChanges={saveChanges}
             />
             {context.tableContent && <TextContentTable
-                classNames={{content: "mt-[-28px]"}}
+                classNames={{content: "-mt-7"}}
                 tableContent={context.tableContent}
                 isDraggable={editableContext.isEditable}
                 onDragEnd={changeOrder}

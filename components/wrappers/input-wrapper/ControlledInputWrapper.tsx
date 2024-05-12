@@ -3,7 +3,7 @@ import {ClassValue} from "clsx";
 import Text from "@/components/atoms/text/text-base/Text";
 import {cn} from "@/utlis/cn";
 import {ControlledTextInputProps} from "@/types/props/inputs/TextInput";
-import {FieldValues, UseFormReturn} from "react-hook-form";
+import {FieldError, FieldValues, UseFormReturn} from "react-hook-form";
 import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
 
 type InputWrapperProps<T extends FieldValues> = {
@@ -36,17 +36,15 @@ const ControlledInputWrapper = <T extends FieldValues, >({children, props}: Inpu
                         />
                     }
                     {
-                        props?.errors && <Text
+                        props?.errors &&  <Text
+                            text={(props.errors as any).message as string}
                             className={cn("text-info-red", "text-[14px]")}
-                            text={props?.errors?.message as string}
                         />
                     }
-                    {
-                        props.hintText && <Text
-                            text={props.hintText.hintMessage}
-                            className={cn(hintTextCV, "text-[14px]")}
-                        />
-                    }
+                    {props.hintText && <Text
+                        text={props.hintText.hintMessage}
+                        className={cn(hintTextCV, "text-[14px]")}
+                    />}
                 </div>
             )}
         </ConnectForm>

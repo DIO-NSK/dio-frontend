@@ -15,6 +15,7 @@ export type DropdownInputProps<T> = {
     labelText?: string,
     className?: string,
     placeholder?: string,
+    classNames ?: {modal ?: string}
     width?: string,
     error?: string
 }
@@ -33,7 +34,8 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
 
     const itemListCV: ClassValue[] = [
         "overflow-y-auto max-h-[150px] dropdownScrollbar absolute w-full z-10",
-        "top-[80px] rounded-xl bg-white drop-shadow-lg flex flex-col"
+        "top-[80px] rounded-xl bg-white drop-shadow-lg flex flex-col",
+        props?.classNames?.modal
     ]
 
     const textCV = {"text-text-gray": !props.selectedItem || props.selectedItem?.name?.length === 0}

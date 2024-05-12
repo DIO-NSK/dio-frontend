@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import {
@@ -93,7 +93,7 @@ const AdminPanelSidebar = () => {
     const isFolded = useUnit($isFolded)
 
     const wrapperCV: ClassValue[] = [
-        "sticky top-0 col-span-2 my-[-20px] py-5 h-screen flex flex-col",
+        "sticky left-0 bottom-0 col-span-2 py-5 h-full flex flex-col",
         "justify-between border-r-2 border-light-gray",
         {"col-span-1": isFolded}
     ]
@@ -104,15 +104,14 @@ const AdminPanelSidebar = () => {
 
     useEffect(() => {
         const activeRoute = adminTabBarData.find(tab => {
-            const activeRoutePrefix = '/' + (tab.path!!).split('/').slice(1, 3).join('/')
-            return activeRoutePrefix === pathname
+            const activeRoutePrefix = '/' + (pathname).split('/').slice(1, 3).join('/')
+            return activeRoutePrefix === tab.path
         })
         setActiveTab(activeRoute ?? adminTabBarData[0])
     }, [pathname]);
 
     return (
         <div className={cn(wrapperCV)}>
-
             <div className={"w-full flex flex-col gap-5"}>
                 {
                     isFolded
@@ -125,7 +124,6 @@ const AdminPanelSidebar = () => {
                     setActive={handleTabClick}
                 />
             </div>
-
             <AdminPanelSidebar.Footer/>
         </div>
     );

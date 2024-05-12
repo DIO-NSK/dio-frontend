@@ -25,7 +25,7 @@ const sx = {
 
 const RangeInput = (props: RangeInputProps) => {
 
-    const step = Number(((+props.maxValue - +props.minValue) / 20).toFixed())
+    const step = Number.isInteger(+props.minValue) && Number.isInteger(+props.maxValue) ? 1 : 0.1
 
     const handleChange = (_: Event, state: number | number[]) => {
         props.onChangeFromValue((state as number[])[0].toString())
@@ -68,7 +68,7 @@ const RangeInput = (props: RangeInputProps) => {
             <Slider
                 min={+props.minValue} max={+props.maxValue}
                 value={[+props.fromValue, +props.toValue]}
-                onChange={handleChange}
+                onChange={handleChange} step={step}
                 sx={sx} disableSwap
             />
         </div>

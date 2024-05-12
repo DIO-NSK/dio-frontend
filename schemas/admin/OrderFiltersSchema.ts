@@ -3,14 +3,16 @@ import {SelectInputSchema} from "@/schemas/dto/SelectInputSchema";
 import {requiredFiledError} from "@/schemas";
 
 export const RangeInputSchema = z.object({
-    from : z.string(),
-    to : z.string()
+    min : z.string().optional(),
+    max : z.string().optional(),
+    from : z.string().optional(),
+    to : z.string().optional()
 })
 
 export const OrderFilterSchema = z.object({
     status: SelectInputSchema.optional(),
-    created: z.string().min(1, requiredFiledError).optional(),
-    paymentDate: z.string().min(1, requiredFiledError).optional(),
+    created: z.string().optional(),
+    paymentDate: z.string().optional(),
     paymentType: SelectInputSchema.optional(),
     cost : RangeInputSchema.optional()
 })

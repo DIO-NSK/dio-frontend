@@ -10,7 +10,7 @@ const OrderPageHeaderBlock = ({header, ...props}: WrapperProps & { header: strin
     const handleSwitchExpanded = () => setExpanded(!isExpanded)
 
     return (
-        <div className={cn("w-full flex flex-col gap-5", props.className)}>
+        <div className={cn("px-7 w-full flex flex-col gap-5", props.className)}>
             <div className={"w-full flex flex-row items-center justify-between"}>
                 <Text text={header} className={"text-[20px] font-medium"}/>
                 <ChevronButton

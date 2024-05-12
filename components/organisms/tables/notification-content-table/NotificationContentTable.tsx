@@ -27,7 +27,7 @@ const NotificationRow = (props: NotificationRowProps) => {
     const router = useRouter()
 
     const wrapperCV: ClassValue[] = [
-        "-mx-7 px-7 w-full flex flex-row items-center justify-between py-7",
+        "px-7 w-full flex flex-row items-center justify-between py-7",
         "border-b-2 border-light-gray hoverable pointer px-7",
         {"hover:bg-bg-light-blue": props.tableRow.item.type !== "Проблема"},
         {"pl-[65px] bg-red-50": props.tableRow.item.type === "Проблема"},

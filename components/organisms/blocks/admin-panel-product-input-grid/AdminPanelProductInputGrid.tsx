@@ -8,7 +8,7 @@ import {useFormContext} from "react-hook-form";
 import {$productDetails} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
 import {useUnit} from "effector-react";
 
-const inputRowCN: string = "mx-[-28px] px-7 w-full grid grid-cols-3 gap-7 pb-7 border-b-2 border-light-gray"
+const inputRowCN: string = "px-7 w-full grid grid-cols-3 gap-7 pb-7 border-b-2 border-light-gray"
 
 const AdminPanelProductInputGrid = ({hasPriceToggle = true}: { hasPriceToggle?: boolean }) => {
 

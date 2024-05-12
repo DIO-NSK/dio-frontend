@@ -23,7 +23,7 @@ const ProductRow = ({onClick, isDraggable, tableRow, ...props}: {
 
     const wrapperCV: ClassValue[] = [
         "relative w-full grid grid-cols-8 items-center gap-x-7 py-7 border-b-2 border-light-gray",
-        "hoverable group hover:bg-bg-light-blue -mx-7 px-7 relative pointer",
+        "hoverable group hover:bg-bg-light-blue px-7 relative pointer",
         {"pl-20": isDraggable}
     ]
 

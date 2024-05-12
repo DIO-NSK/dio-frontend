@@ -34,7 +34,7 @@ const AdminPanelDayProductsBlock = () => {
                     }
                     descr={"Вы можете изменить расположение товаров дня в слайдере в режиме редактирования"}
                     header={"Товары дня"}
-                    className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}
+                    className={"w-full px-7 pb-7 border-b-2 border-light-gray"}
                 />
 
                 <ProductContentTable

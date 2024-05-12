@@ -1,5 +1,8 @@
 import React from 'react';
-import {ResponseCartSaleItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {
+    removeSaleFromCartEvent,
+    ResponseCartSaleItem
+} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import Text from "@/components/atoms/text/text-base/Text";
 import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
 import MoreButton from "@/components/atoms/buttons/more-button/MoreButton";
@@ -9,21 +12,18 @@ import {cn} from "@/utlis/cn";
 import Counter from "@/components/moleculas/counter/Counter";
 import {useCounter} from "@/utlis/hooks/product/useCounter";
 import {ClassValue} from "clsx";
+import {useUnit} from "effector-react";
 
-const MAX_DESCRIPTION_LENGTH = 150
+const trashCV: ClassValue = "w-[18px] sm:w-[22px] hoverable pointer text-info-red hover:text-red-700"
 
 const ShoppingCartSaleCard = ({promo}: { promo: ResponseCartSaleItem }) => {
 
+    const deleteSale = useUnit(removeSaleFromCartEvent)
     const [amount, increase, decrease] = useCounter(0, promo.quantity)
 
     const isExpanded = useToggle()
 
-    const trimDescription = promo.description.length > MAX_DESCRIPTION_LENGTH
-        ? promo.description.slice(0, MAX_DESCRIPTION_LENGTH) + '..' : promo.description
-
-    const handleDeleteProduct = () => console.log("Deleted")
-
-    const trashCV: ClassValue = "w-[18px] sm:w-[22px] hoverable pointer text-info-red hover:text-red-700"
+    const handleDeleteProduct = () => deleteSale(promo.promoId)
 
     return (
         <section className={"w-full flex flex-col gap-5 pb-5 border-b-2 border-light-gray"}>

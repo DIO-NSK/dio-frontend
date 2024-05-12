@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -11,7 +11,7 @@ import ControlledTextInput from "@/components/atoms/inputs/text-input/Controlled
 import {useAuthorizationPopup} from "@/components/organisms/popups/authorization/useAuthorizationPopup";
 import {useUnit} from "effector-react";
 import {
-    $registerUserError, registerPopupDidMountEvent,
+    registerPopupDidMountEvent,
     registerUserFx,
     setUserPhoneNumberEvent
 } from "@/components/organisms/popups/authorization/signup-popup/model";
@@ -41,8 +41,8 @@ const SignUpPopup = () => {
 
     const router = useRouter()
 
-    const [registerUser, registerError, setUserPhoneNumber, popupDidMount]
-        = useUnit([registerUserFx, $registerUserError, setUserPhoneNumberEvent, registerPopupDidMountEvent])
+    const [registerUser, setUserPhoneNumber, popupDidMount]
+        = useUnit([registerUserFx, setUserPhoneNumberEvent, registerPopupDidMountEvent])
 
     const {switchPopupState, ...authContext} = useAuthorizationPopup()
 
@@ -53,13 +53,15 @@ const SignUpPopup = () => {
 
     const {handleSubmit, formState: {isSubmitting}} = methods
 
+    const [error, setError] = useState<string>('')
+
     const onSubmit = (formData: FieldValues) => {
         registerUser(formData as RegisterUserData)
             .then(_ => {
                 switchPopupState("confirmationCode")
                 setUserPhoneNumber(formData.phoneNumber)
             })
-            .catch(e => e)
+            .catch(setError)
     }
 
     const handleRegisterLegalEntity = () => {
@@ -80,18 +82,14 @@ const SignUpPopup = () => {
                         elements={authContext.multiselectElements}
                         selectElement={authContext.handleSelectElement}
                     />
-                    {
-                        inputData.map((input, key) => (
-                            <ControlledTextInput disabled={isSubmitting} key={key} {...input}/>
-                        ))
-                    }
+                    {inputData.map((input, key) => (
+                        <ControlledTextInput disabled={isSubmitting} key={key} {...input}/>
+                    ))}
                     <div className={"w-full flex flex-col items-center gap-5"}>
-                        {
-                            registerError && <Text
-                                text={registerError}
-                                className={"text-sm text-red-500"}
-                            />
-                        }
+                        {error.length !== 0 && <Text
+                            className={"text-sm text-red-500"}
+                            text={error}
+                        />}
                         <Button
                             disabled={isSubmitting}
                             classNames={{button: "w-full"}}

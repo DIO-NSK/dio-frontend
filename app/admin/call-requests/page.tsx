@@ -68,7 +68,7 @@ const AdminPanelCallRequestsPage = () => {
     return (
         <React.Fragment>
 
-            <div className={"w-full mx-[-28px] px-7 grid grid-cols-8 gap-5"}>
+            <div className={"w-full px-7 grid grid-cols-8 gap-5"}>
                 <MultiselectButton
                     activeElement={activeElement}
                     selectElement={setActiveElement}

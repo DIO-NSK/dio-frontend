@@ -16,7 +16,7 @@ type TextContentTableProps = {
 const TextContentTableRow = ({tableRow, ...props}: TextContentTableProps) => {
 
     const itemCV: ClassValue = [
-        "-mx-7 w-full grid grid-cols-8 gap-7 py-7 border-b-2 border-light-gray",
+        "w-full grid grid-cols-8 gap-7 py-7 border-b-2 border-light-gray",
         "hoverable group hover:bg-bg-light-blue px-7 relative pointer",
         {"pl-20": props.isDraggable},
     ]

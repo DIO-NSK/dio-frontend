@@ -64,7 +64,11 @@ const CheckoutDeliveryAddressBlock = ({onOpenMobilePopup}: { onOpenMobilePopup: 
 
     const handleSwitchPopupState = () => setPopupVisible(!isPopupVisible)
     const handleOpenPopup = () => {
-        onOpenMobilePopup()
+        if (window.innerWidth >= 640) {
+            setPopupVisible(true)
+        } else {
+            onOpenMobilePopup()
+        }
     }
 
     const deliveryAddressInputs: InputPrefilledData[] = [
@@ -126,7 +130,7 @@ const CheckoutDeliveryAddressBlock = ({onOpenMobilePopup}: { onOpenMobilePopup: 
     )
 }
 
-const DesktopCheckoutFirstStep = (props : {onOpenMobilePopup : () => void}) => {
+const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
 
     const [pickedUserAddress, orderToRepeat] = useUnit([$activeUserAddress, $orderToRepeat])
     const [formData, setFormData] = useUnit([$checkoutFirstStepData, setCheckoutFirstStepDataEvent])
