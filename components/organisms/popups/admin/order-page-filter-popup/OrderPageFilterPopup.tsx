@@ -25,22 +25,10 @@ import {$orders} from "@/app/admin/orders/model";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import {SelectItem} from "@/types/props/SelectItem";
 import {PaymentMethod} from "@/types/dto/user/order/PaymentMethod";
+import dayjs from "dayjs";
+import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 
 const rowWrapperCV: ClassValue = "w-full flex flex-row gap-5 pb-7 border-b-2 border-light-gray"
-
-const dateInputData = [
-    {
-        labelText: "Дата создания",
-        placeholder: "31.12.24",
-        inputMask: "99.99.9999",
-        name: "created"
-    }, {
-        labelText: "Дата оплаты",
-        placeholder: "31.12.24",
-        inputMask: "99.99.9999",
-        name: "deliveryTime"
-    }
-]
 
 const paymentStatusItems: SelectItem<PaymentMethod>[] = [
     {name: "Наличными", value: "CASH"},
@@ -71,6 +59,11 @@ const OrderPageFilterPopup = (props: PopupProps) => {
         props.onClose?.()
     }
 
+    const handleSetToday = () => {
+        const today = dayjs(Date.now()).format('DD.MM.YYYY')
+        methods.setValue('created', today)
+    }
+
     useEffect(() => {
         methods.reset({
             ...savedFilters,
@@ -99,16 +92,25 @@ const OrderPageFilterPopup = (props: PopupProps) => {
                             items={paymentStatusItems}
                             name={"paymentType"}
                         />
+                    </div>
+                    <div className={cn(rowWrapperCV)}>
+                        <ControlledTextInput
+                            labelText={"Дата создания"}
+                            placeholder={"31.12.24"}
+                            inputMask={"99.99.9999"}
+                            name={"created"}
+                            button={
+                                <TextButton
+                                    onClick={handleSetToday}
+                                    text={'Сегодня'}
+                                />
+                            }
+                        />
                         <ControlledRangeInput
                             minValue={'0'} maxValue={'10000'}
                             labelText={"Цена заказа"}
                             name={"cost"}
                         />
-                    </div>
-                    <div className={cn(rowWrapperCV)}>
-                        {dateInputData.map((inputData, key) => (
-                            <ControlledTextInput {...inputData} key={key}/>)
-                        )}
                     </div>
                     <div className={"flex flex-row items-center gap-5 w-[600px]"}>
                         <Button

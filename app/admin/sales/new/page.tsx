@@ -48,9 +48,12 @@ const FirstInputRow = () => {
         }
     ]
 
+    useEffect(() => {
+        methods.reset()
+    }, []);
+
     return (
-        <section
-            className={"w-full px-7 grid grid-cols-5 items-end gap-7 pb-7 border-b-2 border-light-gray"}>
+        <section className={"w-full px-7 grid grid-cols-5 items-end gap-7 pb-7 border-b-2 border-light-gray"}>
             {inputGridData.map((inputData, key) =>
                 <ControlledTextInput classNames={{wrapper: "col-span-2"}} {...inputData} key={key}/>
             )}
@@ -94,7 +97,6 @@ const SecondInputRow = () => {
 const AdminPanelNewSaleSecondBlock = () => {
 
     const [saleDetails, createSale] = useUnit([$productDetails, createSaleEvent])
-    const pageDidMount = useUnit(newProductPageDidMountEvent)
 
     const {
         handleSubmit,
@@ -106,12 +108,9 @@ const AdminPanelNewSaleSecondBlock = () => {
     }
 
     useEffect(() => {
+        reset()
         reset(saleDetails as DefaultValues<CreateSaleData>)
     }, [saleDetails])
-
-    useEffect(() => {
-        pageDidMount()
-    }, []);
 
     return (
         <React.Fragment>
@@ -147,10 +146,15 @@ const AdminPanelNewSaleSecondBlock = () => {
 
 const AdminPanelNewSalePage = () => {
 
-    const saleDetails = useUnit($productDetails)
+    const [saleDetails, pageDidMount] = useUnit([$productDetails, newProductPageDidMountEvent])
+
     const methods = useForm<CreateSaleData>({
         resolver: zodResolver(CreateSaleSchema)
     })
+
+    useEffect(() => {
+        pageDidMount()
+    }, []);
 
     return (
         <FormProvider {...methods}>
@@ -162,7 +166,7 @@ const AdminPanelNewSalePage = () => {
                     hasBackIcon
                 />
                 <FirstInputRow/>
-                <AdminPanelNewSaleSecondBlock/>
+                {saleDetails && <AdminPanelNewSaleSecondBlock/>}
             </Form>
         </FormProvider>
     )

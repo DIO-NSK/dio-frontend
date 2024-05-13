@@ -22,39 +22,17 @@ export type GetProductDetailsParams = {
 }
 
 const createProduct = async ({categoryId, productData, productDetails}: CreateProductParams) => {
-
     const {photos, ...rest} = productData
-
     const product: RequestAdminProduct = convertFormDataToProduct(rest, productDetails!!)
-    const formData = new FormData()
-
-    photos.map(photo => formData.append("images", photo))
-    formData.append("product", new Blob([JSON.stringify(product)], {type: "application/json"}))
-
-    return api.post("/admin/catalogue/product", formData, {
+    return api.post("/admin/catalogue/v2/product", {...product, imagesUrl: photos}, {
         params: {categoryId: categoryId},
-        headers: {"Content-type": "multipart/form-data"}
     }).then(response => response.data)
-
 }
 
 const editProduct = async ({productId, productData}: EditProductParams) => {
-
     const {photos, ...rest} = productData
-    const formData = new FormData()
-
-    const newPhotos = photos.filter(photo => typeof photo !== "string")
-    const oldImageUrl = photos.filter(photo => typeof photo === "string")
-
-    newPhotos.map(photo => formData.append("images", photo))
-    formData.append("product", new Blob([JSON.stringify({
-        ...rest,
-        oldImagesUrl: oldImageUrl
-    })], {type: "application/json"}))
-
-    return api.put("/admin/catalogue/product", formData, {
+    return api.put("/admin/catalogue/v2/product", {...rest, oldImagesUrl: photos}, {
         params: {productId: productId},
-        headers: {"Content-type": "multipart/form-data"}
     }).then(response => response.data)
 }
 

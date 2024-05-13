@@ -16,7 +16,7 @@ export const useAdminPanelCategoriesPage = (sectionId: number) => {
     const router = useRouter()
 
     const tableContent: TextTableRow[] = categories
-        .filter(category => category.name.includes(nameToSearch))
+        ?.filter(category => category.name.toLowerCase().includes(nameToSearch.toLowerCase()))
         .map(category => ({
                 item: [category.name],
                 id: category.id!!,

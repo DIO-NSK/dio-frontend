@@ -7,6 +7,7 @@ import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import {FiEdit, FiMenu} from "react-icons/fi";
 import ClosePopupButton from "@/components/atoms/buttons/close-popup-button/ClosePopupButton";
 import {SortableHandlerProps} from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
+import {useAdminPhotoCard} from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard.utils";
 
 type AdminPhotoCardProps = {
     name?: string,
@@ -34,19 +35,21 @@ const PhotoCard = (props: AdminPhotoCardProps & SortableHandlerProps & {
 
     return (
         <div
-            className={cn("col-span-1 relative h-[150px] rounded-xl border-2 border-light-gray overflow-clip", props.className)}>
-            <img src={resolvedImage} alt={"Фотография продукта"}
-                 className={"w-full h-full object-cover"}/>
+            className={cn("col-span-1 relative h-[150px] rounded-xl border-2 border-light-gray overflow-clip", props.className)}
+        >
+            <img
+                src={resolvedImage}
+                alt={"Фотография продукта"}
+                className={"w-full h-full object-cover"}
+            />
             <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
                 {(props.editable || props.draggable) && <React.Fragment>
-                    {
-                        props.editable && (
-                            <SquareIcon
-                                icon={<FiEdit size={"18px"}/>}
-                                onClick={props.onEdit}
-                            />
-                        )
-                    }
+                    {props.editable && (
+                        <SquareIcon
+                            icon={<FiEdit size={"18px"}/>}
+                            onClick={props.onEdit}
+                        />
+                    )}
                     <div
                         className={"hover:cursor-grab"}
                         ref={props.setActivatorNodeRef}

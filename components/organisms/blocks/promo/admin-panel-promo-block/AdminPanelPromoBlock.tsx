@@ -48,15 +48,17 @@ const BannersBlock = ({openPopup}: BannersBlockProps) => {
                 strategy={horizontalListSortingStrategy}
             >
                 <div className={"px-7 w-full grid grid-cols-3 gap-7"}>
-                    {banners.map((banner, index) =>
-                        <SortableItemWrapper sequenceNumber={banner.id} key={banner.id}>
-                            <AdminPhotoCard
-                                canDelete={true} editable={true}
-                                onEdit={() => handleEditBanner(banner)}
-                                onDelete={() => deleteBanner(banner.id)}
-                                defaultImage={banner.image}
-                            />
-                        </SortableItemWrapper>
+                    {banners.map((banner, index) => (
+                            <SortableItemWrapper sequenceNumber={banner.id} key={banner.id}>
+                                <AdminPhotoCard
+                                    canDelete={true} editable={true}
+                                    onEdit={() => handleEditBanner(banner)}
+                                    onDelete={() => deleteBanner(banner.id)}
+                                    defaultImage={banner.image}
+                                    key={index}
+                                />
+                            </SortableItemWrapper>
+                        )
                     )}
                 </div>
             </SortableContext>

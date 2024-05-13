@@ -90,6 +90,11 @@ const AdminPanelEditProductPage = ({params}: {
         .catch(_ => setCreationStatus(false))
 
     useEffect(() => {
+        getCategoryProperties(params.categoryId)
+        getProduct(params.productId)
+    }, [])
+
+    useEffect(() => {
         const productProperties = categoryData.map((inputData, index) => {
             const filledValue = product?.properties?.find(p => p.name === inputData.labelText)
             return filledValue && ({
@@ -102,18 +107,10 @@ const AdminPanelEditProductPage = ({params}: {
             ...product,
             photos: product?.images,
             filledProperties: productProperties,
-            externalProperties: product?.extraProperties
+            externalProperties: product?.extraProperties,
+            isProductOfTheDay: (product as any)?.isProductOfTheDay
         } as DefaultValues<CreateProductData>)
-    }, [product])
-
-    useEffect(() => {
-        reset({isProductOfTheDay: (product as any)?.isProductOfTheDay})
-    }, []);
-
-    useEffect(() => {
-        getCategoryProperties(params.categoryId)
-        getProduct(params.productId)
-    }, [])
+    }, [categoryData, product]);
 
     return (
         <React.Fragment>

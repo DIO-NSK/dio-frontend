@@ -82,7 +82,10 @@ export const setPromotionToEditEvent = createEvent<ResponsePromotion | null>()
 export const changePromotionsOrderEvent = createEvent<DragEndEvent>()
 export const $promotionToEdit = createStore<ResponsePromotion | null>(null)
 
-$promotionToEdit.on(setPromotionToEditEvent, (_, promo) => promo)
+$promotionToEdit
+    .on(setPromotionToEditEvent, (_, promo) => promo)
+    .reset(editPromotionFx.doneData)
+
 $promotions
     .on(getAllPromotionsFx.doneData, (_, promos) => promos)
     .on(changePromotionsOrderEvent, (promos, event) => handleDragEnd(event, promos))

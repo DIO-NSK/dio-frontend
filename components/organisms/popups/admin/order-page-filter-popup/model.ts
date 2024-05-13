@@ -46,10 +46,15 @@ sample({
 })
 
 const convertDataToRequest = (data: OrderFilterData): RequestOrderFilters => ({
-    created : data.created?.length ? data.created : undefined,
+    created : data.created?.length ? parseDate(data.created) : undefined,
     costFrom : data?.cost?.from ?? undefined,
     costTo : data?.cost?.to ?? undefined,
     paymentType: data.paymentType?.value,
     paymentTime: data.paymentDate,
     status: data.status?.value
 } as RequestOrderFilters)
+
+export const parseDate = (date : string) => {
+    const [day, month, year] = date.split('.')
+    return [year, month, day].join('-')
+}

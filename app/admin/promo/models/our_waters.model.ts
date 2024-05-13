@@ -124,7 +124,9 @@ $editOurWaterStatus
     .on(editOurWaterFx.doneData, () => true)
     .on(editOurWaterFx.failData, () => false)
 
-$ourWaterToEdit.on(setOurWaterToEditEvent, (_, promo) => promo)
+$ourWaterToEdit
+    .on(setOurWaterToEditEvent, (_, promo) => promo)
+    .reset(editOurWaterFx.doneData)
 
 $ourWaters
     .on(getAllOurWatersFx.doneData, (_, promos) => promos)

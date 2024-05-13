@@ -7,6 +7,8 @@ import EyeButton from "@/components/atoms/buttons/eye-button/EyeButton";
 import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
 import {FieldValues, UseFormReturn} from "react-hook-form";
 import ControlledInputWrapper from "@/components/wrappers/input-wrapper/ControlledInputWrapper";
+import Text from "@/components/atoms/text/text-base/Text";
+import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 
 const InnerInput = <T extends FieldValues, >(
     {theme = "outlined", ...props}: ControlledTextInputProps<T>
@@ -71,6 +73,9 @@ const ControlledTextInput = <T extends FieldValues, >(props: ControlledTextInput
     return (
         <ControlledInputWrapper props={props}>
             <InnerInput {...props}/>
+            <div className={"absolute right-5 top-[52px]"}>
+                {props?.button}
+            </div>
         </ControlledInputWrapper>
     )
 };

@@ -9,6 +9,7 @@ import {loginByPhoneFx} from "@/components/organisms/popups/authorization/login-
 import {registerUserFx} from "@/components/organisms/popups/authorization/signup-popup/model";
 import {LegalPartnerDto, updateLegalSettingsFx, updateUserSettingsFx} from "@/app/(customer)/profile/settings/model";
 import {sendLegalConfirmationCodeFx} from "@/app/(customer)/(site)/(inner-pages)/register/legal-entity/model";
+import {pending} from "patronum";
 
 export type ResponseUserCredentials = {
     email: string,
@@ -37,6 +38,8 @@ export const logoutUserFx = createEffect(logoutUser)
 
 export const getUserCredentialsFx = createEffect(getUserCredentials)
 export const getUserCredentialsEvent = createEvent<void>()
+
+export const $getUserCredentialsPending = pending([getUserCredentialsFx])
 
 export const $userCredentials = createStore<ResponseUserCredentials | null>(null)
 

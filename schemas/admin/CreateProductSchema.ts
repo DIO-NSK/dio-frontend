@@ -44,7 +44,7 @@ export const CreateProductSchema = z.object({
     isProductOfTheDay: z.boolean(),
     filledProperties: z.array(SpecialSymbolsCategoryPropertySchema),
     externalProperties: z.array(ExternalPropertySchema).optional(),
-    photos: z.array(z.custom<File>((v) => v instanceof File).or(z.string())),
+    photos: z.array(z.string()),
     isInvisible: z.boolean().optional(),
     priceType: SelectInputSchema.optional()
 })

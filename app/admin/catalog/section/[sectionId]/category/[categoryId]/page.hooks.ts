@@ -1,5 +1,5 @@
 import {usePathname, useRouter} from "next/navigation";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useUnit} from "effector-react";
 import {
     $products,
@@ -22,6 +22,7 @@ export type ResponseAdminProductSearch = {
 
 export const useAdminPanelProductsPage = (categoryId: number) => {
 
+    const [nameToSearch, setNameToSearch] = useState<string>('')
     const [breadcrumbs, getBreadcrumbs] = useUnit([$adminProductBreadcrumbs, getAdminProductBreadcrumbsEvent])
     const [pageDidMount, products] = useUnit([catalogProductPageDidMount, $products])
 
@@ -29,6 +30,7 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
     const router = useRouter()
 
     const tableContent: ProductTableRow<ResponseAdminProductSearch>[] = products
+        ?.filter(product => product.name.toLowerCase().includes(nameToSearch.toLowerCase()))
         .map((product, index) => ({
                 item: {
                     image: product.images[0],
@@ -65,6 +67,7 @@ export const useAdminPanelProductsPage = (categoryId: number) => {
     const handleDeleteProduct = (tableRow: ProductTableRow<ProductEntity>) => console.log("Product deleted")
 
     return {
+        nameToSearch, setNameToSearch,
         breadcrumbs, handleExportCatalog, handleProductClick,
         tableContent, handleEditProduct, handleDeleteProduct
     }

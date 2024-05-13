@@ -41,8 +41,8 @@ const AdminPanelProductsPage = ({params}: {
                 <AdminPanelHeaderButtonRow
                     onExportCatalog={context.handleExportCatalog}
                     onAddNewItem={headerContext.handleAddItem}
-                    searchInputValue={headerContext.searchbar.searchValue}
-                    searchInputOnChange={headerContext.searchbar.setSearchValue}
+                    searchInputValue={context.nameToSearch}
+                    searchInputOnChange={context.setNameToSearch}
                 />
                 <div className={"w-full flex flex-col"}>
                     <div className={"w-full px-7"}>

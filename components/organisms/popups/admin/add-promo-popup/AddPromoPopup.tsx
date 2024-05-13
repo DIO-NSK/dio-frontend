@@ -60,11 +60,13 @@ const AddPromoPopup = (props: PopupProps) => {
             editBanner({...fieldValues, id: bannerIdToEdit.id} as RequestBanner)
                 .then(_ => setEditStatus(true))
                 .then(_ => setBannerIdToEdit(null))
+                .then(_ => props?.onClose?.())
                 .catch(_ => setEditStatus(false))
         } else {
             createBanner(fieldValues as RequestBanner)
                 .then(_ => setReqStatus(true))
                 .then(_ => setBannerIdToEdit(null))
+                .then(_ => props?.onClose?.())
                 .catch(_ => setReqStatus(false))
         }
     }

@@ -46,18 +46,12 @@ const editBanner = async (banner: RequestBanner) => {
         headers: {"Content-type": "multipart/form-data"}
     })
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
 
 }
 
 const changeBannerOrder = async (ids: { id: number }[]) => {
     return api.put("/admin/banner", ids)
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
 }
 
 const changeBannerOrderFx = createEffect<{ id: number }[], void, Error>(changeBannerOrder)
@@ -80,19 +74,11 @@ export const $banners = createStore<ResponseBanner[]>([])
 export const setBannerIdToEditEvent = createEvent<ResponseBanner | null>()
 export const $bannerIdToEdit = createStore<ResponseBanner | null>(null)
 
-$bannerIdToEdit.on(setBannerIdToEditEvent, (_, banner) => banner)
+$bannerIdToEdit
+    .on(setBannerIdToEditEvent, (_, banner) => banner)
+    .reset(editBannerFx.doneData)
 
 $banners.on(getAllBannersFx.doneData, (_, banners) => banners)
-
-sample({
-    clock: [getAllBannersEvent, changeBannerOrderFx.doneData],
-    target: getAllBannersFx
-})
-
-sample({
-    clock: [createBannerFx.doneData, editBannerFx.doneData],
-    target: getAllBannersFx
-})
 
 const deleteBanner = async (bannerId: number) => {
     return api.delete("/admin/banner", {params: {id: bannerId}})
@@ -108,10 +94,10 @@ export const changeBannersOrderEvent = createEvent<DragEndEvent>()
 $banners.on(changeBannersOrderEvent, (banners, event) => handleDragEnd(event, banners))
 
 sample({
-    clock : changeBannersOrderEvent,
-    source : $banners,
-    fn : (banners, _) => banners.map(item => ({id : item.id})),
-    target : changeBannerOrderFx
+    clock: changeBannersOrderEvent,
+    source: $banners,
+    fn: (banners, _) => banners.map(item => ({id: item.id})),
+    target: changeBannerOrderFx
 })
 
 sample({
@@ -120,6 +106,9 @@ sample({
 })
 
 sample({
-    clock: deleteBannerFx.doneData,
+    clock: [
+        getAllBannersEvent, changeBannerOrderFx.doneData, createBannerFx.doneData,
+        editBannerFx.doneData, deleteBannerFx.doneData
+    ],
     target: getAllBannersFx
 })

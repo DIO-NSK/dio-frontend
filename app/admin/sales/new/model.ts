@@ -3,23 +3,16 @@ import {createEffect, createEvent, sample} from "effector";
 import {AdminSale} from "@/types/dto/AdminSale";
 import {CreateSaleData} from "@/schemas/admin/CreateSaleSchema";
 
-type CreateSaleRequest = {
+export type CreateSaleRequest = {
     sale : AdminSale,
-    images : File[]
+    images : string[],
+    promoId ?: number
 }
 
 const createSale = async (request : CreateSaleRequest) : Promise<void> => {
-
     const {sale, images} = request
-    const formData = new FormData()
-
-    images.map(photo => formData.append("images", photo))
-    formData.append("adminPromoDto", new Blob([JSON.stringify(sale)], {type: "application/json"}))
-
-    return api.post("/admin/catalogue/promo", formData, {headers: {"Content-type": "multipart/form-data"}})
+    return api.post("/admin/catalogue/v2/promo", {...sale, imagesUrl : images})
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
-
 }
 
 const createSaleFx = createEffect<CreateSaleRequest, void, Error>(createSale)
@@ -40,8 +33,8 @@ const convertSaleDataToRequest = (data : CreateSaleData) : CreateSaleRequest => 
             description : data.description,
             deadline : "2024-07-08",
             products : data.productIdList,
-            ruleList : data.ruleList.map(item => item.rule)
+            ruleList : data.ruleList.map(item => item.rule),
         },
-        images : data.photos
+        images : data.photos,
     }
 }

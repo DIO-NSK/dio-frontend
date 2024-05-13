@@ -129,9 +129,7 @@ export const useFilters = (categoryId: number) => {
     const handleClearFilters = () => router.push(pathname)
 
     useEffect(() => {
-        const sortFn = (first: FilterItem, second: FilterItem) => !first.id ? 1 : first.id - second.id
         getFilters(categoryId)
-            .then((filters: FilterItem[]) => filters.toSorted(sortFn))
             .then((filters: FilterItem[]) => changeCategoryFilters(initFilters(filters)))
     }, [searchParams])
 

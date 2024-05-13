@@ -21,7 +21,7 @@ const ControlledInputWrapper = <T extends FieldValues, >({children, props}: Inpu
     return (
         <ConnectForm>
             {(methods: UseFormReturn<T, any, T>) => (
-                <div className={cn("w-full flex flex-col gap-2", props.classNames?.wrapper)}>
+                <div className={cn("relative w-full flex flex-col gap-2", props.classNames?.wrapper)}>
                     {
                         props.labelText && <Text
                             text={props.labelText}
