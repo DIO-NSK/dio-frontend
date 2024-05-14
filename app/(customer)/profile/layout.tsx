@@ -10,22 +10,29 @@ import {cn} from "@/utlis/cn";
 import {useRouter} from "next/navigation";
 import {logoutUserFx} from "@/app/(customer)/model";
 import {useUnit} from "effector-react";
+import useSWR from "swr";
+import {api} from "@/api";
+
+const logoutCV: ClassValue[] = [
+    "hidden sm:flex red-text hover:text-red-700 gap-2 ml-[-20px]",
+    "p-4 rounded-xl hover:bg-red-50 fixed bottom-[30px]"
+]
 
 const UserProfileLayout = ({children}: { children: React.ReactNode }) => {
 
-    const logoutCV: ClassValue[] = [
-        "hidden sm:flex red-text hover:text-red-700 gap-2 ml-[-20px]",
-        "p-4 rounded-xl hover:bg-red-50 fixed bottom-[30px]"
-    ]
-
-    const router = useRouter()
     const logout = useUnit(logoutUserFx)
+    const router = useRouter()
+    const swr = useSWR('get_user', () => api.get('/user'))
 
     const handleLogout = () => {
         logout().then(_ => router.push("/"))
     }
 
-    return (
+    if (swr.error) {
+        router.push('/')
+    }
+
+    if (swr.data) return (
         <InnerPageWrapper classNames={{desktopWrapper: "mt-3", mobileWrapper: "pt-0"}}>
             <div className={"col-span-3"}>
                 <UserProfileLeftSidebar/>

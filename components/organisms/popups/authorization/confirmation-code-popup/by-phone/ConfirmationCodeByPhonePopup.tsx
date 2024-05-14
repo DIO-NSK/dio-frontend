@@ -8,25 +8,25 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import {useUnit} from "effector-react";
-import {sendConfirmationCodeFx} from "@/components/organisms/popups/authorization/confirmation-code-popup/model";
-import {$userPhoneNumber} from "@/components/organisms/popups/authorization/signup-popup/model";
 import {useAuthorizationPopup} from "@/components/organisms/popups/authorization/useAuthorizationPopup";
 import {
     $loginByPhoneNumber,
     loginByPhonePopupDidMountEvent
 } from "@/components/organisms/popups/authorization/login-by-phone-popup/model";
+import {
+    sendConfirmationCodeByPhoneFx
+} from "@/components/organisms/popups/authorization/confirmation-code-popup/by-phone/model";
 
-const ConfirmationCodePopup = () => {
+const ConfirmationCodeByPhonePopup = () => {
 
     const authContext = useAuthorizationPopup()
 
-    const [loginByPhoneNumber, reset] = useUnit([$loginByPhoneNumber, loginByPhonePopupDidMountEvent])
-    const [userPhoneNumber, sendConfirmationCode] =
-        useUnit([$userPhoneNumber, sendConfirmationCodeFx])
+    const [loginByPhoneNumber, reset, sendCode]
+        = useUnit([$loginByPhoneNumber, loginByPhonePopupDidMountEvent, sendConfirmationCodeByPhoneFx])
 
     const methods = useForm<UserConfirmCodeData>({
         defaultValues: {
-            phoneNumber: loginByPhoneNumber ?? userPhoneNumber,
+            phoneNumber: loginByPhoneNumber!!,
             code: "",
         },
         resolver: zodResolver(UserConfirmCodeSchema),
@@ -36,7 +36,7 @@ const ConfirmationCodePopup = () => {
     const {handleSubmit, formState: {isSubmitting}} = methods
 
     const onSubmit = (formData: UserConfirmCodeData) => {
-        sendConfirmationCode(formData)
+        sendCode(formData)
             .then(_ => {
                 authContext.switchPopupState(undefined)
                 reset()
@@ -73,4 +73,4 @@ const ConfirmationCodePopup = () => {
     );
 };
 
-export default ConfirmationCodePopup;
+export default ConfirmationCodeByPhonePopup;

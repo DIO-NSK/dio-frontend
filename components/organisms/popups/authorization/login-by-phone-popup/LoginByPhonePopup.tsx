@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import Button from "@/components/atoms/buttons/button/Button";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
@@ -14,28 +14,34 @@ import Text from "@/components/atoms/text/text-base/Text";
 import {useUnit} from "effector-react/effector-react.mjs";
 import {
     $loginByPhoneError,
-    loginByPhoneFx, loginByPhonePopupDidMountEvent
+    loginByPhoneFx, loginByPhonePopupDidMountEvent, setLoginByPhoneNumberEvent
 } from "@/components/organisms/popups/authorization/login-by-phone-popup/model";
 
 const LoginByPhonePopup = () => {
 
+    const setLoginByPhoneNumber = useUnit(setLoginByPhoneNumberEvent)
     const [loginByPhone, popupDidMount, loginByPhoneError]
         = useUnit([loginByPhoneFx, loginByPhonePopupDidMountEvent, $loginByPhoneError])
 
     const methods = useForm<LoginByPhoneData>({
-        resolver : zodResolver(LoginByPhoneSchema),
-        mode : "onSubmit"
+        resolver: zodResolver(LoginByPhoneSchema),
+        mode: "onSubmit"
     })
 
-    const {handleSubmit, formState : {isSubmitting}} = methods
+    const [loginMessage, setMessage] = useState<string>('')
+
+    const {handleSubmit, formState: {isSubmitting}} = methods
 
     const {...authContext} = useAuthorizationPopup()
     const {...loginContext} = useLoginByPhonePopup()
 
-    const onSubmit = (formData : FieldValues) => {
+    const onSubmit = (formData: FieldValues) => {
         loginByPhone(formData as LoginByPhoneData)
-            .then(_ => authContext.switchPopupState(undefined))
-            .catch(e => e)
+            .then(_ => {
+                authContext.switchPopupState("confirmationCodeByPhone")
+                setLoginByPhoneNumber((formData as LoginByPhoneData).phoneNumber)
+            })
+            .catch(message => setMessage(message))
     }
 
     useEffect(() => {
@@ -59,12 +65,10 @@ const LoginByPhonePopup = () => {
                         name={"phoneNumber"}
                     />
                     <div className={"w-full flex flex-col gap-3"}>
-                        {
-                            loginByPhoneError && <Text
-                                text={loginByPhoneError}
-                                className={"text-sm text-red-500"}
-                            />
-                        }
+                        {loginMessage && <Text
+                            className={"text-sm text-red-500"}
+                            text={loginByPhoneError}
+                        />}
                         <Button
                             text={isSubmitting ? "Отправка.." : "Подтвердить номер телефона"}
                             onClick={handleSubmit(onSubmit)}

@@ -26,6 +26,8 @@ import {
     searchCatalogByNameEvent,
     toggleCatalogPopupEvent
 } from "@/components/organisms/bars/searchbar/model";
+import ConfirmationCodeByPhonePopup
+    from "@/components/organisms/popups/authorization/confirmation-code-popup/by-phone/ConfirmationCodeByPhonePopup";
 
 const ActivePopup = () => {
 
@@ -40,6 +42,8 @@ const ActivePopup = () => {
             return <ForgotPasswordPopup/>
         case "confirmationCode" :
             return <ConfirmationCodePopup/>
+        case 'confirmationCodeByPhone' :
+            return <ConfirmationCodeByPhonePopup/>
         case "loginByPhone" :
             return <LoginByPhonePopup/>
         case "changePassword" :

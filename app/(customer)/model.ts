@@ -10,6 +10,9 @@ import {registerUserFx} from "@/components/organisms/popups/authorization/signup
 import {LegalPartnerDto, updateLegalSettingsFx, updateUserSettingsFx} from "@/app/(customer)/profile/settings/model";
 import {sendLegalConfirmationCodeFx} from "@/app/(customer)/(site)/(inner-pages)/register/legal-entity/model";
 import {pending} from "patronum";
+import {
+    sendConfirmationCodeByPhoneFx
+} from "@/components/organisms/popups/authorization/confirmation-code-popup/by-phone/model";
 
 export type ResponseUserCredentials = {
     email: string,
@@ -56,7 +59,7 @@ sample({
     clock: [
         getUserCredentialsEvent, updateUserSettingsFx.doneData, updateLegalSettingsFx.doneData,
         sendConfirmationCodeFx.doneData, sendLegalConfirmationCodeFx.doneData, loginUserByCredentialsFx.doneData,
-        loginByPhoneFx.doneData, registerUserFx.doneData
+        loginByPhoneFx.doneData, registerUserFx.doneData, sendConfirmationCodeByPhoneFx.doneData
     ],
     target: getUserCredentialsFx
 })
