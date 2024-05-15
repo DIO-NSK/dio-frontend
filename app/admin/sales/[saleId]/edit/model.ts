@@ -41,28 +41,4 @@ export const $promoDetails = createStore<PromoDetails | null>(null)
 
 $promoDetails.on(getPromoFx.doneData, (_, promo) => promo)
 
-const editSaleFx = createEffect<CreateSaleRequest, void, Error>(editSale)
-export const editSaleEvent = createEvent<{ data : CreateSaleData, promoId : number}>()
-
-sample({
-    clock: editSaleEvent,
-    fn: (data) => convertSaleDataToRequest(data),
-    target: editSaleFx
-})
-
-const convertSaleDataToRequest = (req : { data : CreateSaleData, promoId : number}): CreateSaleRequest => {
-    const {promoId, data} = req
-    return {
-        sale: {
-            name: data.name,
-            crmGroup: data.crmGroup,
-            crmCode: data.crmCode,
-            description: data.description,
-            deadline: '2024-01-01',
-            products: data.productIdList,
-            ruleList: data.ruleList.map(item => item.rule)
-        },
-        images: data.photos,
-        promoId : promoId
-    }
-}
+export const editSaleFx = createEffect<CreateSaleRequest, void, Error>(editSale)

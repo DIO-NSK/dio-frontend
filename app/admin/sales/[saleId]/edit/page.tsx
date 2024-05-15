@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useUnit} from "effector-react";
 import {DefaultValues, FieldValues, Form, FormProvider, useForm, useFormContext} from "react-hook-form";
 import {CreateSaleData, CreateSaleSchema} from "@/schemas/admin/CreateSaleSchema";
@@ -14,9 +14,29 @@ import AdminPanelSearchbarBlock
     from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchbarBlock";
 import AdminPanelSaleRuleBlock from "@/components/organisms/blocks/admin-panel-sale-rule-block/AdminPanelSaleRuleBlock";
 import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
-import {$promoDetails, editSaleEvent, getPromoEvent} from "@/app/admin/sales/[saleId]/edit/model";
+import {$promoDetails, editSaleFx, getPromoEvent} from "@/app/admin/sales/[saleId]/edit/model";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import {CreateSaleRequest} from "@/app/admin/sales/new/model";
+import {useRouter} from "next/navigation";
 
 const inputRowCN = 'w-full px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray'
+
+const convertSaleDataToRequest = (req: { data: CreateSaleData, promoId: number }): CreateSaleRequest => {
+    const {promoId, data} = req
+    return {
+        sale: {
+            name: data.name,
+            crmGroup: data.crmGroup,
+            crmCode: data.crmCode,
+            description: data.description,
+            deadline: '2024-01-01',
+            products: data.productIdList as any,
+            ruleList: data.ruleList.map(item => item.rule)
+        },
+        images: data.photos,
+        promoId: promoId
+    }
+}
 
 const SecondInputRow = () => {
 
@@ -71,30 +91,54 @@ const SecondInputRow = () => {
 
 }
 
-const AdminPanelSaleContentBlock = ({id} : {id : number}) => {
+const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
 
-    const [promoDetails, editPromo] = useUnit([$promoDetails, editSaleEvent])
+    const router = useRouter()
+
+    const [promoDetails, editPromo] = useUnit([$promoDetails, editSaleFx])
+    const [editSuccess, setEditSuccess] = useState<string>('')
+    const [editFailure, setEditFailure] = useState<string>('')
 
     const {
         handleSubmit,
-        reset, formState : {errors}
+        reset, formState: {errors}
     } = useFormContext<CreateSaleData>()
 
     const onSubmit = (fieldValues: FieldValues) => {
-        editPromo({data : fieldValues as CreateSaleData, promoId : id})
+        editPromo(convertSaleDataToRequest({data: fieldValues as CreateSaleData, promoId: id}))
+            .then(_ => setEditSuccess('Вы можете вернуться обратно'))
+            .catch(message => setEditFailure(message))
     }
 
     useEffect(() => {
         reset({
             ...promoDetails,
-            photos : promoDetails?.images,
-            productIdList : promoDetails?.products.map(product => ({productId : product.productId, quantity : product.quantity})),
-            ruleList : promoDetails?.ruleList.map(rule => ({rule : rule}))
+            photos: promoDetails?.images,
+            productIdList: promoDetails?.products.map(product => ({
+                productId: product.productId,
+                quantity: product.quantity
+            })),
+            ruleList: promoDetails?.ruleList.map(rule => ({rule: rule}))
         } as DefaultValues<CreateSaleData>)
     }, [promoDetails])
 
     return (
         <React.Fragment>
+            <Snackbar
+                success={true}
+                header={'Акция успешно отредактирована!'}
+                message={editSuccess}
+                action={() => router.back()}
+                open={editSuccess.length !== 0}
+                onClose={() => setEditSuccess('')}
+            />
+            <Snackbar
+                success={false}
+                header={'Возникли ошибки при редактировании акции'}
+                message={editFailure}
+                open={editFailure.length !== 0}
+                onClose={() => setEditFailure('')}
+            />
             <SecondInputRow/>
             <ControlledTextArea
                 name={"description"}
@@ -136,6 +180,10 @@ const AdminEditSalePage = ({params}: {
         resolver: zodResolver(CreateSaleSchema),
         mode: 'onSubmit'
     })
+
+    useEffect(() => {
+        console.log(methods.formState.errors)
+    }, [methods.formState.errors]);
 
     useEffect(() => {
         getPromo(params.saleId)

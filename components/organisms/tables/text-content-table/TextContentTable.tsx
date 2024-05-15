@@ -12,7 +12,8 @@ type TextContentTableProps = {
     onDragEnd?: (event: DragEndEvent) => void,
     onRowClick?: (rowIndex: number) => void,
     onEdit?: (tableRow: TableRow<string[]>) => void,
-    onDelete?: (tableRow: TableRow<string[]>) => void
+    onDelete?: (tableRow: TableRow<string[]>) => void,
+    hasTooltip ?: boolean,
 } & Omit<TableWrapperProps, "children">
 
 const TableContent = (props: TextContentTableProps) => (

@@ -8,12 +8,13 @@ import EditDeleteTooltip from "../../tooltips/EditDeleteTooltip";
 import {SortableHandlerProps} from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
 
 type TextContentTableProps = {
-    tableRow: TextTableRow;
-    isDraggable?: boolean;
-    onRowClick?: (rowIndex: number) => void;
+    tableRow: TextTableRow,
+    isDraggable?: boolean,
+    onRowClick?: (rowIndex: number) => void,
+    hasTooltip?: boolean
 } & Omit<TableWrapperProps, "children"> & SortableHandlerProps;
 
-const TextContentTableRow = ({tableRow, ...props}: TextContentTableProps) => {
+const TextContentTableRow = ({tableRow, hasTooltip = false, ...props}: TextContentTableProps) => {
 
     const itemCV: ClassValue = [
         "w-full grid grid-cols-8 gap-7 py-7 border-b-2 border-light-gray",
@@ -42,7 +43,7 @@ const TextContentTableRow = ({tableRow, ...props}: TextContentTableProps) => {
                     text={rowItem}
                 />
             ))}
-            {props.isDraggable && (
+            {(props.isDraggable || hasTooltip) && (
                 <EditDeleteTooltip tableRow={tableRow} {...props}>
                     <SquareIcon icon={<FiMoreHorizontal size={"18px"}/>}/>
                 </EditDeleteTooltip>

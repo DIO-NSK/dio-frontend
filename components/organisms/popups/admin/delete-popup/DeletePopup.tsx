@@ -8,7 +8,8 @@ import Button from "@/components/atoms/buttons/button/Button";
 type DeletePopupProps = {
     onDelete : (itemId : number) => void,
     header ?: string,
-    message ?: string
+    message ?: string,
+    buttonText ?: string
 } & TableItemPopup<string[]>
 
 const DeletePopup = (props : DeletePopupProps) => {
@@ -32,7 +33,7 @@ const DeletePopup = (props : DeletePopupProps) => {
                     " без возможности восстановления"}/>
 
                 <Button
-                    text={"Удалить раздел"}
+                    text={props.buttonText ?? "Удалить раздел"}
                     onClick={onDeleteCategory}
                     classNames={{button: "bg-info-red sm:hover:bg-red-700"}}
                 />

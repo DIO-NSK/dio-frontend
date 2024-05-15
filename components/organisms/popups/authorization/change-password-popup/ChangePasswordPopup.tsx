@@ -11,13 +11,13 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {ChangePasswordData, ChangePasswordSchema} from "@/schemas/customer/authorization/ChangePasswordSchema";
 import {useUnit} from "effector-react";
 import {changePasswordFx} from "@/components/organisms/popups/authorization/change-password-popup/model";
-import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {$passwordPhoneNumber} from "@/components/organisms/popups/authorization/forgot-password-popup/model";
+import {useStore} from "@/store/Store";
 
 const ChangePasswordPopup = () => {
 
+    const switchPopupState = useStore(state => state.switchPopupState)
     const [phoneNumber, changePassword] = useUnit([$passwordPhoneNumber, changePasswordFx])
-    const [successMessage, setSuccessMessage] = useState<string>('')
     const [error, setError] = useState<string>('')
 
     const methods = useForm<ChangePasswordData>({
@@ -29,7 +29,7 @@ const ChangePasswordPopup = () => {
 
     const onSubmit = (fieldValues : FieldValues) => {
         changePassword(fieldValues as ChangePasswordData)
-            .then(_ => setSuccessMessage('Вы можете войти в аккаунт с новым паролем'))
+            .then(_ => switchPopupState(undefined))
             .catch(error => setError(error))
     }
 
@@ -41,13 +41,6 @@ const ChangePasswordPopup = () => {
 
     return (
         <PopupWrapper>
-            <Snackbar
-                onClose={() => setSuccessMessage('false')}
-                message={successMessage}
-                header={"Пароль успешно изменён!"}
-                open={successMessage !== ''}
-                success={true}
-            />
             <FormProvider {...methods}>
                 <div className={"w-[450px] rounded-xl bg-white flex flex-col gap-5"}>
                     <Text
@@ -66,6 +59,7 @@ const ChangePasswordPopup = () => {
                         inputMask={'9999'}
                         name={'code'}
                     />
+                    {error && <Text className={'text-red-500'} text={error}/>}
                     <div className={"w-full flex flex-col gap-3"}>
                         <Button
                             disabled={methods.formState.isSubmitting}

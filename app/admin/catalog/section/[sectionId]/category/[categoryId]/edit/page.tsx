@@ -12,6 +12,8 @@ import {DefaultValues, FieldValues, Form, FormProvider, useForm} from "react-hoo
 import {$formData, changeCategoryFx, ChangeCategoryRequest, editCategoryPageDidMountEvent} from "./model";
 import {useRouter} from "next/navigation";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import {CreateSaleData} from "@/schemas/admin/CreateSaleSchema";
+import {CreateSaleRequest} from "@/app/admin/sales/new/model";
 
 const textInputCN = "w-full px-7 pb-7 border-b-2 border-light-gray"
 

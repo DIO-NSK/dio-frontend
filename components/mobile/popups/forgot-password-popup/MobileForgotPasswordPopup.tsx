@@ -7,9 +7,8 @@ import Button from "@/components/atoms/buttons/button/Button";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 
 const message =
-    `Вам на телефон поступит звонок.
-     Введите 4 последних цирфы
-     номера для сброса пароля`
+    `Вам на телефон придет СМС-уведомление.
+     Введите код для сброса пароля`
 
 const MobileForgotPasswordPopup = ({onClose}: { onClose: () => void }) => {
 

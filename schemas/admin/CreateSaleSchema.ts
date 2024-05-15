@@ -2,8 +2,8 @@ import {z} from "zod"
 import {requiredFiledError} from "@/schemas";
 
 const ProductIdSchema = z.object({
-    productId: z.string().min(1, requiredFiledError),
-    quantity: z.string().min(1, requiredFiledError)
+    productId: z.string().min(1, requiredFiledError).or(z.number()),
+    quantity: z.string().min(1, requiredFiledError).or(z.number())
 })
 
 const RuleSchema = z.object({

@@ -10,9 +10,8 @@ import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 
 const message =
-    `Вам на телефон поступит звонок.
-     Введите 4 последних цирфы
-     номера для сброса пароля`
+    `Вам на телефон придет СМС-уведомление.
+     Введите код для сброса пароля`
 
 const MobileForgotPasswordPage = () => {
 

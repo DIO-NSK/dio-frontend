@@ -52,7 +52,7 @@ const ForgotPasswordPopup = (props: PopupProps) => {
                         className={"text-[20px] font-medium"}
                     />
                     <Text
-                        text={"Вам на телефон поступит звонок. Введите 4 последних цирфы номера для сброса пароля"}
+                        text={"Вам на телефон придет СМС-уведомление. Введите код для сброса пароля"}
                         className={"text-text-gray"}
                     />
                     <ControlledTextInput

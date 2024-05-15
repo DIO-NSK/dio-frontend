@@ -1,104 +1,93 @@
 "use client"
 
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import TextInput from "@/components/atoms/inputs/text-input/TextInput";
-import {useState} from "react";
-import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
-import {SelectItem} from "@/types/props/SelectItem";
+import React, {useState} from "react";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
-import {WorkerType} from "@/types/dto/Workrer";
+import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import {useUnit} from "effector-react";
+import {addWorkerFx} from "@/app/admin/workers/new/model";
+import {FieldValues, FormProvider, useForm} from "react-hook-form";
+import {CreateWorkerData, CreateWorkerSchema} from "@/schemas/admin/CreateWorkerSchema";
+import {zodResolver} from "@hookform/resolvers/zod";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import {useRouter} from "next/navigation";
 
 const AddNewWorkerPage = () => {
 
-    const dropdownItems: SelectItem<WorkerType>[] = [
-        {name: "Администратор", value: "admin"},
-        {name: "Модератор", value: "moderator"},
-        {name: "Сотрудник", value: "employee"},
-    ]
+    const router = useRouter()
 
-    const [
-        activeItem,
-        setActiveItem
-    ] = useState<SelectItem<WorkerType>>(dropdownItems[0])
+    const methods = useForm<CreateWorkerData>({
+        resolver: zodResolver(CreateWorkerSchema),
+        mode: "onSubmit"
+    })
 
-    const [username, setUsername] = useState<string>("")
-    const [surname, setSurname] = useState<string>("")
-    const [phoneNumber, setPhoneNumber] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
+    const addWorker = useUnit(addWorkerFx)
+    const [addSuccess, setAddSuccess] = useState<string>('')
+    const [addError, setAddError] = useState<string>('')
+
+    const onSubmit = (fieldValues: FieldValues) => {
+        addWorker(fieldValues as CreateWorkerData)
+            .then(_ => setAddSuccess('Вы можете вернуться назад'))
+            .catch(message => setAddError(message))
+    }
 
     const workerInputData = [
         {
             labelText: "Имя сотрудника",
             placeholder: "Введите имя сотрудника",
-            value: username,
-            onChange: setUsername
-        }, {
-            labelText: "Фамилия сотрудника",
-            placeholder: "Введите фамилию сотрудника",
-            value: surname,
-            onChange: setSurname
+            name: 'fullName'
         }, {
             labelText: "Номер телефона",
-            placeholder: "+_ (___) ___-__-__",
+            placeholder: "+7 (000) 000-00-00",
             inputMask: "+9 (999) 999-99-99",
-            value: phoneNumber,
-            onChange: setPhoneNumber
-        }, {
-            labelText: "Пароль",
-            placeholder: "Придумайте надёжный пароль",
-            isPassword: true,
-            value: password,
-            onChange: setPassword
-        },
+            name: 'phoneNumber'
+        }
     ]
 
-
-
-    const handleAddWorker = () => console.log("Worker was added!")
-
     return (
-        <>
+        <React.Fragment>
+            <Snackbar
+                success={true}
+                header={'Сотрудник успешно добавлен!'}
+                message={addSuccess}
+                action={() => router.back()}
+                open={addSuccess.length !== 0}
+                onClose={() => setAddSuccess('')}
+            />
+            <Snackbar
+                success={false}
+                header={'Возникли ошибки при создании работника'}
+                message={addError}
+                open={addError.length !== 0}
+                onClose={() => setAddError('')}
+            />
             <HeaderRow
                 theme={"bordered"}
                 header={"Добавить сотрудника"}
                 hasBackIcon
             />
-            {
-                Array.from({length: workerInputData.length / 2}, (_, index) =>
-                    <section className={"w-full flex flex-row gap-7 border-b-2 pb-7 border-light-gray"}>
-                        {
-                            workerInputData.slice(index * 2, (index + 1) * 2).map((inputData, key) =>
-                                <TextInput
-                                    key={key}
-                                    labelText={inputData.labelText}
-                                    placeholder={inputData.placeholder}
-                                    inputMask={inputData.inputMask}
-                                    isPassword={inputData.isPassword}
-                                    onChange={inputData.onChange}
-                                    value={inputData.value}
-                                />
-                            )
-                        }
-                    </section>
-                )
-            }
-            <section className={"w-full grid grid-cols-2 gap-7 border-b-2 pb-7 border-light-gray"}>
-                <SelectInput
-                    width={"col-span-1"}
-                    labelText={"Роль пользователя"}
-                    items={dropdownItems}
-                    onSelect={setActiveItem}
-                    selectedItem={activeItem}
+            <FormProvider {...methods}>
+                <section className={"px-7   w-full flex flex-row gap-7 border-b-2 pb-7 border-light-gray"}>
+                    {workerInputData.map((inputData, key) =>
+                        <ControlledTextInput{...inputData} key={key}/>
+                    )}
+                </section>
+                <section className={"px-7 w-full flex flex-row gap-7 border-b-2 pb-7 border-light-gray"}>
+                    <ControlledTextInput
+                        classNames={{wrapper : 'w-1/2'}}
+                        labelText={"Пароль"} isPassword={true} name={'password'}
+                        placeholder={'Придумайте надёжный пароль'}
+                    />
+                </section>
+                <Button
+                    onClick={methods.handleSubmit(onSubmit)}
+                    classNames={{button: "mx-7 w-[300px]"}}
+                    icon={<FiPlus size={"20px"}/>}
+                    text={"Добавить сотрудника"}
                 />
-            </section>
-            <Button
-                classNames={{button : "w-[300px]"}}
-                icon={<FiPlus size={"20px"}/>}
-                text={"Добавить сотрудника"}
-                onClick={handleAddWorker}
-            />
-        </>
+            </FormProvider>
+        </React.Fragment>
     );
 };
 
