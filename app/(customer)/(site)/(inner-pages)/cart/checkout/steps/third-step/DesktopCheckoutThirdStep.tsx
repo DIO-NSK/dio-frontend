@@ -74,7 +74,7 @@ const DesktopCheckoutThirdStep = () => {
         {header: "Время доставки", description: secondFormData.deliveryTime.name},
         {
             header: "Способ оплаты",
-            description: secondFormData.paymentMethod.value !== "CARD"
+            description: secondFormData.paymentMethod.value === "CARD"
                 ? "Банковской картой онлайн"
                 : "Наличными или картой при получении"
         },

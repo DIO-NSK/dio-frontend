@@ -6,8 +6,10 @@ import {useUnit} from "effector-react";
 import {
     $categoryProperties,
     $inputPrefilledData,
+    $productDetails,
     editProductFx,
-    getCategoryPropertiesEvent
+    getCategoryPropertiesEvent,
+    getProductDetailsEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
 import {DefaultValues, FieldValues, FormProvider, useForm} from "react-hook-form";
 import {CategoryPropertyData, CreateProductData, CreateProductSchema} from "@/schemas/admin/CreateProductSchema";
@@ -33,6 +35,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 import AdminPanelExternalPropertiesBlock
     from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelExternalPropertiesBlock";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
 
 const editMessage: string =
     `На данный момент нельзя отредактировать группу и код товара.
@@ -44,6 +47,12 @@ const productOfTheDayDescription: string =
 
 const textAreaDescription: string = "Придумайте привлекающее описание товара. Идеальная длина описания — 3 предложения."
 
+const createPriceType = (actual: number, product: RequestAdminProduct) => {
+    const value = Number(actual) === Number(product.price) ? 'unit' : 'package'
+    const name = value === 'unit' ? 'Цена за штуку' : 'Цена за упаковку'
+    return ({name: name, value: value})
+}
+
 const AdminPanelEditProductPage = ({params}: {
     params: {
         categoryId: number,
@@ -53,7 +62,7 @@ const AdminPanelEditProductPage = ({params}: {
 
     const router = useRouter()
 
-    const categoryData = useUnit($inputPrefilledData)
+    const [categoryData, productDetails, getProductDetails] = useUnit([$inputPrefilledData, $productDetails, getProductDetailsEvent])
 
     const [getCategoryProperties, properties] = useUnit([getCategoryPropertiesEvent, $categoryProperties])
     const [getProduct, editProduct, product] = useUnit([getProductToEditEvent, editProductFx, $productToEdit])
@@ -95,22 +104,31 @@ const AdminPanelEditProductPage = ({params}: {
     }, [])
 
     useEffect(() => {
-        const productProperties = categoryData.map((inputData, index) => {
-            const filledValue = product?.properties?.find(p => p.name === inputData.labelText)
-            return filledValue && ({
-                value: filledValue?.value,
-                valueType: properties[index].valueType,
-                propertyId: properties[index].propertyId
+        if (product) {
+            const productProperties = categoryData.map((inputData, index) => {
+                const filledValue = product?.properties?.find(p => p.name === inputData.labelText)
+                return filledValue && ({
+                    value: filledValue?.value,
+                    valueType: properties[index].valueType,
+                    propertyId: properties[index].propertyId
+                })
             })
-        })
-        reset({
-            ...product,
-            photos: product?.images,
-            filledProperties: productProperties,
-            externalProperties: product?.extraProperties,
-            isProductOfTheDay: (product as any)?.isProductOfTheDay
-        } as DefaultValues<CreateProductData>)
-    }, [categoryData, product]);
+            reset({
+                ...product,
+                priceType: productDetails && createPriceType(product.price, productDetails),
+                photos: product?.images,
+                filledProperties: productProperties,
+                externalProperties: product?.extraProperties,
+                isProductOfTheDay: (product as any)?.isProductOfTheDay
+            } as DefaultValues<CreateProductData>)
+        }
+    }, [categoryData, product, productDetails]);
+
+    useEffect(() => {
+        if (product) {
+            getProductDetails(product)
+        }
+    }, [product]);
 
     return (
         <React.Fragment>
@@ -149,7 +167,7 @@ const AdminPanelEditProductPage = ({params}: {
                             text={editMessage}
                         />
                     </div>
-                    <AdminPanelProductInputGrid hasPriceToggle={false}/>
+                    <AdminPanelProductInputGrid/>
                     <AdminPanelFilledPropertiesBlock/>
                     <AdminPanelExternalPropertiesBlock blockName={"externalProperties"}/>
                     <ControlledTextArea

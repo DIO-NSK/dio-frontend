@@ -1,6 +1,6 @@
 import Button from "@/components/atoms/buttons/button/Button";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
-import React from "react";
+import React, {useState} from "react";
 import Text from "@/components/atoms/text/text-base/Text";
 import {FormProvider, useForm} from "react-hook-form";
 import {UserConfirmCodeData, UserConfirmCodeSchema} from "@/schemas/customer/authorization/UserConfirmCodeSchema";
@@ -21,8 +21,9 @@ const ConfirmationCodePopup = () => {
     const authContext = useAuthorizationPopup()
 
     const [loginByPhoneNumber, reset] = useUnit([$loginByPhoneNumber, loginByPhonePopupDidMountEvent])
-    const [userPhoneNumber, sendConfirmationCode] =
-        useUnit([$userPhoneNumber, sendConfirmationCodeFx])
+    const [userPhoneNumber, sendConfirmationCode] = useUnit([$userPhoneNumber, sendConfirmationCodeFx])
+
+    const [error, setError] = useState<string>('')
 
     const methods = useForm<UserConfirmCodeData>({
         defaultValues: {
@@ -41,6 +42,7 @@ const ConfirmationCodePopup = () => {
                 authContext.switchPopupState(undefined)
                 reset()
             })
+            .catch(error => setError(error))
     }
 
     return (
@@ -52,7 +54,7 @@ const ConfirmationCodePopup = () => {
                         className={"text-[20px] font-medium"}
                     />
                     <Text
-                        text={"Вам на телефон придет СМС-уведомление. Введите код для сброса пароля"}
+                        text={"Вам на телефон придет СМС-уведомление. Введите код входа"}
                         className={"text-text-gray"}
                     />
                     <ControlledTextInput
@@ -62,6 +64,7 @@ const ConfirmationCodePopup = () => {
                         inputMask={"9999"}
                         name={"code"}
                     />
+                    {error && <Text className={'text-red-500'} text={error}/>}
                     <Button
                         text={isSubmitting ? "Отправка.." : "Войти"}
                         onClick={handleSubmit(onSubmit)}

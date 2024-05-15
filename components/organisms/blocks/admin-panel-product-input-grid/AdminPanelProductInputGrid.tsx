@@ -10,7 +10,7 @@ import {useUnit} from "effector-react";
 
 const inputRowCN: string = "px-7 w-full grid grid-cols-3 gap-7 pb-7 border-b-2 border-light-gray"
 
-const AdminPanelProductInputGrid = ({hasPriceToggle = true}: { hasPriceToggle?: boolean }) => {
+const AdminPanelProductInputGrid = () => {
 
     const productDetails = useUnit($productDetails)
     const methods = useFormContext()
@@ -34,7 +34,7 @@ const AdminPanelProductInputGrid = ({hasPriceToggle = true}: { hasPriceToggle?: 
     ]
 
     useEffect(() => {
-        if (methods.getValues('priceType') && hasPriceToggle) {
+        if (methods.getValues('priceType')) {
             console.log(methods.getValues('priceType'))
             const res = methods.getValues('priceType').value === 'unit'
             methods.setValue('price', res ? productDetails?.price : productDetails?.pricePackage)
@@ -42,9 +42,7 @@ const AdminPanelProductInputGrid = ({hasPriceToggle = true}: { hasPriceToggle?: 
     }, [methods.watch('priceType')]);
 
     useEffect(() => {
-        if (hasPriceToggle) {
-            methods.reset({priceType: priceTypeItems[0]})
-        }
+        methods.reset({priceType: priceTypeItems[0]})
     }, []);
 
     console.log(methods.watch())
@@ -69,14 +67,12 @@ const AdminPanelProductInputGrid = ({hasPriceToggle = true}: { hasPriceToggle?: 
                     placeholder={"20"}
                     readonly={true}
                 />
-                {
-                    productDetails?.pricePackage && hasPriceToggle ?
-                        <ControlledMultiSelectButton
-                            className={'col-span-1 h-[70px] align-bottom'}
-                            items={priceTypeItems}
-                            name={"priceType"}
-                        /> : null
-                }
+                {productDetails?.pricePackage &&
+                    <ControlledMultiSelectButton
+                        className={'col-span-1 h-[70px] align-bottom'}
+                        items={priceTypeItems}
+                        name={"priceType"}
+                    />}
             </section>
         </React.Fragment>
 

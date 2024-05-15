@@ -65,7 +65,7 @@ const OrderPageProductBlock = () => {
         {header: "Количество товаров", description: `${order.productItemDtoList.length} шт.`},
         {header: "Адрес доставки", description: address ? `ул. ${address.street}, д. ${address.houseNumber}, кв. ${address.flatNumber}` : "Не указан"},
         {header: "Дата доставки", description: dayjs(order.deliveryDate).format("DD.MM.YYYY")},
-        {header: "Время доставки", description: dayjs(order.deliveryTime).format("HH:mm")},
+        {header: "Время доставки", description: order.deliveryTime},
     ]
 
     return (

@@ -52,7 +52,7 @@ const ConfirmationCodeByPhonePopup = () => {
                         className={"text-[20px] font-medium"}
                     />
                     <Text
-                        text={"Вам на телефон придет СМС-уведомление. Введите код для сброса пароля"}
+                        text={"Вам на телефон придет СМС-уведомление. Введите код для входа"}
                         className={"text-text-gray"}
                     />
                     <ControlledTextInput

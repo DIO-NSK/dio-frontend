@@ -16,6 +16,8 @@ import {
 } from "@/components/organisms/popups/authorization/forgot-password-popup/model";
 import {useStore} from "@/store/Store";
 
+const message = 'Введите номер телефона, привязанный к вашему аккаунту. Вам придет SMS с кодом для подтверждения'
+
 const ForgotPasswordPopup = (props: PopupProps) => {
 
     const methods = useForm<LoginByPhoneData>({
@@ -52,8 +54,8 @@ const ForgotPasswordPopup = (props: PopupProps) => {
                         className={"text-[20px] font-medium"}
                     />
                     <Text
-                        text={"Вам на телефон придет СМС-уведомление. Введите код для сброса пароля"}
                         className={"text-text-gray"}
+                        text={message}
                     />
                     <ControlledTextInput
                         labelText={"Номер телефона"}
