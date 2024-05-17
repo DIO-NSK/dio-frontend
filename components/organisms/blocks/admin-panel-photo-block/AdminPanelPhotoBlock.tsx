@@ -1,7 +1,7 @@
 import React from 'react';
 import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
-import FileInput from "@/components/atoms/inputs/file-input/FileInput";
+import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
 import {useFieldArray, useFormContext} from "react-hook-form";
 import {closestCenter, DndContext, DragEndEvent} from "@dnd-kit/core";
 import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
@@ -58,7 +58,7 @@ const AdminPanelPhotoBlock = ({blockName = "photos", ...props}: AdminPanelPhotoB
                         )}
                     </SortableContext>
                 </DndContext>
-                <FileInput
+                <FileURLInput
                     onChange={append}
                     placeholder={"Выберите файл"}
                     className={"col-span-1"}

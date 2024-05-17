@@ -27,9 +27,6 @@ const createPromotion = async (promotion: RequestPromotion) => {
         headers: {"Content-type": "multipart/form-data"}
     })
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
 
 }
 

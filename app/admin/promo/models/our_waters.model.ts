@@ -10,7 +10,7 @@ export type RequestOurWater = {
     id?: number
 }
 
-type RequestCreateOurWater = {
+export type RequestCreateOurWater = {
     ourWater: RequestOurWater,
     categoryId: number,
     filterId: number,
@@ -78,9 +78,7 @@ const editOurWater = async (req: RequestCreateOurWater) => {
 const getRangeOurWaters = async (): Promise<RangeOurWater> => {
     return api.get("/banner/water/range")
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
+        .catch(error => {throw Error(error.response.data.message)})
 }
 
 const getRangeOurWatersFx = createEffect(getRangeOurWaters)

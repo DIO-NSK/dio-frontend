@@ -9,7 +9,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useUnit} from "effector-react";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
-import FileInput from "@/components/atoms/inputs/file-input/FileInput";
+import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
 import {HeaderDescription} from "@/types/dto/text";
 import {WrapperProps} from "@/types/props/Wrapper";
 import {
@@ -20,6 +20,7 @@ import {
     setBannerIdToEditEvent
 } from "@/app/admin/promo/models/banner.model";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import FileInput from "@/components/atoms/inputs/file-input/FileInput";
 
 const blockCV = "w-full flex flex-col gap-4"
 

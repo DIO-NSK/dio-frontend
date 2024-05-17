@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {PopupProps} from "@/types/props/Popup";
 import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
-import FileInput from "@/components/atoms/inputs/file-input/FileInput";
+import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -21,6 +21,7 @@ import {
 } from "@/app/admin/promo/models/promotion.model";
 import {HeaderDescription} from "@/types/dto/text";
 import {WrapperProps} from "@/types/props/Wrapper";
+import FileInput from "@/components/atoms/inputs/file-input/FileInput";
 
 const blockCV = "w-full flex flex-col gap-4"
 
