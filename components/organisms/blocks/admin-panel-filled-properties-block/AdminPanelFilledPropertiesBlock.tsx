@@ -15,14 +15,16 @@ import {
 
 const AdminPanelFilledPropertiesBlock = () => {
 
-    const {formState: {errors}, control, getValues, reset} = useFormContext<CreateProductData>()
+    const {formState: {errors}, control, getValues, reset, watch} = useFormContext<CreateProductData>()
     const {fields} = useFieldArray({control, name: "filledProperties"})
 
     const [properties, categoryInputGrid] = useUnit([$categoryProperties, $inputPrefilledData])
 
     useEffect(() => {
         reset({filledProperties: properties})
-    }, [properties]);
+    }, []);
+
+    console.log(watch())
 
     const inputRowCN: string = "w-full grid grid-cols-3 gap-7"
 

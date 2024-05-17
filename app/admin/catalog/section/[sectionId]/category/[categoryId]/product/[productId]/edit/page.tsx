@@ -6,7 +6,7 @@ import {useUnit} from "effector-react";
 import {
     $categoryProperties,
     $inputPrefilledData,
-    $productDetails,
+    $productDetails, $propertiesToEdit,
     editProductFx,
     getCategoryPropertiesEvent,
     getProductDetailsEvent
@@ -62,7 +62,7 @@ const AdminPanelEditProductPage = ({params}: {
 
     const router = useRouter()
 
-    const [categoryData, productDetails, getProductDetails] = useUnit([$inputPrefilledData, $productDetails, getProductDetailsEvent])
+    const [categoryData, productDetails, getProductDetails] = useUnit([$propertiesToEdit, $productDetails, getProductDetailsEvent])
 
     const [getCategoryProperties, properties] = useUnit([getCategoryPropertiesEvent, $categoryProperties])
     const [getProduct, editProduct, product] = useUnit([getProductToEditEvent, editProductFx, $productToEdit])
@@ -105,11 +105,11 @@ const AdminPanelEditProductPage = ({params}: {
 
     useEffect(() => {
         if (product) {
-            const productProperties = categoryData.map((inputData, index) => {
-                const filledValue = product?.properties?.find(p => p.name === inputData.labelText)
-                return filledValue && ({
+            const productProperties = categoryData.map((categoryProp, index) => {
+                const filledValue = product?.properties?.find(p => p.name === categoryProp.name)
+                return ({
                     value: filledValue?.value,
-                    valueType: properties[index].valueType,
+                    valueType: categoryProp.valueType,
                     propertyId: properties[index].propertyId
                 })
             })

@@ -2,7 +2,7 @@ import {api} from "@/api";
 import {CategoryPropertyData, CreateProductData} from "@/schemas/admin/CreateProductSchema";
 import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
 import {createEffect, createEvent, createStore, sample} from "effector";
-import {Category} from "@/types/dto/Category";
+import {Category, CategoryProperty} from "@/types/dto/Category";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 import {pending} from "patronum";
 
@@ -68,6 +68,9 @@ export const createProductFx = createEffect<CreateProductParams, any, Error>(cre
 $productDetails
     .on(getProductDetailsFx.doneData, (_, details) => details)
     .reset(newProductPageDidMountEvent)
+
+export const $propertiesToEdit = createStore<CategoryProperty[]>([])
+$propertiesToEdit.on(getCategoryPropertiesFx.doneData, (_, category) => category.properties)
 
 $categoryProperties
     .on(getCategoryPropertiesFx.doneData, (_, category) => convertCategoryToFormData(category))
