@@ -11,14 +11,21 @@ const createCategory = async (request: { data: CreateCategoryData, sequenceNumbe
     const mappedProperties = request.data.properties
         .map((property) => ({...property, valueType: property.valueType.value}))
 
-    const mappedData: Category = {
+    const mappedData = {
         ...request.data,
         sequenceNumber: request.sequenceNumber,
         properties: mappedProperties
-    } as Category
+    }
 
-    const params = {params: {sectionId: request.id}}
-    return unauthorizedApi.post("/admin/catalogue/category", mappedData, params)
+    const {image, ...req} = mappedData
+    const params = {
+        params: {
+            sectionId: request.id,
+            image: image
+        }
+    }
+
+    return unauthorizedApi.post("/admin/catalogue/category/with-image", req, params)
         .then(response => response.data)
 }
 

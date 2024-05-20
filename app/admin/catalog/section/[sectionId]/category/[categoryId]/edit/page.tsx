@@ -12,8 +12,11 @@ import {DefaultValues, FieldValues, Form, FormProvider, useForm} from "react-hoo
 import {$formData, changeCategoryFx, ChangeCategoryRequest, editCategoryPageDidMountEvent} from "./model";
 import {useRouter} from "next/navigation";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
-import {CreateSaleData} from "@/schemas/admin/CreateSaleSchema";
-import {CreateSaleRequest} from "@/app/admin/sales/new/model";
+import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
+import Text from "@/components/atoms/text/text-base/Text";
+import {cn} from "@/utlis/cn";
+import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
+import FileInput from "@/components/atoms/inputs/file-input/FileInput";
 
 const textInputCN = "w-full px-7 pb-7 border-b-2 border-light-gray"
 
@@ -43,10 +46,6 @@ const AdminEditCategoryPage = ({params}: {
         handleSubmit,
         reset
     } = methods
-
-    useEffect(() => {
-        console.log(methods.formState.errors)
-    }, [methods.formState.errors]);
 
     const onSaveChanges = (formData: FieldValues) => {
 
@@ -80,6 +79,8 @@ const AdminEditCategoryPage = ({params}: {
         reset({...formData} as DefaultValues<CreateCategoryData>)
     }, [formData])
 
+    methods.watch()
+
     return (
         <React.Fragment>
             <Snackbar
@@ -103,6 +104,21 @@ const AdminEditCategoryPage = ({params}: {
                             placeholder={"Введите название категории"}
                             name={"name"}
                         />
+                    </div>
+                    <div className={cn(textInputCN, "flex flex-col gap-3")}>
+                        <Text text={'Фотография категории'}/>
+                        {methods.getValues("image") ? (
+                            <AdminPhotoCard
+                                onDelete={() => methods.setValue("image", null)}
+                                name={"image"} className={"w-full"}
+                                canDelete
+                            />
+                        ) : (
+                            <FileURLInput
+                                onChange={(value) => methods.setValue("image", value)}
+                                placeholder={"Выберите файл"} className={"w-full"}
+                            />
+                        )}
                     </div>
                     <AdminPanelCharBlock blockName={"properties"}/>
                     <Button

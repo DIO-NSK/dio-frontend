@@ -12,7 +12,7 @@ import {useUnit} from "effector-react";
 import {$userOurWaters, getUserOurWatersEvent} from "@/app/(customer)/(site)/model";
 
 const wrapperCV = [
-    "mx-5 sm:mx-0 flex flex-col gap-5 sm:col-span-full sm:grid sm:grid-cols-12",
+    "sm:mx-0 flex flex-col gap-5 sm:col-span-full sm:grid sm:grid-cols-12",
     "sm:gap-x-5 sm:gap-y-10 pb-5 sm:pb-[50px] border-b-2 border-light-gray"
 ]
 
@@ -28,10 +28,10 @@ const ThirdBlock = () => {
         <div className={cn(wrapperCV)}>
             <Text
                 text={"Большой выбор продукции"}
-                className={"w-full text-[22px] sm:col-span-6 sm:text-[32px] font-semibold text-link-blue"}
+                className={"px-5 sm:px-0 w-full text-[22px] sm:col-span-6 sm:text-[32px] font-semibold text-link-blue"}
             />
             <Text
-                className={"w-full text-[16px] sm:col-start-8 sm:col-span-5 sm:text-[18px] text-black"}
+                className={"px-5 sm:px-0 w-full text-[16px] sm:col-start-8 sm:col-span-5 sm:text-[18px] text-black"}
                 text={"Для удобства пользования 19-литровыми бутылями предлагается" +
                     "специальное оборудование: кулеры и помпы различных моделей"}
             />
@@ -40,12 +40,9 @@ const ThirdBlock = () => {
                     return <WaterCard waterCard={waterCard} key={key}/>
                 })}
             </div>
-            <MobileHeaderWrapper classNames={{
-                contentWrapper: "w-[300vw] flex flex-row gap-3",
-                mainWrapper: "-mt-5"
-            }}>
+            <MobileHeaderWrapper>
                 {waters.map((waterCard, key) => {
-                    return <WaterCard key={key} className={"w-[100vw]"} waterCard={waterCard}/>
+                    return <WaterCard key={key} waterCard={waterCard}/>
                 })}
             </MobileHeaderWrapper>
         </div>

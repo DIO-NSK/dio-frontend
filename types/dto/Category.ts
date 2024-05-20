@@ -2,7 +2,8 @@ export type Category = {
     id ?: number,
     name: string,
     sequenceNumber: number,
-    properties: CategoryProperty[]
+    properties: CategoryProperty[],
+    image : string
 }
 
 export type CategoryProperty = {

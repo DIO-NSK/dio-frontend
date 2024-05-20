@@ -7,7 +7,7 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import React from "react";
 
-const MobileNavbar = ({sticky = true}: { sticky?: boolean }) => {
+const MobileNavbar = ({className}: { className?: string }) => {
 
     const pathname = usePathname()
     const router = useRouter()
@@ -23,12 +23,11 @@ const MobileNavbar = ({sticky = true}: { sticky?: boolean }) => {
     const wrapperCV: ClassValue[] = [
         "z-20 sm:hidden w-full flex flex-row items-center px-5 bg-white",
         "justify-between py-5 border-b-2 border-light-gray top-0",
-        {"sticky": sticky}
     ]
 
     return (
-        <>
-            <nav className={cn(wrapperCV)}>
+        <React.Fragment>
+            <nav className={cn(wrapperCV, className)}>
                 <div onClick={handleMenuClick}>
                     {
                         !pathname.includes("/mobile/menu")
@@ -44,7 +43,7 @@ const MobileNavbar = ({sticky = true}: { sticky?: boolean }) => {
                     onClick={handleCatalogClick}
                 />
             </nav>
-        </>
+        </React.Fragment>
     );
 
 };

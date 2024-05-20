@@ -12,7 +12,6 @@ import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSea
 import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
-import {useSwiper} from "swiper/react";
 
 type ProductCardClassNames = {
     mainWrapper?: string,
@@ -39,7 +38,13 @@ const ProductCard = ({productCard, classNames}: {
         "border-2 border-light-gray sm:border-0 relative", classNames?.mainWrapper
     ]
 
-    const handleCardClick = () => router.push(`/product/${productCard.id}`)
+    const handleCardClick = () => {
+        if (productCard?.id) {
+            router.push(`/product/${productCard.id}`)
+        } else {
+            router.push(`/product/${(productCard as any).productId}`)
+        }
+    }
 
     return (
         <div className={cn(wrapperCV)} onClick={handleCardClick}>

@@ -56,7 +56,7 @@ const MobilePhotoSlider = () => {
                 <Link href={banner.link}>
                     <img
                         src={banner.image} alt={'/'}
-                        className={"w-full h-[200px] object-cover"}
+                        className={"w-full h-[220px] object-cover"}
                         key={key}
                     />
                 </Link>

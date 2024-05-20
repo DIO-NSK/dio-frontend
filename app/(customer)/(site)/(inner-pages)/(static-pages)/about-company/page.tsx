@@ -28,8 +28,15 @@ import {
     TruckIcon,
     UsersIcon
 } from "lucide-react";
+import {cn} from "@/utlis/cn";
+import AdvantagesBlock from "@/components/organisms/blocks/advantages-block/AdvantagesBlock";
 
 const ICON_SIZE = 28
+
+const imageCV = [
+    "w-full h-[200px] col-span-full sm:rounded-2xl sm:h-fit",
+    "object-scale-down sm:object-cover border-2 border-light-gray"
+]
 
 const AboutCompanyPage = () => {
 
@@ -72,7 +79,7 @@ const AboutCompanyPage = () => {
             <div className={"w-full col-span-full flex flex-col gap-5 sm:gap-7"}>
                 <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                 <img
-                    className={"w-full h-[200px] col-span-full sm:rounded-2xl sm:h-fit object-cover border-2 border-light-gray"}
+                    className={cn(imageCV)}
                     src={AboutCompanyBanner.src}
                     alt={"/"}
                 />
@@ -104,14 +111,9 @@ const AboutCompanyPage = () => {
                 </HeaderGroup>
             </div>
 
-            <MobileHeaderWrapper
-                header={"Наши преимущества"}
-                classNames={{contentWrapper: "w-full pr-5 grid grid-cols-2 gap-3"}}
-            >
-                {advantagesCardData.map((card) => {
-                    return <AdvantageCard card={card}/>
-                })}
-            </MobileHeaderWrapper>
+            <div className={'sm:hidden w-full'}>
+                <AdvantagesBlock/>
+            </div>
 
         </InnerPageWrapper>
     );

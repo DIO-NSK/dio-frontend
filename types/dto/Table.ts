@@ -27,4 +27,4 @@ export type CallRequestTableRow = TableRow<ResponseCallRequest>
 export type ServiceTableRow = TableRow<AdminService>
 export type AdminOrderTableRow = TableRow<AdminOrder>
 
-export type TableRow<T> = { item: T, id : number, sequenceNumber ?: number}
+export type TableRow<T> = { item: T, id : number, image ?: string, sequenceNumber ?: number}

@@ -17,6 +17,9 @@ import {$categories, $creationStatus, createCategoryFx} from "../model";
 import Text from "@/components/atoms/text/text-base/Text";
 import {defaultCharacteristicData} from "@/schemas/dto/CharacteristicSchema";
 import React from "react";
+import {cn} from "@/utlis/cn";
+import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
+import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
 
 const AdminPanelNewCategoryPage = ({params}: {
     params: { sectionId: number }
@@ -56,6 +59,8 @@ const AdminPanelNewCategoryPage = ({params}: {
         createCategory(request).then(_ => router.back())
     }
 
+    methods.watch()
+
     return (
         <React.Fragment>
             <HeaderRow
@@ -72,6 +77,21 @@ const AdminPanelNewCategoryPage = ({params}: {
                             placeholder={"Введите название категории"}
                             name={"name"}
                         />
+                    </div>
+                    <div className={"w-full px-7 pb-7 border-b-2 border-light-gray flex flex-col gap-3"}>
+                        <Text text={'Фотография категории'}/>
+                        {methods.getValues("image") ? (
+                            <AdminPhotoCard
+                                onDelete={() => methods.setValue("image", null)}
+                                name={"image"} className={"w-full"}
+                                canDelete
+                            />
+                        ) : (
+                            <FileURLInput
+                                onChange={(value) => methods.setValue("image", value)}
+                                placeholder={"Выберите файл"} className={"w-full"}
+                            />
+                        )}
                     </div>
                     <AdminPanelCharBlock blockName={"properties"}/>
                     <div className={"px-7 flex flex-row items-center gap-5"}>

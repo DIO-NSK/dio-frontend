@@ -28,19 +28,11 @@ const MobileConfirmNumberPage = () => {
                 onChange={setCode}
                 value={code}
             />
-            <section className={"flex flex-col gap-3 items-center"}>
-                <Button
-                    classNames={{button : "w-full"}}
-                    onClick={handleConfirmCode}
-                    text={"Зарегистрироваться"}
-                />
-                <Button
-                    classNames={{button : "w-full"}}
-                    text={"Отправить код заново — 0:43"}
-                    onClick={handleSendCode}
-                    buttonType={"SECONDARY"}
-                />
-            </section>
+            <Button
+                classNames={{button : "w-full"}}
+                onClick={handleConfirmCode}
+                text={"Зарегистрироваться"}
+            />
         </InnerPageWrapper>
     );
 };

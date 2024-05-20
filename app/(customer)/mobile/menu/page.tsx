@@ -15,7 +15,7 @@ import {
 } from "react-icons/fi";
 import WhatsAppIcon from "@/public/icons/whatsapp-icon.png";
 import TelegramIcon from "@/public/icons/telegram-icon.png";
-import ViberIcon from "@/public/icons/viber-icon.png";
+import VKIcon from "@/public/icons/vk.png"
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -25,6 +25,7 @@ import {useNavigation} from "@/utlis/hooks/useNavigation";
 import {useUnit} from "effector-react";
 import {$userCredentials, getUserCredentialsEvent, logoutUserFx} from "@/app/(customer)/model";
 import React, {useEffect} from "react";
+import Link from "next/link";
 
 const MobileMenuPage = () => {
 
@@ -91,9 +92,21 @@ const MobileMenuPage = () => {
     }, [])
 
     const infoData = [
-        {icon: WhatsAppIcon.src, text: "WhatsApp"},
-        {icon: TelegramIcon.src, text: "Telegram"},
-        {icon: ViberIcon.src, text: "Viber", className: "w-6 h-6"},
+        {
+            icon: WhatsAppIcon.src,
+            text: "WhatsApp",
+            href: 'https://api.whatsapp.com/send?phone=79134869900&text=Здравствуйте%2C+у+меня+есть+вопрос'
+        },
+        {
+            icon: TelegramIcon.src,
+            text: "Telegram",
+            href: "https://t.me/DioSiberianWater"
+        },
+        {
+            icon: VKIcon.src,
+            text: "ВКонтакте",
+            href: "https://vk.com/club31485239"
+        },
     ]
 
     const rowCN = "w-full flex flex-row items-center gap-4"
@@ -134,20 +147,23 @@ const MobileMenuPage = () => {
 
             <div className={"w-full flex flex-col gap-2"}>
                 <Text text={"Горячая линия"} className={"text-text-gray"}/>
-                <Text text={"+7 (383) 333-99-00"}/>
+                <Link href={"tel:+733339900"}>
+                    <Text text={"+7 (383) 333-99-00"}/>
+                </Link>
             </div>
 
             <div className={"w-full flex flex-col gap-3"}>
                 <Text text={"Связаться с нами"} className={"text-text-gray"}/>
                 <div className={"w-full flex flex-col gap-5"}>
-                    {
-                        infoData.map((row, rowKey) =>
-                            <div className={"w-full flex flex-row items-center gap-4"} key={rowKey}>
-                                <img src={row.icon} className={cn("w-5 h-5", row?.className)} alt={"/"}/>
-                                <Text text={row.text}/>
-                            </div>
-                        )
-                    }
+                    {infoData.map((row, rowKey) =>
+                        <Link
+                            className={"w-full flex flex-row items-center gap-4"}
+                            href={row.href} key={rowKey}
+                        >
+                            <img src={row.icon} className={"w-5 h-5"} alt={"/"}/>
+                            <Text text={row.text}/>
+                        </Link>
+                    )}
                 </div>
             </div>
 

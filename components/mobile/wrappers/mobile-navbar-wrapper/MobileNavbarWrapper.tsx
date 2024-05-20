@@ -11,7 +11,7 @@ type MobileNavbarWrapperProps = {
 const MobileNavbarWrapper = ({sticky, ...props} : MobileNavbarWrapperProps) => {
     return (
         <section>
-            <MobileNavbar sticky={sticky}/>
+            <MobileNavbar/>
             <MobilePageWrapper className={props.className}>
                 {props.children}
             </MobilePageWrapper>

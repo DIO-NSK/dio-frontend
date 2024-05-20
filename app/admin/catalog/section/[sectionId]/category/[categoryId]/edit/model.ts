@@ -9,7 +9,8 @@ export type ChangeCategoryRequest = {
     name: string,
     sequenceNumber: number,
     properties: CategoryProperty[],
-    canBeDeleted ?: boolean
+    canBeDeleted?: boolean,
+    image: string,
 }
 
 const getCategory = async (categoryId: number): Promise<Category> => {
@@ -20,8 +21,13 @@ const getCategory = async (categoryId: number): Promise<Category> => {
         })
 }
 
-const changeCategory = async (req : ChangeCategoryRequest) => {
-    return api.post('/admin/catalogue/category/change', req)
+const changeCategory = async (req: ChangeCategoryRequest) => {
+    const {image, ...request} = req
+    return api.post('/admin/catalogue/category/change/with-image', request, {
+        params: {
+            image: image
+        }
+    })
         .then(response => response.data)
 }
 
@@ -59,6 +65,7 @@ function createFormData(category: Category): CreateCategoryData {
                 }
             })
         ),
+        image : category.image
     } as CreateCategoryData
 }
 

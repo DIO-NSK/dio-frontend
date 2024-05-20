@@ -19,9 +19,10 @@ export const useAdminPanelCategoriesPage = (sectionId: number) => {
         ?.filter(category => category.name.toLowerCase().includes(nameToSearch.toLowerCase()))
         .map(category => ({
                 item: [category.name],
+                image : category.image,
                 id: category.id!!,
                 sequenceNumber: category.sequenceNumber,
-                itemsWidth: ["col-span-full"]
+                itemsWidth: ["col-span-7"]
             })
         )
 

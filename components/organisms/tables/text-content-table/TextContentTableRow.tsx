@@ -17,7 +17,7 @@ type TextContentTableProps = {
 const TextContentTableRow = ({tableRow, hasTooltip = false, ...props}: TextContentTableProps) => {
 
     const itemCV: ClassValue = [
-        "w-full grid grid-cols-8 gap-7 py-7 border-b-2 border-light-gray",
+        "w-full grid grid-cols-8 gap-7 py-7 border-b-2 border-light-gray items-center",
         "hoverable group hover:bg-bg-light-blue px-7 relative pointer",
         {"pl-20": props.isDraggable},
     ]
@@ -36,11 +36,18 @@ const TextContentTableRow = ({tableRow, hasTooltip = false, ...props}: TextConte
                     <SquareIcon icon={<FiMenu size={"18px"}/>}/>
                 </div>
             )}
-            {tableRow.item?.map((rowItem, itemKey) => (
+            <div className={cn(tableRow.itemsWidth[0], 'flex flex-row items-center gap-5')}>
+                {tableRow?.image && <img
+                    className={'col-span-1 h-[50px] rounded-lg object-cover'}
+                    alt={'Изображение категории'}
+                    src={tableRow.image}
+                />}
+                <Text text={tableRow.item[0]}/>
+            </div>
+            {tableRow.item?.slice(1).map((rowItem, itemKey) => (
                 <Text
                     className={tableRow.itemsWidth[itemKey]}
-                    key={itemKey}
-                    text={rowItem}
+                    key={itemKey} text={rowItem}
                 />
             ))}
             {(props.isDraggable || hasTooltip) && (

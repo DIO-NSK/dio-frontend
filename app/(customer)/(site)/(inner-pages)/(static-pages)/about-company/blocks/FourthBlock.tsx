@@ -24,7 +24,7 @@ const FourthBlock = () => {
 
     const cardWrapperCV = [
         "border-2 border-white hover:bg-bg-light-blue",
-        "hover:border-blue-200 w-[120vw] sm:w-full sm:col-span-4 bg-white"
+        "hover:border-blue-200 w-full sm:col-span-4 bg-white"
     ]
 
     return (
@@ -42,7 +42,7 @@ const FourthBlock = () => {
             </div>
             <MobileHeaderWrapper classNames={{
                 mainWrapper: "bg-light-gray pb-5",
-                contentWrapper: "flex flex-row gap-3 w-[250vw]"
+                contentWrapper: "flex flex-row gap-3 w-full"
             }}>
                 {
                     cardData.map((item) => <AdvantageCard

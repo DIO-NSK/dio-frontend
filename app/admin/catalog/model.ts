@@ -46,7 +46,7 @@ const getSectionBreadcrumbs = async (categoryId: number): Promise<{ id: number, 
         .then(response => ({id: categoryId, name: response.data}))
 }
 
-const getSectionBreadcrumbsFx = createEffect(getSectionBreadcrumbs)
+export const getSectionBreadcrumbsFx = createEffect(getSectionBreadcrumbs)
 export const getSectionBreadcrumbsEvent = createEvent<number>()
 
 sample({

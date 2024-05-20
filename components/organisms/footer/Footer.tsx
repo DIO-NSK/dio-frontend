@@ -21,12 +21,18 @@ import {TextLink} from "@/types/links";
 const IconRow = () => {
 
     const iconData = [
-        {src: WhatsAppIcon.src, href: "https://t.me/DioSiberianWater"},
         {
-            src: TelegramIcon.src,
+            src: WhatsAppIcon.src,
             href: "https://api.whatsapp.com/send?phone=79134869900&text=Здравствуйте%2C+у+меня+есть+вопрос"
         },
-        {src: VKIcon.src, href: "https://vk.com/club31485239"},
+        {
+            src: TelegramIcon.src,
+            href: "https://t.me/DioSiberianWater"
+        },
+        {
+            src: VKIcon.src,
+            href: "https://vk.com/club31485239"
+        },
     ]
 
     return (

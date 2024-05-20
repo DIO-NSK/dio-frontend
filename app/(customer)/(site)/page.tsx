@@ -118,10 +118,7 @@ const MainPageScreen = () => {
                         ))}
                     </SliderGroup>
                 </section>
-                <MobileHeaderWrapper
-                    header={"Наши воды"}
-                    textLink={{text: "Смотреть все", link: "/our-waters"}}
-                >
+                <MobileHeaderWrapper header={"Наши воды"}>
                     {ourWaters.map((waterCard, key) => {
                         return <WaterCard waterCard={waterCard} key={key}/>
                     })}
@@ -140,7 +137,7 @@ const MainPageScreen = () => {
                 </section>
                 <MobileHeaderWrapper
                     header={"Акции и предложения"}
-                    textLink={{text: "Смотреть все", link: "/our-waters"}}
+                    textLink={{text: "Смотреть все", link: "/sales"}}
                     classNames={{contentWrapper: "w-full pr-5 flex flex-col gap-3"}}
                 >
                     {promotions.map((promotion, key) => (
@@ -149,7 +146,7 @@ const MainPageScreen = () => {
                 </MobileHeaderWrapper>
                 <HeaderGroup
                     header={"Бонусная программа"}
-                    textLink={{text: "Подробнее", path: "/bonuses"}}
+                    textLink={{text: "Подробнее", path: "/bonus-program"}}
                 >
                     {bonusCardData.map((bonusCard, key) => (
                         <BonusCard bonusCard={bonusCard} key={key}/>
