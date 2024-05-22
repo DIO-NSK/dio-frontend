@@ -22,7 +22,6 @@ import {
     GetProductDetailsParams,
     newProductPageDidMountEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
-import Text from "@/components/atoms/text/text-base/Text";
 import AdminPanelProductInputGrid
     from "@/components/organisms/blocks/admin-panel-product-input-grid/AdminPanelProductInputGrid";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
@@ -114,8 +113,8 @@ const CreateProductSecondStep = ({categoryId}: {
 
     const {
         handleSubmit,
-        formState: {isSubmitting, errors},
-        reset, watch
+        formState: {isSubmitting},
+        reset
     } = useFormContext<CreateProductData>()
 
     const onSubmit = (formData: FieldValues) => createProduct({
@@ -139,7 +138,7 @@ const CreateProductSecondStep = ({categoryId}: {
             price: productDetails?.price,
             taxPercent: productDetails?.taxPercent
         } as DefaultValues<CreateProductData>)
-    }, [productDetails])
+    }, [filledProperties, productDetails])
 
     return (
         <React.Fragment>
