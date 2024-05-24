@@ -1,15 +1,11 @@
-type TabBarItem = { text: string, icon?: React.ReactNode, path?: string }
+import {PropsWithClassName} from "@/types/props/utils/PropsWithClassName";
 
-type TabBarItemProps = {
+export type TabBarItemProps = PropsWithClassName<{
     tab: TabBarItem,
+    setActive: (item: TabBarItem) => void,
     isActive: boolean,
-    setActive: (item: TabBarItem) => void,
-    className?: string
-}
+    onClick?: () => void,
+    isHoverable?: boolean
+}>
 
-type SideTabBarProps = {
-    tabs: TabBarItem[],
-    activeTab: TabBarItem,
-    setActive: (item: TabBarItem) => void,
-    className?: string
-}
+export type TabBarItem = { text: string, icon?: React.ReactNode, path?: string }

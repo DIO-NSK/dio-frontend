@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from "@/components/atoms/buttons/button/Button";
-import {FiPlus} from "react-icons/fi";
+import {FiEdit, FiPlus} from "react-icons/fi";
 import {CharacteristicType} from "@/types/dto/Characteristic";
 import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import {useFieldArray, useFormContext} from "react-hook-form";
@@ -13,6 +13,10 @@ import {defaultCharacteristicData} from "@/schemas/dto/CharacteristicSchema";
 import {closestCenter, DndContext, DragEndEvent} from "@dnd-kit/core";
 import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
 import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
+import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
+import {usePathname, useRouter} from "next/navigation";
+import {useUnit} from "effector-react";
+import {$formData} from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/edit/model";
 
 const selectItems: SelectItem<CharacteristicType>[] = [
     {name: "Целочисленное значение", value: "NUMBER"},
@@ -22,21 +26,36 @@ const selectItems: SelectItem<CharacteristicType>[] = [
 
 const characteristicMessage = "С помощью данных характеристик пользователь сможет отфильтровать каталог и найти нужные товары."
 
-const AdminPanelCharBlock = ({blockName}: {
-    blockName: string
+const AdminPanelCharBlock = ({blockName, disabled = false}: {
+    blockName: string,
+    disabled?: boolean
 }) => {
+
+    const router = useRouter()
+    const pathname = usePathname()
+
+    const formData = useUnit($formData)
 
     const {control, formState: {errors}} = useFormContext()
     const {fields, append, remove, swap} = useFieldArray({
         control, name: blockName
     })
 
-    const handleAppendRow = () => append({
-        ...defaultCharacteristicData,
-        sequenceNumber: fields.length + 1
-    })
+    const handleAppendRow = () => {
+        if (disabled) {
+            router.push(pathname.concat('/property/new'))
+        } else {
+            append({
+                ...defaultCharacteristicData,
+                sequenceNumber: fields.length + 1
+            })
+        }
+    }
 
     const handleDeleteRow = (index: number) => remove(index)
+    const handleEditProperty = (index: number) => {
+        router.push(pathname.concat(`/property/${formData?.properties[index].id}`))
+    }
 
     const handleChangeOrder = (event: DragEndEvent) => {
         const {active, over} = event
@@ -76,17 +95,20 @@ const AdminPanelCharBlock = ({blockName}: {
                             <SortableItemWrapper sequenceNumber={item.id} key={item.id}>
                                 <DraggableRowWrapper
                                     className={"w-full grid grid-cols-7 gap-5"}
+                                    onEdit={() => handleEditProperty(index)}
                                     onDelete={() => handleDeleteRow(index)}
                                     key={item.id}
                                 >
                                     <ControlledTextInput
+                                        readonly={disabled}
                                         classNames={{wrapper: "col-span-3"}}
                                         placeholder={"Введите название характеристики"}
                                         name={`${blockName}.${index}.name` as const}
                                         //@ts-ignore
-                                        errors={errors?.[blockName]?.[index].name}
+                                        errors={errors?.[blockName]?.[index]?.name}
                                     />
                                     <ControlledTextInput
+                                        readonly={disabled}
                                         classNames={{wrapper: "col-span-2"}}
                                         placeholder={"Единица характеристики"}
                                         name={`${blockName}.${index}.valueName` as const}
@@ -97,7 +119,7 @@ const AdminPanelCharBlock = ({blockName}: {
                                         width={"col-span-2"}
                                         placeholder={"Целочисленное значение"}
                                         name={`${blockName}.${index}.valueType` as const}
-                                        items={selectItems}
+                                        items={selectItems} readonly={disabled}
                                     />
                                 </DraggableRowWrapper>
                             </SortableItemWrapper>

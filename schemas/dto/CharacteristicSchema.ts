@@ -6,7 +6,7 @@ import {disallowSymbolsMessage, disallowSymbolsRegex} from "@/schemas/admin/Crea
 export const CharacteristicSchema = z.object({
     id : z.number().optional(),
     name: z.string().min(1, requiredFiledError).refine(item => disallowSymbolsRegex.test(item), disallowSymbolsMessage),
-    valueName: z.string().min(1, requiredFiledError),
+    valueName: z.string().min(1, requiredFiledError).or(z.null()),
     valueType: SelectInputSchema,
     sequenceNumber: z.number(),
 })

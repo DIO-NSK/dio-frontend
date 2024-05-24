@@ -120,7 +120,10 @@ const AdminEditCategoryPage = ({params}: {
                             />
                         )}
                     </div>
-                    <AdminPanelCharBlock blockName={"properties"}/>
+                    <AdminPanelCharBlock
+                        blockName={"properties"}
+                        disabled
+                    />
                     <Button
                         disabled={isSubmitting}
                         classNames={{button: "mx-7 w-[250px]"}}

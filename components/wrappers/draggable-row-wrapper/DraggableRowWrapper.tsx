@@ -1,14 +1,18 @@
 import React from 'react';
 import {WrapperProps} from "@/types/props/Wrapper";
 import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
-import {FiMenu, FiTrash2} from "react-icons/fi";
+import {FiEdit, FiMenu, FiTrash2} from "react-icons/fi";
 import {SortableHandlerProps} from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
+import {cn} from "@/utlis/cn";
 
 type DraggableRowWrapperProps = {
-    onDelete: () => void
+    onDelete: () => void,
+    onEdit ?: () => void
 } & WrapperProps & SortableHandlerProps
 
-const DraggableRowWrapper = ({onDelete, ...props}: DraggableRowWrapperProps) => {
+const iconStyles = 'w-fit h-fit pointer hoverable'
+
+const DraggableRowWrapper = (props: DraggableRowWrapperProps) => {
     return (
         <div className={"w-full relative flex flex-row gap-5"}>
             <div
@@ -25,11 +29,18 @@ const DraggableRowWrapper = ({onDelete, ...props}: DraggableRowWrapperProps) => 
             <section className={props.className}>
                 {props.children}
             </section>
-            <SquareIcon
-                className={"w-fit h-fit mt-4 text-info-red hover:bg-red-100 hover:text-red-800 pointer hoverable"}
-                icon={<FiTrash2 size={"18px"}/>}
-                onClick={onDelete}
-            />
+            <div className={'w-fit flex flex-row gap-3 mt-4'}>
+                {props.onEdit && <SquareIcon
+                    className={cn(iconStyles, 'hover:bg-blue-100 hover:text-link-blue')}
+                    icon={<FiEdit size={'18px'}/>}
+                    onClick={props.onEdit}
+                />}
+                <SquareIcon
+                    className={cn(iconStyles, 'text-info-red hover:bg-red-100 hover:text-red-800')}
+                    icon={<FiTrash2 size={"18px"}/>}
+                    onClick={props.onDelete}
+                />
+            </div>
         </div>
     );
 };

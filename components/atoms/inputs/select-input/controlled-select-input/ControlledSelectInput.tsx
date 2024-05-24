@@ -10,7 +10,8 @@ type ControlledSelectInputProps<R> = {
     className ?: string,
     name: string,
     placeholder : string,
-    labelText ?: string
+    labelText ?: string,
+    readonly ?: boolean
 }
 
 const ControlledSelectInput = <T extends FieldValues, R, >(props : ControlledSelectInputProps<R>) => {

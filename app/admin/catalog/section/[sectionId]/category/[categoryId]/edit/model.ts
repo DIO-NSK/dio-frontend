@@ -59,6 +59,7 @@ function createFormData(category: Category): CreateCategoryData {
         sequenceNumber: category.sequenceNumber,
         properties: category.properties.map(prop => ({
                 ...prop,
+                propertyId : prop.id,
                 valueType: {
                     name: prop.valueType,
                     value: convertNameToValueType(prop.valueType)

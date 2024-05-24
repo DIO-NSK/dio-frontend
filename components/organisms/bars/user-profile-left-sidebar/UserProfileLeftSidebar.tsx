@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import SideTabBar from "@/components/moleculas/bars/side-tab-bar/SideTabBar";
 import {usePathname, useRouter} from "next/navigation";
 import {FiFile, FiSettings, FiUser} from "react-icons/fi";
+import {TabBarItem} from "@/types/props/SideTabBar";
 
 const UserProfileLeftSidebar = () => {
 

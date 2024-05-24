@@ -12,6 +12,7 @@ import {
     toggleCatalogPopupEvent
 } from "@/components/organisms/bars/searchbar/model";
 import Link from "next/link";
+import {TabBarItem} from "@/types/props/SideTabBar";
 
 const SubcategoryItem = ({onClose, text, id}: { text: string, id: number, onClose: () => void }) => {
     return (
@@ -34,7 +35,7 @@ const CatalogPopup = () => {
 
     const tabs: TabBarItem[] = catalog.length ? catalog
         .toSorted((fst, snd) => fst.sequenceNumber - snd.sequenceNumber)
-        .map(item => ({text: item.name} as TabBarItem)) : []
+        .map(item => ({text: item.name, path: `/catalog/categories/${item.id}`} as TabBarItem)) : []
 
     useEffect(() => {
         popupOpen && getCatalog()
@@ -53,10 +54,11 @@ const CatalogPopup = () => {
         >
             {activeSection && <div className={"px-3 bg-white flex flex-row gap-8"}>
                 <SideTabBar
+                    onClick={togglePopup}
                     className={"pr-8 h-[calc(100vh-64px)] overflow-y-scroll"}
-                    tabs={tabs}
-                    activeTab={activeTab!!}
+                    tabs={tabs} activeTab={activeTab!!}
                     setActive={selectTabBar}
+                    isHoverable
                 />
                 <div className={"min-w-[300px] flex pt-3 flex-col gap-5"}>
                     {activeTab && <Text

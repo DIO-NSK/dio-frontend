@@ -15,9 +15,10 @@ export type DropdownInputProps<T> = {
     labelText?: string,
     className?: string,
     placeholder?: string,
-    classNames ?: {modal ?: string}
+    classNames?: { modal?: string }
     width?: string,
-    error?: string
+    error?: string,
+    readonly?: boolean
 }
 
 const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInputProps<T>) => {
@@ -29,6 +30,7 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
         "justify-between rounded-xl bg-bg-light-blue",
         "border-2 border-light-gray pointer",
         {"sm:px-4 sm:py-3": size === "sm"},
+        {"text-text-gray bg-bg-light-blue bg-opacity-50": props.readonly},
         props.className
     ]
 
@@ -48,7 +50,9 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
     }
 
     const handleOnClick = () => {
-        clickOutsideMethods.setIsComponentVisible(!clickOutsideMethods.isComponentVisible)
+        if (!props.readonly) {
+            clickOutsideMethods.setIsComponentVisible(!clickOutsideMethods.isComponentVisible)
+        }
     }
 
     return (

@@ -29,7 +29,7 @@ const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRow
 
     return (
         <div className={cn(wrapperCV)}>
-            <div className={"flex flex-row items-baseline gap-3"}>
+            <div className={"flex flex-row items-center gap-4"}>
                 <div className={"flex flex-row items-center gap-3"}>
                     {
                         hasBackIcon && <FiArrowLeft
