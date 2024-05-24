@@ -3,6 +3,7 @@ import {debounce} from "patronum";
 import {unauthorizedApi} from "@/api";
 import {ResponseSearchList} from "@/types/dto/user/ResponseSearchList";
 import {ResponseSearchCatalog} from "@/types/dto/user/catalog/ResponseSearchCatalog";
+import {TabBarItem} from "@/types/props/SideTabBar";
 
 const DEBOUNCE_TIMEOUT = 400
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import AdminTabBarItem from "@/components/atoms/tabs/admin-tab-bar-item/AdminTabBarItem";
+import {SideTabBarProps} from "@/components/moleculas/bars/side-tab-bar/SideTabBar";
 
 const AdminTabBar = (props: SideTabBarProps) => {
     return (

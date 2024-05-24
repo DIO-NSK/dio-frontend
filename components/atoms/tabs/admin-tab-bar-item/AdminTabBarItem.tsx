@@ -5,6 +5,7 @@ import Text from "@/components/atoms/text/text-base/Text";
 import {ClassValue} from "clsx";
 import {useUnit} from "effector-react";
 import {$isFolded} from "@/app/admin/folded.model";
+import {TabBarItemProps} from "@/types/props/SideTabBar";
 
 const AdminTabBarItem = (props: TabBarItemProps) => {
 

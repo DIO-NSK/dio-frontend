@@ -5,7 +5,7 @@ import {cn} from "@/utlis/cn";
 import {type TabBarItem as TabBarItemType} from '@/types/props/SideTabBar'
 import {PropsWithClassName} from "@/types/props/utils/PropsWithClassName";
 
-type SideTabBarProps = PropsWithClassName<{
+export type SideTabBarProps = PropsWithClassName<{
     tabs: TabBarItemType[],
     activeTab: TabBarItemType,
     setActive: (item: TabBarItemType) => void,

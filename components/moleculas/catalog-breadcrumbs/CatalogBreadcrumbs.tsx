@@ -4,6 +4,7 @@ import React from "react";
 import {Breadcrumbs, Link} from "@mui/joy";
 import Text from "@/components/atoms/text/text-base/Text";
 import {TextLink} from "@/types/dto/text";
+import {TabBarItem} from "@/types/props/SideTabBar";
 
 const CatalogBreadcrumbs = ({breadcrumbs}: { breadcrumbs: TextLink[] }) => {
 

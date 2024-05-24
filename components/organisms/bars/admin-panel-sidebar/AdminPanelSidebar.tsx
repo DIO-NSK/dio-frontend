@@ -25,6 +25,7 @@ import DIOLogoSmall from "@/components/atoms/svg/dio-logo-small/DIOLogoSmall";
 import {useUnit} from "effector-react";
 import {$isFolded, toggleFoldedStateEvent} from "@/app/admin/folded.model";
 import {logoutUserFx} from "@/app/(customer)/model";
+import { TabBarItem } from '@/types/props/SideTabBar';
 
 const itemCV: ClassValue[] = [
     "flex flex-row items-center gap-4 group",

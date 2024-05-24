@@ -3,6 +3,7 @@ import {SelectItem} from "@/types/props/SelectItem";
 import {useEffect, useState} from "react";
 import {ServiceCardDTO} from "@/types/cards";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import { TabBarItem } from "@/types/props/SideTabBar";
 
 export const useServicesPage = () => {
 
