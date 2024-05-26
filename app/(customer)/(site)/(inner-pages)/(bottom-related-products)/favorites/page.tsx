@@ -15,11 +15,18 @@ import {
 import {addAllToCartEvent} from "@/components/organisms/cards/product-price-card/model";
 import dynamic from "next/dynamic";
 import Loading from "@/components/mobile/loading/Loading";
+import EmptyPage from "@/components/organisms/empty-page/EmptyPage";
+import Button from "@/components/atoms/buttons/button/Button";
+import {useRouter} from "next/navigation";
 
 const FavoritesContentBlock = dynamic(
     () => import("@/components/organisms/loading-blocks/favorites/FavoritesContentBlock"),
     {loading: () => <Loading className={"col-span-9"}/>}
 )
+
+const CATALOG_PATH = "/catalog/categories/3"
+const emptyHeader = "Нет избранных товаров"
+const emptyMessage = "Добавьте продукты в избранное и возвращайтесь снова!"
 
 const FavoritesHeaderRow = ({selectedCards}: { selectedCards: any[] }) => {
     return (
@@ -33,6 +40,8 @@ const FavoritesHeaderRow = ({selectedCards}: { selectedCards: any[] }) => {
 }
 
 const FavoritesPage = () => {
+
+    const router = useRouter()
 
     const [favourites, getFavourites, addAllToCart]
         = useUnit([$favourites, getFavouritesEvent, addAllToCartEvent])
@@ -63,10 +72,20 @@ const FavoritesPage = () => {
     if (favourites) return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
 
-            <div className={"w-full sm:col-span-9 flex flex-col gap-7"}>
-                <FavoritesHeaderRow selectedCards={favourites.products}/>
-                <FavoritesContentBlock products={favourites.products}/>
-            </div>
+            {
+                favourites.products.length ? (
+                        <div className={"w-full sm:col-span-9 flex flex-col gap-7"}>
+                            <FavoritesHeaderRow selectedCards={favourites.products}/>
+                            <FavoritesContentBlock products={favourites.products}/>
+                        </div>
+                    ) :
+                    (<EmptyPage
+                        className={"sm:col-span-9 sm:items-center sm:justify-center sm:ml-0"}
+                        header={emptyHeader} description={emptyMessage}
+                    >
+                        <Button onClick={() => router.push(CATALOG_PATH)} text={"К продуктам"}/>
+                    </EmptyPage>)
+            }
 
             <ShoppingCartTotalPriceCard
                 products={favourites.products}
@@ -74,11 +93,13 @@ const FavoritesPage = () => {
                 buttonText={"Добавить все в корзину"}
             />
 
-            <MobileCartInfoBlock
-                infoBlockData={infoBlockData}
-                buttonText={"Добавить все в корзину"}
-                onSubmit={handleButtonClick}
-            />
+            {
+                favourites.products.length !== 0 && <MobileCartInfoBlock
+                    infoBlockData={infoBlockData}
+                    buttonText={"Добавить все в корзину"}
+                    onSubmit={handleButtonClick}
+                />
+            }
 
         </InnerPageWrapper>
     );

@@ -6,12 +6,13 @@ import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
 import SelectInputItem from "@/components/atoms/inputs/select-input/select-input-item/SelectInputItem";
 import {useClickOutside} from "@/utlis/hooks/useClickOutside";
+import {Maybe} from "@/types/props/utils/Maybe";
 
 export type DropdownInputProps<T> = {
     items: SelectItem<T>[],
     onSelect: (selectedItem: SelectItem<T>) => void,
     size?: "sm" | "md",
-    selectedItem: SelectItem<T> | null,
+    selectedItem: Maybe<SelectItem<T>>,
     labelText?: string,
     className?: string,
     placeholder?: string,
@@ -35,7 +36,7 @@ const SelectInput = <T, >({width = "w-full", size = "md", ...props}: DropdownInp
     ]
 
     const itemListCV: ClassValue[] = [
-        "overflow-y-auto max-h-[150px] dropdownScrollbar absolute w-full z-10",
+        "overflow-y-auto max-h-[150px] dropdownScrollbar absolute w-full z-20",
         "top-[80px] rounded-xl bg-white drop-shadow-lg flex flex-col",
         props?.classNames?.modal
     ]

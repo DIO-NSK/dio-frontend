@@ -20,7 +20,7 @@ const CartContentBlock = dynamic(
     {loading: () => <Loading className={"col-span-9"}/>}
 )
 
-const CATALOG_PATH = "/catalog/4"
+const CATALOG_PATH = "/catalog/categories/3"
 
 const emptyHeader = "Корзина пуста"
 const emptyMessage = "Добавьте продукты в корзину и возвращайтесь снова!"
@@ -52,7 +52,7 @@ const ShoppingCartPage = () => {
                     (<EmptyPage
                         header={emptyHeader}
                         description={emptyMessage}
-                        className={"col-span-9"}
+                        className={"sm:col-span-9 sm:items-center sm:justify-center sm:ml-0"}
                     >
                         <Button
                             text={"К продуктам"}

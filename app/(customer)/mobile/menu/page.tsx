@@ -72,7 +72,9 @@ const MobileMenuPage = () => {
         },
         {
             icon: <FiHeart className={"text-info-red"}/>,
-            action: () => handleTabClick("/favorites"),
+            action: () => userCredentials
+                ? handleTabClick("/favorites")
+                : navigation.push("/mobile/authorization"),
             text: "Избранное",
         },
         {

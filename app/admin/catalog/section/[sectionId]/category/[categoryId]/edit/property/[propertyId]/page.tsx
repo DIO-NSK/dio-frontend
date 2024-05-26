@@ -41,9 +41,9 @@ const HeaderPropertyRow = ({categoryName, propertyName}: { categoryName: string,
     </section>
 )
 
-const ProductRow = ({product, name}: { product: CategoryPropertyProduct, name: string }) => {
+const ProductRow = ({product, name, index}: { product: CategoryPropertyProduct, name: string, index : number}) => {
 
-    const {getValues, watch} = useFormContext()
+    const {formState: {errors}, getValues} = useFormContext()
 
     const [propertyName, setPropertyName] = useState<string>('')
     const [valueName, setValueName] = useState<string>('')
@@ -56,6 +56,10 @@ const ProductRow = ({product, name}: { product: CategoryPropertyProduct, name: s
     useEffect(() => {
         setValueName(getValues('propertyValueName'))
     }, [getValues('propertyValueName')]);
+
+    useEffect(() => {
+        console.log(errors)
+    }, [errors]);
 
     return (
         <section className={'w-full grid grid-cols-2 gap-7 items-start'}>
@@ -73,6 +77,8 @@ const ProductRow = ({product, name}: { product: CategoryPropertyProduct, name: s
                 </div>
             </div>
             <ControlledTextInput
+                //@ts-ignore
+                errors={errors?.filledProperties?.[index]?.value}
                 name={`${name}.value`} classNames={{wrapper: 'col-span-1'}}
                 labelText={`${propertyName}${unit}`}
                 placeholder={'Введите значение свойства'}
@@ -102,7 +108,7 @@ const ControlledProductList = () => {
             <section className={'col-span-full flex flex-col gap-7'}>
                 {expandedToggle.state && property?.productsProperties.map((product, key, array) => (
                     <section className={key !== array.length - 1 ? 'pb-7 border-b-2 border-light-gray' : ''}>
-                        <ProductRow name={`filledProperties.${key}`} product={product} key={key}/>
+                        <ProductRow name={`filledProperties.${key}`} product={product} index={key} key={key}/>
                     </section>
                 ))}
             </section>

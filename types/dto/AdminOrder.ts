@@ -2,7 +2,7 @@ import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-re
 
 export type AdminOrder = {
     id: number,
-    orderStatus: string,
+    status: string,
     fullName: string
     paymentMethod: string,
     created: string,
@@ -10,6 +10,7 @@ export type AdminOrder = {
     deliveryTime: string,
     count: number,
     price: number,
-    products: ResponseCartItem[]
-
+    products: ResponseCartItem[],
+    paymentStatus : string,
+    address : string
 }

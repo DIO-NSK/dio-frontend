@@ -5,7 +5,7 @@ import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/C
 import AdminPanelSaleRuleBlock from "@/components/organisms/blocks/admin-panel-sale-rule-block/AdminPanelSaleRuleBlock";
 import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
 import Button from "@/components/atoms/buttons/button/Button";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {DefaultValues, FieldName, FieldValues, Form, FormProvider, useForm, useFormContext} from "react-hook-form";
 import {CreateSaleData, CreateSaleSchema} from "@/schemas/admin/CreateSaleSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -21,6 +21,8 @@ import dayjs from "dayjs";
 import AdminPanelSearchbarBlock
     from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchbarBlock";
 import {createSaleEvent} from "@/app/admin/sales/new/model";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import {useRouter} from "next/navigation";
 
 const FirstInputRow = () => {
 
@@ -39,7 +41,6 @@ const FirstInputRow = () => {
         {
             labelText: "Код акции",
             placeholder: "Введите код акции",
-            inputMask: "999999",
             name: "crmCode"
         }, {
             labelText: "Группа акции",
@@ -96,7 +97,11 @@ const SecondInputRow = () => {
 
 const AdminPanelNewSaleSecondBlock = () => {
 
+    const router = useRouter()
+
     const [saleDetails, createSale] = useUnit([$productDetails, createSaleEvent])
+    const [creationSuccess, setCreationSuccess] = useState<boolean>(false)
+    const [creationError, setCreationError] = useState<string>('')
 
     const {
         handleSubmit,
@@ -114,6 +119,21 @@ const AdminPanelNewSaleSecondBlock = () => {
 
     return (
         <React.Fragment>
+            <Snackbar
+                onClose={() => setCreationSuccess(false)}
+                message={"Вы можете вернуться назад"}
+                header={"Акция успешно создана!"}
+                action={router.back}
+                open={creationSuccess}
+                success={true}
+            />
+            <Snackbar
+                onClose={() => setCreationError('')}
+                message={creationError}
+                header={"Ошибка при создании акции"}
+                open={creationError.length !== 0}
+                success={false}
+            />
             <SecondInputRow/>
             <ControlledTextArea
                 name={"description"}

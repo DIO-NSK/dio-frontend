@@ -18,7 +18,7 @@ import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 type OrderContentTableProps = {
     tableContent: AdminOrderTableRow[],
     onClick: (tableRow: AdminOrderTableRow) => void,
-    maxItems ?: number,
+    maxItems?: number,
     onSelect?: (order: AdminOrder) => void,
     selectedItems?: AdminOrderTableRow[],
 } & Omit<TableWrapperProps, "children">
@@ -30,12 +30,17 @@ type OrderRowProps = {
     isSelected?: boolean,
 }
 
-const OrderRowProductCard = ({product}: { product: ResponseCartItem }) => {
+const OrderRowProductCard = ({product, hasMore}: { product: ResponseCartItem, hasMore: boolean }) => {
+
+    const wrapperStyles = [
+        "w-full flex flex-col gap-2",
+        {"pb-3 border-b-2 border-light-gray": hasMore}
+    ]
 
     const [newPrice, price] = useDiscount(product.price, product.discountPercent)
 
     return (
-        <div className={"w-full flex flex-col gap-2 pb-3 border-b-2 border-light-gray"}>
+        <div className={cn(wrapperStyles)}>
             <div className={"w-full flex flex-row items-center gap-3"}>
                 <Text text={`ID ${product.productId}`} className={"text-[14px] text-text-gray"}/>
                 <div className={"w-[5px] h-[5px] rounded-full bg-border-gray"}/>
@@ -89,17 +94,21 @@ const OrderRow = (props: OrderRowProps) => {
             </div>
 
             <Text text={dayjs(order.deliveryDate).format("DD.MM.YYYY")} className={"col-span-1 text-[15px]"}/>
-            <Text text={`ID ${order.id}`} className={"col-span-1 text-[15px]"}/>
-            <Text text={order.orderStatus} className={"col-span-1 text-[15px]"}/>
-            <Text text={order.fullName} className={"col-span-1 text-[15px]"}/>
+            <Text text={String(props.tableRow.id)} className={"col-span-1 text-[15px]"}/>
+            <Text text={(order as any)?.orderStatus ?? order.status} className={"col-span-1 text-[15px]"}/>
+            <Text text={(order as any)?.address ?? order.fullName} className={"col-span-1 text-[15px]"}/>
             <Text text={`${totalPrice} ₽`} className={"col-span-1 text-[15px]"}/>
 
             <div className={"col-span-2 flex flex-col gap-3"}>
                 {order.products?.map((product, key) =>
                     (orderOpened.state || key == 0) &&
-                    <OrderRowProductCard product={product} key={key}/>
+                    <OrderRowProductCard
+                        product={product}
+                        hasMore={order.products?.length > 1}
+                        key={key}
+                    />
                 )}
-                {order.products.length > 1 && <TextButton
+                {order.products?.length > 1 && <TextButton
                     text={orderOpened.state ? "Свернуть" : "Показать ещё"}
                     onClick={orderOpened.toggleState}
                 />}

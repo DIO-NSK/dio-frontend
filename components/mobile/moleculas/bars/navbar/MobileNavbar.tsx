@@ -5,9 +5,16 @@ import DIOLogoSmall from "@/components/atoms/svg/dio-logo-small/DIOLogoSmall";
 import {usePathname, useRouter} from "next/navigation";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {useScrollDirection} from "react-use-scroll-direction";
 
-const MobileNavbar = ({className}: { className?: string }) => {
+const wrapperStyles = (scrolledUp: boolean): ClassValue[] => [
+    "z-20 sm:hidden w-full flex flex-row items-center px-5 bg-white",
+    "justify-between py-5 border-b-2 border-light-gray top-0",
+    {'w-screen fixed': scrolledUp}
+]
+
+const MobileNavbar = ({className, scrolledUp}: { className?: string, scrolledUp : boolean}) => {
 
     const pathname = usePathname()
     const router = useRouter()
@@ -20,14 +27,9 @@ const MobileNavbar = ({className}: { className?: string }) => {
     const handleCatalogClick = () => router.push("/mobile/menu/catalog")
     const handleLogoClick = () => router.push("/")
 
-    const wrapperCV: ClassValue[] = [
-        "z-20 sm:hidden w-full flex flex-row items-center px-5 bg-white",
-        "justify-between py-5 border-b-2 border-light-gray top-0",
-    ]
-
     return (
         <React.Fragment>
-            <nav className={cn(wrapperCV, className)}>
+            <nav className={cn(wrapperStyles(scrolledUp), className)}>
                 <div onClick={handleMenuClick}>
                     {
                         !pathname.includes("/mobile/menu")

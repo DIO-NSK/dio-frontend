@@ -7,9 +7,9 @@ import {useAdminPanelAnalyticsPage} from "@/app/admin/page.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiShoppingBag, FiUpload} from "react-icons/fi";
 import {useUnit} from "effector-react";
-import {$orders, getOrdersEvent} from "@/app/admin/orders/model";
+import {$ordersStat, getOrdersEvent} from "@/app/admin/orders/model";
 import OrderContentTable from "@/components/organisms/tables/order-content-table/OrderContentTable";
-import {adminOrdersTableHeader} from "@/data/tables/adminOrdersTable";
+import {adminStatOrdersTableHeader} from "@/data/tables/adminOrdersTable";
 import {$graphVisitPoints, $orderGraphPoints, getOrdersGraphEvent, getVisitPointsEvent} from "@/app/admin/model";
 import dayjs from "dayjs";
 import moment from "moment";
@@ -21,7 +21,7 @@ const AdminPanelAnalyticsPage = () => {
 
     const [graphVisitPoints, getGraphVisitPoints] = useUnit([$graphVisitPoints, getVisitPointsEvent])
     const [orderGraphPoints, getOrderGraphPoints] = useUnit([$orderGraphPoints, getOrdersGraphEvent])
-    const [orders, getOrders] = useUnit([$orders, getOrdersEvent])
+    const [orders, getOrders] = useUnit([$ordersStat, getOrdersEvent])
 
     const endDate = dayjs(Date.now()).format("YYYY-MM-DD")
     const beginDate = moment(Date.now()).subtract(1, 'months').format('YYYY-MM-DD')
@@ -111,7 +111,7 @@ const AdminPanelAnalyticsPage = () => {
             />
             {orders && <OrderContentTable
                 onClick={context.handlers.handleClickTableRow}
-                tableHeader={adminOrdersTableHeader}
+                tableHeader={adminStatOrdersTableHeader}
                 tableContent={orders}
                 maxItems={5}
             />}

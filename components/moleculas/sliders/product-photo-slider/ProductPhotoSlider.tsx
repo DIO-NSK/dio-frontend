@@ -1,9 +1,14 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 import {COLOR} from "@/components/colors";
 import {cn} from "@/utlis/cn";
+import {Swiper, SwiperSlide} from "swiper/react";
 
-const MainPhotoCard = ({photo}: { photo ?: string }) => {
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
+import 'swiper/css';
+
+const MainPhotoCard = ({photo}: { photo?: string }) => {
 
     const imageCV = [
         "w-full h-[300px] object-scale-down rounded-xl",
@@ -16,7 +21,7 @@ const MainPhotoCard = ({photo}: { photo ?: string }) => {
 }
 
 const PhotoCard = ({photo, isActive, setActive}: {
-    photo ?: string,
+    photo?: string,
     isActive: boolean,
     setActive: (photo ?: string) => void
 }) => {
@@ -32,7 +37,7 @@ const PhotoCard = ({photo, isActive, setActive}: {
 
 const PhotoSlider = ({photos, activePhoto, setActive}: {
     photos: string[],
-    activePhoto ?: string,
+    activePhoto?: string,
     setActive: (photo ?: string) => void
 }) => {
 
@@ -64,17 +69,22 @@ const PhotoSlider = ({photos, activePhoto, setActive}: {
                 onClick={() => shiftLeft()}
             />
 
-            <div className={"flex flex-row gap-[10px]"}>
-                {
-                    photosOrder.slice(0, 4).map((index) => {
-                        return <ProductPhotoSlider.PhotoCard
-                            photo={photos[index]}
-                            isActive={photos[index] === activePhoto}
+            <Swiper
+                className={'w-full flex flex-row'}
+                direction={'horizontal'}
+                spaceBetween={12}
+                slidesPerView={4}
+            >
+                {photosOrder.map((photo, key) => (
+                    <SwiperSlide key={key}>
+                        <ProductPhotoSlider.PhotoCard
+                            photo={photos[photo]}
+                            isActive={photos[photo] === activePhoto}
                             setActive={setActive}
                         />
-                    })
-                }
-            </div>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
 
             <FiChevronRight
                 size={"20px"}
@@ -88,8 +98,8 @@ const PhotoSlider = ({photos, activePhoto, setActive}: {
 
 const ProductPhotoSlider = ({photos, activePhoto, setActive}: {
     photos: string[],
-    activePhoto ?: string,
-    setActive ?: (photo ?: string) => void
+    activePhoto?: string,
+    setActive?: (photo ?: string) => void
 }) => {
 
     return (

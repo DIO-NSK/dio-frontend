@@ -1,6 +1,6 @@
 import {useUnit} from "effector-react";
 import {
-    $filters,
+    $filters, $selectedSort,
     CatalogueFilterParams,
     getCategoryFiltersFx,
     sendFiltersEvent
@@ -15,6 +15,7 @@ import {createURLFilters} from "@/utlis/createURLFilters";
 
 export const useFilters = (categoryId: number) => {
 
+    const sort = useUnit($selectedSort)
     const [getFilters, sendFilters] = useUnit([getCategoryFiltersFx, sendFiltersEvent])
 
     const searchParams = useSearchParams()
@@ -59,7 +60,13 @@ export const useFilters = (categoryId: number) => {
             }
         })
         const pageQuery = searchParams.has('page') ? +searchParams.get('page')!! : 1
-        sendFilters({filters: categoryFilters, categoryId: categoryId, page: pageQuery - 1, size : 9} as CatalogueFilterParams)
+        sendFilters({
+            filters: categoryFilters,
+            categoryId: categoryId,
+            page: pageQuery - 1,
+            size: 9,
+            sort : sort.value
+        } as CatalogueFilterParams)
         return categoryFilters
     }
 
@@ -121,8 +128,8 @@ export const useFilters = (categoryId: number) => {
 
         // отдельный случай для цены
         urlFilters = urlFilters.concat(`${urlFilters.length ? ',' : ''}price:${convertedRequest.priceRange}`)
-        router.push(`${pathname}?page=1&filterMap=${urlFilters}`)
-        sendFilters({...request, size : 9} as CatalogueFilterParams)
+        router.push(`${pathname}?page=1&filterMap=${urlFilters}&sort=${sort.value}`)
+        sendFilters({...request, size: 9} as CatalogueFilterParams)
 
     }
 

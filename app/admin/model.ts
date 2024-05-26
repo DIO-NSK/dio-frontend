@@ -36,6 +36,7 @@ $orderGraphPoints.on(getOrderGraphFx.doneData, (_, graphPoints) => convertOrderP
 
 sample({
     clock : getOrdersGraphEvent,
+    filter : (dates) => dates.beginDate.length !== 0 && dates.endDate.length !== 0,
     target : getOrderGraphFx
 })
 
@@ -52,6 +53,7 @@ $graphVisitPoints.on(getVisitPointsFx.doneData, (_, graphPoints) => convertVisit
 
 sample({
     clock : getVisitPointsEvent,
+    filter : (dates) => dates.beginDate.length !== 0 && dates.endDate.length !== 0,
     target : getVisitPointsFx
 })
 

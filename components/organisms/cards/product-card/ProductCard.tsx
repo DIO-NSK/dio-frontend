@@ -66,13 +66,9 @@ const ProductCard = ({productCard, classNames}: {
                         />}
                     </div>
                     <div className={"w-full flex flex-col gap-2"}>
-                        <LinesEllipsis
-                            className={"font-medium text-base"}
+                        <Text
+                            className={"font-medium text-base line-clamp-2"}
                             text={productCard.name}
-                            maxLine={'2'}
-                            ellipsis={'..'}
-                            basedOn={'letters'}
-                            trimRight
                         />
                         {(productCard as any)?.quantity && <Text
                             text={`${(productCard as any)?.quantity} шт.`}

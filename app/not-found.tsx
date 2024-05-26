@@ -24,7 +24,7 @@ const NotFound = () => {
         <React.Fragment>
             <Navbar/>
             <Searchbar/>
-            <MobileNavbar/>
+            <MobileNavbar scrolledUp={false}/>
             <section className={"w-full flex items-center justify-center px-5 sm:px-0 sm:py-0 py-10"}>
                 <section className={"flex flex-row items-center gap-16"}>
                     <img src={CoolerImage.src} alt={"Фирменный кулер DIO"} className={"hidden sm:flex w-[350px] object-cover"}/>

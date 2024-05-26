@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import Form from "@/components/atoms/form/Form";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import {FieldValues, FormProvider, useForm} from "react-hook-form";
+import {FieldValues, FormProvider, useForm, useFormContext} from "react-hook-form";
 import Text from "@/components/atoms/text/text-base/Text";
 import {useRouter} from "next/navigation";
 import FormBlock from "@/components/wrappers/form-block/FormBlock";
@@ -22,11 +22,7 @@ import {
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/edit/property/[propertyId]/model";
 import {useUnit} from "effector-react";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {
-    CategoryPropertyFormData,
-    CategoryPropertySchema,
-    EditCategoryPropertyFormData, EditCategoryPropertySchema
-} from "@/schemas/admin/CategoryPropertySchema";
+import {EditCategoryPropertyFormData, EditCategoryPropertySchema} from "@/schemas/admin/CategoryPropertySchema";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import Button from "@/components/atoms/buttons/button/Button";
 
@@ -36,27 +32,35 @@ const selectItems: SelectItem<CharacteristicType>[] = [
     {name: "Текстовое значение", value: "TEXT"},
 ]
 
-const ProductRow = ({product, name}: { product: CategoryPropertyProduct, name: string }) => (
-    <section className={'w-full grid grid-cols-2 gap-7 items-start'}>
-        <div className={'col-span-1 flex flex-row gap-4 items-center'}>
-            <img
-                className={'rounded-xl object-scale-down aspect-square w-[100px]'}
-                src={product.image} alt={'Изображение продукта'}
-            />
-            <div className={'w-full flex flex-col gap-1'}>
-                <div className={'w-full flex flex-row items-baseline gap-2'}>
-                    <Text text={`Код ${product.crmCode}`} className={'text-text-gray'}/>
-                    <Text text={`Группа ${product.crmGroup}`} className={'text-text-gray'}/>
+const ProductRow = ({product, name, index}: { product: CategoryPropertyProduct, name: string, index : number}) => {
+
+    const {formState : {errors}} = useFormContext()
+
+    return (
+        <section className={'w-full grid grid-cols-2 gap-7 items-start'}>
+            <div className={'col-span-1 flex flex-row gap-4 items-center'}>
+                <img
+                    className={'rounded-xl object-scale-down aspect-square w-[100px]'}
+                    src={product.image} alt={'Изображение продукта'}
+                />
+                <div className={'w-full flex flex-col gap-1'}>
+                    <div className={'w-full flex flex-row items-baseline gap-2'}>
+                        <Text text={`Код ${product.crmCode}`} className={'text-text-gray'}/>
+                        <Text text={`Группа ${product.crmGroup}`} className={'text-text-gray'}/>
+                    </div>
+                    <Text text={product.name}/>
                 </div>
-                <Text text={product.name}/>
             </div>
-        </div>
-        <ControlledTextInput
-            name={`${name}.value`} classNames={{wrapper: 'col-span-1'}}
-            placeholder={'Введите значение свойства'}
-        />
-    </section>
-)
+            <ControlledTextInput
+                //@ts-ignore
+                errors={errors?.filledProperties?.[index]?.value}
+                name={`${name}.value`} classNames={{wrapper: 'col-span-1'}}
+                placeholder={'Введите значение свойства'}
+            />
+        </section>
+    )
+
+}
 
 const ControlledProductList = () => {
 
@@ -78,7 +82,7 @@ const ControlledProductList = () => {
             <section className={'col-span-full flex flex-col gap-7'}>
                 {expandedToggle.state && propertyProducts?.map((product, key, array) => (
                     <section className={key !== array.length - 1 ? 'pb-7 border-b-2 border-light-gray' : ''}>
-                        <ProductRow name={`filledProperties.${key}`} product={product} key={key}/>
+                        <ProductRow name={`filledProperties.${key}`} product={product} index={key} key={key}/>
                     </section>
                 ))}
             </section>

@@ -41,6 +41,7 @@ export const convertCatalogueFiltersToParams = (params: CatalogueFilterParams): 
         filterMap: filterMap,
         categoryId: +categoryId,
         priceRange: priceRange,
+        sort : params?.sort,
         size : params?.size,
         page : params?.page
     } as RequestFilterParams

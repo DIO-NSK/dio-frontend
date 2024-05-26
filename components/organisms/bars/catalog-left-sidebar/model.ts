@@ -5,10 +5,13 @@ import {CatalogueFilter} from "@/types/dto/user/catalog/Filters";
 import {createURLFilters} from "@/utlis/createURLFilters";
 import {convertCatalogueFiltersToParams} from "@/utlis/convertCatalogueFilterToParams";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+import {SelectItem} from "@/types/props/SelectItem";
+import {selectableFilters} from "@/data/sortFilters";
 
 export type RequestFilterParams = {
     page: number,
     size: number,
+    sort : string,
     filterMap: Record<string, string>,
     categoryId: number,
     priceRange: string
@@ -23,6 +26,7 @@ export type CatalogueFilterParams = {
     filters: CatalogueFilter[],
     page ?: number,
     size ?: number,
+    sort ?: string,
     categoryId: number
 }
 
@@ -41,6 +45,10 @@ const getCategoryFilters = async (categoryId: number) => {
 
 export const getCategoryFiltersFx = createEffect(getCategoryFilters)
 
+export const selectSortEvent = createEvent<SelectItem<string>>()
+export const $selectedSort = createStore<SelectItem<string>>(selectableFilters[0])
+$selectedSort.on(selectSortEvent, (_, sort) => sort)
+
 const sendFilters = async (params: RequestFilterParams): Promise<CatalogProducts> => {
     const filterMap = params.filterMap ? createURLFilters(params) : undefined
     return unauthorizedApi.get("/catalogue/product/filter", {
@@ -49,7 +57,8 @@ const sendFilters = async (params: RequestFilterParams): Promise<CatalogProducts
             priceRange : params.priceRange,
             page: params.page,
             size: params.size,
-            filterMap: filterMap
+            filterMap: filterMap,
+            sort: params.sort
         }
     })
         .then(response => response.data)

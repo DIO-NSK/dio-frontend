@@ -12,11 +12,10 @@ const getOrders = async () => {
 const getOrdersFx = createEffect<void, AdminOrder[], Error>(getOrders)
 export const getOrdersEvent = createEvent<void>()
 export const $orders = createStore<AdminOrderTableRow[]>([])
+export const $ordersStat = createStore<AdminOrderTableRow[]>([])
 
-$orders.on(
-    filterOrdersFx.doneData,
-    (_, orders) => convertOrdersToTableRows(orders)
-)
+$orders.on(filterOrdersFx.doneData, (_, orders) => convertOrdersToTableRows(orders))
+$ordersStat.on(getOrdersFx.doneData, (_, orders) => convertAnalyticsOrders(orders))
 
 sample({
     clock: getOrdersEvent,
@@ -25,4 +24,8 @@ sample({
 
 const convertOrdersToTableRows = (orders: AdminOrder[]): AdminOrderTableRow[] => {
     return orders.map(order => ({id: order.id, item: {...order, products: (order as any).items}}))
+}
+
+const convertAnalyticsOrders = (orders: AdminOrder[]): AdminOrderTableRow[] => {
+    return orders.map(order => ({id: order.id, item : order}))
 }

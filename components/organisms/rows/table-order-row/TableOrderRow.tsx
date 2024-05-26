@@ -47,7 +47,7 @@ const TableOrderRow = (props: TableOrderRowProps) => {
                 className={"col-span-1 text-[15px]"}
             />
             <Text
-                text={order.orderStatus}
+                text={(order as any).orderStatus ?? order.status}
                 className={"col-span-1 text-[15px]"}
             />
             <Text

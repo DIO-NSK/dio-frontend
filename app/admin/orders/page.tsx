@@ -70,9 +70,9 @@ const AdminPanelOrderPage = () => {
             {orders && <OrderContentTable
                 tableHeader={adminOrdersTableHeader}
                 onSelect={selectableContext.handleSelectItem}
+                onClick={context.handleRowClick}
                 tableContent={orders}
                 selectedItems={[]}
-                onClick={context.handleRowClick}
             />}
         </React.Fragment>
     );

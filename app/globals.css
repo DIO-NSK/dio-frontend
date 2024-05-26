@@ -46,3 +46,23 @@ body, html {
 .dropdownScrollbar::-webkit-scrollbar-thumb {
     @apply rounded-full h-14 bg-gray-200 cursor-grab active:cursor-grabbing;
 }
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.custom {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    animation-duration: 0.7s;
+    animation-name: fadeInDown;
+    animation-timing-function: ease-out;
+}

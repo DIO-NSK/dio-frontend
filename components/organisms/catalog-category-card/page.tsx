@@ -27,7 +27,7 @@ const CatalogCategoryCard = ({card}: CatalogCategoryCardProps) => (
             src={card.image}
         />
         <div className={'flex flex-row gap-2 items-center'}>
-            <Text text={card.name} className={'text-link-blue group-hover:text-blue-500'}/>
+            <Text text={card.name} className={'text-link-blue group-hover:text-blue-500 line-clamp-1'}/>
             <FiArrowRight size={'18px'} className={'text-link-blue group-hover:text-blue-500'}/>
         </div>
     </Link>

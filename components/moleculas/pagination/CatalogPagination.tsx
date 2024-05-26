@@ -5,7 +5,7 @@ import {WrapperProps} from "@/types/props/Wrapper";
 import {cn} from "@/utlis/cn";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 import Button from "@/components/atoms/buttons/button/Button";
-import {RequestFilterParams, sendFiltersFx} from "@/components/organisms/bars/catalog-left-sidebar/model";
+import {$selectedSort, sendFiltersFx} from "@/components/organisms/bars/catalog-left-sidebar/model";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 const CARDS_PER_VIEW = 9
@@ -31,7 +31,7 @@ const IconButton = (props: IconButtonProps) => {
 
 }
 
-const CatalogPagination = ({categoryId}: { categoryId: number }) => {
+const CatalogPagination = () => {
 
     const searchParams = useSearchParams()
 
@@ -39,6 +39,7 @@ const CatalogPagination = ({categoryId}: { categoryId: number }) => {
     const router = useRouter()
 
     const [amount, changePage] = useUnit([$productsAmount, sendFiltersFx])
+    const sort = useUnit($selectedSort)
     const [activeIndex, setActiveIndex] = useState<number>(1)
 
     const pageCount = Math.ceil(amount / CARDS_PER_VIEW)
@@ -54,6 +55,7 @@ const CatalogPagination = ({categoryId}: { categoryId: number }) => {
     useEffect(() => {
         const current = new URLSearchParams(Array.from(searchParams.entries()));
         current.set('page', activeIndex.toString())
+        current.set('sort', sort.value)
         router.push(pathname.concat(`?${current.toString()}`))
         window.scrollTo(0, 0)
     }, [activeIndex]);

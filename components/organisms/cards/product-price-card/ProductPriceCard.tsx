@@ -18,7 +18,7 @@ const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
     const [newPrice, price] = useDiscount(product.price, product.discountPercent)
 
     return (
-        <StickyCardWrapper startCol={"col-start-10"}>
+        <StickyCardWrapper startCol={"col-start-10 top-0"}>
 
             <div className={"w-full flex flex-row items-baseline gap-[10px]"}>
                 <Text

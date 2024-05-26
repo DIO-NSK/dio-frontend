@@ -89,7 +89,9 @@ const ProductCardPage = ({params}: {
 
     return (
         <section className={"w-full flex flex-col"}>
+
             {popupToggle.state && <MobilePhotoGalleryPopup
+                photos={product.photos}
                 onClose={popupToggle.toggleState}
             />}
 
@@ -137,30 +139,30 @@ const ProductCardPage = ({params}: {
 
                 <MobileHeaderRow product={product}/>
 
-                <ProductPhotoSlider
-                    setActive={(photo) => setActivePhoto(photo)}
-                    activePhoto={activePhoto}
-                    photos={product.photos}
-                />
+                <div className={'col-span-full grid grid-cols-12 gap-7'}>
+                    <div className={'col-span-9 grid grid-cols-9 gap-7'}>
+                        <ProductPhotoSlider
+                            setActive={(photo) => setActivePhoto(photo)}
+                            activePhoto={activePhoto}
+                            photos={product.photos}
+                        />
 
-                <div className={"col-span-4 flex flex-col gap-5 px-5 sm:px-0"}>
-                    <CharacteristicList characteristics={[...product.properties, ...product.extraProperties]}/>
-                    <div className={"hidden sm:flex"}>
-                        <DescriptionCol text={product.description}/>
+                        <div className={"col-span-4 flex flex-col gap-5 px-5 sm:px-0"}>
+                            <CharacteristicList characteristics={[...product.properties, ...product.extraProperties]}/>
+                        </div>
+
+                        <div className={"hidden sm:flex sm:col-span-9 sm:h-[2px] sm:bg-light-gray"}/>
+
+                        <HeaderBlock header={"Описание товара"}>
+                            <DescriptionCol maxSymbols={500} text={product.description}/>
+                        </HeaderBlock>
+
+                        <HeaderBlock header={"Характеристики товара"}>
+                            <CharacteristicList characteristics={[...product.properties, ...product.extraProperties]}/>
+                        </HeaderBlock>
                     </div>
+                    <ProductPriceCard product={product}/>
                 </div>
-
-                <ProductPriceCard product={product}/>
-
-                <div className={"hidden sm:flex sm:col-span-9 sm:h-[2px] sm:bg-light-gray"}/>
-
-                <HeaderBlock header={"Описание товара"}>
-                    <DescriptionCol maxSymbols={500} text={product.description}/>
-                </HeaderBlock>
-
-                <HeaderBlock header={"Характеристики товара"}>
-                    <CharacteristicList characteristics={[...product.properties, ...product.extraProperties]}/>
-                </HeaderBlock>
 
             </InnerPageWrapper>
         </section>
