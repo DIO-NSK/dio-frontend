@@ -1,8 +1,6 @@
 import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
-import {CreateSaleData} from "@/schemas/admin/CreateSaleSchema";
 import {CreateSaleRequest} from "@/app/admin/sales/new/model";
-import {parseDate} from "@/components/organisms/popups/admin/order-page-filter-popup/model";
 import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 export type PromoDetails = {

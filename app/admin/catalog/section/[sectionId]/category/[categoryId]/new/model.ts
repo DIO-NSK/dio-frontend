@@ -30,8 +30,9 @@ const createProduct = async ({categoryId, productData, productDetails}: CreatePr
 }
 
 const editProduct = async ({productId, productData}: EditProductParams) => {
-    const {photos, ...rest} = productData
-    return api.put("/admin/catalogue/v2/product", {...rest, oldImagesUrl: photos}, {
+    const {photos, priceType, ...rest} = productData
+    const isPackage = priceType?.value !== 'unit'
+    return api.put("/admin/catalogue/v2/product", {...rest, isPackage : isPackage, oldImagesUrl: photos}, {
         params: {productId: productId},
     }).then(response => response.data)
 }
@@ -105,7 +106,7 @@ const convertFormDataToProduct = (productData: Omit<CreateProductData, "photos">
         crmGroup: productData.crmGroup,
         filledProperties: productData.filledProperties,
         externalProperties: productData?.externalProperties ?? [],
-        inPackage: productData.priceType?.value === 'package'
+        isPackage: productData.priceType?.value === 'package'
     }
 
     delete reqProduct['priceType']

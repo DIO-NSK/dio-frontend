@@ -14,15 +14,31 @@ import {useUnit} from "effector-react";
 import {
     $productDetails,
     getProductDetailsEvent,
-    GetProductDetailsParams, newProductPageDidMountEvent
+    GetProductDetailsParams,
+    newProductPageDidMountEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
 import {CreateProductData} from "@/schemas/admin/CreateProductSchema";
 import dayjs from "dayjs";
 import AdminPanelSearchbarBlock
     from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchbarBlock";
-import {createSaleEvent} from "@/app/admin/sales/new/model";
+import {createSaleFx, CreateSaleRequest} from "@/app/admin/sales/new/model";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {useRouter} from "next/navigation";
+
+const convertSaleDataToRequest = (data : CreateSaleData) : CreateSaleRequest => {
+    return {
+        sale : {
+            name : data.name,
+            crmGroup : data.crmGroup,
+            crmCode : data.crmCode,
+            description : data.description,
+            deadline : "2024-07-08",
+            products : data.productIdList as any,
+            ruleList : data.ruleList.map(item => item.rule),
+        },
+        images : data.photos,
+    }
+}
 
 const FirstInputRow = () => {
 
@@ -99,7 +115,7 @@ const AdminPanelNewSaleSecondBlock = () => {
 
     const router = useRouter()
 
-    const [saleDetails, createSale] = useUnit([$productDetails, createSaleEvent])
+    const [saleDetails, createSale] = useUnit([$productDetails, createSaleFx])
     const [creationSuccess, setCreationSuccess] = useState<boolean>(false)
     const [creationError, setCreationError] = useState<string>('')
 
@@ -109,7 +125,9 @@ const AdminPanelNewSaleSecondBlock = () => {
     } = useFormContext<CreateSaleData>()
 
     const onSubmit = (fieldValues: FieldValues) => {
-        createSale(fieldValues as CreateSaleData)
+        createSale(convertSaleDataToRequest(fieldValues as CreateSaleData))
+            .then(_ => setCreationSuccess(true))
+            .catch(setCreationError)
     }
 
     useEffect(() => {

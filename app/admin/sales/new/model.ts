@@ -15,7 +15,7 @@ const createSale = async (request : CreateSaleRequest) : Promise<void> => {
         .then(response => response.data)
 }
 
-const createSaleFx = createEffect<CreateSaleRequest, void, Error>(createSale)
+export const createSaleFx = createEffect<CreateSaleRequest, void, Error>(createSale)
 export const createSaleEvent = createEvent<CreateSaleData>()
 
 sample({

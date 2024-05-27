@@ -46,7 +46,6 @@ const SecondInputRow = () => {
         {
             labelText: "Код акции",
             placeholder: "Введите код акции",
-            inputMask: "999999",
             name: "crmCode"
         }, {
             labelText: "Группа акции",
@@ -96,7 +95,7 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
     const router = useRouter()
 
     const [promoDetails, editPromo] = useUnit([$promoDetails, editSaleFx])
-    const [editSuccess, setEditSuccess] = useState<string>('')
+    const [editSuccess, setEditSuccess] = useState<boolean>(false)
     const [editFailure, setEditFailure] = useState<string>('')
 
     const {
@@ -106,13 +105,14 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
 
     const onSubmit = (fieldValues: FieldValues) => {
         editPromo(convertSaleDataToRequest({data: fieldValues as CreateSaleData, promoId: id}))
-            .then(_ => setEditSuccess('Вы можете вернуться обратно'))
-            .catch(message => setEditFailure(message))
+            .then(_ => setEditSuccess(true))
+            .catch(setEditFailure)
     }
 
     useEffect(() => {
         reset({
             ...promoDetails,
+            deadline: dayjs(promoDetails?.deadline).format('DD.MM.YYYY'),
             photos: promoDetails?.images,
             productIdList: promoDetails?.products.map(product => ({
                 productId: product.productId,
@@ -127,10 +127,10 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
             <Snackbar
                 success={true}
                 header={'Акция успешно отредактирована!'}
-                message={editSuccess}
-                action={() => router.back()}
-                open={editSuccess.length !== 0}
-                onClose={() => setEditSuccess('')}
+                message={'Вы можете вернуться обратно'}
+                action={router.back}
+                open={editSuccess}
+                onClose={() => setEditSuccess(false)}
             />
             <Snackbar
                 success={false}
