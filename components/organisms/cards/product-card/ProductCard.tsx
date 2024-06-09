@@ -1,5 +1,6 @@
+'use client'
+
 import React from "react";
-import LinesEllipsis from 'react-lines-ellipsis'
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import {FiCheck} from "react-icons/fi";

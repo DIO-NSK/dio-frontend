@@ -76,7 +76,7 @@ const CheckoutTimeBlock = () => {
 const CheckoutPaymentBlock = () => {
 
     const multiselectElements: SelectItem<PaymentMethod>[] = [
-        {name: window.screen.width < 640 ? "Картой" : "Банковской картой онлайн", value: "CARD"},
+        {name: window.screen.width < 640 ? "Картой" : "Банковской картой онлайн", value: "ONLINE"},
         {name: window.screen.width < 640 ? "Наличными" : "Наличными или картой при получении", value: "CASH"}
     ]
 

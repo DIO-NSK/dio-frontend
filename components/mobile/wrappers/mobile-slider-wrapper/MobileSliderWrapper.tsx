@@ -1,3 +1,5 @@
+'use client';
+
 import React, {Children} from 'react';
 import {WrapperProps} from "@/types/props/Wrapper";
 import {Autoplay, Navigation, Scrollbar} from "swiper/modules";

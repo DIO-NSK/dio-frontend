@@ -1,9 +1,6 @@
+'use client'
+
 import React, {useEffect} from 'react';
-import {WaterCardDTO} from "@/types/cards";
-import Water19LImage from "@/public/images/static/water-19l.png";
-import Water5LImage from "@/public/images/static/water-5l.png";
-import Water1LImage from "@/public/images/static/water-1l.png";
-import Water05LImage from "@/public/images/static/water-05l.png";
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import WaterCard from "@/components/organisms/cards/water-card/WaterCard";

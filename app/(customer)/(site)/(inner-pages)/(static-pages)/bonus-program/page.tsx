@@ -1,5 +1,3 @@
-"use client"
-
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import {HeaderDescription, TextLink} from "@/types/dto/text";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -12,6 +10,7 @@ import {InfoIcon} from "lucide-react";
 import {serviceCenter} from "@/data/static/serviceCenter";
 import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
 import {bonusProgram} from "@/data/static/bonusProgram";
+import {Metadata} from "next";
 
 const breadcrumbs: TextLink[] = [
     {text: "Главная", link: "/"},
@@ -26,6 +25,14 @@ const phoneData: HeaderDescription[] = [
 ]
 
 const itemCV: ClassValue = "flex flex-row items-baseline justify-between"
+
+export const metadata: Metadata = {
+    title: 'Бонусная программа — доставка питьевой воды по Новосибирску и области DIO',
+    keywords: bonusProgram.map(group => group.blockContent.map(item => item.itemHeader ?? '')).flat(),
+    openGraph: {
+        title: 'Бонусная программа — доставка питьевой воды по Новосибирску и области DIO'
+    }
+}
 
 const PhoneColumn = () => {
     return (
@@ -112,28 +119,21 @@ const BonusConditionBlock = () => (
     </section>
 )
 
-const BonusProgramPage = () => {
-
-    return (
-        <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
-
-            <div className={"col-span-full flex flex-col gap-[10px]"}>
-                <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
-                <Text
-                    text={"Бонусная программа"}
-                    className={"text-xl sm:text-[24px] text-black font-semibold"}
-                />
-            </div>
-
-            <PhoneColumn/>
-            <MailAddressColumn/>
-            <BonusInformationBlock/>
-            <BonusConditionBlock/>
-            <StaticInfoCol data={bonusProgram}/>
-
-        </InnerPageWrapper>
-    );
-
-};
+const BonusProgramPage = () =>(
+    <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
+        <div className={"col-span-full flex flex-col gap-[10px]"}>
+            <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+            <Text
+                text={"Бонусная программа"}
+                className={"text-xl sm:text-[24px] text-black font-semibold"}
+            />
+        </div>
+        <PhoneColumn/>
+        <MailAddressColumn/>
+        <BonusInformationBlock/>
+        <BonusConditionBlock/>
+        <StaticInfoCol data={bonusProgram}/>
+    </InnerPageWrapper>
+);
 
 export default BonusProgramPage;

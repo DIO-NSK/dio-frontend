@@ -1,22 +1,27 @@
-import React, {useState} from 'react';
+'use client'
+
+import {Children, useState} from 'react';
 
 import Slider from "react-slick";
 import {cn} from "@/utlis/cn";
-import {useUnit} from "effector-react";
 import Link from "next/link";
-import {$userBanners} from "@/app/(customer)/(site)/model";
 import {WrapperProps} from "@/types/props/Wrapper";
+import {PropsWithClassName} from "@/types/props/utils/PropsWithClassName";
 
-type MobilePhotoSliderProps = {
-    onChange : (next : number) => void,
-    activeIndex : number
+type MobilePhotoSliderWrapperProps = {
+    onChange: (next: number) => void,
+    activeIndex: number
 } & WrapperProps
 
-export const MobilePhotoSliderWrapper = (props: MobilePhotoSliderProps) => {
+type MobilePhotoSliderProps = PropsWithClassName<{
+    photos: { image: string, link?: string }[]
+}>
+
+export const MobilePhotoSliderWrapper = (props: MobilePhotoSliderWrapperProps) => {
 
     const settings = {
         dots: true,
-        infinite: React.Children.count(props.children) > 1,
+        infinite: Children.count(props.children) > 1,
         autoplay: true,
         autoplaySpeed: 4000,
         cssEase: "linear",
@@ -45,25 +50,28 @@ export const MobilePhotoSliderWrapper = (props: MobilePhotoSliderProps) => {
 
 }
 
-const MobilePhotoSlider = () => {
+const MobilePhotoSlider = (props: MobilePhotoSliderProps) => {
 
-    const banners = useUnit($userBanners)
     const [activeSlide, setActiveSlide] = useState<number>(0)
 
     return (
-        <MobilePhotoSliderWrapper activeIndex={activeSlide} onChange={setActiveSlide}>
-            {banners.map((banner, key) =>
-                <Link href={banner.link}>
-                    <img
-                        src={banner.image} alt={'/'}
+        <MobilePhotoSliderWrapper activeIndex={activeSlide} onChange={setActiveSlide} {...props}>
+            {props.photos.map((banner, key) => (
+                    banner.link ? <Link href={banner.link}>
+                        <img
+                            src={banner.image} alt={'Фотография продукта'}
+                            className={"w-full h-[220px] object-cover"}
+                            key={key}
+                        />
+                    </Link> : <img
+                        src={banner.image} alt={'Фотография продукта'}
                         className={"w-full h-[220px] object-cover"}
                         key={key}
                     />
-                </Link>
+                )
             )}
         </MobilePhotoSliderWrapper>
     );
-
 };
 
 export default MobilePhotoSlider;

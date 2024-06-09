@@ -5,6 +5,7 @@ import {createEffect, createStore, sample} from "effector";
 import {loginUserByCredentialsFx} from "@/components/organisms/popups/authorization/login-popup/model";
 import {persist} from "effector-storage/local";
 import {Auth} from "@/types/AuthContextType";
+import {cookies} from "next/headers";
 
 type ConfirmationCodeResponse = { userId : number } & Auth
 

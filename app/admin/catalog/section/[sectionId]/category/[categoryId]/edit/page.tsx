@@ -16,7 +16,6 @@ import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminP
 import Text from "@/components/atoms/text/text-base/Text";
 import {cn} from "@/utlis/cn";
 import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
-import FileInput from "@/components/atoms/inputs/file-input/FileInput";
 
 const textInputCN = "w-full px-7 pb-7 border-b-2 border-light-gray"
 

@@ -6,10 +6,7 @@ import AdminPanelCharBlock from "@/components/organisms/blocks/admin-panel-char-
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
-import {
-    CreateCategoryData,
-    CreateCategorySchema
-} from "@/schemas/admin/CreateCategorySchema";
+import {CreateCategoryData, CreateCategorySchema} from "@/schemas/admin/CreateCategorySchema";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import {useUnit} from "effector-react";
 import {useRouter} from "next/navigation";
@@ -17,7 +14,6 @@ import {$categories, $creationStatus, createCategoryFx} from "../model";
 import Text from "@/components/atoms/text/text-base/Text";
 import {defaultCharacteristicData} from "@/schemas/dto/CharacteristicSchema";
 import React from "react";
-import {cn} from "@/utlis/cn";
 import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
 import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
 
@@ -56,7 +52,8 @@ const AdminPanelNewCategoryPage = ({params}: {
             data: formData as CreateCategoryData,
             id: params.sectionId
         }
-        createCategory(request).then(_ => router.back())
+        createCategory(request)
+            .then(_ => router.back())
     }
 
     methods.watch()

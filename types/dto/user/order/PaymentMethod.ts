@@ -1,1 +1,1 @@
-export type PaymentMethod = "CASH" | "CARD"
+export type PaymentMethod = "CASH" | "ONLINE"

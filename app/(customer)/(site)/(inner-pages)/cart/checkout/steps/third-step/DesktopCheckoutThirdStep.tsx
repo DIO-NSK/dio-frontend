@@ -74,19 +74,20 @@ const DesktopCheckoutThirdStep = () => {
         {header: "Время доставки", description: secondFormData.deliveryTime.name},
         {
             header: "Способ оплаты",
-            description: secondFormData.paymentMethod.value === "CARD"
+            description: secondFormData.paymentMethod.value === "ONLINE"
                 ? "Банковской картой онлайн"
                 : "Наличными или картой при получении"
         },
     ]
 
-    const headerSnackbar = requestStatus === true ? "Заявка на звонок отправлена!" : "Произошла ошибка"
-    const messageSnackbar = requestStatus === true ? "В скором времени с вами свяжется специалист" : "Заполните данные заново и попробуйте снова"
+    const headerSnackbar = requestStatus === true ? "Заказ успешно создан!" : "Произошла ошибка"
+    const messageSnackbar = requestStatus === true ? "Перенаправляем Вас на страницу оплаты" : "Заполните данные заново и попробуйте снова"
 
     const [errorMessage, setErrorMessage] = useState<string>('')
 
     const handleCreateOrder = () => {
         createOrder(convertFormDataToRequest(orderData))
+            .then(link => router.push(link))
             .catch(error => setErrorMessage(error))
     }
 

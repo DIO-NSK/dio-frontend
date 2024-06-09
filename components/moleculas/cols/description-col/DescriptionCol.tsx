@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useState} from "react";
 import Text from "@/components/atoms/text/text-base/Text";
 

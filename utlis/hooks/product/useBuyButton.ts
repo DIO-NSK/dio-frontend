@@ -1,7 +1,8 @@
 import {MouseEventHandler, useState} from "react";
 import {useUnit} from "effector-react";
 import {removeProductFromCartEvent} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
-import {addToCartEvent} from "@/components/organisms/cards/product-price-card/model";
+import {addToCartEvent, RequestAddToCart} from "@/components/organisms/cards/product-price-card/model";
+import {api, BASE_URL} from "@/api";
 
 export const useBuyButton = (inCart: boolean, productId: number, isSale ?: boolean) => {
 

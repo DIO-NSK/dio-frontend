@@ -6,7 +6,6 @@ import WhatsAppIcon from "@/public/icons/whatsapp-icon.png"
 import TelegramIcon from "@/public/icons/telegram-icon.png"
 import VKIcon from "@/public/icons/vk.png"
 import {footerData} from "@/data/footerData";
-import {useRouter} from "next/navigation";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import MailIcon from "@/public/icons/main-icon.png";
@@ -18,89 +17,69 @@ import {useNavigation} from "@/utlis/hooks/useNavigation";
 import React from "react";
 import {TextLink} from "@/types/links";
 
-const IconRow = () => {
+const iconData = [
+    {
+        src: WhatsAppIcon.src,
+        href: "https://api.whatsapp.com/send?phone=79134869900&text=Здравствуйте%2C+у+меня+есть+вопрос"
+    },
+    {
+        src: TelegramIcon.src,
+        href: "https://t.me/DioSiberianWater"
+    },
+    {
+        src: VKIcon.src,
+        href: "https://vk.com/club31485239"
+    },
+]
 
-    const iconData = [
+const IconRow = () => (
+    <div className={"flex flex-row items-center gap-[15px]"}>
+        {iconData.map((iconButton, key) =>
+            <Link href={iconButton.href} target={"_blank"} rel={"noopener noreferer"} key={key}>
+                <img
+                    src={iconButton.src}
+                    alt={"Социальная сеть"}
+                    className={"size-6"}
+                />
+            </Link>
+        )}
+    </div>
+)
+
+const LeftRow = () => (
+    <div className={"flex flex-row gap-[90px]"}>
         {
-            src: WhatsAppIcon.src,
-            href: "https://api.whatsapp.com/send?phone=79134869900&text=Здравствуйте%2C+у+меня+есть+вопрос"
-        },
-        {
-            src: TelegramIcon.src,
-            href: "https://t.me/DioSiberianWater"
-        },
-        {
-            src: VKIcon.src,
-            href: "https://vk.com/club31485239"
-        },
-    ]
-
-    return (
-        <div className={"flex flex-row items-center gap-[15px]"}>
-            {
-                iconData.map((iconButton, key) =>
-                    <Link href={iconButton.href} target={"_blank"} rel={"noopener noreferer"}>
-                        <img
-                            src={iconButton.src}
-                            alt={"Социальная сеть"}
-                            className={"size-6"}
-                            key={key}
-                        />
-                    </Link>
-                )
-            }
-        </div>
-    )
-
-}
-
-const LeftRow = () => {
-
-    const router = useRouter()
-    const handleAnchorClick = (path: string) => router.push(path)
-
-    return (
-        <div className={"flex flex-row gap-[90px]"}>
-            {
-                Array.from({length: 4}).map((_, colIndex) => {
-                    return <div className={"flex flex-col gap-[25px]"} key={colIndex}>
-                        {
-                            footerData.map((item, itemIndex) => {
-                                if (itemIndex >= colIndex * 4 && itemIndex < colIndex * 4 + 4) {
-                                    return <div className={"flex flex-row item-center gap-[15px]"} key={itemIndex}>
-                                        {
-                                            item.icon && <img
-                                                src={item.icon as string}
-                                                className={"stroke-text-gray object-scale-down w-5 h-5"}
-                                                alt={'/'}
-                                            />
-                                        }
-                                        {item.href ? (
-                                                <Link href={item.href} rel={"noopener noreferer"} target={"_blank"}>
-                                                    <Text
-                                                        text={item.text}
-                                                        className={"hoverable pointer text-text-gray hover:text-link-blue"}
-                                                    />
-                                                </Link>
-                                            )
-                                            : (
-                                                <Text
-                                                    text={item.text}
-                                                    className={"hoverable pointer text-text-gray hover:text-link-blue"}
-                                                    onClick={() => handleAnchorClick(item.path)}
-                                                />
-                                            )
-                                        }
-                                    </div>
-                                }
-                            })
-                        }
-                    </div>
-                })
-            }
-        </div>
-    )
-}
+            Array.from({length: 4}).map((_, colIndex) => (
+                <div className={"flex flex-col gap-[25px]"} key={colIndex}>
+                    {
+                        footerData.map((item, itemIndex) => (
+                            (itemIndex >= colIndex * 4 && itemIndex < colIndex * 4 + 4) && (
+                                <div className={"flex flex-row item-center gap-[15px]"} key={itemIndex}>
+                                    {
+                                        item.icon && <img
+                                            className={"stroke-text-gray object-scale-down w-5 h-5"}
+                                            src={item.icon as string} alt={'/'}
+                                        />
+                                    }
+                                    <Link
+                                        href={item.href ?? item.path}
+                                        rel={item.href ? "noopener noreferer" : undefined}
+                                        target={item.href ? "_blank" : undefined}
+                                    >
+                                        <Text
+                                            className={"hoverable pointer text-text-gray hover:text-link-blue"}
+                                            text={item.text}
+                                        />
+                                    </Link>
+                                </div>
+                            )
+                        ))
+                    }
+                </div>
+            ))
+        }
+    </div>
+)
 
 const RightCol = () => {
 
@@ -228,8 +207,8 @@ const MobileThirdRow = () => {
             {blockData.map((block, blockKey) =>
                 <section className={"mobileFooterRow flex-col gap-5"} key={blockKey}>
                     {block.map((link, textKey) =>
-                        <Link href={link.path} target={"_self"}>
-                            <Text text={link.text} className={"text-text-gray"} key={textKey}/>
+                        <Link href={link.path} target={"_self"} key={textKey}>
+                            <Text text={link.text} className={"text-text-gray"}/>
                         </Link>
                     )}
                 </section>

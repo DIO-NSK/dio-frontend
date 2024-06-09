@@ -27,11 +27,13 @@ const PickAddressPopup = (props: PopupProps) => {
 
     useEffect(() => {
         getUserAddresses().then(items => {
-            const selectedItem = {
-                name: `ул. ${items[0].street}, д. ${items[0].houseNumber}, кв. ${items[0].flatNumber}`,
-                value: items[0]
-            } as SelectItem<UserAddress>
-            setUserAddress(selectedItem)
+            if (items) {
+                const selectedItem = {
+                    name: `ул. ${items[0].street}, д. ${items[0].houseNumber}, кв. ${items[0].flatNumber}`,
+                    value: items[0]
+                } as SelectItem<UserAddress>
+                setUserAddress(selectedItem)
+            }
         })
     }, [])
 

@@ -1,8 +1,6 @@
 import {api} from "@/api";
-import {CreateOrderData} from "@/schemas/customer/checkout/CreateOrderSchema";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {pending} from "patronum";
-import {$checkoutSecondStepData} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/second-step/model";
 import {getCartFx} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 export type CreateOrderRequest = {
@@ -19,7 +17,7 @@ const createOrder = async (request: CreateOrderRequest) => {
         .then(response => response.data)
 }
 
-export const createOrderFx = createEffect<CreateOrderRequest, void, Error>(createOrder)
+export const createOrderFx = createEffect<CreateOrderRequest, string, Error>(createOrder)
 
 export const $createOrderPending = pending([createOrderFx])
 export const $createOrderStatus = createStore<boolean | null>(null)

@@ -32,7 +32,7 @@ const rowWrapperCV: ClassValue = "w-full flex flex-row gap-5 pb-7 border-b-2 bor
 
 const paymentStatusItems: SelectItem<PaymentMethod>[] = [
     {name: "Наличными", value: "CASH"},
-    {name: "Онлайн", value: "CARD"},
+    {name: "Онлайн", value: "ONLINE"},
 ]
 
 const OrderPageFilterPopup = (props: PopupProps) => {

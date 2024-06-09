@@ -12,7 +12,7 @@ type RequestAddCartSale = {
     quantityPromo: number
 }
 
-type RequestAddToCart = RequestAddCartSale | RequestAddCartProduct
+export type RequestAddToCart = RequestAddCartSale | RequestAddCartProduct
 
 //region addToCart
 const addToCart = async (req: RequestAddToCart): Promise<string> => {

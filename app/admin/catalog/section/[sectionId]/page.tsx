@@ -83,12 +83,16 @@ const DeleteCategoryPopup = () => {
     const [categoryToDelete, onCloseCategoryToDelete, deleteCategory] =
         useUnit([$categoryToDelete, onCloseCategoryToDeleteEvent, deleteCategoryEvent])
 
+    const handleDeleteCategory = (categoryId : number) => {
+        deleteCategory(categoryId)
+    }
+
     return categoryToDelete && <DeletePopup
         header={"Удалить категорию"}
         message={deletePopupMessage}
-        onClose={onCloseCategoryToDelete}
         tableRow={categoryToDelete}
-        onDelete={deleteCategory}
+        onClose={onCloseCategoryToDelete}
+        onDelete={handleDeleteCategory}
     />
 
 }

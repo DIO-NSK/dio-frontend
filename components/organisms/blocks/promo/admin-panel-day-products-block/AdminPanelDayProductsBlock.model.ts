@@ -8,6 +8,7 @@ import {
 import {useEffect} from "react";
 import {ProductTableRow} from "@/types/dto/Table";
 import {ProductEntity} from "@/components/organisms/tables/product-content-table/ProductContentTable";
+import {DragEndEvent} from "@dnd-kit/core";
 
 export const useAdminPanelProductsBlock = () => {
 
@@ -35,10 +36,14 @@ export const useAdminPanelProductsBlock = () => {
         getDayProducts()
     }, []);
 
+    const handleChangeOrder = (event: DragEndEvent) => {
+        changeOrder(event)
+    }
+
     const handleDelete = (productRow: ProductTableRow<ProductEntity>) => {
         deleteDayProduct(productRow.id)
     }
 
-    return {tableContent, handleDelete, changeOrder}
+    return {tableContent, handleDelete, changeOrder: handleChangeOrder}
 
 }

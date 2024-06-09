@@ -14,7 +14,7 @@ export const useServicesPage = () => {
 
     const serviceType = currentSearchParams.get("type") ?? "rent"
 
-    const tabs = services.map(s => ({text: s.groupHeader, path: s.value} as TabBarItem))
+    const tabs = services.map(s => ({text: s.groupHeader, path: `services?type=${s.value}`} as TabBarItem))
     const selectedItems = services.map((s) => ({name: s.groupHeader, value: s.value} as SelectItem<string>))
 
     const [activeTab, setActive] = useState<TabBarItem>(tabs[0])

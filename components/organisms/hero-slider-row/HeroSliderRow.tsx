@@ -1,8 +1,7 @@
+'use client';
+
 import ImageBannerSlider from "@/components/moleculas/sliders/image-banner-slider/ImageBannerSlider";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
-import {useEffect} from "react";
-import {useUnit} from "effector-react";
-import {$userBanners, $userDayProducts, getDayProductsEvent} from "@/app/(customer)/(site)/model";
 
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Autoplay, Scrollbar} from "swiper/modules";
@@ -14,6 +13,13 @@ import 'swiper/css';
 
 import {AUTOPLAY_DELAY} from "@/constants/swiper";
 import {cn} from "@/utlis/cn";
+import {ResponseBanner} from "@/app/admin/promo/models/banner.model";
+import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+
+type HeroSliderRowProps = {
+    banners: ResponseBanner[],
+    dayProducts: ResponseProductSearch[]
+}
 
 const productCardCV = {
     mainWrapper: cn([
@@ -22,40 +28,28 @@ const productCardCV = {
     ])
 }
 
-const HeroSliderRow = () => {
-
-    const [dayProducts, getDayProducts] = useUnit([$userDayProducts, getDayProductsEvent])
-    const banners = useUnit($userBanners)
-
-    useEffect(() => {
-        getDayProducts()
-    }, []);
-
-    return (
-        <div className={"hidden col-span-full sm:grid grid-cols-12 items-center gap-[20px]"}>
-            <ImageBannerSlider width={"col-span-9"} banners={banners}/>
-            {dayProducts && <Swiper
-                className={"col-span-3 w-full"}
-                slidesPerView={1}
-                modules={[Autoplay, Scrollbar]}
-                loop={true}
-                autoplay={{
-                    delay: AUTOPLAY_DELAY,
-                    disableOnInteraction: true,
-                }}
-            >
-                {dayProducts.map((product, key) => (
-                    <SwiperSlide key={key}>
-                        <ProductCard
-                            classNames={productCardCV}
-                            productCard={product}
-                        />
-                    </SwiperSlide>
-                ))}
-            </Swiper>}
-        </div>
-    );
-
-};
+const HeroSliderRow = (props: HeroSliderRowProps) => (
+    <section className={"hidden col-span-full sm:grid grid-cols-12 items-center gap-[20px]"}>
+        <ImageBannerSlider width={"col-span-9"} banners={props.banners}/>
+        <Swiper
+            className={"col-span-3 w-full"}
+            slidesPerView={1} loop={true}
+            modules={[Autoplay, Scrollbar]}
+            autoplay={{
+                delay: AUTOPLAY_DELAY,
+                disableOnInteraction: true,
+            }}
+        >
+            {props.dayProducts.map((product, key) => (
+                <SwiperSlide key={key}>
+                    <ProductCard
+                        classNames={productCardCV}
+                        productCard={product}
+                    />
+                </SwiperSlide>
+            ))}
+        </Swiper>
+    </section>
+);
 
 export default HeroSliderRow;

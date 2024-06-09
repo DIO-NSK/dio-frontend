@@ -14,7 +14,7 @@ export const useLike = (initState: boolean, productId: number) => {
     const [addToFavourites, removeFromFavourites] = useUnit([addToFavouritesEvent, removeFromFavouritesEvent])
 
     const [isLiked, setLiked] = useState<boolean>(initState)
-    const isMobile = window.innerWidth <= 678
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 678 : false
 
     const toggleLike = () => {
         if (userCredentials) {

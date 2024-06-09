@@ -7,27 +7,14 @@ import {salesTableHeader} from "@/data/tables/adminSalesTable";
 import {
     useAdminPanelHeaderButtonRow
 } from "@/components/organisms/rows/admin-panel-header-button-row/AdminPanelHeaderButtonRow.hooks";
-import AdminPanelHeaderRow from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow";
-import {useAdminPanelHeaderRow} from "@/components/organisms/rows/admin-panel-header-row/AdminPanelHeaderRow.hooks";
 import React, {useEffect, useState} from "react";
 import {useUnit} from "effector-react";
-import {
-    $sales,
-    changeSalesOrderEvent,
-    changeSalesRowOrder, deleteSaleFx,
-    getSalesEvent,
-    ResponseShortSale
-} from "@/app/admin/sales/model";
-import AdminPanelSaveDiscardChangesRow
-    from "@/components/organisms/rows/admin-panel-save-discard-changes-row/AdminPanelSaveDiscardChangesRow";
+import {$sales, changeSalesRowOrder, deleteSaleFx, getSalesEvent, ResponseShortSale} from "@/app/admin/sales/model";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import {AdminSale} from "@/types/dto/AdminSale";
 import {ProductTableRow} from "@/types/dto/Table";
 import {usePathname, useRouter} from "next/navigation";
-import DeletePopup from "@/components/organisms/popups/admin/delete-popup/DeletePopup";
 import {PopupProps} from "@/types/props/Popup";
 import Text from "@/components/atoms/text/text-base/Text";
-import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 
@@ -38,7 +25,9 @@ type DeleteAdminSalePopupProps = {
 const DeleteAminSalePopup = (props: DeleteAdminSalePopupProps) => {
 
     const deleteSale = useUnit(deleteSaleFx)
-    const handleDeleteSale = () => deleteSale(props.tableRow.id).then(props.onClose)
+    const handleDeleteSale = async () => {
+        deleteSale(props.tableRow.id).then(props.onClose)
+    }
 
     return (
         <PopupWrapper placement={"center"} {...props}>

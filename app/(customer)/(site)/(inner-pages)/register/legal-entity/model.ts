@@ -4,6 +4,7 @@ import {legalEntityCheckoutSteps} from "@/data/deskstopCheckoutSteps";
 import {LegalEntityData} from "@/schemas/customer/authorization/LegalEntitySchema";
 import {api, unauthorizedApi} from "@/api";
 import {UserConfirmCodeData} from "@/schemas/customer/authorization/UserConfirmCodeSchema";
+import {cookies} from "next/headers";
 
 const registerLegalEntity = async (formData: LegalEntityData) => {
     const {phoneNumber, ...rest} = formData
@@ -19,7 +20,9 @@ const sendLegalConfirmationCode = async (formData: UserConfirmCodeData): Promise
     const {phoneNumber, ...rest} = formData
     const reqPhoneNumber = phoneNumber.replace(/[\s()-]/g, '')
     return api.put('/user/confirm/legal', {phoneNumber: reqPhoneNumber, ...rest})
-        .then(response => localStorage.setItem("ACCESS_TOKEN", response.data.accessToken))
+        .then(response => {
+            localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
+        })
         .catch(error => {throw Error(error.response.data.message)})
 }
 

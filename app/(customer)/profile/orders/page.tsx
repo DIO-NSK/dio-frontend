@@ -9,9 +9,9 @@ import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserP
 import {FiX} from "react-icons/fi";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
 import {useUnit} from "effector-react";
-import {$orders, getOrdersEvent, selectOrderToRepeatEvent} from "@/app/(customer)/profile/orders/model";
+import {$orders, getOrderInfoFx, getOrdersEvent, selectOrderToRepeatEvent} from "@/app/(customer)/profile/orders/model";
 import {ProfileOrderItem} from "@/types/dto/user/order/ResponseProfileOrder";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -27,9 +27,11 @@ const noOrdersMessage = "Похоже, что Вы еще не сделали н
 
 const UserProfileOrdersPage = () => {
 
-    const [orders, getOrders] = useUnit([$orders, getOrdersEvent])
+    const [orders, getOrders, getOrderInfo] = useUnit([$orders, getOrdersEvent, getOrderInfoFx])
 
     const navigation = useNavigation()
+    const searchParams = useSearchParams();
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
 
     const dropdownItems: SelectItem<OrderFilters>[] = [
         {name: "По дате заказа", value: "date"},
@@ -44,6 +46,10 @@ const UserProfileOrdersPage = () => {
 
     useEffect(() => {
         if (!orders.length) getOrders()
+        if (params.has('orderId')) {
+            getOrderInfo(params.get('orderId')!!)
+                .then(info => console.log(info));
+        }
     }, [])
 
     const sortedOrders = useMemo(() => {

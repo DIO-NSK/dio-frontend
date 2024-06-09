@@ -1,6 +1,4 @@
-"use client"
-
-import Image from "next/image";
+'use client';
 
 import DIOLogo from "@/public/images/dio-logo.png"
 import Button from "@/components/atoms/buttons/button/Button";
@@ -28,6 +26,11 @@ import {
 } from "@/components/organisms/bars/searchbar/model";
 import ConfirmationCodeByPhonePopup
     from "@/components/organisms/popups/authorization/confirmation-code-popup/by-phone/ConfirmationCodeByPhonePopup";
+
+const wrapperCV: ClassValue[] = [
+    "hidden w-full px-[100px] py-4 bg-white sm:flex flex-row",
+    "items-center gap-[30px] sticky top-[0px] z-30"
+]
 
 const ActivePopup = () => {
 
@@ -61,21 +64,13 @@ const Searchbar = () => {
 
     const searchbarContext = useSearchbar()
 
-    const wrapperCV: ClassValue[] = [
-        "hidden w-full px-[100px] py-4 bg-white sm:flex flex-row items-center gap-[30px]",
-        "sticky top-[0px] z-30"
-    ]
-
     return (
         <React.Fragment>
             <CatalogPopup/>
             <ActivePopup/>
             <div className={cn(wrapperCV)}>
-                <Image
-                    src={DIOLogo.src}
-                    width={50} height={50}
-                    quality={100} alt={'/'}
-                    className={"pointer"}
+                <img
+                    src={DIOLogo.src} alt={'Логотип DIO'} className={"size-[50px] aspect-square pointer"}
                     onClick={searchbarContext.handleLogoClick}
                 />
                 <div className={"w-full flex flex-row gap-[20px] items-center"}>

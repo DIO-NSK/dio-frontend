@@ -1,3 +1,5 @@
+"use client"
+
 import {useUnit} from "effector-react";
 import {selectActiveSectionEvent, toggleCatalogPopupEvent} from "@/components/organisms/bars/searchbar/model";
 import React from "react";

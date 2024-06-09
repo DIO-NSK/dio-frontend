@@ -26,7 +26,7 @@ const SiteLayout = ({children}: { children: React.ReactNode }) => {
                 <div className={cn('w-full flex flex-col gap-7 sm:hidden', scrolledUp && 'mt-[90px]')}>
                     {children}
                 </div>
-                <div className={'hidden w-full sm:flex flex-col gap-7 sm:gap-0'}>
+                <div className={'hidden w-full min-h-screen sm:flex flex-col gap-7 sm:gap-0'}>
                     {children}
                 </div>
             </section>

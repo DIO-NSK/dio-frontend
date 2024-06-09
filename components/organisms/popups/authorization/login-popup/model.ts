@@ -1,6 +1,7 @@
 import {unauthorizedApi} from "@/api";
 import {LoginUserData} from "@/schemas/customer/authorization/LoginUserSchema";
 import {createEffect, createEvent, createStore} from "effector";
+import {cookies} from "next/headers";
 
 const loginUserByCredentials = async (formData: LoginUserData) => {
     const request = {
@@ -11,9 +12,7 @@ const loginUserByCredentials = async (formData: LoginUserData) => {
             localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
             return response.data
         })
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
+        .catch(error => {throw Error(error.response.data.message)})
 }
 
 export const loginPopupDidMountEvent = createEvent<void>()

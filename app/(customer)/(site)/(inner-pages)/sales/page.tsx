@@ -1,34 +1,35 @@
-"use client"
-
-import React, {useEffect} from 'react';
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import {useUnit} from "effector-react";
-import {$sales, getSalesEvent} from "@/app/(customer)/(site)/(inner-pages)/sales/model";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
+import SalesContentBlock from "@/components/organisms/loading-blocks/sales/SalesContentBlock";
 import Text from "@/components/atoms/text/text-base/Text";
 import {TextLink} from "@/types/dto/text";
-import dynamic from "next/dynamic";
-import Loading from "@/components/mobile/loading/Loading";
+import {Suspense} from "react";
+import SkeletonSaleCard from "@/components/organisms/loading-blocks/sales/SkeletonSaleCard";
+import {getSales} from "@/app/(customer)/(site)/(inner-pages)/sales/page.hooks";
+import {Metadata} from "next";
 
-const SalesContentBlock = dynamic(
-    () => import("@/components/organisms/loading-blocks/sales/SalesContentBlock"),
-    {loading: () => <Loading/>}
-)
+export const generateMetadata = async (): Promise<Metadata> => {
+    const sales = await getSales();
+
+    return {
+        title: `Акции (${sales.length}шт.) — доставка питьевой воды по Новосибирску и области DIO`,
+        keywords : sales.map(sale => sale.name),
+        openGraph: {
+            title: `Акции (${sales.length}шт.) — доставка питьевой воды по Новосибирску и области DIO`,
+            images: sales.map(sale => sale.image),
+        }
+    }
+}
 
 const breadcrumbs: TextLink[] = [
     {text: "Главная", link: "/"},
     {text: "Акции", link: "/sales"},
 ]
 
-const SaleCatalogScreen = () => {
+const Loading = () => Array.from({length: 4}).map((_, index) => (<SkeletonSaleCard key={index}/>))
 
-    const [sales, getSales] = useUnit([$sales, getSalesEvent])
-
-    useEffect(() => {
-        if (!sales.length) {
-            getSales()
-        }
-    }, []);
+const SaleCatalogScreen = async () => {
+    const sales = await getSales()
 
     return (
         <InnerPageWrapper>
@@ -38,7 +39,9 @@ const SaleCatalogScreen = () => {
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                 </div>
             </section>
-            <SalesContentBlock sales={sales}/>
+            <Suspense fallback={<Loading/>}>
+                <SalesContentBlock sales={sales}/>
+            </Suspense>
         </InnerPageWrapper>
     )
 }

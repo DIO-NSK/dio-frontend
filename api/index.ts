@@ -1,7 +1,7 @@
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 
-const BASE_URL: string = "https://diowater.ru/api"
+export const BASE_URL: string = "https://diowater.ru/api"
 
 export const api = axios.create({
     baseURL: BASE_URL,
@@ -41,7 +41,4 @@ api.interceptors.response.use(config => config, async (error) => {
 export const getRequest = async (...args: any[]): Promise<any> => {
     return api.get(args[0], args[1])
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
 }

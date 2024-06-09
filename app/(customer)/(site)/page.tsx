@@ -1,5 +1,3 @@
-"use client"
-
 import ProductImage4 from "@/public/images/product-image-4.png"
 import ProductImage5 from "@/public/images/product-image-5.png"
 
@@ -18,25 +16,48 @@ import {ContentImage} from "@/components/organisms/cards/fullwidth-main-card/con
 import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/WaterCoolerBlock";
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
-import React, {useEffect} from "react";
 import AdvantagesBlock from "@/components/organisms/blocks/advantages-block/AdvantagesBlock";
-import {useUnit} from "effector-react";
-import {
-    $saleProducts,
-    $userBanners,
-    $userOurWaters,
-    $userPromotions,
-    getBannersEvent,
-    getSaleProductsEvent,
-    getUserOurWatersEvent,
-    getUserPromotionsEvent
-} from "@/app/(customer)/(site)/model";
 import {TextLink} from "@/types/dto/text";
 import {HandshakeIcon, MicroscopeIcon, PencilRulerIcon, PercentIcon, StethoscopeIcon, WrenchIcon} from "lucide-react";
 import {cn} from "@/utlis/cn";
-import Loading from "@/components/mobile/loading/Loading";
+
+import {getBanners, getDayProducts, getOurWaters, getPromotions, getSaleProducts} from './page.hooks';
+import {ReactNode} from "react";
 
 const ICON_SIZE = 28
+
+const mainServiceCards: (TextLink & { icon: ReactNode })[] = [
+    {
+        text: "Аренда кулеров и пурифайеров",
+        link: "rent",
+        icon: <HandshakeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+    },
+    {
+        text: "Ремонт и диагностика оборудования",
+        link: "diagnostic",
+        icon: <StethoscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+    },
+    {
+        text: "Санитарная обработка оборудования",
+        link: "sanitization",
+        icon: <MicroscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+    },
+    {
+        text: "Установка пурифаеров",
+        link: "mount",
+        icon: <PencilRulerIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+    },
+    {
+        text: "Сервисное обслуживание оборудования",
+        link: "maintenance",
+        icon: <WrenchIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+    },
+    {
+        text: "Бесплатное пользование",
+        link: "free_use",
+        icon: <PercentIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
+    },
+]
 
 const productCardCV = {
     mainWrapper: cn([
@@ -45,62 +66,19 @@ const productCardCV = {
     ])
 }
 
-const MainPageScreen = () => {
+const MainPageScreen = async () => {
 
-    const [saleProducts, getSaleProducts] = useUnit([$saleProducts, getSaleProductsEvent])
-    const [ourWaters, getOurWaters] = useUnit([$userOurWaters, getUserOurWatersEvent])
-    const [promotions, getPromotions] = useUnit([$userPromotions, getUserPromotionsEvent])
-    const [banners, getBanners] = useUnit([$userBanners, getBannersEvent])
-
-    useEffect(() => {
-        getBanners()
-        getPromotions()
-        getSaleProducts()
-        getOurWaters()
-    }, []);
-
-    const mainServiceCards: (TextLink & { icon: React.ReactNode })[] = [
-        {
-            text: "Аренда кулеров и пурифайеров",
-            link: "rent",
-            icon: <HandshakeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
-        },
-        {
-            text: "Ремонт и диагностика оборудования",
-            link: "diagnostic",
-            icon: <StethoscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
-        },
-        {
-            text: "Санитарная обработка оборудования",
-            link: "sanitization",
-            icon: <MicroscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
-        },
-        {
-            text: "Установка пурифаеров",
-            link: "mount",
-            icon: <PencilRulerIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
-        },
-        {
-            text: "Сервисное обслуживание оборудования",
-            link: "maintenance",
-            icon: <WrenchIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
-        },
-        {
-            text: "Бесплатное пользование",
-            link: "free_use",
-            icon: <PercentIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
-        },
-    ]
-
-    if (!banners.length) return (
-        <Loading className={"h-[500px]"}/>
-    )
+    const dayProducts = await getDayProducts()
+    const saleProducts = await getSaleProducts()
+    const ourWaters = await getOurWaters()
+    const promotions = await getPromotions()
+    const banners = await getBanners()
 
     return (
-        <React.Fragment>
+        <>
             <PageWrapper>
-                <MobilePhotoSlider/>
-                <HeroSliderRow/>
+                <MobilePhotoSlider photos={banners}/>
+                <HeroSliderRow dayProducts={dayProducts} banners={banners}/>
                 <SliderGroup id={"sale"} header={"Товары по акции"}>
                     {saleProducts.filter(prod => prod.discountPercent !== 0)
                         .map((productCard, key) => (
@@ -163,7 +141,7 @@ const MainPageScreen = () => {
                 <AdvantagesBlock/>
                 <WaterCoolerBlock/>
             </PageWrapper>
-        </React.Fragment>
+        </>
     )
 }
 

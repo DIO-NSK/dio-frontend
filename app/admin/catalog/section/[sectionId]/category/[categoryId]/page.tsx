@@ -35,6 +35,8 @@ const AdminPanelProductsPage = ({params}: {
     const {...context} = useAdminPanelProductsPage(params.categoryId)
     const {...headerContext} = useAdminPanelHeaderButtonRow()
 
+    console.log()
+
     return (
         <React.Fragment>
             <div className={"w-full flex flex-col gap-4"}>

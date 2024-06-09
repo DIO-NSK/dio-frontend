@@ -2,6 +2,7 @@ import {api} from "@/api";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {
+    catalogPageDidMountEvent,
     CatalogueFilterParams,
     sendFiltersEvent,
     sendFiltersFx
@@ -11,17 +12,16 @@ import {Breadcrumbs} from "@/types/dto/Breadcrumbs";
 import {
     $adminProductBreadcrumbs
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
+import {pending} from "patronum";
 
 const getCategoryByName = async (categoryId : number) : Promise<ResponseProductSearch[]> => {
     return api.get("/catalogue/category", {params : {categoryId : categoryId}})
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
 }
 
 const getCategoryBreadcrumbs = async (categoryId : number) : Promise<Breadcrumbs> => {
     return api.get("/catalogue/breadcrumb/category", {params : {categoryId : categoryId}})
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
 }
 
 const getCategoryByNameFx = createEffect<number, ResponseProductSearch[], Error>(getCategoryByName)
@@ -30,7 +30,8 @@ export const $products = createStore<ResponseProductSearch[]>([])
 
 export const $productsAmount = createStore<number>(0)
 
-const getCategoryBreadcrumbsFx = createEffect<number, Breadcrumbs, Error>(getCategoryBreadcrumbs)
+export const getCategoryBreadcrumbsFx = createEffect<number, Breadcrumbs, Error>(getCategoryBreadcrumbs)
+export const $categoryBreadcrumbsPending = pending([getCategoryBreadcrumbsFx])
 export const getCategoryBreadcrumbsEvent = createEvent<number>()
 export const getAdminCategoryBreadcrumbsEvent = createEvent<number>()
 export const getAdminProductBreadcrumbsEvent = createEvent<number>()
@@ -44,8 +45,9 @@ $adminProductBreadcrumbs.on(getCategoryBreadcrumbsFx.doneData,
 $adminCategoryBreadcrumbs.on(getCategoryBreadcrumbsFx.doneData,
     (_, breadcrumbs) => convertAdminBreadcrumbsToList(breadcrumbs))
 
-$categoryBreadcrumbs.on(getCategoryBreadcrumbsFx.doneData,
-    (_, breadcrumbs) => convertBreadcrumbsToList(breadcrumbs))
+$categoryBreadcrumbs
+    .on(getCategoryBreadcrumbsFx.doneData, (_, breadcrumbs) => convertBreadcrumbsToList(breadcrumbs))
+    .reset(catalogPageDidMountEvent)
 
 $catalogCategoryName.on(getCategoryBreadcrumbsFx.doneData,
     (_, breadcrumbs) => breadcrumbs.categoryName)
@@ -58,6 +60,7 @@ sample({
 $products
     .on(getCategoryByNameFx.doneData, (_, products) => products)
     .on(sendFiltersFx.doneData, (_, catalog) => catalog.products)
+    .reset(catalogPageDidMountEvent)
 
 $productsAmount.on(sendFiltersFx.doneData, (_, catalog) => catalog.count)
 

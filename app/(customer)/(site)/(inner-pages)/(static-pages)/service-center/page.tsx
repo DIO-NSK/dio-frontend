@@ -1,5 +1,3 @@
-"use client"
-
 import React from 'react';
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import Text from "@/components/atoms/text/text-base/Text";
@@ -8,6 +6,16 @@ import {installmentPlan} from "@/data/static/installmentPlan";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import {TextLink} from "@/types/dto/text";
 import {serviceCenter} from "@/data/static/serviceCenter";
+import {Metadata} from "next";
+import {services} from "@/data/static/services";
+
+export const metadata: Metadata = {
+    title: 'Сервисный центер — доставка питьевой воды по Новосибирску и области DIO',
+    keywords: serviceCenter.map(serviceGroup => serviceGroup.blockContent.map(item => item.itemHeader ?? '')).flat(),
+    openGraph : {
+        title : 'Сервисный центер — доставка питьевой воды по Новосибирску и области DIO'
+    }
+}
 
 const breadcrumbs: TextLink[] = [
     {text: "Главная", link: "/"},

@@ -12,7 +12,7 @@ export type RequestBanner = {
 export type ResponseBanner = {
     id: number,
     image: string,
-    link: string,
+    link : string,
 }
 
 const createBanner = async (banner: RequestBanner) => {

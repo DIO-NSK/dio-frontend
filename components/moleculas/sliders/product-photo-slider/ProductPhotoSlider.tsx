@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useEffect, useState} from "react";
 import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 import {COLOR} from "@/components/colors";
@@ -96,19 +98,17 @@ const PhotoSlider = ({photos, activePhoto, setActive}: {
     )
 }
 
-const ProductPhotoSlider = ({photos, activePhoto, setActive}: {
-    photos: string[],
-    activePhoto?: string,
-    setActive?: (photo ?: string) => void
-}) => {
+const ProductPhotoSlider = ({photos}: { photos: string[] }) => {
+
+    const [activePhoto, setActivePhoto] = useState<string>()
 
     return (
         <div className={"hidden sm:col-start-1 sm:col-span-5 sm:flex flex-col gap-5"}>
             <ProductPhotoSlider.MainPhotoCard photo={activePhoto}/>
             <ProductPhotoSlider.PhotoSlider
-                activePhoto={activePhoto}
-                setActive={(photo) => setActive?.(photo)}
                 photos={photos}
+                activePhoto={activePhoto}
+                setActive={setActivePhoto}
             />
         </div>
     )
