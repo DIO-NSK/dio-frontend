@@ -87,7 +87,13 @@ const DesktopCheckoutThirdStep = () => {
 
     const handleCreateOrder = () => {
         createOrder(convertFormDataToRequest(orderData))
-            .then(link => router.push(link))
+            .then(link => {
+                if (secondFormData.paymentMethod.value === "ONLINE") {
+                    router.push(link);
+                } else {
+                    router.push('/profile/orders');
+                }
+            })
             .catch(error => setErrorMessage(error))
     }
 

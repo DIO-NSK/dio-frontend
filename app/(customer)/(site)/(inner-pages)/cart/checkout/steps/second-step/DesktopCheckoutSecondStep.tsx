@@ -154,6 +154,10 @@ const DesktopCheckoutSecondStep = () => {
         window.scrollTo(0, 0)
     }, []);
 
+    useEffect(() => {
+        console.log(methods.formState.errors);
+    }, [methods.formState.errors]);
+
     if (orderId !== 0) return (
         <FormProvider {...methods}>
             <Form>

@@ -3,7 +3,6 @@ import {OrderCardProps} from "@/types/props/OrderCard";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
-import {convertStatusToText} from "@/utlis/convertStatusToText";
 import {HeaderDescription} from "@/types/dto/text";
 import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconTextButton";
 import {FiRefreshCw} from "react-icons/fi";
@@ -18,8 +17,6 @@ import {useRouter} from "next/navigation";
 
 const HeaderRow = ({order}: { order: ResponseProfileOrder }) => {
 
-    const orderStatus = convertStatusToText(order.status)
-
     const totalPrice = order.items.reduce((acc, item) =>
         acc + item.price * item.quantity * (1 - item.discountPercent * 0.01), 0)
 
@@ -27,7 +24,7 @@ const HeaderRow = ({order}: { order: ResponseProfileOrder }) => {
         <div className={"w-full flex flex-row items-center justify-between border-b-2 border-light-gray pb-5"}>
             <div className={"flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4"}>
                 <Text text={`Заказ #${order.id}`} className={"text-base sm:text-[20px] font-medium"}/>
-                <Text text={orderStatus} className={"text-sm sm:text-base text-text-gray"}/>
+                <Text text={order.status} className={"text-sm sm:text-base text-text-gray"}/>
             </div>
             <Text
                 text={`${totalPrice.toFixed(2)} ₽`}
@@ -140,7 +137,7 @@ const Content = ({order}: { order: ResponseProfileOrder }) => {
     )
 }
 
-const OrderCard = ({canRepeat = true, theme = "outlined", ...props}: OrderCardProps) => {
+const OrderCard = React.memo(({canRepeat = true, theme = "outlined", ...props}: OrderCardProps) => {
 
     const [isOpen, setOpen] = useState<boolean>(false)
 
@@ -152,10 +149,10 @@ const OrderCard = ({canRepeat = true, theme = "outlined", ...props}: OrderCardPr
 
     return (
         <div className={cn(wrapperCV)}>
-            <OrderCard.HeaderRow {...props} />
-            <OrderCard.InformationBlock {...props} />
-            {isOpen && <OrderCard.Content {...props}/>}
-            <OrderCard.Footer
+            <HeaderRow {...props} />
+            <InformationBlock {...props} />
+            {isOpen && <Content {...props}/>}
+            <Footer
                 order={props.order}
                 isOpen={isOpen}
                 setOpen={setOpen}
@@ -164,11 +161,6 @@ const OrderCard = ({canRepeat = true, theme = "outlined", ...props}: OrderCardPr
         </div>
     );
 
-};
-
-OrderCard.HeaderRow = HeaderRow
-OrderCard.InformationBlock = InformationBlock
-OrderCard.Content = Content
-OrderCard.Footer = Footer
+});
 
 export default OrderCard;

@@ -14,6 +14,7 @@ import dynamic from "next/dynamic";
 import Loading from "@/components/mobile/loading/Loading";
 import Button from "@/components/atoms/buttons/button/Button";
 import EmptyPage from "@/components/organisms/empty-page/EmptyPage";
+import {resetOrderToRepeatEvent} from "@/app/(customer)/profile/orders/model";
 
 const CartContentBlock = dynamic(
     () => import("@/components/organisms/loading-blocks/cart/CartContentBlock"),
@@ -29,13 +30,15 @@ const ShoppingCartPage = () => {
 
     const router = useRouter()
 
-    const [cart, getCart] = useUnit([$cart, getCartEvent])
+    const [cart, getCart, resetOrderToRepeat] = useUnit([$cart, getCartEvent, resetOrderToRepeatEvent])
     const switchPopupState = useStore(state => state.switchPopupState)
 
     const handleButtonClick = () => {
         const accessToken = localStorage.getItem("ACCESS_TOKEN")
-        if (accessToken) router.push("/cart/checkout")
-        else switchPopupState("login")
+        if (accessToken) {
+            resetOrderToRepeat();
+            router.push("/cart/checkout")
+        } else switchPopupState("login")
     }
 
     useEffect(() => {

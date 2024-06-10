@@ -30,7 +30,7 @@ const StyledSnackbar = styled(JoySnackbar)`
 `
 
 const ActionIcon = (props: SnackbarProps) => (
-    props.success ? <FiArrowRight
+    props.success ? <FiX
         className={"text-green-600 hoverabe hover:text-green-700 pointer"}
         onClick={() => props?.action ? props.action() : props.onClose()} size={"24px"}
     /> : <FiX
@@ -51,7 +51,7 @@ const Snackbar = ({autoHide = true, ...props}: SnackbarProps) => {
             anchorOrigin={{vertical: "bottom", horizontal: "right"}}
             autoHideDuration={autoHide ? HIDE_DURATION : null}
         >
-            <section className={"flex flex-col gap-2"}>
+            <section className={"w-full flex flex-col gap-2"}>
                 <div className={"w-full flex items-center justify-between"}>
                     <Text text={props.header} className={cn("text-lg font-medium", textClassName)}/>
                     <ActionIcon {...props}/>

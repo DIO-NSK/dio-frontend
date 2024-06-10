@@ -10,10 +10,10 @@ export const CreateOrderDraftSchema = z.object({
     addressId: z.number().optional(),
     city: z.string().min(1, requiredFiledError),
     street: z.string().min(1, requiredFiledError),
-    houseNumber: z.string().min(1, requiredFiledError),
-    flatNumber: z.string().min(1, requiredFiledError),
-    entranceNumber: z.string().min(1, requiredFiledError),
-    floor: z.string().min(1, requiredFiledError)
+    houseNumber: z.string().min(1, requiredFiledError).or(z.number()),
+    flatNumber: z.string().min(1, requiredFiledError).or(z.number()),
+    entranceNumber: z.string().min(1, requiredFiledError).or(z.number()),
+    floor: z.string().min(1, requiredFiledError).or(z.number())
 })
 
 export type CreateOrderDraftData = z.infer<typeof CreateOrderDraftSchema>

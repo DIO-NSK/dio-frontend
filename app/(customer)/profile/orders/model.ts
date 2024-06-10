@@ -32,6 +32,6 @@ $orderToRepeat
 $orders.on(getOrdersFx.doneData, (_, orders) => orders)
 
 sample({
-    clock: getOrdersEvent,
+    clock: [getOrdersEvent, getOrderInfoFx.doneData],
     target: getOrdersFx
 })
