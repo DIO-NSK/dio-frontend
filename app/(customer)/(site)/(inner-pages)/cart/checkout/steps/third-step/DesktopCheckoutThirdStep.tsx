@@ -63,10 +63,10 @@ const DesktopCheckoutThirdStep = () => {
     const secondBlockData: HeaderDescription[] = [
         {header: "Город", description: firstFormData.city},
         {header: "Улица", description: firstFormData.street},
-        {header: "Дом / Корпус", description: firstFormData.houseNumber},
-        {header: "Квартира / Офис", description: firstFormData.flatNumber},
-        {header: "Подъезд", description: firstFormData.entranceNumber},
-        {header: "Этаж", description: firstFormData.floor},
+        {header: "Дом / Корпус", description: firstFormData.houseNumber as string},
+        {header: "Квартира / Офис", description: firstFormData.flatNumber as string},
+        {header: "Подъезд", description: firstFormData.entranceNumber as string},
+        {header: "Этаж", description: firstFormData.floor as string},
     ]
 
     const thirdBlockData: HeaderDescription[] = [
