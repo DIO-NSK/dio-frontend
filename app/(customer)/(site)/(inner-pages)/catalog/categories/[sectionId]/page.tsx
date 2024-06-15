@@ -6,9 +6,6 @@ import CatalogCategoryCard from "@/components/organisms/catalog-category-card/Ca
 
 import {getCatalog, getCatalogSections, getSectionBreadcrumbs} from "./page.hooks"
 import {Metadata} from "next";
-import {
-    getProductById
-} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/page.hooks";
 
 export const generateStaticParams = async () => {
     const sections = await getCatalog()

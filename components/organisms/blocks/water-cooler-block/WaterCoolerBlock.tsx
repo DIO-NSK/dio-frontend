@@ -31,10 +31,10 @@ const WaterCoolerBlock = () => {
                 return <WaterCoolerBlock.DescrCol {...item} description={item.descr} key={index}/>
             })}
 
-            <Image
-                src={WaterCoolerImage.src} alt={'Изображение кулера'}
+            <img
+                src={'https://storage.yandexcloud.net/dio-static-images/DIO_Water_Cooler.png'}
                 className={"-ml-10 w-[600px] h-[700px] object-scale-down"}
-                width={600} height={700} quality={100}
+                alt={'Изображение кулера'}
             />
 
         </div>

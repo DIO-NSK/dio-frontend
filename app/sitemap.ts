@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 1,
         },
         {
-            url: 'https://diowater.ru/product',
+            url: 'https://diowater.ru/product/sitemap.xml',
             lastModified: new Date(),
             priority: 1,
         },
@@ -23,12 +23,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         {
-            url: 'https://diowater.ru/catalog',
+            url: 'https://diowater.ru/catalog/sitemap.xml',
             lastModified: new Date(),
             priority: 0.8,
         },
         {
-            url: 'https://diowater.ru/sales',
+            url: 'https://diowater.ru/sales/sitemap.xml',
             lastModified: new Date(),
             priority: 0.8,
         },
@@ -38,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.8,
         },
         {
-            url: 'https://diowater.ru/catalog/categories',
+            url: 'https://diowater.ru/catalog/categories/sitemap.xml',
             lastModified: new Date(),
         },
         {
@@ -47,10 +47,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
         {
             url: 'https://diowater.ru/favorites',
-            lastModified: new Date(),
-        },
-        {
-            url: 'https://diowater.ru/services',
             lastModified: new Date(),
         },
         {

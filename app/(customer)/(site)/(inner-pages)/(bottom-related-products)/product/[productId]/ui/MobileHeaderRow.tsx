@@ -8,6 +8,8 @@ import Text from "@/components/atoms/text/text-base/Text";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import React from "react";
+import ProductChips
+    from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/ui/ProductChips";
 
 const MobileHeaderRow = ({product}: {
     product: ResponseProduct
@@ -20,7 +22,10 @@ const MobileHeaderRow = ({product}: {
 
     return (
         <div className={"sm:hidden flex flex-col gap-1 px-5"}>
-            <Text text={product.name} className={"text-[20px] font-semibold"}/>
+            <div className={"flex flex-col gap-3"}>
+                <ProductChips product={product} className={'sm:hidden'}/>
+                <Text text={product.name} className={"text-[20px] font-semibold"}/>
+            </div>
             <div className={"w-full flex flex-row items-center justify-between"}>
                 <div className={"flex flex-row items-center gap-3"}>
                     <Text
@@ -34,7 +39,7 @@ const MobileHeaderRow = ({product}: {
                 </div>
                 <div className={"flex flex-row items-center gap-3"}>
                     <LikeButton isLiked={isLiked} toggleLike={toggleLike}/>
-                    <BuyButton isInCart={isInCart} onClick={onBuyClick}/>
+                    <BuyButton className={'bg-link-blue text-white'} isInCart={isInCart} onClick={onBuyClick}/>
                 </div>
             </div>
         </div>

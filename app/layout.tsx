@@ -15,10 +15,6 @@ export const viewport: Viewport = {
     userScalable: false,
 }
 
-export const metadata: Metadata = {
-    title: 'DIO — доставка питьевой воды по Новосибирску и области',
-}
-
 export default function RootLayout({children}: {
     children: React.ReactNode
 }) {

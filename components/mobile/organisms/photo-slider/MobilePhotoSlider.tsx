@@ -7,14 +7,18 @@ import {cn} from "@/utlis/cn";
 import Link from "next/link";
 import {WrapperProps} from "@/types/props/Wrapper";
 import {PropsWithClassName} from "@/types/props/utils/PropsWithClassName";
+import Chip from "@/components/atoms/chip/Chip";
+import Text from "@/components/atoms/text/text-base/Text";
 
 type MobilePhotoSliderWrapperProps = {
     onChange: (next: number) => void,
-    activeIndex: number
+    activeIndex: number,
+    showQuantity?: boolean
 } & WrapperProps
 
 type MobilePhotoSliderProps = PropsWithClassName<{
-    photos: { image: string, link?: string }[]
+    photos: { image: string, link?: string }[],
+    showQuantity?: boolean
 }>
 
 export const MobilePhotoSliderWrapper = (props: MobilePhotoSliderWrapperProps) => {
@@ -41,7 +45,15 @@ export const MobilePhotoSliderWrapper = (props: MobilePhotoSliderWrapperProps) =
     };
 
     return (
-        <div className={cn("sm:hidden w-full overflow-hidden -mt-7 mb-7", props.className)}>
+        <div className={cn("sm:hidden w-full overflow-hidden relative -mt-7 mb-7", props.className)}>
+            {props.showQuantity ? (
+                <Chip className={'absolute top-5 right-5 bg-link-blue z-30'}>
+                    <Text
+                        text={`${props.activeIndex + 1} / ${Children.count(props.children)}`}
+                        className={'text-white text-xs font-normal'}
+                    />
+                </Chip>
+            ) : null}
             <Slider {...settings} className={"w-full"}>
                 {props.children}
             </Slider>
@@ -60,12 +72,12 @@ const MobilePhotoSlider = (props: MobilePhotoSliderProps) => {
                     banner.link ? <Link href={banner.link}>
                         <img
                             src={banner.image} alt={'Фотография продукта'}
-                            className={"w-full h-[220px] object-cover"}
+                            className={"w-full h-[200px] object-cover"}
                             key={key}
                         />
                     </Link> : <img
                         src={banner.image} alt={'Фотография продукта'}
-                        className={"w-full h-[220px] object-cover"}
+                        className={"w-full h-[200px] object-cover"}
                         key={key}
                     />
                 )

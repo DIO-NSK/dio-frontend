@@ -27,7 +27,7 @@ const CharacteristicList = ({characteristics}: {
     characteristics: ProductCharacteristic[]
 }) => {
     return (
-        <section className={"col-span-4 flex flex-col gap-[20px]"}>
+        <section className={"w-full col-span-4 flex flex-col gap-[20px]"}>
             {characteristics.slice(0, 5).map((item) => {
                 return <CharacteristicList.Item characteristic={item}/>
             })}

@@ -85,7 +85,7 @@ const AboutCompanyPage = () => (
             <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
             <img
                 className={cn(imageCV)}
-                src={AboutCompanyBanner.src}
+                src={'https://storage.yandexcloud.net/dio-static-images/dio-main-banner.jpg'}
                 alt={"Баннер «О компании»"}
             />
         </div>

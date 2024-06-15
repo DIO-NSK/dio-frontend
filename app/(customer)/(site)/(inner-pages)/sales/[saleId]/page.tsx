@@ -13,6 +13,7 @@ import {getSaleById, getSales} from '../page.hooks'
 import SalePriceCard from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/ui/SalePriceCard";
 import SaleCardMobileInfoBlock from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/ui/SaleCardMobileInfoBlock";
 import {Metadata} from "next";
+import MobileProductStickyButton from "@/components/atoms/buttons/MobileProductStickyButton";
 
 const productCardCV = {
     mainWrapper: cn([
@@ -54,13 +55,16 @@ const SalePage = async ({params: {saleId}}: { params: { saleId: number } }) => {
     return (
         <div className={"w-full sm:col-span-full flex flex-col gap-5 sm:gap-7"}>
             <div className={"sm:px-[100px] px-5 w-full sm:col-span-full sm:grid sm:grid-cols-12 sm:gap-x-5 sm:gap-y-7"}>
-                <section className={"sm:col-span-full flex flex-col gap-2 -mt-5 sm:mt-0"}>
+                <section className={"sm:col-span-full flex flex-col gap-2"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                     <Text text={sale.name} className={"sm:text-2xl text-xl font-medium"}/>
                 </section>
                 <div className={"w-full sm:col-span-9 flex flex-col gap-7"}>
                     <ProductPhotoSlider photos={sale.images}/>
-                    <MobilePhotoSlider photos={sale.images.map(image => ({image: image}))} className={"mt-5 mb-0"}/>
+                    <MobilePhotoSlider
+                        photos={sale.images.map(image => ({image: image}))}
+                        className={"mt-5 mb-0"} showQuantity
+                    />
                     <div className={"w-full flex flex-col gap-2"}>
                         <Text text={"Описание"} className={"sm:text-xl text-lg font-medium"}/>
                         <Text text={sale.description} className={"w-full"}/>
@@ -80,6 +84,7 @@ const SalePage = async ({params: {saleId}}: { params: { saleId: number } }) => {
                 </SliderGroup>
             </div>
             <SaleCardMobileInfoBlock sale={sale} saleId={saleId}/>
+            <MobileProductStickyButton item={sale} id={saleId}/>
         </div>
     );
 };

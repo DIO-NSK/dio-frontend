@@ -7,7 +7,8 @@ import Button from "@/components/atoms/buttons/button/Button";
 type MobileCartInfoBlockProps = {
     infoBlockData: InfoBlockElement[],
     buttonText: string,
-    onSubmit: () => void
+    onSubmit: () => void,
+    className ?: string
 }
 
 const MobileCartInfoBlock = (props: MobileCartInfoBlockProps) => {
@@ -20,6 +21,7 @@ const MobileCartInfoBlock = (props: MobileCartInfoBlockProps) => {
                 </div>
             )}
             <Button
+                classNames={{button : props.className}}
                 onClick={props.onSubmit}
                 text={props.buttonText}
             />

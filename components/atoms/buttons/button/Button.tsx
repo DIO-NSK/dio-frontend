@@ -1,15 +1,17 @@
-import React from "react";
+import React, {forwardRef} from "react";
 import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 import {ButtonProps} from "@/types/props/buttons/Button";
 import {CircularProgress} from "@mui/joy";
 
-const Button = (
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>((
     {
         buttonType = "PRIMARY", hasSpinner = true,
         size = "md", disabled = false,
         ...props
-    }: ButtonProps
+    }: ButtonProps,
+    ref
 ) => {
 
     const buttonSizeCV: ClassValue = {
@@ -29,24 +31,30 @@ const Button = (
         buttonTypeCV, buttonSizeCV,
         {"bg-bg-light-blue text-text-gray border-2 border-light-gray": disabled},
         {"sm:hover:bg-bg-light-blue sm:hover:text-text-gray sm:hover:border-2": disabled},
-        {"sm:hover:border-light-gray sm:hover:cursor-not-allowed" : disabled},
+        {"sm:hover:border-light-gray sm:hover:cursor-not-allowed": disabled},
         props.classNames?.button
     ]
 
 
     return (
         <button
+            ref={ref}
             type={"button"}
             disabled={disabled}
             className={cn(buttonCV)}
             {...props}
         >
-            {props.icon}
-            {props?.text}
+            <div className={cn('flex flex-row items-center gap-2', {
+                'gap-[15px]': size === 'md'
+            })}>
+                {props.icon}
+                {props?.text}
+            </div>
+            {props?.rightContent}
             {disabled && hasSpinner && <CircularProgress variant={"soft"} size={"sm"}/>}
         </button>
     )
 
-}
+})
 
 export default Button

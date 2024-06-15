@@ -28,6 +28,7 @@ const SaleCardMobileInfoBlock = ({saleId, sale}: { saleId: number, sale: SaleDet
     return (
         <div className={"w-full p-5"}>
             <MobileCartInfoBlock
+                className={'hidden sm:flex'}
                 infoBlockData={infoBlockData}
                 buttonText={isInCart ? "В корзине" : "В корзину"}
                 //@ts-ignore

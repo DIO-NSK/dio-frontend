@@ -1,6 +1,3 @@
-import ProductImage4 from "@/public/images/product-image-4.png"
-import ProductImage5 from "@/public/images/product-image-5.png"
-
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
 import HeroSliderRow from "@/components/organisms/hero-slider-row/HeroSliderRow";
@@ -23,6 +20,7 @@ import {cn} from "@/utlis/cn";
 
 import {getBanners, getDayProducts, getOurWaters, getPromotions, getSaleProducts} from './page.hooks';
 import {ReactNode} from "react";
+import {Metadata} from "next";
 
 const ICON_SIZE = 28
 
@@ -66,6 +64,17 @@ const productCardCV = {
     ])
 }
 
+export const metadata: Metadata = {
+    title: 'DIO — доставка питьевой воды по Новосибирску и области',
+    description : 'Нужна доставка питьевой воды в Новосибирске и области? DIO предлагает высококачественную питьевую воду с оперативной доставкой на дом и в офис. Чистая вода от проверенных источников, удобные условия заказа и быстрая доставка. Заботьтесь о своем здоровье с DIO — вашей надежной компанией по доставке питьевой воды в Новосибирске и области.',
+    keywords : ["доставка воды", "доставка питьевой воды", "доставка воды Новосибирск", "питьевая вода Новосибирск", "заказать воду Новосибирск", "вода в офис", "вода на дом", "доставка воды круглосуточно", "качественная питьевая вода", "чистая вода Новосибирск", "купить воду", "вода 19 литров", "бутылированная вода", "артезианская вода", "доставка воды область"],
+    openGraph : {
+        description : 'Нужна доставка питьевой воды в Новосибирске и области? DIO предлагает высококачественную питьевую воду с оперативной доставкой на дом и в офис. Чистая вода от проверенных источников, удобные условия заказа и быстрая доставка. Заботьтесь о своем здоровье с DIO — вашей надежной компанией по доставке питьевой воды в Новосибирске и области.',
+        images : ['https://storage.yandexcloud.net/dio-static-images/dio-main-banner.jpg'],
+        title : 'DIO — доставка питьевой воды по Новосибирску и области'
+    }
+}
+
 const MainPageScreen = async () => {
 
     const dayProducts = await getDayProducts()
@@ -79,7 +88,7 @@ const MainPageScreen = async () => {
             <PageWrapper>
                 <MobilePhotoSlider photos={banners}/>
                 <HeroSliderRow dayProducts={dayProducts} banners={banners}/>
-                <SliderGroup id={"sale"} header={"Товары по акции"}>
+                <SliderGroup id={"sale"} header={"Товары по акции"} className={'-mt-7 sm:mt-0'}>
                     {saleProducts.filter(prod => prod.discountPercent !== 0)
                         .map((productCard, key) => (
                             <ProductCard
@@ -135,8 +144,8 @@ const MainPageScreen = async () => {
                     header={"Посмотрите на наше производство"}
                     desktopSlidesPerView={2}
                 >
-                    <ContentImage image={ProductImage4.src} className={"w-[80vw] sm:w-full"}/>
-                    <ContentImage image={ProductImage5.src} className={"w-[80vw] sm:w-full"}/>
+                    <ContentImage image={'https://storage.yandexcloud.net/dio-static-images/product-image-1-min.png'} className={"w-[80vw] sm:w-full"}/>
+                    <ContentImage image={'https://storage.yandexcloud.net/dio-static-images/product-image-2-min.png'} className={"w-[80vw] sm:w-full"}/>
                 </SliderGroup>
                 <AdvantagesBlock/>
                 <WaterCoolerBlock/>

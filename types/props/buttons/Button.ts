@@ -9,7 +9,8 @@ export type ButtonProps = {
     size ?: ButtonSize,
     style ?: CSSProperties,
     hasSpinner ?: boolean,
-    disabled ?: boolean
+    disabled ?: boolean,
+    rightContent ?: React.ReactNode
 }
 
 type ButtonType = "PRIMARY" | "SECONDARY"

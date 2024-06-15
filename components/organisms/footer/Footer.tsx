@@ -187,16 +187,16 @@ const MobileThirdRow = () => {
         [
             {text: "О компании", path: "/about-company"},
             {text: "Контакты", path: "/contacts"},
-            {text: "Доставка", path: "payment"},
+            {text: "Доставка", path: "/payment"},
             {text: "Оплата", path: "/payment"},
             {text: "Товары по акции", path: "/#sales"},
             {text: "Акции", path: "/sales"},
             {text: "Услуги", path: "/services"},
         ],
         [
-            {text: "Бонусная программа", path: "/about"},
+            {text: "Бонусная программа", path: "/bonus-program"},
             {text: "Возврат и обмен товара", path: "/returning"},
-            {text: "Сервисный центр", path: "/about"},
+            {text: "Сервисный центр", path: "/service-center"},
             {text: "Рассрочка", path: "/installment-plan"},
             {text: "Политика конфиденциальности", path: "/policy"}
         ]
@@ -259,7 +259,7 @@ const Footer = () => {
                 <Footer.TopCol/>
                 <Footer.BottomRow/>
             </section>
-            <section className={"sm:hidden flex flex-col gap-7"}>
+            <section id={'footer'} className={"sm:hidden flex flex-col gap-7"}>
                 <Footer.MobileFirstRow/>
                 <Footer.MobileSecondRow/>
                 <Footer.MobileThirdRow/>

@@ -17,7 +17,7 @@ export const fullWidthCardData : FullwidthMainCardType[] = [
             "автоматической линии производства, проходит постоянный " +
             "контроль качества — каждые 30 минут вода исследуется " +
             "сотрудниками лаборатории.",
-        image : ProductImage1.src,
+        image : 'https://storage.yandexcloud.net/dio-static-images/product-image-1-min.png',
         icon : SettingsIcon.src,
     }, {
         side: Side.RIGHT,
@@ -27,7 +27,7 @@ export const fullWidthCardData : FullwidthMainCardType[] = [
             "в лесной зоне Академгородка и относятся\n" +
             "к магниево-кальциевым гидрокарбонатным источникам, содержащим важные\n" +
             "для организма вещества.",
-        image : ProductImage2.src,
+        image : 'https://storage.yandexcloud.net/dio-static-images/product-image-2-min.png',
         icon : WaterIcon.src,
     }, {
         side: Side.LEFT,
@@ -36,7 +36,7 @@ export const fullWidthCardData : FullwidthMainCardType[] = [
             "воды «DIO»  — сохранение природного микроэлементного состава артезианской воды.\n" +
             "Каждая партия воды проверяется региональным\n" +
             "центром Роспотребнадзора РФ.",
-        image : ProductImage3.src,
+        image : 'https://storage.yandexcloud.net/dio-static-images/product-image-3-min.png',
         icon : CrownIcon.src,
     }
 ]

@@ -3,12 +3,19 @@ import {ClassValue} from "clsx";
 import {FiCheck, FiPlus} from "react-icons/fi";
 import {cn} from "@/utlis/cn";
 
-const BuyButton = ({isInCart, onClick} : {isInCart : boolean, onClick : MouseEventHandler}) => {
+type BuyButtonProps = {
+    isInCart : boolean,
+    onClick : MouseEventHandler,
+    className ?: string
+}
+
+const BuyButton = ({isInCart, onClick, className} : BuyButtonProps) => {
 
     const wrapperCV: ClassValue[] = [
         "sm:hidden w-10 h-10 rounded-full flex items-center justify-center transition duration-200",
         {"bg-bg-light-blue text-link-blue": !isInCart},
-        {"bg-link-blue text-white": isInCart}
+        {"bg-link-blue text-white": isInCart},
+        className
     ]
 
     return (
