@@ -62,7 +62,7 @@ const SalePage = async ({params: {saleId}}: { params: { saleId: number } }) => {
                 <div className={"w-full sm:col-span-9 flex flex-col gap-7"}>
                     <ProductPhotoSlider photos={sale.images}/>
                     <MobilePhotoSlider
-                        photos={sale.images.map(image => ({image: image}))}
+                        photos={sale.images?.map(image => ({image: image}))}
                         className={"mt-5 mb-0"} showQuantity
                     />
                     <div className={"w-full flex flex-col gap-2"}>
@@ -78,7 +78,7 @@ const SalePage = async ({params: {saleId}}: { params: { saleId: number } }) => {
             </div>
             <div className={"w-full py-7 sm:px-[100px] border-y-2 border-light-gray"}>
                 <SliderGroup headerSize={'sm'} header={"Товары, участвующие в акции"}>
-                    {sale.products.map((product, index) => (
+                    {sale.products?.map((product, index) => (
                         <ProductCard classNames={productCardCV} productCard={product} key={index}/>
                     ))}
                 </SliderGroup>

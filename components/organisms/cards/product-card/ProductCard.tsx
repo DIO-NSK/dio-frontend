@@ -19,10 +19,18 @@ type ProductCardClassNames = {
     textWrapper?: string
 }
 
-const ProductCard = ({productCard, classNames}: {
+type ProductCardProps = {
     productCard: ResponseProductSearch,
     classNames?: ProductCardClassNames
-}) => {
+}
+
+const wrapperStyles = (className ?: string) : ClassValue[] => [
+    "w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
+    "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover:shadow-lg sm:hover:shadow-gray-200/50 sm:hover:scale-[1.01] sm:hoverable pointer",
+    "border-2 border-light-gray sm:border-0 relative", className
+]
+
+const ProductCard = ({productCard, classNames}: ProductCardProps) => {
 
     const router = useRouter()
 
@@ -33,12 +41,6 @@ const ProductCard = ({productCard, classNames}: {
     const buttonText = productCard.inStock ? isInCart ? "В корзине" : "В корзину" : "Нет в наличии"
     const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
 
-    const wrapperCV: ClassValue[] = [
-        "w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
-        "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover:shadow-lg sm:hover:shadow-gray-200/50 sm:hover:scale-[1.01] sm:hoverable pointer",
-        "border-2 border-light-gray sm:border-0 relative", classNames?.mainWrapper
-    ]
-
     const handleCardClick = () => {
         if (productCard?.id) {
             router.push(`/product/${productCard.id}`)
@@ -48,7 +50,7 @@ const ProductCard = ({productCard, classNames}: {
     }
 
     return (
-        <div className={cn(wrapperCV)} onClick={handleCardClick}>
+        <article className={cn(wrapperStyles(classNames?.mainWrapper))} onClick={handleCardClick}>
             <img
                 src={productCard.image ?? (productCard as any).mainImage}
                 className={"select-none w-full h-[100px] sm:h-[160px] object-scale-down"}
@@ -56,17 +58,17 @@ const ProductCard = ({productCard, classNames}: {
             />
             <div className={"w-full flex flex-col gap-4 sm:gap-5"}>
                 <div className={cn("w-full flex flex-col gap-1 min-h-[50px] sm:min-h-[85px]", classNames?.textWrapper)}>
-                    <div className={"w-full hidden sm:flex flex-row items-baseline gap-3"}>
+                    <span className={"w-full hidden sm:flex flex-row items-baseline gap-3"}>
                         <Text
-                            text={newPrice.toFixed(2) + " ₽"}
                             className={"text-[22px] font-semibold text-link-blue"}
+                            text={newPrice.toFixed(2) + " ₽"}
                         />
                         {productCard.discountPercent !== 0 && <Text
-                            text={price.toFixed(2) + " ₽"}
                             className={"text-base text-text-gray line-through"}
+                            text={price.toFixed(2) + " ₽"}
                         />}
-                    </div>
-                    <div className={"w-full flex flex-col gap-2"}>
+                    </span>
+                    <span className={"w-full flex flex-col gap-2"}>
                         <Text
                             className={"font-medium text-base line-clamp-2"}
                             text={productCard.name}
@@ -75,20 +77,20 @@ const ProductCard = ({productCard, classNames}: {
                             text={`${(productCard as any)?.quantity} шт.`}
                             className={"text-base text-text-gray"}
                         />}
-                    </div>
+                    </span>
                 </div>
                 <div className={"w-full flex flex-row items-center justify-between"}>
-                    <div className={"sm:hidden flex flex-col"}>
+                    <span className={"sm:hidden flex flex-col"}>
                         {productCard.discountPercent !== 0 && <Text
-                            text={price.toFixed(2) + " ₽"}
                             className={"text-sm text-text-gray line-through"}
+                            text={price.toFixed(2) + " ₽"}
                         />}
                         <Text
-                            text={newPrice.toFixed(2) + " ₽"}
                             className={"text-[20px] sm:text-[24px] font-semibold text-link-blue"}
+                            text={newPrice.toFixed(2) + " ₽"}
                         />
-                    </div>
-                    <div className={"flex flex-row items-center gap-4 sm:gap-5"}>
+                    </span>
+                    <footer className={"flex flex-row items-center gap-4 sm:gap-5"}>
                         <Button
                             hasSpinner={false}
                             classNames={{button: "hidden sm:flex"}}
@@ -106,31 +108,30 @@ const ProductCard = ({productCard, classNames}: {
                             isInCart={isInCart}
                             onClick={onBuyClick}
                         />
-                    </div>
+                    </footer>
                 </div>
             </div>
-            <div className={"absolute left-5 top-5 z-10 flex flex-row gap-2"}>
+            <span className={"absolute left-5 top-5 z-10 flex flex-row gap-2"}>
                 {
                     productCard.discountPercent !== 0 &&
-                    <div className={"px-3 py-2 rounded-lg bg-green-500"}>
+                    <span className={"px-3 py-2 rounded-lg bg-green-500"}>
                         <Text
-                            text={`Скидка ${productCard.discountPercent} %`}
                             className={"uppercase sm:text-[12px] text-[10px] font-medium text-white"}
+                            text={`Скидка ${productCard.discountPercent} %`}
                         />
-                    </div>
+                    </span>
                 }
                 {
                     !productCard.inStock &&
-                    <div className={"px-3 py-2 rounded-lg bg-gray-100"}>
+                    <span className={"px-3 py-2 rounded-lg bg-gray-100"}>
                         <Text
                             className={"uppercase sm:text-[12px] text-[10px] font-medium text-text-gray"}
                             text={"Нет в наличии"}
                         />
-                    </div>
+                    </span>
                 }
-            </div>
-
-        </div>
+            </span>
+        </article>
     )
 }
 

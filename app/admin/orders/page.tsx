@@ -60,7 +60,7 @@ const AdminPanelOrderPage = () => {
                 }
                 rightContent={
                     <MultiselectButton
-                        size={"sm"} className={"w-[500px]"}
+                        size={"sm"} className={"w-[860px]"}
                         activeElement={context.multiselectButton.activeItem}
                         selectElement={context.multiselectButton.setActiveItem}
                         elements={context.multiselectButton.multiselectData}

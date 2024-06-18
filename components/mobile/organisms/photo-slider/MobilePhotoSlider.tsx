@@ -40,12 +40,12 @@ export const MobilePhotoSliderWrapper = (props: MobilePhotoSliderWrapperProps) =
         ),
         customPaging: (i: number) => {
             const stepColor = props.activeIndex === i ? "bg-link-blue" : "bg-border-gray"
-            return <div className={cn("mt-3 w-10 h-[3px]", stepColor)}/>
+            return <span className={cn("mt-3 w-10 h-[3px]", stepColor)}/>
         }
     };
 
     return (
-        <div className={cn("sm:hidden w-full overflow-hidden relative -mt-7 mb-7", props.className)}>
+        <section className={cn("sm:hidden w-full overflow-hidden relative -mt-7 mb-7", props.className)}>
             {props.showQuantity ? (
                 <Chip className={'absolute top-5 right-5 bg-link-blue z-30'}>
                     <Text
@@ -57,7 +57,7 @@ export const MobilePhotoSliderWrapper = (props: MobilePhotoSliderWrapperProps) =
             <Slider {...settings} className={"w-full"}>
                 {props.children}
             </Slider>
-        </div>
+        </section>
     );
 
 }

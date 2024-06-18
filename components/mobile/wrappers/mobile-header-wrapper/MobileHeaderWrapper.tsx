@@ -6,18 +6,15 @@ import Link from "next/link";
 
 const MobileHeaderWrapper = ({canSlide = true, ...props}: HeaderWrapperProps) => (
     <section className={cn("w-full flex flex-col gap-5 sm:hidden", props.classNames?.mainWrapper)}>
-        <div className={"px-5 w-full flex flex-row items-baseline justify-between"}>
-            {props.header && <Text
-                text={props.header}
-                className={"text-[20px] font-semibold"}
-            />}
-            {props.textLink && <Link href={props.textLink.link as string}>
-                <Text
-                    className={"text-[14px] text-link-blue pointer"}
-                    text={props.textLink.text}
-                />
+        <span className={"px-5 w-full flex flex-row items-baseline justify-between"}>
+            <h2 className={"text-[20px] font-semibold"}>{props.header}</h2>
+            {props.textLink && <Link
+                className={"text-[14px] text-link-blue pointer"}
+                href={props.textLink.link as string}
+            >
+                {props.textLink?.text}
             </Link>}
-        </div>
+        </span>
         {
             canSlide ? <section className={"sm:hidden flex w-full ml-5"}>
                 <MobileSliderWrapper>{props.children}</MobileSliderWrapper>

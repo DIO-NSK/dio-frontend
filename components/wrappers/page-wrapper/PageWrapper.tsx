@@ -6,9 +6,9 @@ type PageWrapperTypes = {
 
 const PageWrapper = ({children} : PageWrapperTypes) => {
     return (
-        <div className={"sm:mt-[30px] sm:px-[100px] flex flex-col gap-7 sm:gap-[60px]"}>
+        <main className={"sm:mt-[30px] sm:px-[100px] flex flex-col gap-7 sm:gap-[60px]"}>
             {children}
-        </div>
+        </main>
     )
 }
 

@@ -1,46 +1,34 @@
-import WaterCoolerImage from "@/public/images/DIO_Water_Cooler.png"
-
-import Image from "next/image";
 import {HeaderDescription} from "@/types/dto/text";
 import {waterCoolerBlockData} from "@/data/waterCoolerBlockData";
-import Text from "@/components/atoms/text/text-base/Text";
 
-const DescriptionColumn = ({header, description, top, left, right}: {
+type DescriptionColumnProps = {
     description: string,
     top: number,
-    left ?: number,
-    right ?: number
-} & HeaderDescription) => {
-    return (
-        <div
-            style={{top: top, left: left, right : right}}
-            className={"absolute w-[350px] flex flex-col gap-[15px]"}
-        >
-            <Text text={header} className={"text-[22px] font-semibold"}/>
-            <Text text={description} className={"text-[18px]"}/>
-        </div>
-    )
-}
+    left?: number,
+    right?: number
+} & HeaderDescription
 
-const WaterCoolerBlock = () => {
+const DescriptionColumn = ({header, description, top, left, right}: DescriptionColumnProps) => (
+    <div
+        className={"absolute w-[350px] flex flex-col gap-[15px]"}
+        style={{top: top, left: left, right: right}}
+    >
+        <h3 className={"text-[22px] font-semibold"}>{header}</h3>
+        <p className={"text-[18px]"}>{description}</p>
+    </div>
+)
 
-    return (
-        <div className={"hidden relative w-full sm:flex flex-col items-center"}>
-
-            {waterCoolerBlockData.map((item, index) => {
-                return <WaterCoolerBlock.DescrCol {...item} description={item.descr} key={index}/>
-            })}
-
-            <img
-                src={'https://storage.yandexcloud.net/dio-static-images/DIO_Water_Cooler.png'}
-                className={"-ml-10 w-[600px] h-[700px] object-scale-down"}
-                alt={'Изображение кулера'}
-            />
-
-        </div>
-    )
-}
-
-WaterCoolerBlock.DescrCol = DescriptionColumn
+const WaterCoolerBlock = () => (
+    <section className={"hidden relative w-full sm:flex flex-col items-center"}>
+        {waterCoolerBlockData.map((item, index) => {
+            return <DescriptionColumn {...item} description={item.descr} key={index}/>
+        })}
+        <img
+            src={'https://storage.yandexcloud.net/dio-static-images/DIO_Water_Cooler.png'}
+            className={"-ml-10 w-[600px] h-[700px] object-scale-down"}
+            alt={'Изображение кулера'}
+        />
+    </section>
+)
 
 export default WaterCoolerBlock

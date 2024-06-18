@@ -13,8 +13,6 @@ import {useUnit} from "effector-react";
 import {$orderDetails, getOrderDetailsEvent} from "@/app/admin/orders/[orderId]/model";
 import dayjs from "dayjs";
 import StickyCardWrapper from "@/components/wrappers/sticky-card-wrapper/StickyCardWrapper";
-import {convertStatusToText} from "@/utlis/convertStatusToText";
-import {OrderStatus} from "@/types/dto/user/order/ResponseProfileOrder";
 import {convertPhoneNumber} from "@/utlis/convertPhoneNumber";
 
 const rowCV = [
@@ -158,10 +156,11 @@ const OrderAddressBlock = () => {
 const OrderStickyCard = () => {
 
     const orderDetails = useUnit($orderDetails)
+    const deliveryTime = `${orderDetails!!.deliveryTime.split(' ')[1]}-${orderDetails!!.deliveryTime.split(' ')[3]}`
 
     const infoData: HeaderDescription[] = [
         {header: "Дата доставки", description: dayjs(orderDetails?.deliveryDate).format('DD.MM.YYYY')},
-        {header: "Время доставки", description: dayjs(orderDetails?.deliveryTime).format('HH:mm')},
+        {header: "Время доставки", description: deliveryTime},
     ]
 
     return (

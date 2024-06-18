@@ -14,60 +14,52 @@ import {
 
 const ICON_SIZE = 28
 
-const AdvantagesBlock = () => {
+const advantagesCardData: { icon: React.ReactNode, header: string }[] = [
+    {
+        icon: <TimerResetIcon size={ICON_SIZE}/>,
+        header: "Многолетний опыт работы"
+    }, {
+        icon: <DropletsIcon size={ICON_SIZE}/>,
+        header: "Улучшение технологий"
+    }, {
+        icon: <TruckIcon size={ICON_SIZE}/>,
+        header: "Доставка без выходных дней"
+    }, {
+        icon: <CalendarCheckIcon size={ICON_SIZE}/>,
+        header: "Возможность доставки в день заказа"
+    }, {
+        icon: <SearchCheckIcon size={ICON_SIZE}/>,
+        header: "Широкий ассортимент товаров и оборудования"
+    }, {
+        icon: <HeadsetIcon size={ICON_SIZE}/>,
+        header: "Собственный сервис центр"
+    }, {
+        icon: <UsersIcon size={ICON_SIZE}/>,
+        header: "Ответственные сотрудники"
+    }, {
+        icon: <HandshakeIcon size={ICON_SIZE}/>,
+        header: "Демократичные цены"
+    },
+]
 
-    const advantagesCardData: { icon: React.ReactNode, header: string }[] = [
-        {
-            icon: <TimerResetIcon size={ICON_SIZE}/>,
-            header: "Многолетний опыт работы"
-        }, {
-            icon: <DropletsIcon size={ICON_SIZE}/>,
-            header: "Улучшение технологий"
-        }, {
-            icon: <TruckIcon size={ICON_SIZE}/>,
-            header: "Доставка без выходных дней"
-        }, {
-            icon: <CalendarCheckIcon size={ICON_SIZE}/>,
-            header: "Возможность доставки в день заказа"
-        }, {
-            icon: <SearchCheckIcon size={ICON_SIZE}/>,
-            header: "Широкий ассортимент товаров и оборудования"
-        }, {
-            icon: <HeadsetIcon size={ICON_SIZE}/>,
-            header: "Собственный сервис центр"
-        }, {
-            icon: <UsersIcon size={ICON_SIZE}/>,
-            header: "Ответственные сотрудники"
-        }, {
-            icon: <HandshakeIcon size={ICON_SIZE}/>,
-            header: "Демократичные цены"
-        },
-    ]
-
-    return (
-        <React.Fragment>
-            <section className={"w-full hidden sm:flex"}>
-                <HeaderGroup header={"Наши преимущества"}>
-                    {
-                        advantagesCardData.map((card) => {
-                            return <AdvantageCard card={card}/>
-                        })
-                    }
-                </HeaderGroup>
-            </section>
-
-            <MobileHeaderWrapper
-                header={"Наши преимущества"}
-                classNames={{contentWrapper: "w-full pr-5 grid grid-cols-2 gap-3 mb-7"}}
-                canSlide={false}
-            >
+const AdvantagesBlock = () => (
+    <React.Fragment>
+        <section className={"w-full hidden sm:flex"}>
+            <HeaderGroup header={"Наши преимущества"}>
                 {advantagesCardData.map((card) => {
                     return <AdvantageCard card={card}/>
                 })}
-            </MobileHeaderWrapper>
-        </React.Fragment>
-    );
-
-};
+            </HeaderGroup>
+        </section>
+        <MobileHeaderWrapper
+            classNames={{contentWrapper: "w-full pr-5 grid grid-cols-2 gap-3 mb-7"}}
+            header={"Наши преимущества"} canSlide={false}
+        >
+            {advantagesCardData.map((card) => {
+                return <AdvantageCard card={card}/>
+            })}
+        </MobileHeaderWrapper>
+    </React.Fragment>
+);
 
 export default AdvantagesBlock;

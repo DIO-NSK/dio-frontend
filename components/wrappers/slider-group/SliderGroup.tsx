@@ -23,7 +23,7 @@ type SliderGroupProps = {
     desktopSlidesPerView?: number,
     mobileSlidesPerView?: number
     href?: string,
-    headerSize ?: string
+    headerSize?: string
 } & HeaderWrapperType
 
 const SliderGroup = (
@@ -53,20 +53,20 @@ const SliderGroup = (
 
     return (
         <section id={props.id} className={cn("sm:pl-0 w-full flex flex-col gap-5 sm:gap-7", props.className)}>
-            <div className={"px-5 sm:px-0 col-span-full flex flex-row justify-between items-center"}>
-                <div className={"flex flex-row items-baseline gap-5"}>
-                    {props.header && <Text
-                        className={cn("text-[20px] font-bold leading-none", headerCV)}
-                        text={props.header}
-                    />}
+            <span className={"px-5 sm:px-0 col-span-full flex flex-row justify-between items-center"}>
+                <span className={"flex flex-row items-baseline gap-5"}>
+                    {props.header &&
+                        <h2 className={cn("text-[20px] font-bold leading-none", headerCV)}>
+                            {props.header}
+                        </h2>}
                     {props.href && <Link href={props.href}>
                         <Text
                             className={"hidden sm:flex sm:text-[18px] text-link-blue"}
                             text={"Перейти"}
                         />
                     </Link>}
-                </div>
-                <div className={"hidden sm:flex flex-row items-center gap-[20px]"}>
+                </span>
+                <span className={"hidden sm:flex flex-row items-center gap-[20px]"}>
                     <SlideButton
                         disabled={isBegin}
                         onClick={() => swiperRef.current?.slidePrev()}
@@ -77,8 +77,8 @@ const SliderGroup = (
                         onClick={() => swiperRef.current?.slideNext()}
                         side={Side["RIGHT"]}
                     />
-                </div>
-            </div>
+                </span>
+            </span>
             <section className={"hidden sm:flex w-full"}>
                 <Swiper
                     grabCursor={true}

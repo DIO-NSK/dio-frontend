@@ -2,8 +2,8 @@ import React from 'react';
 import {Snackbar as JoySnackbar} from "@mui/joy"
 import Text from "@/components/atoms/text/text-base/Text";
 import {cn} from "@/utlis/cn";
+import {FiX} from "react-icons/fi";
 import styled from "styled-components";
-import {FiArrowRight, FiX} from "react-icons/fi";
 
 type SnackbarProps = {
     success: boolean,

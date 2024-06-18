@@ -14,18 +14,10 @@ export const WaveHeader = ({header} : {header : string}) => {
     const imageCN = "w-[70px] sm:w-[160px] h-[10px] sm:h-[18px] object-fill"
 
     return (
-        <div className={"w-full flex flex-row justify-between sm:gap-[40px] sm:justify-center items-center"}>
-            <img
-                className={imageCN}
-                src={WaveImage.src}
-                alt={'/'}
-            />
-            <Text text={header} className={cn(textCV)}/>
-            <img
-                className={imageCN}
-                src={WaveImage.src}
-                alt={'/'}
-            />
-        </div>
+        <header className={"w-full flex flex-row justify-between sm:gap-[40px] sm:justify-center items-center"}>
+            <img className={imageCN} src={WaveImage.src} alt={'Изображение волны'}/>
+            <h1 className={cn(textCV)}>{header}</h1>
+            <img className={imageCN} src={WaveImage.src} alt={'/'}/>
+        </header>
     )
 }

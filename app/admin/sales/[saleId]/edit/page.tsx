@@ -18,6 +18,7 @@ import {$promoDetails, editSaleFx, getPromoEvent} from "@/app/admin/sales/[saleI
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {CreateSaleRequest} from "@/app/admin/sales/new/model";
 import {useRouter} from "next/navigation";
+import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 
 const inputRowCN = 'w-full px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray'
 
@@ -99,7 +100,7 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
     const [editFailure, setEditFailure] = useState<string>('')
 
     const {
-        handleSubmit,
+        handleSubmit, watch,
         reset, formState: {errors}
     } = useFormContext<CreateSaleData>()
 
@@ -120,7 +121,7 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
             })),
             ruleList: promoDetails?.ruleList.map(rule => ({rule: rule}))
         } as DefaultValues<CreateSaleData>)
-    }, [promoDetails])
+    }, [promoDetails, promoDetails?.products])
 
     return (
         <React.Fragment>
@@ -152,6 +153,7 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
             <AdminPanelSearchbarBlock
                 header={"Товары, участвующие в акции"}
                 description={"Данные товары включены в акцию по умолчанию"}
+                defaultProducts={promoDetails?.products as any}
             />
             <AdminPanelSaleRuleBlock/>
             <AdminPanelPhotoBlock

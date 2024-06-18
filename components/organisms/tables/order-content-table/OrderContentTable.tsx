@@ -94,10 +94,14 @@ const OrderRow = (props: OrderRowProps) => {
             </div>
 
             <Text text={dayjs(order.deliveryDate).format("DD.MM.YYYY")} className={"col-span-1 text-[15px]"}/>
-            <Text text={String(props.tableRow.id)} className={"col-span-1 text-[15px]"}/>
-            <Text text={(order as any)?.orderStatus ?? order.status} className={"col-span-1 text-[15px]"}/>
+            <Text text={String(props.tableRow.id)} className={"col-span-1"}/>
+            <div className={'col-span-1 text-[15px] flex flex-col gap-3'}>
+                <Text text={(order as any)?.orderStatus ?? order.status} className={'text-[14px] border-b-2 border-gray-200 pb-3'}/>
+                <Text text={order?.paymentStatus} className={'text-[14px]'}/>
+            </div>
+
             <Text text={(order as any)?.address ?? order.fullName} className={"col-span-1 text-[15px]"}/>
-            <Text text={`${totalPrice} ₽`} className={"col-span-1 text-[15px]"}/>
+            <Text text={`${totalPrice.toFixed(2)} ₽`} className={"col-span-1 text-[15px]"}/>
 
             <div className={"col-span-2 flex flex-col gap-3"}>
                 {order.products?.map((product, key) =>

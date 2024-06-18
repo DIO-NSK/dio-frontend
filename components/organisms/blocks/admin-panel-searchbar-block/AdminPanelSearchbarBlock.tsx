@@ -11,10 +11,12 @@ import {useUnit} from "effector-react";
 import {searchCatalogByNameEvent} from "@/components/organisms/bars/searchbar/model";
 import {useFormContext} from "react-hook-form";
 import {CreateSaleData} from "@/schemas/admin/CreateSaleSchema";
+import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 type AdminPanelSearchbarBlockProps = {
     header: string,
-    description: string
+    description: string,
+    defaultProducts ?: ResponseCartItem[]
 }
 
 type ProductIdRow = {
@@ -24,12 +26,14 @@ type ProductIdRow = {
 
 const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
 
-    const {getValues, setValue, watch} = useFormContext<CreateSaleData>()
-
+    const {setValue} = useFormContext<CreateSaleData>()
     const getCatalogueByName = useUnit(searchCatalogByNameEvent)
 
-    const [selectedNames, updateNames] = useState<string[]>([])
-    const [productRows, updateProductRows] = useState<ProductIdRow[]>([])
+    const defaultSelectedNames = props.defaultProducts?.map(product => product.name) ?? []
+    const defaultProductIdRows = props.defaultProducts?.map(product => ({product : {...product, id : product.productId} as any, quantity : String(product.quantity)})) as ProductIdRow[] ?? []
+
+    const [selectedNames, updateNames] = useState<string[]>(defaultSelectedNames);
+    const [productRows, updateProductRows] = useState<ProductIdRow[]>(defaultProductIdRows);
 
     const updateName = (index: number, newName: string) => {
         getCatalogueByName(newName)
@@ -57,8 +61,15 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
 
     const handleRemoveProductRow = (index: number) => {
         const filterFn = (_: any, idx: number) => idx !== index
-        updateProductRows(productRows => productRows.filter(filterFn))
+        const filteredProductRows = productRows.filter(filterFn);
+
+        updateProductRows(filteredProductRows);
         updateNames(names => names.filter(filterFn))
+
+        setValue(`productIdList`, filteredProductRows.map(row => ({
+            productId : row.product!!.id.toString(),
+            quantity : row.quantity
+        })));
     }
 
     useEffect(() => {
