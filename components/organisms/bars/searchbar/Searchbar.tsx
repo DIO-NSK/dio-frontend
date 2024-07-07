@@ -67,8 +67,8 @@ const Searchbar = () => {
 
     return (
         <React.Fragment>
-            {createPortal(<CatalogPopup/>, document.body)}
-            {createPortal(<ActivePopup/>, document.body)}
+            {typeof window !== "undefined" ? createPortal(<CatalogPopup/>, document.body) : null}
+            {typeof window !== "undefined" ? createPortal(<ActivePopup/>, document.body) : null}
             <div className={cn(wrapperCV)}>
                 <img
                     src={DIOLogo.src} alt={'Логотип DIO'} className={"size-[50px] aspect-square pointer"}
