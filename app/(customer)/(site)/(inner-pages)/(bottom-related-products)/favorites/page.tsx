@@ -88,6 +88,7 @@ const FavoritesPage = () => {
             }
 
             <ShoppingCartTotalPriceCard
+                promos={[]}
                 products={favourites.products}
                 onClick={handleButtonClick}
                 buttonText={"Добавить все в корзину"}

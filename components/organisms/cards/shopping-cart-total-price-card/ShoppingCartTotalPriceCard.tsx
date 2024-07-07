@@ -28,7 +28,7 @@ const ShoppingCartTotalPriceCard = ({products, promos, buttonText, onClick}: {
     }, 0)
 
     const totalPromosPrice = promos.reduce((acc, promo) => {
-        return "quantity" in promo ? acc + promo.price * promo.quantity : acc + promo.price
+        return "quantity" in promo ? acc + promo.price * promo.quantity : acc + (promo as any).price
     }, 0)
 
     const totalProductsPriceWithDiscount = products.reduce((acc, item) => {
