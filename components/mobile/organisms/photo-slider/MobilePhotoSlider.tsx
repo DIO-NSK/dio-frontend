@@ -72,12 +72,12 @@ const MobilePhotoSlider = (props: MobilePhotoSliderProps) => {
                     banner.link ? <Link href={banner.link}>
                         <img
                             src={banner.image} alt={'Фотография продукта'}
-                            className={"w-full h-[200px] object-cover"}
+                            className={"w-full h-[180px] object-cover"}
                             key={key}
                         />
                     </Link> : <img
                         src={banner.image} alt={'Фотография продукта'}
-                        className={"w-full h-[200px] object-cover"}
+                        className={"w-full h-[180px] object-cover"}
                         key={key}
                     />
                 )

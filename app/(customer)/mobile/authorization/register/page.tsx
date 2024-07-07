@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import {FieldValues, FormProvider, useForm} from "react-hook-form";
+import {FormProvider, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -20,6 +20,8 @@ import {
 import {RegisterUserData, RegisterUserSchema} from "@/schemas/customer/authorization/RegisterUserSchema";
 import Text from "@/components/atoms/text/text-base/Text";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import ControlledCaptcha from "@/components/atoms/inputs/controlled-captcha/ControlledCaptcha";
+import {useSmartCaptcha} from "@/utlis/hooks/useSmartCaptcha";
 
 const formData: InputPrefilledData[] = [
     {
@@ -50,11 +52,15 @@ const MobileRegisterPage = () => {
         mode: "onSubmit"
     })
 
-    const {handleSubmit, formState: {isSubmitting}} = methods
+    const {formState: {isSubmitting}, trigger, getValues} = methods
+
+    const [captchaVisible, toggleCaptchaVisible, handleValidateForm, key, resetKey] = useSmartCaptcha<RegisterUserData>(['phoneNumber', 'fullName', 'password'], trigger);
 
     const [error, setError] = useState<string>('')
 
-    const onSubmit = (formData: FieldValues) => {
+    const onSubmit = () => {
+        const formData = getValues();
+
         registerUser(formData as RegisterUserData)
             .then(_ => {
                 setUserPhoneNumber(formData.phoneNumber)
@@ -87,7 +93,10 @@ const MobileRegisterPage = () => {
                         <Button
                             disabled={isSubmitting}
                             classNames={{button: "w-full"}}
-                            onClick={handleSubmit(onSubmit)}
+                            onClick={async () => {
+                                resetKey();
+                                await handleValidateForm();
+                            }}
                             text={"Подтвердить номер телефона"}
                         />
                         <TextButton
@@ -96,6 +105,12 @@ const MobileRegisterPage = () => {
                             text={"Регистрация юридического лица"}
                         />
                     </section>
+                    <ControlledCaptcha
+                        key={key}
+                        visible={captchaVisible}
+                        onChallengeHidden={toggleCaptchaVisible}
+                        onSuccess={onSubmit}
+                    />
                 </Form>
             </FormProvider>
         </InnerPageWrapper>

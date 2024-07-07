@@ -20,7 +20,8 @@ const createPromotion = async (promotion: RequestPromotion) => {
     const formData = new FormData()
     formData.append("image", promotion.image)
 
-    const id = promotion.link.slice(-1)
+    const lastSlashIndex = promotion.link.lastIndexOf('/') + 1;
+    const id = promotion.link.slice(lastSlashIndex);
 
     return api.post("/admin/banner/promotion", formData, {
         params: {promotionId: id},
@@ -35,7 +36,9 @@ const editPromotion = async (promotion: RequestPromotion) => {
     const formData = new FormData()
     formData.append("image", promotion.image)
 
-    const id = promotion.link.slice(-1)
+    const lastSlashIndex = promotion.link.lastIndexOf('/') + 1;
+    const id = promotion.link.slice(lastSlashIndex);
+
     const data = {promoId: id, promotionId: promotion.id}
     formData.append("promotionDto", new Blob([JSON.stringify(data)], {type: "application/json"}))
 
@@ -86,6 +89,7 @@ $promotionToEdit
 $promotions
     .on(getAllPromotionsFx.doneData, (_, promos) => promos)
     .on(changePromotionsOrderEvent, (promos, event) => handleDragEnd(event, promos))
+    .watch(console.log)
 
 sample({
     clock: getAllPromotionsEvent,

@@ -5,7 +5,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import {PopupProps} from "@/types/props/Popup";
-import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
+import {Form, FormProvider, useForm} from "react-hook-form";
 import {LoginByPhoneData, LoginByPhoneSchema} from "@/schemas/customer/authorization/LoginByPhoneSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
@@ -15,6 +15,8 @@ import {
     setPasswordPhoneNumberEvent
 } from "@/components/organisms/popups/authorization/forgot-password-popup/model";
 import {useStore} from "@/store/Store";
+import {useSmartCaptcha} from "@/utlis/hooks/useSmartCaptcha";
+import ControlledCaptcha from "@/components/atoms/inputs/controlled-captcha/ControlledCaptcha";
 
 const message = 'Введите номер телефона, привязанный к вашему аккаунту. Вам придет SMS с кодом для подтверждения'
 
@@ -28,14 +30,19 @@ const ForgotPasswordPopup = (props: PopupProps) => {
     const setPasswordPhoneNumber = useUnit(setPasswordPhoneNumberEvent)
     const switchPopupState = useStore(state => state.switchPopupState)
     const sendConfirmationCode = useUnit(sendConfirmationCodePasswordFx)
-    const {handleSubmit, formState: {isSubmitting}} = methods
+
+    const {formState: {isSubmitting}, trigger, getValues} = methods
+    const [captchaVisible, toggleCaptchaVisible, handleValidateForm, key, resetKey] = useSmartCaptcha<LoginByPhoneData>(['phoneNumber'], trigger);
 
     const [error, setError] = useState<string>('')
 
-    const onSubmit = (fieldValues: FieldValues) => {
-        sendConfirmationCode(fieldValues as LoginByPhoneData)
+    const onSubmit = () => {
+        const {phoneNumber, captchaToken} : LoginByPhoneData = getValues();
+        const convertedPhoneNumber = phoneNumber.replace(/[\s()-]/g, '');
+
+        sendConfirmationCode({phoneNumber : convertedPhoneNumber, captchaToken})
             .then(_ => {
-                setPasswordPhoneNumber((fieldValues as LoginByPhoneData).phoneNumber)
+                setPasswordPhoneNumber(convertedPhoneNumber)
                 switchPopupState('changePassword')
             })
             .catch(message => setError(message))
@@ -66,7 +73,16 @@ const ForgotPasswordPopup = (props: PopupProps) => {
                     {error.length !== 0 && <Text className={"text-red-500"} text={error}/>}
                     <Button
                         text={isSubmitting ? "Отправка.." : "Отправить код"}
-                        onClick={handleSubmit(onSubmit)}
+                        onClick={async () => {
+                            resetKey();
+                            await handleValidateForm();
+                        }}
+                    />
+                    <ControlledCaptcha
+                        key={key}
+                        visible={captchaVisible}
+                        onChallengeHidden={toggleCaptchaVisible}
+                        onSuccess={onSubmit}
                     />
                 </Form>
             </PopupWrapper>

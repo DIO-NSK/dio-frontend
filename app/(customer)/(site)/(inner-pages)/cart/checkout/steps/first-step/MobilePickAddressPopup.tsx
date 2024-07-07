@@ -11,7 +11,6 @@ import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import {PopupProps} from "@/types/props/Popup";
-import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import {FiX} from "react-icons/fi";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 

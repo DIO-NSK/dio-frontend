@@ -6,7 +6,7 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {FiX} from "react-icons/fi";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
-import {FieldValues, FormProvider, useForm} from "react-hook-form";
+import {FormProvider, useForm} from "react-hook-form";
 import {LoginByPhoneData, LoginByPhoneSchema} from "@/schemas/customer/authorization/LoginByPhoneSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useUnit} from "effector-react";
@@ -16,6 +16,8 @@ import {
 } from "@/components/organisms/popups/authorization/forgot-password-popup/model";
 import {useRouter} from "next/navigation";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import {useSmartCaptcha} from "@/utlis/hooks/useSmartCaptcha";
+import ControlledCaptcha from "@/components/atoms/inputs/controlled-captcha/ControlledCaptcha";
 
 const message =
     `Вам на телефон придет СМС-уведомление.
@@ -32,14 +34,19 @@ const MobileForgotPasswordPage = () => {
 
     const setPasswordPhoneNumber = useUnit(setPasswordPhoneNumberEvent)
     const sendConfirmationCode = useUnit(sendConfirmationCodePasswordFx)
-    const {handleSubmit, formState: {isSubmitting}} = methods
+    const {formState: {isSubmitting}, getValues, trigger} = methods
+
+    const [captchaVisible, toggleCaptchaVisible, handleValidateForm, key, resetKey] = useSmartCaptcha<LoginByPhoneData>(['phoneNumber'], trigger);
 
     const [error, setError] = useState<string>('')
 
-    const onSubmit = (fieldValues: FieldValues) => {
-        sendConfirmationCode(fieldValues as LoginByPhoneData)
+    const onSubmit = () => {
+        const {phoneNumber, captchaToken} : LoginByPhoneData = getValues();
+        const convertedPhoneNumber = phoneNumber.replace(/[\s()-]/g, '');
+
+        sendConfirmationCode({phoneNumber : convertedPhoneNumber, captchaToken})
             .then(_ => {
-                setPasswordPhoneNumber((fieldValues as LoginByPhoneData).phoneNumber)
+                setPasswordPhoneNumber(convertedPhoneNumber)
                 router.push('/mobile/authorization/confirm-phone/forgot-password')
             })
             .catch(message => setError(message))
@@ -72,7 +79,16 @@ const MobileForgotPasswordPage = () => {
                 </div>
                 <Button
                     text={isSubmitting ? "Отправка.." : "Отправить код"}
-                    onClick={handleSubmit(onSubmit)}
+                    onClick={async () => {
+                        resetKey();
+                        await handleValidateForm();
+                    }}
+                />
+                <ControlledCaptcha
+                    key={key}
+                    visible={captchaVisible}
+                    onChallengeHidden={toggleCaptchaVisible}
+                    onSuccess={onSubmit}
                 />
             </FormProvider>
         </InnerPageWrapper>

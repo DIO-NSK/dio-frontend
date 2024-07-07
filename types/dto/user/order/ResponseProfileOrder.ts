@@ -12,6 +12,7 @@ export type ResponseProfileOrder = {
 export type ProfileOrderItem = {
     productId: number,
     productItemId : number,
+    promoItemId : number,
     name: string,
     price: number,
     description: string,

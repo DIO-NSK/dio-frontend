@@ -64,6 +64,7 @@ const ShoppingCartPage = () => {
                     </EmptyPage>)
             }
             <ShoppingCartTotalPriceCard
+                promos={cart.promos}
                 products={cart.products}
                 buttonText={"Перейти к оформлению"}
                 onClick={handleButtonClick}

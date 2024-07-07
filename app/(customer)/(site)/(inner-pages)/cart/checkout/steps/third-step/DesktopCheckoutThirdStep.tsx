@@ -22,6 +22,7 @@ const convertFormDataToRequest = (data: CreateOrderData): CreateOrderRequest => 
     return ({
         orderId: data.orderId,
         pickedProducts: data.pickedProducts,
+        pickedPromos: data.pickedPromos,
         paymentMethod: data.paymentMethod.value,
         deliveryTime: data.deliveryTime.name,
         deliveryDate: data.deliveryDate.value,

@@ -20,6 +20,7 @@ const SearchbarIconButtonList = () => {
 
     const productsInCart = cart?.products.reduce((acc, item) => acc + item.quantity, 0)
     const promosInCart = cart?.promos.reduce((acc, item) => acc + item.quantity, 0)
+    const itemsInCart = (promosInCart ?? 0) + (productsInCart ?? 0);
 
     const buttonListData = [
         {
@@ -43,12 +44,10 @@ const SearchbarIconButtonList = () => {
             name: "Корзина",
             icon: <div className={"relative"}>
                 <FiShoppingCart size={"20px"}/>
-                {
-                    cart && cart.products.length !== 0 && <Badge
-                        number={productsInCart!! + promosInCart!!}
-                        className={"absolute bottom-2 left-4 z-10"}
-                    />
-                }
+                {cart && itemsInCart !== 0 ? <Badge
+                    className={"absolute bottom-2 left-4 z-10"}
+                    number={itemsInCart}
+                /> : null}
             </div>,
             onClick: () => router.push("/cart")
         },

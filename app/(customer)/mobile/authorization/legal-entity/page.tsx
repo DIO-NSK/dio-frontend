@@ -1,16 +1,11 @@
 "use client"
 
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
-import {
-    LegalEntityData,
-    LegalEntitySchema
-} from "@/schemas/customer/authorization/LegalEntitySchema";
+import {LegalEntityData, LegalEntitySchema} from "@/schemas/customer/authorization/LegalEntitySchema";
 import {useNavigation} from "@/utlis/hooks/useNavigation";
-import {FieldName, FieldValues, FormProvider, useForm} from "react-hook-form";
+import {FieldName, FormProvider, Path, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
-import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiX} from "react-icons/fi";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
@@ -23,19 +18,21 @@ import {
     registerLegalEntityFx,
     submitFirstStepEvent
 } from "@/app/(customer)/(site)/(inner-pages)/register/legal-entity/model";
-import {useToggle} from "@/utlis/hooks/useToggle";
+import ControlledCaptcha from "@/components/atoms/inputs/controlled-captcha/ControlledCaptcha";
+import {useSmartCaptcha} from "@/utlis/hooks/useSmartCaptcha";
 
 const MobileLegalEntityPage = () => {
-
-    const navigation = useNavigation()
-
-    const [submitFirstStepData, registerLegalEntity] = useUnit([submitFirstStepEvent, registerLegalEntityFx])
-    const confirmationPopupToggle = useToggle()
 
     const methods = useForm<LegalEntityData>({
         resolver: zodResolver(LegalEntitySchema),
         mode: "onSubmit"
     })
+
+    const navigation = useNavigation()
+
+    const schemaKeys = Object.keys(LegalEntitySchema).filter(key => key !== 'captchaToken') as Path<LegalEntityData>[];
+    const [submitFirstStepData, registerLegalEntity] = useUnit([submitFirstStepEvent, registerLegalEntityFx])
+    const [captchaVisible, toggleCaptchaVisible, handleValidateForm, key, resetKey] = useSmartCaptcha<LegalEntityData>(schemaKeys, methods.trigger, methods.formState.errors);
 
     const setErrorFromAPI = (message: string) => {
         const fieldErrors = message.split('\n')
@@ -47,9 +44,11 @@ const MobileLegalEntityPage = () => {
         })
     }
 
-    const onSubmit = (fieldValues: FieldValues) => {
-        submitFirstStepData(fieldValues as Partial<LegalEntityData>)
-        registerLegalEntity(fieldValues as LegalEntityData)
+    const onSubmit = () => {
+        const formData : LegalEntityData = methods.getValues();
+
+        submitFirstStepData(formData as Partial<LegalEntityData>)
+        registerLegalEntity(formData as LegalEntityData)
             .then(_ => navigation.pushDeep('/confirm'))
             .catch(error => setErrorFromAPI(error.message))
     }
@@ -78,8 +77,17 @@ const MobileLegalEntityPage = () => {
                     </BackgroundBlockWrapper>
                     <Button
                         classNames={{button: "w-full"}}
-                        onClick={methods.handleSubmit(onSubmit)}
+                        onClick={async () => {
+                            resetKey();
+                            await handleValidateForm();
+                        }}
                         text={"Зарегистироваться"}
+                    />
+                    <ControlledCaptcha
+                        key={key}
+                        visible={captchaVisible}
+                        onChallengeHidden={toggleCaptchaVisible}
+                        onSuccess={onSubmit}
                     />
                 </Form>
             </FormProvider>

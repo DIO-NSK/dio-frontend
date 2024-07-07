@@ -21,21 +21,18 @@ import {useUnit} from "effector-react";
 import Text from "@/components/atoms/text/text-base/Text";
 
 const LoginPopup = () => {
-
     const loginContext = useLoginPopup()
     const authContext = useAuthorizationPopup()
-
-    const [loginUserByCredentials, popupDidMount, loginError]
-        = useUnit([loginUserByCredentialsFx, loginPopupDidMountEvent, $loginError])
+    const [loginUserByCredentials, popupDidMount, loginError] = useUnit([loginUserByCredentialsFx, loginPopupDidMountEvent, $loginError])
 
     const methods = useForm<LoginUserData>({
         resolver: zodResolver(LoginUserSchema),
         mode: "onSubmit"
     })
 
-    const {handleSubmit, formState: {isSubmitting}} = methods
+    const {handleSubmit, formState: {isSubmitting}} = methods;
 
-    const onSubmit = (formData: FieldValues) => {
+    const onSubmit = (formData : FieldValues) => {
         loginUserByCredentials(formData as LoginUserData)
             .then(_ => authContext.switchPopupState(undefined))
             .catch(e => e)
@@ -75,14 +72,14 @@ const LoginPopup = () => {
                         />}
                         <div className={"w-full flex flex-col gap-3"}>
                             <Button
-                                disabled={isSubmitting}
-                                onClick={handleSubmit(onSubmit)}
                                 text={isSubmitting ? "Отправка.." : "Войти"}
+                                onClick={handleSubmit(onSubmit)}
+                                disabled={isSubmitting}
                             />
                             <Button
-                                buttonType={"SECONDARY"}
-                                text={"Войти с помощью номера телефона"}
                                 onClick={loginContext.handleLoginByPhoneClick}
+                                text={"Войти с помощью номера телефона"}
+                                buttonType={"SECONDARY"}
                             />
                         </div>
                         <TextButton
@@ -94,7 +91,6 @@ const LoginPopup = () => {
             </PopupWrapper>
         </FormProvider>
     );
-
 };
 
 export default LoginPopup;

@@ -26,6 +26,7 @@ import {
 } from "@/components/organisms/bars/searchbar/model";
 import ConfirmationCodeByPhonePopup
     from "@/components/organisms/popups/authorization/confirmation-code-popup/by-phone/ConfirmationCodeByPhonePopup";
+import {createPortal} from "react-dom";
 
 const wrapperCV: ClassValue[] = [
     "hidden w-full px-[100px] py-4 bg-white sm:flex flex-row",
@@ -66,8 +67,8 @@ const Searchbar = () => {
 
     return (
         <React.Fragment>
-            <CatalogPopup/>
-            <ActivePopup/>
+            {createPortal(<CatalogPopup/>, document.body)}
+            {createPortal(<ActivePopup/>, document.body)}
             <div className={cn(wrapperCV)}>
                 <img
                     src={DIOLogo.src} alt={'Логотип DIO'} className={"size-[50px] aspect-square pointer"}

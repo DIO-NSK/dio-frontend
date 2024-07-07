@@ -10,5 +10,9 @@ export const getSales = async (): Promise<ResponseShortSale[]> => {
 export const getSaleById = async (saleId: number): Promise<SaleDetails> => {
     const query = `id=${saleId}`
     return fetch(`${BASE_URL}/catalogue/promo/detail?${query}`, {cache: 'no-store'})
-        .then(response => response.json())
+        .then(async response => {
+            const result = await response.json();
+            console.log('sale', result)
+            return result
+        })
 }

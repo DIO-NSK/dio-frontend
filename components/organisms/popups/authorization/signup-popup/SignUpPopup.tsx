@@ -3,7 +3,7 @@ import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import Button from "@/components/atoms/buttons/button/Button";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
-import {FieldValues, FormProvider, useForm} from "react-hook-form";
+import {FormProvider, useForm} from "react-hook-form";
 import {RegisterUserData, RegisterUserSchema} from "@/schemas/customer/authorization/RegisterUserSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
@@ -18,6 +18,8 @@ import {
 import Text from "@/components/atoms/text/text-base/Text";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 import {useRouter} from "next/navigation";
+import {useSmartCaptcha} from "@/utlis/hooks/useSmartCaptcha";
+import ControlledCaptcha from "@/components/atoms/inputs/controlled-captcha/ControlledCaptcha";
 
 const inputData: InputPrefilledData[] = [
     {
@@ -51,12 +53,14 @@ const SignUpPopup = () => {
         mode: "onSubmit"
     })
 
-    const {handleSubmit, formState: {isSubmitting}} = methods
+    const {formState: {isSubmitting}, trigger, getValues} = methods;
 
     const [error, setError] = useState<string>('')
+    const [captchaVisible, toggleCaptchaVisible, handleValidateForm, key, resetKey] = useSmartCaptcha<RegisterUserData>(['phoneNumber', 'fullName', 'password'], trigger);
 
-    const onSubmit = (formData: FieldValues) => {
-        registerUser(formData as RegisterUserData)
+    const onSubmit = () => {
+        const formData : RegisterUserData = getValues();
+        registerUser(formData)
             .then(_ => {
                 switchPopupState("confirmationCode")
                 setUserPhoneNumber(formData.phoneNumber)
@@ -94,13 +98,22 @@ const SignUpPopup = () => {
                             disabled={isSubmitting}
                             classNames={{button: "w-full"}}
                             text={"Подтвердить номер телефона"}
-                            onClick={handleSubmit(onSubmit)}
+                            onClick={async () => {
+                                resetKey();
+                                await handleValidateForm();
+                            }}
                         />
                         <TextButton
                             onClick={handleRegisterLegalEntity}
                             text={"Регистрация юридического лица"}
                         />
                     </div>
+                    <ControlledCaptcha
+                        key={key}
+                        visible={captchaVisible}
+                        onChallengeHidden={toggleCaptchaVisible}
+                        onSuccess={onSubmit}
+                    />
                 </Form>
             </PopupWrapper>
         </FormProvider>

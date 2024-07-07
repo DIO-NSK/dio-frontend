@@ -142,9 +142,14 @@ const DesktopCheckoutSecondStep = () => {
             ? orderToRepeat.items.map(i => i.productItemId)
             : cart?.products.map(i => i.productItemId)
 
+        const pickedPromos = orderToRepeat
+            ? orderToRepeat.items.map(i => i.promoItemId)
+            : cart?.promos.map(i => i.promoItemId)
+
         reset({
             ...formData,
             pickedProducts: pickedProducts,
+            pickedPromos: pickedPromos,
             orderId
         } as DefaultValues<CreateOrderData>)
 

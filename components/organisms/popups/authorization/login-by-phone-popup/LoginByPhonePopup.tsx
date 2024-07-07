@@ -6,40 +6,45 @@ import {useAuthorizationPopup} from "@/components/organisms/popups/authorization
 import {
     useLoginByPhonePopup
 } from "@/components/organisms/popups/authorization/login-by-phone-popup/LoginByPhonePopup.hooks";
-import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
+import {Form, FormProvider, useForm} from "react-hook-form";
 import {LoginByPhoneData, LoginByPhoneSchema} from "@/schemas/customer/authorization/LoginByPhoneSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import Text from "@/components/atoms/text/text-base/Text";
 import {useUnit} from "effector-react/effector-react.mjs";
 import {
-    $loginByPhoneError,
-    loginByPhoneFx, loginByPhonePopupDidMountEvent, setLoginByPhoneNumberEvent
+    loginByPhoneFx,
+    loginByPhonePopupDidMountEvent,
+    setLoginByPhoneNumberEvent
 } from "@/components/organisms/popups/authorization/login-by-phone-popup/model";
+import ControlledCaptcha from "@/components/atoms/inputs/controlled-captcha/ControlledCaptcha";
+import {useSmartCaptcha} from "@/utlis/hooks/useSmartCaptcha";
 
 const LoginByPhonePopup = () => {
 
-    const setLoginByPhoneNumber = useUnit(setLoginByPhoneNumberEvent)
-    const [loginByPhone, popupDidMount, loginByPhoneError]
-        = useUnit([loginByPhoneFx, loginByPhonePopupDidMountEvent, $loginByPhoneError])
+    const [loginByPhone, popupDidMount, setLoginByPhoneNumber] = useUnit([loginByPhoneFx, loginByPhonePopupDidMountEvent, setLoginByPhoneNumberEvent])
 
     const methods = useForm<LoginByPhoneData>({
         resolver: zodResolver(LoginByPhoneSchema),
         mode: "onSubmit"
     })
 
-    const [loginMessage, setMessage] = useState<string>('')
+    const {formState: {isSubmitting}, getValues, trigger} = methods
 
-    const {handleSubmit, formState: {isSubmitting}} = methods
+    const [loginMessage, setMessage] = useState<string>('')
+    const [captchaVisible, toggleCaptchaVisible, handleValidateForm, key, resetKey] = useSmartCaptcha<LoginByPhoneData>(['phoneNumber'], trigger);
 
     const {...authContext} = useAuthorizationPopup()
     const {...loginContext} = useLoginByPhonePopup()
 
-    const onSubmit = (formData: FieldValues) => {
-        loginByPhone(formData as LoginByPhoneData)
+    const onSubmit = () => {
+        const {phoneNumber, captchaToken} : LoginByPhoneData = getValues();
+        const convertedPhoneNumber = phoneNumber.replace(/[\s()-]/g, '');
+
+        loginByPhone({phoneNumber : convertedPhoneNumber, captchaToken})
             .then(_ => {
                 authContext.switchPopupState("confirmationCodeByPhone")
-                setLoginByPhoneNumber((formData as LoginByPhoneData).phoneNumber)
+                setLoginByPhoneNumber(convertedPhoneNumber)
             })
             .catch(message => setMessage(message))
     }
@@ -65,20 +70,29 @@ const LoginByPhonePopup = () => {
                         name={"phoneNumber"}
                     />
                     <div className={"w-full flex flex-col gap-3"}>
-                        {loginMessage && <Text
+                        {loginMessage ? <Text
+                            text={loginMessage.replace('phoneNumber:', '')}
                             className={"text-sm text-red-500"}
-                            text={loginByPhoneError}
-                        />}
+                        /> : null}
                         <Button
                             text={isSubmitting ? "Отправка.." : "Подтвердить номер телефона"}
-                            onClick={handleSubmit(onSubmit)}
+                            onClick={async () => {
+                                resetKey();
+                                await handleValidateForm();
+                            }}
                         />
                         <Button
-                            buttonType={"SECONDARY"}
-                            text={"Войти с помощью пароля"}
                             onClick={loginContext.handleLoginByPassword}
+                            text={"Войти с помощью пароля"}
+                            buttonType={"SECONDARY"}
                         />
                     </div>
+                    <ControlledCaptcha
+                        key={key}
+                        onChallengeHidden={toggleCaptchaVisible}
+                        visible={captchaVisible}
+                        onSuccess={onSubmit}
+                    />
                 </Form>
             </PopupWrapper>
         </FormProvider>
