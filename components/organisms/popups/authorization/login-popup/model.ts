@@ -1,18 +1,15 @@
-import {unauthorizedApi} from "@/api";
 import {LoginUserData} from "@/schemas/customer/authorization/LoginUserSchema";
 import {createEffect, createEvent, createStore} from "effector";
-import {cookies} from "next/headers";
 
 const loginUserByCredentials = async (formData: LoginUserData) => {
+    console.log(formData)
     const request = {
         ...formData, phoneNumber: formData.phoneNumber.replace(/[\s()-]/g, '')
     }
-    return unauthorizedApi.post("/user/login/credentials", request)
-        .then(response => {
-            localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
-            return response.data
-        })
-        .catch(error => {throw Error(error.response.data.message)})
+    await fetch('/api/auth/login/by-credentials', {
+        method : 'POST',
+        body : JSON.stringify(request)
+    })
 }
 
 export const loginPopupDidMountEvent = createEvent<void>()

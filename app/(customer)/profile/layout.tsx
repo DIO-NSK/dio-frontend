@@ -28,11 +28,7 @@ const UserProfileLayout = ({children}: { children: React.ReactNode }) => {
         logout().then(_ => router.push("/"))
     }
 
-    if (swr.error) {
-        router.push('/')
-    }
-
-    if (swr.data) return (
+    return (
         <InnerPageWrapper classNames={{desktopWrapper: "mt-3", mobileWrapper: "pt-0"}}>
             <div className={"col-span-3"}>
                 <UserProfileLeftSidebar/>
