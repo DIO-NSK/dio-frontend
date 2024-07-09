@@ -3,7 +3,6 @@ import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
-import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
 import {HeaderDescription} from "@/types/dto/text";
@@ -12,19 +11,23 @@ import {useUnit} from "effector-react";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {
     $editOurWaterStatus,
-    $ourWaterToEdit, $rangeOurWaters,
-    $selectOurWaters, createOurWaterFx,
-    getRangeOurWatersEvent, RangeOurWater, RequestCreateOurWater,
+    $ourWaterToEdit,
+    $rangeOurWaters,
+    $selectOurWaters,
+    createOurWaterFx,
+    getRangeOurWatersEvent,
+    RangeOurWater,
+    RequestCreateOurWater,
     RequestOurWater,
     setOurWaterToEditEvent,
-    submitOurWaterEvent,
-    submitOurWaterFx
+    submitOurWaterEvent
 } from "@/app/admin/promo/models/our_waters.model";
 import {PopupProps} from "@/types/props/Popup";
 import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 import {CreateOurWaterData, CreateOurWaterSchema} from "@/schemas/admin/CreateOurWaterSchema";
 import FileInput from "@/components/atoms/inputs/file-input/FileInput";
+import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
 
 const blockCV = "w-full flex flex-col gap-4"
 
@@ -91,7 +94,7 @@ const AddOurWaterPopup = (props: PopupProps) => {
         if (ourWaterToEdit) {
             reset({
                 ourWater: {name: ourWaterToEdit.name, value: ourWaterToEdit.name},
-                image: ourWaterToEdit.image
+                imageUrl: ourWaterToEdit.image
             })
         }
     }, [ourWaterToEdit]);
@@ -131,16 +134,16 @@ const AddOurWaterPopup = (props: PopupProps) => {
                         header={"Фотография карточки"}
                         description={"Выберите фотографию без фона. Данная фотография будет отображаться на главной странице в разделе «Наши воды»"}
                     >
-                        {methods.getValues("image") ? (
+                        {methods.getValues("imageUrl") ? (
                             <AdminPhotoCard
                                 canDelete
-                                onDelete={() => methods.setValue("image", null)}
+                                onDelete={() => methods.setValue("imageUrl", null)}
                                 name={"image"}
                                 className={"w-full"}
                             />
                         ) : (
-                            <FileInput
-                                onChange={(value) => methods.setValue("image", value)}
+                            <FileURLInput
+                                onChange={(value) => methods.setValue("imageUrl", value)}
                                 placeholder={"Выберите файл"}
                                 className={"w-full"}
                             />

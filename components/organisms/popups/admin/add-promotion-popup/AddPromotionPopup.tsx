@@ -74,7 +74,7 @@ const AddPromotionPopup = (props: PopupProps) => {
         if (promotionToEdit) {
             reset({
                 link: `/sales/${promotionToEdit.promoId}`,
-                image: promotionToEdit.image
+                imageUrl: promotionToEdit.image
             })
         }
     }, []);
@@ -110,16 +110,16 @@ const AddPromotionPopup = (props: PopupProps) => {
                         header={"Фотография промо-акции"}
                         description={"Данная фотография будет являться ссылкой на страницу акции"}
                     >
-                        {methods.getValues("image") ? (
+                        {methods.getValues("imageUrl") ? (
                             <AdminPhotoCard
                                 canDelete={true}
-                                onDelete={() => methods.setValue("image", null)}
+                                onDelete={() => methods.setValue("imageUrl", null)}
                                 name={"image"}
                                 className={"w-full"}
                             />
                         ) : (
-                            <FileInput
-                                onChange={(value) => methods.setValue("image", value)}
+                            <FileURLInput
+                                onChange={(value) => methods.setValue("imageUrl", value)}
                                 placeholder={"Выберите файл"}
                                 className={"w-full"}
                             />
