@@ -65,7 +65,7 @@ const SaleFullCard = ({card}: {
     return (
         <div className={cn(wrapperCV)}>
             <img
-                className={"w-full sm:w-[170px] h-[170px] rounded-xl object-cover"}
+                className={"w-full sm:w-[170px] h-[170px] rounded-xl object-scale-down"}
                 src={card.image} alt={'/'}
             />
             <div className={"w-full flex flex-col gap-[10px]"}>

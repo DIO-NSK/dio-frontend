@@ -43,7 +43,7 @@ const MobileAuthorizationPage = () => {
 
     const onSubmit = (formData: LoginUserData) => {
         loginUserByCredentials(formData as LoginUserData)
-            .then(_ => router.push("/"))
+            .then(router.back)
             .catch(e => e)
     }
 

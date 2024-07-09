@@ -108,7 +108,7 @@ const UserProfileOrdersPage = () => {
                         <FiX
                             size={"20px"}
                             className={"w-fit sm:hidden"}
-                            onClick={navigation.back}
+                            onClick={() => navigation.push('/')}
                         />
                     </React.Fragment>
                 }

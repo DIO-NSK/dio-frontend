@@ -5,7 +5,7 @@ import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
 
 export type RequestBanner = {
     link: string,
-    image: File | string,
+    imageUrl: string,
     id?: number,
 }
 
@@ -16,36 +16,11 @@ export type ResponseBanner = {
 }
 
 const createBanner = async (banner: RequestBanner) => {
-
-    const formData = new FormData()
-    formData.append("image", banner.image)
-
-    return api.post("/admin/banner", formData, {
-        params: {link: banner.link},
-        headers: {"Content-type": "multipart/form-data"}
-    })
-        .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
-
+    return api.post("/admin/banner", banner).then(response => response.data)
 }
 
 const editBanner = async (banner: RequestBanner) => {
-
-    const formData = new FormData()
-
-    if (typeof banner.image !== "string") {
-        formData.append("image", banner.image)
-    }
-
-    const bannerReq = {link: banner.link, id: banner.id}
-    formData.append("bannerDto", new Blob([JSON.stringify(bannerReq)], {type: "application/json"}))
-
-    return api.patch("/admin/banner", formData, {
-        headers: {"Content-type": "multipart/form-data"}
-    })
-        .then(response => response.data)
+    return api.patch("/admin/banner", banner).then(response => response.data)
 
 }
 

@@ -42,9 +42,8 @@ const ShoppingCartPage = () => {
     }
 
     useEffect(() => {
-        if (!cart) {
-            getCart()
-        }
+        console.log('asasa')
+        getCart()
     }, []);
 
     if (cart) return (

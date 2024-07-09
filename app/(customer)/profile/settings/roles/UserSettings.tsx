@@ -91,7 +91,7 @@ const UserSettings = () => {
                         <FiX
                             size={"20px"}
                             className={"sm:hidden flex"}
-                            onClick={navigation.back}
+                            onClick={() => navigation.push('/')}
                         />
                     }
                 />

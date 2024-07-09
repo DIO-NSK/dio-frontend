@@ -97,7 +97,7 @@ const SignUpPopup = () => {
                         <Button
                             disabled={isSubmitting}
                             classNames={{button: "w-full"}}
-                            text={"Подтвердить номер телефона"}
+                            text={isSubmitting ? "Отправка.." : "Подтвердить номер телефона"}
                             onClick={async () => {
                                 resetKey();
                                 await handleValidateForm();

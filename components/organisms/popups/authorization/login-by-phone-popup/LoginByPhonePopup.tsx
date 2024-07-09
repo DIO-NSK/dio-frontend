@@ -82,8 +82,9 @@ const LoginByPhonePopup = () => {
                             }}
                         />
                         <Button
+                            disabled={methods.formState.isSubmitting}
                             onClick={loginContext.handleLoginByPassword}
-                            text={"Войти с помощью пароля"}
+                            text={methods.formState.isSubmitting ? "Отправка.." : "Войти с помощью пароля"}
                             buttonType={"SECONDARY"}
                         />
                     </div>

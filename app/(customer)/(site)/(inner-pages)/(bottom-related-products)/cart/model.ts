@@ -5,6 +5,7 @@ import {debounce} from "patronum";
 export type ResponseCartItem = {
     productId: number,
     productItemId: number,
+    categoryId : number,
     name: string,
     price: number,
     quantity: number,

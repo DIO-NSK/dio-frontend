@@ -72,6 +72,7 @@ const ForgotPasswordPopup = (props: PopupProps) => {
                     />
                     {error.length !== 0 && <Text className={"text-red-500"} text={error}/>}
                     <Button
+                        disabled={isSubmitting}
                         text={isSubmitting ? "Отправка.." : "Отправить код"}
                         onClick={async () => {
                             resetKey();

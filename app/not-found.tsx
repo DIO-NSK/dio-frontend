@@ -27,7 +27,7 @@ const NotFound = () => {
             <MobileNavbar scrolledUp={false}/>
             <section className={"w-full flex items-center justify-center px-5 sm:px-0 sm:py-0 py-10"}>
                 <section className={"flex flex-row items-center gap-16"}>
-                    <img src={CoolerImage.src} alt={"Фирменный кулер DIO"} className={"hidden sm:flex w-[350px] object-cover"}/>
+                    <img src={'https://storage.yandexcloud.net/dio-static-images/bottle-404.png'} alt={"Фирменный кулер DIO"} className={"hidden sm:flex w-[350px] object-cover"}/>
                     <section className={"flex flex-col items-center sm:items-start gap-5 sm:gap-7"}>
                         <div className={"flex flex-col items-center sm:items-start gap-4"}>
                             <Text text={"404"} className={"text-[64px] sm:text-[96px] leading-none font-bold text-link-blue"}/>

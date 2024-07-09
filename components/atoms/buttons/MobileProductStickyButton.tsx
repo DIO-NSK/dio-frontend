@@ -17,7 +17,7 @@ type MobileProductStickyButtonProps = {
 
 const buttonStyles = {
     button: cn([
-        "fixed w-[calc(100%-20px)] bottom-5 left-5 z-30 justify-between",
+        "fixed w-[calc(100%-40px)] bottom-5 left-5 z-30 justify-between",
         "px-5 py-5 sm:hidden flex"
     ])
 }

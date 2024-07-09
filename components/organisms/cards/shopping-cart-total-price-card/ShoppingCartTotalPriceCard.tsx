@@ -10,9 +10,25 @@ import {
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
+import {MINIMUM_CART_PRICE, MINIMUM_OUR_WATER_AMOUNT_IN_CART, OUR_WATER_CATEGORY_ID} from "@/constants";
+
+const rowCV: ClassValue = "w-full flex flex-row items-baseline justify-between"
+const textCV: ClassValue = "text-base text-text-gray"
+
+type CartItem = ResponseCartItem | ResponseProductSearch;
+
+const validateCart = (totalPrice: number, products: CartItem[]) => {
+    const waterAmountInCart = products.reduce((acc, item) => {
+        if ((item as ResponseCartItem).categoryId === OUR_WATER_CATEGORY_ID) {
+            return ++acc;
+        } return acc;
+    }, 0);
+
+    return waterAmountInCart >= MINIMUM_OUR_WATER_AMOUNT_IN_CART || totalPrice >= MINIMUM_CART_PRICE;
+}
 
 const ShoppingCartTotalPriceCard = ({products, promos, buttonText, onClick}: {
-    products: (ResponseCartItem | ResponseProductSearch)[],
+    products: CartItem[],
     promos: ResponseCartSaleItem[],
     buttonText: string,
     onClick: () => void
@@ -49,8 +65,7 @@ const ShoppingCartTotalPriceCard = ({products, promos, buttonText, onClick}: {
     const totalPriceWithDiscount = totalPriceWithoutDiscount - totalDiscount;
     const totalItemsAmount = totalProductsAmount + totalPromosAmount;
 
-    const rowCV: ClassValue = "w-full flex flex-row items-baseline justify-between"
-    const textCV: ClassValue = "text-base text-text-gray"
+    const isValidCart = validateCart(totalPriceWithDiscount, products);
 
     const cardRows = [
         {header: "Количество", data: totalItemsAmount + " шт."},
@@ -74,11 +89,15 @@ const ShoppingCartTotalPriceCard = ({products, promos, buttonText, onClick}: {
                     className={"text-[24px] font-medium text-link-blue"}
                 />
             </div>
+            {!isValidCart ? (
+                <Text
+                    text={'Стоимость заказа должна быть от 800₽ или заказ должен содержать минимум две 19-ти литровые воды.'}
+                    className={'text-text-gray text-sm pt-5 border-t-2 border-light-gray'}
+                />
+            ) : null}
             <Button
-                hasSpinner={false}
-                disabled={false}
-                text={products.length || promos.length ? buttonText : "Корзина пуста"}
-                onClick={onClick}
+                hasSpinner={false} disabled={!(hasItemInStock || isValidCart)}
+                text={buttonText} onClick={onClick}
             />
         </StickyCardWrapper>
     );

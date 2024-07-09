@@ -78,7 +78,7 @@ const AddPromoPopup = (props: PopupProps) => {
         if (bannerIdToEdit) {
             reset({
                 link: bannerIdToEdit.link,
-                image: bannerIdToEdit.image
+                imageUrl: bannerIdToEdit.image
             })
         }
     }, []);
@@ -114,16 +114,16 @@ const AddPromoPopup = (props: PopupProps) => {
                         header={"Фотография промо-баннера"}
                         description={"Данная фотография будет отображаться в первом блоке на главном странице сайта"}
                     >
-                        {methods.getValues("image") ? (
+                        {methods.getValues("imageUrl") ? (
                             <AdminPhotoCard
                                 canDelete
-                                onDelete={() => methods.setValue("image", null)}
-                                name={"image"}
+                                onDelete={() => methods.setValue("imageUrl", null)}
+                                name={"imageUrl"}
                                 className={"w-full"}
                             />
                         ) : (
-                            <FileInput
-                                onChange={(value) => methods.setValue("image", value)}
+                            <FileURLInput
+                                onChange={(value) => methods.setValue("imageUrl", value)}
                                 placeholder={"Выберите файл"}
                                 className={"w-full"}
                             />
