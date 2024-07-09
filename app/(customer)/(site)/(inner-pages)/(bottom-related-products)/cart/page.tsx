@@ -42,7 +42,6 @@ const ShoppingCartPage = () => {
     }
 
     useEffect(() => {
-        console.log('asasa')
         getCart()
     }, []);
 

@@ -20,7 +20,7 @@ type CartItem = ResponseCartItem | ResponseProductSearch;
 const validateCart = (totalPrice: number, products: CartItem[]) => {
     const waterAmountInCart = products.reduce((acc, item) => {
         if ((item as ResponseCartItem).categoryId === OUR_WATER_CATEGORY_ID) {
-            return ++acc;
+            return acc + (item as ResponseCartItem).quantity;
         } return acc;
     }, 0);
 
