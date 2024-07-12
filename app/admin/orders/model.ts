@@ -1,11 +1,11 @@
-import {unauthorizedApi} from "@/api";
+import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {AdminOrder} from "@/types/dto/AdminOrder";
 import {AdminOrderTableRow} from "@/types/dto/Table";
 import {filterOrdersFx} from "@/components/organisms/popups/admin/order-page-filter-popup/model";
 
 const getOrders = async () => {
-    return unauthorizedApi.get("/admin/stat/last/order")
+    return api.get("/admin/stat/last/order")
         .then(response => response.data)
 }
 

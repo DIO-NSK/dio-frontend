@@ -1,9 +1,9 @@
-import {unauthorizedApi} from "@/api";
+import {api, unauthorizedApi} from "@/api";
 import {ResponseAdminProduct} from "@/types/dto/admin/product/ResponseAdminProduct";
 import {createEffect, createEvent, createStore, sample} from "effector";
 
 const getProduct = async (productId: number): Promise<ResponseAdminProduct> => {
-    return unauthorizedApi.get("/admin/catalogue/product", {params: {productId: productId}})
+    return api.get("/admin/catalogue/product", {params: {productId: productId}})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }

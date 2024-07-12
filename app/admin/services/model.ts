@@ -1,4 +1,4 @@
-import {unauthorizedApi} from "@/api";
+import {api, unauthorizedApi} from "@/api";
 import {CallRequestStatus} from "@/app/admin/call-requests/main.model";
 import {AdminService, optionalServiceTypes, ServiceType} from "@/types/dto/admin/service/AdminService";
 import {createEffect, createEvent, createStore, sample} from "effector";
@@ -9,7 +9,7 @@ import {SelectItem} from "@/types/props/SelectItem";
 //region getServicesByType
 
 const getServicesByType = async (nameType: ServiceType): Promise<AdminService[]> => {
-    return unauthorizedApi.get("/admin/service/by-type", {params: {nameType}})
+    return api.get("/admin/service/by-type", {params: {nameType}})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
@@ -25,7 +25,7 @@ $activeServiceType.on(getServiceByTypeEvent, (_, serviceType) => serviceType)
 //region getServicesByStatus
 
 const getServicesByStatus = async (status: CallRequestStatus): Promise<AdminService[]> => {
-    return unauthorizedApi.get("/admin/service/by-status", {params: {nameStatus: status}})
+    return api.get("/admin/service/by-status", {params: {nameStatus: status}})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.payload)})
 }
@@ -46,7 +46,7 @@ const convertServicesToTableRows = (services: AdminService[]): ServiceTableRow[]
 //region getServicesByPhoneNumber
 
 const getServiceByPhoneNumber = async (numberPhone: string): Promise<AdminService[]> => {
-    return unauthorizedApi.get("/admin/service/by-phone-number", {params: {numberPhone}})
+    return api.get("/admin/service/by-phone-number", {params: {numberPhone}})
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
@@ -77,7 +77,7 @@ sample({
 
 const updateServicesStatus = async ({ids, status}: { ids: number[], status: CallRequestStatus }) => {
     return Promise.all(
-        ids.map(id => unauthorizedApi.put("/service/update", null, {params: {id: id, nameStatus: status}})
+        ids.map(id => api.put("/service/update", null, {params: {id: id, nameStatus: status}})
             .then(response => response.data)
             .catch(error => {
                 throw Error(error.response.data.message)

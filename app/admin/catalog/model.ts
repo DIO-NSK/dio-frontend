@@ -31,7 +31,7 @@ export const onChangeNameToSearch = createEvent<string>()
 export const $nameToSearch = createStore<string>("")
 
 const createSection = async (sections: Section[]) => {
-    return unauthorizedApi.post('/admin/catalogue', sections)
+    return api.post('/admin/catalogue', sections)
         .then(response => response.data)
 }
 

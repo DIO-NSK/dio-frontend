@@ -11,7 +11,7 @@ type RequestChangeProducts = {
 
 export const getProducts = async (categoryId: number): Promise<ResponseAdminProduct[]> => {
     const params = {params: {categoryId: categoryId}}
-    return unauthorizedApi.get("/admin/catalogue/product/search", params)
+    return api.get("/admin/catalogue/product/search", params)
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)

@@ -24,7 +24,7 @@ type PriceRange = {
 export type RequestOrderFilters = Partial<OrderFilters>
 
 const filterOrders = async (filters: RequestOrderFilters): Promise<AdminOrder[]> => {
-    return api.get("/order/admin/filter", {params: filters})
+    return api.get("/admin/order/filter", {params: filters})
         .then(response => response.data)
 }
 

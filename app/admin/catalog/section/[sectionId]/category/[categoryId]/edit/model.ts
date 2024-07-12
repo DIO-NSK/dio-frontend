@@ -14,7 +14,7 @@ export type ChangeCategoryRequest = {
 }
 
 const getCategory = async (categoryId: number): Promise<Category> => {
-    return unauthorizedApi.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
+    return api.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)

@@ -25,7 +25,7 @@ const createCategory = async (request: { data: CreateCategoryData, sequenceNumbe
         }
     }
 
-    return unauthorizedApi.post("/admin/catalogue/category/with-image", req, params)
+    return api.post("/admin/catalogue/category/with-image", req, params)
         .then(response => response.data)
 }
 
@@ -37,7 +37,7 @@ const getCategoryList = async (sectionId: number) => {
 
 const updateCategory = async (request: { categories: Category[], sectionId: number }) => {
     const params = {params: {sectionId: request.sectionId}}
-    return unauthorizedApi.post("/admin/catalogue/category/v2", request.categories, params)
+    return api.post("/admin/catalogue/category/v2", request.categories, params)
         .then(response => response.data)
 }
 
