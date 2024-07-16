@@ -19,6 +19,7 @@ import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {CreateSaleRequest} from "@/app/admin/sales/new/model";
 import {useRouter} from "next/navigation";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+import {convertDeadlineToDate} from "@/app/admin/sales/utils";
 
 const inputRowCN = 'w-full px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray'
 
@@ -30,7 +31,7 @@ const convertSaleDataToRequest = (req: { data: CreateSaleData, promoId: number }
             crmGroup: data.crmGroup,
             crmCode: data.crmCode,
             description: data.description,
-            deadline: '2024-01-01',
+            deadline: convertDeadlineToDate(data.deadline),
             products: data.productIdList as any,
             ruleList: data.ruleList.map(item => item.rule)
         },

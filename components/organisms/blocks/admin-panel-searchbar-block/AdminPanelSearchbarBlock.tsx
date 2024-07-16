@@ -12,11 +12,15 @@ import {searchCatalogByNameEvent} from "@/components/organisms/bars/searchbar/mo
 import {useFormContext} from "react-hook-form";
 import {CreateSaleData} from "@/schemas/admin/CreateSaleSchema";
 import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import {closestCenter, DndContext, DragEndEvent} from "@dnd-kit/core";
+import {arrayMove, SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
+import {swap} from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchBlock.utils";
 
 type AdminPanelSearchbarBlockProps = {
     header: string,
     description: string,
-    defaultProducts ?: ResponseCartItem[]
+    defaultProducts?: ResponseCartItem[]
 }
 
 type ProductIdRow = {
@@ -30,7 +34,12 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
     const getCatalogueByName = useUnit(searchCatalogByNameEvent)
 
     const defaultSelectedNames = props.defaultProducts?.map(product => product.name) ?? []
-    const defaultProductIdRows = props.defaultProducts?.map(product => ({product : {...product, id : product.productId} as any, quantity : String(product.quantity)})) as ProductIdRow[] ?? []
+    const defaultProductIdRows = props.defaultProducts?.map(product => ({
+        product: {
+            ...product,
+            id: product.productId
+        } as any, quantity: String(product.quantity)
+    })) as ProductIdRow[] ?? []
 
     const [selectedNames, updateNames] = useState<string[]>(defaultSelectedNames);
     const [productRows, updateProductRows] = useState<ProductIdRow[]>(defaultProductIdRows);
@@ -54,6 +63,20 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
         }
     }
 
+    const handleChangeOrder = (event: DragEndEvent) => {
+        const {active, over} = event;
+
+        if (active.id !== over?.id) {
+            const oldIndex = productRows.findIndex((item, index) => item.product?.id === active.id);
+            const newIndex = productRows.findIndex((item, index) => item.product?.id === over?.id);
+            const newProductRows = arrayMove(productRows, oldIndex, newIndex);
+
+            updateProductRows(newProductRows);
+        }
+    }
+
+    useEffect(() => console.log(productRows), [productRows]);
+
     const handleAddProductRow = () => {
         updateProductRows(productRows => [...productRows, {quantity: ""}])
         updateNames(names => [...names, ""])
@@ -67,14 +90,14 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
         updateNames(names => names.filter(filterFn))
 
         setValue(`productIdList`, filteredProductRows.map(row => ({
-            productId : row.product!!.id.toString(),
-            quantity : row.quantity
+            productId: row.product!!.id.toString(),
+            quantity: row.quantity
         })));
     }
 
     useEffect(() => {
         productRows.forEach((item, index) => {
-            if (item.product) {
+            if (item?.product) {
                 setValue(`productIdList.${index}.productId`, item.product.id.toString())
             }
         })
@@ -97,24 +120,38 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
                 }
             />
             <section className={"w-full flex flex-col gap-5"}>
-                {productRows.map((productRow, index) =>
-                    <DraggableRowWrapper
-                        onDelete={() => handleRemoveProductRow(index)}
-                        className={"w-full flex flex-row gap-5"}
-                        key={index}
+                <DndContext
+                    onDragEnd={handleChangeOrder}
+                    collisionDetection={closestCenter}
+                >
+                    <SortableContext
+                        items={productRows.map((item, index) => item.product?.id as number)}
+                        strategy={verticalListSortingStrategy}
                     >
-                        <SearchInput
-                            onSelect={(product) => updateSelectItem(index, product)}
-                            value={selectedNames[index]} onChange={(name) => updateName(index, name)}
-                            placeholder={"Введите название товара"} key={index} hasPopover
-                            selectedElement={productRow.product}
-                        />
-                        <ControlledTextInput
-                            placeholder={"Укажите количество товара"}
-                            name={`productIdList.${index}.quantity`}
-                        />
-                    </DraggableRowWrapper>
-                )}
+                        {productRows.map((productRow, index) =>
+                            <SortableItemWrapper
+                                sequenceNumber={productRow.product?.id as number}
+                                key={productRow.product?.id}
+                            >
+                                <DraggableRowWrapper
+                                    onDelete={() => handleRemoveProductRow(index)}
+                                    className={"w-full flex flex-row gap-5"}
+                                >
+                                    <SearchInput
+                                        onSelect={(product) => updateSelectItem(index, product)}
+                                        value={selectedNames[index]} onChange={(name) => updateName(index, name)}
+                                        placeholder={"Введите название товара"} hasPopover
+                                        selectedElement={productRow?.product}
+                                    />
+                                    <ControlledTextInput
+                                        placeholder={"Укажите количество товара"}
+                                        name={`productIdList.${index}.quantity`}
+                                    />
+                                </DraggableRowWrapper>
+                            </SortableItemWrapper>
+                        )}
+                    </SortableContext>
+                </DndContext>
             </section>
         </AdminPanelBlockWrapper>
     );

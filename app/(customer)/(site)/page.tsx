@@ -88,7 +88,7 @@ const MainPageScreen = async () => {
             <PageWrapper>
                 <MobilePhotoSlider photos={banners}/>
                 <HeroSliderRow dayProducts={dayProducts} banners={banners}/>
-                <SliderGroup id={"sale"} header={"Товары по акции"} className={'-mt-7 sm:mt-0'}>
+                <SliderGroup id={"sale"} header={"Товары по акции"} className={'-mt-14 sm:mt-0'}>
                     {saleProducts.filter(prod => prod.discountPercent !== 0)
                         .map((productCard, key) => (
                             <ProductCard

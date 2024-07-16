@@ -16,7 +16,6 @@ import {
     $selectOurWaters,
     createOurWaterFx,
     getRangeOurWatersEvent,
-    RangeOurWater,
     RequestCreateOurWater,
     RequestOurWater,
     setOurWaterToEditEvent,
@@ -26,15 +25,15 @@ import {PopupProps} from "@/types/props/Popup";
 import ControlledSelectInput
     from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 import {CreateOurWaterData, CreateOurWaterSchema} from "@/schemas/admin/CreateOurWaterSchema";
-import FileInput from "@/components/atoms/inputs/file-input/FileInput";
 import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
+import {parseFilterMap} from "@/utlis/parseFilterMap";
 
 const blockCV = "w-full flex flex-col gap-4"
 
-const createOurWaterRequest = (formData : RequestOurWater, rangeWater : RangeOurWater) : RequestCreateOurWater => {
+const createOurWaterRequest = (formData: RequestOurWater): RequestCreateOurWater => {
     return {
-        categoryId: rangeWater?.categoryId,
-        filterId: rangeWater?.manufacturerFilterId,
+        categoryId: formData?.ourWater.value.categoryId,
+        filterId: formData?.ourWater.value.filterId,
         ourWater: formData
     }
 }
@@ -79,7 +78,7 @@ const AddOurWaterPopup = (props: PopupProps) => {
         if (ourWaterToEdit) {
             editOurWater(fieldValues as RequestOurWater)
         } else {
-            createOurWater(createOurWaterRequest(fieldValues as RequestOurWater, rangeOurWaters!!))
+            createOurWater(createOurWaterRequest(fieldValues as RequestOurWater))
                 .then(_ => setCreateStatus(true))
                 .then(_ => setOurWaterToEdit(null))
                 .catch(_ => setCreateStatus(false))
@@ -91,12 +90,23 @@ const AddOurWaterPopup = (props: PopupProps) => {
     }, [])
 
     useEffect(() => {
-        if (ourWaterToEdit) {
-            reset({
-                ourWater: {name: ourWaterToEdit.name, value: ourWaterToEdit.name},
-                imageUrl: ourWaterToEdit.image
-            })
+        if (!ourWaterToEdit) {
+            return
         }
+
+        const [categoryId, filterId] = parseFilterMap(ourWaterToEdit.filterCharacteristic);
+
+        reset({
+            ourWater: {
+                name: ourWaterToEdit.name,
+                value: {
+                    name: ourWaterToEdit.name,
+                    categoryId: Number(categoryId),
+                    filterId: Number(filterId)
+                }
+            },
+            imageUrl: ourWaterToEdit.image
+        })
     }, [ourWaterToEdit]);
 
     return (
@@ -119,7 +129,7 @@ const AddOurWaterPopup = (props: PopupProps) => {
                     onClose={handleClose}
                 />
                 <Form className={"w-[800px] flex flex-col gap-5"}>
-                    <Text text={"Новая карточка"} className={"text-[20px] font-medium"}/>
+                    <Text text={ourWaterToEdit ? 'Редактирование карточки' : "Новая карточка"} className={"text-[20px] font-medium"}/>
                     <PopupBlock
                         description={"Данный продукт будет отображаться на главной странице в разделе «Наши воды»"}
                         header={"Продукт «Наши воды»"}
@@ -138,7 +148,7 @@ const AddOurWaterPopup = (props: PopupProps) => {
                             <AdminPhotoCard
                                 canDelete
                                 onDelete={() => methods.setValue("imageUrl", null)}
-                                name={"image"}
+                                name={"imageUrl"}
                                 className={"w-full"}
                             />
                         ) : (

@@ -3,10 +3,11 @@ import {createEffect, createEvent, createStore, sample} from "effector";
 import {SelectItem} from "@/types/props/SelectItem";
 import {DragEndEvent} from "@dnd-kit/core";
 import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
+import {parseFilterMap} from "@/utlis/parseFilterMap";
 
 export type RequestOurWater = {
-    image: File | string,
-    ourWater: SelectItem<string>
+    imageUrl: File | string,
+    ourWater: SelectItem<{ name : string, filterId : number, categoryId : number }>
     id?: number
 }
 
@@ -31,68 +32,56 @@ export type RangeOurWater = {
 }
 
 const createOurWater = async (req: RequestCreateOurWater) => {
-
-    const formData = new FormData()
-
     const filterCharacteristic = `/catalog/${req.categoryId}?filterMap=${req.filterId}:${req.ourWater.ourWater.name}`
 
-    formData.append("image", req.ourWater.image)
-    formData.append("waterManufacturerDto", new Blob([JSON.stringify({
+    return api.post("/admin/banner/water", {
         name: req.ourWater.ourWater.name,
-        filterCharacteristic: filterCharacteristic
-    })], {type: "application/json"}))
-
-    return api.post("/admin/banner/water", formData, {
-        headers: {"Content-type": "multipart/form-data"}
-    })
-        .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
-
+        filterCharacteristic: filterCharacteristic,
+        imageUrl: req.ourWater.imageUrl
+    }).then(response => response.data)
 }
 
 const editOurWater = async (req: RequestCreateOurWater) => {
-
-    const formData = new FormData()
-
     const filterCharacteristic = `/catalog/${req.categoryId}?filterMap=${req.filterId}:${req.ourWater.ourWater.name}`
-    if (typeof req.ourWater.image !== "string") formData.append("image", req.ourWater.image)
 
-    formData.append("waterManufacturerDto", new Blob([JSON.stringify({
+    return api.patch("/admin/banner/water", {
         name: req.ourWater.ourWater.name,
         filterCharacteristic: filterCharacteristic,
-        id: req.id
-    })], {type: "application/json"}))
+        id: req.id,
+        imageUrl: req.ourWater.imageUrl
+    }).then(response => response.data)
+}
 
-    return api.patch("/admin/banner/water", formData, {
-        headers: {"Content-type": "multipart/form-data"}
-    })
+const getRangeOurWaters = async (): Promise<RangeOurWater[]> => {
+    return api.get("/banner/water/range")
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)
         })
-
-}
-
-const getRangeOurWaters = async (): Promise<RangeOurWater> => {
-    return api.get("/banner/water/range")
-        .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
 }
 
 const getRangeOurWatersFx = createEffect(getRangeOurWaters)
 export const getRangeOurWatersEvent = createEvent()
-export const $selectOurWaters = createStore<SelectItem<string>[]>([])
-$selectOurWaters.on(getRangeOurWatersFx.doneData, (_, response) =>
-    response.manufacturerRange.map(item => ({name: item, value: item})))
+export const $selectOurWaters = createStore<SelectItem<{ name : string, filterId : number, categoryId : number }>[]>([])
+$selectOurWaters.on(getRangeOurWatersFx.doneData, (_, response) => {
+    const items = response.map((category) => category.manufacturerRange.map((item) => ({
+        name: item,
+        value: {
+            name: item,
+            filterId: category.manufacturerFilterId,
+            categoryId: category.categoryId
+        }
+    }))).flat()
+
+    return items as SelectItem<{ name : string, filterId : number, categoryId : number }>[];
+})
 
 sample({
     clock: getRangeOurWatersEvent,
     target: getRangeOurWatersFx
 })
 
-export const $rangeOurWaters = createStore<RangeOurWater | null>(null)
+export const $rangeOurWaters = createStore<RangeOurWater[]>([])
 
 $rangeOurWaters.on(getRangeOurWatersFx.doneData, (_, rangeOurWater) => rangeOurWater)
 
@@ -132,10 +121,9 @@ $ourWaters
 
 sample({
     clock: submitOurWaterFx,
-    source: $rangeOurWaters,
-    fn: (source, clock) => ({
-        categoryId: source?.categoryId,
-        filterId: source?.manufacturerFilterId,
+    fn: (clock) => ({
+        categoryId: clock.ourWater.value.categoryId,
+        filterId: clock.ourWater.value.filterId,
         ourWater: clock
     } as RequestCreateOurWater),
     target: createOurWaterFx
@@ -143,13 +131,17 @@ sample({
 
 sample({
     clock: submitOurWaterEvent,
-    source: {range: $rangeOurWaters, waterToEdit: $ourWaterToEdit},
-    fn: (source, clock) => ({
-        categoryId: source?.range?.categoryId,
-        filterId: source?.range?.manufacturerFilterId,
-        id: source?.waterToEdit?.id,
-        ourWater: clock
-    } as RequestCreateOurWater),
+    source: {waterToEdit: $ourWaterToEdit},
+    fn: (source, clock) => {
+        const [categoryId, filterId] = parseFilterMap(source.waterToEdit!!.filterCharacteristic);
+
+        return ({
+            categoryId: categoryId,
+            filterId: filterId,
+            id: source?.waterToEdit?.id,
+            ourWater: clock
+        } as RequestCreateOurWater)
+    },
     target: editOurWaterFx
 })
 

@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {unauthorizedApi} from "@/api";
+import {api} from "@/api";
 
 const URL = '/admin/image/upload'
 
@@ -20,7 +20,7 @@ export const useAdminPhotoCard = () => {
         const formData = new FormData()
         formData.append('file', file)
 
-        const response = await unauthorizedApi.post(URL, formData, {
+        const response = await api.post(URL, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },

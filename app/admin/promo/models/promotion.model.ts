@@ -5,7 +5,7 @@ import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
 
 export type RequestPromotion = {
     link: string,
-    image: File,
+    imageUrl: File,
     id?: number
 }
 
@@ -16,40 +16,19 @@ export type ResponsePromotion = {
 }
 
 const createPromotion = async (promotion: RequestPromotion) => {
-
-    const formData = new FormData()
-    formData.append("image", promotion.image)
-
     const lastSlashIndex = promotion.link.lastIndexOf('/') + 1;
     const id = promotion.link.slice(lastSlashIndex);
 
-    return api.post("/admin/banner/promotion", formData, {
-        params: {promotionId: id},
-        headers: {"Content-type": "multipart/form-data"}
-    })
+    return api.post("/admin/banner/promotion/v2", {promotionId: +id, imageUrl : promotion.imageUrl})
         .then(response => response.data)
-
 }
 
 const editPromotion = async (promotion: RequestPromotion) => {
-
-    const formData = new FormData()
-    formData.append("image", promotion.image)
-
     const lastSlashIndex = promotion.link.lastIndexOf('/') + 1;
     const id = promotion.link.slice(lastSlashIndex);
 
-    const data = {promoId: id, promotionId: promotion.id}
-    formData.append("promotionDto", new Blob([JSON.stringify(data)], {type: "application/json"}))
-
-    return api.patch("/admin/banner/promotion", formData, {
-        headers: {"Content-type": "multipart/form-data"}
-    })
+    return api.patch("/admin/banner/promotion", {promoId: +id, promotionId: promotion.id, imageUrl : promotion.imageUrl})
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
-
 }
 
 const changePromotionOrder = async (ids: { id: number }[]) => {

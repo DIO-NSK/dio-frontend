@@ -24,6 +24,7 @@ import AdminPanelSearchbarBlock
 import {createSaleFx, CreateSaleRequest} from "@/app/admin/sales/new/model";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {useRouter} from "next/navigation";
+import {convertDeadlineToDate} from "@/app/admin/sales/utils";
 
 const convertSaleDataToRequest = (data : CreateSaleData) : CreateSaleRequest => {
     return {
@@ -32,7 +33,7 @@ const convertSaleDataToRequest = (data : CreateSaleData) : CreateSaleRequest => 
             crmGroup : data.crmGroup,
             crmCode : data.crmCode,
             description : data.description,
-            deadline : "2024-07-08",
+            deadline : convertDeadlineToDate(data.deadline),
             products : data.productIdList as any,
             ruleList : data.ruleList.map(item => item.rule),
         },
@@ -44,7 +45,7 @@ const FirstInputRow = () => {
 
     const getSaleDetails = useUnit(getProductDetailsEvent)
     const methods = useFormContext()
-    const {trigger, getValues, formState: {isSubmitting}} = methods
+    const {trigger, getValues} = methods
 
     const onSubmit = async () => {
         const fieldNames: FieldName<CreateProductData>[] = ["crmCode", "crmGroup"]

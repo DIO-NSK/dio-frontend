@@ -114,7 +114,7 @@ const AddPromotionPopup = (props: PopupProps) => {
                             <AdminPhotoCard
                                 canDelete={true}
                                 onDelete={() => methods.setValue("imageUrl", null)}
-                                name={"image"}
+                                name={"imageUrl"}
                                 className={"w-full"}
                             />
                         ) : (

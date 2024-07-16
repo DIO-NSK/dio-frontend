@@ -31,7 +31,7 @@ const convertSaleDataToRequest = (data : CreateSaleData) : CreateSaleRequest => 
             crmGroup : data.crmGroup,
             crmCode : data.crmCode,
             description : data.description,
-            deadline : "2024-07-08",
+            deadline : data.deadline,
             products : data.productIdList as any,
             ruleList : data.ruleList.map(item => item.rule),
         },

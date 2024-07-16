@@ -47,6 +47,12 @@ const getOrderDetails = async (orderId: number): Promise<ResponseOrderDetails> =
         })
 }
 
+const getOrderLogs = async (orderId: number): Promise<string> => {
+    return api.get('/order/bucket/order-logs', {params: {orderId: orderId}})
+        .then(response => response.data)
+}
+
+
 const getOrderDetailsFx = createEffect<number, ResponseOrderDetails, Error>(getOrderDetails)
 export const getOrderDetailsEvent = createEvent<number>()
 

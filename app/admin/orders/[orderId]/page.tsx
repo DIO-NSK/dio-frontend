@@ -14,6 +14,7 @@ import {$orderDetails, getOrderDetailsEvent} from "@/app/admin/orders/[orderId]/
 import dayjs from "dayjs";
 import StickyCardWrapper from "@/components/wrappers/sticky-card-wrapper/StickyCardWrapper";
 import {convertPhoneNumber} from "@/utlis/convertPhoneNumber";
+import {api} from "@/api";
 
 const rowCV = [
     "w-full flex flex-row gap-5 pb-7",
@@ -45,6 +46,25 @@ const OrderPageCommentBlock = () => {
         <OrderPageHeaderBlock header={"Комментарий к заказу"}>
             <div className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}>
                 <Text text={orderDetails.comment}/>
+            </div>
+        </OrderPageHeaderBlock>
+    )
+
+}
+
+const OrderPageCRMLogsBlock = ({orderId} : {orderId : number}) => {
+
+    const [ orderLogs, setOrderLogs ] = useState<string>('');
+
+    useEffect(() => {
+        api.get('/admin/bucket/order-logs', {params: {orderId: orderId}})
+            .then(response => setOrderLogs(response.data));
+    }, []);
+
+    return (
+        <OrderPageHeaderBlock header={"Логи заказа"}>
+            <div className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}>
+                <Text text={orderLogs}/>
             </div>
         </OrderPageHeaderBlock>
     )
@@ -212,6 +232,7 @@ const AdminPanelOrderPage = ({params}: {
                     <OrderAddressBlock/>
                     <OrderPageCommentBlock/>
                     <OrderPageProductBlock/>
+                    <OrderPageCRMLogsBlock orderId={params.orderId}/>
                 </div>
                 <OrderStickyCard/>
             </div>
