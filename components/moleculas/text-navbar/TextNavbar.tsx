@@ -17,6 +17,7 @@ const TextNavbar = () => {
     const items: (TextLink | TextAction)[] = [
         {text: 'Главная', link: '/'},
         {text: 'Акции', link: '/sales'},
+        {text: 'Наши воды', link: '/our-waters'},
         {text: 'Услуги', link: '/services'},
         {text: 'О компании', link: '/about-company'},
         {text: 'Контакты', link: '/contacts'},

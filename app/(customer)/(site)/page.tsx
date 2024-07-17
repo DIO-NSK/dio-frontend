@@ -18,7 +18,7 @@ import {TextLink} from "@/types/dto/text";
 import {HandshakeIcon, MicroscopeIcon, PencilRulerIcon, PercentIcon, StethoscopeIcon, WrenchIcon} from "lucide-react";
 import {cn} from "@/utlis/cn";
 
-import {getBanners, getDayProducts, getOurWaters, getPromotions, getSaleProducts} from './page.hooks';
+import {getBanners, getBucketPhotos, getDayProducts, getOurWaters, getPromotions, getSaleProducts} from './page.hooks';
 import {ReactNode} from "react";
 import {Metadata} from "next";
 
@@ -82,6 +82,7 @@ const MainPageScreen = async () => {
     const ourWaters = await getOurWaters()
     const promotions = await getPromotions()
     const banners = await getBanners()
+    const photos = await getBucketPhotos()
 
     return (
         <>
@@ -144,14 +145,13 @@ const MainPageScreen = async () => {
                     header={"Посмотрите на наше производство"}
                     desktopSlidesPerView={2}
                 >
-                    <ContentImage
-                        image={'https://storage.yandexcloud.net/dio-static-images/product-image-1-min.png'}
-                        className={"w-[80vw] sm:w-full"}
-                    />
-                    <ContentImage
-                        image={'https://storage.yandexcloud.net/dio-static-images/product-image-2-min.png'}
-                        className={"w-[80vw] sm:w-full"}
-                    />
+                    {photos.map((photo, index) => (
+                        <ContentImage
+                            image={`https://storage.yandexcloud.net/dio-company-images/${photo}`}
+                            className={"w-[80vw] sm:w-full"}
+                            key={index}
+                        />
+                    ))}
                 </SliderGroup>
                 <AdvantagesBlock/>
                 <WaterCoolerBlock/>

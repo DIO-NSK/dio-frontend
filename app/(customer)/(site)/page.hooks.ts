@@ -34,3 +34,8 @@ export const getDayProducts = async (): Promise<ResponseProductSearch[]> => {
     return fetch(`${BASE_URL}/catalogue/product/day`, {cache: 'no-store'})
         .then(response => response.json())
 }
+
+export const getBucketPhotos = async (): Promise<string[]> => {
+    return fetch(`${BASE_URL}/bucket`, {cache: 'no-store'})
+        .then(response => response.json())
+}
