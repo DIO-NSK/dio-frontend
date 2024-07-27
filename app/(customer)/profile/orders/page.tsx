@@ -62,7 +62,7 @@ const UserProfileOrdersPage = () => {
     const sortedOrders = useMemo(() => {
         if (orders.length) switch (activeItem.value) {
             case "date":
-                return orders.toSorted((first, second) => first.id - second.id)
+                return orders.toSorted((first, second) => second.id - first.id)
             case "price":
                 const getTotalPrice = (products: ProfileOrderItem[]) => products.reduce((acc, product) =>
                     acc + product.price * product.quantity * (1 - 0.01 * product.discountPercent), 0)

@@ -1,7 +1,7 @@
-import {BASE_URL} from "@/api";
+import {api, BASE_URL} from "@/api";
 import {ResponseBanner} from "@/app/admin/promo/models/banner.model";
 import {ResponsePromotion} from "@/app/admin/promo/models/promotion.model";
-import {ResponseOurWater} from "@/app/admin/promo/models/our_waters.model";
+import {OurWaterChip, ResponseOurWater} from "@/app/admin/promo/models/our_waters.model";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 
 export const getBanners = async (): Promise<ResponseBanner[]> => {
@@ -17,6 +17,11 @@ export const getPromotions = async (): Promise<ResponsePromotion[]> => {
 export const getOurWaters = async (): Promise<ResponseOurWater[]> => {
     return fetch(`${BASE_URL}/banner/water/all`, {cache: 'no-store'})
         .then(response => response.json())
+}
+
+export const getOurWatersChips = async () : Promise<OurWaterChip[]> => {
+    return fetch(`${BASE_URL}/catalogue/brand/amount/range`, {cache : 'no-store'})
+        .then(response => response.json());
 }
 
 export const getSaleProducts = async (): Promise<ResponseProductSearch[]> => {

@@ -4,7 +4,7 @@ import {cn} from "@/utlis/cn";
 type ChipProps = {
     className?: string,
     onClick?: () => void,
-    activeIndex?: number,
+    activeName?: React.Key,
     children: React.ReactNode,
     icon?: React.ReactNode
 }
@@ -16,7 +16,7 @@ const Chip = (props: ChipProps) => {
         <li
             onClick={props.onClick}
             className={cn(chipStyles, props.className)}
-            data-active-index={props.activeIndex}
+            data-active-name={props.activeName}
         >
             {props.icon}
             {props.children}

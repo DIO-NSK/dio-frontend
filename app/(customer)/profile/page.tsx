@@ -73,7 +73,7 @@ const LastOrderBlock = () => {
             </div>
 
             <OrderCard
-                order={orders.at(-1)!!}
+                order={orders.at(0)!!}
                 canRepeat={false}
             />
 

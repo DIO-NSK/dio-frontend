@@ -55,8 +55,6 @@ const AddOurWaterPopup = (props: PopupProps) => {
     const [createStatus, setCreateStatus] = useState<boolean | undefined>(undefined)
     const [ourWaters, getRangeOurWaters] = useUnit([$selectOurWaters, getRangeOurWatersEvent])
 
-    const rangeOurWaters = useUnit($rangeOurWaters)
-
     const [ourWaterToEdit, setOurWaterToEdit, createOurWater, editOurWater, editStatus]
         = useUnit([$ourWaterToEdit, setOurWaterToEditEvent, createOurWaterFx, submitOurWaterEvent, $editOurWaterStatus])
 
@@ -99,11 +97,7 @@ const AddOurWaterPopup = (props: PopupProps) => {
         reset({
             ourWater: {
                 name: ourWaterToEdit.name,
-                value: {
-                    name: ourWaterToEdit.name,
-                    categoryId: Number(categoryId),
-                    filterId: Number(filterId)
-                }
+                value: ourWaterToEdit.name
             },
             imageUrl: ourWaterToEdit.image
         })
@@ -131,8 +125,8 @@ const AddOurWaterPopup = (props: PopupProps) => {
                 <Form className={"w-[800px] flex flex-col gap-5"}>
                     <Text text={ourWaterToEdit ? 'Редактирование карточки' : "Новая карточка"} className={"text-[20px] font-medium"}/>
                     <PopupBlock
-                        description={"Данный продукт будет отображаться на главной странице в разделе «Наши воды»"}
-                        header={"Продукт «Наши воды»"}
+                        description={"Данный бренд будет отображаться на главной странице и в разделе \"Наши воды\""}
+                        header={"Бренд \"Наши воды\"\n"}
                     >
                         <ControlledSelectInput
                             placeholder={"Выберите продукт из категории «Воды»"}

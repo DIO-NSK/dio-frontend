@@ -1,9 +1,9 @@
-import {getOurWaters} from "@/app/(customer)/(site)/page.hooks";
-import OurWatersCategoryClientScreen from "@/app/(customer)/(site)/(inner-pages)/our-waters/ui/OurWatersCategoryClientScreen";
+import {getOurWatersChips} from "@/app/(customer)/(site)/page.hooks";
+import OurWatersCategoryClientScreen
+    from "@/app/(customer)/(site)/(inner-pages)/our-waters/ui/OurWatersCategoryClientScreen";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import Text from "@/components/atoms/text/text-base/Text";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import React from "react";
 import {TextLink} from "@/types/dto/text";
 
 const breadcrumbs: TextLink[] = [
@@ -12,7 +12,8 @@ const breadcrumbs: TextLink[] = [
 ]
 
 const OurWatersCategoryScreen = async () => {
-    const ourWaters = await getOurWaters();
+
+    const ourWaters = await getOurWatersChips();
 
     return (
         <InnerPageWrapper classNames={{desktopWrapper : 'gap-5'}}>

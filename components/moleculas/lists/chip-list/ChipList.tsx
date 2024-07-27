@@ -7,8 +7,8 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 
 type ChipListProps = {
-    items : SelectItem<number>[],
-    activeItem : SelectItem<number>,
+    items : SelectItem<React.Key>[],
+    activeItem : SelectItem<React.Key>,
     setActiveItem : MouseEventHandler<HTMLUListElement>
 }
 
@@ -24,7 +24,7 @@ const ChipList = ({items, activeItem, setActiveItem} : ChipListProps) => {
             {items.map((item) => (
                 <Chip
                     className={cn(createChipStyles(activeItem.value === item.value))}
-                    activeIndex={item.value}
+                    activeName={item.value}
                     key={item.value}
                 >
                     {item.name}

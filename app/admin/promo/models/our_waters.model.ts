@@ -1,4 +1,4 @@
-import {api} from "@/api";
+import {api, BASE_URL} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {SelectItem} from "@/types/props/SelectItem";
 import {DragEndEvent} from "@dnd-kit/core";
@@ -22,13 +22,13 @@ export type ResponseOurWater = {
     image: string,
     name: string,
     filterCharacteristic: string,
-    id: number
+    id: number,
+    amount ?: number
 }
 
-export type RangeOurWater = {
-    categoryId: number,
-    manufacturerFilterId: number,
-    manufacturerRange: string[]
+export type OurWaterChip = {
+    brand : string;
+    amount : number;
 }
 
 const createOurWater = async (req: RequestCreateOurWater) => {
@@ -52,28 +52,19 @@ const editOurWater = async (req: RequestCreateOurWater) => {
     }).then(response => response.data)
 }
 
-const getRangeOurWaters = async (): Promise<RangeOurWater[]> => {
-    return api.get("/banner/water/range")
+const getRangeOurWaters = async (): Promise<string[]> => {
+    return api.get(`${BASE_URL}/catalogue/brand/range`)
         .then(response => response.data)
-        .catch(error => {
-            throw Error(error.response.data.message)
-        })
 }
 
 const getRangeOurWatersFx = createEffect(getRangeOurWaters)
-export const getRangeOurWatersEvent = createEvent()
-export const $selectOurWaters = createStore<SelectItem<{ name : string, filterId : number, categoryId : number }>[]>([])
-$selectOurWaters.on(getRangeOurWatersFx.doneData, (_, response) => {
-    const items = response.map((category) => category.manufacturerRange.map((item) => ({
-        name: item,
-        value: {
-            name: item,
-            filterId: category.manufacturerFilterId,
-            categoryId: category.categoryId
-        }
-    }))).flat()
 
-    return items as SelectItem<{ name : string, filterId : number, categoryId : number }>[];
+export const getRangeOurWatersEvent = createEvent()
+
+export const $selectOurWaters = createStore<SelectItem<string>[]>([])
+
+$selectOurWaters.on(getRangeOurWatersFx.doneData, (_, response) => {
+    return response.map((item) => ({name : item, value : item}) as SelectItem<string>)
 })
 
 sample({
@@ -81,14 +72,16 @@ sample({
     target: getRangeOurWatersFx
 })
 
-export const $rangeOurWaters = createStore<RangeOurWater[]>([])
+export const $rangeOurWaters = createStore<string[]>([])
 
 $rangeOurWaters.on(getRangeOurWatersFx.doneData, (_, rangeOurWater) => rangeOurWater)
 
 export const editOurWaterFx = createEffect(editOurWater)
 
 export const createOurWaterFx = createEffect<RequestCreateOurWater, void, Error>(createOurWater)
+
 export const submitOurWaterFx = createEffect<RequestOurWater, void, Error>()
+
 export const submitOurWaterEvent = createEvent<RequestOurWater>()
 
 const getAllOurWaters = async (): Promise<ResponseOurWater[]> => {
@@ -100,12 +93,19 @@ const getAllOurWaters = async (): Promise<ResponseOurWater[]> => {
 }
 
 const getAllOurWatersFx = createEffect<void, ResponseOurWater[], Error>(getAllOurWaters)
+
 export const getAllOurWatersEvent = createEvent<void>()
+
 export const $ourWaters = createStore<ResponseOurWater[]>([])
+
 export const setOurWaterToEditEvent = createEvent<ResponseOurWater | null>()
+
 export const changeOurWatersOrderEvent = createEvent<DragEndEvent>()
+
 export const $ourWaterToEdit = createStore<ResponseOurWater | null>(null)
+
 export const $editOurWaterStatus = createStore<boolean | null>(null)
+
 $editOurWaterStatus
     .reset(setOurWaterToEditEvent)
     .on(editOurWaterFx.doneData, () => true)

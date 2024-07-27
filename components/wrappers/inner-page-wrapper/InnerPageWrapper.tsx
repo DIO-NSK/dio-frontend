@@ -18,13 +18,15 @@ const InnerPageWrapper = ({children, classNames} : {
         classNames?.desktopWrapper
     ]
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     return (
         <React.Fragment>
             <div className={cn(wrapperCV)}>
-                {children}
+                {!isMobile ? children : null}
             </div>
             <MobilePageWrapper className={classNames?.mobileWrapper}>
-                {children}
+                {isMobile ? children : null}
             </MobilePageWrapper>
         </React.Fragment>
     );

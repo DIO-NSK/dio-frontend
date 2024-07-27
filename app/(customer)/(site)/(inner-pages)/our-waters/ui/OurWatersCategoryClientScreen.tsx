@@ -3,39 +3,49 @@
 import React, {useEffect, useState} from "react";
 import {SelectItem} from "@/types/props/SelectItem";
 import ChipList from "@/components/moleculas/lists/chip-list/ChipList";
-import {ResponseOurWater} from "@/app/admin/promo/models/our_waters.model";
+import {OurWaterChip} from "@/app/admin/promo/models/our_waters.model";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 import {getOurWatersProducts} from "@/app/(customer)/(site)/(inner-pages)/our-waters/page.api";
-import {parseFilterMap} from "@/utlis/parseFilterMap";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import CatalogPagination from "@/components/moleculas/pagination/CatalogPagination";
 
-const OurWatersCategoryClientScreen = ({waters} : {waters : ResponseOurWater[]}) => {
-    const selectableOurWaters = waters.map((water) => ({name : water.name, value: water.id}));
+const OurWatersCategoryClientScreen = ({waters} : {waters : OurWaterChip[]}) => {
 
-    const [activeWater, setActiveWater] = useState<SelectItem<number>>(selectableOurWaters[0]);
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
+    const selectableOurWaters : SelectItem<string>[] = waters.map((water) => ({name : `${water.brand} (${water?.amount ?? 0})`, value: water.brand}));
+
+    const [activeWater, setActiveWater] = useState<SelectItem<string>>(selectableOurWaters[0]);
     const [waterCards, setWaterCards] = useState<ResponseProductSearch[]>([]);
 
-    const [categoryId, _, queryFilterMap] = parseFilterMap(waters[0].filterCharacteristic);
-    getOurWatersProducts(categoryId, queryFilterMap).then(setWaterCards)
-
     const handleSelectOurWater = async (e : React.MouseEvent<HTMLUListElement>) => {
-        const activeIndex = (e.target as HTMLUListElement).dataset.activeIndex;
+        const activeName = (e.target as HTMLUListElement).dataset.activeName;
 
-        if (activeIndex !== undefined) {
-            const activeWater = selectableOurWaters.find((water) => water.value === Number(activeIndex));
-            const realWater = waters.find((water) => water.id === Number(activeIndex))!!;
+        if (activeName !== undefined) {
+            const activeWater = selectableOurWaters.find((water) => water.value === activeName);
+            const editableSearchParams = new URLSearchParams(searchParams);
 
-            const ourWatersProducts = await getOurWatersProducts(Number(activeIndex), realWater?.filterCharacteristic)
-
-            setActiveWater(activeWater as SelectItem<number>);
-            setWaterCards(ourWatersProducts);
+            editableSearchParams.set('brand', activeWater?.value as string);
+            router.replace(`${pathname}?${editableSearchParams.toString()}`);
         }
     }
+
+    useEffect(() => {
+        const brandQuery = searchParams.get('brand');
+
+        if (brandQuery) {
+            getOurWatersProducts(brandQuery).then(setWaterCards);
+            setActiveWater(selectableOurWaters.find(water => water.value === brandQuery)!!)
+        }
+    }, [ searchParams ]);
 
     return (
         <React.Fragment>
             <ChipList items={selectableOurWaters} activeItem={activeWater} setActiveItem={handleSelectOurWater}/>
-            {waterCards.map((waterCard) => (
+            {waterCards?.map((waterCard) => (
                 <ProductCard
                     classNames={{mainWrapper: "w-full", textWrapper: "min-h-0"}}
                     productCard={waterCard} key={waterCard.id}
@@ -43,6 +53,6 @@ const OurWatersCategoryClientScreen = ({waters} : {waters : ResponseOurWater[]})
             ))}
         </React.Fragment>
     )
-}
+};
 
 export default OurWatersCategoryClientScreen;
