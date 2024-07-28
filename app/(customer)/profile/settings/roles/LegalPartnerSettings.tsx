@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useUnit} from "effector-react";
 import {$userCredentials} from "@/app/(customer)/model";
-import {LegalPartnerSettings, updateLegalSettingsFx} from "@/app/(customer)/profile/settings/model";
+import {LegalPartnerSettings as LegalPartnerSettingsProps, updateLegalSettingsFx} from "@/app/(customer)/profile/settings/model";
 import {usePathname, useRouter} from "next/navigation";
 import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -45,7 +45,7 @@ const LegalPartnerSettings = () => {
             changeUserDataDto: {firstName, lastName, phoneNumber, email}
         }
 
-        updateUserSettings(req as LegalPartnerSettings)
+        updateUserSettings(req as LegalPartnerSettingsProps)
             .then(_ => setRequestSuccess(true))
             .catch(_ => setRequestSuccess(false))
 
