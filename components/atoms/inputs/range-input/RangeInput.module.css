@@ -1,0 +1,14 @@
+.selector {
+    -webkit-appearance: none;
+    @apply w-full;
+}
+
+.selector::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    @apply mt-[-5px] h-[3px] bg-light-gray;
+}
+
+.selector::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    @apply w-[15px] h-[15px] mt-[-5px] rounded-full bg-link-blue;
+}

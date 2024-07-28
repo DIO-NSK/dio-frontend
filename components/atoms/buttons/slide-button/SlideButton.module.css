@@ -1,0 +1,7 @@
+.wrapper {
+    @apply ;
+}
+
+.wrapper:hover {
+    @apply cursor-pointer;
+}

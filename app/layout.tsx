@@ -1,22 +1,30 @@
-import type { Metadata } from 'next'
+import type {Metadata, Viewport} from 'next'
 import {Rubik} from 'next/font/google'
 import './globals.css'
 import React from "react";
 
-const rubik = Rubik({ subsets: ['latin'] })
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-export const metadata: Metadata = {
-  title: 'DIO — доставка питьевой воды по Новосибирску и области',
+const rubik = Rubik({subsets: ['latin']})
+
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
+export default function RootLayout({children}: {
+    children: React.ReactNode
 }) {
-  return (
-    <html lang="en">
-      <body className={rubik.className}>{children}</body>
-    </html>
-  )
+    return (
+        <html lang="ru">
+        <body className={rubik.className}>
+        {children}
+        </body>
+        </html>
+    )
 }
+
+

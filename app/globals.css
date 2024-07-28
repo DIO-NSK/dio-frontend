@@ -3,25 +3,66 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    @apply w-screen h-screen bg-white overflow-x-hidden;
+    overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+body, html {
+    overflow-x : hidden;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.pointer {
+    @apply hover:cursor-pointer;
+}
+
+.hoverable {
+    @apply hover:duration-200 transition;
+}
+
+.gray-text {
+    @apply text-text-gray hover:text-gray-600 hoverable;
+}
+
+.red-text {
+    @apply text-info-red hover:text-red-700 hoverable;
+}
+
+.mobileFooterRow {
+    @apply w-full flex pb-7 border-b-2 border-light-gray;
+}
+
+.customScrollbar::-webkit-scrollbar {
+    @apply w-2 bg-gray-100 rounded-full;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full w-20 bg-gray-200 cursor-grab active:cursor-grabbing;
+}
+
+.dropdownScrollbar::-webkit-scrollbar {
+    @apply w-3 bg-gray-100 rounded-full rounded-bl-none;
+}
+
+.dropdownScrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full h-14 bg-gray-200 cursor-grab active:cursor-grabbing;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.custom {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    animation-duration: 0.7s;
+    animation-name: fadeInDown;
+    animation-timing-function: ease-out;
 }

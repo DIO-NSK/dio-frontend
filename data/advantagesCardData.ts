@@ -1,0 +1,1 @@
+import MockIcon from "@/public/icons/rocket-icon.png"

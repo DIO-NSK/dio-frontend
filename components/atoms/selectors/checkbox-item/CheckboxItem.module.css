@@ -1,0 +1,21 @@
+.row {
+
+    @apply w-full flex flex-row items-center gap-[15px];
+
+    .checkbox {
+        @apply w-[20px] h-[20px] flex items-center justify-center rounded-[5px];
+    }
+
+    .checkbox:hover {
+        @apply cursor-pointer;
+    }
+
+    .checkbox[selected="unselected"] {
+        @apply border-2 border-light-gray;
+    }
+
+    .checkbox[selected="selected"] {
+        @apply bg-link-blue;
+    }
+
+}
