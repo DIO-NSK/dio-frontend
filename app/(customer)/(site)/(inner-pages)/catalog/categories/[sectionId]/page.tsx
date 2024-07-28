@@ -6,6 +6,7 @@ import CatalogCategoryCard from "@/components/organisms/catalog-category-card/Ca
 
 import {getCatalog, getCatalogSections, getSectionBreadcrumbs} from "./page.hooks"
 import {Metadata} from "next";
+import {notFound} from "next/navigation";
 
 export const generateStaticParams = async () => {
     const sections = await getCatalog()
@@ -13,8 +14,8 @@ export const generateStaticParams = async () => {
 }
 
 export const generateMetadata = async ({params: {sectionId}}: { params: { sectionId: number } }): Promise<Metadata> => {
-    const categories = await getCatalogSections(sectionId);
-    const section = await getSectionBreadcrumbs(sectionId);
+    const categories = await getCatalogSections(sectionId).catch(notFound);
+    const section = await getSectionBreadcrumbs(sectionId).catch(notFound);
 
     return {
         title: `Категории раздела «${section.name}»`,

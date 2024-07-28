@@ -35,6 +35,17 @@ export const getSaleProducts = async (): Promise<ResponseProductSearch[]> => {
     return products.flat();
 }
 
+export const getNewProducts = async (): Promise<ResponseProductSearch[]> => {
+    const pages = [0, 1];
+
+    const products = await Promise.all(pages.map(async (page) =>
+        fetch(`${BASE_URL}/catalogue/product/filter?isNew=true&size=10&page=${page}`, {cache: 'no-store'})
+            .then(response => response.json())
+            .then(json => json.products)));
+
+    return products.flat();
+}
+
 export const getDayProducts = async (): Promise<ResponseProductSearch[]> => {
     return fetch(`${BASE_URL}/catalogue/product/day`, {cache: 'no-store'})
         .then(response => response.json())

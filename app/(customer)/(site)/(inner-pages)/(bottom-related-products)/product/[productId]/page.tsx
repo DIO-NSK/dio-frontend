@@ -1,6 +1,7 @@
 import ClientProductCardPage from "../[productId]/ui/ClientProductCardPage";
 import {getAllProducts, getProductById} from "./page.hooks";
 import {Metadata} from "next";
+import {notFound} from "next/navigation";
 
 export const generateStaticParams = async () => {
     const catalog = await getAllProducts();
@@ -9,14 +10,14 @@ export const generateStaticParams = async () => {
 }
 
 export const generateMetadata = async ({params: {productId}}: { params: { productId: number } }): Promise<Metadata> => {
-    const product = await getProductById(productId);
+    const product = await getProductById(productId).catch(notFound);
 
     return {
         title: product.name,
-        description : product.description,
+        description: product.description,
         openGraph: {
             title: product.name,
-            description : product.description,
+            description: product.description,
             images: product.photos
         }
     }
@@ -24,6 +25,5 @@ export const generateMetadata = async ({params: {productId}}: { params: { produc
 
 const ProductCardPage = async ({params: {productId}}: { params: { productId: number } }) => (
     <ClientProductCardPage productId={productId}/>
-);
-
+)
 export default ProductCardPage

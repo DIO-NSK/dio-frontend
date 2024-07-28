@@ -53,7 +53,7 @@ const editOurWater = async (req: RequestCreateOurWater) => {
 }
 
 const getRangeOurWaters = async (): Promise<string[]> => {
-    return api.get(`${BASE_URL}/catalogue/brand/range`)
+    return api.get(`${BASE_URL}/admin/catalogue/brand/range`)
         .then(response => response.data)
 }
 

@@ -5,8 +5,6 @@ export function middleware(request: NextRequest) {
     const {nextUrl, headers} = request;
     const ip = headers.get('x-forwarded-for') || request.ip;
 
-    console.log('HEADERS', headers);
-
     if (nextUrl.pathname === '/healthycheck') {
         return NextResponse.next();
     }

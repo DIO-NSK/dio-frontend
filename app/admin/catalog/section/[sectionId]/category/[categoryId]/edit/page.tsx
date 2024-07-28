@@ -16,6 +16,7 @@ import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminP
 import Text from "@/components/atoms/text/text-base/Text";
 import {cn} from "@/utlis/cn";
 import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
+import ControlledSwitch from "@/components/atoms/switch/ControlledSwitch";
 
 const textInputCN = "w-full px-7 pb-7 border-b-2 border-light-gray"
 
@@ -57,6 +58,7 @@ const AdminEditCategoryPage = ({params}: {
             properties: reqProperties,
             sequenceNumber: formData?.sequenceNumber
         }
+
         changeCategory(request as ChangeCategoryRequest)
             .then(_ => {
                 setEditStatus(true)
@@ -75,7 +77,14 @@ const AdminEditCategoryPage = ({params}: {
     }, [])
 
     useEffect(() => {
-        reset({...formData} as DefaultValues<CreateCategoryData>)
+
+        console.log(`isNeedParsing: ${formData?.isNeedParsing}`)
+        console.log(formData)
+
+        reset({
+            ...formData,
+            isNeedParsing: formData?.isNeedParsing
+        } as DefaultValues<CreateCategoryData>)
     }, [formData])
 
     methods.watch()
@@ -123,6 +132,10 @@ const AdminEditCategoryPage = ({params}: {
                         blockName={"properties"}
                         disabled
                     />
+                    <div className={"w-full px-7 pb-7 border-b-2 border-light-gray flex items-center gap-4"}>
+                        <ControlledSwitch name={'isNeedParsing'}/>
+                        <Text text={'Принадлежит ли к категории "Наши воды"'} className={'text-base text-black'}/>
+                    </div>
                     <Button
                         disabled={isSubmitting}
                         classNames={{button: "mx-7 w-[250px]"}}

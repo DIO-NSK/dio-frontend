@@ -1,5 +1,6 @@
 import {FiHeart} from "react-icons/fi";
 import {MouseEventHandler} from "react";
+import {revalidateTag} from "next/cache";
 
 const LikeButton = ({isLiked, toggleLike}: {
     isLiked: boolean,
@@ -8,7 +9,7 @@ const LikeButton = ({isLiked, toggleLike}: {
 
     const handleLikeClick: MouseEventHandler = (event) => {
         event.stopPropagation();
-        toggleLike()
+        toggleLike();
     }
 
     return (

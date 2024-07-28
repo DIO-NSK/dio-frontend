@@ -8,6 +8,11 @@ export const getAllProducts = async (): Promise<CatalogProducts> => {
 }
 
 export const getProductById = async (productId : number) : Promise<ResponseProduct> => {
-    return fetch(`${BASE_URL}/catalogue/product/detail?productId=${productId}`, {cache : 'no-store'})
-        .then(response => response.json());
+    const response = await  fetch(`${BASE_URL}/catalogue/product/detail?productId=${productId}`, {cache : 'no-store'});
+
+    if (response.ok) {
+        return response.json();
+    }
+
+    throw new Error(response.statusText);
 }

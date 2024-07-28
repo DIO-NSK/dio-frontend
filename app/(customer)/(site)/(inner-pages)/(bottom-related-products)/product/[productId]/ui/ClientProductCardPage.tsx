@@ -17,7 +17,7 @@ import {
     $breadcrumbs,
     $product,
     getBreadcrumbsEvent,
-    getProductEvent,
+    getProductFx,
     productPageDidMountEvent
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
 import {useUnit} from "effector-react";
@@ -25,17 +25,19 @@ import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/Catal
 import ProductChips
     from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/ui/ProductChips";
 import MobileProductStickyButton from "@/components/atoms/buttons/MobileProductStickyButton";
+import {useRouter} from "next/navigation";
 
 const ClientProductCardPage = ({productId}: { productId: number }) => {
 
+    const router = useRouter();
     const [breadcrumbs, getBreadcrumbs] = useUnit([$breadcrumbs, getBreadcrumbsEvent])
-    const [pageDidMount, product, getProduct] = useUnit([productPageDidMountEvent, $product, getProductEvent])
+    const [pageDidMount, product, getProduct] = useUnit([productPageDidMountEvent, $product, getProductFx])
     const popupToggle = useToggle()
 
     useEffect(() => {
         pageDidMount()
         getBreadcrumbs(productId)
-        getProduct(productId)
+        getProduct(productId);
     }, [])
 
     if (!product) return (

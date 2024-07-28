@@ -38,6 +38,7 @@ const getCategoryFx = createEffect<number, Category, Error>(getCategory)
 export const editCategoryPageDidMountEvent = createEvent<number>()
 
 const $categoryId = createStore<number>(0)
+
 export const $formData = createStore<CreateCategoryData | null>(null)
 
 $formData.on(
@@ -66,6 +67,7 @@ function createFormData(category: Category): CreateCategoryData {
                 }
             })
         ),
+        isNeedParsing: category.isNeedParsing,
         image : category.image
     } as CreateCategoryData
 }

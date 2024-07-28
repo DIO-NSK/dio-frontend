@@ -11,5 +11,6 @@ export type ResponseProduct = {
     discountPercent : number,
     price: number,
     inStock: boolean,
-    photos: string[]
+    photos: string[],
+    isNew ?: boolean
 }

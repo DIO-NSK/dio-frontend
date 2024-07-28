@@ -7,5 +7,6 @@ export type ResponseProductSearch = {
     inCart : boolean,
     inFavourites : boolean,
     discountPercent: number,
-    inStock : boolean
+    inStock : boolean,
+    isNew ?: boolean
 } & ResponsePromoSearch

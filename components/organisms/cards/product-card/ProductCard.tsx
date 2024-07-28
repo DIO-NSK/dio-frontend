@@ -113,6 +113,16 @@ const ProductCard = ({productCard, classNames}: ProductCardProps) => {
             </div>
             <span className={"absolute left-5 top-5 z-10 flex flex-row gap-2"}>
                 {
+                    productCard?.isNew && (
+                        <span className={"px-3 py-2 rounded-lg bg-blue-500"}>
+                        <Text
+                            className={"uppercase sm:text-[12px] text-[10px] font-medium text-white"}
+                            text={'Новинка'}
+                        />
+                    </span>
+                    )
+                }
+                {
                     productCard.discountPercent !== 0 &&
                     <span className={"px-3 py-2 rounded-lg bg-green-500"}>
                         <Text

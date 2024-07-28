@@ -5,6 +5,7 @@ import {
     getCategoryBreadcrumbs,
     getCategoryProducts
 } from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/page.hooks";
+import {notFound} from "next/navigation";
 
 export const generateStaticParams = async () => {
     const catalog = await getCatalog();
@@ -14,8 +15,8 @@ export const generateStaticParams = async () => {
 }
 
 export const generateMetadata = async ({params: {categoryId}}: { params: { categoryId: number } }): Promise<Metadata> => {
-    const breadcrumbs = await getCategoryBreadcrumbs(categoryId);
-    const products = await getCategoryProducts(categoryId);
+    const breadcrumbs = await getCategoryBreadcrumbs(categoryId).catch(notFound);
+    const products = await getCategoryProducts(categoryId).catch(notFound);
 
     return {
         title: `${breadcrumbs.categoryName} — доставка питьевой воды по Новосибирску и области DIO`,

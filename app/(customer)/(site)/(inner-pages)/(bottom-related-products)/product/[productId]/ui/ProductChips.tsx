@@ -12,6 +12,16 @@ type ProductChipsProps = PropsWithClassName<{
 const ProductChips = ({product, className}: ProductChipsProps) => (
     <div className={cn("flex flex-row items-center gap-3", className)}>
         {
+            product?.isNew ? (
+                <span className={"px-3 py-2 rounded-lg bg-blue-500"}>
+                        <Text
+                            className={"uppercase text-xs sm:text-sm font-medium text-white"}
+                            text={'Новинка'}
+                        />
+                    </span>
+            ) : null
+        }
+        {
             product.discountPercent !== 0 ?
                 <Chip className={"z-30 bg-green-500"}>
                     <Text

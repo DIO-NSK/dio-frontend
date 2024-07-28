@@ -32,7 +32,7 @@ const getProduct = async (productId: number): Promise<ResponseProduct> => {
     return getRequest("/catalogue/product/detail", {params: {productId: productId}})
 }
 
-const getProductFx = createEffect<number, ResponseProduct, Error>(getProduct)
+export const getProductFx = createEffect<number, ResponseProduct, Error>(getProduct)
 export const getProductEvent = createEvent<number>()
 
 export const productPageDidMountEvent = createEvent()

@@ -14,6 +14,7 @@ import SalePriceCard from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/
 import SaleCardMobileInfoBlock from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/ui/SaleCardMobileInfoBlock";
 import {Metadata} from "next";
 import MobileProductStickyButton from "@/components/atoms/buttons/MobileProductStickyButton";
+import {notFound} from "next/navigation";
 
 const productCardCV = {
     mainWrapper: cn([

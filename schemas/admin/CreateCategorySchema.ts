@@ -7,7 +7,8 @@ export const CreateCategorySchema = z.object({
     image : z.string().min(1, requiredFiledError).or(z.null()),
     properties: z.array(CharacteristicSchema),
     id: z.number().optional(),
-    sequenceNumber: z.number().optional()
+    sequenceNumber: z.number().optional(),
+    isNeedParsing : z.boolean().optional()
 })
 
 export type CreateCategoryData = z.infer<typeof CreateCategorySchema>

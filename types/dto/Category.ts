@@ -3,7 +3,8 @@ export type Category = {
     name: string,
     sequenceNumber: number,
     properties: CategoryProperty[],
-    image : string
+    image : string,
+    isNeedParsing ?: boolean
 }
 
 export type CategoryProperty = {
