@@ -29,7 +29,7 @@ import CatalogPagination from "@/components/moleculas/pagination/CatalogPaginati
 import SkeletonProductCard from "@/components/organisms/cards/product-card/SkeletonProductCard";
 
 const SkeletonProductCardList = () => (
-    Array.from({length: 9}, (_, i) => i)
+    Array.from({length: 12}, (_, i) => i)
         .map((_, key) => (
             <SkeletonProductCard key={key}/>
         ))

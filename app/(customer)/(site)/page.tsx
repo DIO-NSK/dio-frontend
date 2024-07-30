@@ -93,6 +93,8 @@ const MainPageScreen = async () => {
     const banners = await getBanners()
     const photos = await getBucketPhotos()
 
+    console.log(promotions);
+
     return (
         <>
             <PageWrapper>

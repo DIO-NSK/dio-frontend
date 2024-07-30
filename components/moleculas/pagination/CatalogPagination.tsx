@@ -8,7 +8,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import {$selectedSort, sendFiltersFx} from "@/components/organisms/bars/catalog-left-sidebar/model";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
-const CARDS_PER_VIEW = 9
+const CARDS_PER_VIEW = 12
 
 type IconButtonProps = {
     isActive: boolean,

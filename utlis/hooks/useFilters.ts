@@ -64,7 +64,7 @@ export const useFilters = (categoryId: number) => {
             filters: categoryFilters,
             categoryId: categoryId,
             page: pageQuery - 1,
-            size: 9,
+            size: 12,
             sort : sort.value
         } as CatalogueFilterParams)
         return categoryFilters
@@ -129,7 +129,7 @@ export const useFilters = (categoryId: number) => {
         // отдельный случай для цены
         urlFilters = urlFilters.concat(`${urlFilters.length ? ',' : ''}price:${convertedRequest.priceRange}`)
         router.push(`${pathname}?page=1&filterMap=${urlFilters}&sort=${sort.value}`)
-        sendFilters({...request, size: 9} as CatalogueFilterParams)
+        sendFilters({...request, size: 12} as CatalogueFilterParams)
 
     }
 
