@@ -32,11 +32,11 @@ export const useAdminPhotoCard = () => {
             }
         }).catch(e => e)
 
-        if (response.status === 200) {
+        if (response?.status === 200) {
             setIsSuccess(true)
         } else setIsSuccess(false)
 
-        return response.data
+        return response?.data
 
     };
 

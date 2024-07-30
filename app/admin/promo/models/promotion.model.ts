@@ -19,7 +19,7 @@ const createPromotion = async (promotion: RequestPromotion) => {
     const lastSlashIndex = promotion.link.lastIndexOf('/') + 1;
     const id = promotion.link.slice(lastSlashIndex);
 
-    return api.post("/admin/banner/promotion/v2", {promotionId: +id, imageUrl : promotion.imageUrl})
+    return api.post("/admin/banner/promotion", {promotionId: +id, imageUrl : promotion.imageUrl})
         .then(response => response.data)
 }
 

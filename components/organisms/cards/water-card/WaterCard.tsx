@@ -28,7 +28,7 @@ const textStyles = [
 const WaterCard = ({waterCard, className}: WaterCardType) => (
     <Link
         className={cn(linkStyles(className))}
-        href={waterCard.filterCharacteristic}
+        href={`/our-waters?brand=${waterCard.name}`}
     >
         <div className={cn(cardStyles)}>
             <img
