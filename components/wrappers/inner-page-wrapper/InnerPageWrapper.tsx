@@ -2,6 +2,7 @@ import React from 'react';
 import {cn} from "@/utlis/cn";
 import {ClassValue} from "clsx";
 import MobilePageWrapper from "@/components/mobile/wrappers/mobile-page-wrapper/MobilePageWrapper";
+import {BREAKPOINT_MOBILE} from "@/constants";
 
 type InnerPageWrapperClassNames = {
     mobileWrapper ?: string,
@@ -18,7 +19,7 @@ const InnerPageWrapper = ({children, classNames} : {
         classNames?.desktopWrapper
     ]
 
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < BREAKPOINT_MOBILE;
 
     return (
         <React.Fragment>
