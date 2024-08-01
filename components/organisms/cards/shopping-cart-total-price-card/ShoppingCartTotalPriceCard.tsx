@@ -38,18 +38,18 @@ const ShoppingCartTotalPriceCard = ({products, promos, buttonText, onClick}: {
     const hasSaleNotInStock = promos.some(promo => !promo.products.some(product => !product.inStock))
     const hasItemInStock = hasSaleNotInStock || hasProductNotInStock;
 
-    const totalProductsPriceWithoutDiscount = products.reduce((acc, item) => {
-        const [_, price] = useDiscount(item.price, item.discountPercent)
-        return "quantity" in item ? acc + price * item.quantity : acc + price
+    const totalProductsActualPrice = products.reduce((acc, item) => {
+        const [_, newPrice] = useDiscount(item.price, item.discountPercent)
+        return "quantity" in item ? acc + newPrice * item.quantity : acc + newPrice
     }, 0)
 
     const totalPromosPrice = promos.reduce((acc, promo) => {
         return "quantity" in promo ? acc + promo.price * promo.quantity : acc + (promo as any).price
     }, 0)
 
-    const totalProductsPriceWithDiscount = products.reduce((acc, item) => {
-        const [newPrice, _] = useDiscount(item.price, item.discountPercent)
-        return "quantity" in item ? acc + newPrice * item.quantity : acc + newPrice
+    const totalProductsOldPrice = products.reduce((acc, item) => {
+        const [oldPrice, _] = useDiscount(item.price, item.discountPercent)
+        return "quantity" in item ? acc + oldPrice * item.quantity : acc + oldPrice
     }, 0.0)
 
     const totalProductsAmount = products.reduce((acc, item) => {
@@ -60,12 +60,11 @@ const ShoppingCartTotalPriceCard = ({products, promos, buttonText, onClick}: {
         return "quantity" in promo ? acc + promo.quantity : acc + 1
     }, 0)
 
-    const totalPriceWithoutDiscount = totalProductsPriceWithoutDiscount + totalPromosPrice;
-    const totalDiscount = totalProductsPriceWithoutDiscount - totalProductsPriceWithDiscount;
-    const totalPriceWithDiscount = totalPriceWithoutDiscount - totalDiscount;
+    const totalActualPrice = totalProductsActualPrice + totalPromosPrice;
+    const totalDiscount = totalProductsOldPrice - totalProductsActualPrice;
     const totalItemsAmount = totalProductsAmount + totalPromosAmount;
 
-    const isValidCart = validateCart(totalPriceWithDiscount, products);
+    const isValidCart = validateCart(totalActualPrice, products);
 
     const cardRows = [
         {header: "Количество", data: totalItemsAmount + " шт."},
@@ -85,7 +84,7 @@ const ShoppingCartTotalPriceCard = ({products, promos, buttonText, onClick}: {
             <div className={cn(rowCV)}>
                 <Text text={"Итого"} className={cn(textCV)}/>
                 <Text
-                    text={`${totalPriceWithDiscount.toFixed(2)} ₽`}
+                    text={`${totalActualPrice.toFixed(2)} ₽`}
                     className={"text-[24px] font-medium text-link-blue"}
                 />
             </div>

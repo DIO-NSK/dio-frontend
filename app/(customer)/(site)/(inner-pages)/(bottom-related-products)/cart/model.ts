@@ -35,8 +35,10 @@ export type ResponseUserCart = {
 }
 
 export type RequestEditProductParams = {
-    productId: number,
-    quantityProduct: number
+    promoId ?: number,
+    productId ?: number,
+    quantityProduct?: number
+    quantityPromo?: number
 }
 
 export type RequestRemoveCart = { productId: number } | { promoId: number }

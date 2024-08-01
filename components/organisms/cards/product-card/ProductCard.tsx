@@ -36,7 +36,7 @@ const ProductCard = ({productCard, classNames}: ProductCardProps) => {
 
     const [isLiked, toggleLike] = useLike(productCard.inFavourites, productCard.id)
     const [isInCart, onBuyClick] = useBuyButton(productCard.inCart, productCard.id)
-    const [newPrice, price] = useDiscount(productCard.price, productCard.discountPercent)
+    const [price, newPrice] = useDiscount(productCard.price, productCard.discountPercent)
 
     const buttonText = productCard.inStock ? isInCart ? "В корзине" : "В корзину" : "Нет в наличии"
     const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"}/> : null

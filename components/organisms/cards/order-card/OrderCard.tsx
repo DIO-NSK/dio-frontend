@@ -14,11 +14,15 @@ import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-re
 import {useUnit} from "effector-react";
 import {selectOrderToRepeatEvent} from "@/app/(customer)/profile/orders/model";
 import {useRouter} from "next/navigation";
+import {useDiscount} from "@/utlis/hooks/product/useDiscount";
 
 const HeaderRow = ({order}: { order: ResponseProfileOrder }) => {
 
-    const totalPrice = order.items.reduce((acc, item) =>
-        acc + item.price * item.quantity * (1 - item.discountPercent * 0.01), 0)
+    const totalPrice = order.items.reduce((acc, item) => {
+        const [_, newPrice] = useDiscount(item.price, item.discountPercent);
+
+        return acc + newPrice * item.quantity;
+    }, 0)
 
     return (
         <div className={"w-full flex flex-row items-center justify-between border-b-2 border-light-gray pb-5"}>

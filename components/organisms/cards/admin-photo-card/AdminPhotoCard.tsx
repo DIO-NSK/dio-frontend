@@ -40,7 +40,7 @@ const PhotoCard = (props: AdminPhotoCardProps & SortableHandlerProps & {
             <img
                 src={resolvedImage}
                 alt={"Фотография продукта"}
-                className={"w-full h-full object-cover"}
+                className={"w-full h-full object-scale-down"}
             />
             <div className={"absolute flex flex-row items-center gap-3 z-10 top-5 right-5"}>
                 {(props.editable || props.draggable) && <React.Fragment>

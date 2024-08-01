@@ -30,7 +30,7 @@ const MobileProductStickyButton = (props: MobileProductStickyButtonProps) => {
     const inCart = (props.item as ResponseProduct)?.inCart;
 
     const [isInCart, addToCart] = useBuyButton(inCart, props.id, isSale);
-    const [newPrice, price] = useDiscount(itemPrice, itemDiscountPercent);
+    const [price, newPrice] = useDiscount(itemPrice, itemDiscountPercent);
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 

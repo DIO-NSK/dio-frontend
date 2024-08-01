@@ -39,7 +39,7 @@ const MobileCatalogSearchingMenu = () => {
                 productsToggle.state && <div className={'w-full flex flex-col -mt-7'}>
                     {catalog?.productList.map((product, index) => {
 
-                        const [newPrice, price] = useDiscount(product.price, product.discountPercent)
+                        const [price, newPrice] = useDiscount(product.price, product.discountPercent)
 
                         return (
                             <Link

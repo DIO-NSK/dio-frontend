@@ -32,7 +32,7 @@ const UserProfileLeftSidebar = () => {
 
     useEffect(() => {
         computeActiveTab()
-    }, [])
+    }, [pathname])
 
     return (
         <SideTabBar

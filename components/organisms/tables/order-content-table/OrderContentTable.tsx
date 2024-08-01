@@ -37,7 +37,7 @@ const OrderRowProductCard = ({product, hasMore}: { product: ResponseCartItem, ha
         {"pb-3 border-b-2 border-light-gray": hasMore}
     ]
 
-    const [newPrice, price] = useDiscount(product.price, product.discountPercent)
+    const [price, newPrice] = useDiscount(product.price, product.discountPercent)
 
     return (
         <div className={cn(wrapperStyles)}>
@@ -66,8 +66,11 @@ const OrderRow = (props: OrderRowProps) => {
     const handleSelect = () => props.onSelect?.(order)
     const handleRowClick = () => props.onClick(props.tableRow)
 
-    const totalPrice = order.products?.reduce((acc, item) =>
-        acc + item.price * item.quantity * (1 - 0.01 * item.discountPercent), 0)
+    const totalPrice = order.products?.reduce((acc, item) => {
+        const [_, newPrice] = useDiscount(item.price, item.discountPercent);
+
+        return acc + newPrice * item.quantity;
+    }, 0)
 
     const wrapperCV: ClassValue[] = [
         "pointer relative hoverable w-full px-[95px] grid grid-cols-8 gap-x-7",

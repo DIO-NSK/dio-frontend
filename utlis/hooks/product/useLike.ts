@@ -4,6 +4,7 @@ import {addToFavouritesEvent, removeFromFavouritesEvent} from "@/components/orga
 import {$userCredentials} from "@/app/(customer)/model";
 import {useStore} from "@/store/Store";
 import {useRouter} from "next/navigation";
+import {BREAKPOINT_MOBILE} from "@/constants";
 
 export const useLike = (initState: boolean, productId: number) => {
 
@@ -14,7 +15,7 @@ export const useLike = (initState: boolean, productId: number) => {
     const [addToFavourites, removeFromFavourites] = useUnit([addToFavouritesEvent, removeFromFavouritesEvent])
 
     const [isLiked, setLiked] = useState<boolean>(initState)
-    const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 678 : false
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth < BREAKPOINT_MOBILE : false
 
     const toggleLike = () => {
         if (userCredentials) {

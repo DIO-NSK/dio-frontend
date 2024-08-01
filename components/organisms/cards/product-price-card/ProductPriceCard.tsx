@@ -15,7 +15,7 @@ const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
 
     const [isLiked, toggleLike] = useLike(product.inFavourites, product.id)
     const [isInCart, onBuyClick] = useBuyButton(product.inCart, product.id)
-    const [newPrice, price] = useDiscount(product.price, product.discountPercent)
+    const [price, newPrice] = useDiscount(product.price, product.discountPercent)
 
     return (
         <StickyCardWrapper startCol={"col-start-10 top-0"}>

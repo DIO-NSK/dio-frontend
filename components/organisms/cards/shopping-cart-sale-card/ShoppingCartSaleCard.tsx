@@ -19,7 +19,7 @@ const trashCV: ClassValue = "w-[18px] sm:w-[22px] hoverable pointer text-info-re
 const ShoppingCartSaleCard = ({promo}: { promo: ResponseCartSaleItem }) => {
 
     const deleteSale = useUnit(removeSaleFromCartEvent)
-    const [amount, increase, decrease] = useCounter(0, promo.quantity)
+    const [amount, increase, decrease] = useCounter(promo.promoId, promo.quantity, true)
 
     const isExpanded = useToggle()
 

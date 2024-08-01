@@ -15,7 +15,7 @@ const MobileHeaderRow = ({product}: {
     product: ResponseProduct
 }) => {
 
-    const [newPrice, price] = useDiscount(product.price, product.discountPercent)
+    const [price, newPrice] = useDiscount(product.price, product.discountPercent)
 
     const [isLiked, toggleLike] = useLike(product.inFavourites, product.id)
     const [isInCart, onBuyClick] = useBuyButton(product.inCart, product.id)

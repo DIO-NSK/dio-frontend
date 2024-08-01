@@ -28,7 +28,7 @@ const HeaderRow = ({card, canInteract = true}: ShoppingCartProductCardProps) => 
     const [isLiked, toggleLike] = useLike(card.inFavourites, card.productId)
     const [amount, increase, decrease] = useCounter(card.productId, card.quantity)
 
-    const [newPrice, price] = useDiscount(card.price, card.discountPercent)
+    const [price, newPrice] = useDiscount(card.price, card.discountPercent)
 
     const trashCV: ClassValue = "hoverable pointer text-info-red hover:text-red-700"
 
@@ -75,10 +75,9 @@ const MobileHeaderRow = ({canInteract = true, ...props}: ShoppingCartProductCard
 
     const removeProductFromCart = useUnit(removeProductFromCartEvent)
 
-    const [isLiked, toggleLike] = useLike(props.card.inFavourites, props.card.productId)
     const [amount, increase, decrease] = useCounter(props.card.productId, props.card.quantity)
 
-    const [newPrice, price] = useDiscount(props.card.price, props.card.discountPercent)
+    const [price, newPrice] = useDiscount(props.card.price, props.card.discountPercent)
 
     const handleDeleteProduct = () => removeProductFromCart({productId : props.card.productId})
 
@@ -90,11 +89,11 @@ const MobileHeaderRow = ({canInteract = true, ...props}: ShoppingCartProductCard
             <Text text={props.card.name}/>
             <div className={"flex flex-row items-baseline gap-2"}>
                 <Text
-                    text={`${newPrice.toFixed(2)} ₽`}
+                    text={`${(newPrice * props.card.quantity).toFixed(2)} ₽`}
                     className={"text-lg text-link-blue font-semibold"}
                 />
                 {props.card.discountPercent !== 0 && <Text
-                    text={`${price.toFixed(2)} ₽`}
+                    text={`${(price * props.card.quantity).toFixed(2)} ₽`}
                     className={"text-text-gray line-through"}
                 />}
             </div>

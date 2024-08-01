@@ -127,7 +127,7 @@ const PopoverProductColumn = <T, >({products, ...props}: PopoverProps<T>) => {
             <section className={"w-full flex flex-col gap-5"}>
                 {products?.map((product, index, array) => {
 
-                    const [newPrice, price] = useDiscount(product.price, product.discountPercent)
+                    const [price, newPrice] = useDiscount(product.price, product.discountPercent)
 
                     const itemCV = {
                         "rounded-b-xl": index === array.length - 1,
