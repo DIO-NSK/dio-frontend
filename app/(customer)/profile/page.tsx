@@ -53,7 +53,7 @@ const LastOrderBlock = () => {
     }, [])
 
     const handleRepeatOrder = () => {
-        selectOrderToRepeat(orders.at(-1)!!)
+        selectOrderToRepeat(orders.at(0)!!)
         router.push('/cart/checkout')
     }
 

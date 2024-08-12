@@ -13,13 +13,14 @@ import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import {PopupProps} from "@/types/props/Popup";
 import {FiX} from "react-icons/fi";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
+import {Address} from "@/components/organisms/map/Map.types";
 
 const MobilePickAddressPopup = (props : PopupProps) => {
 
     const getUserAddresses = useUnit(getAddressFx)
 
     const [userAddresses, selectAddress] = useUnit([$userAddress, selectUserAddressEvent])
-    const [userAddress, setUserAddress] = useState<SelectItem<UserAddress> | null>(null)
+    const [userAddress, setUserAddress] = useState<SelectItem<Address> | null>(null)
 
     const handleConfirmUserAddress = () => {
         selectAddress(userAddress!!)
@@ -29,9 +30,10 @@ const MobilePickAddressPopup = (props : PopupProps) => {
     useEffect(() => {
         getUserAddresses().then(items => {
             const selectedItem = {
-                name: `ул. ${items[0].street}, д. ${items[0].houseNumber}, кв. ${items[0].flatNumber}`,
+                name: items[0].address,
                 value: items[0]
-            } as SelectItem<UserAddress>
+            } as SelectItem<Address>
+
             setUserAddress(selectedItem)
         })
     }, [])

@@ -35,7 +35,7 @@ const PopupWrapper = ({placement = "default", ...props} : PopupWrapperProps) => 
             >
                 {props.children}
             </PopupCardWrapper>
-            <div className={"w-full absolute z-10 h-screen bg-black bg-opacity-50"}/>
+            <div className={"w-full absolute z-30 h-screen bg-black bg-opacity-50"}/>
         </div>
     );
 

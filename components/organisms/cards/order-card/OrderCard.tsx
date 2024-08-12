@@ -92,7 +92,9 @@ const Footer = ({canRepeat, isOpen, setOpen, order}: {
     const selectOrderToRepeat = useUnit(selectOrderToRepeatEvent)
 
     const router = useRouter()
+
     const handleOpenState = () => setOpen(!isOpen)
+
     const handleRepeatOrder = () => {
         selectOrderToRepeat(order)
         router.push('/cart/checkout')

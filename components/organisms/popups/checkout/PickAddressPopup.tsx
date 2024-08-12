@@ -12,13 +12,15 @@ import {
 } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/model";
 import {SelectItem} from "@/types/props/SelectItem";
 import {UserAddress} from "@/types/dto/user/credentials/UserAddress";
+import {Address} from "@/components/organisms/map/Map.types";
 
 const PickAddressPopup = (props: PopupProps) => {
 
     const getUserAddresses = useUnit(getAddressFx)
 
     const [userAddresses, selectAddress] = useUnit([$userAddress, selectUserAddressEvent])
-    const [userAddress, setUserAddress] = useState<SelectItem<UserAddress> | null>(null)
+
+    const [userAddress, setUserAddress] = useState<SelectItem<Address> | null>(null)
 
     const handleConfirmUserAddress = () => {
         selectAddress(userAddress!!)
@@ -29,9 +31,9 @@ const PickAddressPopup = (props: PopupProps) => {
         getUserAddresses().then(items => {
             if (items) {
                 const selectedItem = {
-                    name: `ул. ${items[0].street}, д. ${items[0].houseNumber}, кв. ${items[0].flatNumber}`,
+                    name: items[0].address,
                     value: items[0]
-                } as SelectItem<UserAddress>
+                } as SelectItem<Address>
                 setUserAddress(selectedItem)
             }
         })

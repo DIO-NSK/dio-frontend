@@ -17,17 +17,25 @@ const getOrderInfo = async (orderToken : string) : Promise<OrderInfo> => {
 }
 
 const getOrdersFx = createEffect<void, ResponseProfileOrder[], Error>(getOrders)
+
 export const getOrderInfoFx = createEffect<string, OrderInfo, Error>(getOrderInfo);
 
 export const getOrdersEvent = createEvent<void>()
+
 export const $orders = createStore<ResponseProfileOrder[]>([])
+
 export const $orderToRepeat = createStore<ResponseProfileOrder | null>(null)
+
 export const selectOrderToRepeatEvent = createEvent<ResponseProfileOrder>()
+
 export const resetOrderToRepeatEvent = createEvent<void>()
 
 $orderToRepeat
     .reset(resetOrderToRepeatEvent)
-    .on(selectOrderToRepeatEvent, (_, order) => order)
+    .on(selectOrderToRepeatEvent, (_, order) => {
+        console.log(order);
+        return order
+    })
 
 $orders.on(getOrdersFx.doneData, (_, orders) => orders)
 

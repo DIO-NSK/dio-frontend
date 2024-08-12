@@ -5,6 +5,7 @@ COPY yarn*.lock .
 RUN yarn install
 COPY . .
 RUN yarn build
+
 FROM node:20-alpine
 WORKDIR /app
 COPY --from=builder /app /app

@@ -2,23 +2,29 @@ import {CreateOrderDraftData} from "@/schemas/customer/checkout/CreateOrderDraft
 import {api, getRequest} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {defaultCheckoutFirstStepData} from "@/data/forms/checkoutFirstStepData";
-import {UserAddress} from "@/types/dto/user/credentials/UserAddress";
 import {SelectItem} from "@/types/props/SelectItem";
+import {Address} from "@/components/organisms/map/Map.types";
 
 const createOrderDraft = async (formData: CreateOrderDraftData) => {
-    return api.post("/order/draft", {...formData})
+    const {address, ...rest} = formData;
+    const request = { ...address, ...rest  };
+
+    return api.post("/order/draft", request)
         .then(response => response.data)
         .catch(error => {throw Error(error.response.data.message)})
 }
 
-const getAddresses = async (): Promise<UserAddress[]> => getRequest("/order/address")
+const getAddresses = async (): Promise<Address[]> => getRequest("/order/address")
 
-export const getAddressFx = createEffect<void, UserAddress[], Error>(getAddresses)
+export const getAddressFx = createEffect<void, Address[], Error>(getAddresses)
+
 export const getAddressEvent = createEvent()
 
-export const $userAddress = createStore<SelectItem<UserAddress>[]>([])
-export const $activeUserAddress = createStore<SelectItem<UserAddress> | null>(null)
-export const selectUserAddressEvent = createEvent<SelectItem<UserAddress>>()
+export const $userAddress = createStore<SelectItem<Address>[]>([])
+
+export const $activeUserAddress = createStore<SelectItem<Address> | null>(null)
+
+export const selectUserAddressEvent = createEvent<SelectItem<Address>>()
 
 $activeUserAddress.on(selectUserAddressEvent, (_, selectItem) => selectItem)
 
@@ -28,17 +34,19 @@ export const $checkoutFirstStepData = createStore<CreateOrderDraftData>(defaultC
 export const setCheckoutFirstStepDataEvent = createEvent<CreateOrderDraftData>()
 
 $orderId.on(createOrderDraftFx.doneData, (_, orderId) => orderId)
+
 $checkoutFirstStepData.on(setCheckoutFirstStepDataEvent, (_, data) => data)
-$userAddress.on(getAddressFx.doneData, (_, userAddress) => userAddress.map(toSelectItem))
+
+$userAddress.on(getAddressFx.doneData, (_, userAddress) => userAddress.filter(item => item.address !== null).map(toSelectItem))
 
 sample({
     clock: getAddressEvent,
     target: getAddressFx
 })
 
-const toSelectItem = (address: UserAddress): SelectItem<UserAddress> => {
+const toSelectItem = (address: Address): SelectItem<Address> => {
     return {
-        name: `ул. ${address.street}, д. ${address.houseNumber}, кв. ${address.flatNumber}`,
+        name: address.address,
         value: address
-    } as SelectItem<UserAddress>
+    } as SelectItem<Address>
 }

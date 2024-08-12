@@ -8,7 +8,6 @@ import Button from "@/components/atoms/buttons/button/Button";
 import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
 import PickAddressPopup from "@/components/organisms/popups/checkout/PickAddressPopup";
 import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapper/BackgroundBlockWrapper";
-import {FiPlus} from "react-icons/fi";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import {
     $activeUserAddress,
@@ -24,6 +23,11 @@ import {$orderToRepeat} from "@/app/(customer)/profile/orders/model";
 import {
     convertOrderToFormData
 } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/DesktopCheckoutFirstStep.utils";
+import {ControlledAddressBlock} from "@/components/organisms/address-block/ControlledAddressBlock";
+import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
+import {getCoordsByLocation} from "@/components/organisms/address-block/AddressBlock.api";
+import {useLocation} from "@/utlis/hooks/useLocation";
+import {LatLng} from "leaflet";
 
 const CheckoutUserDataBlock = () => {
 
@@ -63,6 +67,7 @@ const CheckoutDeliveryAddressBlock = ({onOpenMobilePopup}: { onOpenMobilePopup: 
     const [buttonText, setButtonText] = useState<string>('')
 
     const handleSwitchPopupState = () => setPopupVisible(!isPopupVisible)
+
     const handleOpenPopup = () => {
         if (window.innerWidth >= 640) {
             setPopupVisible(true)
@@ -70,34 +75,6 @@ const CheckoutDeliveryAddressBlock = ({onOpenMobilePopup}: { onOpenMobilePopup: 
             onOpenMobilePopup()
         }
     }
-
-    const deliveryAddressInputs: InputPrefilledData[] = [
-        {
-            labelText: "Город",
-            placeholder: "Введите город проживания",
-            name: "city"
-        }, {
-            labelText: "Улица",
-            placeholder: "Введите название улицы",
-            name: "street"
-        }, {
-            labelText: "Дом / Корпус",
-            placeholder: "Введите номер дома",
-            name: "houseNumber"
-        }, {
-            labelText: "Квартира / Офис",
-            placeholder: "Введите номер квартиры",
-            name: "flatNumber"
-        }, {
-            labelText: "Подъезд",
-            placeholder: "Введите номер подъезда",
-            name: "entranceNumber"
-        }, {
-            labelText: "Этаж",
-            placeholder: "Введите этаж",
-            name: "floor"
-        }
-    ]
 
     useEffect(() => {
         if (window.screen.width >= 640) {
@@ -110,28 +87,29 @@ const CheckoutDeliveryAddressBlock = ({onOpenMobilePopup}: { onOpenMobilePopup: 
             {isPopupVisible && <PickAddressPopup
                 onClose={handleSwitchPopupState}
             />}
-            <BackgroundBlockWrapper
-                header={"Адрес доставки"}
-                rightContent={
-                    <Button
-                        text={buttonText}
-                        onClick={handleOpenPopup}
-                        icon={<FiPlus size={"18px"}/>}
-                        buttonType={"SECONDARY"}
-                        size={"sm"}
-                    />
-                }
-            >
-                {deliveryAddressInputs.map((input, key) =>
-                    <ControlledTextInput {...input} theme={"filled"} key={key}/>
-                )}
-            </BackgroundBlockWrapper>
+            <ControlledAddressBlock
+                buttonText={buttonText}
+                onOpenPopup={handleOpenPopup}
+                name={'address'}
+            />
         </React.Fragment>
     )
 }
 
+const CheckoutCommentBlock = () => (
+    <BackgroundBlockWrapper header={"Дополнительно"}>
+        <ControlledTextArea
+            name={'comment'} labelText={'Комментарий к заказу'}
+            placeholder={'Комментарий к заказу поможет уточнить данные об адресе доставки и ваших предпочтениях'}
+            classNames={{wrapper: 'col-span-full'}}
+            theme={'filled'}
+        />
+    </BackgroundBlockWrapper>
+)
+
 const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
 
+    const location = useLocation();
     const [pickedUserAddress, orderToRepeat] = useUnit([$activeUserAddress, $orderToRepeat])
     const [formData, setFormData] = useUnit([$checkoutFirstStepData, setCheckoutFirstStepDataEvent])
     const [activeStep, setActiveStep] = useUnit([$activeStep, setActiveStepEvent])
@@ -144,7 +122,7 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
 
     const {
         handleSubmit, reset,
-        formState: {isSubmitting}
+        formState: {isSubmitting}, watch, setValue
     } = methods
 
     const onSubmit = (formData: FieldValues) => {
@@ -157,6 +135,7 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
     useEffect(() => {
         reset({
             ...formData,
+            email: userCredentials?.email,
             firstName: userCredentials?.fullName.split(" ")[0],
             surname: userCredentials?.fullName.split(" ")[1],
             phoneNumber: userCredentials?.phoneNumber
@@ -165,14 +144,18 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
 
     useEffect(() => {
         if (pickedUserAddress) {
-            reset({...pickedUserAddress?.value})
+            const {address, latitude, longitude} = pickedUserAddress?.value;
+            reset({
+                address: {address: address, latitude: latitude, longitude: longitude}
+            })
         }
     }, [pickedUserAddress]);
 
     useEffect(() => {
         reset({
             ...formData,
-            ...pickedUserAddress?.value,
+            address: {address: '', latitude: location[0], longitude: location[1]},
+            email: userCredentials?.email,
             firstName: userCredentials?.fullName.split(" ")[0],
             surname: userCredentials?.fullName.split(" ")[1],
             phoneNumber: userCredentials?.phoneNumber
@@ -180,13 +163,16 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
     }, []);
 
     useEffect(() => {
-        if (orderToRepeat) {
-            const convertedOrder = convertOrderToFormData(orderToRepeat)
-            reset({
-                houseNumber: convertedOrder?.houseNumber,
-                flatNumber: convertedOrder?.flatNumber,
-                street: convertedOrder?.street
-            })
+        if (orderToRepeat?.address) {
+            getCoordsByLocation(orderToRepeat.address).then((suggestions) => {
+                reset({
+                    address: {
+                        address: suggestions[0].address,
+                        latitude: suggestions[0].lat,
+                        longitude: suggestions[0].lng
+                    }
+                })
+            });
         }
     }, [orderToRepeat]);
 
@@ -195,6 +181,7 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
             <Form>
                 <CheckoutUserDataBlock/>
                 <CheckoutDeliveryAddressBlock {...props}/>
+                <CheckoutCommentBlock/>
                 <Button
                     disabled={isSubmitting}
                     text={isSubmitting ? "Отправка.." : "Далее"}
