@@ -17,6 +17,7 @@ import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import {useRouter} from "next/navigation";
 import {convertPhoneNumber} from "@/utlis/convertPhoneNumber";
 import {CreateOrderData} from "@/schemas/customer/checkout/CreateOrderSchema";
+import {cn} from "@/utlis/cn";
 
 const convertFormDataToRequest = (data: CreateOrderData): CreateOrderRequest => {
     return ({
@@ -30,12 +31,16 @@ const convertFormDataToRequest = (data: CreateOrderData): CreateOrderRequest => 
     }) as CreateOrderRequest
 }
 
-const CheckoutDataBlock = ({header, items}: { header: string, items: HeaderDescription[] }) => {
+const CheckoutDataBlock = ({header, items, className}: {
+    header: string,
+    items: HeaderDescription[],
+    className?: string
+}) => {
     return (
         <BackgroundBlockWrapper header={header}>
             {items.map((item, index) => (
                 <section
-                    className={"col-span-1 border-b-2 border-light-gray pb-5 flex flex-row items-baseline justify-between"}
+                    className={cn("col-span-1 border-b-2 border-light-gray pb-5 flex flex-row items-baseline justify-between", className)}
                     key={index}
                 >
                     <Text text={item.header} className={"text-text-gray"}/>
@@ -62,12 +67,7 @@ const DesktopCheckoutThirdStep = () => {
     ]
 
     const secondBlockData: HeaderDescription[] = [
-        {header: "Город", description: firstFormData.city},
-        {header: "Улица", description: firstFormData.street},
-        {header: "Дом / Корпус", description: firstFormData.houseNumber as string},
-        {header: "Квартира / Офис", description: firstFormData.flatNumber as string},
-        {header: "Подъезд", description: firstFormData.entranceNumber as string},
-        {header: "Этаж", description: firstFormData.floor as string},
+        {header: "Адрес", description: firstFormData.address.address},
     ]
 
     const thirdBlockData: HeaderDescription[] = [
@@ -79,6 +79,10 @@ const DesktopCheckoutThirdStep = () => {
                 ? "Банковской картой онлайн"
                 : "Наличными или картой при получении"
         },
+    ]
+
+    const additionalBlockData : HeaderDescription[] = [
+        {header : "Комментарий к заказу", description : firstFormData?.comment as string}
     ]
 
     const headerSnackbar = requestStatus === true ? "Заказ успешно создан!" : "Произошла ошибка"
@@ -117,8 +121,17 @@ const DesktopCheckoutThirdStep = () => {
                 }}
             />
             <CheckoutDataBlock header={"Данные получателя"} items={firstBlockData}/>
-            <CheckoutDataBlock header={"Адрес доставки"} items={secondBlockData}/>
+            <CheckoutDataBlock header={"Адрес доставки"} items={secondBlockData} className={'col-span-full border-b-0 pb-0'}/>
             <CheckoutDataBlock header={"Дата и время доставки"} items={thirdBlockData}/>
+            {
+                firstFormData?.comment ?
+                    <CheckoutDataBlock
+                        header={"Дополнительно"}
+                        items={additionalBlockData}
+                        className={'col-span-full flex-col gap-2 border-b-0 pb-0'}
+                    />
+                    : null
+            }
             <Button
                 text={pending ? "Отправка.." : "Оформить заказ"}
                 classNames={{button: "sm:w-1/4 w-full"}}

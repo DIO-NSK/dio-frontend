@@ -14,7 +14,7 @@ type PopupCardWrapperProps = {
 const PopupCardWrapper = (props : PopupCardWrapperProps) => {
 
     const wrapperCV : ClassValue[] = [
-        "z-20 absolute top-[50px] flex flex-row gap-5",
+        "z-40 absolute top-[50px] flex flex-row gap-5",
         props.classNames?.wrapper
     ]
 
