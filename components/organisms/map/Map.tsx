@@ -16,7 +16,7 @@ const Map = (props : MapProps) => (
         className={'col-span-full h-[300px] rounded-lg z-0'}
         center={[props.position.lat, props.position.lng]}
         markerZoomAnimation={true}
-        zoom={16} zoomControl={true}
+        zoom={16} maxZoom={18} zoomControl={true}
         zoomAnimation={true}
         zoomSnap={1}
     >

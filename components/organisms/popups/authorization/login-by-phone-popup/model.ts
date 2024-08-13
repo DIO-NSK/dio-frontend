@@ -22,4 +22,5 @@ $loginByPhoneNumber
 $loginByPhoneError
     .on(loginByPhoneFx.failData, (_, error) => error.message)
     .reset(loginByPhonePopupDidMountEvent)
+
 $userId.on(loginByPhoneFx.doneData, (_, userId) => userId)

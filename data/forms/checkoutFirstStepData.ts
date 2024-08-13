@@ -11,5 +11,5 @@ export const defaultCheckoutFirstStepData: CreateOrderDraftData = {
         latitude: 0,
         longitude: 0
     },
-    addressId: 0
+    addressId: undefined
 }

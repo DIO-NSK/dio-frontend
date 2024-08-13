@@ -1,7 +1,7 @@
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiPlus} from "react-icons/fi";
 import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapper/BackgroundBlockWrapper";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {LatLng} from "leaflet";
 import {
     getCoordsByLocation,
@@ -32,10 +32,12 @@ export interface AddressBlockProps {
 }
 
 const itemTemplate = (item: Suggestion) => (
-    <Text text={item.address} className={'text-base text-text-gray'}/>
+    <Text text={item.address} className={'whitespace-wrap max-w-full text-base text-text-gray'}/>
 );
 
 export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: AddressBlockProps) => {
+
+    const ref = useRef<AutoComplete>(null);
 
     const [inputValue, setInputValue] = useState<string>(location?.address ?? '');
     const [isChangedViaInput, setChangedViaInput] = useState<boolean>(false);
@@ -68,14 +70,16 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: Addr
                     if (suggestions[0]) {
                         onChange({
                             address: suggestions[0].value,
-                            latitude: location.latitude,
-                            longitude: location.longitude
+                            latitude: suggestions[0].data.geo_lat,
+                            longitude: suggestions[0].data.geo_lon
                         })
                         setInputValue(suggestions[0].value)
                     }
                 })
         }
     }, [location?.latitude, location?.longitude]);
+
+    useEffect(() => console.log(location?.latitude, location?.longitude), [location]);
 
     if (location?.latitude > 0 && location?.longitude > 0) {
         return (
@@ -92,6 +96,7 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: Addr
                 }
             >
                 <AutoComplete
+                    ref={ref}
                     title={'Адрес доставки'}
                     placeholder={'Введите адрес доставки'}
                     value={inputValue}

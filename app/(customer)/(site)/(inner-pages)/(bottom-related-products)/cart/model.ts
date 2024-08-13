@@ -1,6 +1,9 @@
 import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {debounce} from "patronum";
+import {loginByPhoneFx} from "@/components/organisms/popups/authorization/login-by-phone-popup/model";
+import {registerUserFx} from "@/components/organisms/popups/authorization/signup-popup/model";
+import {loginUserByCredentialsFx} from "@/components/organisms/popups/authorization/login-popup/model";
 
 export type ResponseCartItem = {
     productId: number,
@@ -99,6 +102,6 @@ sample({
 })
 
 sample({
-    clock: getCartEvent,
+    clock: [getCartEvent, loginByPhoneFx.doneData, registerUserFx.doneData, loginUserByCredentialsFx.doneData],
     target: getCartFx
 })

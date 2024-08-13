@@ -35,10 +35,10 @@ export const pt : AutoCompletePassThroughOptions = {
         className : 'hidden'
     },
     panel: {
-        className: cn('mt-5 bg-white text-gray-700 border-0 rounded-md shadow-lg', 'max-h-[200px] overflow-auto')
+        className: cn('mt-5 bg-white text-gray-700 border-0 rounded-md shadow-lg max-w-[925px]', 'max-h-[200px] overflow-auto')
     },
     item: ({ context, state } : AutoCompletePassThroughMethodOptions) => ({
-        className: cn('cursor-pointer font-normal overflow-hidden relative w-full', 'm-0 p-3 border-0  transition-shadow duration-200 rounded-none', {
+        className: cn('cursor-pointer font-normal overflow-hidden relative whitespace-wrap max-w-[925px]', 'm-0 p-3 border-0  transition-shadow duration-200 rounded-none', {
             'text-gray-700 hover:text-gray-700 hover:bg-gray-100': !context.selected,
             'bg-white text-gray-700 hover:text-gray-700 hover:bg-gray-100': state.focused && !context.selected,
             'bg-blue-100 text-blue-700': context.selected,
