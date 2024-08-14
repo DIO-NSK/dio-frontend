@@ -19,6 +19,7 @@ import {
 import {pt} from "@/components/organisms/address-block/AddressBlock.styles";
 import Text from "@/components/atoms/text/text-base/Text";
 import {Address} from "@/components/organisms/map/Map.types";
+import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 
 const MapAddressPicker = dynamic(() => import("@/components/organisms/map/Map"), {
     ssr: true
@@ -59,7 +60,7 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: Addr
     }
 
     const handleSetPosition = (position: LatLng) => {
-        onChange({address : inputValue, latitude: position.lat, longitude: position.lng});
+        onChange({address: inputValue, latitude: position.lat, longitude: position.lng});
         setChangedViaInput(false);
     }
 
@@ -79,8 +80,6 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: Addr
         }
     }, [location?.latitude, location?.longitude]);
 
-    useEffect(() => console.log(location?.latitude, location?.longitude), [location]);
-
     if (location?.latitude > 0 && location?.longitude > 0) {
         return (
             <BackgroundBlockWrapper
@@ -95,21 +94,41 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: Addr
                     />
                 }
             >
-                <AutoComplete
-                    ref={ref}
-                    title={'Адрес доставки'}
-                    placeholder={'Введите адрес доставки'}
-                    value={inputValue}
-                    suggestions={suggestions}
-                    completeMethod={searchItems}
-                    onChange={handleOnChange}
-                    itemTemplate={itemTemplate}
-                    onSelect={handleSelect}
-                    pt={pt}
-                />
+                <div className={'col-span-full flex flex-col gap-2'}>
+                    <AutoComplete
+                        ref={ref}
+                        title={'Адрес доставки'}
+                        placeholder={'Введите адрес доставки'}
+                        value={inputValue}
+                        suggestions={suggestions}
+                        completeMethod={searchItems}
+                        onChange={handleOnChange}
+                        itemTemplate={itemTemplate}
+                        onSelect={handleSelect}
+                        pt={pt}
+                    />
+                    <Text
+                        text={'Укажите полный адрес, включая дом и квартиру/офис'}
+                        className={'text-sm text-text-gray'}
+                    />
+                </div>
                 <MapAddressPicker
                     position={{lat: location.latitude, lng: location.longitude} as LatLng}
                     setPosition={handleSetPosition}
+                />
+                <ControlledTextInput
+                    name={'entrance'}
+                    labelText={'Подъезд'}
+                    classNames={{wrapper: 'col-span-1'}}
+                    placeholder={'Введите номер подъезда'}
+                    theme={'filled'}
+                />
+                <ControlledTextInput
+                    name={'floor'}
+                    labelText={'Этаж'}
+                    classNames={{wrapper: 'col-span-1'}}
+                    placeholder={'Введите номер этажа'}
+                    theme={'filled'}
                 />
             </BackgroundBlockWrapper>
         )

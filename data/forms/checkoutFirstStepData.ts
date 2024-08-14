@@ -1,6 +1,8 @@
 import {CreateOrderDraftData} from "@/schemas/customer/checkout/CreateOrderDraftSchema";
 
 export const defaultCheckoutFirstStepData: CreateOrderDraftData = {
+    entrance: "",
+    floor: "",
     comment: '',
     email: '',
     firstName: "",

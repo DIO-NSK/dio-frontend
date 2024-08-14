@@ -20,14 +20,10 @@ import {$activeStep, setActiveStepEvent} from "@/app/(customer)/(site)/(inner-pa
 import {desktopCheckoutSteps} from "@/data/deskstopCheckoutSteps";
 import {$userCredentials} from "@/app/(customer)/model";
 import {$orderToRepeat} from "@/app/(customer)/profile/orders/model";
-import {
-    convertOrderToFormData
-} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/DesktopCheckoutFirstStep.utils";
 import {ControlledAddressBlock} from "@/components/organisms/address-block/ControlledAddressBlock";
 import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
 import {getCoordsByLocation} from "@/components/organisms/address-block/AddressBlock.api";
 import {useLocation} from "@/utlis/hooks/useLocation";
-import {LatLng} from "leaflet";
 
 const CheckoutUserDataBlock = () => {
 
@@ -122,7 +118,7 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
 
     const {
         handleSubmit, reset,
-        formState: {isSubmitting}, watch, setValue
+        formState: {isSubmitting, errors}, watch, setValue
     } = methods
 
     const onSubmit = (formData: FieldValues) => {

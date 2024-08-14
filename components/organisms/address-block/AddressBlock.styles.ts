@@ -3,11 +3,11 @@ import {cn} from "@/utlis/cn";
 
 export const pt : AutoCompletePassThroughOptions = {
     root: () => ({
-        className: 'col-span-full'
+        className: 'w-full'
     }),
     container: {
         className: cn(
-            'm-0 list-none cursor-text overflow-hidden flex items-center flex-wrap col-span-full', 'px-3 py-2 gap-2',
+            'm-0 list-none cursor-text overflow-hidden flex items-center flex-wrap w-full', 'px-3 py-2 gap-2',
             'font-sans text-base text-gray-700 border border-gray-300 transition duration-200 ease-in-out appearance-none rounded-md',
             'focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] hover:border-blue-500 focus:outline-none'
         )
@@ -15,7 +15,7 @@ export const pt : AutoCompletePassThroughOptions = {
     input: ({ props } : AutoCompletePassThroughMethodOptions) => ({
         root: {
             className: cn(
-                'm-0 w-full col-span-full',
+                'm-0 w-full',
                 'transition-colors duration-200 appearance-none rounded-lg',
                 { 'rounded-tr-none rounded-br-none': props.dropdown },
                 {

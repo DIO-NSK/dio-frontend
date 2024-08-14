@@ -7,11 +7,20 @@ import {Address} from "@/components/organisms/map/Map.types";
 
 const createOrderDraft = async (formData: CreateOrderDraftData) => {
     const {address, ...rest} = formData;
-    const request = { ...address, ...rest  };
+    const {address: currentAddress, latitude, longitude} = address;
+
+    const request = {
+        address: currentAddress,
+        latitude: Number(latitude),
+        longitude: Number(longitude),
+        ...rest
+    };
 
     return api.post("/order/draft", request)
         .then(response => response.data)
-        .catch(error => {throw Error(error.response.data.message)})
+        .catch(error => {
+            throw Error(error.response.data.message)
+        })
 }
 
 const getAddresses = async (): Promise<Address[]> => getRequest("/order/address")
