@@ -29,14 +29,15 @@ export interface AddressBlockProps {
     buttonText: string;
     onOpenPopup: () => void;
     onChange: (address: Address) => void;
-    location: Address
+    location: Address,
+    error ?: string
 }
 
 const itemTemplate = (item: Suggestion) => (
     <Text text={item.address} className={'whitespace-wrap max-w-full text-base text-text-gray'}/>
 );
 
-export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: AddressBlockProps) => {
+export const AddressBlock = ({buttonText, onOpenPopup, location, onChange, error}: AddressBlockProps) => {
 
     const ref = useRef<AutoComplete>(null);
 
@@ -54,13 +55,24 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: Addr
     }
 
     const handleSelect = ({value}: AutoCompleteSelectEvent) => {
-        onChange({address: value.address, latitude: value.lat, longitude: value.lng});
+        onChange({
+            ...value,
+            latitude: value.lat,
+            longitude: value.lng
+        });
+
         setInputValue(value.address);
         setChangedViaInput(true);
     }
 
     const handleSetPosition = (position: LatLng) => {
-        onChange({address: inputValue, latitude: position.lat, longitude: position.lng});
+        onChange({
+            ...location,
+            address: inputValue,
+            latitude: position.lat,
+            longitude: position.lng
+        });
+
         setChangedViaInput(false);
     }
 
@@ -69,16 +81,14 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: Addr
             getLocationByCoords({lat: location.latitude, lng: location.longitude})
                 .then(suggestions => {
                     if (suggestions[0]) {
-                        onChange({
-                            address: suggestions[0].value,
-                            latitude: suggestions[0].data.geo_lat,
-                            longitude: suggestions[0].data.geo_lon
-                        })
-                        setInputValue(suggestions[0].value)
+                        onChange(suggestions[0])
+                        setInputValue(suggestions[0].address)
                     }
                 })
         }
     }, [location?.latitude, location?.longitude]);
+
+    useEffect(() => console.log('>location', location), [location]);
 
     if (location?.latitude > 0 && location?.longitude > 0) {
         return (
@@ -107,17 +117,14 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange}: Addr
                         onSelect={handleSelect}
                         pt={pt}
                     />
-                    <Text
-                        text={'Укажите полный адрес, включая дом и квартиру/офис'}
-                        className={'text-sm text-text-gray'}
-                    />
+                    {error ? <Text text={error} className={'text-sm text-info-red'}/> : null}
                 </div>
                 <MapAddressPicker
                     position={{lat: location.latitude, lng: location.longitude} as LatLng}
                     setPosition={handleSetPosition}
                 />
                 <ControlledTextInput
-                    name={'entrance'}
+                    name={'entranceNumber'}
                     labelText={'Подъезд'}
                     classNames={{wrapper: 'col-span-1'}}
                     placeholder={'Введите номер подъезда'}

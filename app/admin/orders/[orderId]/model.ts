@@ -13,11 +13,12 @@ type Legal = {
 }
 
 type Address = {
-    street: string,
-    houseNumber: string,
-    flatNumber: string,
-    entranceNumber: string,
-    floor: string
+    address: string,
+    flatNumber: number,
+    entranceNumber: number,
+    floor: number,
+    latitude: number,
+    longitude: number
 }
 
 export type ResponseOrderDetails = {

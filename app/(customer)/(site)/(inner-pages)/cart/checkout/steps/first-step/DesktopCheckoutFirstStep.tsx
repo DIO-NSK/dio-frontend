@@ -113,7 +113,8 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
 
     const methods = useForm<CreateOrderDraftData>({
         resolver: zodResolver(CreateOrderDraftSchema),
-        mode: "onSubmit"
+        criteriaMode : 'firstError',
+        mode: "onSubmit",
     })
 
     const {
@@ -142,7 +143,14 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
         if (pickedUserAddress) {
             const {address, latitude, longitude} = pickedUserAddress?.value;
             reset({
-                address: {address: address, latitude: latitude, longitude: longitude}
+                address: {
+                    address: address,
+                    flat: (pickedUserAddress?.value as any)?.flatNumber ?? '',
+                    latitude: latitude,
+                    longitude: longitude
+                },
+                entranceNumber : (pickedUserAddress?.value as any)?.entranceNumber,
+                floor : (pickedUserAddress?.value as any)?.floor,
             })
         }
     }, [pickedUserAddress]);
@@ -150,7 +158,7 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
     useEffect(() => {
         reset({
             ...formData,
-            address: {address: '', latitude: location[0], longitude: location[1]},
+            address: {address: '', flat : '', house : '', city : '', latitude: location[0], longitude: location[1]},
             email: userCredentials?.email,
             firstName: userCredentials?.fullName.split(" ")[0],
             surname: userCredentials?.fullName.split(" ")[1],

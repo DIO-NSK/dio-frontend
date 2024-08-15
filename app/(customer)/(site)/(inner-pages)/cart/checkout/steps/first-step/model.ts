@@ -7,12 +7,13 @@ import {Address} from "@/components/organisms/map/Map.types";
 
 const createOrderDraft = async (formData: CreateOrderDraftData) => {
     const {address, ...rest} = formData;
-    const {address: currentAddress, latitude, longitude} = address;
+    const {address: currentAddress, latitude, longitude, city, flat, house} = address;
 
     const request = {
         address: currentAddress,
         latitude: Number(latitude),
         longitude: Number(longitude),
+        city, flat, house,
         ...rest
     };
 
@@ -38,8 +39,11 @@ export const selectUserAddressEvent = createEvent<SelectItem<Address>>()
 $activeUserAddress.on(selectUserAddressEvent, (_, selectItem) => selectItem)
 
 export const createOrderDraftFx = createEffect<CreateOrderDraftData, number, Error>(createOrderDraft)
+
 export const $orderId = createStore<number>(0)
+
 export const $checkoutFirstStepData = createStore<CreateOrderDraftData>(defaultCheckoutFirstStepData)
+
 export const setCheckoutFirstStepDataEvent = createEvent<CreateOrderDraftData>()
 
 $orderId.on(createOrderDraftFx.doneData, (_, orderId) => orderId)

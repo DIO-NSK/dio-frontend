@@ -81,7 +81,7 @@ const OrderPageProductBlock = () => {
 
     const productInfo: HeaderDescription[] = [
         {header: "Количество товаров", description: `${order.productItemDtoList.length} шт.`},
-        {header: "Адрес доставки", description: address ? `ул. ${address.street}, д. ${address.houseNumber}, кв. ${address.flatNumber}` : "Не указан"},
+        {header: "Адрес", description: address ? address.address : "Не указан"},
         {header: "Дата доставки", description: dayjs(order.deliveryDate).format("DD.MM.YYYY")},
         {header: "Время доставки", description: order.deliveryTime},
     ]
@@ -155,14 +155,12 @@ const OrderUserInformationBlock = () => {
 const OrderAddressBlock = () => {
 
     const orderDetails = useUnit($orderDetails)!!
+    const address = orderDetails.addressDto;
 
     const infoData: HeaderDescription[] = [
-        {header: "Город", description: orderDetails?.city ?? "Не указан"},
-        {header: "Улица", description: orderDetails.addressDto?.street},
-        {header: "Дом / корпус", description: orderDetails.addressDto?.houseNumber},
-        {header: "Квартира", description: orderDetails.addressDto?.flatNumber},
-        {header: "Этаж", description: orderDetails.addressDto?.floor},
-        {header: "Подъезд", description: orderDetails.addressDto?.entranceNumber},
+        {header: "Подъезд", description: address ? String(address.entranceNumber) : "Не указан"},
+        {header: "Этаж", description: address ? String(address.floor) : "Не указан"},
+        {header: "Адрес", description: address ? address.address : "Не указан"},
     ]
 
     return (
