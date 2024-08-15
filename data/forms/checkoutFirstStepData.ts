@@ -1,7 +1,7 @@
 import {CreateOrderDraftData} from "@/schemas/customer/checkout/CreateOrderDraftSchema";
 
 export const defaultCheckoutFirstStepData: CreateOrderDraftData = {
-    entrance: "",
+    entranceNumber: "",
     floor: "",
     comment: '',
     email: '',
@@ -11,7 +11,10 @@ export const defaultCheckoutFirstStepData: CreateOrderDraftData = {
     address: {
         address: '',
         latitude: 0,
-        longitude: 0
+        longitude: 0,
+        flat: "",
+        city: "",
+        house: ""
     },
     addressId: undefined
 }
