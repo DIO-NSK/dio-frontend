@@ -88,8 +88,6 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange, error
         }
     }, [location?.latitude, location?.longitude]);
 
-    useEffect(() => console.log('>location', location), [location]);
-
     if (location?.latitude > 0 && location?.longitude > 0) {
         return (
             <BackgroundBlockWrapper
@@ -135,6 +133,13 @@ export const AddressBlock = ({buttonText, onOpenPopup, location, onChange, error
                     labelText={'Этаж'}
                     classNames={{wrapper: 'col-span-1'}}
                     placeholder={'Введите номер этажа'}
+                    theme={'filled'}
+                />
+                <ControlledTextInput
+                    name={'flat'}
+                    labelText={'Квартира'}
+                    classNames={{wrapper: 'col-span-1'}}
+                    placeholder={'Введите номер квартиры или офиса'}
                     theme={'filled'}
                 />
             </BackgroundBlockWrapper>

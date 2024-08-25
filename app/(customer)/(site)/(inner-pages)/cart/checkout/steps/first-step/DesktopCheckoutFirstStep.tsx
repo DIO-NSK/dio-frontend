@@ -113,7 +113,7 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
 
     const methods = useForm<CreateOrderDraftData>({
         resolver: zodResolver(CreateOrderDraftSchema),
-        criteriaMode : 'firstError',
+        criteriaMode: 'firstError',
         mode: "onSubmit",
     })
 
@@ -130,41 +130,24 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
     }
 
     useEffect(() => {
+
+        const {
+            address,
+            email,
+            firstName,
+            surname,
+            phoneNumber
+        } = formData;
+
         reset({
             ...formData,
-            email: userCredentials?.email,
-            firstName: userCredentials?.fullName.split(" ")[0],
-            surname: userCredentials?.fullName.split(" ")[1],
-            phoneNumber: userCredentials?.phoneNumber
+            address: address?.address ? address : {address: '', house: '', city: '', latitude: location[0], longitude: location[1]},
+            email: Boolean(email) ? email : userCredentials?.email,
+            firstName: Boolean(firstName) ? firstName : userCredentials?.fullName.split(" ")[0],
+            surname: Boolean(surname) ? surname : userCredentials?.fullName.split(" ")[1],
+            phoneNumber: Boolean(phoneNumber) ? phoneNumber : userCredentials?.phoneNumber,
         })
     }, [formData, userCredentials])
-
-    useEffect(() => {
-        if (pickedUserAddress) {
-            const {address, latitude, longitude} = pickedUserAddress?.value;
-            reset({
-                address: {
-                    address: address,
-                    flat: (pickedUserAddress?.value as any)?.flatNumber ?? '',
-                    latitude: latitude,
-                    longitude: longitude
-                },
-                entranceNumber : (pickedUserAddress?.value as any)?.entranceNumber,
-                floor : (pickedUserAddress?.value as any)?.floor,
-            })
-        }
-    }, [pickedUserAddress]);
-
-    useEffect(() => {
-        reset({
-            ...formData,
-            address: {address: '', flat : '', house : '', city : '', latitude: location[0], longitude: location[1]},
-            email: userCredentials?.email,
-            firstName: userCredentials?.fullName.split(" ")[0],
-            surname: userCredentials?.fullName.split(" ")[1],
-            phoneNumber: userCredentials?.phoneNumber
-        })
-    }, []);
 
     useEffect(() => {
         if (orderToRepeat?.address) {

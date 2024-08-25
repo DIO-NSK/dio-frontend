@@ -8,7 +8,6 @@ export const AddressSchema = z.object({
     longitude : z.number().or(z.string()),
     city : z.string().min(1, 'Пожалуйста, укажите город доставки'),
     house : z.string().min(1, 'Пожалуйста, укажите дом доставки'),
-    flat : z.string().min(1, 'Пожалуйста, укажите квартиру или офис доставки')
 })
 
 export const CreateOrderDraftSchema = z.object({
@@ -16,8 +15,9 @@ export const CreateOrderDraftSchema = z.object({
     surname: z.string().min(1, requiredFiledError),
     phoneNumber: PhoneNumberSchema,
     email: z.string().min(1, requiredFiledError).email(),
-    entranceNumber : z.string(),
-    floor : z.string(),
+    entranceNumber : z.string().optional(),
+    floor : z.string().optional(),
+    flat : z.string().optional(),
     addressId: z.number().optional(),
     address : AddressSchema,
     comment : z.string().optional()

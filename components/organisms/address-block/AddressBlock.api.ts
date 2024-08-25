@@ -16,7 +16,6 @@ export const getLocationByCoords = async (coords: { lat: number, lng: number }) 
 
     return suggestions.map((item: any) => ({
         address: item.value,
-        flat : item.data.flat ?? item.data.office ?? '',
         city : item.data.city ?? '',
         house : item.data.house ?? '',
         latitude: Number(item.data.geo_lat),
@@ -30,7 +29,6 @@ export const getCoordsByLocation = async (location: string): Promise<Suggestion[
 
     return suggestions.map((item: any) => ({
         address: item.value,
-        flat : item.data.flat ?? item.data.office ?? '',
         city : item.data.city ?? '',
         house : item.data.house ?? '',
         lat: Number(item.data.geo_lat),

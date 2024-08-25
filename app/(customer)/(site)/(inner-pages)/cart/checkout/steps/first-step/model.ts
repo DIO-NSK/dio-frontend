@@ -5,16 +5,28 @@ import {defaultCheckoutFirstStepData} from "@/data/forms/checkoutFirstStepData";
 import {SelectItem} from "@/types/props/SelectItem";
 import {Address} from "@/components/organisms/map/Map.types";
 
+const createAddress = (flat : string | undefined, address : string) => {
+    if (flat && flat.length > 0) {
+        return `${address} кв. ${flat}`
+    }
+
+    return address;
+}
+
 const createOrderDraft = async (formData: CreateOrderDraftData) => {
     const {address, ...rest} = formData;
-    const {address: currentAddress, latitude, longitude, city, flat, house} = address;
+    const {address: currentAddress, latitude, longitude, city, house} = address;
+    const {entranceNumber, flat, floor, comment, ...data} = rest;
 
     const request = {
-        address: currentAddress,
+        ...data,
+        city, house,
+        address: createAddress(flat, currentAddress),
         latitude: Number(latitude),
         longitude: Number(longitude),
-        city, flat, house,
-        ...rest
+        entranceNumber : entranceNumber && entranceNumber.length > 0 ? entranceNumber : undefined,
+        floor : floor && floor.length > 0 ? floor : undefined,
+        comment : comment && comment.length > 0 ? comment : undefined,
     };
 
     return api.post("/order/draft", request)
@@ -42,7 +54,7 @@ export const createOrderDraftFx = createEffect<CreateOrderDraftData, number, Err
 
 export const $orderId = createStore<number>(0)
 
-export const $checkoutFirstStepData = createStore<CreateOrderDraftData>(defaultCheckoutFirstStepData)
+export const $checkoutFirstStepData = createStore<Partial<CreateOrderDraftData>>(defaultCheckoutFirstStepData)
 
 export const setCheckoutFirstStepDataEvent = createEvent<CreateOrderDraftData>()
 

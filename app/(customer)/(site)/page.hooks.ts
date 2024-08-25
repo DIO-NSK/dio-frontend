@@ -43,6 +43,8 @@ export const getNewProducts = async (): Promise<ResponseProductSearch[]> => {
             .then(response => response.json())
             .then(json => json.products)));
 
+    console.log('products', products);
+
     return products.flat();
 }
 

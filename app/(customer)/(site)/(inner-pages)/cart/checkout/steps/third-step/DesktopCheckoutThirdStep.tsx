@@ -60,14 +60,14 @@ const DesktopCheckoutThirdStep = () => {
     const [createOrder, firstFormData, secondFormData] = useUnit([createOrderFx, $checkoutFirstStepData, $checkoutSecondStepData])
 
     const firstBlockData: HeaderDescription[] = [
-        {header: "Имя", description: firstFormData.firstName},
-        {header: "Фамилия", description: firstFormData.surname},
-        {header: "Телефон", description: convertPhoneNumber(firstFormData.phoneNumber)},
-        {header: "Почта", description: firstFormData.email},
+        {header: "Имя", description: firstFormData.firstName ?? ''},
+        {header: "Фамилия", description: firstFormData.surname ?? ''},
+        {header: "Телефон", description: convertPhoneNumber(firstFormData.phoneNumber ?? '')},
+        {header: "Почта", description: firstFormData.email ?? ''},
     ]
 
     const secondBlockData: HeaderDescription[] = [
-        {header: "Адрес", description: firstFormData.address.address},
+        {header: "Адрес", description: firstFormData.address?.address ?? ''},
     ]
 
     const thirdBlockData: HeaderDescription[] = [
