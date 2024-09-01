@@ -11,10 +11,12 @@ import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import {useAdminPanelOrdersPage} from "@/app/admin/orders/page.hooks";
 import {useUnit} from "effector-react";
-import {$orders, getOrdersEvent} from "@/app/admin/orders/model";
+import {$orders} from "@/app/admin/orders/model";
 import dynamic from "next/dynamic";
 import Loading from "@/components/mobile/loading/Loading";
-import {filterOrdersEvent} from "@/components/organisms/popups/admin/order-page-filter-popup/model";
+import {$ordersLength, filterOrdersEvent} from "@/components/organisms/popups/admin/order-page-filter-popup/model";
+import OrderPagination from "@/components/moleculas/pagination/OrderPagination";
+import {useSearchParams} from "next/navigation";
 
 const OrderContentTable = dynamic(
     () => import("@/components/organisms/tables/order-content-table/OrderContentTable"),
@@ -23,13 +25,19 @@ const OrderContentTable = dynamic(
 
 const AdminPanelOrderPage = () => {
 
-    const [orders, getOrders] = useUnit([$orders, filterOrdersEvent])
+    const searchParams = useSearchParams();
+    const page = searchParams.get('page');
+
+    const [orders, ordersLength , getOrders] = useUnit([$orders, $ordersLength, filterOrdersEvent])
+
     const {...context} = useAdminPanelOrdersPage()
     const {...selectableContext} = useSelectable<AdminOrder>([])
 
     useEffect(() => {
-        getOrders({})
-    }, [])
+        console.log(page);
+        const pageNumber = page ? Number(page) - 1 : 0;
+        getOrders({page : pageNumber})
+    }, [ page ]);
 
     return (
         <React.Fragment>
@@ -67,13 +75,14 @@ const AdminPanelOrderPage = () => {
                     />
                 }
             />
-            {orders && <OrderContentTable
+            {orders ? <OrderContentTable
                 tableHeader={adminOrdersTableHeader}
                 onSelect={selectableContext.handleSelectItem}
                 onClick={context.handleRowClick}
                 tableContent={orders}
                 selectedItems={[]}
-            />}
+            /> : null}
+            <OrderPagination itemsLength={ordersLength}/>
         </React.Fragment>
     );
 

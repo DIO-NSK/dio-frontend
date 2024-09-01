@@ -19,8 +19,8 @@ export const getOurWaters = async (): Promise<ResponseOurWater[]> => {
         .then(response => response.json())
 }
 
-export const getOurWatersChips = async () : Promise<OurWaterChip[]> => {
-    return fetch(`${BASE_URL}/catalogue/brand/amount/range`, {cache : 'no-store'})
+export const getOurWatersChips = async (): Promise<OurWaterChip[]> => {
+    return fetch(`${BASE_URL}/catalogue/brand/amount/range`, {cache: 'no-store'})
         .then(response => response.json());
 }
 
@@ -28,7 +28,7 @@ export const getSaleProducts = async (): Promise<ResponseProductSearch[]> => {
     const pages = [0, 1];
 
     const products = await Promise.all(pages.map(async (page) =>
-        fetch(`${BASE_URL}/catalogue/product/filter?discountPercent=0&size=10&page=${page}`, {cache: 'no-store'})
+        fetch(`${BASE_URL}/catalogue/product/discount?size=10&page=${page}`, {cache: 'no-store'})
             .then(response => response.json())
             .then(json => json.products)));
 
@@ -39,11 +39,9 @@ export const getNewProducts = async (): Promise<ResponseProductSearch[]> => {
     const pages = [0, 1];
 
     const products = await Promise.all(pages.map(async (page) =>
-        fetch(`${BASE_URL}/catalogue/product/filter?isNew=true&size=10&page=${page}`, {cache: 'no-store'})
+        fetch(`${BASE_URL}/catalogue/product/filter?isNew=true&size=10&page=${page}&sort=discountPercent,asc`, {cache: 'no-store'})
             .then(response => response.json())
             .then(json => json.products)));
-
-    console.log('products', products);
 
     return products.flat();
 }

@@ -16,7 +16,7 @@ import {useUnit} from "effector-react";
 import {
     $savedFilters,
     $savedPriceRange,
-    filterOrdersEvent,
+    filterOrdersEvent, PageableOrdersFilterData, resetFiltersEvent,
     saveFiltersEvent
 } from "@/components/organisms/popups/admin/order-page-filter-popup/model";
 import ControlledRangeInput from "@/components/atoms/inputs/range-input/ControlledRangeInput";
@@ -27,6 +27,7 @@ import {SelectItem} from "@/types/props/SelectItem";
 import {PaymentMethod} from "@/types/dto/user/order/PaymentMethod";
 import dayjs from "dayjs";
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 
 const rowWrapperCV: ClassValue = "w-full flex flex-row gap-5 pb-7 border-b-2 border-light-gray"
 
@@ -37,9 +38,14 @@ const paymentStatusItems: SelectItem<PaymentMethod>[] = [
 
 const OrderPageFilterPopup = (props: PopupProps) => {
 
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams()
+    const urlSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
+
     const savedPriceRange = useUnit($savedPriceRange)
     const [orders, filterOrders] = useUnit([$orders, filterOrdersEvent])
-    const [savedFilters, saveFilters] = useUnit([$savedFilters, saveFiltersEvent])
+    const [savedFilters, saveFilters, resetFilters] = useUnit([$savedFilters, saveFiltersEvent, resetFiltersEvent])
 
     const methods = useForm<OrderFilterData>({
         resolver: zodResolver(OrderFilterSchema),
@@ -47,15 +53,19 @@ const OrderPageFilterPopup = (props: PopupProps) => {
     })
 
     const onSubmit = (fieldValues: FieldValues) => {
-        saveFilters(fieldValues as OrderFilterData)
-        filterOrders(fieldValues as OrderFilterData)
+        saveFilters({...fieldValues, page : 0} as PageableOrdersFilterData)
+        filterOrders({...fieldValues, page : 0} as PageableOrdersFilterData)
         props.onClose?.()
     }
 
     const handleResetFilters = () => {
         methods.reset()
-        saveFilters({})
-        filterOrders({} as OrderFilterData)
+        resetFilters()
+
+        urlSearchParams.set('page', '1')
+        router.push(pathname.concat(`?${urlSearchParams.toString()}`))
+        window.scrollTo(0, 0)
+
         props.onClose?.()
     }
 

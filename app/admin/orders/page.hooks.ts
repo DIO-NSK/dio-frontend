@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {usePathname, useRouter} from "next/navigation";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {AdminOrder} from "@/types/dto/AdminOrder";
 import {TableRow} from "@/types/dto/Table";
 import {SelectItem} from "@/types/props/SelectItem";
@@ -7,6 +7,9 @@ import {useUnit} from "effector-react";
 import {$savedFilters, filterOrdersEvent} from "@/components/organisms/popups/admin/order-page-filter-popup/model";
 
 export const useAdminPanelOrdersPage = () => {
+
+    const searchParams = useSearchParams();
+    const page = searchParams.get('page');
 
     const [savedFilters, filterOrders] = useUnit([$savedFilters, filterOrdersEvent]);
 
@@ -30,7 +33,7 @@ export const useAdminPanelOrdersPage = () => {
     ] = useState<SelectItem<string | undefined>>(multiselectData[0])
 
     useEffect(() => {
-        filterOrders({...savedFilters, status: activeItem as any});
+        filterOrders({...savedFilters, page : Number(page), status: activeItem as any});
     }, [activeItem]);
 
     return {

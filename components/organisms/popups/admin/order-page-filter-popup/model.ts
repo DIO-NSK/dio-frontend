@@ -13,7 +13,8 @@ type OrderFilters = {
     lastName: string,
     costFrom: number,
     costTo: number,
-    orderId: number
+    orderId: number,
+    page : number,
 }
 
 type PriceRange = {
@@ -23,19 +24,37 @@ type PriceRange = {
 
 export type RequestOrderFilters = Partial<OrderFilters>
 
-const filterOrders = async (filters: RequestOrderFilters): Promise<AdminOrder[]> => {
-    return api.get("/admin/order/filter", {params: filters})
+export type PageableOrdersFilterData = OrderFilterData & {page : number}
+
+export type ResponseFilterOrders = {
+    count : number,
+    orders : AdminOrder[]
+}
+
+const filterOrders = async (filters: RequestOrderFilters): Promise<ResponseFilterOrders> => {
+    return api.get(`/admin/order/filter?page=${filters.page}&size=30`, {params: filters})
         .then(response => response.data)
 }
 
-export const filterOrdersFx = createEffect<RequestOrderFilters, AdminOrder[], Error>(filterOrders)
-export const filterOrdersEvent = createEvent<OrderFilterData>()
-export const saveFiltersEvent = createEvent<OrderFilterData>()
+export const filterOrdersFx = createEffect<RequestOrderFilters, ResponseFilterOrders, Error>(filterOrders)
+
+export const filterOrdersEvent = createEvent<PageableOrdersFilterData>()
+
+export const saveFiltersEvent = createEvent<PageableOrdersFilterData>()
+
+export const resetFiltersEvent = createEvent<void>()
+
 export const savePriceRangeEvent = createEvent<PriceRange>()
 
-export const $savedFilters = createStore<OrderFilterData | null>(null)
+export const $savedFilters = createStore<PageableOrdersFilterData | null>(null)
 export const $savedPriceRange = createStore<PriceRange | null>(null)
-$savedFilters.on(saveFiltersEvent, (_, filters) => filters)
+export const $ordersLength = createStore<number>(0);
+
+$ordersLength.on(filterOrdersFx.doneData, (_, response) => response.count)
+
+$savedFilters
+    .on(saveFiltersEvent, (_, filters) => filters)
+    .on(resetFiltersEvent, () => null)
 
 $savedPriceRange.on(savePriceRangeEvent, (_, range) => range)
 
@@ -45,13 +64,14 @@ sample({
     target: filterOrdersFx
 })
 
-const convertDataToRequest = (data: OrderFilterData): RequestOrderFilters => ({
+const convertDataToRequest = (data: PageableOrdersFilterData): RequestOrderFilters => ({
     created : data.created?.length ? parseDate(data.created) : undefined,
     costFrom : data?.cost?.from ?? undefined,
     costTo : data?.cost?.to ?? undefined,
     paymentType: data.paymentType?.value,
     paymentTime: data.paymentDate,
-    status: data.status?.value
+    status: data.status?.value,
+    page : data.page
 } as RequestOrderFilters)
 
 export const parseDate = (date : string) => {
