@@ -18,7 +18,7 @@ const SlideButton = ({side, onClick, disabled}: SlideButtonType) => {
     ]
 
     const wrapperCV: ClassValue[] = [
-        "w-[50px] h-[50px] rounded-full border-2 border-light-blue",
+        "md:w-[40px] md:h-[40px] xl:w-[50px] xl:h-[50px] rounded-full border-2 border-light-blue",
         "flex items-center justify-center pointer hoverable",
         "text-text-gray hover:bg-light-blue hover:text-link-blue",
         "hover:bg-light-gray hover:border-bg-light-blue",
@@ -28,8 +28,8 @@ const SlideButton = ({side, onClick, disabled}: SlideButtonType) => {
         <div className={cn(wrapperCV, disabledCV)} onClick={onClick}>
             {
                 side === Side.LEFT
-                    ? <FiChevronLeft size={"22px"}/>
-                    : <FiChevronRight size={"22px"}/>
+                    ? <FiChevronLeft className={'xl:size-[22px] md:size-[18px]'}/>
+                    : <FiChevronRight className={"xl:size-[22px] md:size-[18px]"}/>
             }
         </div>
     )

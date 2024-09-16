@@ -55,7 +55,7 @@ const SelectableVariants = <T, >({variants, onSelectVariant, selectedVariant}: S
 const Input = <T, >({selectable = false, ...props}: Omit<SearchbarProps<T>, "hasPopover">) => {
 
     const inputCV: ClassValue[] = [
-        "w-full p-5 sm:px-[30px] py-4 rounded-xl bg-bg-light-blue border-0",
+        "w-full sm:px-5 sm:py-4 xl:px-[30px] xl:py-5 rounded-xl bg-bg-light-blue border-0",
         "sm:bg-white sm:border-2 border-light-gray pointer",
         "group-hover:border-blue-400 hoverable",
         "focus:outline-0", props.classNames?.input

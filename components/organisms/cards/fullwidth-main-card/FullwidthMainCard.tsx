@@ -6,13 +6,13 @@ import {ClassValue} from "clsx";
 import {cn} from "@/utlis/cn";
 
 const wrapperCV : ClassValue[] = [
-    "sm:grid sm:grid-cols-12 sm:gap-[60px] sm:items-center",
+    "md:grid md:grid-cols-12 md:gap-[40px] xl:gap-[60px] md:items-center",
     "flex flex-col gap-7"
 ]
 
 const FullwidthMainCard = ({card}: { card: FullwidthMainCardType }) => (
     <>
-        <section className={"hidden sm:flex w-full"}>
+        <section className={"hidden md:flex w-full"}>
             {
                 card.side === Side.LEFT ? <div className={cn(wrapperCV)}>
                     <ContentCol card={card}/>
@@ -23,7 +23,7 @@ const FullwidthMainCard = ({card}: { card: FullwidthMainCardType }) => (
                 </div>
             }
         </section>
-        <section className={"sm:hidden flex flex-col gap-5 w-full"}>
+        <section className={"md:hidden flex flex-col gap-5 w-full"}>
             <ContentImage image={card.image}/>
             <ContentCol card={card}/>
         </section>

@@ -44,7 +44,7 @@ const advantagesCardData: { icon: React.ReactNode, header: string }[] = [
 
 const AdvantagesBlock = () => (
     <React.Fragment>
-        <section className={"w-full hidden sm:flex"}>
+        <section className={"w-full hidden md:flex mb-5 xl:mb-0"}>
             <HeaderGroup header={"Наши преимущества"}>
                 {advantagesCardData.map((card) => {
                     return <AdvantageCard card={card}/>

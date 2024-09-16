@@ -62,7 +62,7 @@ const breadcrumbs: TextLink[] = [
 ]
 
 const TimeColumn = () => (
-    <div className={"w-full gap-5 sm:col-span-6 flex flex-col sm:gap-[25px]"}>
+    <div className={"w-full gap-5 md:col-span-full md:grid md:grid-cols-2 md:gap-5 xl:col-span-6 flex flex-col sm:gap-6"}>
         {timeData.map((item, index) => {
 
             const itemCV: ClassValue = {
@@ -70,7 +70,7 @@ const TimeColumn = () => (
             }
 
             return (
-                <div className={cn("w-full flex flex-row items-baseline justify-between", itemCV)}>
+                <div className={cn("md:grid-cols-1 w-full flex flex-row items-baseline justify-between", itemCV)}>
                     <Text text={item.header} className={"text-text-gray"}/>
                     <Text text={item.description} className={"text-black"}/>
                 </div>
@@ -81,7 +81,7 @@ const TimeColumn = () => (
 )
 
 const RightColumn = () => (
-    <div className={"w-full sm:col-span-6 flex flex-col gap-7"}>
+    <div className={"w-full md:col-span-full xl:col-span-6 flex flex-col md:gap-5 xl:gap-7"}>
         {data.map((item) => (
             <div className={"w-full flex flex-col gap-[15px]"}>
                 <Text text={item.header} className={"text-[18px] text-black font-medium"}/>

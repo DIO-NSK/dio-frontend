@@ -13,10 +13,11 @@ import Counter from "@/components/moleculas/counter/Counter";
 import {useCounter} from "@/utlis/hooks/product/useCounter";
 import {ClassValue} from "clsx";
 import {useUnit} from "effector-react";
+import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 
 const trashCV: ClassValue = "w-[18px] sm:w-[22px] hoverable pointer text-info-red hover:text-red-700"
 
-const ShoppingCartSaleCard = ({promo}: { promo: ResponseCartSaleItem }) => {
+const ShoppingCartSaleCard = ({promo, className}: { promo: ResponseCartSaleItem, className ?: string}) => {
 
     const deleteSale = useUnit(removeSaleFromCartEvent)
     const [amount, increase, decrease] = useCounter(promo.promoId, promo.quantity, true)
@@ -26,15 +27,19 @@ const ShoppingCartSaleCard = ({promo}: { promo: ResponseCartSaleItem }) => {
     const handleDeleteProduct = () => deleteSale(promo.promoId)
 
     return (
-        <section className={"w-full flex flex-col gap-5 pb-5 border-b-2 border-light-gray"}>
+        <section className={cn("w-full flex flex-col gap-5", className)}>
             <section className={"w-full flex flex-row gap-5"}>
                 <img
                     src={promo.mainImage}
-                    className={'w-[76px] h-[60px] sm:h-[90px] sm:w-[180px] rounded-lg object-scale-down'}
+                    className={'w-[76px] h-[60px] md:h-[90px] md:w-[120px] xl:h-[90px] xl:w-[180px] shrink-0 rounded-lg object-scale-down'}
                     alt={'Изображение акции'}
                 />
                 <div className={"w-full flex flex-col gap-5 sm:gap-2"}>
-                    <div className={"w-full flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:justify-between"}>
+                    <Text
+                        text={`${(promo.price * amount).toFixed(2)} ₽`}
+                        className={"md:flex xl:hidden text-[20px] font-medium"}
+                    />
+                    <div className={"w-full flex flex-col xl:flex-row items-start xl:items-center gap-5 xl:justify-between"}>
                         <div className={"flex flex-col gap-1"}>
                             <Text text={promo.duration ?? "до 06.05.2024"} className={"text-text-gray text-sm"}/>
                             <div className={"w-full flex flex-col gap-2 sm:gap-1"}>
@@ -45,7 +50,7 @@ const ShoppingCartSaleCard = ({promo}: { promo: ResponseCartSaleItem }) => {
                                 />
                             </div>
                         </div>
-                        <div className={"flex flex-row items-center gap-5"}>
+                        <div className={"flex xl:flex-row items-center gap-5"}>
                             <div className={"sm:hidden"}>
                                 <Counter amount={amount} increase={increase} decrease={decrease}/>
                             </div>
@@ -55,7 +60,7 @@ const ShoppingCartSaleCard = ({promo}: { promo: ResponseCartSaleItem }) => {
                             </div>
                             <Text
                                 text={`${(promo.price * amount).toFixed(2)} ₽`}
-                                className={"sm:flex hidden text-[22px] font-medium"}
+                                className={"xl:flex hidden text-[22px] font-medium"}
                             />
                         </div>
                     </div>

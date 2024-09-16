@@ -72,7 +72,7 @@ const ShoppingCartTotalPriceCard = ({products, promos, buttonText, onClick}: {
     ]
 
     return (
-        <StickyCardWrapper startCol={"col-start-10"}>
+        <StickyCardWrapper startCol={"md:col-start-9 md:col-span-4 md:p-5 md:gap-4 xl:gap-5 xl:p-7 xl:col-start-10 xl:col-span-3"}>
             <div className={"border-b-2 border-light-gray"}>
                 {cardRows.map((row) =>
                     <div className={cn(rowCV, "pb-5")}>

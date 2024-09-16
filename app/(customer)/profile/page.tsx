@@ -16,9 +16,10 @@ import {
     resetOrderToRepeatEvent,
     selectOrderToRepeatEvent
 } from "@/app/(customer)/profile/orders/model";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
 import {useRouter} from "next/navigation";
+import {getBonuses} from "@/app/(customer)/profile/page.api";
 
 const MainInformationBlock = () => {
 
@@ -31,8 +32,8 @@ const MainInformationBlock = () => {
 
     if (userCredentials) return (
         <div className={"w-full flex flex-col gap-1"}>
-            <Text className={"text-lg font-medium hidden sm:flex"} text={"Основная информация"}/>
-            <div className={"w-full flex flex-col gap-5 sm:flex-row sm:items-start"}>
+            <Text className={"text-lg font-medium hidden md:flex"} text={"Основная информация"}/>
+            <div className={"w-full flex md:items-start flex-col-reverse xl:flex-row gap-5"}>
                 <UserInfoCard userCredentials={userCredentials}/>
                 <BonusCard/>
             </div>
@@ -59,24 +60,21 @@ const LastOrderBlock = () => {
 
     if (orders?.length !== 0) return (
         <div className={"w-full flex flex-col gap-4"}>
-
             <div className={"w-full flex flex-row items-center justify-between"}>
                 <Text text={"Последний заказ"} className={"text-lg font-medium"}/>
                 <Button
-                    classNames={{button: "p-0 bg-0 sm:py-3 sm:px-4 sm:bg-light-gray"}}
+                    classNames={{button: "p-0 bg-0 md:py-3 md:px-4 md:bg-light-gray"}}
                     text={"Повторить заказ"}
                     onClick={handleRepeatOrder}
-                    icon={<FiRefreshCw size={"18px"} className={"hidden sm:flex"}/>}
+                    icon={<FiRefreshCw size={"18px"} className={"hidden md:flex"}/>}
                     buttonType={"SECONDARY"}
                     size={"sm"}
                 />
             </div>
-
             <OrderCard
                 order={orders.at(0)!!}
                 canRepeat={false}
             />
-
         </div>
     )
 }
@@ -89,11 +87,11 @@ const UserProfilePage = () => {
         <UserProfileWrapper>
             <HeaderRow
                 header={"Мой профиль"}
-                className={"w-full"}
+                className={"w-full mt-5 md:mt-0"}
                 rightContent={
                     <FiX
                         size={"20px"}
-                        className={"sm:hidden flex"}
+                        className={"md:hidden flex"}
                         onClick={() => navigation.push('/')}
                     />
                 }

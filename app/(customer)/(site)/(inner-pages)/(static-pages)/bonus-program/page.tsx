@@ -44,7 +44,7 @@ const PhoneColumn = () => {
             <div className={"w-full bg-bg-light-blue rounded-xl flex flex-col gap-5 p-5 sm:p-7"}>
                 {phoneData.map((item, index) => {
                     const borderCV: ClassValue = {
-                        "pb-5 border-b-2 border-light-gray": index !== phoneData.length - 1
+                        "md:pb-5 border-b-2 border-light-gray": index !== phoneData.length - 1
                     }
                     return (
                         <div className={cn(itemCV, borderCV)}>
@@ -77,7 +77,7 @@ const MailAddressColumn = () => {
         <div className={"sm:col-span-6 flex flex-col gap-5 sm:gap-6"}>
             {blockData.map((item) => (
                 <div
-                    className={"w-full flex flex-col gap-3 sm:gap-5 pb-5 sm:border-0 border-b-2 border-light-gray"}>
+                    className={"w-full flex flex-col gap-3 sm:gap-5 xl:pb-5 sm:border-0 border-b-2 border-light-gray"}>
                     <Text text={item.header} className={"text-base sm:text-[18px] text-black font-medium"}/>
                     <div
                         className={"sm:px-[30px] sm:py-[35px] flex flex-row items-center gap-[15px] sm:rounded-xl sm:bg-bg-light-blue"}>
@@ -97,8 +97,8 @@ const bonusInformationText =
 
 const BonusInformationBlock = () => (
     <section className={"col-span-full w-full rounded-xl p-7 bg-bg-light-blue flex flex-row items-center gap-7"}>
-        <InfoIcon size={48} className={"text-link-blue"}/>
-        <Text text={bonusInformationText} className={"text-lg font-medium"}/>
+        <InfoIcon className={"size-8 shrink-0 text-link-blue"}/>
+        <Text text={bonusInformationText} className={"md:text-base xl:text-lg font-medium"}/>
     </section>
 )
 
@@ -109,7 +109,7 @@ const bonusData = [
 ]
 
 const BonusConditionBlock = () => (
-    <section className={"col-span-full w-full flex flex-row gap-7"}>
+    <section className={"col-span-full w-full flex flex-row md:gap-5 xl:gap-7"}>
         {bonusData.map((item, key) => (
             <div className={"rounded-xl p-5 bg-bg-light-blue flex flex-col gap-2"} key={key}>
                 <Text text={item.header} className={"text-lg text-link-blue font-medium"}/>

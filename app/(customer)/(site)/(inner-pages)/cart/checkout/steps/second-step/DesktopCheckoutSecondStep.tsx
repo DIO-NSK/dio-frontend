@@ -27,6 +27,7 @@ import {desktopCheckoutSteps} from "@/data/deskstopCheckoutSteps";
 import {$cart} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import ControlledMultiSelectButton from "@/components/atoms/buttons/multiselect-button/ControlledMultiSelectButton";
 import {$orderToRepeat} from "@/app/(customer)/profile/orders/model";
+import {BREAKPOINT_MOBILE} from "@/constants";
 
 const CheckoutTimeBlock = () => {
 
@@ -76,8 +77,8 @@ const CheckoutTimeBlock = () => {
 const CheckoutPaymentBlock = () => {
 
     const multiselectElements: SelectItem<PaymentMethod>[] = [
-        {name: window.screen.width < 640 ? "Картой" : "Банковской картой онлайн", value: "ONLINE"},
-        {name: window.screen.width < 640 ? "Наличными" : "Наличными или картой при получении", value: "CASH"}
+        {name: window.screen.width < BREAKPOINT_MOBILE ? "Картой" : "Банковской картой онлайн", value: "ONLINE"},
+        {name: window.screen.width < BREAKPOINT_MOBILE ? "Наличными" : "Наличными или картой при получении", value: "CASH"}
     ]
 
     return (
@@ -91,26 +92,6 @@ const CheckoutPaymentBlock = () => {
         </div>
     )
 
-}
-
-const CheckoutAdditionalBlock = () => {
-
-    const [comment, setComment] = useState<string>("")
-    const hintMessage = "Если выбранное Вами время доставки не будет совпадать с графиком доставки" +
-        "вашего района, с вами обязательно свяжется менеджер для уточнения информации"
-
-    return (
-        <BackgroundBlockWrapper header={"Дополнительно"}>
-            <ControlledTextArea
-                name={"textArea"}
-                classNames={{wrapper: "col-span-full", input: "min-h-[150px] max-h-[300px]"}}
-                labelText={"Пожелания к заказу"}
-                placeholder={"Уточните детали заказа в комментарии"}
-                hintText={{type: "neutral", hintMessage: hintMessage}}
-                theme={"filled"}
-            />
-        </BackgroundBlockWrapper>
-    )
 }
 
 const DesktopCheckoutSecondStep = () => {
@@ -138,8 +119,6 @@ const DesktopCheckoutSecondStep = () => {
 
     useEffect(() => {
 
-        console.log('>order', orderToRepeat);
-
         const pickedProducts = orderToRepeat
             ? orderToRepeat.items.map(i => i.productItemId)
             : cart?.products.map(i => i.productItemId)
@@ -147,8 +126,6 @@ const DesktopCheckoutSecondStep = () => {
         const pickedPromos = orderToRepeat
             ? orderToRepeat.items.map(i => i.promoItemId)
             : cart?.promos.map(i => i.promoItemId)
-
-        console.log('>pickedItems', pickedPromos, pickedProducts)
 
         reset({
             ...formData,
@@ -163,10 +140,6 @@ const DesktopCheckoutSecondStep = () => {
         window.scrollTo(0, 0)
     }, []);
 
-    useEffect(() => {
-        console.log(methods.formState.errors);
-    }, [methods.formState.errors]);
-
     if (orderId !== 0) return (
         <FormProvider {...methods}>
             <Form>
@@ -175,7 +148,7 @@ const DesktopCheckoutSecondStep = () => {
                 <Button
                     text={isSubmitting ? "Отправка.." : "К подтверждению"}
                     onClick={handleSubmit(onSubmit)}
-                    classNames={{button: "sm:w-1/4 w-full"}}
+                    classNames={{button: "w-full md:w-[200px] xl:w-1/4"}}
                 />
             </Form>
         </FormProvider>

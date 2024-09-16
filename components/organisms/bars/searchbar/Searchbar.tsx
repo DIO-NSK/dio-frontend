@@ -29,8 +29,8 @@ import ConfirmationCodeByPhonePopup
 import {createPortal} from "react-dom";
 
 const wrapperCV: ClassValue[] = [
-    "hidden w-full px-[100px] py-4 bg-white sm:flex flex-row",
-    "items-center gap-[30px] sticky top-[0px] z-30"
+    "hidden w-full px-[90px] xl:px-[100px] py-4 bg-white lg:flex flex-row",
+    "items-center lg:gap-6 xl:gap-[30px] sticky top-[0px] z-30"
 ]
 
 const ActivePopup = () => {
@@ -60,10 +60,8 @@ const ActivePopup = () => {
 
 const Searchbar = () => {
 
-    const [name, setName, toggleCatalogPopup]
-        = useUnit([$searchValue, searchCatalogByNameEvent, toggleCatalogPopupEvent])
-
-    const searchbarContext = useSearchbar()
+    const [name, setName, toggleCatalogPopup] = useUnit([$searchValue, searchCatalogByNameEvent, toggleCatalogPopupEvent])
+    const {isLaptop, ...searchbarContext} = useSearchbar()
 
     return (
         <React.Fragment>
@@ -74,11 +72,12 @@ const Searchbar = () => {
                     src={DIOLogo.src} alt={'Логотип DIO'} className={"size-[50px] aspect-square pointer"}
                     onClick={searchbarContext.handleLogoClick}
                 />
-                <div className={"w-full flex flex-row gap-[20px] items-center"}>
+                <div className={"w-full flex flex-row lg:gap-3 xl:gap-[20px] items-center"}>
                     <Button
-                        text={"Каталог"}
-                        onClick={toggleCatalogPopup}
+                        classNames={{button : "lg:p-0 lg:size-[52px] xl:px-[50px] xl:h-[60px] xl:w-fit rounded-lg xl:rounded-xl"}}
                         icon={<FiMenu className={"stroke-white size-5"}/>}
+                        text={isLaptop ? "Каталог" : undefined}
+                        onClick={toggleCatalogPopup}
                     />
                     <SearchInput
                         hasPopover hasLink

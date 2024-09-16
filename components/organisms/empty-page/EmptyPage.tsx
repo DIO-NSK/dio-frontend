@@ -13,8 +13,8 @@ type EmptyPageProps = {
 }
 
 const wrapperStyles = (className ?: string) => [
-    "sm:-mx-10 w-full sm:col-span-6 flex flex-row gap-12",
-    "rounded-xl sm:p-10 sm:bg-bg-light-blue",
+    "md:-mx-10 w-full md:col-span-6 flex flex-row gap-12",
+    "rounded-xl md:p-10 md:bg-bg-light-blue",
     className
 ]
 
@@ -25,15 +25,15 @@ const EmptyPage = (props : EmptyPageProps) => {
 
     return (
         <section className={cn(wrapperStyles(props.className))}>
-            <div className={'hidden sm:flex'}>
+            <div className={'hidden md:flex'}>
                 <QuestionMark/>
             </div>
-            <section className={"flex flex-col gap-5 sm:gap-7 w-full"}>
-                <div className={"flex flex-col sm:gap-3 gap-1 w-full"}>
-                    <Text text={props.header} className={"sm:text-xl text-lg font-medium"}/>
-                    <Text text={props.description} className={"sm:text-lg text-base text-text-gray"}/>
+            <section className={"flex flex-col gap-5 md:gap-7 w-full"}>
+                <div className={"flex flex-col md:gap-3 gap-1 w-full"}>
+                    <Text text={props.header} className={"md:text-xl text-lg font-medium"}/>
+                    <Text text={props.description} className={"md:text-lg text-base text-text-gray"}/>
                 </div>
-                <div className={"w-full flex flex-col gap-2 sm:w-fit sm:flex-row"}>
+                <div className={"w-full flex flex-col gap-2 md:w-fit md:flex-row"}>
                     {props.children}
                     <Button text={"На главную"} onClick={handleGoToMain} buttonType={"SECONDARY"}/>
                 </div>

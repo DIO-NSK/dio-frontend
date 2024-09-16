@@ -80,7 +80,7 @@ const CheckoutCard = ({cart} : {cart : ResponseUserCart}) => {
     ]
 
     return (
-        <StickyCardWrapper startCol={"col-start-10"}>
+        <StickyCardWrapper startCol={"lg:col-start-9 lg:col-span-4 xl:col-start-10 xl:col-span-3 lg:mt-[40px] xl:mt-0"}>
             <div className={"pb-5 flex flex-row items-center justify-between border-b-2 border-light-gray"}>
                 <Text text={`Выбрано ${totalCartLength} шт.`}/>
                 <ChevronButton isExpanded={expanded.state} setExpanded={expanded.toggleState}/>

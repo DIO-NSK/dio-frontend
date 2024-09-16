@@ -1,12 +1,12 @@
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import Text from "@/components/atoms/text/text-base/Text";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import {TextLink} from "@/types/dto/text";
 import CatalogCategoryCard from "@/components/organisms/catalog-category-card/CatalogCategoryCard";
 
 import {getCatalog, getCatalogSections, getSectionBreadcrumbs} from "./page.hooks"
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
+import {ResponsivePageWrapper} from "@/components/wrappers/responsive-page-wrapper/ResponsivePageWrapper";
 
 export const generateStaticParams = async () => {
     const sections = await getCatalog()
@@ -41,23 +41,23 @@ const CategoriesPage = async ({params: {sectionId}}: { params: { sectionId: numb
 
     return (
         <>
-            <section className={"w-full gap-3 sm:gap-0 px-5 sm:px-[100px] sm:col-span-full flex flex-col"}>
+            <section className={"w-full gap-3 sm:gap-0 px-5 md:px-[24px] lg:px-[90px] xl:px-[100px] sm:col-span-full flex flex-col"}>
                 <div className={"w-full sm:hidden"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                 </div>
                 <div className={"w-full flex flex-col sm:flex-row items-baseline sm:gap-3"}>
-                    <Text text={section.name} className={"text-lg sm:text-2xl font-medium"}/>
-                    <Text text={`Всего ${categories.length} шт.`} className={"text-base text-text-gray"}/>
+                    <Text text={section.name} className={"text-lg md:text-2xl font-medium"}/>
+                    <Text text={`Всего ${categories.length} шт.`} className={"hidden md:flex text-base text-text-gray"}/>
                 </div>
                 <div className={"w-full sm:flex hidden"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                 </div>
             </section>
-            <InnerPageWrapper classNames={{mobileWrapper: "gap-4"}}>
+            <ResponsivePageWrapper className={'gap-3 py-5 md:py-0'}>
                 {categories.map((category, key) => (
                     <CatalogCategoryCard card={category} key={key}/>
                 ))}
-            </InnerPageWrapper>
+            </ResponsivePageWrapper>
         </>
     );
 

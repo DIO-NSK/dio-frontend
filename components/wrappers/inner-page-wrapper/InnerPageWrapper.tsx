@@ -5,17 +5,20 @@ import MobilePageWrapper from "@/components/mobile/wrappers/mobile-page-wrapper/
 import {BREAKPOINT_MOBILE} from "@/constants";
 
 type InnerPageWrapperClassNames = {
-    mobileWrapper ?: string,
-    desktopWrapper ?: string
+    mobileWrapper?: string,
+    desktopWrapper?: string
 }
 
-const InnerPageWrapper = ({children, classNames} : {
-    children : React.ReactNode,
-    classNames ?: InnerPageWrapperClassNames
+const InnerPageWrapper = ({children, classNames}: {
+    children: React.ReactNode,
+    classNames?: InnerPageWrapperClassNames
 }) => {
 
-    const wrapperCV : ClassValue[] = [
-        "hidden col-span-full px-[100px] sm:grid grid-cols-12 gap-7 pb-7",
+    const wrapperCV: ClassValue[] = [
+        "col-span-full md:grid md:pb-7 md:grid-cols-12",
+        "md:px-[24px] md:gap-5",
+        "lg:px-[90px]",
+        "xl:px-[100px] xl:gap-7",
         classNames?.desktopWrapper
     ]
 
@@ -23,12 +26,12 @@ const InnerPageWrapper = ({children, classNames} : {
 
     return (
         <React.Fragment>
-            <div className={cn(wrapperCV)}>
-                {!isMobile ? children : null}
-            </div>
-            <MobilePageWrapper className={classNames?.mobileWrapper}>
-                {isMobile ? children : null}
-            </MobilePageWrapper>
+            {!isMobile ? <div className={cn(wrapperCV)}>
+                {children}
+            </div> : null}
+            {isMobile ? <MobilePageWrapper className={classNames?.mobileWrapper}>
+                {children}
+            </MobilePageWrapper> : null}
         </React.Fragment>
     );
 

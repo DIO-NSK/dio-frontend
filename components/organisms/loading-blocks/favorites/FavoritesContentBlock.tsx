@@ -3,10 +3,10 @@ import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSea
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 
 const FavoritesContentBlock = ({products}: { products: ResponseProductSearch[] }) => (
-    <section className={"w-full flex flex-col gap-3 sm:gap-7 sm:grid sm:grid-cols-9"}>
+    <section className={"w-full flex flex-col gap-3 md:gap-5 xl:gap-7 md:grid md:grid-cols-8 xl:grid-cols-9"}>
         {products.map((card, index) => (
             <ProductCard
-                classNames={{mainWrapper: "w-full"}}
+                classNames={{mainWrapper: "w-full md:col-span-4 xl:col-span-3"}}
                 productCard={card}
                 key={index}
             />

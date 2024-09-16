@@ -9,7 +9,7 @@ import React, {useEffect, useState} from "react";
 import {useScrollDirection} from "react-use-scroll-direction";
 
 const wrapperStyles = (scrolledUp: boolean): ClassValue[] => [
-    "z-20 sm:hidden w-full flex flex-row items-center px-5 bg-white",
+    "z-20 lg:hidden w-full flex flex-row items-center px-5 bg-white",
     "justify-between py-5 border-b-2 border-light-gray top-0",
     {'w-screen fixed': scrolledUp}
 ]
@@ -41,8 +41,8 @@ const MobileNavbar = ({className, scrolledUp}: { className?: string, scrolledUp 
                     <DIOLogoSmall/>
                 </div>
                 <FiSearch
-                    size={"18px"}
                     onClick={handleCatalogClick}
+                    size={"18px"}
                 />
             </nav>
         </React.Fragment>

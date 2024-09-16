@@ -43,7 +43,7 @@ const OurWatersCategoryClientScreen = ({waters} : {waters : OurWaterChip[]}) => 
     }, [ searchParams ]);
 
     return (
-        <React.Fragment>
+        <section className={'col-span-full flex flex-col gap-5 w-full md:grid md:grid-cols-9 xl:grid-cols-12 xl:gap-7'}>
             <ChipList items={selectableOurWaters} activeItem={activeWater} setActiveItem={handleSelectOurWater}/>
             {waterCards?.map((waterCard) => (
                 <ProductCard
@@ -51,7 +51,7 @@ const OurWatersCategoryClientScreen = ({waters} : {waters : OurWaterChip[]}) => 
                     productCard={waterCard} key={waterCard.id}
                 />
             ))}
-        </React.Fragment>
+        </section>
     )
 };
 

@@ -134,7 +134,7 @@ const DesktopCheckoutThirdStep = () => {
             }
             <Button
                 text={pending ? "Отправка.." : "Оформить заказ"}
-                classNames={{button: "sm:w-1/4 w-full"}}
+                classNames={{button: "w-full md:w-[200px] xl:w-1/4"}}
                 onClick={handleCreateOrder}
                 disabled={pending}
             />

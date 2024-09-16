@@ -7,6 +7,7 @@ import TelegramIcon from "@/public/icons/telegram-icon.png"
 import VKIcon from "@/public/icons/vk.png";
 import Link from "next/link";
 import React from "react";
+import {cn} from "@/utlis/cn";
 
 const iconData = [
     {
@@ -23,12 +24,17 @@ const iconData = [
     },
 ]
 
+const wrapperCN = [
+    "hidden w-full xl:px-[100px] py-5 lg:flex flex-row justify-between",
+    "items-center bg-bg-light-blue px-[90px]"
+]
+
 const Navbar = () => (
-    <div className={"hidden w-full px-[100px] py-5 sm:flex flex-row justify-between items-center bg-bg-light-blue"}>
+    <div className={cn(wrapperCN)}>
         <TextNavbar/>
         <div className={"flex flex-row items-center gap-[30px]"}>
             <Link href={"tel:+733339900"}>
-                <Text text={"+7 (383) 333-99-00"}/>
+                <Text className='xl:text-base text-sm' text={"+7 (383) 333-99-00"}/>
             </Link>
             <div className={"flex flex-row items-center gap-[15px]"}>
                 {iconData.map((icon, key) => (
@@ -41,7 +47,7 @@ const Navbar = () => (
                         <img
                             src={icon.src}
                             alt={"Социальная сеть"}
-                            className={"size-6"}
+                            className={"xl:size-6 size-[18px]"}
                             key={key}
                         />
                     </Link>

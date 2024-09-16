@@ -28,8 +28,12 @@ const IconButton = (props: IconButtonProps) => {
             {props.children}
         </button>
     )
-
 }
+
+const wrapperCN = [
+    "w-full md:pt-7 px-7 flex md:col-span-9 md:border-t-2 md:border-light-gray",
+    "flex-row items-center justify-center md:gap-5 xl:justify-between"
+]
 
 const CatalogPagination = () => {
 
@@ -61,8 +65,7 @@ const CatalogPagination = () => {
     }, [activeIndex]);
 
     return (
-        <section
-            className={'col-span-9 pt-7 px-7 border-t-2 border-light-gray flex flex-row items-center justify-between'}>
+        <section className={cn(wrapperCN)}>
             <IconButton
                 onClick={() => setActiveIndex(activeIndex - 1)}
                 isActive={activeIndex !== 1}

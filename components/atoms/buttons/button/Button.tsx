@@ -15,8 +15,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((
 ) => {
 
     const buttonSizeCV: ClassValue = {
-        "px-5 sm:px-4 py-3 gap-2": size == "sm",
-        "px-[50px] py-4 gap-[15px]": size == "md"
+        "px-5 px-4 py-3 gap-2": size == "sm",
+        "px-6 py-4 xl:px-[50px] gap-[15px]": size == "md"
     }
 
     const buttonTypeCV: ClassValue = {
@@ -32,7 +32,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((
         {"bg-bg-light-blue text-text-gray border-2 border-light-gray": disabled},
         {"sm:hover:bg-bg-light-blue sm:hover:text-text-gray sm:hover:border-2": disabled},
         {"sm:hover:border-light-gray sm:hover:cursor-not-allowed": disabled},
-        props.classNames?.button
+        props.classNames?.button,
     ]
 
 

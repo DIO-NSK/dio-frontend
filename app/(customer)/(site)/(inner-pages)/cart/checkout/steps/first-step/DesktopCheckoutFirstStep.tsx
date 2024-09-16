@@ -173,7 +173,7 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
                     disabled={isSubmitting}
                     text={isSubmitting ? "Отправка.." : "Далее"}
                     onClick={handleSubmit(onSubmit)}
-                    classNames={{button: "sm:w-1/4 w-full"}}
+                    classNames={{button: "w-full md:w-[200px] xl:w-1/4"}}
                 />
             </Form>
         </FormProvider>

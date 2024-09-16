@@ -15,14 +15,14 @@ const UserInfoCard = ({userCredentials} : {userCredentials : ResponseUserCredent
     ]
 
     return (
-        <BackgroundBlockWrapper theme={"outlined"}>
+        <BackgroundBlockWrapper theme={"outlined"} className={'md:gap-0 xl:gap-5'}>
             {
                 userInfoData.map((row, key) => {
 
                     const rowCV : ClassValue[] = [
-                        "w-full sm:col-span-full flex flex-col gap-2 sm:flex-row items-baseline sm:justify-between",
+                        "w-full md:col-span-full flex flex-col gap-2 md:flex-row items-baseline md:justify-between",
                         {"border-b-2 border-light-gray pb-5" : key !== userInfoData.length - 1},
-                        {"sm:border-0 sm:pb-0 pb-5 border-b-2 border-light-gray" : key === userInfoData.length - 1},
+                        {"md:border-0 md:pb-0 pb-5 border-b-2 border-light-gray" : key === userInfoData.length - 1},
                     ]
 
                     return <div key={key} className={cn(rowCV)}>

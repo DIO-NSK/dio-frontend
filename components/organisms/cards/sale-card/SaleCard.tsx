@@ -3,7 +3,7 @@ import {Link} from "@mui/joy";
 import {cn} from "@/utlis/cn";
 
 const wrapperCV = [
-    "w-full h-[120px] sm:h-[200px] flex items-center",
+    "w-full h-[120px] lg:h-[150px] xl:h-[200px] flex items-center",
     "justify-center rounded-xl overflow-clip"
 ]
 

@@ -24,12 +24,12 @@ const SiteLayout = ({children}: { children: React.ReactNode }) => {
 
     return (
         <React.Fragment>
-            <section className={"w-full flex flex-col gap-7 sm:gap-0"}>
+            <section className={"w-full flex flex-col gap-7 md:gap-0"}>
                 <MobileNavbar scrolledUp={scrolledUp}/>
-                <div className={cn('w-full flex flex-col gap-7 sm:hidden', scrolledUp && 'mt-[90px]')}>
+                <div className={cn('w-full flex flex-col gap-7 lg:hidden', scrolledUp && 'mt-[90px]')}>
                     {isMobile ? children : null}
                 </div>
-                <div className={'hidden w-full min-h-screen sm:flex flex-col gap-7 sm:gap-0'}>
+                <div className={'hidden w-full min-h-screen lg:flex flex-col gap-7 md:gap-0'}>
                     {!isMobile ? children : null}
                 </div>
             </section>

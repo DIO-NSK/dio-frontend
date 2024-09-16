@@ -95,19 +95,20 @@ const UserProfileOrdersPage = () => {
             <HeaderRow
                 header={"Мои заказы"}
                 leftContent={`${orders.length} шт.`}
+                className={'mt-5 md:mt-0'}
                 rightContent={
                     <React.Fragment>
                         <SelectInput
-                            width={"sm:w-[250px]"}
+                            width={"md:w-[250px]"}
                             items={dropdownItems}
-                            className={"hidden sm:flex"}
+                            className={"hidden md:flex"}
                             selectedItem={activeItem}
                             onSelect={setActiveItem}
                             size={"sm"}
                         />
                         <FiX
                             size={"20px"}
-                            className={"w-fit sm:hidden"}
+                            className={"w-fit md:hidden"}
                             onClick={() => navigation.push('/')}
                         />
                     </React.Fragment>
@@ -115,13 +116,13 @@ const UserProfileOrdersPage = () => {
             />
             <SelectInput
                 items={dropdownItems}
-                className={"sm:hidden"}
+                className={"md:hidden"}
                 selectedItem={activeItem}
                 onSelect={setActiveItem}
             />
             {
                 sortedOrders?.length !== 0 ? (
-                    <section className={"w-full flex flex-col gap-5 sm:-mt-5"}>
+                    <section className={"w-full flex flex-col gap-5 md:-mt-5"}>
                         {sortedOrders?.map((order, key) =>
                             <OrderCard key={key} order={order}/>
                         )}

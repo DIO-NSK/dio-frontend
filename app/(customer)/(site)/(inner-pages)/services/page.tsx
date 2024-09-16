@@ -1,5 +1,4 @@
 import {Metadata} from "next";
-import {services} from "@/data/static/services";
 import ClientServicesScreen from "@/app/(customer)/(site)/(inner-pages)/services/ui/ClientServicesScreen";
 
 const keywords = [

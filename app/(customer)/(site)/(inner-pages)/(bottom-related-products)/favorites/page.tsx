@@ -74,7 +74,7 @@ const FavoritesPage = () => {
 
             {
                 favourites.products.length ? (
-                        <div className={"w-full sm:col-span-9 flex flex-col gap-7"}>
+                        <div className={"w-full md:col-span-8 xl:col-span-9 flex flex-col md:gap-5 xl:gap-7"}>
                             <FavoritesHeaderRow selectedCards={favourites.products}/>
                             <FavoritesContentBlock products={favourites.products}/>
                         </div>

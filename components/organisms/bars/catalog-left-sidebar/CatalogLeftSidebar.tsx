@@ -19,7 +19,6 @@ const CatalogLeftSidebar = ({categoryId}: { categoryId: number }) => {
             <div className={`flex flex-col gap-7 sticky top-[0px]`}>
                 <CatalogFilters categoryId={categoryId}/>
             </div>
-
         </div>
     )
 }

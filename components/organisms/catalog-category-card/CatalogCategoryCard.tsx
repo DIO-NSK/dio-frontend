@@ -11,9 +11,9 @@ type CatalogCategoryCardProps = {
 }
 
 const wrapperCV: ClassValue[] = [
-    "w-full sm:col-span-4 h-fit flex flex-col items-center justify-center gap-4 p-5 bg-white",
-    "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover:shadow-lg sm:hover:shadow-gray-200/50",
-    "sm:hover:scale-[1.01] sm:hoverable pointer border-2 border-light-gray group",
+    "w-full p-5 md:col-span-4 lg:p-4 xl:p-5 h-fit flex flex-col items-center justify-center gap-4 bg-white",
+    "md:gap-7 md:p-7 rounded-xl md:hover:z-10 md:hover:shadow-lg md:hover:shadow-gray-200/50",
+    "md:hover:scale-[1.01] md:hoverable pointer border-2 border-light-gray group",
 ]
 
 const CatalogCategoryCard = ({card}: CatalogCategoryCardProps) => (
@@ -22,12 +22,12 @@ const CatalogCategoryCard = ({card}: CatalogCategoryCardProps) => (
         className={cn(wrapperCV)}
     >
         <img
-            className={'w-full h-[100px] rounded-xl object-scale-down'}
+            className={'w-full h-[90px] xl:h-[100px] rounded-xl object-scale-down'}
             alt={'Изображение категории'}
             src={card.image}
         />
         <div className={'flex flex-row gap-2 items-center'}>
-            <Text text={card.name} className={'text-link-blue group-hover:text-blue-500 line-clamp-1'}/>
+            <Text text={card.name} className={'text-link-blue group-hover:text-blue-500 w-fit line-clamp-1'}/>
             <FiArrowRight size={'18px'} className={'text-link-blue group-hover:text-blue-500'}/>
         </div>
     </Link>

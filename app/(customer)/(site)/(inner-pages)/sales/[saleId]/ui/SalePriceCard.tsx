@@ -7,6 +7,14 @@ import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import {FiCheck} from "react-icons/fi";
 import React, {useMemo} from "react";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
+
+const wrapperCN : ClassValue[] = [
+    "sm:hidden md:flex md:col-start-9 md:col-span-4 xl:col-start-10 top-0",
+    "md:p-0 md:shadow-none md:rounded-0 lg:shadow-xl lg:shadow-gray-200/50 lg:rounded-xl lg:p-7",
+    "md:border-0 lg:border-2 lg:border-light-gray"
+]
 
 const SalePriceCard = ({saleId, sale}: { saleId: number, sale: SaleDetails }) => {
 
@@ -17,7 +25,7 @@ const SalePriceCard = ({saleId, sale}: { saleId: number, sale: SaleDetails }) =>
     }, [sale])
 
     return (
-        <StickyCardWrapper startCol={"col-start-10"}>
+        <StickyCardWrapper startCol={cn(wrapperCN)}>
             <div className={"w-full flex flex-row items-baseline justify-between pb-5 border-b-2 border-light-gray"}>
                 <Text text={"Товаров в акции"}/>
                 <Text text={`${totalProducts} шт.`}/>

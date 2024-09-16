@@ -18,6 +18,7 @@ import CheckoutCard from "@/components/organisms/cards/checkout-card/CheckoutCar
 import {useToggle} from "@/utlis/hooks/useToggle";
 import MobilePickAddressPopup
     from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/MobilePickAddressPopup";
+import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 
 const CheckoutSteps = (props: { onOpenMobilePopup: () => void }) => {
 
@@ -36,28 +37,33 @@ const CheckoutSteps = (props: { onOpenMobilePopup: () => void }) => {
 
 const CheckoutPage = () => {
 
+    const breakpoint = useBreakpoint();
     const cart = useUnit($cart)
     const [activeStep, setActiveStep] = useUnit([$activeStep, setActiveStepEvent])
     const mobilePopupVisible = useToggle()
 
     if (cart) return (
-        <InnerPageWrapper classNames={{desktopWrapper: "sm:grid sm:grid-cols-12 gap-7"}}>
-            <HeaderRow header={"Оформление заказа"} className={"hidden sm:flex w-full"}/>
-            {
-                mobilePopupVisible.state ? (
-                    <MobilePickAddressPopup onClose={mobilePopupVisible.toggleState}/>
-                ) : (
-                    <section className={"w-full -mt-7 sm:mt-0 sm:col-span-9 flex flex-col gap-5 sm:gap-10"}>
-                        <FormStepper
-                            steps={desktopCheckoutSteps}
-                            setActiveStep={setActiveStep}
-                            activeStep={activeStep}
-                        />
-                        <CheckoutSteps onOpenMobilePopup={mobilePopupVisible.toggleState}/>
-                    </section>
-                )
-            }
-            <CheckoutCard cart={cart}/>
+        <InnerPageWrapper classNames={{desktopWrapper: "gap-7", mobileWrapper : '-mt-5'}}>
+            <HeaderRow header={"Оформление заказа"} className={"hidden md:flex w-full"}/>
+            {breakpoint !== 'xl' ? <FormStepper
+                steps={desktopCheckoutSteps}
+                setActiveStep={setActiveStep}
+                activeStep={activeStep}
+            /> : null}
+            {mobilePopupVisible.state ? (
+                <MobilePickAddressPopup onClose={mobilePopupVisible.toggleState}/>
+            ) : (
+                <section
+                    className={"w-full -mt-7 sm:mt-0 md:col-span-full lg:col-span-8 xl:col-span-9 flex flex-col gap-5 xl:gap-10"}>
+                    {breakpoint === 'xl' ? <FormStepper
+                        steps={desktopCheckoutSteps}
+                        setActiveStep={setActiveStep}
+                        activeStep={activeStep}
+                    /> : null}
+                    <CheckoutSteps onOpenMobilePopup={mobilePopupVisible.toggleState}/>
+                </section>
+            )}
+            {breakpoint === 'xl' || breakpoint === 'lg' ? <CheckoutCard cart={cart}/> : null}
         </InnerPageWrapper>
     );
 

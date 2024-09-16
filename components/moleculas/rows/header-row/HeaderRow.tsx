@@ -23,7 +23,7 @@ const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRow
 
     const wrapperCV: ClassValue[] = [
         "w-full sm:col-span-full flex flex-row items-center justify-between",
-        {"sm:px-7 pb-7 border-b-2 border-light-gray": theme == "bordered"},
+        {"md:px-7 pb-7 border-b-2 border-light-gray": theme == "bordered"},
         props.className,
     ]
 
@@ -40,12 +40,12 @@ const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRow
                     }
                     <Text
                         text={props.header}
-                        className={cn("text-[20px] sm:text-[24px] font-medium", props.headerCN)}
+                        className={cn("text-[20px] md:text-[24px] font-medium", props.headerCN)}
                     />
                 </div>
                 {
                     typeof props.leftContent == "string"
-                        ? <Text text={props.leftContent} className={"text-[14px] sm:text-base text-text-gray"}/>
+                        ? <Text text={props.leftContent} className={"text-[14px] md:text-base text-text-gray"}/>
                         : props.leftContent
                 }
             </div>

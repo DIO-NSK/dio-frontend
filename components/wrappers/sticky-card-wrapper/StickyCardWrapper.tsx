@@ -8,7 +8,7 @@ const StickyCardWrapper = ({children, startCol} : {
 }) => {
 
     const wrapperCV : ClassValue[] = [
-        "hidden sticky top-[120px] h-fit col-span-3 sm:flex flex-col p-[30px]",
+        "hidden sticky top-[120px] h-fit col-span-3 md:flex flex-col p-7",
         "rounded-xl bg-white shadow-xl shadow-gray-200/50 border-2 border-light-gray gap-[20px]",
         startCol
     ]

@@ -14,6 +14,7 @@ const IconTextButton = ({placement = "top", ...props}: IconTextButtonTypes) => {
 
     const wrapperCV: ClassValue[] = [
         "pointer hoverable hover:text-link-blue w-fit flex flex-col items-center gap-[6px]",
+        "text-sm xl:text-base",
         {"flex-row" : placement == "left" || placement == "right"},
         props.className
     ]

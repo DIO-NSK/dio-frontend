@@ -8,9 +8,9 @@ type ServiceContentBlockProps = {
 } & DropdownInputProps<string>
 
 const ServiceContentBlock = (props: ServiceContentBlockProps) => (
-    <section className={"w-full sm:col-span-9 flex flex-col gap-5"}>
-        <SelectInput className={"sm:hidden"} {...props}/>
-        <section className={"w-full flex flex-col gap-5 sm:-mt-5"}>
+    <section className={"w-full md:col-span-8 xl:col-span-9 flex flex-col gap-5"}>
+        <SelectInput className={"md:hidden"} {...props}/>
+        <section className={"w-full flex flex-col gap-5"}>
             {props.services?.map((card, key) => (
                 <ServiceFullCard card={card} key={key}/>
             ))}

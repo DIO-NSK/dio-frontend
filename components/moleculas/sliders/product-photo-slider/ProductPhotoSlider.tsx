@@ -13,7 +13,7 @@ import 'swiper/css';
 const MainPhotoCard = ({photo}: { photo?: string }) => {
 
     const imageCV = [
-        "w-full h-[300px] object-scale-down rounded-xl",
+        "w-full md:h-[200px] lg:h-[250px] xl:h-[300px] object-scale-down rounded-xl",
         "border-2 border-light-gray"
     ]
 
@@ -103,7 +103,7 @@ const ProductPhotoSlider = ({photos}: { photos: string[] }) => {
     const [activePhoto, setActivePhoto] = useState<string>()
 
     return (
-        <div className={"hidden sm:col-start-1 sm:col-span-5 sm:flex flex-col gap-5"}>
+        <div className={"hidden md:col-start-1 md:col-span-full xl:col-span-5 md:flex flex-col gap-5"}>
             <ProductPhotoSlider.MainPhotoCard photo={activePhoto}/>
             <ProductPhotoSlider.PhotoSlider
                 photos={photos}

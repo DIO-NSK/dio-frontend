@@ -23,16 +23,17 @@ type HeroSliderRowProps = {
 
 const productCardCV = {
     mainWrapper: cn([
-        "sm:border-2 sm:border-light-gray sm:scale-[0.95]",
-        "sm:hover:scale-[0.95] sm:hover:shadow-none"
+        "xl:scale-[0.95]",
+        "xl:hover:scale-[0.95] xl:hover:shadow-none",
+        "lg:col-span-4 xl:col-span-3"
     ])
 }
 
 const HeroSliderRow = (props: HeroSliderRowProps) => (
-    <section className={"hidden col-span-full sm:grid grid-cols-12 items-center gap-[20px]"}>
-        <ImageBannerSlider width={"col-span-9"} banners={props.banners}/>
+    <section className={"col-span-full hidden md:grid md:grid-cols-6 lg:grid-cols-12 md:items-start xl:items-center gap-5"}>
+        <ImageBannerSlider width={"md:col-span-4 lg:col-span-8 xl:col-span-9"} banners={props.banners}/>
         <Swiper
-            className={"col-span-3 w-full"}
+            className={"md:col-span-2 lg:col-span-4 xl:col-span-3 w-full"}
             slidesPerView={1} loop={true}
             modules={[Autoplay, Scrollbar]}
             autoplay={{

@@ -26,8 +26,8 @@ type ProductCardProps = {
 
 const wrapperStyles = (className ?: string) : ClassValue[] => [
     "w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
-    "sm:gap-7 sm:p-7 rounded-xl sm:hover:z-10 sm:hover:shadow-lg sm:hover:shadow-gray-200/50 sm:hover:scale-[1.01] sm:hoverable pointer",
-    "border-2 border-light-gray sm:border-0 relative", className
+    "xl:gap-7 xl:p-7 rounded-xl xl:hover:z-10 xl:hover:shadow-lg xl:hover:shadow-gray-200/50 xl:hover:scale-[1.01] xl:hoverable pointer",
+    "border-2 border-light-gray relative", className
 ]
 
 const ProductCard = ({productCard, classNames}: ProductCardProps) => {
@@ -53,24 +53,24 @@ const ProductCard = ({productCard, classNames}: ProductCardProps) => {
         <article className={cn(wrapperStyles(classNames?.mainWrapper))} onClick={handleCardClick}>
             <img
                 src={productCard.image ?? (productCard as any).mainImage}
-                className={"select-none w-full h-[100px] sm:h-[160px] object-scale-down"}
+                className={"select-none w-full h-[100px] lg:h-[130px] xl:h-[160px] object-scale-down"}
                 alt={'Изображение продукта'}
             />
-            <div className={"w-full flex flex-col gap-4 sm:gap-5"}>
-                <div className={cn("w-full flex flex-col gap-1 min-h-[50px] sm:min-h-[85px]", classNames?.textWrapper)}>
+            <div className={"w-full flex flex-col sm:gap-4 xl:gap-5"}>
+                <div className={cn("w-full flex flex-col gap-1", classNames?.textWrapper)}>
                     <span className={"w-full hidden sm:flex flex-row items-baseline gap-3"}>
                         <Text
-                            className={"text-[22px] font-semibold text-link-blue"}
+                            className={"xl:text-[22px] lg:text-[20px] font-semibold text-link-blue"}
                             text={newPrice.toFixed(2) + " ₽"}
                         />
                         {productCard.discountPercent !== 0 && <Text
-                            className={"text-base text-text-gray line-through"}
+                            className={"xl:text-base lg:text-sm text-text-gray line-through"}
                             text={price.toFixed(2) + " ₽"}
                         />}
                     </span>
                     <span className={"w-full flex flex-col gap-2"}>
                         <Text
-                            className={"font-medium text-base line-clamp-2"}
+                            className={"font-medium lg:text-sm xl:text-base line-clamp-2 min-h-[50px] max-h-fit"}
                             text={productCard.name}
                         />
                         {(productCard as any)?.quantity && <Text
@@ -80,7 +80,7 @@ const ProductCard = ({productCard, classNames}: ProductCardProps) => {
                     </span>
                 </div>
                 <div className={"w-full flex flex-row items-center justify-between"}>
-                    <span className={"sm:hidden flex flex-col"}>
+                    <span className={"md:hidden flex flex-col"}>
                         {productCard.discountPercent !== 0 && <Text
                             className={"text-sm text-text-gray line-through"}
                             text={price.toFixed(2) + " ₽"}
@@ -93,7 +93,7 @@ const ProductCard = ({productCard, classNames}: ProductCardProps) => {
                     <footer className={"flex flex-row items-center gap-4 sm:gap-5"}>
                         <Button
                             hasSpinner={false}
-                            classNames={{button: "hidden sm:flex"}}
+                            classNames={{button: "hidden md:flex"}}
                             buttonType={isInCart ? "PRIMARY" : "SECONDARY"}
                             disabled={!productCard.inStock}
                             text={buttonText}

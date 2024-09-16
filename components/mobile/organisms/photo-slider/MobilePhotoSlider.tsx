@@ -45,7 +45,7 @@ export const MobilePhotoSliderWrapper = (props: MobilePhotoSliderWrapperProps) =
     };
 
     return (
-        <section className={cn("sm:hidden w-full overflow-hidden relative -mt-7 mb-7", props.className)}>
+        <section className={cn("md:hidden w-full overflow-hidden relative -mt-7 mb-7", props.className)}>
             {props.showQuantity ? (
                 <Chip className={'absolute top-5 right-5 bg-link-blue z-30'}>
                     <Text

@@ -12,6 +12,7 @@ import {logoutUserFx} from "@/app/(customer)/model";
 import {useUnit} from "effector-react";
 import useSWR from "swr";
 import {api} from "@/api";
+import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 
 const logoutCV: ClassValue[] = [
     "hidden sm:flex red-text hover:text-red-700 gap-2 ml-[-20px]",
@@ -19,7 +20,7 @@ const logoutCV: ClassValue[] = [
 ]
 
 const UserProfileLayout = ({children}: { children: React.ReactNode }) => {
-
+    const breakpoint = useBreakpoint();
     const logout = useUnit(logoutUserFx)
     const router = useRouter()
     const swr = useSWR('get_user', () => api.get('/user'))
@@ -34,16 +35,20 @@ const UserProfileLayout = ({children}: { children: React.ReactNode }) => {
 
     if (swr.data) return (
         <InnerPageWrapper classNames={{desktopWrapper: "mt-3", mobileWrapper: "pt-0"}}>
-            <div className={"col-span-3"}>
-                <UserProfileLeftSidebar/>
-                <IconTextButton
-                    icon={<FiLogOut size={"18px"}/>}
-                    text={"Выйти"}
-                    onClick={handleLogout}
-                    placement={"left"}
-                    className={cn(logoutCV)}
-                />
-            </div>
+            {
+                breakpoint === 'xl' || breakpoint === 'lg' ? (
+                    <div className={"lg:col-span-4 xl:col-span-3"}>
+                        <UserProfileLeftSidebar/>
+                        <IconTextButton
+                            icon={<FiLogOut size={"18px"}/>}
+                            text={"Выйти"}
+                            onClick={handleLogout}
+                            placement={"left"}
+                            className={cn(logoutCV)}
+                        />
+                    </div>
+                ) : null
+            }
             {children}
         </InnerPageWrapper>
     )

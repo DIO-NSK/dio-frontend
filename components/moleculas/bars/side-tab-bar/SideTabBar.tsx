@@ -15,7 +15,7 @@ export type SideTabBarProps = PropsWithClassName<{
 
 const SideTabBar = ({isHoverable = false, ...props}: SideTabBarProps) => {
     return (
-        <div className={cn("hidden col-span-3 sm:flex flex-col gap-2 customScrollbar", props.className)}>
+        <div className={cn("hidden md:flex md:col-span-4 xl:col-span-3 flex-col gap-2 customScrollbar", props.className)}>
             {props.tabs.map((tab: TabBarItemType, index) => (
                 <TabBarItem
                     {...props}

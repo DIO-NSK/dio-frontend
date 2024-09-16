@@ -17,7 +17,7 @@ const UserProfileSettingsPage = () => {
     }, [])
 
     if (!role.length) {
-        return (<Loading className={"col-span-9 h-full"}/>)
+        return (<Loading className={"md:col-span-full lg:col-span-8 xl:col-span-9 h-full"}/>)
     }
 
     return role === 'LEGAL_PARTNER'

@@ -14,12 +14,11 @@ import SalePriceCard from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/
 import SaleCardMobileInfoBlock from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/ui/SaleCardMobileInfoBlock";
 import {Metadata} from "next";
 import MobileProductStickyButton from "@/components/atoms/buttons/MobileProductStickyButton";
-import {notFound} from "next/navigation";
 
 const productCardCV = {
     mainWrapper: cn([
         "sm:border-2 sm:border-light-gray sm:scale-[0.95]",
-        "sm:hover:scale-[0.95]"
+        "sm:hover:scale-[0.95] sm:w-full"
     ])
 }
 
@@ -54,20 +53,20 @@ const SalePage = async ({params: {saleId}}: { params: { saleId: number } }) => {
     ]
 
     return (
-        <div className={"w-full sm:col-span-full flex flex-col gap-5 sm:gap-7"}>
-            <div className={"sm:px-[100px] px-5 w-full sm:col-span-full sm:grid sm:grid-cols-12 sm:gap-x-5 sm:gap-y-7"}>
+        <div className={"w-full md:col-span-full flex flex-col gap-5 xl:gap-7"}>
+            <div className={"px-5 md:px-6 lg:px-[90px] xl:px-[100px] w-full sm:col-span-full sm:grid sm:grid-cols-12 sm:gap-5 xl:gap-y-7"}>
                 <section className={"sm:col-span-full flex flex-col gap-2"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                     <Text text={sale.name} className={"sm:text-2xl text-xl font-medium"}/>
                 </section>
-                <div className={"w-full sm:col-span-9 flex flex-col gap-7"}>
+                <div className={"w-full col-span-full md:col-span-8 xl:col-span-9 flex flex-col gap-5 xl:gap-7"}>
                     <ProductPhotoSlider photos={sale.images}/>
                     <MobilePhotoSlider
                         photos={sale.images?.map(image => ({image: image}))}
                         className={"mt-5 mb-0"} showQuantity
                     />
-                    <div className={"w-full flex flex-col gap-2"}>
-                        <Text text={"Описание"} className={"sm:text-xl text-lg font-medium"}/>
+                    <div className={"w-full md:w-[calc(100vw-48px)] lg:w-full flex flex-col gap-2"}>
+                        <Text text={"Описание"} className={"md:text-xl text-lg font-medium"}/>
                         <Text text={sale.description} className={"w-full"}/>
                     </div>
                     <CardBulletCol
@@ -77,7 +76,7 @@ const SalePage = async ({params: {saleId}}: { params: { saleId: number } }) => {
                 </div>
                 <SalePriceCard sale={sale} saleId={saleId}/>
             </div>
-            <div className={"w-full py-7 sm:px-[100px] border-y-2 border-light-gray"}>
+            <div className={"w-full md:px-6 lg:px-[90px] xl:px-[100px] py-7 border-y-2 border-light-gray"}>
                 <SliderGroup headerSize={'sm'} header={"Товары, участвующие в акции"}>
                     {sale.products?.map((product, index) => (
                         <ProductCard classNames={productCardCV} productCard={product} key={index}/>

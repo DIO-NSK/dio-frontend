@@ -84,13 +84,14 @@ const UserSettings = () => {
                 success={requestSuccess === true}
                 header={headerSnackbar}
             />
-            <Form className={"w-full sm:col-span-9 flex flex-col gap-5"}>
+            <Form className={"w-full md:col-span-full lg:col-span-8 xl:col-span-9 flex flex-col gap-5"}>
                 <HeaderRow
+                    className={'mt-5 md:mt-0'}
                     header={"Настройки аккаунта"}
                     rightContent={
                         <FiX
                             size={"20px"}
-                            className={"sm:hidden flex"}
+                            className={"md:hidden flex"}
                             onClick={() => navigation.push('/')}
                         />
                     }
@@ -100,7 +101,7 @@ const UserSettings = () => {
                         <ControlledTextInput key={key} theme={"filled"} {...input} />
                     )}
                 </BackgroundBlockWrapper>
-                <div className={"col-span-full flex flex-col gap-3 sm:flex-row sm:gap-5"}>
+                <div className={"col-span-full flex flex-col gap-3 md:flex-row md:gap-5"}>
                     <Button
                         disabled={isSubmitting}
                         text={"Сохранить изменения"}

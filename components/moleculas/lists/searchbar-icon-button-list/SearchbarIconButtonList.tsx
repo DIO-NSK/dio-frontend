@@ -59,7 +59,7 @@ const SearchbarIconButtonList = () => {
     }, [])
 
     return (
-        <div className={"flex flex-row items-center gap-[30px]"}>
+        <div className={"flex flex-row items-center gap-5 xl:gap-[30px]"}>
             {
                 buttonListData.map((item, key) => {
 

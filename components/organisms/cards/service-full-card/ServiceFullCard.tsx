@@ -9,20 +9,39 @@ import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/Ser
 import {useUnit} from "effector-react";
 import {selectServiceNameEvent, toggleServicePopupEvent} from "@/app/(customer)/(site)/(inner-pages)/services/model";
 import {useRouter} from "next/navigation";
+import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 
-const HeaderDescriptionColumn = ({header, descr}: {
-    header: string,
-    descr: string,
-}) => {
+const PriceRow = ({price} : {price ?: number}) => {
+    if (price !== undefined && price !== 0) {
+
+        if (price !== 0) {
+            return (
+                <div className={"w-full flex flex-col sm:flex-row sm:gap-3 sm:items-baseline"}>
+                    <Text text={`от ${price} ₽`} className={"text-[20px] md:text-[22px] xl:text-[24px] font-semibold text-link-blue"}/>
+                    <Text text={"в мес."} className={"text-text-gray"}/>
+                </div>
+            )
+        }
+
+        return (
+            <Text text={"Бесплатно"} className={"w-full text-[20px] md:text-[22px] xl:text-[24px] font-semibold text-link-blue"}/>
+        )
+
+    }
+}
+
+const HeaderDescriptionColumn = ({header, descr, price}: ServiceCardDTO) => {
+    const breakpoint = useBreakpoint();
 
     const wrapperCV = [
-        "w-full flex flex-col gap-3 sm:gap-4 pb-5",
+        "w-full flex flex-col gap-3 xl:gap-4 pb-5",
         "border-b-2 border-light-gray"
     ]
 
     return (
         <div className={cn(wrapperCV)}>
-            <Text text={header} className={"text-[18px] sm:text-[20px] font-semibold"}/>
+            {breakpoint === 'md' || breakpoint === 'lg' ? <PriceRow price={price}/> : null}
+            <Text text={header} className={"text-[18px] xl:text-[20px] font-semibold"}/>
             <Text text={descr}/>
         </div>
     )
@@ -36,14 +55,7 @@ const PriceCard = ({price, text, onClick}: {
 }) => {
     return (
         <div className={"sm:col-span-3 flex flex-row items-center justify-between sm:flex-col sm:gap-3 h-fit"}>
-            {price !== undefined ? price !== 0 ? (
-                        <div className={"w-full flex flex-col sm:flex-row sm:gap-[10px] sm:items-baseline"}>
-                            <Text text={`от ${price} ₽`} className={"text-[20px] sm:text-[24px] font-semibold text-link-blue"}/>
-                            <Text text={"в мес."} className={"text-text-gray"}/>
-                        </div>) :
-                    <Text text={"Бесплатно"} className={"w-full text-[20px] sm:text-[24px] font-semibold text-link-blue"}/>
-                : null
-            }
+            <PriceRow price={price}/>
             <Button
                 classNames={{button: "px-7 sm:px-[50px]"}}
                 text={text} onClick={onClick}
@@ -60,9 +72,9 @@ const RentTimeBlock = ({rentTime}: {
         <ServiceBlockWrapper header={"Срок аренды"}>
             {
                 rentTime.map((item, key) => {
-                    return <section className={"col-span-3 flex flex-row items-baseline justify-between"} key={key}>
+                    return <section className={"col-span-3 flex flex-row md:flex-col md:gap-2 lg:flex-row items-baseline justify-between"} key={key}>
                         <Text text={item.name} className={"text-text-gray"}/>
-                        <Text text={item.value} className={"text-text-gray"}/>
+                        <Text text={item.value} className={"text-text-gray md:text-black lg:text-text-gray"}/>
                     </section>
                 })
             }
@@ -104,6 +116,7 @@ const ServiceFullCard = ({card}: {
     card: ServiceCardDTO
 }) => {
 
+    const breakpoint = useBreakpoint();
     const router = useRouter()
     const [togglePopupState, selectServiceName] = useUnit([toggleServicePopupEvent, selectServiceNameEvent])
     const [isExpanded, setExpanded] = useState<boolean>(false)
@@ -116,7 +129,7 @@ const ServiceFullCard = ({card}: {
 
     return (
         <ServiceCardWrapper>
-            <section className={"w-full sm:col-span-9 flex flex-col gap-5"}>
+            <section className={"w-full xl:col-span-9 flex flex-col gap-5"}>
                 <HeaderDescriptionColumn {...card} />
                 {isExpanded && <ContentColumn
                     rentTime={card.rentTime}
@@ -128,11 +141,11 @@ const ServiceFullCard = ({card}: {
                     setExpanded={setExpanded}
                 />
             </section>
-            <PriceCard
+            {breakpoint === 'xl' ? <PriceCard
                 onClick={handleOrderService}
                 text={"Заказать услугу"}
                 price={card.price}
-            />
+            /> : null}
         </ServiceCardWrapper>
     )
 }

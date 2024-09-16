@@ -35,7 +35,7 @@ const ImageBannerSlider = ({banners, width}: { banners: ResponseBanner[], width:
     const swiperRef = useRef<SwiperRef>()
 
     if (banners.length) return (
-        <section className={cn("relative flex items-center cursor-pointer h-[390px] rounded-2xl overflow-clip", width)}>
+        <section className={cn("relative flex items-center cursor-pointer md:h-[310px] lg:h-[330px] xl:h-[390px] rounded-2xl overflow-clip", width)}>
             <section className={"w-full absolute top-[calc(50%-32px)] left-0 p-5 flex justify-between z-10"}>
                 <ArrowButton icon={<FiChevronLeft size={"20px"}/>} onClick={() => swiperRef.current?.slidePrev()}/>
                 <ArrowButton icon={<FiChevronRight size={"20px"}/>} onClick={() => swiperRef.current?.slideNext()}/>

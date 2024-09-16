@@ -29,6 +29,7 @@ import {
 import {cn} from "@/utlis/cn";
 import AdvantagesBlock from "@/components/organisms/blocks/advantages-block/AdvantagesBlock";
 import {Metadata} from "next";
+import {getBucketPhotos} from "@/app/(customer)/(site)/page.hooks";
 
 const ICON_SIZE = 28
 
@@ -79,41 +80,53 @@ export const metadata: Metadata = {
     }
 }
 
-const AboutCompanyPage = () => (
-    <InnerPageWrapper classNames={{desktopWrapper: "gap-y-[50px]", mobileWrapper: "px-0 pt-0"}}>
-        <div className={"w-full col-span-full flex flex-col gap-5 sm:gap-7"}>
-            <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
-            <img
-                className={cn(imageCV)}
-                src={'https://storage.yandexcloud.net/dio-static-images/dio-main-banner.jpg'}
-                alt={"Баннер «О компании»"}
-            />
-        </div>
-        <FirstBlock/>
-        <SecondBlock/>
-        <ThirdBlock/>
-        <FourthBlock/>
-        <SliderGroup header={"Фотографии"} className={"sm:col-span-full"}>
-            <ContentImage image={ProductImage4.src}/>
-            <ContentImage image={ProductImage5.src}/>
-        </SliderGroup>
-        <div className={"hidden sm:flex sm:col-span-full"}>
-            <HeaderGroup header={"Наши преимущества"}>
-                {advantagesCardData.map((card) => {
-                    return <AdvantageCard
-                        classNames={{
-                            wrapper: "border-2 border-light-gray hover:bg-white",
-                            text: "text-[18px] font-medium"
-                        }}
-                        card={card}
+const AboutCompanyPage = async () => {
+    const photos = await getBucketPhotos()
+
+    return (
+        <InnerPageWrapper classNames={{desktopWrapper: "gap-y-[50px]", mobileWrapper: "px-0 pt-0"}}>
+            <div className={"w-full col-span-full flex flex-col gap-5 sm:gap-7"}>
+                <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+                <img
+                    className={cn(imageCV)}
+                    src={'https://storage.yandexcloud.net/dio-static-images/dio-main-banner.jpg'}
+                    alt={"Баннер «О компании»"}
+                />
+            </div>
+            <FirstBlock/>
+            <SecondBlock/>
+            <ThirdBlock/>
+            <FourthBlock/>
+            <SliderGroup
+                header={"Посмотрите на наше производство"}
+                desktopSlidesPerView={2}
+            >
+                {photos.map((photo, index) => (
+                    <ContentImage
+                        image={`https://storage.yandexcloud.net/dio-company-images/${photo}`}
+                        className={"w-[80vw] sm:w-full"}
+                        key={index}
                     />
-                })}
-            </HeaderGroup>
-        </div>
-        <div className={'sm:hidden w-full'}>
-            <AdvantagesBlock/>
-        </div>
-    </InnerPageWrapper>
-);
+                ))}
+            </SliderGroup>
+            <div className={"hidden sm:flex sm:col-span-full"}>
+                <HeaderGroup header={"Наши преимущества"}>
+                    {advantagesCardData.map((card) => {
+                        return <AdvantageCard
+                            classNames={{
+                                wrapper: "border-2 border-light-gray hover:bg-white",
+                                text: "text-[18px] font-medium"
+                            }}
+                            card={card}
+                        />
+                    })}
+                </HeaderGroup>
+            </div>
+            <div className={'sm:hidden w-full'}>
+                <AdvantagesBlock/>
+            </div>
+        </InnerPageWrapper>
+    )
+}
 
 export default AboutCompanyPage;

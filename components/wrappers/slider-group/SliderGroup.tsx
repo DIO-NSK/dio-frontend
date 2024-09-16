@@ -18,6 +18,7 @@ import SlideButton from "@/components/atoms/buttons/slide-button/SlideButton";
 import {Side} from "@/data/enums/side";
 import {AUTOPLAY_DELAY, DESKTOP_SLIDES_PER_VIEW, MOBILE_SLIDES_PER_VIEW} from "@/constants/swiper";
 import Link from "next/link";
+import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 
 type SliderGroupProps = {
     desktopSlidesPerView?: number,
@@ -40,7 +41,7 @@ const SliderGroup = (
     const [isBegin, setBegin] = useState<boolean>(true)
     const [isEnd, setEnd] = useState<boolean>(isInitEnd)
 
-    const headerCV = headerSize === 'xl' ? 'sm:text-[32px]' : 'sm:text-2xl font-medium'
+    const headerCV = headerSize === 'xl' ? 'lg:text-[28px] xl:text-[32px]' : 'text-lg md:text-2xl font-medium'
 
     useEffect(() => {
         if (swiperRef.current) {
@@ -52,8 +53,8 @@ const SliderGroup = (
     }, [swiperRef.current]);
 
     return (
-        <section id={props.id} className={cn("sm:pl-0 w-full flex flex-col gap-5 sm:gap-7", props.className)}>
-            <span className={"px-5 sm:px-0 col-span-full flex flex-row justify-between items-center"}>
+        <section id={props.id} className={cn("sm:pl-0 w-full col-span-full flex flex-col gap-5 xl:gap-7", props.className)}>
+            <span className={"px-5 xl:px-0 col-span-full flex flex-row justify-between items-center"}>
                 <span className={"flex flex-row items-baseline gap-5"}>
                     {props.header &&
                         <h2 className={cn("text-[20px] font-bold leading-none", headerCV)}>
@@ -61,12 +62,12 @@ const SliderGroup = (
                         </h2>}
                     {props.href && <Link href={props.href}>
                         <Text
-                            className={"hidden sm:flex sm:text-[18px] text-link-blue"}
+                            className={"hidden sm:flex md:text-base xl:text-[18px] text-link-blue"}
                             text={"Перейти"}
                         />
                     </Link>}
                 </span>
-                <span className={"hidden sm:flex flex-row items-center gap-[20px]"}>
+                <span className={"hidden md:flex flex-row items-center md:gap-2 lg:gap-4 xl:gap-[20px]"}>
                     <SlideButton
                         disabled={isBegin}
                         onClick={() => swiperRef.current?.slidePrev()}
@@ -79,15 +80,23 @@ const SliderGroup = (
                     />
                 </span>
             </span>
-            <section className={"hidden sm:flex w-full"}>
+            <section className={"hidden md:flex md:w-full"}>
                 <Swiper
                     grabCursor={true}
                     onSwiper={(swiper) => {
                         swiperRef.current = swiper
                     }}
-                    className={"active:cursor-grab hidden w-full sm:col-span-full sm:flex"}
-                    spaceBetween={20}
-                    slidesPerView={desktopSlidesPerView}
+                    className={"active:cursor-grab hidden md:w-full md:col-span-full"}
+                    breakpoints={{
+                        768 : {
+                            spaceBetween : 10,
+                            slidesPerView : 3
+                        },
+                        1024 : {
+                            spaceBetween : 20,
+                            slidesPerView : 4
+                        }
+                    }}
                     modules={[Navigation, Autoplay, Scrollbar]}
                     autoplay={{
                         delay: AUTOPLAY_DELAY,
@@ -95,11 +104,11 @@ const SliderGroup = (
                     }}
                 >
                     {React.Children.map(props.children, (child, index) => (
-                        <SwiperSlide key={index}>{child}</SwiperSlide>
+                        <SwiperSlide className='w-full' key={index}>{child}</SwiperSlide>
                     ))}
                 </Swiper>
             </section>
-            <section className={"sm:hidden flex w-full ml-5"}>
+            <section className={"md:hidden flex w-full ml-5"}>
                 <MobileSliderWrapper slidesPerView={mobileSlidesPerView}>{props.children}</MobileSliderWrapper>
             </section>
         </section>

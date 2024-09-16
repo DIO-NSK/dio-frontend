@@ -68,7 +68,7 @@ const mainServiceCards: (TextLink & { icon: ReactNode })[] = [
 const productCardCV = {
     mainWrapper: cn([
         "sm:border-2 sm:border-light-gray sm:scale-[0.95]",
-        "sm:hover:scale-[0.95]"
+        "sm:hover:scale-[0.95] lg:-mr-5 xl:mr-0"
     ])
 }
 
@@ -93,22 +93,22 @@ const MainPageScreen = async () => {
     const banners = await getBanners()
     const photos = await getBucketPhotos()
 
-    console.log(promotions);
-
     return (
         <>
             <PageWrapper>
                 <MobilePhotoSlider photos={banners}/>
                 <HeroSliderRow dayProducts={dayProducts} banners={banners}/>
-                <SliderGroup header={"Новинки"} className={'-mt-14 sm:mt-0'}>
-                    {newProducts.map((productCard, key) => (
-                        <ProductCard
-                            classNames={productCardCV}
-                            productCard={productCard}
-                            key={key}
-                        />
-                    ))}
-                </SliderGroup>
+                {
+                    newProducts.length > 0 ? <SliderGroup header={"Новинки"} className={'-mt-14 sm:mt-0'}>
+                        {newProducts.map((productCard, key) => (
+                            <ProductCard
+                                classNames={productCardCV}
+                                productCard={productCard}
+                                key={key}
+                            />
+                        ))}
+                    </SliderGroup> : null
+                }
                 <SliderGroup id={"sale"} header={"Товары по акции"}>
                     {saleProducts.filter(prod => prod.discountPercent !== 0)
                         .map((productCard, key) => (
@@ -119,7 +119,7 @@ const MainPageScreen = async () => {
                             />
                         ))}
                 </SliderGroup>
-                <section className={"w-full hidden sm:flex"}>
+                <section className={"w-full hidden md:flex"}>
                     <SliderGroup header={"Наши воды"}>
                         {ourWaters.map((waterCard, key) => (
                             <WaterCard waterCard={waterCard} key={key}/>
@@ -136,7 +136,7 @@ const MainPageScreen = async () => {
                         <ServiceCard item={item} key={key}/>
                     ))}
                 </HeaderGroup>
-                <section className={"w-full hidden sm:flex"}>
+                <section className={"w-full hidden md:flex"}>
                     <SliderGroup desktopSlidesPerView={3} header={"Акции и предложения"} href={"/sales"}>
                         {promotions.map((promotion, key) => (
                             <SaleCard promotion={promotion} key={key}/>

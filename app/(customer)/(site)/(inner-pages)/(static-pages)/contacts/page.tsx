@@ -70,7 +70,7 @@ const MailAddressColumn = () => (
     <div className={"sm:col-span-6 flex flex-col gap-5 sm:gap-6"}>
         {blockData.map((item) => (
             <div
-                className={"w-full flex flex-col gap-3 sm:gap-5 pb-5 sm:border-0 border-b-2 border-light-gray"}>
+                className={"w-full flex flex-col gap-3 sm:gap-5 xl:pb-5 sm:border-0 border-b-2 border-light-gray"}>
                 <Text text={item.header} className={"text-base sm:text-[18px] text-black font-medium"}/>
                 <div
                     className={"sm:px-[30px] sm:py-[35px] flex flex-row items-center gap-[15px] sm:rounded-xl sm:bg-bg-light-blue"}>

@@ -19,7 +19,7 @@ const DescriptionColumn = ({header, description, top, left, right}: DescriptionC
 )
 
 const WaterCoolerBlock = () => (
-    <section className={"hidden relative w-full sm:flex flex-col items-center"}>
+    <section className={"hidden relative w-full xl:flex flex-col items-center"}>
         {waterCoolerBlockData.map((item, index) => {
             return <DescriptionColumn {...item} description={item.descr} key={index}/>
         })}

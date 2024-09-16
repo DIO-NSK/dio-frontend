@@ -17,7 +17,7 @@ const linkStyles = (className ?: string): ClassValue[] => [
 
 const cardStyles = [
     "flex items-center justify-center w-full h-[150px]",
-    "sm:h-[300px] rounded-xl bg-bg-light-blue"
+    "lg:h-[196px] xl:h-[300px] rounded-xl bg-bg-light-blue"
 ]
 
 const textStyles = [

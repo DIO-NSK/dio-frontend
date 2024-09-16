@@ -12,7 +12,7 @@ type BuyButtonProps = {
 const BuyButton = ({isInCart, onClick, className} : BuyButtonProps) => {
 
     const wrapperCV: ClassValue[] = [
-        "sm:hidden w-10 h-10 rounded-full flex items-center justify-center transition duration-200",
+        "md:hidden w-10 h-10 rounded-full flex items-center justify-center transition duration-200",
         {"bg-bg-light-blue text-link-blue": !isInCart},
         {"bg-link-blue text-white": isInCart},
         className

@@ -10,6 +10,14 @@ import {useLike} from "@/utlis/hooks/product/useLike";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
+import {ClassValue} from "clsx";
+import {cn} from "@/utlis/cn";
+
+const wrapperCN : ClassValue[] = [
+    "md:col-start-9 md:col-span-4 xl:col-start-10 top-0",
+    "md:p-0 md:shadow-none md:rounded-0 lg:shadow-xl lg:shadow-gray-200/50 lg:rounded-xl lg:p-7",
+    "md:border-0 lg:border-2 lg:border-light-gray"
+]
 
 const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
 
@@ -18,7 +26,7 @@ const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
     const [price, newPrice] = useDiscount(product.price, product.discountPercent)
 
     return (
-        <StickyCardWrapper startCol={"col-start-10 top-0"}>
+        <StickyCardWrapper startCol={cn(wrapperCN)}>
 
             <div className={"w-full flex flex-row items-baseline gap-[10px]"}>
                 <Text
@@ -33,6 +41,7 @@ const ProductPriceCard = ({product}: { product: ResponseProduct }) => {
 
             <div className={"w-full flex flex-row items-center gap-[20px]"}>
                 <Button
+                    classNames={{button : 'md:w-[calc(100%-20px)]'}}
                     icon={isInCart && <FiCheck className={"stroke-[3px]"}/>}
                     text={isInCart ? "В корзине" : "В корзину"}
                     buttonType={isInCart ? "PRIMARY" : "SECONDARY"}

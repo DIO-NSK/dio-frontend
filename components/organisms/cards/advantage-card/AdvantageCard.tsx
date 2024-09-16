@@ -13,14 +13,14 @@ type AdvantageCardProps = {
 }
 
 const wrapperStyles = (className ?: string): ClassValue[] => [
-    "sm:col-span-3 col-span-1 sm:p-[30px] p-6 rounded-xl bg-bg-light-blue flex",
+    "md:col-span-4 xl:col-span-3 col-span-1 p-6 xl:p-[30px] rounded-xl bg-bg-light-blue flex",
     "hover:bg-transparent border-2 border-light-gray group",
-    "flex-col gap-3 sm:gap-[15px] hoverable pointer", className
+    "flex-col gap-3 md:gap-[15px] hoverable pointer", className
 ]
 
 const textStyles = (className ?: string): ClassValue => [
-    "group-hover:text-link-blue text-black sm:leading-none",
-    "sm:text-lg text-[14px] font-medium", className
+    "group-hover:text-link-blue text-black md:leading-none",
+    "md:text-lg text-[14px] font-medium", className
 ]
 
 const iconWrapperStyles: ClassValue[] = [

@@ -18,7 +18,8 @@ const FourthBlock = () => {
     ]
 
     const wrapperCV: ClassValue[] = [
-        "hidden py-5 sm:-ml-[100px] sm:w-screen sm:px-[100px] sm:pt-[50px] bg-light-gray w-full",
+        "hidden py-5 md:-ml-[24px] lg:-ml-[90px] xl:-ml-[100px] sm:w-screen sm:pt-[50px] bg-light-gray w-full",
+        "md:px-[24px] sm:px-[90px] xl:px-[100px]",
         "sm:grid sm:grid-cols-12 sm:gap-x-5 sm:gap-y-10 sm:pb-[50px] border-b-2 border-light-gray"
     ]
 

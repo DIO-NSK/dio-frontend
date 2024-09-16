@@ -21,12 +21,12 @@ const FormStepper = (props: StepperProps) => {
     }
 
     return (
-        <section className={cn("w-full flex flex-row gap-2 sm:gap-7 items-center justify-center", props.className)}>
+        <section className={cn("w-full md:col-span-full flex flex-row gap-2 md:gap-7 items-center justify-center", props.className)}>
             {
                 props.steps.map((step, stepIndex, steps) => {
 
                         const stepCV = [
-                            "w-7 h-7 sm:w-[35px] sm:h-[35px] rounded-full flex items-center justify-center",
+                            "w-8 h-8 md:w-[35px] md:h-[35px] rounded-full flex items-center justify-center",
                             {"bg-bg-light-blue text-text-gray": stepIndex > props.activeStep.value},
                             {"bg-link-blue text-white": stepIndex < props.activeStep.value},
                             {"bg-light-gray text-link-blue": stepIndex === props.activeStep.value}
@@ -53,7 +53,7 @@ const FormStepper = (props: StepperProps) => {
                                         }
                                     </div>
                                     <Text
-                                        className={cn("hidden sm:flex whitespace-nowrap", textCV)}
+                                        className={cn("hidden md:flex whitespace-nowrap", textCV)}
                                         text={step.name}
                                     />
                                 </button>
