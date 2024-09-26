@@ -1,14 +1,12 @@
-import React, {useState} from 'react';
-import {ControlledTextInputProps} from "@/types/props/inputs/TextInput";
-import {ClassValue} from "clsx";
-import {cn} from "@/utlis/cn";
-import InputMask from "react-input-mask";
 import EyeButton from "@/components/atoms/buttons/eye-button/EyeButton";
 import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
-import {FieldValues, UseFormReturn} from "react-hook-form";
 import ControlledInputWrapper from "@/components/wrappers/input-wrapper/ControlledInputWrapper";
-import Text from "@/components/atoms/text/text-base/Text";
-import TextButton from "@/components/atoms/buttons/text-button/TextButton";
+import { ControlledTextInputProps } from "@/types/props/inputs/TextInput";
+import { cn } from "@/utlis/cn";
+import { ClassValue } from "clsx";
+import React, { useState } from 'react';
+import { FieldValues, UseFormReturn } from "react-hook-form";
+import InputMask from "react-input-mask";
 
 const InnerInput = <T extends FieldValues, >(
     {theme = "outlined", ...props}: ControlledTextInputProps<T>
@@ -20,8 +18,8 @@ const InnerInput = <T extends FieldValues, >(
     ] = useState<boolean>(props.isPassword ?? false)
 
     const wrapperCV: ClassValue[] = [
-        "w-full flex flex-row items-center justify-between px-5 py-4 sm:px-7 sm:py-5 rounded-xl bg-bg-light-blue",
-        "hoverable focus:outline-0 border-light-gray border-2",
+        "w-full flex flex-row items-center justify-between px-5 py-4 sm:px-7 sm:py-5 rounded-xl",
+        "hoverable focus:outline-0 border-light-gray border-2 bg-bg-light-blue",
         {"sm:bg-white": theme == "filled"},
         {"hover:bg-opacity-50": theme == "outlined"},
         {"text-text-gray bg-bg-light-blue bg-opacity-50": props.disabled || props.readonly}

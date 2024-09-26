@@ -13,7 +13,7 @@ type EmptyPageProps = {
 }
 
 const wrapperStyles = (className ?: string) => [
-    "md:-mx-10 w-full md:col-span-6 flex flex-row gap-12",
+    "md:-mx-10 w-full md:col-span-6 xl:col-span-9 flex flex-row gap-12",
     "rounded-xl md:p-10 md:bg-bg-light-blue",
     className
 ]

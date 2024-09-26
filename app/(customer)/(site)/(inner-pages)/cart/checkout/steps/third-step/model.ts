@@ -10,6 +10,7 @@ export type CreateOrderRequest = {
     routeCode: number,
     deliveryTime: string,
     pickedProducts: number[]
+    bonuses ?: number;
 }
 
 const createOrder = async (request: CreateOrderRequest) => {

@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapper/BackgroundBlockWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
-import {useUnit} from "effector-react";
-import {$checkoutFirstStepData} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/model";
-import {$checkoutSecondStepData} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/second-step/model";
-import {HeaderDescription} from "@/types/dto/text";
+import { useUnit } from "effector-react";
+import { $checkoutFirstStepData } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/first-step/model";
+import { $checkoutSecondStepData } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/second-step/model";
+import { HeaderDescription } from "@/types/dto/text";
 import Text from "@/components/atoms/text/text-base/Text";
 import {
     $createOrderPending,
@@ -14,10 +14,10 @@ import {
     thirdStepDidMountEvent
 } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/steps/third-step/model";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
-import {useRouter} from "next/navigation";
-import {convertPhoneNumber} from "@/utlis/convertPhoneNumber";
-import {CreateOrderData} from "@/schemas/customer/checkout/CreateOrderSchema";
-import {cn} from "@/utlis/cn";
+import { useRouter } from "next/navigation";
+import { convertPhoneNumber } from "@/utlis/convertPhoneNumber";
+import { CreateOrderData } from "@/schemas/customer/checkout/CreateOrderSchema";
+import { cn } from "@/utlis/cn";
 
 const convertFormDataToRequest = (data: CreateOrderData): CreateOrderRequest => {
     return ({
@@ -27,11 +27,12 @@ const convertFormDataToRequest = (data: CreateOrderData): CreateOrderRequest => 
         paymentMethod: data.paymentMethod.value,
         deliveryTime: data.deliveryTime.name,
         deliveryDate: data.deliveryDate.value,
-        routeCode: +data.deliveryTime.value
+        routeCode: +data.deliveryTime.value,
+        bonuses: data.bonuses ? +data.bonuses : undefined
     }) as CreateOrderRequest
 }
 
-const CheckoutDataBlock = ({header, items, className}: {
+const CheckoutDataBlock = ({ header, items, className }: {
     header: string,
     items: HeaderDescription[],
     className?: string
@@ -43,8 +44,8 @@ const CheckoutDataBlock = ({header, items, className}: {
                     className={cn("col-span-1 border-b-2 border-light-gray pb-5 flex flex-row items-baseline justify-between", className)}
                     key={index}
                 >
-                    <Text text={item.header} className={"text-text-gray"}/>
-                    <Text text={item.description}/>
+                    <Text text={item.header} className={"text-text-gray"} />
+                    <Text text={item.description} />
                 </section>
             ))}
         </BackgroundBlockWrapper>
@@ -60,19 +61,19 @@ const DesktopCheckoutThirdStep = () => {
     const [createOrder, firstFormData, secondFormData] = useUnit([createOrderFx, $checkoutFirstStepData, $checkoutSecondStepData])
 
     const firstBlockData: HeaderDescription[] = [
-        {header: "Имя", description: firstFormData.firstName ?? ''},
-        {header: "Фамилия", description: firstFormData.surname ?? ''},
-        {header: "Телефон", description: convertPhoneNumber(firstFormData.phoneNumber ?? '')},
-        {header: "Почта", description: firstFormData.email ?? ''},
+        { header: "Имя", description: firstFormData.firstName ?? '' },
+        { header: "Фамилия", description: firstFormData.surname ?? '' },
+        { header: "Телефон", description: convertPhoneNumber(firstFormData.phoneNumber ?? '') },
+        { header: "Почта", description: firstFormData.email ?? '' },
     ]
 
     const secondBlockData: HeaderDescription[] = [
-        {header: "Адрес", description: firstFormData.address?.address ?? ''},
+        { header: "Адрес", description: firstFormData.address?.address ?? '' },
     ]
 
     const thirdBlockData: HeaderDescription[] = [
-        {header: "Дата доставки", description: secondFormData.deliveryDate.name},
-        {header: "Время доставки", description: secondFormData.deliveryTime.name},
+        { header: "Дата доставки", description: secondFormData.deliveryDate.name },
+        { header: "Время доставки", description: secondFormData.deliveryTime.name },
         {
             header: "Способ оплаты",
             description: secondFormData.paymentMethod.value === "ONLINE"
@@ -81,8 +82,8 @@ const DesktopCheckoutThirdStep = () => {
         },
     ]
 
-    const additionalBlockData : HeaderDescription[] = [
-        {header : "Комментарий к заказу", description : firstFormData?.comment as string}
+    const additionalBlockData: HeaderDescription[] = [
+        { header: "Комментарий к заказу", description: firstFormData?.comment as string }
     ]
 
     const headerSnackbar = requestStatus === true ? "Заказ успешно создан!" : "Произошла ошибка"
@@ -92,14 +93,6 @@ const DesktopCheckoutThirdStep = () => {
 
     const handleCreateOrder = () => {
         createOrder(convertFormDataToRequest(orderData))
-            .then(link => {
-                if (secondFormData.paymentMethod.value === "ONLINE") {
-                    router.push(link);
-                } else {
-                    router.push('/profile/orders');
-                }
-            })
-            .catch(error => setErrorMessage(error))
     }
 
     useEffect(() => {
@@ -120,9 +113,9 @@ const DesktopCheckoutThirdStep = () => {
                     router.back()
                 }}
             />
-            <CheckoutDataBlock header={"Данные получателя"} items={firstBlockData}/>
-            <CheckoutDataBlock header={"Адрес доставки"} items={secondBlockData} className={'col-span-full border-b-0 pb-0'}/>
-            <CheckoutDataBlock header={"Дата и время доставки"} items={thirdBlockData}/>
+            <CheckoutDataBlock header={"Данные получателя"} items={firstBlockData} />
+            <CheckoutDataBlock header={"Адрес доставки"} items={secondBlockData} className={'col-span-full border-b-0 pb-0'} />
+            <CheckoutDataBlock header={"Дата и время доставки"} items={thirdBlockData} />
             {
                 firstFormData?.comment ?
                     <CheckoutDataBlock
@@ -134,7 +127,7 @@ const DesktopCheckoutThirdStep = () => {
             }
             <Button
                 text={pending ? "Отправка.." : "Оформить заказ"}
-                classNames={{button: "w-full md:w-[200px] xl:w-1/4"}}
+                classNames={{ button: "w-full md:w-[200px] xl:w-1/4" }}
                 onClick={handleCreateOrder}
                 disabled={pending}
             />

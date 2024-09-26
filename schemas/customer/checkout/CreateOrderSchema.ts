@@ -8,6 +8,7 @@ export const CreateOrderSchema = z.object({
     deliveryTime: SelectInputSchema,
     pickedProducts : z.array(z.number()).optional(),
     pickedPromos : z.array(z.number()).optional(),
+    bonuses : z.string().optional()
 })
 
 export type CreateOrderData = z.infer<typeof CreateOrderSchema>
