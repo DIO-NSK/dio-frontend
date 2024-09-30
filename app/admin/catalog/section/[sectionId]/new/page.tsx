@@ -3,22 +3,23 @@
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Button from "@/components/atoms/buttons/button/Button";
 import AdminPanelCharBlock from "@/components/organisms/blocks/admin-panel-char-block/AdminPanelCharBlock";
-import {FieldValues, FormProvider, useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Form from "@/components/atoms/form/Form";
-import {CreateCategoryData, CreateCategorySchema} from "@/schemas/admin/CreateCategorySchema";
+import { CreateCategoryData, CreateCategorySchema } from "@/schemas/admin/CreateCategorySchema";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
-import {useUnit} from "effector-react";
-import {useRouter} from "next/navigation";
-import {$categories, $creationStatus, createCategoryFx} from "../model";
+import { useUnit } from "effector-react";
+import { useRouter } from "next/navigation";
+import { $categories, $creationStatus, createCategoryFx } from "../model";
 import Text from "@/components/atoms/text/text-base/Text";
-import {defaultCharacteristicData} from "@/schemas/dto/CharacteristicSchema";
+import { defaultCharacteristicData } from "@/schemas/dto/CharacteristicSchema";
 import React from "react";
 import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
 import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
 import ControlledSwitch from "@/components/atoms/switch/ControlledSwitch";
+import { SeoBlock } from "@/components/organisms/seo-block/SeoBlock";
 
-const AdminPanelNewCategoryPage = ({params}: {
+const AdminPanelNewCategoryPage = ({ params }: {
     params: { sectionId: number }
 }) => {
 
@@ -37,7 +38,7 @@ const AdminPanelNewCategoryPage = ({params}: {
             isNeedParsing: false,
             properties: [
                 defaultCharacteristicData,
-                {...defaultCharacteristicData, sequenceNumber: 2},
+                { ...defaultCharacteristicData, sequenceNumber: 2 },
             ]
         },
         mode: "onSubmit"
@@ -45,7 +46,7 @@ const AdminPanelNewCategoryPage = ({params}: {
 
     const {
         handleSubmit,
-        formState: {isSubmitting},
+        formState: { isSubmitting },
     } = methods
 
     const onSaveChanges = (formData: FieldValues) => {
@@ -78,7 +79,7 @@ const AdminPanelNewCategoryPage = ({params}: {
                         />
                     </div>
                     <div className={"w-full px-7 pb-7 border-b-2 border-light-gray flex flex-col gap-3"}>
-                        <Text text={'Фотография категории'}/>
+                        <Text text={'Фотография категории'} />
                         {methods.getValues("image") ? (
                             <AdminPhotoCard
                                 onDelete={() => methods.setValue("image", null)}
@@ -92,22 +93,25 @@ const AdminPanelNewCategoryPage = ({params}: {
                             />
                         )}
                     </div>
-                    <AdminPanelCharBlock blockName={"properties"}/>
+                    <AdminPanelCharBlock blockName={"properties"} />
                     <div className={"w-full px-7 pb-7 border-b-2 border-light-gray flex items-center gap-4"}>
-                        <ControlledSwitch name={'isNeedParsing'}/>
-                        <Text text={'Принадлежит ли к категории "Наши воды"'} className={'text-base text-black'}/>
+                        <ControlledSwitch name={'isNeedParsing'} />
+                        <Text text={'Принадлежит ли к категории "Наши воды"'} className={'text-base text-black'} />
+                    </div>
+                    <div className="w-full px-7 pb-7 border-b-2 border-light-gray">
+                        <SeoBlock hintUrl="vody-19-litrov" />
                     </div>
                     <div className={"px-7 flex flex-row items-center gap-5"}>
                         <Button
                             disabled={isSubmitting}
-                            classNames={{button: "w-[250px]"}}
+                            classNames={{ button: "w-[250px]" }}
                             text={isSubmitting ? "Отправка.." : "Сохранить"}
                             onClick={handleSubmit(onSaveChanges)}
                         />
                         {
                             creationStatus === "failure" &&
                             <Text text={"Возникли ошибки при создании категории"}
-                                  className={"text-sm text-red-500"}
+                                className={"text-sm text-red-500"}
                             />
                         }
                     </div>

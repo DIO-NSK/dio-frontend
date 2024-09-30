@@ -1,23 +1,27 @@
-import {Category} from "@/types/dto/Category";
-import {api, unauthorizedApi} from "@/api";
-import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
-import {createEffect, createEvent, createStore, sample} from "effector";
-import {TableRow} from "@/types/dto/Table";
-import {DragEndEvent} from "@dnd-kit/core";
-import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
+import { api } from "@/api";
+import { CreateCategoryData } from "@/schemas/admin/CreateCategorySchema";
+import { Category } from "@/types/dto/Category";
+import { TableRow } from "@/types/dto/Table";
+import { handleDragEnd } from "@/utlis/handlers/handleDragEnd";
+import { DragEndEvent } from "@dnd-kit/core";
+import { createEffect, createEvent, createStore, sample } from "effector";
 
 const createCategory = async (request: { data: CreateCategoryData, sequenceNumber: number, id: number }) => {
 
     const mappedProperties = request.data.properties
-        .map((property) => ({...property, valueType: property.valueType.value}))
+        .map((property) => ({ ...property, valueType: property.valueType.value }))
 
     const mappedData = {
         ...request.data,
+        seoEntityDto: {
+            ...request.data.seoEntityDto,
+            keywords: request.data.seoEntityDto?.keywords?.split(',')
+        },
         sequenceNumber: request.sequenceNumber,
         properties: mappedProperties
     }
 
-    const {image, ...req} = mappedData
+    const { image, ...req } = mappedData
     const params = {
         params: {
             sectionId: request.id,
@@ -30,13 +34,13 @@ const createCategory = async (request: { data: CreateCategoryData, sequenceNumbe
 }
 
 const getCategoryList = async (sectionId: number) => {
-    const params = {params: {sectionId: sectionId}}
+    const params = { params: { sectionId: sectionId } }
     return api.get("/admin/catalogue/category/search", params)
         .then(response => response.data)
 }
 
 const updateCategory = async (request: { categories: Category[], sectionId: number }) => {
-    const params = {params: {sectionId: request.sectionId}}
+    const params = { params: { sectionId: request.sectionId } }
     return api.post("/admin/catalogue/category/v2", request.categories, params)
         .then(response => response.data)
 }
@@ -97,7 +101,7 @@ sample({
 
 sample({
     clock: saveChangesEvent,
-    source: {categories: $categories, sectionId: $sectionId},
+    source: { categories: $categories, sectionId: $sectionId },
     target: updateCategoriesFx
 })
 

@@ -1,20 +1,29 @@
+import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
 import Text from "@/components/atoms/text/text-base/Text";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import {TextLink} from "@/types/dto/text";
-import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
-import {returningData} from "@/data/static/returning";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
-import React from "react";
-import {Metadata} from "next";
-import {services} from "@/data/static/services";
+import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
+import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import { returningData } from "@/data/static/returning";
+import { TextLink } from "@/types/dto/text";
+import { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: 'Возврат и обмен товара — доставка питьевой воды по Новосибирску и области DIO',
-    keywords: returningData.map(serviceGroup => serviceGroup.blockContent.map(item => item.itemHeader ?? '')).flat(),
-    openGraph: {
-        title: 'Возврат и обмен товара — доставка питьевой воды по Новосибирску и области DIO'
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeoByUrlMask(__dirname.split('/').at(-1) as string);
+
+    return {
+        title: seo.title,
+        description: seo.description,
+        keywords: seo.keywords
     }
 }
+
+// export const metadata: Metadata = {
+//     title: 'Возврат и обмен товара — доставка питьевой воды по Новосибирску и области DIO',
+//     keywords: returningData.map(serviceGroup => serviceGroup.blockContent.map(item => item.itemHeader ?? '')).flat(),
+//     openGraph: {
+//         title: 'Возврат и обмен товара — доставка питьевой воды по Новосибирску и области DIO'
+//     }
+// }
 
 const breadcrumbs: TextLink[] = [
     {text: "Главная", link: "/"},

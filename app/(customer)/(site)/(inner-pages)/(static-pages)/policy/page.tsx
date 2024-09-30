@@ -1,20 +1,29 @@
-import {TextLink} from "@/types/dto/text";
-import React from "react";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
 import Text from "@/components/atoms/text/text-base/Text";
-import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
-import {policyData} from "@/data/static/policy";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
-import {Metadata} from "next";
-import {returningData} from "@/data/static/returning";
+import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
+import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import { policyData } from "@/data/static/policy";
+import { TextLink } from "@/types/dto/text";
+import { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: 'Политика конфиденциальности — доставка питьевой воды по Новосибирску и области DIO',
-    keywords: policyData.map(serviceGroup => serviceGroup.blockContent.map(item => item.itemHeader ?? '')).flat(),
-    openGraph: {
-        title: 'Политика конфиденциальности — доставка питьевой воды по Новосибирску и области DIO'
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeoByUrlMask(__dirname.split('/').at(-1) as string);
+
+    return {
+        title: seo.title,
+        description: seo.description,
+        keywords: seo.keywords
     }
 }
+
+// export const metadata: Metadata = {
+//     title: 'Политика конфиденциальности — доставка питьевой воды по Новосибирску и области DIO',
+//     keywords: policyData.map(serviceGroup => serviceGroup.blockContent.map(item => item.itemHeader ?? '')).flat(),
+//     openGraph: {
+//         title: 'Политика конфиденциальности — доставка питьевой воды по Новосибирску и области DIO'
+//     }
+// }
 
 const breadcrumbs: TextLink[] = [
     {text: "Главная", link: "/"},

@@ -1,15 +1,17 @@
-import {attach, createEffect, createEvent, createStore, sample} from "effector";
-import {api, unauthorizedApi} from "@/api";
-import {Section} from "@/types/dto/Section";
-import {CreateSectionData} from "@/schemas/admin/CreateSectionSchema";
-import {TableRow} from "@/types/dto/Table";
-import {TextLink} from "@/types/dto/text";
-import {DragEndEvent} from "@dnd-kit/core";
-import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
+import { attach, createEffect, createEvent, createStore, sample } from "effector";
+import { api } from "@/api";
+import { Section } from "@/types/dto/Section";
+import { CreateSectionData } from "@/schemas/admin/CreateSectionSchema";
+import { TableRow } from "@/types/dto/Table";
+import { TextLink } from "@/types/dto/text";
+import { DragEndEvent } from "@dnd-kit/core";
+import { handleDragEnd } from "@/utlis/handlers/handleDragEnd";
 
 export const $sections = createStore<Section[]>([])
 export const pageDidMountEvent = createEvent()
 export const $createSectionError = createStore<string>("")
+
+$sections.watch(console.log)
 
 export const cancelChangesEvent = createEvent<void>()
 export const saveChangesEvent = createEvent<void>()
@@ -25,7 +27,12 @@ export const selectSectionToEditEvent = createEvent<TableRow<string[]>>()
 export const onCloseSectionToEditEvent = createEvent()
 export const $sectionToEdit = createStore<TableRow<string[]> | null>(null)
 
-export const editSectionEvent = createEvent<{ sectionId: number, newName: string }>()
+interface EditSectionEventPayload {
+    sectionId: number;
+    payload: CreateSectionData
+}
+
+export const editSectionEvent = createEvent<EditSectionEventPayload>()
 export const deleteSectionEvent = createEvent<number>()
 export const onChangeNameToSearch = createEvent<string>()
 export const $nameToSearch = createStore<string>("")
@@ -42,8 +49,8 @@ const getSections = async () => {
 }
 
 const getSectionBreadcrumbs = async (categoryId: number): Promise<{ id: number, name: string }> => {
-    return api.get("/catalogue/breadcrumb/section", {params: {sectionId: categoryId}})
-        .then(response => ({id: categoryId, name: response.data}))
+    return api.get("/catalogue/breadcrumb/section", { params: { sectionId: categoryId } })
+        .then(response => ({ id: categoryId, name: response.data }))
 }
 
 export const getSectionBreadcrumbsFx = createEffect(getSectionBreadcrumbs)
@@ -56,8 +63,8 @@ sample({
 
 export const $adminSectionBreadcrumbs = createStore<TextLink[]>([])
 $adminSectionBreadcrumbs.on(getSectionBreadcrumbsFx.doneData, (_, section) => [
-    {text: "Разделы", link: "/admin/catalog"},
-    {text: section.name, link: `/admin/catalog/section/${section.id}`},
+    { text: "Разделы", link: "/admin/catalog" },
+    { text: section.name, link: `/admin/catalog/section/${section.id}` },
 ] as TextLink[])
 
 
@@ -68,7 +75,8 @@ export const createSectionFx = attach({
     effect: updateSectionsFx,
     source: $sections,
     mapParams: (formData: CreateSectionData, sections: Section[]) => {
-        const section: Section = {name: formData.section} as Section
+        const keywords = formData.seoEntityDto?.keywords?.split(',');
+        const section: Section = { name: formData.section, seoEntityDto: { ...formData?.seoEntityDto, keywords: keywords } } as Section
         return [...sections, section]
     }
 })
@@ -96,9 +104,18 @@ const handleFilterSectionsOnDelete = (sectionId: number, sections: Section[]) =>
     return sections.filter(sec => sec.id !== sectionId)
 }
 
-const handleChangeSectionName = (data: { sectionId: number, newName: string }, sections: Section[]) => {
+const handleChangeSectionName = ({ sectionId, payload }: EditSectionEventPayload, sections: Section[]) => {
     return sections.map(sec => {
-        if (sec.id === data.sectionId) return {...sec, name: data.newName}
+        if (Number(sec.id) === Number(sectionId)) {
+            return ({
+                ...sec,
+                name: payload.section,
+                seoEntityDto: {
+                    ...payload.seoEntityDto,
+                    keywords: payload.seoEntityDto?.keywords?.split(',')
+                }
+            })
+        }
         else return sec
     })
 }

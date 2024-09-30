@@ -16,7 +16,7 @@ type TextContentTableProps = {
     hasTooltip ?: boolean,
 } & Omit<TableWrapperProps, "children">
 
-const TableContent = (props: TextContentTableProps) => (
+export const TableContent = (props: TextContentTableProps) => (
     <React.Fragment>
         {props.tableContent.map((tableRow, rowKey) =>
             props.isDraggable ? (

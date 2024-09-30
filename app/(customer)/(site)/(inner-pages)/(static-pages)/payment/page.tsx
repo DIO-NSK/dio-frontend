@@ -1,22 +1,23 @@
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import {HeaderDescription, TextLink} from "@/types/dto/text";
+import { HeaderDescription, TextLink } from "@/types/dto/text";
 import Text from "@/components/atoms/text/text-base/Text";
-import {ClassValue} from "clsx";
-import {cn} from "@/utlis/cn";
-import {paymentData} from "@/data/static/payment";
+import { ClassValue } from "clsx";
+import { cn } from "@/utlis/cn";
+import { paymentData } from "@/data/static/payment";
 import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import React from "react";
-import {Metadata} from "next";
+import { Metadata } from "next";
+import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
 
 const timeData: HeaderDescription[] = [
-    {header: "Раннее утро", description: "07:00 — 09:00"},
-    {header: "Утро", description: "10:00 — 12:00"},
-    {header: "До обеда", description: "12:00 — 14:00"},
-    {header: "В обед", description: "14:00 — 16:00"},
-    {header: "После обеда", description: "16:00 — 18:00"},
-    {header: "Ранним вечером", description: "18:00 — 20:00"},
-    {header: "Поздним вечером", description: "20:00 — 22:00"},
+    { header: "Раннее утро", description: "07:00 — 09:00" },
+    { header: "Утро", description: "10:00 — 12:00" },
+    { header: "До обеда", description: "12:00 — 14:00" },
+    { header: "В обед", description: "14:00 — 16:00" },
+    { header: "После обеда", description: "16:00 — 18:00" },
+    { header: "Ранним вечером", description: "18:00 — 20:00" },
+    { header: "Поздним вечером", description: "20:00 — 22:00" },
 ]
 
 const data = [
@@ -54,11 +55,11 @@ const infoCardData = [
     "Более подробную информацию вы можете получить у менеджеров контакт-центра по телефону: +7(383) 333-99-00"
 ]
 
-const rows = Array.from({length: 2}, (_, index) => index)
+const rows = Array.from({ length: 2 }, (_, index) => index)
 
 const breadcrumbs: TextLink[] = [
-    {text: "Главная", link: "/"},
-    {text: "Оплата и возврат товара", link: "/payment"},
+    { text: "Главная", link: "/" },
+    { text: "Оплата и возврат товара", link: "/payment" },
 ]
 
 const TimeColumn = () => (
@@ -71,8 +72,8 @@ const TimeColumn = () => (
 
             return (
                 <div className={cn("md:grid-cols-1 w-full flex flex-row items-baseline justify-between", itemCV)}>
-                    <Text text={item.header} className={"text-text-gray"}/>
-                    <Text text={item.description} className={"text-black"}/>
+                    <Text text={item.header} className={"text-text-gray"} />
+                    <Text text={item.description} className={"text-black"} />
                 </div>
             )
 
@@ -84,10 +85,10 @@ const RightColumn = () => (
     <div className={"w-full md:col-span-full xl:col-span-6 flex flex-col md:gap-5 xl:gap-7"}>
         {data.map((item) => (
             <div className={"w-full flex flex-col gap-[15px]"}>
-                <Text text={item.header} className={"text-[18px] text-black font-medium"}/>
+                <Text text={item.header} className={"text-[18px] text-black font-medium"} />
                 {
                     item.paragraphs.map((paragraph) => (
-                        <Text text={paragraph} className={"text-black"}/>
+                        <Text text={paragraph} className={"text-black"} />
                     ))
                 }
             </div>
@@ -103,7 +104,7 @@ const InfoCard = () => (
                     {
                         infoCardData.slice(colNum * 3, (colNum + 1) * 3).map((text) => (
                             <div className={"pb-5 border-b-2 border-light-gray"}>
-                                <Text text={text} className={"text-base text-black"}/>
+                                <Text text={text} className={"text-base text-black"} />
                             </div>
                         ))
                     }
@@ -113,34 +114,44 @@ const InfoCard = () => (
         <div className={"sm:hidden w-full flex flex-col gap-5"}>
             {infoCardData.map((text) => (
                 <div className={"pb-5 border-b-2 border-light-gray"}>
-                    <Text text={text} className={"text-base text-black"}/>
+                    <Text text={text} className={"text-base text-black"} />
                 </div>
             ))}
         </div>
     </>
 )
 
-export const metadata: Metadata = {
-    title: 'Оплата и возврат товара — доставка питьевой воды по Новосибирску и области DIO',
-    keywords: paymentData.map(serviceGroup => serviceGroup.blockContent.map(item => item.itemHeader ?? '')).flat(),
-    openGraph: {
-        title: 'Оплата и возврат товара — доставка питьевой воды по Новосибирску и области DIO'
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeoByUrlMask(__dirname.split('/').at(-1) as string);
+
+    return {
+        title: seo.title,
+        description: seo.description,
+        keywords: seo.keywords
     }
 }
 
+// export const metadata: Metadata = {
+//     title: 'Оплата и возврат товара — доставка питьевой воды по Новосибирску и области DIO',
+//     keywords: paymentData.map(serviceGroup => serviceGroup.blockContent.map(item => item.itemHeader ?? '')).flat(),
+//     openGraph: {
+//         title: 'Оплата и возврат товара — доставка питьевой воды по Новосибирску и области DIO'
+//     }
+// }
+
 const PaymentPage = () => (
-    <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
+    <InnerPageWrapper classNames={{ mobileWrapper: "pt-0" }}>
         <div className={"col-span-full flex flex-col gap-[10px]"}>
-            <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
+            <CatalogBreadcrumbs breadcrumbs={breadcrumbs} />
             <Text
                 className={"text-xl sm:text-[24px] text-black font-semibold"}
                 text={"Оплата и возврат товара"}
             />
         </div>
-        <TimeColumn/>
-        <RightColumn/>
-        <StaticInfoCol data={paymentData}/>
-        <InfoCard/>
+        <TimeColumn />
+        <RightColumn />
+        <StaticInfoCol data={paymentData} />
+        <InfoCard />
     </InnerPageWrapper>
 )
 

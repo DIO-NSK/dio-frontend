@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {ClassValue} from "clsx";
-import {cn} from "@/utlis/cn";
+import React, { useEffect, useRef, useState } from 'react';
+import { ClassValue } from "clsx";
+import { cn } from "@/utlis/cn";
 import {
     FiArrowLeft,
     FiArrowRight,
@@ -8,6 +8,7 @@ import {
     FiBookmark,
     FiFile,
     FiGift,
+    FiLink,
     FiList,
     FiLogOut,
     FiPhone,
@@ -16,15 +17,15 @@ import {
     FiZap
 } from "react-icons/fi";
 import AdminTabBar from "@/components/moleculas/bars/admin-tab-bar/AdminTabBar";
-import {TextAction} from "@/types/dto/text";
+import { TextAction } from "@/types/dto/text";
 import SquareIcon from "@/components/atoms/icons/square-icon/SquareIcon";
 import Text from "@/components/atoms/text/text-base/Text";
 import DIOLogoBig from "@/components/atoms/svg/dio-logo-big/DIOLogoBig";
-import {usePathname, useRouter} from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import DIOLogoSmall from "@/components/atoms/svg/dio-logo-small/DIOLogoSmall";
-import {useUnit} from "effector-react";
-import {$isFolded, toggleFoldedStateEvent} from "@/app/admin/folded.model";
-import {logoutUserFx} from "@/app/(customer)/model";
+import { useUnit } from "effector-react";
+import { $isFolded, toggleFoldedStateEvent } from "@/app/admin/folded.model";
+import { logoutUserFx } from "@/app/(customer)/model";
 import { TabBarItem } from '@/types/props/SideTabBar';
 
 const itemCV: ClassValue[] = [
@@ -40,11 +41,11 @@ const Footer = () => {
     const footerData: (TextAction & { icon: React.ReactNode })[] = [
         {
             text: "Свернуть",
-            icon: isFolded ? <FiArrowRight size={"18px"}/> : <FiArrowLeft size={"18px"}/>,
+            icon: isFolded ? <FiArrowRight size={"18px"} /> : <FiArrowLeft size={"18px"} />,
             action: foldState
         }, {
             text: "Выйти",
-            icon: <FiLogOut size={"18px"}/>,
+            icon: <FiLogOut size={"18px"} />,
             action: () => logout().then(_ => router.push("/"))
         }
     ]
@@ -59,12 +60,12 @@ const Footer = () => {
 
                 const textCV: ClassValue[] = [
                     "text-text-gray group-hover:text-link-blue",
-                    {"text-info-red group-hover:text-red-700": item.text == "Выйти"}
+                    { "text-info-red group-hover:text-red-700": item.text == "Выйти" }
                 ]
 
                 return (<div key={key} className={cn(itemCV)} onClick={item.action}>
-                    <SquareIcon icon={item.icon} className={cn(iconCV)}/>
-                    {!isFolded && <Text text={item.text} className={cn(textCV)}/>}
+                    <SquareIcon icon={item.icon} className={cn(iconCV)} />
+                    {!isFolded && <Text text={item.text} className={cn(textCV)} />}
                 </div>)
 
             })}
@@ -79,15 +80,16 @@ const AdminPanelSidebar = () => {
     const router = useRouter()
 
     const adminTabBarData: TabBarItem[] = [
-        {text: "Аналитика", icon: <FiPieChart size={"18px"}/>, path: "/admin"},
-        {text: "Каталог", icon: <FiList size={"18px"}/>, path: "/admin/catalog"},
-        {text: "Услуги", icon: <FiZap size={"18px"}/>, path: "/admin/services"},
-        {text: "Акции", icon: <FiGift size={"18px"}/>, path: "/admin/sales"},
-        {text: "Промо", icon: <FiBookmark size={"18px"}/>, path: "/admin/promo"},
-        {text: "Заказы", icon: <FiFile size={"18px"}/>, path: "/admin/orders"},
-        {text: "Уведомления", icon: <FiBell size={"18px"}/>, path: "/admin/notifications"},
-        {text: "Заявки на звонок", icon: <FiPhone size={"18px"}/>, path: "/admin/call-requests"},
-        {text: "Сотрудники", icon: <FiUsers size={"18px"}/>, path: "/admin/workers"},
+        { text: "Аналитика", icon: <FiPieChart size={"18px"} />, path: "/admin" },
+        { text: "Каталог", icon: <FiList size={"18px"} />, path: "/admin/catalog" },
+        { text: "Услуги", icon: <FiZap size={"18px"} />, path: "/admin/services" },
+        { text: "Акции", icon: <FiGift size={"18px"} />, path: "/admin/sales" },
+        { text: "Промо", icon: <FiBookmark size={"18px"} />, path: "/admin/promo" },
+        { text: "Заказы", icon: <FiFile size={"18px"} />, path: "/admin/orders" },
+        { text: "Уведомления", icon: <FiBell size={"18px"} />, path: "/admin/notifications" },
+        { text: "Заявки на звонок", icon: <FiPhone size={"18px"} />, path: "/admin/call-requests" },
+        { text: "Сотрудники", icon: <FiUsers size={"18px"} />, path: "/admin/workers" },
+        { text: "SEO", icon: <FiLink size={"18px"} />, path: "/admin/seo" },
     ]
 
     const [activeTab, setActiveTab] = useState<TabBarItem>(adminTabBarData[0])
@@ -96,7 +98,7 @@ const AdminPanelSidebar = () => {
     const wrapperCV: ClassValue[] = [
         "sticky left-0 bottom-0 col-span-2 py-5 h-full flex flex-col",
         "justify-between border-r-2 border-light-gray",
-        {"col-span-1": isFolded}
+        { "col-span-1": isFolded }
     ]
 
     const handleTabClick = (tab: TabBarItem) => {
@@ -116,8 +118,8 @@ const AdminPanelSidebar = () => {
             <div className={"w-full flex flex-col gap-5"}>
                 {
                     isFolded
-                        ? <DIOLogoSmall size={47} className={"mx-9"}/>
-                        : <DIOLogoBig className={"mx-9"}/>
+                        ? <DIOLogoSmall size={47} className={"mx-9"} />
+                        : <DIOLogoBig className={"mx-9"} />
                 }
                 <AdminTabBar
                     tabs={adminTabBarData}
@@ -125,7 +127,7 @@ const AdminPanelSidebar = () => {
                     setActive={handleTabClick}
                 />
             </div>
-            <AdminPanelSidebar.Footer/>
+            <AdminPanelSidebar.Footer />
         </div>
     );
 
