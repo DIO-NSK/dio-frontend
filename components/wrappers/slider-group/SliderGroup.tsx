@@ -86,7 +86,7 @@ const SliderGroup = (
                     onSwiper={(swiper) => {
                         swiperRef.current = swiper
                     }}
-                    className={"active:cursor-grab hidden md:w-full md:col-span-full"}
+                    className={"active:cursor-grab hidden md:w-full"}
                     breakpoints={{
                         768 : {
                             spaceBetween : 10,
@@ -94,7 +94,7 @@ const SliderGroup = (
                         },
                         1024 : {
                             spaceBetween : 20,
-                            slidesPerView : 4
+                            slidesPerView : desktopSlidesPerView
                         }
                     }}
                     modules={[Navigation, Autoplay, Scrollbar]}

@@ -64,11 +64,9 @@ const CatalogSidebar = ({ categoryId }: { categoryId: number }) => {
     ) : null
 }
 
-const DesktopCatalogScreen = ({ categoryId, categoryUrlMask, onOpenPopup }: { categoryId: number, categoryUrlMask : string, onOpenPopup: () => void }) => {
+const DesktopCatalogScreen = ({ categoryId, onOpenPopup }: { categoryId: number, onOpenPopup: () => void }) => {
 
     const breakpoint = useBreakpoint();
-
-    useEffect(() => console.log(breakpoint), [breakpoint]);
 
     const pathname = usePathname()
     const router = useRouter()

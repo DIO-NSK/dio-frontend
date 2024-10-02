@@ -25,7 +25,7 @@ const FourthBlock = () => {
 
     const cardWrapperCV = [
         "border-2 border-white hover:bg-bg-light-blue",
-        "hover:border-blue-200 w-full sm:col-span-4 bg-white"
+        "hover:border-blue-200 w-full sm:col-span-4 xl:col-span-4 g-white"
     ]
 
     return (

@@ -25,7 +25,7 @@ const CatalogScreen = async ({ params: { categoryUrlMask } }: { params: { catego
     const { entityId: categoryId } = await getSeoByUrlMask(categoryUrlMask);
 
     return (
-        <ClientCatalogScreen categoryId={categoryId as number} categoryUrlMask={categoryUrlMask} />
+        <ClientCatalogScreen categoryId={categoryId as number} />
     )
 }
 

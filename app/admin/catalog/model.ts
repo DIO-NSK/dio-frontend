@@ -11,9 +11,8 @@ export const $sections = createStore<Section[]>([])
 export const pageDidMountEvent = createEvent()
 export const $createSectionError = createStore<string>("")
 
-$sections.watch(console.log)
-
 export const cancelChangesEvent = createEvent<void>()
+
 export const saveChangesEvent = createEvent<void>()
 
 // section to delete
@@ -50,7 +49,7 @@ const getSections = async () => {
 
 const getSectionBreadcrumbs = async (categoryId: number): Promise<{ id: number, name: string }> => {
     return api.get("/catalogue/breadcrumb/section", { params: { sectionId: categoryId } })
-        .then(response => ({ id: categoryId, name: response.data }))
+        .then(response => ({ id: categoryId, name: response.data.name }))
 }
 
 export const getSectionBreadcrumbsFx = createEffect(getSectionBreadcrumbs)
@@ -62,11 +61,11 @@ sample({
 })
 
 export const $adminSectionBreadcrumbs = createStore<TextLink[]>([])
+
 $adminSectionBreadcrumbs.on(getSectionBreadcrumbsFx.doneData, (_, section) => [
     { text: "Разделы", link: "/admin/catalog" },
     { text: section.name, link: `/admin/catalog/section/${section.id}` },
 ] as TextLink[])
-
 
 const getSectionsFx = createEffect(getSections)
 const updateSectionsFx = createEffect(createSection)
@@ -128,6 +127,6 @@ sample({
 
 
 sample({
-    clock: [cancelChangesEvent, pageDidMountEvent, createSectionFx.doneData],
+    clock: [cancelChangesEvent, pageDidMountEvent, createSectionFx.doneData, updateSectionsFx.doneData],
     target: getSectionsFx
 })

@@ -137,7 +137,7 @@ const MainPageScreen = async () => {
                     ))}
                 </HeaderGroup>
                 <section className={"w-full hidden md:flex"}>
-                    <SliderGroup desktopSlidesPerView={3} header={"Акции и предложения"} href={"/sales"}>
+                    <SliderGroup desktopSlidesPerView={4} header={"Акции и предложения"} href={"/sales"}>
                         {promotions.map((promotion, key) => (
                             <SaleCard promotion={promotion} key={key}/>
                         ))}

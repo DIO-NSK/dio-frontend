@@ -20,7 +20,7 @@ export const generateMetadata = async ({ params: { sectionUrlMask } }: { params:
 
 export const generateStaticParams = async () => {
     const sections = await getCatalog()
-    console.log('sections', sections.map(section => ({ sectionUrlMask: section.urlMask })))
+
     return sections.map(section => ({ sectionUrlMask: section.urlMask }))
 }
 

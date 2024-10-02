@@ -32,7 +32,7 @@ const Filters = ({ categoryId, onClose }: FilterProps) => {
     )
 }
 
-const ClientCatalogScreen = ({ categoryId, categoryUrlMask}: { categoryId: number, categoryUrlMask : string }) => {
+const ClientCatalogScreen = ({ categoryId }: { categoryId: number }) => {
     const popupToggle = useToggle()
 
     if (popupToggle.state) {
@@ -42,7 +42,7 @@ const ClientCatalogScreen = ({ categoryId, categoryUrlMask}: { categoryId: numbe
     }
 
     return (
-        <DesktopCatalogScreen onOpenPopup={popupToggle.toggleState} categoryId={categoryId} categoryUrlMask={categoryUrlMask}/>
+        <DesktopCatalogScreen onOpenPopup={popupToggle.toggleState} categoryId={categoryId}/>
     )
 };
 

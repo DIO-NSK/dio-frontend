@@ -22,6 +22,7 @@ export const $adminProductBreadcrumbs = createStore<TextLink[]>([])
 export const $breadcrumbs = createStore<TextLink[]>([])
 
 $breadcrumbs.on(getBreadcrumbsFx.doneData, (_, data) => convertBreadcrumbsToList(data))
+    .watch(console.log)
 
 sample({
     clock: getBreadcrumbsEvent,
@@ -50,7 +51,7 @@ sample({
 const convertBreadcrumbsToList = (breadcrumbs: Breadcrumbs): TextLink[] => {
     return [
         {text: "Главная", link: "/"},
-        {text: breadcrumbs.sectionName, link: breadcrumbs.sectionId},
-        {text: breadcrumbs.categoryName, link: `/catalog/${breadcrumbs.categoryId}`}
+        {text: breadcrumbs.sectionName, link: `/catalog/categories/${(breadcrumbs as any)?.sectionUrlMask}`},
+        {text: breadcrumbs.categoryName, link: `/catalog/${(breadcrumbs as any)?.categoryUrlMask}`}
     ]
 }

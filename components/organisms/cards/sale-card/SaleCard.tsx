@@ -7,8 +7,10 @@ const wrapperCV = [
     "justify-center rounded-xl overflow-clip"
 ]
 
-const SaleCard = ({promotion}: { promotion: ResponsePromotion }) => (
-    <Link href={`/sales/${(promotion as any).urlMask}`} className={cn(wrapperCV)}>
+const swiperCN = cn(wrapperCV, "!w-full !flex-shrink-0")
+
+const SaleCard = ({promotion, hasSwiper}: { promotion: ResponsePromotion, hasSwiper ?: boolean}) => (
+    <Link href={`/sales/${(promotion as any).urlMask}`} className={cn(hasSwiper ? swiperCN : wrapperCV)}>
         <img
             className={"h-full w-full object-cover rounded-xl"}
             alt={'Изображение акции'} src={promotion.image}

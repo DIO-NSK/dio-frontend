@@ -94,7 +94,7 @@ const convertAdminBreadcrumbsToList = (breadcrumbs : Breadcrumbs) : TextLink[] =
 const convertBreadcrumbsToList = (breadcrumbs: Breadcrumbs): TextLink[] => {
     return [
         {text: "Главная", link: "/"},
-        {text: breadcrumbs.sectionName, link: `/catalog/categories/${breadcrumbs.sectionId}`},
-        {text: breadcrumbs.categoryName, link: `/catalog/${breadcrumbs.categoryId}`}
+        {text: breadcrumbs.sectionName, link: `/catalog/categories/${(breadcrumbs as any)?.sectionUrlMask}`},
+        {text: breadcrumbs.categoryName, link: `/catalog/${(breadcrumbs as any)?.categoryUrlMask}`}
     ]
 }

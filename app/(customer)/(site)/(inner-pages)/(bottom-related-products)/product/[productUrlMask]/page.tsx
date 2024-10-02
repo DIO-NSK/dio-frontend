@@ -1,8 +1,8 @@
 import ClientProductCardPage from "./ui/ClientProductCardPage";
-import { getAllProducts, getProductById } from "./page.hooks";
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
+import {getAllProducts} from "./page.hooks";
+import {Metadata} from "next";
+import {notFound} from "next/navigation";
+import {getSeoByUrlMask} from "@/app/admin/seo/page.api";
 
 export const generateStaticParams = async () => {
     const catalog = await getAllProducts();

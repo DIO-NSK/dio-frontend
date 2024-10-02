@@ -12,13 +12,12 @@ export const getCatalogSections = async (sectionId: number): Promise<CatalogCate
     throw new Error(response.statusText);
 }
 
-export const getSectionBreadcrumbs = async (categoryId: number): Promise<{ id: number, name: string }> => {
+export const getSectionBreadcrumbs = async (categoryId: number): Promise<{ sectionUrlMask: string, name: string }> => {
     const query = `sectionId=${categoryId}`
     const response = await fetch(`${BASE_URL}/catalogue/breadcrumb/section?${query}`, { cache: "no-store" });
 
     if (response.ok) {
-        const name = await response.text();
-        return { id: categoryId, name: name };
+        return response.json();
     }
 
     throw new Error(response.statusText);

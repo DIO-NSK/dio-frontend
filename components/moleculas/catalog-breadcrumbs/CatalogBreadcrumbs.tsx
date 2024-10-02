@@ -16,6 +16,8 @@ const itemStyle = (isLast: boolean) => [
 
 const CatalogBreadcrumbs = ({breadcrumbs}: { breadcrumbs: TextLink[] }) => {
 
+    console.log(breadcrumbs);
+
     const [togglePopup, setActiveSection] = useUnit([toggleCatalogPopupEvent, selectActiveSectionEvent])
 
     const handleOpenCatalogue = (sectionName: string) => {
@@ -29,12 +31,15 @@ const CatalogBreadcrumbs = ({breadcrumbs}: { breadcrumbs: TextLink[] }) => {
                 <div className={'flex flex-row items-center gap-2'} key={key}>
                     {
                         typeof breadcrumb.link === "string"
-                            ? <Link color={"neutral"} href={breadcrumb.link} key={key}>
-                                <Text text={breadcrumb.text} className={cn(itemStyle(key === arr.length - 1))}/>
-                            </Link> :
-                            <Link color={"neutral"} onClick={() => handleOpenCatalogue(breadcrumb.text)} key={key}>
-                                <Text text={breadcrumb.text} className={cn(itemStyle(key === arr.length - 1))}/>
-                            </Link>
+                            ? (
+                                <Link color={"neutral"} href={breadcrumb.link} key={key}>
+                                    <Text text={breadcrumb.text} className={cn(itemStyle(key === arr.length - 1))}/>
+                                </Link>
+                            ) : (
+                                <Link color={"neutral"} onClick={() => handleOpenCatalogue(breadcrumb.text)} key={key}>
+                                    <Text text={breadcrumb.text} className={cn(itemStyle(key === arr.length - 1))}/>
+                                </Link>
+                            )
                     }
                     {key !== arr.length - 1 ? <Text text={'/'} className={'text-text-gray'}/> : null}
                 </div>
