@@ -25,6 +25,6 @@ export const getSectionBreadcrumbs = async (categoryId: number): Promise<{ secti
 }
 
 export const getCatalog = async (): Promise<CatalogItem[]> => {
-    return fetch(`${BASE_URL}/catalogue`, { cache: "no-store" })
+    return fetch(`${BASE_URL}/catalogue`, { cache: "no-store", next : {revalidate : 0} })
         .then(response => response.json())
 }
