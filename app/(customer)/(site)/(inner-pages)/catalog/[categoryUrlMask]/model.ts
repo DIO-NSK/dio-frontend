@@ -11,7 +11,7 @@ import {TextLink} from "@/types/dto/text";
 import {Breadcrumbs} from "@/types/dto/Breadcrumbs";
 import {
     $adminProductBreadcrumbs
-} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
+} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productUrlMask]/model";
 import {pending} from "patronum";
 
 const getCategoryByName = async (categoryId : number) : Promise<ResponseProductSearch[]> => {

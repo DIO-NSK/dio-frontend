@@ -1,7 +1,7 @@
 'use client'
 
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
-import {SaleDetails} from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/model";
+import {SaleDetails} from "@/app/(customer)/(site)/(inner-pages)/sales/[saleUrlMask]/model";
 import StickyCardWrapper from "@/components/wrappers/sticky-card-wrapper/StickyCardWrapper";
 import Text from "@/components/atoms/text/text-base/Text";
 import Button from "@/components/atoms/buttons/button/Button";

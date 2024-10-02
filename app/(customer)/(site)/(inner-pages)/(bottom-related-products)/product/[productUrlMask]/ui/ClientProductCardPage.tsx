@@ -19,11 +19,11 @@ import {
     getBreadcrumbsEvent,
     getProductFx,
     productPageDidMountEvent
-} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
+} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productUrlMask]/model";
 import {useUnit} from "effector-react";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import ProductChips
-    from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/ui/ProductChips";
+    from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productUrlMask]/ui/ProductChips";
 import MobileProductStickyButton from "@/components/atoms/buttons/MobileProductStickyButton";
 import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 

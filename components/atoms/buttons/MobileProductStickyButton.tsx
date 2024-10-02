@@ -2,7 +2,7 @@
 
 import React, {useEffect, useRef} from 'react';
 import {ResponseProduct} from "@/types/dto/user/product/ResponseProduct";
-import {SaleDetails} from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/model";
+import {SaleDetails} from "@/app/(customer)/(site)/(inner-pages)/sales/[saleUrlMask]/model";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
 import Button from "@/components/atoms/buttons/button/Button";
 import Text from "@/components/atoms/text/text-base/Text";

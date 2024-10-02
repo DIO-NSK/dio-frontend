@@ -7,17 +7,15 @@ import SkeletonSaleCard from "@/components/organisms/loading-blocks/sales/Skelet
 import {getSales} from "@/app/(customer)/(site)/(inner-pages)/sales/page.hooks";
 import {Metadata} from "next";
 import {ResponsivePageWrapper} from "@/components/wrappers/responsive-page-wrapper/ResponsivePageWrapper";
+import {getSeoByUrlMask} from "@/app/admin/seo/page.api";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-    const sales = await getSales();
+    const {title, keywords, description} = await getSeoByUrlMask(__dirname.split('/').at(-1) as string);
 
     return {
-        title: `Акции (${sales.length}шт.) — доставка питьевой воды по Новосибирску и области DIO`,
-        keywords : sales.map(sale => sale.name),
-        openGraph: {
-            title: `Акции (${sales.length}шт.) — доставка питьевой воды по Новосибирску и области DIO`,
-            images: sales.map(sale => sale.image),
-        }
+        title: title,
+        keywords : keywords,
+        description : description
     }
 }
 

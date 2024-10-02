@@ -1,5 +1,6 @@
-import {z} from "zod"
-import {requiredFiledError} from "@/schemas";
+import { z } from "zod"
+import { requiredFiledError } from "@/schemas";
+import { SeoSchema } from "./SeoSchema";
 
 const ProductIdSchema = z.object({
     productId: z.string().min(1, requiredFiledError).or(z.number()),
@@ -18,7 +19,8 @@ export const CreateSaleSchema = z.object({
     description: z.string().min(1, requiredFiledError),
     productIdList: z.array(ProductIdSchema),
     ruleList: z.array(RuleSchema),
-    photos : z.array(z.string())
+    photos: z.array(z.string()),
+    seoEntityDto: SeoSchema
 })
 
 export type CreateSaleData = z.infer<typeof CreateSaleSchema>

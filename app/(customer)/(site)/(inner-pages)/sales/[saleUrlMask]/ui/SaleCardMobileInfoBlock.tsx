@@ -3,7 +3,7 @@
 import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
 import React, {useMemo} from "react";
 import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
-import {SaleDetails} from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/model";
+import {SaleDetails} from "@/app/(customer)/(site)/(inner-pages)/sales/[saleUrlMask]/model";
 
 const SaleCardMobileInfoBlock = ({saleId, sale}: { saleId: number, sale: SaleDetails }) => {
 

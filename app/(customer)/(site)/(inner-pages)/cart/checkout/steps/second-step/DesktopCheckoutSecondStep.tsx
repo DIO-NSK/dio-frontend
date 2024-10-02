@@ -28,6 +28,7 @@ import { useUnit } from "effector-react";
 import { useEffect, useState } from 'react';
 import { DefaultValues, FieldError, FieldValues, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useOrderPrice } from "../../page.hooks";
+import {getBonuses} from "@/app/(customer)/profile/page.api";
 
 const CheckoutTimeBlock = () => {
 
@@ -80,10 +81,11 @@ const CheckoutPaymentBlock = () => {
     const { getValues } = useFormContext();
 
     const [bonusesError, setBonusesError] = useState<{ message: string } | undefined>(undefined);
+    const [bonuses, setBonuses] = useState<number>(0);
 
     const multiselectElements: SelectItem<PaymentMethod>[] = [
         { name: window.screen.width < BREAKPOINT_MOBILE ? "Картой" : "Банковской картой онлайн", value: "ONLINE" },
-        { name: "Наличными", value: "CASH" }
+        { name: "Наличными или картой при получении", value: "CASH" }
     ]
 
     useEffect(() => {
@@ -96,9 +98,13 @@ const CheckoutPaymentBlock = () => {
         }
     }, [getValues('bonuses')])
 
+    useEffect(() => {
+        getBonuses().then(setBonuses)
+    }, []);
+
     return (
-        <section className={'w-full grid grid-cols-2 gap-5'}>
-            <div className={"w-full col-span-1 flex flex-col gap-3"}>
+        <section className={'w-full flex flex-col gap-5'}>
+            <div className={"w-[700px] flex flex-col gap-3"}>
                 <Text text={"Способ оплаты"} className={"text-lg font-medium"} />
                 <ControlledMultiSelectButton
                     className={"h-[70px]"}
@@ -106,8 +112,11 @@ const CheckoutPaymentBlock = () => {
                     name={"paymentMethod"}
                 />
             </div>
-            <div className={"w-full col-span-1 flex flex-col gap-3"}>
-                <Text text={"Бонусы"} className={"text-lg font-medium"} />
+            <div className={"w-[700px] flex flex-col gap-3"}>
+                <span className={'w-full flex flex-row items-baseline justify-between'}>
+                    <Text text={"Бонусы"} className={"text-lg font-medium"} />
+                    <Text text={`Текущий баланс: ${bonuses} бонусов`} className={"text-sm text-text-gray"} />
+                </span>
                 <ControlledTextInput
                     placeholder={'Количество бонусов для списания'}
                     errors={bonusesError as FieldError}

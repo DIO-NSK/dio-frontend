@@ -1,10 +1,10 @@
 import React from 'react';
-import {CatalogCategory} from "@/app/(customer)/(site)/(inner-pages)/catalog/categories/[sectionId]/model";
-import {cn} from "@/utlis/cn";
-import {ClassValue} from "clsx";
+import { CatalogCategory } from "@/app/(customer)/(site)/(inner-pages)/catalog/categories/[sectionUrlMask]/model";
+import { cn } from "@/utlis/cn";
+import { ClassValue } from "clsx";
 import Link from "next/link";
 import Text from "@/components/atoms/text/text-base/Text";
-import {FiArrowRight} from "react-icons/fi";
+import { FiArrowRight } from "react-icons/fi";
 
 type CatalogCategoryCardProps = {
     card: CatalogCategory
@@ -16,9 +16,9 @@ const wrapperCV: ClassValue[] = [
     "md:hover:scale-[1.01] md:hoverable pointer border-2 border-light-gray group",
 ]
 
-const CatalogCategoryCard = ({card}: CatalogCategoryCardProps) => (
+const CatalogCategoryCard = ({ card }: CatalogCategoryCardProps) => (
     <Link
-        href={`/catalog/${card.id}`}
+        href={`/catalog/${(card as any).urlMask}`}
         className={cn(wrapperCV)}
     >
         <img
@@ -27,8 +27,8 @@ const CatalogCategoryCard = ({card}: CatalogCategoryCardProps) => (
             src={card.image}
         />
         <div className={'flex flex-row gap-2 items-center'}>
-            <Text text={card.name} className={'text-link-blue group-hover:text-blue-500 w-fit line-clamp-1'}/>
-            <FiArrowRight size={'18px'} className={'text-link-blue group-hover:text-blue-500'}/>
+            <Text text={card.name} className={'text-link-blue group-hover:text-blue-500 w-fit line-clamp-1'} />
+            <FiArrowRight size={'18px'} className={'text-link-blue group-hover:text-blue-500'} />
         </div>
     </Link>
 );

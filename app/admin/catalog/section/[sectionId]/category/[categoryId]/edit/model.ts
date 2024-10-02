@@ -1,8 +1,8 @@
-import {Category, CategoryProperty} from "@/types/dto/Category";
-import {createEffect, createEvent, createStore, sample} from "effector";
-import {CreateCategoryData} from "@/schemas/admin/CreateCategorySchema";
-import {combineEvents} from "patronum";
-import {api, unauthorizedApi} from "@/api";
+import { Category, CategoryProperty } from "@/types/dto/Category";
+import { createEffect, createEvent, createStore, sample } from "effector";
+import { CreateCategoryData } from "@/schemas/admin/CreateCategorySchema";
+import { combineEvents } from "patronum";
+import { api, unauthorizedApi } from "@/api";
 
 export type ChangeCategoryRequest = {
     id: number,
@@ -14,7 +14,7 @@ export type ChangeCategoryRequest = {
 }
 
 const getCategory = async (categoryId: number): Promise<Category> => {
-    return api.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
+    return api.get("/admin/catalogue/category", { params: { categoryId: categoryId } })
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)
@@ -22,8 +22,17 @@ const getCategory = async (categoryId: number): Promise<Category> => {
 }
 
 const changeCategory = async (req: ChangeCategoryRequest) => {
-    const {image, ...request} = req
-    return api.post('/admin/catalogue/category/change/with-image', request, {
+    const { image, ...request } = req as any;
+
+    const resultRequest = {
+        ...request,
+        seoEntityDto: request?.seoEntityDto ? {
+            ...request.seoEntityDto,
+            keywords: request.seoEntityDto?.keywords.split(',')
+        } : undefined
+    }
+
+    return api.post('/admin/catalogue/category/change/with-image', resultRequest, {
         params: {
             image: image
         }
@@ -59,16 +68,17 @@ function createFormData(category: Category): CreateCategoryData {
         name: category.name,
         sequenceNumber: category.sequenceNumber,
         properties: category.properties.map(prop => ({
-                ...prop,
-                propertyId : prop.id,
-                valueType: {
-                    name: prop.valueType,
-                    value: convertNameToValueType(prop.valueType)
-                }
-            })
+            ...prop,
+            propertyId: prop.id,
+            valueType: {
+                name: prop.valueType,
+                value: convertNameToValueType(prop.valueType)
+            }
+        })
         ),
+        seoId: (category as any)?.seoId,
         isNeedParsing: category.isNeedParsing,
-        image : category.image
+        image: category.image
     } as CreateCategoryData
 }
 

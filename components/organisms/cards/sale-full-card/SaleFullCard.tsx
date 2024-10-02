@@ -41,7 +41,7 @@ const MainCol = ({header, description}: {
 const SaleFullCard = ({card}: {
     card: ResponseShortSale
 }) => (
-    <Link href={`/sales/${card.id}`} className={cn(wrapperCV)}>
+    <Link href={`/sales/${(card as any).urlMask}`} className={cn(wrapperCV)}>
         <img
             className={"w-full h-[140px] lg:size-[124px] xl:size-[174px] rounded-[6px] xl:rounded-xl object-scale-down"}
             src={card.image} alt={'Изображение акции'}

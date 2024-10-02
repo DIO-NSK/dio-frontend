@@ -1,5 +1,5 @@
 import {MetadataRoute} from "next";
-import {getAllProducts} from "./[productId]/page.hooks";
+import {getAllProducts} from "./[productUrlMask]/page.hooks";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const products = await getAllProducts();

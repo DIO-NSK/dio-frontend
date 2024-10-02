@@ -1,5 +1,6 @@
-import {Metadata} from "next";
+import { Metadata } from "next";
 import ClientServicesScreen from "@/app/(customer)/(site)/(inner-pages)/services/ui/ClientServicesScreen";
+import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
 
 const keywords = [
     "Аренда напольного кулера с холодильником",
@@ -35,14 +36,24 @@ const keywords = [
     "Настольный кулер без охлаждения в бесплатное пользование",
 ]
 
-export const metadata: Metadata = {
-    title: 'Услуги — доставка питьевой воды по Новосибирску и области DIO',
-    keywords: keywords,
-    openGraph : {
-        title : 'Услуги — доставка питьевой воды по Новосибирску и области DIO'
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeoByUrlMask(__dirname.split('/').at(-1) as string);
+
+    return {
+        title: seo.title,
+        description: seo.description,
+        keywords: seo.keywords
     }
 }
 
-const ServiceCatalogScreen = async () => (<ClientServicesScreen/>)
+// export const metadata: Metadata = {
+//     title: 'Услуги — доставка питьевой воды по Новосибирску и области DIO',
+//     keywords: keywords,
+//     openGraph : {
+//         title : 'Услуги — доставка питьевой воды по Новосибирску и области DIO'
+//     }
+// }
+
+const ServiceCatalogScreen = async () => (<ClientServicesScreen />)
 
 export default ServiceCatalogScreen

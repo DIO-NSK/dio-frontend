@@ -8,7 +8,7 @@ const wrapperCV = [
 ]
 
 const SaleCard = ({promotion}: { promotion: ResponsePromotion }) => (
-    <Link href={`/sales/${promotion.promoId}`} className={cn(wrapperCV)}>
+    <Link href={`/sales/${(promotion as any).urlMask}`} className={cn(wrapperCV)}>
         <img
             className={"h-full w-full object-cover rounded-xl"}
             alt={'Изображение акции'} src={promotion.image}

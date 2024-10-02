@@ -5,39 +5,41 @@ import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/C
 import AdminPanelSaleRuleBlock from "@/components/organisms/blocks/admin-panel-sale-rule-block/AdminPanelSaleRuleBlock";
 import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
 import Button from "@/components/atoms/buttons/button/Button";
-import React, {useEffect, useState} from "react";
-import {DefaultValues, FieldName, FieldValues, Form, FormProvider, useForm, useFormContext} from "react-hook-form";
-import {CreateSaleData, CreateSaleSchema} from "@/schemas/admin/CreateSaleSchema";
-import {zodResolver} from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from "react";
+import { DefaultValues, FieldName, FieldValues, Form, FormProvider, useForm, useFormContext } from "react-hook-form";
+import { CreateSaleData, CreateSaleSchema } from "@/schemas/admin/CreateSaleSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
-import {useUnit} from "effector-react";
+import { useUnit } from "effector-react";
 import {
     $productDetails,
     getProductDetailsEvent,
     GetProductDetailsParams,
     newProductPageDidMountEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
-import {CreateProductData} from "@/schemas/admin/CreateProductSchema";
+import { CreateProductData } from "@/schemas/admin/CreateProductSchema";
 import dayjs from "dayjs";
 import AdminPanelSearchbarBlock
     from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchbarBlock";
-import {createSaleFx, CreateSaleRequest} from "@/app/admin/sales/new/model";
+import { createSaleFx, CreateSaleRequest } from "@/app/admin/sales/new/model";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
-import {useRouter} from "next/navigation";
-import {convertDeadlineToDate} from "@/app/admin/sales/utils";
+import { useRouter } from "next/navigation";
+import { convertDeadlineToDate } from "@/app/admin/sales/utils";
+import { SeoBlock } from "@/components/organisms/seo-block/SeoBlock";
 
-const convertSaleDataToRequest = (data : CreateSaleData) : CreateSaleRequest => {
+const convertSaleDataToRequest = (data: CreateSaleData): CreateSaleRequest => {
     return {
-        sale : {
-            name : data.name,
-            crmGroup : data.crmGroup,
-            crmCode : data.crmCode,
-            description : data.description,
-            deadline : convertDeadlineToDate(data.deadline),
-            products : data.productIdList as any,
-            ruleList : data.ruleList.map(item => item.rule),
+        sale: {
+            name: data.name,
+            crmGroup: data.crmGroup,
+            crmCode: data.crmCode,
+            description: data.description,
+            deadline: convertDeadlineToDate(data.deadline),
+            products: data.productIdList as any,
+            ruleList: data.ruleList.map(item => item.rule),
+            seoEntityDto: data.seoEntityDto
         },
-        images : data.photos,
+        images: data.photos,
     }
 }
 
@@ -45,12 +47,12 @@ const FirstInputRow = () => {
 
     const getSaleDetails = useUnit(getProductDetailsEvent)
     const methods = useFormContext()
-    const {trigger, getValues} = methods
+    const { trigger, getValues } = methods
 
     const onSubmit = async () => {
         const fieldNames: FieldName<CreateProductData>[] = ["crmCode", "crmGroup"]
         const fieldValues = getValues(fieldNames)
-        const params: GetProductDetailsParams = {crmCode: fieldValues[0], crmGroup: fieldValues[1]}
+        const params: GetProductDetailsParams = { crmCode: fieldValues[0], crmGroup: fieldValues[1] }
         if (await trigger(fieldNames)) getSaleDetails(params)
     }
 
@@ -73,10 +75,10 @@ const FirstInputRow = () => {
     return (
         <section className={"w-full px-7 grid grid-cols-5 items-end gap-7 pb-7 border-b-2 border-light-gray"}>
             {inputGridData.map((inputData, key) =>
-                <ControlledTextInput classNames={{wrapper: "col-span-2"}} {...inputData} key={key}/>
+                <ControlledTextInput classNames={{ wrapper: "col-span-2" }} {...inputData} key={key} />
             )}
             <Button
-                classNames={{button: "col-span-1 py-5"}}
+                classNames={{ button: "col-span-1 py-5" }}
                 text={"Получить акцию"}
                 onClick={onSubmit}
             />
@@ -105,7 +107,7 @@ const SecondInputRow = () => {
     return (
         <section className={"w-full px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray"}>
             {inputGridData.map((inputData, key) =>
-                <ControlledTextInput classNames={{wrapper: "col-span-1"}} {...inputData} key={key}/>
+                <ControlledTextInput classNames={{ wrapper: "col-span-1" }} {...inputData} key={key} />
             )}
         </section>
     )
@@ -153,7 +155,7 @@ const AdminPanelNewSaleSecondBlock = () => {
                 open={creationError.length !== 0}
                 success={false}
             />
-            <SecondInputRow/>
+            <SecondInputRow />
             <ControlledTextArea
                 name={"description"}
                 labelText={"Описание акции"}
@@ -167,15 +169,18 @@ const AdminPanelNewSaleSecondBlock = () => {
                 header={"Товары, участвующие в акции"}
                 description={"Данные товары включены в акцию по умолчанию"}
             />
-            <AdminPanelSaleRuleBlock/>
+            <AdminPanelSaleRuleBlock />
             <AdminPanelPhotoBlock
                 header={"Фотографии"}
                 description={"Данные фотографии будут видны пользователю на сайте"}
             />
+            <div className="w-full px-7 pb-7 border-b-2 border-light-gray">
+                <SeoBlock hintUrl="/easy-start-sale" />
+            </div>
             <Button
                 text={"Сохранить"}
                 onClick={handleSubmit(onSubmit)}
-                classNames={{button: "mx-7 w-[250px]"}}
+                classNames={{ button: "mx-7 w-[250px]" }}
             />
         </React.Fragment>
     )
@@ -204,8 +209,8 @@ const AdminPanelNewSalePage = () => {
                     header={"Новая акция"}
                     hasBackIcon
                 />
-                <FirstInputRow/>
-                {saleDetails && <AdminPanelNewSaleSecondBlock/>}
+                <FirstInputRow />
+                {saleDetails && <AdminPanelNewSaleSecondBlock />}
             </Form>
         </FormProvider>
     )

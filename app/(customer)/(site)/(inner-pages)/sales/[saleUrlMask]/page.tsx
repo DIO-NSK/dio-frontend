@@ -10,10 +10,11 @@ import {cn} from "@/utlis/cn";
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 
 import {getSaleById, getSales} from '../page.hooks'
-import SalePriceCard from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/ui/SalePriceCard";
-import SaleCardMobileInfoBlock from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/ui/SaleCardMobileInfoBlock";
+import SalePriceCard from "@/app/(customer)/(site)/(inner-pages)/sales/[saleUrlMask]/ui/SalePriceCard";
+import SaleCardMobileInfoBlock from "@/app/(customer)/(site)/(inner-pages)/sales/[saleUrlMask]/ui/SaleCardMobileInfoBlock";
 import {Metadata} from "next";
 import MobileProductStickyButton from "@/components/atoms/buttons/MobileProductStickyButton";
+import {getSeoByUrlMask} from "@/app/admin/seo/page.api";
 
 const productCardCV = {
     mainWrapper: cn([
@@ -24,32 +25,28 @@ const productCardCV = {
 
 export const generateStaticParams = async () => {
     const sales = await getSales();
-    return sales.map(sale => ({saleId: sale.id.toString()}))
+    return sales.map(sale => ({saleUrlMask: (sale as any).urlMask}))
 }
 
-export const generateMetadata = async ({params: {saleId}}: { params: { saleId: number } }): Promise<Metadata> => {
-    const sale = await getSaleById(saleId)
+export const generateMetadata = async ({params: {saleUrlMask}}: { params: { saleUrlMask: string } }): Promise<Metadata> => {
+    const {title, description, keywords} = await getSeoByUrlMask(saleUrlMask);
 
     return {
-        title: sale.name,
-        description : sale.description,
-        keywords : sale.ruleList,
-        openGraph: {
-            title: sale.name,
-            description : sale.description,
-            images: sale.images,
-        }
+        title: title,
+        description : description,
+        keywords : keywords,
     }
 }
 
-const SalePage = async ({params: {saleId}}: { params: { saleId: number } }) => {
+const SalePage = async ({params: {saleUrlMask}}: { params: { saleUrlMask: string } }) => {
 
-    const sale = await getSaleById(saleId)
+    const {entityId : saleId} = await getSeoByUrlMask(saleUrlMask);
+    const sale = await getSaleById(saleId as number)
 
     const breadcrumbs: TextLink[] = [
         {text: "Главная", link: "/"},
         {text: "Акции", link: "/sales"},
-        {text: sale?.name ?? "", link: `/sales/${saleId}`},
+        {text: sale?.name ?? "", link: `/sales/${saleUrlMask}`},
     ]
 
     return (
@@ -74,7 +71,7 @@ const SalePage = async ({params: {saleId}}: { params: { saleId: number } }) => {
                         items={sale.ruleList}
                     />
                 </div>
-                <SalePriceCard sale={sale} saleId={saleId}/>
+                <SalePriceCard sale={sale} saleId={saleId as number}/>
             </div>
             <div className={"w-full md:px-6 lg:px-[90px] xl:px-[100px] py-7 border-y-2 border-light-gray"}>
                 <SliderGroup headerSize={'sm'} header={"Товары, участвующие в акции"}>
@@ -83,8 +80,8 @@ const SalePage = async ({params: {saleId}}: { params: { saleId: number } }) => {
                     ))}
                 </SliderGroup>
             </div>
-            <SaleCardMobileInfoBlock sale={sale} saleId={saleId}/>
-            <MobileProductStickyButton item={sale} id={saleId}/>
+            <SaleCardMobileInfoBlock sale={sale} saleId={saleId as number}/>
+            <MobileProductStickyButton item={sale} id={saleId as number}/>
         </div>
     );
 };

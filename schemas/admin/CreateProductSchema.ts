@@ -2,6 +2,7 @@ import z from "zod"
 import {requiredFiledError} from "@/schemas";
 import {SelectInputSchema} from "@/schemas/dto/SelectInputSchema";
 import {SelectItem} from "@/types/props/SelectItem";
+import { SeoSchema } from "./SeoSchema";
 
 export const priceTypeItems: SelectItem<string>[] = [
     {name: "Цена за штуку", value: "unit"},
@@ -46,7 +47,8 @@ export const CreateProductSchema = z.object({
     externalProperties: z.array(ExternalPropertySchema).optional(),
     photos: z.array(z.string()),
     isInvisible: z.boolean().optional(),
-    priceType: SelectInputSchema.optional()
+    priceType: SelectInputSchema.optional(),
+    seoEntityDto : SeoSchema
 })
 
 export type CategoryPropertyData = z.infer<typeof CategoryPropertySchema>

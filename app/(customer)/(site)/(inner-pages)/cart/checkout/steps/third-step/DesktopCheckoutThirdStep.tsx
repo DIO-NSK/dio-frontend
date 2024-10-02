@@ -80,6 +80,10 @@ const DesktopCheckoutThirdStep = () => {
                 ? "Банковской картой онлайн"
                 : "Наличными или картой при получении"
         },
+        {
+            header: "Бонусы для списания",
+            description: secondFormData.bonuses ?? '0'
+        },
     ]
 
     const additionalBlockData: HeaderDescription[] = [
@@ -93,6 +97,14 @@ const DesktopCheckoutThirdStep = () => {
 
     const handleCreateOrder = () => {
         createOrder(convertFormDataToRequest(orderData))
+            .then(link => {
+                if (secondFormData.paymentMethod.value === "ONLINE") {
+                    router.push(link);
+                } else {
+                    router.push('/profile/orders');
+                }
+            })
+            .catch(error => setErrorMessage(error))
     }
 
     useEffect(() => {

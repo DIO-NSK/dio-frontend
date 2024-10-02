@@ -43,7 +43,7 @@ const AdminEditCategoryPage = ({ params }: {
     })
 
     const {
-        formState: { isSubmitting },
+        formState: { isSubmitting, errors },
         handleSubmit,
         reset
     } = methods

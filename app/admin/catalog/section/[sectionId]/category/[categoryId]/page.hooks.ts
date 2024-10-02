@@ -8,8 +8,8 @@ import {
 import {ProductTableRow} from "@/types/dto/Table";
 import {
     $adminProductBreadcrumbs
-} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/model";
-import {getAdminProductBreadcrumbsEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryId]/model";
+} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productUrlMask]/model";
+import {getAdminProductBreadcrumbsEvent} from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryUrlMask]/model";
 import {ProductEntity} from "@/components/organisms/tables/product-content-table/ProductContentTable";
 
 export type ResponseAdminProductSearch = {

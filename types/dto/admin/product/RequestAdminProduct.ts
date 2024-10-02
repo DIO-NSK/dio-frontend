@@ -21,5 +21,6 @@ export type RequestAdminProduct = {
     discountPercent : number,
     isProductOfTheDay : boolean,
     filledProperties : AdminFilledProperty[],
-    externalProperties ?: AdminExternalProperty[]
+    externalProperties ?: AdminExternalProperty[],
+    seoEntityDto : any
 }

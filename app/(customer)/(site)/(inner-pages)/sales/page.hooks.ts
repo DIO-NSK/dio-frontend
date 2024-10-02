@@ -1,6 +1,6 @@
 import {ResponseShortSale} from "@/app/admin/sales/model";
 import {BASE_URL} from "@/api";
-import {SaleDetails} from "@/app/(customer)/(site)/(inner-pages)/sales/[saleId]/model";
+import {SaleDetails} from "@/app/(customer)/(site)/(inner-pages)/sales/[saleUrlMask]/model";
 import {notFound} from "next/navigation";
 
 export const getSales = async (): Promise<ResponseShortSale[]> => {

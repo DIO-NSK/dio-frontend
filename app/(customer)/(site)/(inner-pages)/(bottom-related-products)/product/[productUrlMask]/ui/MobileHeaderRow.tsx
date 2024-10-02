@@ -9,7 +9,7 @@ import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import React from "react";
 import ProductChips
-    from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productId]/ui/ProductChips";
+    from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/product/[productUrlMask]/ui/ProductChips";
 
 const MobileHeaderRow = ({product}: {
     product: ResponseProduct

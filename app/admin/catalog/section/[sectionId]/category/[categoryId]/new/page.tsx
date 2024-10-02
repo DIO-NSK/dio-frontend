@@ -5,13 +5,13 @@ import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/C
 import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
 import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import Button from "@/components/atoms/buttons/button/Button";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {CreateProductData, CreateProductSchema} from "@/schemas/admin/CreateProductSchema";
-import {DefaultValues, FieldName, FieldValues, FormProvider, useForm, useFormContext} from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CreateProductData, CreateProductSchema } from "@/schemas/admin/CreateProductSchema";
+import { DefaultValues, FieldName, FieldValues, FormProvider, useForm, useFormContext } from "react-hook-form";
 import Form from "@/components/atoms/form/Form";
 import ControlledSwitch from "@/components/atoms/switch/ControlledSwitch";
-import {useUnit} from "effector-react";
-import {useRouter} from "next/navigation";
+import { useUnit } from "effector-react";
+import { useRouter } from "next/navigation";
 import {
     $categoryProperties,
     $isProductDetailsLoading,
@@ -25,14 +25,15 @@ import {
 import AdminPanelProductInputGrid
     from "@/components/organisms/blocks/admin-panel-product-input-grid/AdminPanelProductInputGrid";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
-import React, {useEffect, useState} from "react";
-import {cn} from "@/utlis/cn";
+import React, { useEffect, useState } from "react";
+import { cn } from "@/utlis/cn";
 import AdminPanelFilledPropertiesBlock
     from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelFilledPropertiesBlock";
-import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
+import { RequestAdminProduct } from "@/types/dto/admin/product/RequestAdminProduct";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import AdminPanelExternalPropertiesBlock
     from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelExternalPropertiesBlock";
+import { SeoBlock } from "@/components/organisms/seo-block/SeoBlock";
 
 const productOfTheDayDescription: string =
     `Если чекбокс включён, то данный товар будет отображаться
@@ -60,7 +61,7 @@ const CreateProductFirstStep = () => {
     const onSubmit = async () => {
         const fieldNames: FieldName<CreateProductData>[] = ["crmCode", "crmGroup"]
         const fieldValues = getValues(fieldNames)
-        const params: GetProductDetailsParams = {crmCode: fieldValues[0], crmGroup: fieldValues[1]}
+        const params: GetProductDetailsParams = { crmCode: fieldValues[0], crmGroup: fieldValues[1] }
         if (await trigger(fieldNames)) {
             getProductDetails(params)
         }
@@ -88,7 +89,7 @@ const CreateProductFirstStep = () => {
             <Button
                 disabled={isSubmitting}
                 text={isSubmitting ? "Отправка" : "Получить товар"}
-                classNames={{button: "h-[65px]"}}
+                classNames={{ button: "h-[65px]" }}
                 onClick={onSubmit}
             />
         </div>
@@ -96,7 +97,7 @@ const CreateProductFirstStep = () => {
 
 }
 
-const CreateProductSecondStep = ({categoryId}: {
+const CreateProductSecondStep = ({ categoryId }: {
     categoryId: number
 }) => {
 
@@ -113,7 +114,7 @@ const CreateProductSecondStep = ({categoryId}: {
 
     const {
         handleSubmit,
-        formState: {isSubmitting},
+        formState: { isSubmitting },
         reset
     } = useFormContext<CreateProductData>()
 
@@ -157,9 +158,9 @@ const CreateProductSecondStep = ({categoryId}: {
                 open={creationError.length !== 0}
                 success={false}
             />
-            <AdminPanelProductInputGrid/>
-            <AdminPanelFilledPropertiesBlock/>
-            <AdminPanelExternalPropertiesBlock blockName={"externalProperties"}/>
+            <AdminPanelProductInputGrid />
+            <AdminPanelFilledPropertiesBlock />
+            <AdminPanelExternalPropertiesBlock blockName={"externalProperties"} />
             <ControlledTextArea
                 labelText={"Описание товара"}
                 placeholder={textAreaDescription}
@@ -169,25 +170,28 @@ const CreateProductSecondStep = ({categoryId}: {
                     input: "min-h-[150px] max-h-[300px]"
                 }}
             />
-            <AdminPanelPhotoBlock/>
+            <AdminPanelPhotoBlock />
             <HeaderDescriptionButtonRow
                 className={"px-7 pb-7 border-b-2 border-light-gray"}
-                button={<ControlledSwitch name={"isProductOfTheDay"}/>}
+                button={<ControlledSwitch name={"isProductOfTheDay"} />}
                 descr={productOfTheDayDescription}
                 header={"Товар дня"}
             />
+            <div className="w-full px-7 pb-7 border-b-2 border-light-gray">
+                <SeoBlock hintUrl="/voda-baikal-19-litrov" />
+            </div>
             <Button
                 text={isSubmitting ? "Отправка.." : "Сохранить"}
                 disabled={isSubmitting}
                 onClick={handleSubmit(onSubmit)}
-                classNames={{button: "mx-7 w-[250px]"}}
+                classNames={{ button: "mx-7 w-[250px]" }}
             />
         </React.Fragment>
     )
 
 }
 
-const AdminPanelNewProductPage = ({params}: {
+const AdminPanelNewProductPage = ({ params }: {
     params: {
         categoryId: number,
         sectionId: number
@@ -201,7 +205,7 @@ const AdminPanelNewProductPage = ({params}: {
         mode: "onSubmit"
     })
 
-    const {reset} = createProductMethods
+    const { reset } = createProductMethods
     const [productDetails, pageDidMount] = useUnit([$productDetails, newProductPageDidMountEvent])
 
     const handleBack = () => {
@@ -210,7 +214,7 @@ const AdminPanelNewProductPage = ({params}: {
 
     useEffect(() => {
         pageDidMount()
-        reset({isProductOfTheDay: false})
+        reset({ isProductOfTheDay: false })
     }, []);
 
     return (
@@ -223,7 +227,7 @@ const AdminPanelNewProductPage = ({params}: {
                     hasBackIcon
                     onBackClick={handleBack}
                 />
-                <CreateProductFirstStep/>
+                <CreateProductFirstStep />
                 {productDetails && <CreateProductSecondStep
                     categoryId={params.categoryId}
                 />}

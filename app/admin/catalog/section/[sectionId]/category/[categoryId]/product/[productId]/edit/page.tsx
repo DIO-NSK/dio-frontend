@@ -1,8 +1,8 @@
 "use client"
 
-import React, {useEffect, useState} from 'react';
-import {useRouter} from "next/navigation";
-import {useUnit} from "effector-react";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
+import { useUnit } from "effector-react";
 import {
     $categoryProperties,
     $inputPrefilledData,
@@ -11,9 +11,9 @@ import {
     getCategoryPropertiesEvent,
     getProductDetailsEvent
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/new/model";
-import {DefaultValues, FieldValues, FormProvider, useForm} from "react-hook-form";
-import {CategoryPropertyData, CreateProductData, CreateProductSchema} from "@/schemas/admin/CreateProductSchema";
-import {zodResolver} from "@hookform/resolvers/zod";
+import { DefaultValues, FieldValues, FormProvider, useForm } from "react-hook-form";
+import { CategoryPropertyData, CreateProductData, CreateProductSchema } from "@/schemas/admin/CreateProductSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Form from "@/components/atoms/form/Form";
 import ControlledTextArea from "@/components/atoms/inputs/controlled-text-area/ControlledTextArea";
@@ -29,13 +29,14 @@ import {
 } from "@/app/admin/catalog/section/[sectionId]/category/[categoryId]/product/[productId]/edit/model";
 import AdminPanelFilledPropertiesBlock
     from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelFilledPropertiesBlock";
-import {cn} from "@/utlis/cn";
+import { cn } from "@/utlis/cn";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import Text from "@/components/atoms/text/text-base/Text";
 import AdminPanelExternalPropertiesBlock
     from "@/components/organisms/blocks/admin-panel-filled-properties-block/AdminPanelExternalPropertiesBlock";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
-import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
+import { RequestAdminProduct } from "@/types/dto/admin/product/RequestAdminProduct";
+import { SeoBlock } from '@/components/organisms/seo-block/SeoBlock';
 
 const editMessage: string =
     `На данный момент нельзя отредактировать группу и код товара.
@@ -50,10 +51,10 @@ const textAreaDescription: string = "Придумайте привлекающе
 const createPriceType = (actual: number, product: RequestAdminProduct) => {
     const value = Number(actual) === Number(product.price) ? 'unit' : 'package'
     const name = value === 'unit' ? 'Цена за штуку' : 'Цена за упаковку'
-    return ({name: name, value: value})
+    return ({ name: name, value: value })
 }
 
-const AdminPanelEditProductPage = ({params}: {
+const AdminPanelEditProductPage = ({ params }: {
     params: {
         categoryId: number,
         productId: number
@@ -76,7 +77,7 @@ const AdminPanelEditProductPage = ({params}: {
 
     const {
         handleSubmit,
-        formState: {isSubmitting, errors},
+        formState: { isSubmitting, errors },
         reset, watch
     } = editProductMethods
 
@@ -91,7 +92,7 @@ const AdminPanelEditProductPage = ({params}: {
             ...formData,
             isInvisible: false,
             filledProperties: formData.filledProperties.map((prop: CategoryPropertyData) =>
-                ({value: prop.value, propertyId: prop.propertyId})
+                ({ value: prop.value, propertyId: prop.propertyId })
             )
         } as CreateProductData
     })
@@ -119,7 +120,7 @@ const AdminPanelEditProductPage = ({params}: {
                 photos: product?.images,
                 filledProperties: productProperties,
                 externalProperties: product?.extraProperties,
-                isProductOfTheDay: (product as any)?.isProductOfTheDay
+                isProductOfTheDay: (product as any)?.isProductOfTheDay,
             } as DefaultValues<CreateProductData>)
         }
     }, [categoryData, product, productDetails]);
@@ -167,9 +168,9 @@ const AdminPanelEditProductPage = ({params}: {
                             text={editMessage}
                         />
                     </div>
-                    <AdminPanelProductInputGrid/>
-                    <AdminPanelFilledPropertiesBlock/>
-                    <AdminPanelExternalPropertiesBlock blockName={"externalProperties"}/>
+                    <AdminPanelProductInputGrid />
+                    <AdminPanelFilledPropertiesBlock />
+                    <AdminPanelExternalPropertiesBlock blockName={"externalProperties"} />
                     <ControlledTextArea
                         labelText={"Описание товара"}
                         placeholder={textAreaDescription}
@@ -179,18 +180,21 @@ const AdminPanelEditProductPage = ({params}: {
                             input: "min-h-[150px] max-h-[300px]"
                         }}
                     />
-                    <AdminPanelPhotoBlock/>
+                    <AdminPanelPhotoBlock />
                     <HeaderDescriptionButtonRow
                         className={"px-7 pb-7 border-b-2 border-light-gray"}
-                        button={<ControlledSwitch name={"isProductOfTheDay"}/>}
+                        button={<ControlledSwitch name={"isProductOfTheDay"} />}
                         descr={productOfTheDayDescription}
                         header={"Товар дня"}
                     />
+                    <div className="w-full px-7 pb-7 border-b-2 border-light-gray">
+                        <SeoBlock seoId={(product as any)?.seoId} hintUrl="/voda-baikal-19-litrov" />
+                    </div>
                     <Button
                         text={isSubmitting ? "Отправка.." : "Сохранить"}
                         disabled={isSubmitting}
                         onClick={handleSubmit(onSubmit)}
-                        classNames={{button: "mx-7 w-[250px]"}}
+                        classNames={{ button: "mx-7 w-[250px]" }}
                     />
                 </Form>
             </FormProvider>

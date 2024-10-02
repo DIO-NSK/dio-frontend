@@ -24,11 +24,9 @@ export const SeoBlock = ({ isStatic = false, seoId, hintUrl }: SeoBlockProps) =>
     useEffect(() => {
         if (seoId) {
             getSeoById(seoId).then((seo) => {
-                context.reset({
-                    seoEntityDto: {
-                        ...seo,
-                        keywords: seo?.keywords?.join(','),
-                    }
+                context.setValue('seoEntityDto', {
+                    ...seo,
+                    keywords: seo?.keywords?.join(','),
                 })
             })
         }

@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
 import SideTabBar from "@/components/moleculas/bars/side-tab-bar/SideTabBar";
 import Text from "@/components/atoms/text/text-base/Text";
-import {useUnit} from "effector-react";
+import { useUnit } from "effector-react";
 import {
     $activeSection,
     $catalog,
@@ -12,11 +12,11 @@ import {
     toggleCatalogPopupEvent
 } from "@/components/organisms/bars/searchbar/model";
 import Link from "next/link";
-import {TabBarItem} from "@/types/props/SideTabBar";
+import { TabBarItem } from "@/types/props/SideTabBar";
 
-const SubcategoryItem = ({onClose, text, id}: { text: string, id: number, onClose: () => void }) => {
+const SubcategoryItem = ({ onClose, text, urlMask }: { text: string, urlMask: string, onClose: () => void }) => {
     return (
-        <Link href={`/catalog/${id}`} onClick={onClose}>
+        <Link href={`/catalog/${urlMask}`} onClick={onClose}>
             <Text
                 className={"text-base text-text-gray pointer hoverable hover:text-link-blue"}
                 text={text}
@@ -31,11 +31,11 @@ const CatalogPopup = () => {
     const [popupOpen, togglePopup] = useUnit([$catalogPopupOpen, toggleCatalogPopupEvent])
     const [getCatalog, catalog] = useUnit([getCatalogEvent, $catalog])
 
-    const activeTab: TabBarItem | undefined = activeSection ? {text: activeSection.name} : undefined
+    const activeTab: TabBarItem | undefined = activeSection ? { text: activeSection.name } : undefined
 
     const tabs: TabBarItem[] = catalog.length ? catalog
         .toSorted((fst, snd) => fst.sequenceNumber - snd.sequenceNumber)
-        .map(item => ({text: item.name, path: `/catalog/categories/${item.id}`} as TabBarItem)) : []
+        .map(item => ({ text: item.name, path: `/catalog/categories/${item.urlMask}` } as TabBarItem)) : []
 
     useEffect(() => {
         popupOpen && getCatalog()
@@ -68,7 +68,7 @@ const CatalogPopup = () => {
                     {activeSection.categories
                         .toSorted((fst, snd) => fst.sequenceNumber - snd.sequenceNumber)
                         .map((item) =>
-                            <SubcategoryItem onClose={togglePopup} text={item.name} id={item.id}/>)}
+                            <SubcategoryItem onClose={togglePopup} text={item.name} urlMask={item.urlMask} />)}
                 </div>
             </div>}
         </PopupWrapper>

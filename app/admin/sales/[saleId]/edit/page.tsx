@@ -1,10 +1,10 @@
 "use client"
 
-import React, {useEffect, useState} from 'react';
-import {useUnit} from "effector-react";
-import {DefaultValues, FieldValues, Form, FormProvider, useForm, useFormContext} from "react-hook-form";
-import {CreateSaleData, CreateSaleSchema} from "@/schemas/admin/CreateSaleSchema";
-import {zodResolver} from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from 'react';
+import { useUnit } from "effector-react";
+import { DefaultValues, FieldValues, Form, FormProvider, useForm, useFormContext } from "react-hook-form";
+import { CreateSaleData, CreateSaleSchema } from "@/schemas/admin/CreateSaleSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -14,17 +14,18 @@ import AdminPanelSearchbarBlock
     from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchbarBlock";
 import AdminPanelSaleRuleBlock from "@/components/organisms/blocks/admin-panel-sale-rule-block/AdminPanelSaleRuleBlock";
 import AdminPanelPhotoBlock from "@/components/organisms/blocks/admin-panel-photo-block/AdminPanelPhotoBlock";
-import {$promoDetails, editSaleFx, getPromoEvent} from "@/app/admin/sales/[saleId]/edit/model";
+import { $promoDetails, editSaleFx, getPromoEvent } from "@/app/admin/sales/[saleId]/edit/model";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
-import {CreateSaleRequest} from "@/app/admin/sales/new/model";
-import {useRouter} from "next/navigation";
-import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
-import {convertDeadlineToDate} from "@/app/admin/sales/utils";
+import { CreateSaleRequest } from "@/app/admin/sales/new/model";
+import { useRouter } from "next/navigation";
+import { ResponseProductSearch } from "@/types/dto/user/product/ResponseProductSearch";
+import { convertDeadlineToDate } from "@/app/admin/sales/utils";
+import { SeoBlock } from '@/components/organisms/seo-block/SeoBlock';
 
 const inputRowCN = 'w-full px-7 grid grid-cols-2 gap-7 pb-7 border-b-2 border-light-gray'
 
 const convertSaleDataToRequest = (req: { data: CreateSaleData, promoId: number }): CreateSaleRequest => {
-    const {promoId, data} = req
+    const { promoId, data } = req
     return {
         sale: {
             name: data.name,
@@ -33,7 +34,8 @@ const convertSaleDataToRequest = (req: { data: CreateSaleData, promoId: number }
             description: data.description,
             deadline: convertDeadlineToDate(data.deadline),
             products: data.productIdList as any,
-            ruleList: data.ruleList.map(item => item.rule)
+            ruleList: data.ruleList.map(item => item.rule),
+            seoEntityDto: data.seoEntityDto
         },
         images: data.photos,
         promoId: promoId
@@ -74,7 +76,7 @@ const SecondInputRow = () => {
             <section className={inputRowCN}>
                 {firstData.map((inputData, key) =>
                     <ControlledTextInput
-                        classNames={{wrapper: "col-span-1"}}
+                        classNames={{ wrapper: "col-span-1" }}
                         {...inputData} key={key}
                     />
                 )}
@@ -82,7 +84,7 @@ const SecondInputRow = () => {
             <section className={inputRowCN}>
                 {secondData.map((inputData, key) =>
                     <ControlledTextInput
-                        classNames={{wrapper: "col-span-1"}}
+                        classNames={{ wrapper: "col-span-1" }}
                         {...inputData} key={key}
                     />
                 )}
@@ -92,7 +94,7 @@ const SecondInputRow = () => {
 
 }
 
-const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
+const AdminPanelSaleContentBlock = ({ id }: { id: number }) => {
 
     const router = useRouter()
 
@@ -102,14 +104,17 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
 
     const {
         handleSubmit, watch,
-        reset, formState: {errors}
+        reset, formState: { errors }
     } = useFormContext<CreateSaleData>()
 
     const onSubmit = (fieldValues: FieldValues) => {
-        editPromo(convertSaleDataToRequest({data: fieldValues as CreateSaleData, promoId: id}))
+        editPromo(convertSaleDataToRequest({ data: fieldValues as CreateSaleData, promoId: id }))
             .then(_ => setEditSuccess(true))
             .catch(setEditFailure)
     }
+
+    useEffect(() => console.log('errors', errors), [errors])
+    console.log(watch())
 
     useEffect(() => {
         reset({
@@ -120,7 +125,7 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
                 productId: product.productId,
                 quantity: product.quantity
             })),
-            ruleList: promoDetails?.ruleList.map(rule => ({rule: rule}))
+            ruleList: promoDetails?.ruleList.map(rule => ({ rule: rule }))
         } as DefaultValues<CreateSaleData>)
     }, [promoDetails, promoDetails?.products])
 
@@ -141,7 +146,7 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
                 open={editFailure.length !== 0}
                 onClose={() => setEditFailure('')}
             />
-            <SecondInputRow/>
+            <SecondInputRow />
             <ControlledTextArea
                 name={"description"}
                 labelText={"Описание акции"}
@@ -156,22 +161,25 @@ const AdminPanelSaleContentBlock = ({id}: { id: number }) => {
                 description={"Данные товары включены в акцию по умолчанию"}
                 defaultProducts={promoDetails?.products as any}
             />
-            <AdminPanelSaleRuleBlock/>
+            <AdminPanelSaleRuleBlock />
             <AdminPanelPhotoBlock
                 header={"Фотографии"}
                 description={"Данные фотографии будут видны пользователю на сайте"}
             />
+            <div className="w-full px-7 pb-7 border-b-2 border-light-gray">
+                <SeoBlock seoId={(promoDetails as any)?.seoId} hintUrl="/easy-start-sale" />
+            </div>
             <Button
                 text={"Сохранить"}
                 onClick={handleSubmit(onSubmit)}
-                classNames={{button: "mx-7 w-[250px]"}}
+                classNames={{ button: "mx-7 w-[250px]" }}
             />
         </React.Fragment>
     )
 
 }
 
-const AdminEditSalePage = ({params}: {
+const AdminEditSalePage = ({ params }: {
     params: {
         saleId: number
     }
@@ -201,7 +209,7 @@ const AdminEditSalePage = ({params}: {
                     header={"Редактирование акции"}
                     hasBackIcon
                 />
-                {promo && <AdminPanelSaleContentBlock id={params.saleId}/>}
+                {promo && <AdminPanelSaleContentBlock id={params.saleId} />}
             </Form>
         </FormProvider>
     )

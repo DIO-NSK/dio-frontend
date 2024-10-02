@@ -1,4 +1,4 @@
-import {getCatalog, getCatalogSections} from "./[sectionId]/page.hooks";
+import {getCatalog, getCatalogSections} from "./[sectionUrlMask]/page.hooks";
 import {MetadataRoute} from "next";
 
 const getAllCategories = async () => {

@@ -9,6 +9,9 @@ const staticPages: Record<number, { name: string, urlMask: string }> = {
     18: { name: 'Политика конфиденциальности', urlMask: 'policy' },
     19: { name: 'Возврат и обмен товара', urlMask: 'returning' },
     20: { name: 'Сервисный центр', urlMask: 'service-center' },
+    40: { name: 'Услуги', urlMask: 'services' },
+    663: { name: 'Наши воды', urlMask: 'our-waters' },
+    664: { name: 'Акции', urlMask: 'sales' },
 }
 
 const talbeHeader: TableHeaderItem[] = [

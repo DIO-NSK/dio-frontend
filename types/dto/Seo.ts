@@ -4,5 +4,6 @@ export interface Seo extends Partial<{
     title: string;
     description: string;
     keywords: string[];
+    entityId: number;
     id?: number;
 }> { }

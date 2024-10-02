@@ -5,14 +5,24 @@ import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/Catal
 import Text from "@/components/atoms/text/text-base/Text";
 import {TextLink} from "@/types/dto/text";
 import {ResponsivePageWrapper} from "@/components/wrappers/responsive-page-wrapper/ResponsivePageWrapper";
+import {getSeoByUrlMask} from "@/app/admin/seo/page.api";
 
 const breadcrumbs: TextLink[] = [
     {text: "Главная", link: "/"},
     {text: "Наши воды", link: "/our-waters"},
 ]
 
-const OurWatersCategoryScreen = async () => {
+export const generateMetadata = async () => {
+    const {title, description, keywords} = await getSeoByUrlMask(__dirname.split('/').at(-1) as string);
 
+    return {
+        title : title,
+        description : description,
+        keywords : keywords
+    }
+}
+
+const OurWatersCategoryScreen = async () => {
     const ourWaters = await getOurWatersChips();
 
     return (

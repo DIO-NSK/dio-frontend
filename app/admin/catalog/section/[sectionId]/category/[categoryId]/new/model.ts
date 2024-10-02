@@ -1,10 +1,10 @@
-import {api} from "@/api";
-import {CategoryPropertyData, CreateProductData} from "@/schemas/admin/CreateProductSchema";
-import {RequestAdminProduct} from "@/types/dto/admin/product/RequestAdminProduct";
-import {createEffect, createEvent, createStore, sample} from "effector";
-import {Category, CategoryProperty} from "@/types/dto/Category";
-import {InputPrefilledData} from "@/types/props/inputs/InputPrefilledData";
-import {pending} from "patronum";
+import { api } from "@/api";
+import { CategoryPropertyData, CreateProductData } from "@/schemas/admin/CreateProductSchema";
+import { RequestAdminProduct } from "@/types/dto/admin/product/RequestAdminProduct";
+import { createEffect, createEvent, createStore, sample } from "effector";
+import { Category, CategoryProperty } from "@/types/dto/Category";
+import { InputPrefilledData } from "@/types/props/inputs/InputPrefilledData";
+import { pending } from "patronum";
 
 type CreateProductParams = {
     categoryId: number,
@@ -21,31 +21,41 @@ export type GetProductDetailsParams = {
     crmGroup: string
 }
 
-const createProduct = async ({categoryId, productData, productDetails}: CreateProductParams) => {
-    const {photos, ...rest} = productData
+const createProduct = async ({ categoryId, productData, productDetails }: CreateProductParams) => {
+    const { photos, ...rest } = productData
     const product: RequestAdminProduct = convertFormDataToProduct(rest, productDetails!!)
-    return api.post("/admin/catalogue/v2/product", {...product, imagesUrl: photos}, {
-        params: {categoryId: categoryId},
+
+    return api.post("/admin/catalogue/v2/product", { ...product, imagesUrl: photos }, {
+        params: { categoryId: categoryId },
     }).then(response => response.data)
 }
 
-const editProduct = async ({productId, productData}: EditProductParams) => {
-    const {photos, priceType, ...rest} = productData
+const editProduct = async ({ productId, productData }: EditProductParams) => {
+    const { photos, priceType, ...rest } = productData
+    const restProduct = {
+        ...rest,
+        seoEntityDto: productData?.seoEntityDto ? {
+            ...productData.seoEntityDto,
+            keywords: productData.seoEntityDto?.keywords?.split(',')
+        } : undefined
+    }
+
     const isPackage = priceType?.value !== 'unit'
-    return api.put("/admin/catalogue/v2/product", {...rest, isPackage : isPackage, oldImagesUrl: photos}, {
-        params: {productId: productId},
+
+    return api.put("/admin/catalogue/v2/product", { ...restProduct, isPackage: isPackage, oldImagesUrl: photos }, {
+        params: { productId: productId },
     }).then(response => response.data)
 }
 
 export const editProductFx = createEffect<EditProductParams, void, Error>(editProduct)
 
 const getCategoryProperties = async (categoryId: number): Promise<Category> => {
-    return api.get("/admin/catalogue/category", {params: {categoryId: categoryId}})
+    return api.get("/admin/catalogue/category", { params: { categoryId: categoryId } })
         .then(response => response.data)
 }
 
 const getProductDetailsFromCRM = async (params: GetProductDetailsParams) => {
-    return api.get("/admin/catalogue/product/crm", {params: {crmCode: params.crmCode, crmGroup: params.crmGroup}})
+    return api.get("/admin/catalogue/product/crm", { params: { crmCode: params.crmCode, crmGroup: params.crmGroup } })
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.message)
@@ -106,7 +116,11 @@ const convertFormDataToProduct = (productData: Omit<CreateProductData, "photos">
         crmGroup: productData.crmGroup,
         filledProperties: productData.filledProperties,
         externalProperties: productData?.externalProperties ?? [],
-        isPackage: productData.priceType?.value === 'package'
+        isPackage: productData.priceType?.value === 'package',
+        seoEntityDto: productData.seoEntityDto ? {
+            ...productData.seoEntityDto,
+            keywords: productData.seoEntityDto?.keywords?.split(',')
+        } : undefined
     }
 
     delete reqProduct['priceType']
@@ -116,9 +130,9 @@ const convertFormDataToProduct = (productData: Omit<CreateProductData, "photos">
 
 function convertCategoryToFormData(category: Category): CategoryPropertyData[] {
     return category.properties.map(prop => ({
-            propertyId: prop.id!!,
-            valueType: prop.valueType,
-            value: ""
-        })
+        propertyId: prop.id!!,
+        valueType: prop.valueType,
+        value: ""
+    })
     )
 }

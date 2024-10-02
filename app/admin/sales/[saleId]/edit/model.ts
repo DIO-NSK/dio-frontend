@@ -1,7 +1,7 @@
-import {api} from "@/api";
-import {createEffect, createEvent, createStore, sample} from "effector";
-import {CreateSaleRequest} from "@/app/admin/sales/new/model";
-import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import { api } from "@/api";
+import { createEffect, createEvent, createStore, sample } from "effector";
+import { CreateSaleRequest } from "@/app/admin/sales/new/model";
+import { ResponseCartItem } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 
 export type PromoDetails = {
     name: string,
@@ -17,13 +17,22 @@ export type PromoDetails = {
 }
 
 const editSale = async (request: CreateSaleRequest): Promise<void> => {
-    const {sale, images, promoId} = request
-    return api.put("/admin/catalogue/v2/promo", {...sale, promoId : promoId, oldImagesUrl: images})
+    const { sale, images, promoId } = request
+
+    const newSale = {
+        ...sale,
+        seoEntityDto: sale.seoEntityDto ? {
+            ...sale.seoEntityDto,
+            keywords: sale.seoEntityDto?.keywords.split(',')
+        } : undefined
+    }
+
+    return api.put("/admin/catalogue/v2/promo", { ...newSale, promoId: promoId, oldImagesUrl: images })
         .then(response => response.data)
 }
 
 const getPromo = async (id: number) => {
-    return api.get('/admin/catalogue/promo', {params: {id}})
+    return api.get('/admin/catalogue/promo', { params: { id } })
         .then(response => response.data)
 }
 

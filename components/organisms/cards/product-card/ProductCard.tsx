@@ -3,16 +3,16 @@
 import React from "react";
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
-import {FiCheck} from "react-icons/fi";
-import {useRouter} from "next/navigation";
-import {ClassValue} from "clsx";
-import {cn} from "@/utlis/cn";
+import { FiCheck } from "react-icons/fi";
+import { useRouter } from "next/navigation";
+import { ClassValue } from "clsx";
+import { cn } from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
-import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
-import {useLike} from "@/utlis/hooks/product/useLike";
-import {useBuyButton} from "@/utlis/hooks/product/useBuyButton";
-import {useDiscount} from "@/utlis/hooks/product/useDiscount";
+import { ResponseProductSearch } from "@/types/dto/user/product/ResponseProductSearch";
+import { useLike } from "@/utlis/hooks/product/useLike";
+import { useBuyButton } from "@/utlis/hooks/product/useBuyButton";
+import { useDiscount } from "@/utlis/hooks/product/useDiscount";
 
 type ProductCardClassNames = {
     mainWrapper?: string,
@@ -24,13 +24,13 @@ type ProductCardProps = {
     classNames?: ProductCardClassNames
 }
 
-const wrapperStyles = (className ?: string) : ClassValue[] => [
+const wrapperStyles = (className?: string): ClassValue[] => [
     "w-full sm:col-span-3 h-fit flex flex-col gap-4 p-5 bg-white",
     "xl:gap-7 xl:p-7 rounded-xl xl:hover:z-10 xl:hover:shadow-lg xl:hover:shadow-gray-200/50 xl:hover:scale-[1.01] xl:hoverable pointer",
     "border-2 border-light-gray relative", className
 ]
 
-const ProductCard = ({productCard, classNames}: ProductCardProps) => {
+const ProductCard = ({ productCard, classNames }: ProductCardProps) => {
 
     const router = useRouter()
 
@@ -39,15 +39,9 @@ const ProductCard = ({productCard, classNames}: ProductCardProps) => {
     const [price, newPrice] = useDiscount(productCard.price, productCard.discountPercent)
 
     const buttonText = productCard.inStock ? isInCart ? "В корзине" : "В корзину" : "Нет в наличии"
-    const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"}/> : null
+    const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"} /> : null
 
-    const handleCardClick = () => {
-        if (productCard?.id) {
-            router.push(`/product/${productCard.id}`)
-        } else {
-            router.push(`/product/${(productCard as any).productId}`)
-        }
-    }
+    const handleCardClick = () => router.push(`/product/${(productCard as any).urlMask}`)
 
     return (
         <article className={cn(wrapperStyles(classNames?.mainWrapper))} onClick={handleCardClick}>
@@ -93,7 +87,7 @@ const ProductCard = ({productCard, classNames}: ProductCardProps) => {
                     <footer className={"flex flex-row items-center gap-4 sm:gap-5"}>
                         <Button
                             hasSpinner={false}
-                            classNames={{button: "hidden md:flex"}}
+                            classNames={{ button: "hidden md:flex" }}
                             buttonType={isInCart ? "PRIMARY" : "SECONDARY"}
                             disabled={!productCard.inStock}
                             text={buttonText}
@@ -115,11 +109,11 @@ const ProductCard = ({productCard, classNames}: ProductCardProps) => {
                 {
                     productCard?.isNew && (
                         <span className={"px-3 py-2 rounded-lg bg-blue-500"}>
-                        <Text
-                            className={"uppercase sm:text-[12px] text-[10px] font-medium text-white"}
-                            text={'Новинка'}
-                        />
-                    </span>
+                            <Text
+                                className={"uppercase sm:text-[12px] text-[10px] font-medium text-white"}
+                                text={'Новинка'}
+                            />
+                        </span>
                     )
                 }
                 {
