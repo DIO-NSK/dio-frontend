@@ -3,6 +3,8 @@ import { getCatalog } from "@/app/(customer)/(site)/(inner-pages)/catalog/catego
 import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import {Suspense} from "react";
+import Loading from "@/app/(customer)/(site)/(inner-pages)/catalog/categories/[sectionUrlMask]/loading";
 
 export const generateStaticParams = async () => {
     const catalog = await getCatalog();
@@ -25,7 +27,9 @@ const CatalogScreen = async ({ params: { categoryUrlMask } }: { params: { catego
     const { entityId: categoryId } = await getSeoByUrlMask(categoryUrlMask);
 
     return (
-        <ClientCatalogScreen categoryId={categoryId as number} />
+        <Suspense fallback={<Loading/>}>
+            <ClientCatalogScreen categoryId={categoryId as number} />
+        </Suspense>
     )
 }
 
