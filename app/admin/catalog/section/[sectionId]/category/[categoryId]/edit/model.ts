@@ -62,7 +62,7 @@ sample({
     target: getCategoryFx,
 })
 
-function createFormData(category: Category): CreateCategoryData {
+function createFormData(category: Category) {
     return {
         id: category.id!!,
         name: category.name,
@@ -79,7 +79,7 @@ function createFormData(category: Category): CreateCategoryData {
         seoId: (category as any)?.seoId,
         isNeedParsing: category.isNeedParsing,
         image: category.image
-    } as CreateCategoryData
+    } as any
 }
 
 function convertNameToValueType(name: string): string {
