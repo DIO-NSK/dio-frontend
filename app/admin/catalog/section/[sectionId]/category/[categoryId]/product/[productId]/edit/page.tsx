@@ -188,7 +188,7 @@ const AdminPanelEditProductPage = ({ params }: {
                         header={"Товар дня"}
                     />
                     <div className="w-full px-7 pb-7 border-b-2 border-light-gray">
-                        <SeoBlock seoId={(product as any)?.seoId} hintUrl="/voda-baikal-19-litrov" />
+                        <SeoBlock seoId={(product as any)?.seoId} hintUrl="voda-baikal-19-litrov" />
                     </div>
                     <Button
                         text={isSubmitting ? "Отправка.." : "Сохранить"}

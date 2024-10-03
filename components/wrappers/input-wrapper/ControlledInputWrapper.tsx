@@ -8,43 +8,46 @@ import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
 
 type InputWrapperProps<T extends FieldValues> = {
     children: React.ReactNode,
-    props: ControlledTextInputProps<T>
+    props: ControlledTextInputProps<T>,
+    hasInnerError ?: boolean
 }
 
-const ControlledInputWrapper = <T extends FieldValues, >({children, props}: InputWrapperProps<T>) => {
+const ControlledInputWrapper = <T extends FieldValues, >({hasInnerError = true, children, props}: InputWrapperProps<T>) => {
 
     const hintTextCV: ClassValue = {
         "text-info-red": props.hintText?.type === "warning",
         "text-text-gray": props.hintText?.type === "neutral"
     }
 
+    console.log(hasInnerError)
+
     return (
         <ConnectForm>
             {(methods: UseFormReturn<T, any, T>) => (
                 <div className={cn("relative w-full flex flex-col gap-2", props.classNames?.wrapper)}>
                     {
-                        props.labelText && <Text
+                        props.labelText ? <Text
                             text={props.labelText}
                             className={"text-base text-black"}
-                        />
+                        /> : null
                     }
                     {children}
                     {
-                        methods.formState?.errors[props.name]?.message && <Text
+                        methods.formState?.errors[props.name]?.message && hasInnerError ? <Text
                             text={methods.formState?.errors?.[props.name]?.message as string}
                             className={cn("text-info-red", "text-[14px]")}
-                        />
+                        /> : null
                     }
                     {
-                        props?.errors &&  <Text
+                        props?.errors ?  <Text
                             text={(props.errors as any).message as string}
                             className={cn("text-info-red", "text-[14px]")}
-                        />
+                        /> : null
                     }
-                    {props.hintText && <Text
+                    {props.hintText && !props?.errors ? <Text
                         text={props.hintText.hintMessage}
                         className={cn(hintTextCV, "text-[14px]")}
-                    />}
+                    /> : null}
                 </div>
             )}
         </ConnectForm>

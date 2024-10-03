@@ -178,7 +178,7 @@ const CreateProductSecondStep = ({ categoryId }: {
                 header={"Товар дня"}
             />
             <div className="w-full px-7 pb-7 border-b-2 border-light-gray">
-                <SeoBlock hintUrl="/voda-baikal-19-litrov" />
+                <SeoBlock hintUrl="voda-baikal-19-litrov" />
             </div>
             <Button
                 text={isSubmitting ? "Отправка.." : "Сохранить"}

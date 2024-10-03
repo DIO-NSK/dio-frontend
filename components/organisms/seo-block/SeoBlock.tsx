@@ -20,6 +20,7 @@ const getClassName = (isStatic: boolean) => {
 
 export const SeoBlock = ({ isStatic = false, seoId, hintUrl }: SeoBlockProps) => {
     const context = useFormContext();
+    const errorObject = isStatic ? context.formState.errors : context.formState.errors.seoEntityDto;
 
     useEffect(() => {
         if (seoId) {
@@ -34,32 +35,39 @@ export const SeoBlock = ({ isStatic = false, seoId, hintUrl }: SeoBlockProps) =>
 
     return (
         <section className={getClassName(isStatic)}>
-            <span className='flex flex-row gap-3 items-baseline'>
-                <Text text='SEO' className="text-[20px] font-medium text-black" />
-                <Text text='Необязательно для заполнения' className="text-sm text-text-gray" />
-            </span>
+            <Text text='SEO' className="text-[20px] font-medium text-black" />
             <div className='flex flex-row gap-5'>
                 <ControlledTextInput
+                    errors={(errorObject as any)?.title}
                     hintText={{ hintMessage: "Длина должна быть не больше 80 символов", type: 'neutral' }}
                     placeholder="Введите название"
                     labelText="Заголовок"
                     name={isStatic ? "title" : "seoEntityDto.title"}
+                    hasInnerError={false}
                 />
-                <ControlledTextInput
-                    hintText={{ hintMessage: `Например, ${hintUrl}`, type: 'neutral' }}
-                    placeholder="Введите URL страницы"
-                    labelText="URL страницы"
-                    name={isStatic ? "urlMask" : "seoEntityDto.urlMask"}
-                />
+                {
+                    isStatic ? null : <ControlledTextInput
+                        errors={(errorObject as any)?.urlMask}
+                        hintText={{ hintMessage: `Например, ${hintUrl}`, type: 'neutral' }}
+                        placeholder="Введите URL страницы"
+                        labelText="URL страницы"
+                        name={isStatic ? "urlMask" : "seoEntityDto.urlMask"}
+                        hasInnerError={false}
+                    />
+                }
             </div>
             <div className='flex flex-row gap-5'>
                 <ControlledTextArea
-                    hintText={{ hintMessage: "Длина должна быть не больше 20 слов", type: 'neutral' }}
+                    errors={(errorObject as any)?.keywords ? {message : "Количество ключевых слов не может быть больше 20."} as any: null}
+                    hintText={{ hintMessage: "Длина должна быть не больше 20 слов. Каждое ключевое слово должно разделяться от другого запятой. Любая последовательность символов до запятой воспринимается как одно ключевое слово.", type: 'neutral' }}
                     placeholder="Введите ключевые слова"
                     labelText="Ключевые слова"
                     name={isStatic ? "keywords" : "seoEntityDto.keywords"}
+                    hasInnerError={false}
                 />
                 <ControlledTextArea
+                    hasInnerError={false}
+                    errors={(errorObject as any)?.description}
                     hintText={{ hintMessage: "Длина должна быть не больше 512 символов", type: 'neutral' }}
                     name={isStatic ? "description" : "seoEntityDto.description"}
                     placeholder="Введите описание"

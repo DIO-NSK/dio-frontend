@@ -63,7 +63,7 @@ const EditSectionPage = ({ params: { sectionId } }: { params: { sectionId: numbe
                         />
                     </div>
                     <div className="w-full px-7 pb-7 border-b-2 border-light-gray">
-                        <SeoBlock seoId={(section as any)?.seo?.id} hintUrl="/vody-19-litrov" />
+                        <SeoBlock seoId={(section as any)?.seo?.id} hintUrl="vody" />
                     </div>
                     <div className={"px-7 flex flex-row items-center gap-5"}>
                         <Button
