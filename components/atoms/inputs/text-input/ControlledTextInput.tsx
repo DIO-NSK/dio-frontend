@@ -67,9 +67,9 @@ const InnerInput = <T extends FieldValues, >(
 
 }
 
-const ControlledTextInput = <T extends FieldValues, >(props: ControlledTextInputProps<T>) => {
+const ControlledTextInput = <T extends FieldValues, >({hasInnerError, ...props}: ControlledTextInputProps<T>) => {
     return (
-        <ControlledInputWrapper props={props}>
+        <ControlledInputWrapper hasInnerError={hasInnerError} props={props}>
             <InnerInput {...props}/>
             <div className={"absolute right-5 top-[52px]"}>
                 {props?.button}

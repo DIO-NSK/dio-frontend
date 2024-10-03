@@ -33,8 +33,9 @@ export const useAdminPanelOrdersPage = () => {
     ] = useState<SelectItem<string | undefined>>(multiselectData[0])
 
     useEffect(() => {
-        filterOrders({...savedFilters, page : Number(page), status: activeItem as any});
-    }, [activeItem]);
+        const pageNumber = page ? Number(page) - 1 : 0;
+        filterOrders({...savedFilters, page : pageNumber, status: activeItem as any});
+    }, [activeItem, page]);
 
     return {
         multiselectButton: {multiselectData, activeItem, setActiveItem},

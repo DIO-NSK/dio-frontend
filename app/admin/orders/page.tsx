@@ -25,19 +25,10 @@ const OrderContentTable = dynamic(
 
 const AdminPanelOrderPage = () => {
 
-    const searchParams = useSearchParams();
-    const page = searchParams.get('page');
-
     const [orders, ordersLength , getOrders] = useUnit([$orders, $ordersLength, filterOrdersEvent])
 
     const {...context} = useAdminPanelOrdersPage()
     const {...selectableContext} = useSelectable<AdminOrder>([])
-
-    useEffect(() => {
-        console.log(page);
-        const pageNumber = page ? Number(page) - 1 : 0;
-        getOrders({page : pageNumber})
-    }, [ page ]);
 
     return (
         <React.Fragment>
@@ -46,26 +37,6 @@ const AdminPanelOrderPage = () => {
                 theme={"bordered"}
                 className={"w-full"}
                 header={"Заказы"}
-                leftContent={
-                    <div className={"w-fit flex flex-row items-baseline gap-4"}>
-                        {selectableContext.selectedItems.length > 0 &&
-                            <div className={"flex flex-row items-baseline gap-4"}>
-                                <Text
-                                    text={`Выбрано ${selectableContext.selectedItems.length}`}
-                                    className={"text-text-gray"}
-                                />
-                                <TextButton
-                                    onClick={selectableContext.handleRemoveSelectAll}
-                                    text={"Отменить выбор"}
-                                    className={"text-info-red hover:text-red-700"}
-                                />
-                            </div>}
-                        <TextButton
-                            onClick={selectableContext.handleSelectAllItems}
-                            text={"Выбрать всё"}
-                        />
-                    </div>
-                }
                 rightContent={
                     <MultiselectButton
                         size={"sm"} className={"w-[860px]"}

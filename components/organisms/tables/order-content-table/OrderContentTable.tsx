@@ -14,6 +14,7 @@ import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-re
 import dayjs from "dayjs";
 import {useToggle} from "@/utlis/hooks/useToggle";
 import {useDiscount} from "@/utlis/hooks/product/useDiscount";
+import {statusColorMap} from "@/components/organisms/tables/order-content-table/OrderContentTable.data";
 
 type OrderContentTableProps = {
     tableContent: AdminOrderTableRow[],
@@ -73,23 +74,16 @@ const OrderRow = (props: OrderRowProps) => {
     }, 0)
 
     const wrapperCV: ClassValue[] = [
-        "pointer relative hoverable w-full px-[95px] grid grid-cols-8 gap-x-7",
+        "pointer relative hoverable w-full px-7 grid grid-cols-8 gap-x-7",
         "py-7 border-b-2 border-light-gray hover:bg-bg-light-blue",
         {"bg-bg-light-blue": props.isSelected}
     ]
 
+    const orderStatus = (order as any)?.paymentStatus;
+    const backgroundKey = statusColorMap?.[orderStatus as keyof typeof statusColorMap] ?? 'gray';
+
     return (
         <div className={cn(wrapperCV)} onClick={handleRowClick}>
-
-            {
-                props.isSelected !== undefined &&
-                <div className={"absolute left-7 top-7 flex flex-row gap-3 items-center"}>
-                    <Checkbox isSelected={props.isSelected} onSelect={handleSelect}/>
-                    <OrderTooltip tableRow={props.tableRow}>
-                        <FiMoreHorizontal className={"hoverable pointer text-text-gray hover:text-link-blue"}/>
-                    </OrderTooltip>
-                </div>
-            }
 
             <div className={"col-span-1 flex flex-col gap-1"}>
                 <Text text={dayjs(order.created).format("DD.MM.YYYY")} className={"text-[15px]"}/>
@@ -97,14 +91,18 @@ const OrderRow = (props: OrderRowProps) => {
             </div>
 
             <Text text={dayjs(order.deliveryDate).format("DD.MM.YYYY")} className={"col-span-1 text-[15px]"}/>
-            <Text text={String(props.tableRow.id)} className={"col-span-1"}/>
-            <div className={'col-span-1 text-[15px] flex flex-col gap-3'}>
-                <Text text={(order as any)?.orderStatus ?? order.status} className={'text-[14px] border-b-2 border-gray-200 pb-3'}/>
+            <div className={'col-span-1 flex flex-col gap-3'}>
+                <Text text={(order as any)?.orderStatus ?? order.status} className={'text-[14px] border-b-2 border-gray-100 pb-3'}/>
                 <Text text={order?.paymentStatus} className={'text-[14px]'}/>
             </div>
-
+            <div className={`col-span-1 h-fit w-fit flex-shrink-0 px-3 py-1 rounded-[5px] bg-${backgroundKey}-100`}>
+                <Text text={(order as any)?.paymentStatus} className={'text-[14px]'}/>
+            </div>
             <Text text={(order as any)?.address ?? order.fullName} className={"col-span-1 text-[15px]"}/>
-            <Text text={`${totalPrice.toFixed(2)} ₽`} className={"col-span-1 text-[15px]"}/>
+            <div className={'col-span-1 text-[15px] flex flex-col gap-3'}>
+                <Text text={`${totalPrice.toFixed(2)} ₽`} className={'text-[14px] border-b-2 border-gray-200 pb-3'}/>
+                <Text text={`Бонусами: ${(order as any)?.bonusUsed}`} className={'text-[14px]'}/>
+            </div>
 
             <div className={"col-span-2 flex flex-col gap-3"}>
                 {order.products?.map((product, key) =>
@@ -128,7 +126,7 @@ const OrderRow = (props: OrderRowProps) => {
 
 const OrderContentTable = (props: OrderContentTableProps) => {
     return (
-        <TableWrapper classNames={{header: "px-[95px]"}} {...props}>
+        <TableWrapper classNames={{header: "px-7"}} {...props}>
             {props.tableContent.map((tableRow, rowKey) => {
 
                 const isSelected = props.selectedItems

@@ -64,7 +64,7 @@ const OrderPageCRMLogsBlock = ({ orderId }: { orderId: number }) => {
     return (
         <OrderPageHeaderBlock header={"Логи заказа"}>
             <div className={"w-full mx-[-28px] px-7 pb-7 border-b-2 border-light-gray"}>
-                <Text text={orderLogs} />
+                <Text text={orderLogs} className={'max-w-full break-words'}/>
             </div>
         </OrderPageHeaderBlock>
     )
@@ -161,6 +161,21 @@ const OrderAddressBlock = () => {
         { header: "Подъезд", description: address?.entranceNumber ? String(address.entranceNumber) : "Не указан" },
         { header: "Этаж", description: address?.floor ? String(address.floor) : "Не указан" },
         { header: "Адрес", description: address?.address ? address.address : "Не указан" },
+    ]
+
+    return (
+        <OrderPageHeaderBlock header={"Дата доставки"}>
+            <OrderPageDataGrid dataGrid={infoData} />
+        </OrderPageHeaderBlock>
+    )
+
+}
+
+const OrderCommentBlock = () => {
+    const {comment} = useUnit($orderDetails)!!
+
+    const infoData: HeaderDescription[] = [
+        { header: "Комментарий", description: comment },
     ]
 
     return (

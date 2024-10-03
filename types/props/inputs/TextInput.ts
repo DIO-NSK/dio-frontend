@@ -4,7 +4,8 @@ import {FieldError, FieldValues, Path} from "react-hook-form";
 
 export type ControlledTextInputProps<T extends FieldValues> = {
     name: Path<T>,
-    errors?: FieldError
+    errors?: FieldError,
+    hasInnerError?: boolean,
 } & Omit<TextInputProps, "onChange" | "value">
 
 export type TextInputProps = {
