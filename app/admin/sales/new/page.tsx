@@ -124,6 +124,7 @@ const AdminPanelNewSaleSecondBlock = () => {
 
     const {
         handleSubmit,
+        watch,
         reset
     } = useFormContext<CreateSaleData>()
 
@@ -175,7 +176,7 @@ const AdminPanelNewSaleSecondBlock = () => {
                 description={"Данные фотографии будут видны пользователю на сайте"}
             />
             <div className="w-full px-7 pb-7 border-b-2 border-light-gray">
-                <SeoBlock hintUrl="/easy-start-sale" />
+                <SeoBlock hintUrl="easy-start-sale" />
             </div>
             <Button
                 text={"Сохранить"}

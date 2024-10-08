@@ -5,7 +5,7 @@ import {AdminOrderTableRow} from "@/types/dto/Table";
 import {filterOrdersFx} from "@/components/organisms/popups/admin/order-page-filter-popup/model";
 
 const getOrders = async () => {
-    return api.get("/admin/stat/last/order").then(response => response.data)
+    return api.get("/admin/stat/last/order").then(response => response.data.orders)
 }
 
 const getOrdersFx = createEffect<void, AdminOrder[], Error>(getOrders)

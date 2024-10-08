@@ -58,7 +58,15 @@ sample({
 })
 
 const convertOrderPointsToGraphPoints = (points : OrderGraphPoint[]) : GraphPoint[] => {
-    return points.map(point => ({label : point.date, value : point.orderStatusMap["PENDING"].toString()}))
+    return points.map(point => {
+        const dayValues = Object.values(point.orderStatusMap).reduce((acc, item) => {
+            const currentValue = Number.isNaN(Number(item)) ? 0 : Number(item);
+            
+            return acc + currentValue;
+        }, 0);
+        
+        return {label : point.date, value : String(dayValues)}
+    })
 }
 
 const convertVisitPointsToGraphPoints = (points : VisitGraphPoint[]) : GraphPoint[] => {

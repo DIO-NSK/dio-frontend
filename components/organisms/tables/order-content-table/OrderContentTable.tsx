@@ -64,10 +64,9 @@ const OrderRow = (props: OrderRowProps) => {
     const order = props.tableRow.item
     const orderOpened = useToggle()
 
-    const handleSelect = () => props.onSelect?.(order)
-    const handleRowClick = () => props.onClick(props.tableRow)
+    const products = order?.products ?? (order as any)?.items;
 
-    const totalPrice = order.products?.reduce((acc, item) => {
+    const totalPrice = products?.reduce((acc, item) => {
         const [_, newPrice] = useDiscount(item.price, item.discountPercent);
 
         return acc + newPrice * item.quantity;
@@ -81,6 +80,8 @@ const OrderRow = (props: OrderRowProps) => {
 
     const orderStatus = (order as any)?.paymentStatus;
     const backgroundKey = statusColorMap?.[orderStatus as keyof typeof statusColorMap] ?? 'gray';
+
+    const handleRowClick = () => props.onClick(props.tableRow)
 
     return (
         <div className={cn(wrapperCV)} onClick={handleRowClick}>
@@ -105,7 +106,7 @@ const OrderRow = (props: OrderRowProps) => {
             </div>
 
             <div className={"col-span-2 flex flex-col gap-3"}>
-                {order.products?.map((product, key) =>
+                {products?.map((product, key) =>
                     (orderOpened.state || key == 0) &&
                     <OrderRowProductCard
                         product={product}
@@ -113,7 +114,7 @@ const OrderRow = (props: OrderRowProps) => {
                         key={key}
                     />
                 )}
-                {order.products?.length > 1 && <TextButton
+                {products?.length > 1 && <TextButton
                     text={orderOpened.state ? "Свернуть" : "Показать ещё"}
                     onClick={orderOpened.toggleState}
                 />}

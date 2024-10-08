@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import AdminPanelBlockWrapper from "@/components/wrappers/admin-panel-block-wrapper/AdminPanelBlockWrapper";
+import { ResponseCartItem } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import Button from "@/components/atoms/buttons/button/Button";
-import {FiPlus} from "react-icons/fi";
-import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
-import DraggableRowWrapper from "@/components/wrappers/draggable-row-wrapper/DraggableRowWrapper";
 import SearchInput from "@/components/atoms/inputs/search-input/SearchInput";
-import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
-import {useUnit} from "effector-react";
-import {searchCatalogByNameEvent} from "@/components/organisms/bars/searchbar/model";
-import {useFormContext} from "react-hook-form";
-import {CreateSaleData} from "@/schemas/admin/CreateSaleSchema";
-import {ResponseCartItem} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
-import {closestCenter, DndContext, DragEndEvent} from "@dnd-kit/core";
-import {arrayMove, SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import Text from '@/components/atoms/text/text-base/Text';
+import { searchCatalogByNameEvent } from "@/components/organisms/bars/searchbar/model";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
+import AdminPanelBlockWrapper from "@/components/wrappers/admin-panel-block-wrapper/AdminPanelBlockWrapper";
+import DraggableRowWrapper from "@/components/wrappers/draggable-row-wrapper/DraggableRowWrapper";
 import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
-import {swap} from "@/components/organisms/blocks/admin-panel-searchbar-block/AdminPanelSearchBlock.utils";
+import { CreateSaleData } from "@/schemas/admin/CreateSaleSchema";
+import { ResponseProductSearch } from "@/types/dto/user/product/ResponseProductSearch";
+import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { useUnit } from "effector-react";
+import { useEffect, useState } from 'react';
+import { useFormContext } from "react-hook-form";
+import { FiPlus } from "react-icons/fi";
 
 type AdminPanelSearchbarBlockProps = {
     header: string,
@@ -30,7 +30,7 @@ type ProductIdRow = {
 
 const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
 
-    const {setValue} = useFormContext<CreateSaleData>()
+    const { setValue, reset, watch, formState: { errors } } = useFormContext<CreateSaleData>()
     const getCatalogueByName = useUnit(searchCatalogByNameEvent)
 
     const defaultSelectedNames = props.defaultProducts?.map(product => product.name) ?? []
@@ -53,7 +53,7 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
         const product = productRows.find((_, idx) => idx === index)!!
         if (value) {
             if (product && !product.product) {
-                const updatedProduct: ProductIdRow = {...product, product: value}
+                const updatedProduct: ProductIdRow = { ...product, product: value }
                 updateProductRows(productRows => productRows.with(index, updatedProduct))
                 updateNames(names => names.with(index, value.name))
             }
@@ -64,7 +64,7 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
     }
 
     const handleChangeOrder = (event: DragEndEvent) => {
-        const {active, over} = event;
+        const { active, over } = event;
 
         if (active.id !== over?.id) {
             const oldIndex = productRows.findIndex((item, index) => item.product?.id === active.id);
@@ -75,10 +75,8 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
         }
     }
 
-    useEffect(() => console.log(productRows), [productRows]);
-
     const handleAddProductRow = () => {
-        updateProductRows(productRows => [...productRows, {quantity: ""}])
+        updateProductRows(productRows => [...productRows, { quantity: "" }])
         updateNames(names => [...names, ""])
     }
 
@@ -111,8 +109,8 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
                 button={
                     <Button
                         onClick={handleAddProductRow}
-                        classNames={{button: "h-fit"}}
-                        icon={<FiPlus size={"18px"}/>}
+                        classNames={{ button: "h-fit" }}
+                        icon={<FiPlus size={"18px"} />}
                         buttonType={"SECONDARY"}
                         text={"Добавить ещё"}
                         size={"sm"}
@@ -152,6 +150,10 @@ const AdminPanelSearchbarBlock = (props: AdminPanelSearchbarBlockProps) => {
                         )}
                     </SortableContext>
                 </DndContext>
+                {errors?.productIdList ? <Text
+                    text={'Все поля не должны быть пустыми'}
+                    className={"text-info-red text-[14px]"}
+                /> : null}
             </section>
         </AdminPanelBlockWrapper>
     );
