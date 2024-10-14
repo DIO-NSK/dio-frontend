@@ -1,7 +1,8 @@
-import {api} from "@/api";
-import {createEffect, createEvent, createStore, sample} from "effector";
-import {DragEndEvent} from "@dnd-kit/core";
-import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
+import { api } from "@/api";
+import { ResponseCustomerBanner } from "@/app/(customer)/(site)/page.hooks";
+import { handleDragEnd } from "@/utlis/handlers/handleDragEnd";
+import { DragEndEvent } from "@dnd-kit/core";
+import { createEffect, createEvent, createStore, sample } from "effector";
 
 export type RequestPromotion = {
     link: string,
@@ -19,7 +20,7 @@ const createPromotion = async (promotion: RequestPromotion) => {
     const lastSlashIndex = promotion.link.lastIndexOf('/') + 1;
     const id = promotion.link.slice(lastSlashIndex);
 
-    return api.post("/admin/banner/promotion", {promotionId: +id, imageUrl : promotion.imageUrl})
+    return api.post("/admin/banner/promotion", {promotionId: +id, ...promotion})
         .then(response => response.data)
 }
 
@@ -27,7 +28,7 @@ const editPromotion = async (promotion: RequestPromotion) => {
     const lastSlashIndex = promotion.link.lastIndexOf('/') + 1;
     const id = promotion.link.slice(lastSlashIndex);
 
-    return api.patch("/admin/banner/promotion", {promoId: +id, promotionId: promotion.id, imageUrl : promotion.imageUrl})
+    return api.patch("/admin/banner/promotion", {promoId: +id, promotionId: promotion.id, ...promotion})
         .then(response => response.data)
 }
 
@@ -46,7 +47,7 @@ export const editPromotionEvent = createEvent<RequestPromotion>()
 
 export const createPromotionFx = createEffect<RequestPromotion, void, Error>(createPromotion)
 
-const getAllPromotions = async (): Promise<ResponsePromotion[]> => {
+const getAllPromotions = async (): Promise<ResponseCustomerBanner[]> => {
     return api.get("/admin/banner/promotion/all")
         .then(response => response.data)
         .catch(error => {
@@ -54,12 +55,12 @@ const getAllPromotions = async (): Promise<ResponsePromotion[]> => {
         })
 }
 
-const getAllPromotionsFx = createEffect<void, ResponsePromotion[], Error>(getAllPromotions)
+const getAllPromotionsFx = createEffect<void, ResponseCustomerBanner[], Error>(getAllPromotions)
 export const getAllPromotionsEvent = createEvent<void>()
-export const $promotions = createStore<ResponsePromotion[]>([])
-export const setPromotionToEditEvent = createEvent<ResponsePromotion | null>()
+export const $promotions = createStore<ResponseCustomerBanner[]>([])
+export const setPromotionToEditEvent = createEvent<ResponseCustomerBanner | null>()
 export const changePromotionsOrderEvent = createEvent<DragEndEvent>()
-export const $promotionToEdit = createStore<ResponsePromotion | null>(null)
+export const $promotionToEdit = createStore<ResponseCustomerBanner | null>(null)
 
 $promotionToEdit
     .on(setPromotionToEditEvent, (_, promo) => promo)

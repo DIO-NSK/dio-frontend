@@ -1,14 +1,15 @@
 'use client'
 
-import {Children, useState} from 'react';
+import { Children, useState } from 'react';
 
-import Slider from "react-slick";
-import {cn} from "@/utlis/cn";
-import Link from "next/link";
-import {WrapperProps} from "@/types/props/Wrapper";
-import {PropsWithClassName} from "@/types/props/utils/PropsWithClassName";
+import { ResponseCustomerBanner } from '@/app/(customer)/(site)/page.hooks';
 import Chip from "@/components/atoms/chip/Chip";
 import Text from "@/components/atoms/text/text-base/Text";
+import { WrapperProps } from "@/types/props/Wrapper";
+import { PropsWithClassName } from "@/types/props/utils/PropsWithClassName";
+import { cn } from "@/utlis/cn";
+import Link from "next/link";
+import Slider from "react-slick";
 
 type MobilePhotoSliderWrapperProps = {
     onChange: (next: number) => void,
@@ -16,8 +17,11 @@ type MobilePhotoSliderWrapperProps = {
     showQuantity?: boolean
 } & WrapperProps
 
+type DefaultPhoto = { image: string, link?: string };
+type Photo = DefaultPhoto | ResponseCustomerBanner
+
 type MobilePhotoSliderProps = PropsWithClassName<{
-    photos: { image: string, link?: string }[],
+    photos: Photo[],
     showQuantity?: boolean
 }>
 
@@ -71,12 +75,12 @@ const MobilePhotoSlider = (props: MobilePhotoSliderProps) => {
             {props.photos.map((banner, key) => (
                     banner.link ? <Link href={banner.link}>
                         <img
-                            src={banner.image} alt={'Фотография продукта'}
+                            src={(banner as DefaultPhoto).image ?? (banner as any).mainImageUrl} alt={'Фотография продукта'}
                             className={"w-full h-[180px] object-scale-down"}
                             key={key}
                         />
                     </Link> : <img
-                        src={banner.image} alt={'Фотография продукта'}
+                        src={(banner as DefaultPhoto).image ?? (banner as any).mainImageUrl} alt={'Фотография продукта'}
                         className={"w-full h-[180px] object-scale-down"}
                         key={key}
                     />

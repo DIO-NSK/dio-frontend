@@ -1,19 +1,19 @@
-import {useRef} from "react";
-import {cn} from "@/utlis/cn";
+import { cn } from "@/utlis/cn";
 import Link from "next/link";
-import {ResponseBanner} from "@/app/admin/promo/models/banner.model";
+import { useRef } from "react";
 
-import {type Swiper as SwiperRef} from 'swiper';
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Autoplay, Scrollbar} from "swiper/modules";
+import { type Swiper as SwiperRef } from 'swiper';
+import { Autoplay, Scrollbar } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
+import { ResponseCustomerBanner } from "@/app/(customer)/(site)/page.hooks";
+import { AUTOPLAY_DELAY } from "@/constants/swiper";
+import { ButtonProps } from "@/types/props/buttons/Button";
+import { ClassValue } from "clsx";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
-import 'swiper/css';
-import {AUTOPLAY_DELAY} from "@/constants/swiper";
-import {ButtonProps} from "@/types/props/buttons/Button";
-import {ClassValue} from "clsx";
-import {FiChevronLeft, FiChevronRight} from "react-icons/fi";
 
 const ArrowButton = ({onClick, icon} : ButtonProps) => {
 
@@ -30,7 +30,7 @@ const ArrowButton = ({onClick, icon} : ButtonProps) => {
     )
 }
 
-const ImageBannerSlider = ({banners, width}: { banners: ResponseBanner[], width: string }) => {
+const ImageBannerSlider = ({banners, width}: { banners: ResponseCustomerBanner[], width: string }) => {
 
     const swiperRef = useRef<SwiperRef>()
 
@@ -57,7 +57,7 @@ const ImageBannerSlider = ({banners, width}: { banners: ResponseBanner[], width:
                         <Link href={banner.link}>
                             <img
                                 className={"w-full h-full object-cover"}
-                                src={banner.image} alt={'/'}
+                                src={banner.mainImageUrl} alt={'/'}
                             />
                         </Link>
                     </SwiperSlide>

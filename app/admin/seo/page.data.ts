@@ -12,6 +12,7 @@ const staticPages: Record<number, { name: string, urlMask: string }> = {
     40: { name: 'Услуги', urlMask: 'services' },
     663: { name: 'Наши воды', urlMask: 'our-waters' },
     664: { name: 'Акции', urlMask: 'sales' },
+    772: { name: 'Главная страница', urlMask: '' },
 }
 
 const talbeHeader: TableHeaderItem[] = [

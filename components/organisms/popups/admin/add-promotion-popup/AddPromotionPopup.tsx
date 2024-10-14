@@ -1,16 +1,3 @@
-import React, {useEffect, useState} from 'react';
-import {PopupProps} from "@/types/props/Popup";
-import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
-import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
-import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
-import Text from "@/components/atoms/text/text-base/Text";
-import Button from "@/components/atoms/buttons/button/Button";
-import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
-import Snackbar from "@/components/organisms/snackbar/Snackbar";
-import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {CreateBannerData, CreateBannerSchema} from "@/schemas/admin/CreateBannerSchema";
-import {useUnit} from "effector-react";
 import {
     $editPromotionStatus,
     $promotionToEdit,
@@ -19,20 +6,75 @@ import {
     RequestPromotion,
     setPromotionToEditEvent
 } from "@/app/admin/promo/models/promotion.model";
-import {HeaderDescription} from "@/types/dto/text";
-import {WrapperProps} from "@/types/props/Wrapper";
-import FileInput from "@/components/atoms/inputs/file-input/FileInput";
+import Button from "@/components/atoms/buttons/button/Button";
+import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
+import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import Text from "@/components/atoms/text/text-base/Text";
+import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
+import { CreateBannerData, CreateBannerSchema } from "@/schemas/admin/CreateBannerSchema";
+import { HeaderDescription } from "@/types/dto/text";
+import { PopupProps } from "@/types/props/Popup";
+import { WrapperProps } from "@/types/props/Wrapper";
+import { cn } from "@/utlis/cn";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useUnit } from "effector-react";
+import { useEffect, useState } from 'react';
+import { FieldValues, Form, FormProvider, useForm, useFormContext } from "react-hook-form";
 
 const blockCV = "w-full flex flex-col gap-4"
 
-const PopupBlock = (props: HeaderDescription & WrapperProps) => (
+const repsonsiveImages = [
+    { name: "mainImageUrl", header: "Для компьютеров", extension: "Размер 1045x436px" },
+    { name: "imageUrlDto.tabletHorizontalImageUrl", header: "Для горизонтальных планшетов", extension: "Размер 556x290px" },
+    { name: "imageUrlDto.tabletVerticalImageUrl", header: "Для вертикальных планшетов", extension: "Размер 475x277px" },
+    { name: "imageUrlDto.mobileImageUrl", header: "Для телефонов", extension: "Размер 375x200px" },
+]
+
+interface ControlledFileInputProps {
+    name: string;
+    header: string;
+    extension: string;
+}
+
+const ControlledFileInput = ({ name, header, extension }: ControlledFileInputProps) => {
+    const methods = useFormContext();
+
+    return (
+        <div className="col-span-1 flex flex-col gap-2">
+            <div className="w-full flex flex-row items-baseline justify-between">
+                <Text text={header} />
+                <Text text={extension} className="text-xs text-text-gray" />
+            </div>
+            {methods.getValues(name) ? (
+                <AdminPhotoCard
+                    canDelete={true}
+                    onDelete={() => methods.setValue(name, null)}
+                    name={name}
+                    className={"w-full"}
+                />
+            ) : (
+                <FileURLInput
+                    onChange={(value) => methods.setValue(name, value)}
+                    placeholder={"Выберите файл"}
+                    className={"w-full"}
+                />
+            )}
+        </div>
+    )
+}
+
+const PopupBlock = ({ className, ...props }: Partial<HeaderDescription> & WrapperProps) => (
     <section className={blockCV}>
         <div className={"flex flex-col gap-4"}>
             <div className={"flex flex-col"}>
-                <Text text={props.header} className={"text-[18px]"}/>
-                <Text text={props.description} className={"text-text-gray"}/>
+                {props.header ? <Text text={props.header} className={"text-[18px]"} /> : null}
+                {props.description ? <Text text={props.description} className={"text-text-gray"} /> : null}
             </div>
-            {props.children}
+            <div className={cn("w-full", className)}>
+                {props.children}
+            </div>
         </div>
     </section>
 )
@@ -50,7 +92,7 @@ const AddPromotionPopup = (props: PopupProps) => {
         mode: "onSubmit"
     })
 
-    const {reset} = methods
+    const { reset } = methods
 
     console.log(methods.watch())
 
@@ -61,7 +103,7 @@ const AddPromotionPopup = (props: PopupProps) => {
 
     const onSubmit = (fieldValues: FieldValues) => {
         if (promotionToEdit) {
-            editPromotion({...fieldValues, id: promotionToEdit.id} as RequestPromotion)
+            editPromotion({ ...fieldValues, id: promotionToEdit.id } as RequestPromotion)
         } else {
             createPromotion(fieldValues as RequestPromotion)
                 .then(_ => setCreateStatus(true))
@@ -72,10 +114,7 @@ const AddPromotionPopup = (props: PopupProps) => {
 
     useEffect(() => {
         if (promotionToEdit) {
-            reset({
-                link: `/sales/${promotionToEdit.promoId}`,
-                imageUrl: promotionToEdit.image
-            })
+            reset(promotionToEdit)
         }
     }, []);
 
@@ -99,37 +138,23 @@ const AddPromotionPopup = (props: PopupProps) => {
                     onClose={handleClose}
                 />
                 <Form className={"w-[800px] flex flex-col gap-5"}>
-                    <Text text={"Новая "} className={"text-[20px] font-medium"}/>
+                    <Text text={"Новая "} className={"text-[20px] font-medium"} />
                     <PopupBlock
                         header={"Ссылка на акцию"}
                         description={"Откройте страницу акции на сайте и скопируйте ссылку в адресной строке браузера"}
                     >
-                        <ControlledTextInput name={"link"} placeholder={"Вставьте ссылку на акцию"}/>
+                        <ControlledTextInput name={"link"} placeholder={"Вставьте ссылку на акцию"} />
                     </PopupBlock>
-                    <PopupBlock
-                        header={"Фотография промо-акции"}
-                        description={"Данная фотография будет являться ссылкой на страницу акции"}
-                    >
-                        {methods.getValues("imageUrl") ? (
-                            <AdminPhotoCard
-                                canDelete={true}
-                                onDelete={() => methods.setValue("imageUrl", null)}
-                                name={"imageUrl"}
-                                className={"w-full"}
-                            />
-                        ) : (
-                            <FileURLInput
-                                onChange={(value) => methods.setValue("imageUrl", value)}
-                                placeholder={"Выберите файл"}
-                                className={"w-full"}
-                            />
-                        )}
+                    <PopupBlock header={"Фотография промо-акции"} className="grid grid-cols-2 gap-5">
+                        {repsonsiveImages.map((item) => (
+                            <ControlledFileInput {...item} />
+                        ))}
                     </PopupBlock>
                     <Button
                         text={promotionToEdit ? "Редактировать" : "Добавить"}
                         disabled={methods.formState.isSubmitting}
                         onClick={methods.handleSubmit(onSubmit)}
-                        classNames={{button: "w-[250px]"}}
+                        classNames={{ button: "w-[250px]" }}
                     />
                 </Form>
             </FormProvider>

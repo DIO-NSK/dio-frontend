@@ -2,6 +2,7 @@ import {api} from "@/api";
 import {createEffect, createEvent, createStore, sample} from "effector";
 import {DragEndEvent} from "@dnd-kit/core";
 import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
+import { ResponseCustomerBanner } from "@/app/(customer)/(site)/page.hooks";
 
 export type RequestBanner = {
     link: string,
@@ -35,7 +36,7 @@ export const editBannerFx = createEffect(editBanner)
 
 export const createBannerFx = createEffect<RequestBanner, void, Error>(createBanner)
 
-const getAllBanners = async (): Promise<ResponseBanner[]> => {
+const getAllBanners = async (): Promise<ResponseCustomerBanner[]> => {
     return api.get("/admin/banner/all")
         .then(response => response.data)
         .catch(error => {
@@ -43,11 +44,11 @@ const getAllBanners = async (): Promise<ResponseBanner[]> => {
         })
 }
 
-const getAllBannersFx = createEffect<void, ResponseBanner[], Error>(getAllBanners)
+const getAllBannersFx = createEffect<void, ResponseCustomerBanner[], Error>(getAllBanners)
 export const getAllBannersEvent = createEvent<void>()
-export const $banners = createStore<ResponseBanner[]>([])
-export const setBannerIdToEditEvent = createEvent<ResponseBanner | null>()
-export const $bannerIdToEdit = createStore<ResponseBanner | null>(null)
+export const $banners = createStore<ResponseCustomerBanner[]>([])
+export const setBannerIdToEditEvent = createEvent<ResponseCustomerBanner | null>()
+export const $bannerIdToEdit = createStore<ResponseCustomerBanner | null>(null)
 
 $bannerIdToEdit
     .on(setBannerIdToEditEvent, (_, banner) => banner)

@@ -1,23 +1,26 @@
-import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
-import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
-import HeroSliderRow from "@/components/organisms/hero-slider-row/HeroSliderRow";
-import WaterCard from "@/components/organisms/cards/water-card/WaterCard";
-import ServiceCard from "@/components/organisms/cards/service-card/ServiceCard";
-import HeaderGroup from "@/components/wrappers/header-group/HeaderGroup";
-import PageWrapper from "@/components/wrappers/page-wrapper/PageWrapper";
-import SaleCard from "@/components/organisms/cards/sale-card/SaleCard";
-import {bonusCardData} from "@/data/bonusCardData";
-import BonusCard from "@/components/organisms/cards/bonus-card/BonusCard";
-import WaveHeaderWrapper from "@/components/wrappers/wave-header-wrapper/WaveHeaderWrapper";
-import {ContentImage} from "@/components/organisms/cards/fullwidth-main-card/content-image/ContentImage";
-import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/WaterCoolerBlock";
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
 import AdvantagesBlock from "@/components/organisms/blocks/advantages-block/AdvantagesBlock";
-import {TextLink} from "@/types/dto/text";
-import {HandshakeIcon, MicroscopeIcon, PencilRulerIcon, PercentIcon, StethoscopeIcon, WrenchIcon} from "lucide-react";
-import {cn} from "@/utlis/cn";
+import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/WaterCoolerBlock";
+import BonusCard from "@/components/organisms/cards/bonus-card/BonusCard";
+import { ContentImage } from "@/components/organisms/cards/fullwidth-main-card/content-image/ContentImage";
+import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
+import SaleCard from "@/components/organisms/cards/sale-card/SaleCard";
+import ServiceCard from "@/components/organisms/cards/service-card/ServiceCard";
+import WaterCard from "@/components/organisms/cards/water-card/WaterCard";
+import HeroSliderRow from "@/components/organisms/hero-slider-row/HeroSliderRow";
+import HeaderGroup from "@/components/wrappers/header-group/HeaderGroup";
+import PageWrapper from "@/components/wrappers/page-wrapper/PageWrapper";
+import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
+import WaveHeaderWrapper from "@/components/wrappers/wave-header-wrapper/WaveHeaderWrapper";
+import { bonusCardData } from "@/data/bonusCardData";
+import { TextLink } from "@/types/dto/text";
+import { cn } from "@/utlis/cn";
+import { HandshakeIcon, MicroscopeIcon, PencilRulerIcon, PercentIcon, StethoscopeIcon, WrenchIcon } from "lucide-react";
 
+import { getSeoById } from "@/app/admin/seo/page.api";
+import { Metadata } from "next";
+import { ReactNode } from "react";
 import {
     getBanners,
     getBucketPhotos,
@@ -27,8 +30,6 @@ import {
     getPromotions,
     getSaleProducts
 } from './page.hooks';
-import {ReactNode} from "react";
-import {Metadata} from "next";
 
 const ICON_SIZE = 28
 
@@ -72,14 +73,13 @@ const productCardCV = {
     ])
 }
 
-export const metadata: Metadata = {
-    title: 'DIO — доставка питьевой воды по Новосибирску и области',
-    description: 'Нужна доставка питьевой воды в Новосибирске и области? DIO предлагает высококачественную питьевую воду с оперативной доставкой на дом и в офис. Чистая вода от проверенных источников, удобные условия заказа и быстрая доставка. Заботьтесь о своем здоровье с DIO — вашей надежной компанией по доставке питьевой воды в Новосибирске и области.',
-    keywords: ["доставка воды", "доставка питьевой воды", "доставка воды Новосибирск", "питьевая вода Новосибирск", "заказать воду Новосибирск", "вода в офис", "вода на дом", "доставка воды круглосуточно", "качественная питьевая вода", "чистая вода Новосибирск", "купить воду", "вода 19 литров", "бутылированная вода", "артезианская вода", "доставка воды область"],
-    openGraph: {
-        description: 'Нужна доставка питьевой воды в Новосибирске и области? DIO предлагает высококачественную питьевую воду с оперативной доставкой на дом и в офис. Чистая вода от проверенных источников, удобные условия заказа и быстрая доставка. Заботьтесь о своем здоровье с DIO — вашей надежной компанией по доставке питьевой воды в Новосибирске и области.',
-        images: ['https://storage.yandexcloud.net/dio-static-images/dio-main-banner.jpg'],
-        title: 'DIO — доставка питьевой воды по Новосибирску и области'
+export async function generateMetadata(): Promise<Metadata> {
+    const seo = await getSeoById(772);
+
+    return {
+        title: seo.title,
+        description: seo.description,
+        keywords: seo.keywords
     }
 }
 
@@ -93,7 +93,8 @@ const MainPageScreen = async () => {
     const banners = await getBanners()
     const photos = await getBucketPhotos()
 
-    console.log(saleProducts)
+    console.log('banners', banners);
+    console.log('promotions', promotions);
 
     return (
         <>

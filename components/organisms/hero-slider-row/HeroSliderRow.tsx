@@ -3,21 +3,21 @@
 import ImageBannerSlider from "@/components/moleculas/sliders/image-banner-slider/ImageBannerSlider";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
 
-import {Swiper, SwiperSlide} from "swiper/react";
-import {Autoplay, Scrollbar} from "swiper/modules";
+import { Autoplay, Scrollbar } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/scrollbar';
 import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
-import {AUTOPLAY_DELAY} from "@/constants/swiper";
-import {cn} from "@/utlis/cn";
-import {ResponseBanner} from "@/app/admin/promo/models/banner.model";
-import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
+import { ResponseCustomerBanner } from "@/app/(customer)/(site)/page.hooks";
+import { AUTOPLAY_DELAY } from "@/constants/swiper";
+import { ResponseProductSearch } from "@/types/dto/user/product/ResponseProductSearch";
+import { cn } from "@/utlis/cn";
 
 type HeroSliderRowProps = {
-    banners: ResponseBanner[],
+    banners: ResponseCustomerBanner[],
     dayProducts: ResponseProductSearch[]
 }
 

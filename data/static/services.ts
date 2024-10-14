@@ -1,8 +1,6 @@
-import {ServiceCardDTO} from "@/types/cards";
-import {TextLink} from "@/types/dto/text";
-import React from "react";
+import { ServiceCardDTO } from "@/types/cards";
 
-type ServiceGroupType = "rent" | "diagnostic" | "sanitization" | "mount" | "maintenance" | "free_use"
+type ServiceGroupType = "rent" | "diagnostic" | "sanitization" | "mount" | "maintenance" | "free_use" | "other"
 
 export type Group<T> = {
     groupHeader: string,
@@ -343,6 +341,16 @@ const freeUseGroup: Group<ServiceCardDTO> = {
     value: "free_use",
     items: [
         {
+            header: `Попробовать бесплатно артезианскую воду "DIO"`,
+            descr: `Если вы еще не заказываете нашу воду домой или в офис, специально для вас компания "DIO" предлагает попробовать питьевую воду "DIO" бесплатно.`,
+            additional: [
+                `Пробная бутыль любой воды "DIO" объемом 19 литров`,
+                "При отсутствии оборудования для розлива воды компания предоставляет настольный кулер или помпу для удобства пользования на 14 дней",
+                `Бутыль объемом 19 литров является собственностью компании "DIO" и подлежит возврату по окончании 14 дней`,
+            ],
+            price: 0
+        },
+        {
             header: "Cтеллаж для хранения 4-х бутылей в бесплатное пользование",
             descr: `Cтеллаж для хранения 4-х бутылей по 19 литров предоставляется в бесплатное пользование
              при условии ежемесячного и единовременного заказа не менее 4-х бутылей по 19 литров питьевой воды dio`,
@@ -369,7 +377,30 @@ const freeUseGroup: Group<ServiceCardDTO> = {
     ]
 }
 
+const other: Group<ServiceCardDTO> = {
+    groupHeader: "Для детских учреждений",
+    value: "other",
+    items: [
+        {
+            header: `Специальное предложение для детских учреждений`,
+            descr: `Компания "DIO" предлагает выгодные условия для детских учреждений на поставку питьевой воды. Включая бесплатную доставку и аренду оборудования`,
+            additional: [
+                `Предоставление в бесплатную аренду помп, диспенсеров, наклонных подставок и настольных кулеров при условии регулярного потребления питьевой воды "DIO"`,
+                "Бесплатная доставка и установка оборудования для розлива воды",
+                `Бесплатная доставка воды в любой день недели и в удобное для вас время`,
+                `Специальные условия на санитарную обработку кулеров (настольных и напольных): для детских учреждений стоимость санитарной обработки составляет 900 рублей`,
+                `Специальные цены на воду для детских учреждений:
+                    Артезианская питьевая вода "DIO SIBERIAN WATER", 19 л – 340 ₽ (вместо 380 ₽)\n
+                    Артезианская питьевая вода "DIO МИНЕРАЛ", 19 л – 360 ₽ (вместо 400 ₽\n
+                    Вода детская "Для ляль", 5 л, 2 шт – 200 ₽ (вместо 230 ₽)\n
+                    Артезианская питьевая вода "DIO SIBERIAN WATER", 5,5 л, 2 шт – 170 ₽ (вместо 196 ₽)`,
+            ],
+            price: 0
+        }
+    ]
+}
+
 
 export const services = [
-    rentGroup, diagnosticsGroup, sanitizationGroup, mountGroup, maintenanceGroup, freeUseGroup
+    rentGroup, diagnosticsGroup, sanitizationGroup, mountGroup, maintenanceGroup, freeUseGroup, other
 ]

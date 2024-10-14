@@ -1,7 +1,6 @@
-import React from 'react';
-import {cn} from "@/utlis/cn";
-import Text from "@/components/atoms/text/text-base/Text";
 import InfoCircleIcon from "@/components/atoms/svg/info-circle-icon/InfoCircleIcon";
+import Text from "@/components/atoms/text/text-base/Text";
+import { cn } from "@/utlis/cn";
 
 const FirstBlock = () => {
 
@@ -29,13 +28,13 @@ const FirstBlock = () => {
                 />
             </div>
             <div className={"w-full sm:col-start-8 sm:col-span-5 flex flex-col md:gap-4 xl:gap-5"}>
-                <div className={"hidden sm:flex"}><InfoCircleIcon/></div>
+                <div className={"hidden sm:flex"}><InfoCircleIcon /></div>
                 <Text
                     className={"text-[16px] xl:text-[18px] xl:pb-5 border-b-2 border-light-gray sm:border-0"}
                     text={"Артезианская вода «DIO» производится на полностью автоматической" +
-                        "линии производства, проходит постоянный контроль качества — каждые 30" +
-                        "минут вода исследуется сотрудниками лаборатории, каждая партия воды" +
-                        "проверяется региональным центром Роспотребнадзора РФ"}
+                        " линии производства, проходит постоянный контроль качества. Каждые 30" +
+                        " минут вода исследуется сотрудниками лаборатории, каждая партия воды" +
+                        " проверяется региональным центром Роспотребнадзора РФ"}
                 />
             </div>
         </div>

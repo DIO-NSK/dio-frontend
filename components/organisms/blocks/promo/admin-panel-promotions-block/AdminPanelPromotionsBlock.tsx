@@ -1,34 +1,33 @@
-import React, {useEffect} from 'react';
-import {useToggle} from "@/utlis/hooks/useToggle";
-import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
-import Button from "@/components/atoms/buttons/button/Button";
-import {FiPlus} from "react-icons/fi";
-import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
-import AddPromotionPopup from "@/components/organisms/popups/admin/add-promotion-popup/AddPromotionPopup";
-import {useUnit} from "effector-react";
+import { ResponseCustomerBanner } from '@/app/(customer)/(site)/page.hooks';
 import {
     $promotions,
     changePromotionsOrderEvent,
     deletePromotionEvent,
     getAllPromotionsEvent,
-    ResponsePromotion,
     setPromotionToEditEvent
 } from "@/app/admin/promo/models/promotion.model";
-import {closestCenter, DndContext} from "@dnd-kit/core";
-import {restrictToHorizontalAxis} from "@dnd-kit/modifiers";
-import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+import Button from "@/components/atoms/buttons/button/Button";
+import { BannersBlockProps } from "@/components/organisms/blocks/promo/admin-panel-promo-block/AdminPanelPromoBlock";
+import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
+import AddPromotionPopup from "@/components/organisms/popups/admin/add-promotion-popup/AddPromotionPopup";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
-import {BannersBlockProps} from "@/components/organisms/blocks/promo/admin-panel-promo-block/AdminPanelPromoBlock";
+import { useToggle } from "@/utlis/hooks/useToggle";
+import { closestCenter, DndContext } from "@dnd-kit/core";
+import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
+import { useUnit } from "effector-react";
+import React, { useEffect } from 'react';
+import { FiPlus } from "react-icons/fi";
 
 
-const PromotionBlock = ({openPopup}: BannersBlockProps) => {
+const PromotionBlock = ({ openPopup }: BannersBlockProps) => {
 
     const [setPromotionToEdit, deletePromo, changeOrder]
         = useUnit([setPromotionToEditEvent, deletePromotionEvent, changePromotionsOrderEvent])
 
     const [promos, getPromos] = useUnit([$promotions, getAllPromotionsEvent])
 
-    const handleEditPromo = (promotion: ResponsePromotion) => {
+    const handleEditPromo = (promotion: ResponseCustomerBanner) => {
         setPromotionToEdit(promotion)
         openPopup()
     }
@@ -53,7 +52,7 @@ const PromotionBlock = ({openPopup}: BannersBlockProps) => {
                                 canDelete={true} editable={true}
                                 onEdit={() => handleEditPromo(banner)}
                                 onDelete={() => deletePromo(banner.id)}
-                                defaultImage={banner.image}
+                                defaultImage={banner.mainImageUrl}
                                 key={index}
                             />
                         </SortableItemWrapper>
@@ -78,7 +77,7 @@ const AdminPanelPromotionsBlock = () => {
                 button={
                     <Button
                         size={"sm"} buttonType={"SECONDARY"}
-                        icon={<FiPlus size={"18px"}/>}
+                        icon={<FiPlus size={"18px"} />}
                         onClick={toggle.toggleState}
                         text={"Добавить"}
                     />
@@ -87,7 +86,7 @@ const AdminPanelPromotionsBlock = () => {
                 header={"Акции и предложения"}
                 className={"w-full px-7 pb-7 border-b-2 border-light-gray"}
             />
-            <PromotionBlock openPopup={toggle.toggleState}/>
+            <PromotionBlock openPopup={toggle.toggleState} />
         </React.Fragment>
     );
 };

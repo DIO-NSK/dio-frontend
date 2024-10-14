@@ -1,17 +1,3 @@
-import React, {useEffect, useState} from 'react';
-import {PopupProps} from "@/types/props/Popup";
-import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
-import Text from "@/components/atoms/text/text-base/Text";
-import Button from "@/components/atoms/buttons/button/Button";
-import {FieldValues, Form, FormProvider, useForm} from "react-hook-form";
-import {CreateBannerData, CreateBannerSchema} from "@/schemas/admin/CreateBannerSchema";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {useUnit} from "effector-react";
-import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
-import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
-import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
-import {HeaderDescription} from "@/types/dto/text";
-import {WrapperProps} from "@/types/props/Wrapper";
 import {
     $bannerIdToEdit,
     createBannerFx,
@@ -19,8 +5,21 @@ import {
     RequestBanner,
     setBannerIdToEditEvent
 } from "@/app/admin/promo/models/banner.model";
+import Button from "@/components/atoms/buttons/button/Button";
+import FileURLInput from "@/components/atoms/inputs/file-input/FileURLInput";
+import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
+import Text from "@/components/atoms/text/text-base/Text";
+import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
-import FileInput from "@/components/atoms/inputs/file-input/FileInput";
+import PopupWrapper from "@/components/wrappers/popup-wrapper/PopupWrapper";
+import { CreateBannerData, CreateBannerSchema } from "@/schemas/admin/CreateBannerSchema";
+import { HeaderDescription } from "@/types/dto/text";
+import { PopupProps } from "@/types/props/Popup";
+import { WrapperProps } from "@/types/props/Wrapper";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useUnit } from "effector-react";
+import { useEffect, useState } from 'react';
+import { FieldValues, Form, FormProvider, useForm } from "react-hook-form";
 
 const blockCV = "w-full flex flex-col gap-4"
 
@@ -28,8 +27,8 @@ const PopupBlock = (props: HeaderDescription & WrapperProps) => (
     <section className={blockCV}>
         <div className={"flex flex-col gap-4"}>
             <div className={"flex flex-col"}>
-                <Text text={props.header} className={"text-[18px]"}/>
-                <Text text={props.description} className={"text-text-gray"}/>
+                <Text text={props.header} className={"text-[18px]"} />
+                <Text text={props.description} className={"text-text-gray"} />
             </div>
             {props.children}
         </div>
@@ -49,7 +48,7 @@ const AddPromoPopup = (props: PopupProps) => {
         mode: "onSubmit"
     })
 
-    const {watch, reset} = methods
+    const { watch, reset } = methods
 
     const handleClose = () => {
         setBannerIdToEdit(null)
@@ -58,7 +57,7 @@ const AddPromoPopup = (props: PopupProps) => {
 
     const onSubmit = (fieldValues: FieldValues) => {
         if (bannerIdToEdit) {
-            editBanner({...fieldValues, id: bannerIdToEdit.id} as RequestBanner)
+            editBanner({ ...fieldValues, id: bannerIdToEdit.id } as RequestBanner)
                 .then(_ => setEditStatus(true))
                 .then(_ => setBannerIdToEdit(null))
                 .then(_ => props?.onClose?.())
@@ -76,10 +75,7 @@ const AddPromoPopup = (props: PopupProps) => {
 
     useEffect(() => {
         if (bannerIdToEdit) {
-            reset({
-                link: bannerIdToEdit.link,
-                imageUrl: bannerIdToEdit.image
-            })
+            reset(bannerIdToEdit)
         }
     }, []);
 
@@ -103,27 +99,27 @@ const AddPromoPopup = (props: PopupProps) => {
                     onClose={handleClose}
                 />
                 <Form className={"w-[800px] flex flex-col gap-5"}>
-                    <Text text={"Новый промо-баннер"} className={"text-[20px] font-medium"}/>
+                    <Text text={"Новый промо-баннер"} className={"text-[20px] font-medium"} />
                     <PopupBlock
                         header={"Ссылка на товар"}
                         description={"Откройте страницу товара на сайте и скопируйте ссылку в адресной строке браузера"}
                     >
-                        <ControlledTextInput name={"link"} placeholder={"Вставьте ссылку на товар"}/>
+                        <ControlledTextInput name={"link"} placeholder={"Вставьте ссылку на товар"} />
                     </PopupBlock>
                     <PopupBlock
                         header={"Фотография промо-баннера"}
                         description={"Данная фотография будет отображаться в первом блоке на главном странице сайта"}
                     >
-                        {methods.getValues("imageUrl") ? (
+                        {methods.getValues("mainImageUrl") ? (
                             <AdminPhotoCard
                                 canDelete
-                                onDelete={() => methods.setValue("imageUrl", null)}
+                                onDelete={() => methods.setValue("mainImageUrl", null)}
                                 name={"imageUrl"}
                                 className={"w-full"}
                             />
                         ) : (
                             <FileURLInput
-                                onChange={(value) => methods.setValue("imageUrl", value)}
+                                onChange={(value) => methods.setValue("mainImageUrl", value)}
                                 placeholder={"Выберите файл"}
                                 className={"w-full"}
                             />
@@ -133,7 +129,7 @@ const AddPromoPopup = (props: PopupProps) => {
                         text={"Добавить"}
                         disabled={methods.formState.isSubmitting}
                         onClick={methods.handleSubmit(onSubmit)}
-                        classNames={{button: "w-[250px]"}}
+                        classNames={{ button: "w-[250px]" }}
                     />
                 </Form>
             </FormProvider>

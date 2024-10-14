@@ -80,15 +80,6 @@ export async function generateMetadata(): Promise<Metadata> {
     }
 }
 
-// export const metadata: Metadata = {
-//     title: 'О компании — доставка питьевой воды по Новосибирску и области DIO',
-//     keywords: advantagesCardData.map(item => item.header),
-//     openGraph: {
-//         title: 'О компании — доставка питьевой воды по Новосибирску и области DIO',
-//         images: [AboutCompanyBanner.src]
-//     }
-// }
-
 const AboutCompanyPage = async () => {
     const photos = await getBucketPhotos()
 

@@ -1,35 +1,35 @@
-import React, {useEffect} from 'react';
-import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
-import Button from "@/components/atoms/buttons/button/Button";
-import {FiPlus} from "react-icons/fi";
-import {useToggle} from "@/utlis/hooks/useToggle";
-import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
-import AddPromoPopup from "@/components/organisms/popups/admin/add-promo-popup/AddPromoPopup";
-import {useUnit} from "effector-react";
+import { ResponseCustomerBanner } from "@/app/(customer)/(site)/page.hooks";
 import {
     $banners,
     changeBannersOrderEvent,
     deleteBannerEvent,
     getAllBannersEvent,
-    ResponseBanner,
     setBannerIdToEditEvent
 } from "@/app/admin/promo/models/banner.model";
-import {closestCenter, DndContext} from "@dnd-kit/core";
-import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
+import Button from "@/components/atoms/buttons/button/Button";
+import AdminPhotoCard from "@/components/organisms/cards/admin-photo-card/AdminPhotoCard";
+import AddPromoPopup from "@/components/organisms/popups/admin/add-promo-popup/AddPromoPopup";
+import HeaderDescriptionButtonRow from "@/components/organisms/rows/header-descr-button-row/HeaderDescriptionButtonRow";
 import SortableItemWrapper from "@/components/wrappers/sortable-wrapper/SortableItemWrapper";
+import { useToggle } from "@/utlis/hooks/useToggle";
+import { closestCenter, DndContext } from "@dnd-kit/core";
+import { horizontalListSortingStrategy, SortableContext } from "@dnd-kit/sortable";
+import { useUnit } from "effector-react";
+import React, { useEffect } from 'react';
+import { FiPlus } from "react-icons/fi";
 
 export type BannersBlockProps = {
     openPopup: () => void
 }
 
-const BannersBlock = ({openPopup}: BannersBlockProps) => {
+const BannersBlock = ({ openPopup }: BannersBlockProps) => {
 
     const setBannerIdToEdit = useUnit(setBannerIdToEditEvent)
 
     const [banners, getAllBanners, deleteBanner, changeOrder]
         = useUnit([$banners, getAllBannersEvent, deleteBannerEvent, changeBannersOrderEvent])
 
-    const handleEditBanner = (banner: ResponseBanner) => {
+    const handleEditBanner = (banner: ResponseCustomerBanner) => {
         setBannerIdToEdit(banner)
         openPopup()
     }
@@ -49,16 +49,16 @@ const BannersBlock = ({openPopup}: BannersBlockProps) => {
             >
                 <div className={"px-7 w-full grid grid-cols-3 gap-7"}>
                     {banners.map((banner, index) => (
-                            <SortableItemWrapper sequenceNumber={banner.id} key={banner.id}>
-                                <AdminPhotoCard
-                                    canDelete={true} editable={true}
-                                    onEdit={() => handleEditBanner(banner)}
-                                    onDelete={() => deleteBanner(banner.id)}
-                                    defaultImage={banner.image}
-                                    key={index}
-                                />
-                            </SortableItemWrapper>
-                        )
+                        <SortableItemWrapper sequenceNumber={banner.id} key={banner.id}>
+                            <AdminPhotoCard
+                                canDelete={true} editable={true}
+                                onEdit={() => handleEditBanner(banner)}
+                                onDelete={() => deleteBanner(banner.id)}
+                                defaultImage={banner.mainImageUrl}
+                                key={index}
+                            />
+                        </SortableItemWrapper>
+                    )
                     )}
                 </div>
             </SortableContext>
@@ -73,13 +73,13 @@ const AdminPanelPromoBlock = () => {
 
     return (
         <React.Fragment>
-            {toggle.state && <AddPromoPopup onClose={toggle.toggleState}/>}
+            {toggle.state && <AddPromoPopup onClose={toggle.toggleState} />}
             <div className={"flex flex-col gap-7"}>
                 <HeaderDescriptionButtonRow
                     button={
                         <Button
                             size={"sm"} buttonType={"SECONDARY"}
-                            icon={<FiPlus size={"18px"}/>}
+                            icon={<FiPlus size={"18px"} />}
                             onClick={toggle.toggleState}
                             text={"Добавить"}
                         />
@@ -88,7 +88,7 @@ const AdminPanelPromoBlock = () => {
                     header={"Промо-акции"}
                     className={"w-full px-7 pb-7 border-b-2 border-light-gray"}
                 />
-                <BannersBlock openPopup={toggle.toggleState}/>
+                <BannersBlock openPopup={toggle.toggleState} />
             </div>
         </React.Fragment>
     );
