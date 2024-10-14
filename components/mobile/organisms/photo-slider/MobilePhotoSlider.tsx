@@ -44,7 +44,7 @@ export const MobilePhotoSliderWrapper = (props: MobilePhotoSliderWrapperProps) =
         ),
         customPaging: (i: number) => {
             const stepColor = props.activeIndex === i ? "bg-link-blue" : "bg-border-gray"
-            return <span className={cn("mt-3 w-10 h-[3px]", stepColor)}/>
+            return <span className={cn("mt-3 w-10 h-[3px]", stepColor)} />
         }
     };
 
@@ -73,18 +73,18 @@ const MobilePhotoSlider = (props: MobilePhotoSliderProps) => {
     return (
         <MobilePhotoSliderWrapper activeIndex={activeSlide} onChange={setActiveSlide} {...props}>
             {props.photos.map((banner, key) => (
-                    banner.link ? <Link href={banner.link}>
-                        <img
-                            src={(banner as DefaultPhoto).image ?? (banner as any).mainImageUrl} alt={'Фотография продукта'}
-                            className={"w-full h-[180px] object-scale-down"}
-                            key={key}
-                        />
-                    </Link> : <img
-                        src={(banner as DefaultPhoto).image ?? (banner as any).mainImageUrl} alt={'Фотография продукта'}
+                banner.link ? <Link href={banner.link}>
+                    <img
+                        src={(banner as DefaultPhoto).image ?? (banner as any).imageUrlDto.mobileImageUrl} alt={'Фотография продукта'}
                         className={"w-full h-[180px] object-scale-down"}
                         key={key}
                     />
-                )
+                </Link> : <img
+                    src={(banner as DefaultPhoto).image ?? (banner as any).imageUrlDto.mobileImageUrl} alt={'Фотография продукта'}
+                    className={"w-full h-[180px] object-scale-down"}
+                    key={key}
+                />
+            )
             )}
         </MobilePhotoSliderWrapper>
     );

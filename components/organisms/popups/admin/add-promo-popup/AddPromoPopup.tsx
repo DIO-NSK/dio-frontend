@@ -16,21 +16,64 @@ import { CreateBannerData, CreateBannerSchema } from "@/schemas/admin/CreateBann
 import { HeaderDescription } from "@/types/dto/text";
 import { PopupProps } from "@/types/props/Popup";
 import { WrapperProps } from "@/types/props/Wrapper";
+import { cn } from "@/utlis/cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUnit } from "effector-react";
 import { useEffect, useState } from 'react';
-import { FieldValues, Form, FormProvider, useForm } from "react-hook-form";
+import { FieldValues, Form, FormProvider, useForm, useFormContext } from "react-hook-form";
 
 const blockCV = "w-full flex flex-col gap-4"
 
-const PopupBlock = (props: HeaderDescription & WrapperProps) => (
+const repsonsiveImages = [
+    { name: "mainImageUrl", header: "Для компьютеров", extension: "Размер 1045x436px" },
+    { name: "imageUrlDto.tabletHorizontalImageUrl", header: "Для горизонтальных планшетов", extension: "Размер 556x290px" },
+    { name: "imageUrlDto.tabletVerticalImageUrl", header: "Для вертикальных планшетов", extension: "Размер 475x277px" },
+    { name: "imageUrlDto.mobileImageUrl", header: "Для телефонов", extension: "Размер 375x200px" },
+]
+
+interface ControlledFileInputProps {
+    name: string;
+    header: string;
+    extension: string;
+}
+
+const ControlledFileInput = ({ name, header, extension }: ControlledFileInputProps) => {
+    const methods = useFormContext();
+
+    return (
+        <div className="col-span-1 flex flex-col gap-2">
+            <div className="w-full flex flex-row items-baseline justify-between">
+                <Text text={header} />
+                <Text text={extension} className="text-xs text-text-gray" />
+            </div>
+            {methods.getValues(name) ? (
+                <AdminPhotoCard
+                    canDelete={true}
+                    onDelete={() => methods.setValue(name, null)}
+                    name={name}
+                    className={"w-full"}
+                />
+            ) : (
+                <FileURLInput
+                    onChange={(value) => methods.setValue(name, value)}
+                    placeholder={"Выберите файл"}
+                    className={"w-full"}
+                />
+            )}
+        </div>
+    )
+}
+
+const PopupBlock = ({ className, ...props }: Partial<HeaderDescription> & WrapperProps) => (
     <section className={blockCV}>
         <div className={"flex flex-col gap-4"}>
             <div className={"flex flex-col"}>
-                <Text text={props.header} className={"text-[18px]"} />
-                <Text text={props.description} className={"text-text-gray"} />
+                {props.header ? <Text text={props.header} className={"text-[18px]"} /> : null}
+                {props.description ? <Text text={props.description} className={"text-text-gray"} /> : null}
             </div>
-            {props.children}
+            <div className={cn("w-full", className)}>
+                {props.children}
+            </div>
         </div>
     </section>
 )
@@ -106,24 +149,10 @@ const AddPromoPopup = (props: PopupProps) => {
                     >
                         <ControlledTextInput name={"link"} placeholder={"Вставьте ссылку на товар"} />
                     </PopupBlock>
-                    <PopupBlock
-                        header={"Фотография промо-баннера"}
-                        description={"Данная фотография будет отображаться в первом блоке на главном странице сайта"}
-                    >
-                        {methods.getValues("mainImageUrl") ? (
-                            <AdminPhotoCard
-                                canDelete
-                                onDelete={() => methods.setValue("mainImageUrl", null)}
-                                name={"imageUrl"}
-                                className={"w-full"}
-                            />
-                        ) : (
-                            <FileURLInput
-                                onChange={(value) => methods.setValue("mainImageUrl", value)}
-                                placeholder={"Выберите файл"}
-                                className={"w-full"}
-                            />
-                        )}
+                    <PopupBlock header={"Фотография промо-акции"} className="grid grid-cols-2 gap-5">
+                        {repsonsiveImages.map((item) => (
+                            <ControlledFileInput {...item} />
+                        ))}
                     </PopupBlock>
                     <Button
                         text={"Добавить"}

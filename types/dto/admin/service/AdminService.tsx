@@ -1,6 +1,6 @@
-import {CallRequestStatus} from "@/app/admin/call-requests/main.model";
-import {ServiceForm} from "@/types/dto/user/ServiceForm";
-import {SelectItem} from "@/types/props/SelectItem";
+import { CallRequestStatus } from "@/app/admin/call-requests/main.model";
+import { ServiceForm } from "@/types/dto/user/ServiceForm";
+import { SelectItem } from "@/types/props/SelectItem";
 
 export type AdminService = {
     id: number,
@@ -30,9 +30,11 @@ export enum ServiceType {
     FREE_USE_RACK_4_BOTTLES = "Cтеллаж для хранения 4-х бутылей в бесплатное пользование",
     FREE_USE_TABLE_COOLER_NO_COOLING = "Настольный кулер без охлаждения в бесплатное пользование",
     FREE_USE_TABLE_COOLER_WITH_COOLING = "Настольный кулер с охлаждением в бесплатное пользование",
+    TRY_WATER_DIO = `Попробовать бесплатно артезианскую воду "DIO"`,
+    SPECIAL_OFFER_CHILD_INSTITUTION = `Специальное предложение для детских учреждений`
 }
 
 //@ts-ignore
-export const selectableServiceTypes: SelectItem<ServiceType>[] = Object.keys(ServiceType).map(item => ({name: ServiceType[item], value: item}))
+export const selectableServiceTypes: SelectItem<ServiceType>[] = Object.keys(ServiceType).map(item => ({ name: ServiceType[item], value: item }))
 
-export const optionalServiceTypes: SelectItem<ServiceType | "ALL">[] = [{name: 'Все', value: "ALL"}, ...selectableServiceTypes]
+export const optionalServiceTypes: SelectItem<ServiceType | "ALL">[] = [{ name: 'Все', value: "ALL" }, ...selectableServiceTypes]

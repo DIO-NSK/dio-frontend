@@ -15,8 +15,6 @@ const swiperCN = cn(wrapperCV, "!w-full !flex-shrink-0")
 const SaleCard = ({ promotion, hasSwiper }: { promotion: ResponseCustomerBanner, hasSwiper?: boolean }) => {
     const image = useResponsiveImage(promotion);
 
-    console.log('image', image, promotion)
-
     return (
         <Link href={`/sales/${(promotion as any).urlMask}`} className={cn(hasSwiper ? swiperCN : wrapperCV)}>
             <img
