@@ -16,7 +16,7 @@ const SaleCard = ({ promotion, hasSwiper }: { promotion: ResponseCustomerBanner,
     const image = useResponsiveImage(promotion);
 
     return (
-        <Link href={`/sales/${(promotion as any).urlMask}`} className={cn(hasSwiper ? swiperCN : wrapperCV)}>
+        <Link href={promotion.link} className={cn(hasSwiper ? swiperCN : wrapperCV)}>
             <img
                 className={"h-full w-full object-cover rounded-xl"}
                 alt={'Изображение акции'} src={image}
