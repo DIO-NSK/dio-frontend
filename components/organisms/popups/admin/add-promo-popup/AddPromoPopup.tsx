@@ -93,6 +93,8 @@ const AddPromoPopup = (props: PopupProps) => {
 
     const { watch, reset } = methods
 
+    watch();
+
     const handleClose = () => {
         setBannerIdToEdit(null)
         props.onClose?.()
@@ -113,8 +115,6 @@ const AddPromoPopup = (props: PopupProps) => {
                 .catch(_ => setReqStatus(false))
         }
     }
-
-    console.log(watch())
 
     useEffect(() => {
         if (bannerIdToEdit) {
@@ -153,6 +153,7 @@ const AddPromoPopup = (props: PopupProps) => {
                         {repsonsiveImages.map((item) => (
                             <ControlledFileInput {...item} />
                         ))}
+                        {methods.formState.errors['imageUrlDto'] ? <Text className="text-info-red" text='Все фотографии должны быть загружены' /> : null} 
                     </PopupBlock>
                     <Button
                         text={"Добавить"}

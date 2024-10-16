@@ -149,6 +149,7 @@ const AddPromotionPopup = (props: PopupProps) => {
                         {repsonsiveImages.map((item) => (
                             <ControlledFileInput {...item} />
                         ))}
+                        {methods.formState.errors['imageUrlDto'] ? <Text className="text-info-red" text='Все фотографии должны быть загружены' /> : null} 
                     </PopupBlock>
                     <Button
                         text={promotionToEdit ? "Редактировать" : "Добавить"}

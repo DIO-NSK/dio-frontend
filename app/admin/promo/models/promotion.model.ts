@@ -17,18 +17,12 @@ export type ResponsePromotion = {
 }
 
 const createPromotion = async (promotion: RequestPromotion) => {
-    const lastSlashIndex = promotion.link.lastIndexOf('/') + 1;
-    const id = promotion.link.slice(lastSlashIndex);
-
-    return api.post("/admin/banner/promotion", {promotionId: +id, ...promotion})
+    return api.post("/admin/banner/promotion", promotion)
         .then(response => response.data)
 }
 
 const editPromotion = async (promotion: RequestPromotion) => {
-    const lastSlashIndex = promotion.link.lastIndexOf('/') + 1;
-    const id = promotion.link.slice(lastSlashIndex);
-
-    return api.patch("/admin/banner/promotion", {promoId: +id, promotionId: promotion.id, ...promotion})
+    return api.patch("/admin/banner/promotion", { id: promotion.id, ...promotion })
         .then(response => response.data)
 }
 
@@ -93,7 +87,7 @@ $editPromotionStatus
     .on(editPromotionFx.failData, () => false)
 
 const deletePromotion = async (promoId: number) => {
-    return api.delete("/admin/banner/promotion", {params: {id: promoId}})
+    return api.delete("/admin/banner/promotion", { params: { id: promoId } })
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.payload)
@@ -116,6 +110,6 @@ sample({
 sample({
     clock: changePromotionsOrderEvent,
     source: $promotions,
-    fn: (promotions) => promotions.map(item => ({id: item.id})),
+    fn: (promotions) => promotions.map(item => ({ id: item.id })),
     target: changePromotionOrderFx
 })

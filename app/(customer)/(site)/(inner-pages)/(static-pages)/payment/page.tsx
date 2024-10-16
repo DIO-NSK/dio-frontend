@@ -1,14 +1,13 @@
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import { HeaderDescription, TextLink } from "@/types/dto/text";
-import Text from "@/components/atoms/text/text-base/Text";
-import { ClassValue } from "clsx";
-import { cn } from "@/utlis/cn";
-import { paymentData } from "@/data/static/payment";
-import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
-import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
-import React from "react";
-import { Metadata } from "next";
 import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
+import Text from "@/components/atoms/text/text-base/Text";
+import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
+import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
+import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import { paymentData } from "@/data/static/payment";
+import { HeaderDescription, TextLink } from "@/types/dto/text";
+import { cn } from "@/utlis/cn";
+import { ClassValue } from "clsx";
+import { Metadata } from "next";
 
 const timeData: HeaderDescription[] = [
     { header: "Раннее утро", description: "07:00 — 09:00" },
@@ -24,25 +23,26 @@ const data = [
     {
         header: "Приём заказов",
         paragraphs: [
-            "Прием заказов через контакт центр: с понедельника по пятницу с 07-00 до 22-00.\n" +
-            "В выходные и праздничные дни заказы принимаются с 8-00 до 21-00.",
-            "Оставить заказ через интернет-магазин вы можете круглосуточно. Если вы осуществили заказ" +
-            "на сайте во вне рабочее время контакт-центра, то он будет обработан только на следующий день."
+            "Прием заказов через контакт-центр:",
+            "С понедельника по пятницу - с 07:00 до 22:00.",
+            "В выходные и праздничные дни - с 8:00 до 21:00.",
+            "Оставить заказ через интернет-магазин можно круглосуточно.",
+            "Если вы осуществили заказ на сайте во внерабочее время контакт-центра, заказ будет обработан только на следующий день.",
         ]
     },
     {
         header: "Вся доставка осуществяется бесплатно",
         paragraphs: [
-            "Доставка осуществляется на следующий день после принятия заказа, либо в соответствии\n" +
-            "с графиком, если доставка заказа будет осуществляться по Новосибирской области.\n" +
+            "Доставка осуществляется на следующий день после принятия заказа.",
+            "Если доставка осуществляется по Новосибирской области, то время определяется в соответствии с графиком.",
             "В некоторых случаях возможна доставка в день заказа."
         ]
     },
     {
-        header: "Минимальная сумма заказа — 800 ₽",
+        header: "Минимальная сумма заказа — 800 рублей",
         paragraphs: [
-            "Минимальный заказ воды в 19-ти литровой таре 2 бутыли.\n" +
-            "Минимальный заказ любых товаров без воды в 19-ти литровой таре от 800 ₽."
+            "Минимальный заказ воды в 19-литровой таре 2 бутыли.\n" +
+            "Минимальный заказ любых товаров без воды в 19-литровой таре от 800 рублей."
         ]
     }
 ]

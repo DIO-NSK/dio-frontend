@@ -31,7 +31,7 @@ const ThirdBlock = () => {
             <Text
                 className={"px-5 sm:px-0 w-full text-[16px] sm:col-start-8 sm:col-span-5 xl:text-[18px] text-black"}
                 text={"Для удобства пользования 19-литровыми бутылями предлагается" +
-                    "специальное оборудование: кулеры и помпы различных моделей"}
+                    " специальное оборудование: кулеры и помпы различных моделей"}
             />
             <div className={"hidden col-span-full sm:grid grid-cols-12 md:gap-5 lg:gap-10"}>
                 {waters.slice(0,12).map((waterCard, key) => {

@@ -1,8 +1,8 @@
-import {api} from "@/api";
-import {createEffect, createEvent, createStore, sample} from "effector";
-import {DragEndEvent} from "@dnd-kit/core";
-import {handleDragEnd} from "@/utlis/handlers/handleDragEnd";
+import { api } from "@/api";
 import { ResponseCustomerBanner } from "@/app/(customer)/(site)/page.hooks";
+import { handleDragEnd } from "@/utlis/handlers/handleDragEnd";
+import { DragEndEvent } from "@dnd-kit/core";
+import { createEffect, createEvent, createStore, sample } from "effector";
 
 export type RequestBanner = {
     link: string,
@@ -13,7 +13,7 @@ export type RequestBanner = {
 export type ResponseBanner = {
     id: number,
     image: string,
-    link : string,
+    link: string,
 }
 
 const createBanner = async (banner: RequestBanner) => {
@@ -57,7 +57,7 @@ $bannerIdToEdit
 $banners.on(getAllBannersFx.doneData, (_, banners) => banners)
 
 const deleteBanner = async (bannerId: number) => {
-    return api.delete("/admin/banner", {params: {id: bannerId}})
+    return api.delete("/admin/banner", { params: { id: bannerId } })
         .then(response => response.data)
         .catch(error => {
             throw Error(error.response.data.payload)
@@ -72,7 +72,7 @@ $banners.on(changeBannersOrderEvent, (banners, event) => handleDragEnd(event, ba
 sample({
     clock: changeBannersOrderEvent,
     source: $banners,
-    fn: (banners, _) => banners.map(item => ({id: item.id})),
+    fn: (banners, _) => banners.map(item => ({ id: item.id })),
     target: changeBannerOrderFx
 })
 

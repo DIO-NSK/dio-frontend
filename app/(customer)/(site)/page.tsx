@@ -50,7 +50,7 @@ const mainServiceCards: (TextLink & { icon: ReactNode })[] = [
         icon: <MicroscopeIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
     },
     {
-        text: "Установка пурифаеров",
+        text: "Установка пурифайеров",
         link: "mount",
         icon: <PencilRulerIcon className={"stroke-link-blue"} size={ICON_SIZE}/>
     },

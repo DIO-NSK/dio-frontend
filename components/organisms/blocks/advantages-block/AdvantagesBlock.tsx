@@ -20,7 +20,7 @@ const advantagesCardData: { icon: React.ReactNode, header: string }[] = [
         header: "Многолетний опыт работы"
     }, {
         icon: <DropletsIcon size={ICON_SIZE}/>,
-        header: "Улучшение технологий"
+        header: "Постоянное улучшение технологий"
     }, {
         icon: <TruckIcon size={ICON_SIZE}/>,
         header: "Доставка без выходных дней"
