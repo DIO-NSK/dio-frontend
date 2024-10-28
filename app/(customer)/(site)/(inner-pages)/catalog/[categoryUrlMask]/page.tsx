@@ -1,10 +1,10 @@
 import ClientCatalogScreen from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryUrlMask]/ui/ClientCatalogScreen";
+import Loading from "@/app/(customer)/(site)/(inner-pages)/catalog/categories/[sectionUrlMask]/loading";
 import { getCatalog } from "@/app/(customer)/(site)/(inner-pages)/catalog/categories/[sectionUrlMask]/page.hooks";
 import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import {Suspense} from "react";
-import Loading from "@/app/(customer)/(site)/(inner-pages)/catalog/categories/[sectionUrlMask]/loading";
+import { Suspense } from "react";
 
 export const generateStaticParams = async () => {
     const catalog = await getCatalog();
@@ -14,7 +14,11 @@ export const generateStaticParams = async () => {
 }
 
 export const generateMetadata = async ({ params: { categoryUrlMask } }: { params: { categoryUrlMask: string } }): Promise<Metadata> => {
-    const { title, description, keywords } = await getSeoByUrlMask(categoryUrlMask).catch(notFound);
+    const metadata = await getSeoByUrlMask(categoryUrlMask).catch(notFound);
+
+    console.log('metadata', categoryUrlMask, metadata);
+
+    const { title, description, keywords } = metadata;
 
     return {
         title: title,
