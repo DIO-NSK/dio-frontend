@@ -27,7 +27,7 @@ const blockCV = "w-full flex flex-col gap-4"
 const repsonsiveImages = [
     { name: "mainImageUrl", header: "Для компьютеров", extension: "Размер 1045x436px" },
     { name: "imageUrlDto.tabletHorizontalImageUrl", header: "Для горизонтальных планшетов", extension: "Размер 556x290px" },
-    { name: "imageUrlDto.tabletVerticalImageUrl", header: "Для вертикальных планшетов", extension: "Размер 475x277px" },
+    { name: "imageUrlDto.tabletVerticalImageUrl", header: "Для вертикальных планшетов", extension: "Размер 476x310px" },
     { name: "imageUrlDto.mobileImageUrl", header: "Для телефонов", extension: "Размер 375x200px" },
 ]
 

@@ -1,9 +1,9 @@
-import React from 'react';
-import {cn} from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
-import {FiArrowLeft} from "react-icons/fi";
-import {useRouter} from "next/navigation";
-import {ClassValue} from "clsx";
+import { cn } from "@/utlis/cn";
+import { ClassValue } from "clsx";
+import { useRouter } from "next/navigation";
+import React from 'react';
+import { FiArrowLeft } from "react-icons/fi";
 
 export type HeaderRowProps = {
     header: string,
@@ -23,7 +23,7 @@ const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRow
 
     const wrapperCV: ClassValue[] = [
         "w-full sm:col-span-full flex flex-row items-center justify-between",
-        {"md:px-7 pb-7 border-b-2 border-light-gray": theme == "bordered"},
+        {"md:px-0 pb-7 border-b-2 border-light-gray": theme == "bordered"},
         props.className,
     ]
 

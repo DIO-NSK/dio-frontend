@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react';
-import {breakpoints, BreakpointsKey, BreakpointsValue} from "@/constants";
+import { breakpoints, BreakpointsKey, BreakpointsValue } from "@/constants";
+import { useEffect, useState } from 'react';
 import { useBreakpoint as useNextBreakpoint } from "use-breakpoint";
 
 interface Size {
@@ -28,37 +28,37 @@ const findBreakpoint = (width: number): BreakpointsValue => {
     return 'init';
 }
 
-const useOldBreakpoint = () => {
-    const initBreakpoint = findBreakpoint(window.innerWidth);
+export const useOldBreakpoint = () => {
+    const initBreakpoint = findBreakpoint(window?.innerWidth ?? 0);
     const [breakpoint, setBreakPoint] = useState<BreakpointsValue>(initBreakpoint);
     const [windowSize, setWindowSize] = useState<Size>({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: window?.innerWidth,
+        height: window?.innerHeight,
     });
 
     const handleResize = () => {
         setWindowSize({
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width: window?.innerWidth,
+            height: window?.innerHeight,
         });
     };
 
     useEffect(() => {
-        window.addEventListener('resize', handleResize);
+        window?.addEventListener('resize', handleResize);
         handleResize();
 
         if (windowSize?.width) {
             setBreakPoint(findBreakpoint(windowSize.width))
         }
 
-        return () => window.removeEventListener('resize', handleResize);
-    }, [windowSize.width]);
+        return () => window?.removeEventListener('resize', handleResize);
+    }, [windowSize?.width]);
 
     return breakpoint;
 };
 
 const useBreakpoint = () => {
-    const {breakpoint} = useNextBreakpoint(BREAKPOINTS, 'xl');
+    const { breakpoint } = useNextBreakpoint(BREAKPOINTS, 'xl');
 
     return breakpoint;
 }

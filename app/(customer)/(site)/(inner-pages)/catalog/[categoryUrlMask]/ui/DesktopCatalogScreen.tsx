@@ -23,7 +23,7 @@ import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPage
 import PageContentWrapper from "@/components/wrappers/page-content-wrapper/PageContentWrapper";
 import { selectableFilters } from "@/data/sortFilters";
 import { SelectItem } from "@/types/props/SelectItem";
-import useBreakpoint from "@/utlis/hooks/useBreakpoint";
+import useBreakpoint, { useOldBreakpoint } from "@/utlis/hooks/useBreakpoint";
 import { useFilters } from "@/utlis/hooks/useFilters";
 import { useToggle } from "@/utlis/hooks/useToggle";
 import { useUnit } from "effector-react";
@@ -66,7 +66,7 @@ const CatalogSidebar = ({ categoryId }: { categoryId: number }) => {
 
 const DesktopCatalogScreen = ({ categoryId, onOpenPopup }: { categoryId: number, onOpenPopup: () => void }) => {
 
-    const breakpoint = useBreakpoint();
+    const breakpoint = useOldBreakpoint();
 
     const pathname = usePathname()
     const router = useRouter()
@@ -101,7 +101,7 @@ const DesktopCatalogScreen = ({ categoryId, onOpenPopup }: { categoryId: number,
 
     if (breadcrumbs.length) return (
         <React.Fragment>
-            <section className={"w-full gap-3 md:gap-2 xl:gap-0 px-5 md:px-[24px] lg:px-[90px] xl:px-[100px] sm:col-span-full flex flex-col"}>
+            <section className={"w-full gap-3 md:gap-2 xl:gap-0 px-5 md:px-[24px] lg:px-0 xl:px-0 sm:col-span-full flex flex-col"}>
                 {breakpoint === 'init' || breakpoint === 'sm' ? <CatalogBreadcrumbs breadcrumbs={breadcrumbs} /> : null}
                 <div className={"w-full flex flex-col items-baseline md:flex-row md:gap-3"}>
                     <Text text={categoryName} className={"text-lg sm:text-2xl font-medium"} />
@@ -109,9 +109,9 @@ const DesktopCatalogScreen = ({ categoryId, onOpenPopup }: { categoryId: number,
                 </div>
                 {breakpoint !== 'init' && breakpoint !== 'sm' ? <CatalogBreadcrumbs breadcrumbs={breadcrumbs} /> : null}
             </section>
-            <InnerPageWrapper>
+            <InnerPageWrapper classNames={{ mobileWrapper: 'md:col-span-full' }}>
                 <CatalogSidebar categoryId={categoryId} />
-                <section className={"md:col-span-12 xl:col-span-9 flex flex-col md:gap-5 xl:gap-7"}>
+                <section className={"md:w-full lg:col-span-9 flex flex-col md:gap-5 xl:gap-7"}>
                     <Button
                         classNames={{ button: "md:hidden bg-bg-light-blue border-2 border-light-gray" }}
                         text={"Фильтры"}
@@ -124,7 +124,7 @@ const DesktopCatalogScreen = ({ categoryId, onOpenPopup }: { categoryId: number,
                         <section className={'w-full mt-2 md:mt-0 md:col-span-full md:grid md:grid-cols-9 md:gap-5 xl:gap-7'}>
                             {breakpoint === 'md' || breakpoint === 'lg' ? <TabletFilters categoryId={categoryId} /> : null}
                             <SelectInput
-                                width={'w-full md:col-span-3'}
+                                width={'w-full md:col-span-4 lg:col-span-3'}
                                 placeholder={'Сортировать по цене'}
                                 items={selectableFilters}
                                 selectedItem={selectedSort}

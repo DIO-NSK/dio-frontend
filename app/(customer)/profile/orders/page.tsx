@@ -97,7 +97,7 @@ const UserProfileOrdersPage = () => {
                 leftContent={`${orders.length} шт.`}
                 className={'mt-5 md:mt-0'}
                 rightContent={
-                    <React.Fragment>
+                    <div className='flex flex-row items-center gap-5'>
                         <SelectInput
                             width={"md:w-[250px]"}
                             items={dropdownItems}
@@ -108,10 +108,10 @@ const UserProfileOrdersPage = () => {
                         />
                         <FiX
                             size={"20px"}
-                            className={"w-fit md:hidden"}
+                            className={"w-fit lg:hidden"}
                             onClick={() => navigation.push('/')}
                         />
-                    </React.Fragment>
+                    </div>
                 }
             />
             <SelectInput

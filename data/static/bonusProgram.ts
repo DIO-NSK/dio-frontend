@@ -1,9 +1,9 @@
 
-import {InformationBlock} from "@/types/dto/text";
+import { InformationBlock } from "@/types/dto/text";
 
-export const bonusProgram : InformationBlock[] = [
+export const bonusProgram: InformationBlock[] = [
     {
-        blockHeader : "Общая информация",
+        blockHeader: "Общая информация",
         blockContent: [
             {
                 itemHeader: "Условия бонусной программы",
@@ -31,7 +31,7 @@ export const bonusProgram : InformationBlock[] = [
             },
         ]
     }, {
-        blockHeader : "Информационные услуги для участников Бонусной программы DIO",
+        blockHeader: "Информационные услуги для участников Бонусной программы DIO",
         blockContent: [
             {
                 itemContent: [
@@ -57,7 +57,7 @@ export const bonusProgram : InformationBlock[] = [
             },
         ]
     }, {
-        blockHeader : "Правила начисления бонусных баллов и их использования",
+        blockHeader: "Правила начисления бонусных баллов и их использования",
         blockContent: [
             {
                 itemContent: [
@@ -68,7 +68,7 @@ export const bonusProgram : InformationBlock[] = [
             },
         ]
     }, {
-        blockHeader : "Иные условия",
+        blockHeader: "Иные условия",
         blockContent: [
             {
                 itemContent: [

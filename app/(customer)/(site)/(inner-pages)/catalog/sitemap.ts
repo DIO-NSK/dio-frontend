@@ -1,11 +1,11 @@
-import {getCatalog} from "./categories/[sectionUrlMask]/page.hooks";
-import {MetadataRoute} from "next";
+import { MetadataRoute } from "next";
+import { getCatalog } from "./categories/[sectionUrlMask]/page.hooks";
 
 const getAllCategories = async () => {
     const catalog = await getCatalog();
 
     return catalog.map(section => section.categories
-        .map(category => ({urlMask: category.urlMask}))).flat();
+        .map(category => ({ urlMask: category.urlMask }))).flat();
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

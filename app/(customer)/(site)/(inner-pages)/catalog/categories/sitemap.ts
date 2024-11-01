@@ -1,9 +1,9 @@
-import {getCatalog} from "./[sectionUrlMask]/page.hooks";
-import {MetadataRoute} from "next";
+import { MetadataRoute } from "next";
+import { getCatalog } from "./[sectionUrlMask]/page.hooks";
 
 const getAllCategories = async () => {
     const sections = await getCatalog();
-    const categories = sections.map((section) => ({urlMask : section.urlMask}));
+    const categories = sections.map((section) => ({ urlMask: section.urlMask }));
 
     return categories.flat();
 }

@@ -1,5 +1,5 @@
-import {MetadataRoute} from "next";
-import {getSales} from "./page.hooks";
+import { MetadataRoute } from "next";
+import { getSales } from "./page.hooks";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const sales = await getSales();

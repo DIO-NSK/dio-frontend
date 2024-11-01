@@ -3,9 +3,9 @@
 import DesktopCatalogScreen from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryUrlMask]/ui/DesktopCatalogScreen";
 import Button from "@/components/atoms/buttons/button/Button";
 import CatalogFilters from "@/components/organisms/catalog-filters/CatalogFilters";
-import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 import { useToggle } from "@/utlis/hooks/useToggle";
 import { TabletFiltersPopup } from "../ui/TabletFiltersPopup";
+import { useOldBreakpoint } from "@/utlis/hooks/useBreakpoint";
 
 interface FilterProps {
     categoryId: number;
@@ -13,7 +13,7 @@ interface FilterProps {
 }
 
 const Filters = ({ categoryId, onClose }: FilterProps) => {
-    const breakpoint = useBreakpoint();
+    const breakpoint = useOldBreakpoint();
     const { state: isPopupOpen, toggleState: toggleOpen } = useToggle(false);
 
     if (breakpoint === 'xl') {

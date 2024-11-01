@@ -9,7 +9,7 @@ import React, {useEffect, useState} from "react";
 import {useScrollDirection} from "react-use-scroll-direction";
 
 const wrapperStyles = (scrolledUp: boolean): ClassValue[] => [
-    "z-20 lg:hidden w-full flex flex-row items-center px-5 bg-white",
+    "z-20 lg:hidden w-full flex flex-row items-center px-5 md:px-6 bg-white",
     "justify-between py-5 border-b-2 border-light-gray top-0",
     {'w-screen fixed': scrolledUp}
 ]

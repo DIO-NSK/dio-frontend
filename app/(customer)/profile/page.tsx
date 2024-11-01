@@ -91,7 +91,7 @@ const UserProfilePage = () => {
                 rightContent={
                     <FiX
                         size={"20px"}
-                        className={"md:hidden flex"}
+                        className={"lg:hidden flex"}
                         onClick={() => navigation.push('/')}
                     />
                 }

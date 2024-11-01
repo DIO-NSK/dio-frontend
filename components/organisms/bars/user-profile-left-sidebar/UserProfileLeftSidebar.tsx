@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
 import SideTabBar from "@/components/moleculas/bars/side-tab-bar/SideTabBar";
-import {usePathname, useRouter} from "next/navigation";
-import {FiFile, FiSettings, FiUser} from "react-icons/fi";
-import {TabBarItem} from "@/types/props/SideTabBar";
+import { TabBarItem } from "@/types/props/SideTabBar";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from 'react';
+import { FiFile, FiSettings, FiUser } from "react-icons/fi";
 
 const UserProfileLeftSidebar = () => {
 
@@ -10,9 +10,9 @@ const UserProfileLeftSidebar = () => {
     const router = useRouter()
 
     const sidebarTabs: TabBarItem[] = [
-        {text: "Мой профиль", path: "/profile", icon : <FiUser size={"18px"} />},
-        {text: "Мои заказы", path: "/profile/orders", icon : <FiFile size={"18px"} />},
-        {text: "Настройки аккаунта", path: "/profile/settings", icon : <FiSettings size={"18px"} />}
+        { text: "Мой профиль", path: "/profile", icon: <FiUser size={"18px"} /> },
+        { text: "Мои заказы", path: "/profile/orders", icon: <FiFile size={"18px"} /> },
+        { text: "Настройки аккаунта", path: "/profile/settings", icon: <FiSettings size={"18px"} /> }
     ]
 
     const [
@@ -20,7 +20,7 @@ const UserProfileLeftSidebar = () => {
         setActiveTab
     ] = useState<TabBarItem>(sidebarTabs[0])
 
-    const handleTabCLick = (item : TabBarItem) => {
+    const handleTabCLick = (item: TabBarItem) => {
         setActiveTab(item)
         router.push(item.path!!)
     }
@@ -39,7 +39,7 @@ const UserProfileLeftSidebar = () => {
             tabs={sidebarTabs}
             activeTab={activeTab}
             setActive={handleTabCLick}
-            className={"hidden sm:flex w-full sticky top-[110px]"}
+            className={"hidden md:hidden lg:flex w-full sticky top-[110px]"}
         />
     );
 

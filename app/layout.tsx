@@ -1,10 +1,10 @@
-import type { Metadata, Viewport } from 'next'
-import { Rubik } from 'next/font/google'
-import './globals.css'
+import type { Viewport } from 'next';
+import { Rubik } from 'next/font/google';
 import React from "react";
+import './globals.css';
 
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 const rubik = Rubik({ subsets: ['latin'] })
 
@@ -19,7 +19,7 @@ export default function RootLayout({ children }: {
     children: React.ReactNode
 }) {
     return (
-        <html lang="ru">
+        <html lang="ru" suppressHydrationWarning>
             <body className={rubik.className}>
                 {children}
             </body>

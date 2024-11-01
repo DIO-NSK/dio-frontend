@@ -19,6 +19,7 @@ import { cn } from "@/utlis/cn";
 import { HandshakeIcon, MicroscopeIcon, PencilRulerIcon, PercentIcon, StethoscopeIcon, WrenchIcon } from "lucide-react";
 
 import { getSeoById } from "@/app/admin/seo/page.api";
+import { ResponsiveContainer } from "@/components/wrappers/responsive-container/ResponsiveContainer";
 import { Metadata } from "next";
 import { ReactNode } from "react";
 import {
@@ -97,7 +98,7 @@ const MainPageScreen = async () => {
     console.log('promotions', promotions);
 
     return (
-        <>
+        <ResponsiveContainer>
             <PageWrapper>
                 <MobilePhotoSlider photos={banners}/>
                 <HeroSliderRow dayProducts={dayProducts} banners={banners}/>
@@ -179,7 +180,7 @@ const MainPageScreen = async () => {
                 <AdvantagesBlock/>
                 <WaterCoolerBlock/>
             </PageWrapper>
-        </>
+        </ResponsiveContainer>
     )
 }
 

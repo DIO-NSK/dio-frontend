@@ -1,40 +1,36 @@
 "use client"
 
-import {ClassValue} from "clsx";
-import {cn} from "@/utlis/cn";
-import React from "react";
-import {MobileFooter} from "./MobileFooter/MobileFooter";
-import {LaptopFooter} from "./LaptopFooter/LaptopFooter";
+import { ResponsiveContainer } from "@/components/wrappers/responsive-container/ResponsiveContainer";
 import useBreakpoint from "@/utlis/hooks/useBreakpoint";
-import {VerticalTabletFooter} from "./VerticalTabletFooter/VerticalTabletFooter";
-import {HorizontalTabletFooter} from "./HorizontalTabletFooter/HorizontalTabletFooter";
-
-const wrapperCV: ClassValue[] = [
-    "w-full bg-bg-light-blue",
-    "py-7 px-5 lg:px-[90px] lg:py-8 xl:px-[100px] xl:py-[50px]"
-]
+import { HorizontalTabletFooter } from "./HorizontalTabletFooter/HorizontalTabletFooter";
+import { LaptopFooter } from "./LaptopFooter/LaptopFooter";
+import { MobileFooter } from "./MobileFooter/MobileFooter";
+import { VerticalTabletFooter } from "./VerticalTabletFooter/VerticalTabletFooter";
 
 const ResponsiveFooter = () => {
     const breakpoint = useBreakpoint();
 
-    switch (breakpoint) {
-        case 'init':
-        case "sm":
-            return <MobileFooter/>;
-        case 'md':
-            return <VerticalTabletFooter/>;
-        case "lg":
-            return <HorizontalTabletFooter/>;
-        case "xl":
-        case "inf":
-            return <LaptopFooter/>;
+    if (breakpoint === 'init' || breakpoint === 'sm') {
+        return <MobileFooter />;
     }
+
+    if (breakpoint === 'md') {
+        return <VerticalTabletFooter />;
+    }
+
+    if (breakpoint === 'lg') {
+        return <HorizontalTabletFooter />;
+    }
+
+    return <LaptopFooter />;
 }
 
 const Footer = () => (
-    <footer className={cn(wrapperCV)}>
-        <ResponsiveFooter/>
-    </footer>
+    <ResponsiveContainer className="bg-bg-light-blue">
+        <footer className={"w-full py-7 px-5 lg:px-0 lg:py-8 xl:px-0 xl:py-[50px]"}>
+            <ResponsiveFooter />
+        </footer>
+    </ResponsiveContainer>
 )
 
 export default Footer

@@ -47,7 +47,7 @@ const ShoppingCartPage = () => {
 
     if (cart) return (
         <InnerPageWrapper classNames={{mobileWrapper: "pt-0"}}>
-            <HeaderRow className={"md:flex hidden"} header={"Корзина"} leftContent={`Всего ${cart.products.length}`}/>
+            <HeaderRow className={"md:flex hidden xl:p-0"} header={"Корзина"} leftContent={`Всего ${cart.products.length}`}/>
             {
                 (cart.products.length || cart.promos.length) ? (<CartContentBlock/>) :
                     (<EmptyPage

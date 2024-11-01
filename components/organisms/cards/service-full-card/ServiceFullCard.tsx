@@ -6,7 +6,7 @@ import ServiceBlockWrapper from "@/components/wrappers/service-block-wrapper/Ser
 import ServiceCardWrapper from "@/components/wrappers/service-card-wrapper/ServiceCardWrapper";
 import { ServiceCardDTO } from "@/types/cards";
 import { cn } from "@/utlis/cn";
-import useBreakpoint from "@/utlis/hooks/useBreakpoint";
+import useBreakpoint, { useOldBreakpoint } from "@/utlis/hooks/useBreakpoint";
 import { useUnit } from "effector-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -54,7 +54,7 @@ const PriceCard = ({ price, text, onClick }: {
     onClick: () => void
 }) => {
     return (
-        <div className={"sm:col-span-3 flex flex-row items-center justify-between sm:flex-col sm:gap-3 h-fit"}>
+        <div className={"xl:col-span-3 xl:flex-col xl:gap-3 h-fit flex flex-row items-center justify-between"}>
             <PriceRow price={price} />
             <Button
                 classNames={{ button: "px-7 sm:px-[50px]" }}
@@ -120,7 +120,6 @@ const ServiceFullCard = ({ card }: {
     card: ServiceCardDTO
 }) => {
 
-    const breakpoint = useBreakpoint();
     const router = useRouter()
     const [togglePopupState, selectServiceName] = useUnit([toggleServicePopupEvent, selectServiceNameEvent])
     const [isExpanded, setExpanded] = useState<boolean>(false)
@@ -145,11 +144,11 @@ const ServiceFullCard = ({ card }: {
                     setExpanded={setExpanded}
                 />
             </section>
-            {breakpoint === 'xl' ? <PriceCard
+            <PriceCard
                 onClick={handleOrderService}
                 text={"Заказать услугу"}
                 price={card.price}
-            /> : null}
+            />
         </ServiceCardWrapper>
     )
 }

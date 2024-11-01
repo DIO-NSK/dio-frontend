@@ -1,18 +1,17 @@
 'use client'
 
-import React from "react";
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
-import { FiCheck } from "react-icons/fi";
-import { useRouter } from "next/navigation";
-import { ClassValue } from "clsx";
-import { cn } from "@/utlis/cn";
 import Text from "@/components/atoms/text/text-base/Text";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import { ResponseProductSearch } from "@/types/dto/user/product/ResponseProductSearch";
-import { useLike } from "@/utlis/hooks/product/useLike";
+import { cn } from "@/utlis/cn";
 import { useBuyButton } from "@/utlis/hooks/product/useBuyButton";
 import { useDiscount } from "@/utlis/hooks/product/useDiscount";
+import { useLike } from "@/utlis/hooks/product/useLike";
+import { ClassValue } from "clsx";
+import { useRouter } from "next/navigation";
+import { FiCheck } from "react-icons/fi";
 
 type ProductCardClassNames = {
     mainWrapper?: string,
@@ -52,7 +51,7 @@ const ProductCard = ({ productCard, classNames }: ProductCardProps) => {
             />
             <div className={"w-full flex flex-col sm:gap-4 xl:gap-5"}>
                 <div className={cn("w-full flex flex-col gap-1", classNames?.textWrapper)}>
-                    <span className={"w-full hidden sm:flex flex-row items-baseline gap-3"}>
+                    <span className={"w-full hidden md:flex flex-row items-baseline gap-3"}>
                         <Text
                             className={"xl:text-[22px] lg:text-[20px] font-semibold text-link-blue"}
                             text={newPrice.toFixed(2) + " ₽"}
@@ -110,7 +109,7 @@ const ProductCard = ({ productCard, classNames }: ProductCardProps) => {
                     productCard?.isNew && (
                         <span className={"px-3 py-2 rounded-lg bg-blue-500"}>
                             <Text
-                                className={"uppercase sm:text-[12px] text-[10px] font-medium text-white"}
+                                className={"uppercase text-[10px] font-medium text-white"}
                                 text={'Новинка'}
                             />
                         </span>
@@ -118,18 +117,18 @@ const ProductCard = ({ productCard, classNames }: ProductCardProps) => {
                 }
                 {
                     productCard.discountPercent !== 0 &&
-                    <span className={"px-3 py-2 rounded-lg bg-green-500"}>
+                    <span className={"px-3 py-2 rounded-lg bg-green-500 h-fit"}>
                         <Text
-                            className={"uppercase sm:text-[12px] text-[10px] font-medium text-white"}
+                            className={"uppercase whitespace-nowrap text-[10px] font-medium text-white"}
                             text={`Скидка ${productCard.discountPercent} %`}
                         />
                     </span>
                 }
                 {
                     !productCard.inStock &&
-                    <span className={"px-3 py-2 rounded-lg bg-gray-100"}>
+                    <span className={"px-3 py-2 rounded-lg bg-gray-100 h-fit"}>
                         <Text
-                            className={"uppercase sm:text-[12px] text-[10px] font-medium text-text-gray"}
+                            className={"uppercase whitespace-nowrap text-[10px] font-medium text-text-gray"}
                             text={"Нет в наличии"}
                         />
                     </span>

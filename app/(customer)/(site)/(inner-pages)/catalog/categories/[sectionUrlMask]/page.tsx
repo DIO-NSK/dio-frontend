@@ -37,7 +37,7 @@ const CategoriesPage = async ({ params: { sectionUrlMask } }: { params: { sectio
 
     return (
         <>
-            <section className={"w-full gap-3 sm:gap-0 px-5 md:px-[24px] lg:px-[90px] xl:px-[100px] sm:col-span-full flex flex-col"}>
+            <section className={"w-full gap-3 sm:gap-0 px-5 md:px-[24px] lg:px-0 xl:px-0 sm:col-span-full flex flex-col"}>
                 <div className={"w-full sm:hidden"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs} />
                 </div>
@@ -49,7 +49,7 @@ const CategoriesPage = async ({ params: { sectionUrlMask } }: { params: { sectio
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs} />
                 </div>
             </section>
-            <ResponsivePageWrapper className={'gap-3 py-5 md:py-0'}>
+            <ResponsivePageWrapper className={'gap-3 py-5 md:py-0 xl:px-0'}>
                 {categories.map((category, key) => (
                     <CatalogCategoryCard card={category} key={key} />
                 ))}

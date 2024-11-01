@@ -1,6 +1,6 @@
-import {InformationBlock} from "@/types/dto/text";
+import { InformationBlock } from "@/types/dto/text";
 
-export const installmentPlan : InformationBlock[] = [
+export const installmentPlan: InformationBlock[] = [
     {
         blockContent: [
             {

@@ -51,7 +51,7 @@ const SalePage = async ({params: {saleUrlMask}}: { params: { saleUrlMask: string
 
     return (
         <div className={"w-full md:col-span-full flex flex-col gap-5 xl:gap-7"}>
-            <div className={"px-5 md:px-6 lg:px-[90px] xl:px-[100px] w-full sm:col-span-full sm:grid sm:grid-cols-12 sm:gap-5 xl:gap-y-7"}>
+            <div className={"px-5 md:px-6 lg:px-0 xl:px-0 w-full sm:col-span-full sm:grid sm:grid-cols-12 sm:gap-5 xl:gap-y-7"}>
                 <section className={"sm:col-span-full flex flex-col gap-2"}>
                     <CatalogBreadcrumbs breadcrumbs={breadcrumbs}/>
                     <Text text={sale.name} className={"sm:text-2xl text-xl font-medium"}/>
@@ -73,7 +73,7 @@ const SalePage = async ({params: {saleUrlMask}}: { params: { saleUrlMask: string
                 </div>
                 <SalePriceCard sale={sale} saleId={saleId as number}/>
             </div>
-            <div className={"w-full md:px-6 lg:px-[90px] xl:px-[100px] py-7 border-y-2 border-light-gray"}>
+            <div className={"w-full md:px-6 lg:px-0 xl:px-0 py-7 border-y-2 border-light-gray"}>
                 <SliderGroup headerSize={'sm'} header={"Товары, участвующие в акции"}>
                     {sale.products?.map((product, index) => (
                         <ProductCard classNames={productCardCV} productCard={product} key={index}/>

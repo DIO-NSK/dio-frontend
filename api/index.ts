@@ -1,5 +1,5 @@
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export const BASE_URL: string = "https://diowater.ru/api"
 
@@ -32,7 +32,7 @@ api.interceptors.response.use(config => config, async (error) => {
         originalRequest._retry = true
         const response = await axios.put(
             `${BASE_URL}/user/refresh`,
-            null, {withCredentials: true})
+            null, { withCredentials: true })
         localStorage.setItem("ACCESS_TOKEN", response.data.accessToken)
         return api(originalRequest)
     } else return Promise.reject(error.response.data.message)
