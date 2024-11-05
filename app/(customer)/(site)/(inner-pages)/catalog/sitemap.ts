@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const categories = await getAllCategories();
 
     return categories.map((category) => ({
-        url: `https://diowater.ru/catalog/${category.urlMask}`,
+        url: `https://dioshop.ru/catalog/${category.urlMask}`,
         lastModified: Date.now().toString(),
     }))
 }

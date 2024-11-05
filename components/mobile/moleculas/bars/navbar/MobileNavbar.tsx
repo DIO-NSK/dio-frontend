@@ -1,49 +1,57 @@
 "use client"
 
-import {FiMenu, FiSearch, FiX} from "react-icons/fi";
+import { $userCredentials, getUserCredentialsEvent } from "@/app/(customer)/model";
 import DIOLogoSmall from "@/components/atoms/svg/dio-logo-small/DIOLogoSmall";
-import {usePathname, useRouter} from "next/navigation";
-import {ClassValue} from "clsx";
-import {cn} from "@/utlis/cn";
-import React, {useEffect, useState} from "react";
-import {useScrollDirection} from "react-use-scroll-direction";
+import Text from "@/components/atoms/text/text-base/Text";
+import { cn } from "@/utlis/cn";
+import { useUnit } from "effector-react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { FiMenu, FiX } from "react-icons/fi";
 
-const wrapperStyles = (scrolledUp: boolean): ClassValue[] => [
-    "z-20 lg:hidden w-full flex flex-row items-center px-5 md:px-6 bg-white",
-    "justify-between py-5 border-b-2 border-light-gray top-0",
-    {'w-screen fixed': scrolledUp}
+const wrapperStyles = [
+    "lg:hidden w-full flex flex-row items-center px-5 md:px-6 bg-white",
+    "justify-between py-5"
 ]
 
-const MobileNavbar = ({className, scrolledUp}: { className?: string, scrolledUp : boolean}) => {
-
+const MobileNavbar = ({ className }: { className?: string }) => {
     const pathname = usePathname()
     const router = useRouter()
+
+    const [userCredentials, getUserCredentials] = useUnit([$userCredentials, getUserCredentialsEvent])
+    const rightText = userCredentials?.fullName.split(" ")[1] ?? "Войти";
+
+    const handleLogin = () => {
+        if (!userCredentials) {
+            router.push("/mobile/authorization")
+        }
+    }
+
+    const handleLogoClick = () => router.push('/');
 
     const handleMenuClick = () => {
         if (pathname.includes("/mobile/menu")) router.back()
         else router.push("/mobile/menu")
     }
 
-    const handleCatalogClick = () => router.push("/mobile/menu/catalog")
-    const handleLogoClick = () => router.push("/")
+    useEffect(() => {
+        getUserCredentials();
+    })
 
     return (
         <React.Fragment>
-            <nav className={cn(wrapperStyles(scrolledUp), className)}>
+            <nav className={cn(wrapperStyles, className)}>
                 <div onClick={handleMenuClick}>
                     {
                         !pathname.includes("/mobile/menu")
-                            ? <FiMenu size={"18px"}/>
-                            : <FiX size={"18px"}/>
+                            ? <FiMenu size={"18px"} />
+                            : <FiX size={"18px"} />
                     }
                 </div>
                 <div onClick={handleLogoClick}>
-                    <DIOLogoSmall/>
+                    <DIOLogoSmall />
                 </div>
-                <FiSearch
-                    onClick={handleCatalogClick}
-                    size={"18px"}
-                />
+                <Text onClick={handleLogin} text={rightText} className={cn(userCredentials ? 'text-text-black' : 'text-link-blue', 'text-sm')} />
             </nav>
         </React.Fragment>
     );

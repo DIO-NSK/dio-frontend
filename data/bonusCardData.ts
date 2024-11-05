@@ -1,27 +1,26 @@
-import {ImageHeaderDescrCard} from "@/types/cards";
+import { ImageHeaderDescrCard } from "@/types/cards";
 
-import DIOLogo from "../public/images/dio-logo.png"
-import SettingsIcon from "../public/icons/settings-icon.png"
-import CrownIcon from "../public/icons/crown-icon.png"
-import RocketIcon from "../public/icons/rocket-icon.png"
+import CrownIcon from "../public/icons/crown-icon.png";
+import RocketIcon from "../public/icons/rocket-icon.png";
+import SettingsIcon from "../public/icons/settings-icon.png";
+import DIOLogo from "../public/images/dio-logo.png";
 
-export const bonusCardData : ImageHeaderDescrCard[] = [
+export const bonusCardData: ImageHeaderDescrCard[] = [
     {
-        image : DIOLogo.src,
-        header : "1 DIO = 1 рубль",
-        descr : "DIO-бонусами можно оплатить до 70% от стоимости следующей покупки"
+        image: DIOLogo.src,
+        header: "1 DIO = 1 рубль",
+        descr: "Бонусами можно оплатить до 70% следующей покупки "
     }, {
-        image : SettingsIcon.src,
-        header : "Начисление бонусов",
-        descr : "DIO-бонусы начсляются 1 числа каждого месяца"
+        image: SettingsIcon.src,
+        header: "Начисление бонусов",
+        descr: "Определите размер вашего DIO-бонуса в текущем месяце от 4% до 8%"
     }, {
-        image : CrownIcon.src,
-        header : "Заказывайте воду 19л.",
-        descr : "Заказывайте не менее 4 бутылей питьевой воды в месяц"
+        image: CrownIcon.src,
+        header: "Заказывайте воду 19л.",
+        descr: "Заказывает воду в бутылях 19л не менее 4 бутылей за месяц"
     }, {
-        image : RocketIcon.src,
-        header : "Баланс DIO-счёта",
-        descr : "Можно узнать в личном кабинете или в\n" +
-            "контакт-центре по номеру +7 (383) 333-99-00"
+        image: RocketIcon.src,
+        header: "Баланс DIO-счёта",
+        descr: "DIO - бонусы начисляются 1 числа каждого месяца"
     },
 ]

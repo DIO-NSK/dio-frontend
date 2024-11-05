@@ -5,7 +5,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const sales = await getSales();
 
     return sales.map((sale) => ({
-        url: `https://diowater.ru/sales/${(sale as any).urlMask}`,
+        url: `https://dioshop.ru/sales/${(sale as any).urlMask}`,
         lastModified: Date.now().toString(),
     }))
 }

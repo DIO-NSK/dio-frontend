@@ -1,6 +1,6 @@
-import {ClassValue} from "clsx";
-import {cn} from "@/utlis/cn";
-import {TextLink} from "@/types/dto/text";
+import { TextLink } from "@/types/dto/text";
+import { cn } from "@/utlis/cn";
+import { ClassValue } from "clsx";
 import Link from "next/link";
 import React from "react";
 
@@ -10,11 +10,11 @@ type ServiceCardProps = {
 
 const wrapperCV: ClassValue[] = [
     "xl:hover:bg-white xl:hover:border-[2px] xl:hover:border-light-gray cursor-pointer",
-    "w-full col-span-4 flex flex-col p-5 md:p-[25px] xl:p-[40px] rounded-xl border-2",
-    "border-light-gray bg-bg-light-blue"
+    "w-full md:col-span-4 flex flex-col p-5 md:p-[25px] xl:p-[40px] rounded-xl border-2",
+    "border-light-gray bg-bg-light-blue col-span-1"
 ]
 
-const ServiceCard = ({item}: ServiceCardProps) => (
+const ServiceCard = ({ item }: ServiceCardProps) => (
     <Link className={cn(wrapperCV)} href={`/services?type=${item.link}`}>
         <div className={"w-full flex flex-row items-center sm:items-start sm:flex-col gap-5 sm:gap-4"}>
             {item.icon}

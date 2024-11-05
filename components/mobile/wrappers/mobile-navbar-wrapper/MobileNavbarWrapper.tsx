@@ -11,7 +11,7 @@ type MobileNavbarWrapperProps = {
 const MobileNavbarWrapper = ({sticky, ...props} : MobileNavbarWrapperProps) => {
     return (
         <section>
-            <MobileNavbar scrolledUp={false}/>
+            <MobileNavbar />
             <MobilePageWrapper className={props.className}>
                 {props.children}
             </MobilePageWrapper>

@@ -1,24 +1,23 @@
 "use client"
 
-import React, {useEffect, useRef, useState} from "react";
-import {HeaderWrapperType} from "@/types/wrappers";
 import Text from "@/components/atoms/text/text-base/Text";
 import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
-import {cn} from "@/utlis/cn";
+import { HeaderWrapperType } from "@/types/wrappers";
+import { cn } from "@/utlis/cn";
+import React, { useEffect, useRef, useState } from "react";
 
-import {Autoplay, Navigation, Scrollbar} from 'swiper/modules';
-import {Swiper, SwiperSlide} from 'swiper/react';
-import {type Swiper as SwiperRef} from 'swiper'
+import { type Swiper as SwiperRef } from 'swiper';
+import { Autoplay, Navigation, Scrollbar } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
-import 'swiper/css';
 
 import SlideButton from "@/components/atoms/buttons/slide-button/SlideButton";
-import {Side} from "@/data/enums/side";
-import {AUTOPLAY_DELAY, DESKTOP_SLIDES_PER_VIEW, MOBILE_SLIDES_PER_VIEW} from "@/constants/swiper";
+import { AUTOPLAY_DELAY, DESKTOP_SLIDES_PER_VIEW, MOBILE_SLIDES_PER_VIEW } from "@/constants/swiper";
+import { Side } from "@/data/enums/side";
 import Link from "next/link";
-import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 
 type SliderGroupProps = {
     desktopSlidesPerView?: number,
