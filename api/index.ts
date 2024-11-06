@@ -1,7 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-export const BASE_URL: string = "https://diowater.ru/api"
+export const BASE_URL: string = "https://dioshop.ru/api"
 
 export const api = axios.create({
     baseURL: BASE_URL,
