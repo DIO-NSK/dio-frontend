@@ -29,7 +29,11 @@ const findBreakpoint = (width: number): BreakpointsValue => {
 }
 
 const useOldBreakpoint = () => {
-    const initBreakpoint = findBreakpoint(window.innerWidth);
+    if (typeof window === 'undefined') {
+        return 'init';
+    }
+
+    const initBreakpoint = findBreakpoint(window?.innerWidth ?? 0);
     const [breakpoint, setBreakPoint] = useState<BreakpointsValue>(initBreakpoint);
     const [windowSize, setWindowSize] = useState<Size>({
         width: window.innerWidth,

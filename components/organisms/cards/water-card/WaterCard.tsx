@@ -1,16 +1,16 @@
-import {FiChevronRight} from "react-icons/fi";
+import { ResponseOurWater } from "@/app/admin/promo/models/our_waters.model";
 import Text from "@/components/atoms/text/text-base/Text";
-import {cn} from "@/utlis/cn";
-import {ResponseOurWater} from "@/app/admin/promo/models/our_waters.model";
+import { cn } from "@/utlis/cn";
+import { ClassValue } from "clsx";
 import Link from "next/link";
-import {ClassValue} from "clsx";
+import { FiChevronRight } from "react-icons/fi";
 
 type WaterCardType = {
     waterCard: ResponseOurWater,
     className?: string
 }
 
-const linkStyles = (className ?: string): ClassValue[] => [
+const linkStyles = (className?: string): ClassValue[] => [
     "sm:w-full sm:col-span-3 flex flex-col gap-3 sm:gap-5",
     "group cursor-pointer", className
 ]
@@ -21,11 +21,11 @@ const cardStyles = [
 ]
 
 const textStyles = [
-    "text-[16px] sm:text-[18px] text-black pointer",
+    "text-base md:text-[18px] text-black pointer",
     "hoverable group-hover:text-link-blue"
 ]
 
-const WaterCard = ({waterCard, className}: WaterCardType) => (
+const WaterCard = ({ waterCard, className }: WaterCardType) => (
     <Link
         className={cn(linkStyles(className))}
         href={`/our-waters?brand=${waterCard.name}`}
@@ -37,8 +37,8 @@ const WaterCard = ({waterCard, className}: WaterCardType) => (
             />
         </div>
         <span className={"flex flex-row gap-[10px] items-center"}>
-            <Text className={cn(textStyles)} text={waterCard.name}/>
-            <FiChevronRight className={"stroke-link-blue h-[18px] w-[18px] sm:h-6 sm:w-6"}/>
+            <Text className={cn(textStyles)} text={waterCard.name} />
+            <FiChevronRight className={"stroke-link-blue h-[18px] w-[18px] md:h-6 md:w-6"} />
         </span>
     </Link>
 )

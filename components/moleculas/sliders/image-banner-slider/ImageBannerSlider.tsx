@@ -34,8 +34,6 @@ const ArrowButton = ({ onClick, icon }: ButtonProps) => {
 const BannerCard = ({ banner }: { banner: ResponseCustomerBanner }) => {
     const image = useResponsiveImage(banner);
 
-    console.log('banner', banner);
-
     return (
         <Link href={banner.link}>
             <img

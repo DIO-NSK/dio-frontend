@@ -109,7 +109,7 @@ const MainPageScreen = async () => {
                         ))}
                     </SliderGroup> : null
                 }
-                <SliderGroup id={"sale"} header={"Товары по акции"} className="bg-bg-light-blue py-5 md:py-0 md:bg-white">
+                <SliderGroup id={"sale"} header={"Товары по акции"} className="-mt-6 md:-mt-0 bg-bg-light-blue py-5 md:py-0 md:bg-white">
                     {saleProducts.filter(prod => prod.discountPercent !== 0)
                         .map((productCard, key) => (
                             <ProductCard

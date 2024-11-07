@@ -1,8 +1,8 @@
+import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getAllProducts } from "./page.hooks";
 import ClientProductCardPage from "./ui/ClientProductCardPage";
-import {getAllProducts} from "./page.hooks";
-import {Metadata} from "next";
-import {notFound} from "next/navigation";
-import {getSeoByUrlMask} from "@/app/admin/seo/page.api";
 
 export const generateStaticParams = async () => {
     const catalog = await getAllProducts();
@@ -20,6 +20,8 @@ export const generateMetadata = async ({ params: { productUrlMask } }: { params:
     }
 }
 
+export const dynamic = 'force-dynamic'
+
 const ProductCardPage = async ({ params: { productUrlMask } }: { params: { productUrlMask: string } }) => {
     const { entityId: productId } = await getSeoByUrlMask(productUrlMask);
 
@@ -27,4 +29,5 @@ const ProductCardPage = async ({ params: { productUrlMask } }: { params: { produ
         <ClientProductCardPage productId={productId as number} />
     )
 }
+
 export default ProductCardPage

@@ -1,14 +1,14 @@
 "use client"
 
 import { ResponsiveContainer } from "@/components/wrappers/responsive-container/ResponsiveContainer";
-import useBreakpoint from "@/utlis/hooks/useBreakpoint";
+import { useOldBreakpoint } from "@/utlis/hooks/useBreakpoint";
 import { HorizontalTabletFooter } from "./HorizontalTabletFooter/HorizontalTabletFooter";
 import { LaptopFooter } from "./LaptopFooter/LaptopFooter";
 import { MobileFooter } from "./MobileFooter/MobileFooter";
 import { VerticalTabletFooter } from "./VerticalTabletFooter/VerticalTabletFooter";
 
 const ResponsiveFooter = () => {
-    const breakpoint = useBreakpoint();
+    const breakpoint = useOldBreakpoint();
 
     if (breakpoint === 'init' || breakpoint === 'sm') {
         return <MobileFooter />;

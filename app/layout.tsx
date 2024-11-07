@@ -6,6 +6,8 @@ import './globals.css';
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 
+import { Provider } from "@/components/ui/provider";
+
 const rubik = Rubik({ subsets: ['latin'] })
 
 export const viewport: Viewport = {
@@ -21,7 +23,9 @@ export default function RootLayout({ children }: {
     return (
         <html lang="ru" suppressHydrationWarning>
             <body className={rubik.className}>
-                {children}
+                <Provider>
+                    {children}
+                </Provider>
             </body>
         </html>
     )
