@@ -16,7 +16,7 @@ export const ActionBar = () => {
 
     return (
         <ActionBarRoot open>
-            <Content className="md:hidden flex">
+            <Content className="md:hidden flex" background="white">
                 {items.map(({ link, name, icon }, id) => (
                     <Link href={link} className="flex flex-col gap-1 items-center" key={id}>
                         <div className={cn("size-[18px]", getColor(link))}>{icon}</div>
