@@ -138,7 +138,7 @@ const PopoverProductColumn = <T, >({products, ...props}: PopoverProps<T>) => {
                         <LinkWrapper
                             className={cn(productRowCV, itemCV)}
                             hasLink={props.hasLink}
-                            href={`/product/${product.id}`}
+                            href={`/product/${(product as any).urlMask}`}
                             key={index}
                         >
                             <section className={"flex flex-row items-center gap-5"}
@@ -195,7 +195,7 @@ const PopoverCategoryColumn = ({categories}: {
                         className={"w-full flex flex-col gap-2 p-7 pt-0 border-b-2 border-light-gray"}
                         key={index}
                     >
-                        <Link href={`/catalog/${category.id}`}>
+                        <Link href={`/catalog/${(category as any).urlMask}`}>
                             <Text className={"font-medium"} text={category.name}/>
                         </Link>
                     </div>

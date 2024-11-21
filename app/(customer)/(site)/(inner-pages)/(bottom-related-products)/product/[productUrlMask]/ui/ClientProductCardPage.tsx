@@ -69,7 +69,7 @@ const ClientProductCardPage = ({ productId }: { productId: number }) => {
                     <div className={'w-full flex flex-col gap-5 md:grid md:grid-cols-9 md:col-span-8 md:gap-6 xl:col-span-9 xl:gap-7'}>
                         <ProductPhotoSlider photos={product.photos} />
                         {
-                            breakpoint === 'xl' ? <div className={"w-full col-span-4 flex flex-col gap-5 px-5 sm:px-0"}>
+                            breakpoint === 'xl' || breakpoint === '2xl' ? <div className={"w-full col-span-4 flex flex-col gap-5 px-5 sm:px-0"}>
                                 <CharacteristicList
                                     characteristics={[...product.properties, ...product.extraProperties]} />
                             </div> : null

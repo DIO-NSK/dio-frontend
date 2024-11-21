@@ -15,7 +15,7 @@ const FourthBlock = () => {
 
     const wrapperCV: ClassValue[] = [
         "sm:grid sm:grid-cols-12 sm:gap-x-5 sm:gap-y-10 sm:pb-[50px] border-b-2 border-light-gray",
-        "md:px-[24px] lg:px-0 sm:px-0 xl:px-0 lg:max-w-[964px] xl:max-w-[1260px]",
+        "md:px-[24px] lg:px-0 sm:px-0 xl:px-0 lg:max-w-[964px] 2xl:max-w-[1560px] xl:max-w-[1260px]",
         "hidden py-5 md:-ml-[24px] lg:-ml-0 sm:w-full sm:pt-[50px] w-full",
     ]
 

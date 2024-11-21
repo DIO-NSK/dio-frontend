@@ -25,7 +25,7 @@ const CategoryBlock = ({category}: { category: CatalogItem }) => {
             </div>
             {expandedState && category.categories.map((sub, index) =>
                 <div className={cn(rowCN, "pl-5")} key={index}>
-                    <Link href={`/catalog/${sub.id}`}>
+                    <Link href={`/catalog/${sub.urlMask}`}>
                         <Text text={sub.name} key={index}/>
                     </Link>
                 </div>

@@ -1,14 +1,13 @@
-import React from 'react';
-import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import Link from "next/link";
-import Text from "@/components/atoms/text/text-base/Text";
-import {useUnit} from "effector-react";
-import {$searchCatalog} from "@/components/organisms/bars/searchbar/model";
-import {useToggle} from "@/utlis/hooks/useToggle";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
-import {useDiscount} from "@/utlis/hooks/product/useDiscount";
-import {cn} from "@/utlis/cn";
-import {ClassValue} from "clsx";
+import Text from "@/components/atoms/text/text-base/Text";
+import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
+import { $searchCatalog } from "@/components/organisms/bars/searchbar/model";
+import { cn } from "@/utlis/cn";
+import { useDiscount } from "@/utlis/hooks/product/useDiscount";
+import { useToggle } from "@/utlis/hooks/useToggle";
+import { ClassValue } from "clsx";
+import { useUnit } from "effector-react";
+import Link from "next/link";
 
 const MobileCatalogSearchingMenu = () => {
 
@@ -44,7 +43,7 @@ const MobileCatalogSearchingMenu = () => {
                         return (
                             <Link
                                 className={cn(productRowCV)}
-                                href={`/product/${product.id}`}
+                                href={`/product/${(product as any).urlMask}`}
                                 key={index}
                             >
                                 <section className={"flex flex-row items-center gap-5"}>
@@ -89,7 +88,7 @@ const MobileCatalogSearchingMenu = () => {
                             className={"w-full flex flex-col gap-2 py-7 px-5 border-b-2 border-light-gray"}
                             key={index}
                         >
-                            <Link href={`/catalog/${category.id}`}>
+                            <Link href={`/catalog/${(category as any).urlMask}`}>
                                 <Text className={"font-medium"} text={category.name}/>
                             </Link>
                         </div>

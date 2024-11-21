@@ -1,12 +1,11 @@
-import {footerData} from "@/data/footerData";
-import Link from "next/link";
 import Text from "@/components/atoms/text/text-base/Text";
-import {useUnit} from "effector-react";
-import {toggleCallRequestOpenEvent} from "@/components/organisms/popups/call-request/model";
-import {IconRow} from "@/components/organisms/footer/IconRow/IconRow";
-import {ClassValue} from "clsx";
-import {cn} from "@/utlis/cn";
-import React from "react";
+import { IconRow } from "@/components/organisms/footer/IconRow/IconRow";
+import { toggleCallRequestOpenEvent } from "@/components/organisms/popups/call-request/model";
+import { footerData } from "@/data/footerData";
+import { cn } from "@/utlis/cn";
+import { ClassValue } from "clsx";
+import { useUnit } from "effector-react";
+import Link from "next/link";
 
 const wrapperCV: ClassValue[] = [
     "w-full flex flex-row justify-between items-start",
@@ -14,12 +13,12 @@ const wrapperCV: ClassValue[] = [
 ]
 
 const LeftRow = () => (
-    <div className={"flex flex-row lg:gap-8 xl:gap-[90px]"}>
+    <div className={"flex flex-row lg:gap-8 xl:gap-[80px]"}>
         {
             Array.from({length: 4}).map((_, colIndex) => (
                 <div className={"flex flex-col gap-[25px]"} key={colIndex}>
                     {
-                        footerData.map((item, itemIndex) => (
+                        footerData.map((item, itemIndex, arr) => (
                             (itemIndex >= colIndex * 4 && itemIndex < colIndex * 4 + 4) && (
                                 <div className={"flex flex-row item-center gap-[15px]"} key={itemIndex}>
                                     {
@@ -34,7 +33,9 @@ const LeftRow = () => (
                                         target={item.href ? "_blank" : undefined}
                                     >
                                         <Text
-                                            className={"hoverable pointer text-text-gray hover:text-link-blue"}
+                                            className={cn("hoverable pointer text-text-gray hover:text-link-blue", {
+                                                "whitespace-nowrap" : itemIndex !== arr.length - 1
+                                            })}
                                             text={item.text}
                                         />
                                     </Link>
@@ -57,7 +58,7 @@ const RightCol = () => {
             <IconRow/>
             <Link href={"tel:+733339900"}>
                 <Text
-                    className={"text-link-blue hoverable hover:text-blue-800 pointer"}
+                    className={"text-link-blue hoverable whitespace-nowrap hover:text-blue-800 pointer"}
                     text={"+7 (383) 333-99-00"}
                 />
             </Link>

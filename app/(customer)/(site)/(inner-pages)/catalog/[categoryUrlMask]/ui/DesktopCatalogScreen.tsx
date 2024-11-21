@@ -59,7 +59,7 @@ const CatalogSidebar = ({ categoryId }: { categoryId: number }) => {
     useFilters(categoryId);
     const breakpoint = useBreakpoint();
 
-    return breakpoint === 'xl' ? (
+    return breakpoint === 'xl' || breakpoint === '2xl' ? (
         <CatalogLeftSidebar categoryId={categoryId} />
     ) : null
 }

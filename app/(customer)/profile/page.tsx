@@ -1,25 +1,24 @@
 "use client"
 
-import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import Button from "@/components/atoms/buttons/button/Button";
-import {FiRefreshCw, FiX} from "react-icons/fi";
-import BonusCard from "@/components/organisms/user-profile/bonus-card/BonusCard";
-import UserInfoCard from "@/components/organisms/user-profile/user-info-card/UserInfoCard";
-import Text from "@/components/atoms/text/text-base/Text";
-import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
-import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserProfileWrapper";
-import {useNavigation} from "@/utlis/hooks/useNavigation";
-import {useUnit} from "effector-react";
+import { $userCredentials, getUserCredentialsEvent } from "@/app/(customer)/model";
 import {
     $orders,
     getOrdersEvent,
     resetOrderToRepeatEvent,
     selectOrderToRepeatEvent
 } from "@/app/(customer)/profile/orders/model";
-import {useEffect, useState} from "react";
-import {$userCredentials, getUserCredentialsEvent} from "@/app/(customer)/model";
-import {useRouter} from "next/navigation";
-import {getBonuses} from "@/app/(customer)/profile/page.api";
+import Button from "@/components/atoms/buttons/button/Button";
+import Text from "@/components/atoms/text/text-base/Text";
+import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
+import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
+import BonusCard from "@/components/organisms/user-profile/bonus-card/BonusCard";
+import UserInfoCard from "@/components/organisms/user-profile/user-info-card/UserInfoCard";
+import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserProfileWrapper";
+import { useNavigation } from "@/utlis/hooks/useNavigation";
+import { useUnit } from "effector-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { FiRefreshCw, FiX } from "react-icons/fi";
 
 const MainInformationBlock = () => {
 

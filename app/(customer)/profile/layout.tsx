@@ -38,7 +38,7 @@ const UserProfileLayout = ({ children }: { children: React.ReactNode }) => {
         <ResponsiveContainer>
             <InnerPageWrapper classNames={{ desktopWrapper: "mt-3", mobileWrapper: "pt-0" }}>
                 {
-                    breakpoint === 'xl' || breakpoint === 'lg' ? (
+                    breakpoint === 'xl' || breakpoint === 'lg' || breakpoint === '2xl' ? (
                         <div className={"lg:col-span-4 xl:col-span-3"}>
                             <UserProfileLeftSidebar />
                             <IconTextButton

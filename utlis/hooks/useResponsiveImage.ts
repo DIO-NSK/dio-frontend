@@ -13,6 +13,7 @@ const BREAKPOINTS = {
     md: 768,
     lg: 1024,
     xl: 1440,
+    "2xl": 1920,
     inf: 9999
 }
 
