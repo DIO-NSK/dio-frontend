@@ -1,33 +1,24 @@
-'use client';
+"use client";
 
-import { AUTOPLAY_DELAY } from "@/constants/swiper";
-import { WrapperProps } from "@/types/props/Wrapper";
-import React, { Children } from 'react';
-import { Autoplay, Navigation, Scrollbar } from "swiper/modules";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { createSwiperConfig } from "./MobileSliderWrapper.config";
+import { MobileSliderWrapperProps } from "./MobileSliderWrapper.types";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/scrollbar';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/scrollbar";
 
-type MobileSliderWrapperProps = {
-    slidesPerView ?: number,
-    cols ?: number
-} & WrapperProps
+const SLIDES_PER_VIEW = 2.2;
 
-const MobileSliderWrapper = ({slidesPerView = 2.2, children}: MobileSliderWrapperProps) => (
-    <Swiper
-    grabCursor={true}
-    className={"w-full"}
-    spaceBetween={5}
-    slidesPerView={Children.count(children) === 1 ? 1 : slidesPerView}
-    modules={[Navigation, Autoplay, Scrollbar]}
-    autoplay={{delay: AUTOPLAY_DELAY}}
->
+const MobileSliderWrapper = ({ children }: MobileSliderWrapperProps) => (
+  <Swiper {...createSwiperConfig(SLIDES_PER_VIEW)}>
     {React.Children.map(children, (child, index) => (
-        <SwiperSlide key={index}>{child}</SwiperSlide>
+      <SwiperSlide className="col-span-1" key={index}>
+        {child}
+      </SwiperSlide>
     ))}
-</Swiper>
-)
+  </Swiper>
+);
 
 export default MobileSliderWrapper;

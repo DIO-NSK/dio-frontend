@@ -1,117 +1,82 @@
-"use client"
+"use client";
 
-import Text from "@/components/atoms/text/text-base/Text";
 import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
-import { HeaderWrapperType } from "@/types/wrappers";
 import { cn } from "@/utlis/cn";
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactElement, ReactNode, useMemo, useRef } from "react";
 
-import { type Swiper as SwiperRef } from 'swiper';
-import { Autoplay, Navigation, Scrollbar } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { type Swiper as SwiperRef } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/scrollbar';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/scrollbar";
 
-import SlideButton from "@/components/atoms/buttons/slide-button/SlideButton";
-import { AUTOPLAY_DELAY, DESKTOP_SLIDES_PER_VIEW, MOBILE_SLIDES_PER_VIEW } from "@/constants/swiper";
-import { Side } from "@/data/enums/side";
-import Link from "next/link";
+import { DESKTOP_SLIDES_PER_VIEW, MIN_SLIDES_PER_VIEW, MOBILE_SLIDES_PER_VIEW } from "@/constants/swiper";
+import { SliderHeader } from "./slider-header/SliderHeader";
+import { swiperConfig } from "./SliderGroup.config";
+import { SliderGroupProps } from "./SliderGroup.types";
+import { SwiperContainer } from "./swiper-container/SwiperContainer";
 
-type SliderGroupProps = {
-    desktopSlidesPerView?: number,
-    mobileSlidesPerView?: number
-    href?: string,
-    headerSize?: string
-} & HeaderWrapperType
+const SliderGroup = ({
+  desktopSlidesPerView = DESKTOP_SLIDES_PER_VIEW,
+  mobileSlidesPerView = MOBILE_SLIDES_PER_VIEW,
+  outOfScreen = true,
+  headerSize = "xl",
+  containerHeight,
+  children,
+  ...props
+}: SliderGroupProps) => {
+  const swiperRef = useRef<SwiperRef>();
 
-const SliderGroup = (
-    {
-        desktopSlidesPerView = DESKTOP_SLIDES_PER_VIEW,
-        mobileSlidesPerView = MOBILE_SLIDES_PER_VIEW,
-        headerSize = 'xl',
-        ...props
-    }: SliderGroupProps
-) => {
+  // Если количество элементов равно desktopSlidesPerView, добавляем первый элемент списка в конец.
+  const slides = useMemo<React.ReactNode>(() => {
+    if (React.Children.count(children) === desktopSlidesPerView) {
+      const childrenArray: ReactNode[] = React.Children.toArray(children);
+      const middleIndex = Math.floor(childrenArray.length / 2);
 
-    const swiperRef = useRef<SwiperRef>()
-    const isInitEnd = React.Children.count(props.children) <= desktopSlidesPerView
-    const [isBegin, setBegin] = useState<boolean>(true)
-    const [isEnd, setEnd] = useState<boolean>(isInitEnd)
+      const [middleElement, nextToMiddleElement] = [
+        React.cloneElement(childrenArray[middleIndex] as ReactElement),
+        React.cloneElement(childrenArray[middleIndex + 1] as ReactElement),
+      ];
 
-    const headerCV = headerSize === 'xl' ? 'lg:text-[28px] xl:text-[32px]' : 'text-lg md:text-2xl font-medium'
+      const clonedArray = [middleElement, ...childrenArray, nextToMiddleElement];
 
-    useEffect(() => {
-        if (swiperRef.current) {
-            swiperRef.current.on("slideChange", (swipe) => {
-                setBegin(Boolean(swipe.isBeginning))
-                setEnd(Boolean(swipe.isEnd))
-            })
-        }
-    }, [swiperRef.current]);
+      return clonedArray;
+    }
 
-    return (
-        <section id={props.id} className={cn("sm:pl-0 w-full col-span-full flex flex-col gap-5 xl:gap-7", props.className)}>
-            <span className={"px-5 xl:px-0 col-span-full flex flex-row justify-between items-center"}>
-                <span className={"flex flex-row items-baseline gap-5"}>
-                    {props.header &&
-                        <h2 className={cn("text-[20px] font-bold leading-none", headerCV)}>
-                            {props.header}
-                        </h2>}
-                    {props.href && <Link href={props.href}>
-                        <Text
-                            className={"hidden sm:flex md:text-base xl:text-[18px] text-link-blue"}
-                            text={"Перейти"}
-                        />
-                    </Link>}
-                </span>
-                <span className={"hidden md:flex flex-row items-center md:gap-2 lg:gap-4 xl:gap-[20px]"}>
-                    <SlideButton
-                        disabled={isBegin}
-                        onClick={() => swiperRef.current?.slidePrev()}
-                        side={Side["LEFT"]}
-                    />
-                    <SlideButton
-                        disabled={isEnd}
-                        onClick={() => swiperRef.current?.slideNext()}
-                        side={Side["RIGHT"]}
-                    />
-                </span>
-            </span>
-            <section className={"hidden md:flex md:w-full"}>
-                <Swiper
-                    grabCursor={true}
-                    onSwiper={(swiper) => {
-                        swiperRef.current = swiper
-                    }}
-                    className={"active:cursor-grab hidden md:w-full"}
-                    breakpoints={{
-                        768 : {
-                            spaceBetween : 10,
-                            slidesPerView : 3
-                        },
-                        1024 : {
-                            spaceBetween : 20,
-                            slidesPerView : desktopSlidesPerView
-                        }
-                    }}
-                    modules={[Navigation, Autoplay, Scrollbar]}
-                    autoplay={{
-                        delay: AUTOPLAY_DELAY,
-                        pauseOnMouseEnter: true,
-                    }}
-                >
-                    {React.Children.map(props.children, (child, index) => (
-                        <SwiperSlide className='w-full' key={index}>{child}</SwiperSlide>
-                    ))}
-                </Swiper>
-            </section>
-            <section className={"md:hidden flex w-full ml-5"}>
-                <MobileSliderWrapper slidesPerView={mobileSlidesPerView}>{props.children}</MobileSliderWrapper>
-            </section>
-        </section>
-    )
-}
+    return children;
+  }, [children]);
 
-export default SliderGroup
+  const hasLoop = React.Children.count(slides) >= desktopSlidesPerView;
+  const actualSlidesPerView = hasLoop ? desktopSlidesPerView : MIN_SLIDES_PER_VIEW;
+
+  const onSwiper = (swiper: SwiperRef) => (swiperRef.current = swiper);
+
+  return (
+    <section id={props.id} className={cn("sm:pl-0 w-full col-span-full flex flex-col gap-5 xl:gap-7", props.className)}>
+      <SliderHeader
+        desktopSlidesPerView={actualSlidesPerView}
+        headerSize={headerSize}
+        hasLoop={hasLoop}
+        ref={swiperRef}
+        {...props}
+      >
+        {slides}
+      </SliderHeader>
+      <SwiperContainer outOfScreen={outOfScreen} containerHeight={containerHeight} hasLoop={hasLoop}>
+        <Swiper onSwiper={onSwiper} {...swiperConfig(actualSlidesPerView, hasLoop)}>
+          {React.Children.map(slides, (child, index) => (
+            <SwiperSlide className="w-full" key={index}>
+              {child}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </SwiperContainer>
+      <section className={"md:hidden flex w-full ml-5"}>
+        <MobileSliderWrapper slidesPerView={mobileSlidesPerView}>{slides}</MobileSliderWrapper>
+      </section>
+    </section>
+  );
+};
+
+export default SliderGroup;
