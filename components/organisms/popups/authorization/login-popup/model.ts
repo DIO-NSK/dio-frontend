@@ -1,7 +1,6 @@
 import {unauthorizedApi} from "@/api";
 import {LoginUserData} from "@/schemas/customer/authorization/LoginUserSchema";
 import {createEffect, createEvent, createStore} from "effector";
-import {cookies} from "next/headers";
 
 const loginUserByCredentials = async (formData: LoginUserData) => {
     const request = {

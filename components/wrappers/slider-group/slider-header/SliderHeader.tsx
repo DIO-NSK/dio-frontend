@@ -4,7 +4,7 @@ import { DESKTOP_SLIDES_PER_VIEW } from "@/constants/swiper";
 import { Side } from "@/data/enums/side";
 import { cn } from "@/utlis/cn";
 import Link from "next/link";
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { SliderHeaderProps } from "./SliderHeader.types";
 import { createHeaderStyle } from "./SliderHeader.utils";
 

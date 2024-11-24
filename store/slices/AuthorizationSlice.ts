@@ -1,6 +1,6 @@
 import {StateCreator} from "zustand";
 
-type PopupState = "login" | "loginByPhone" | "signup" | "confirmationCode" | 'confirmationCodeByPhone'
+export type PopupState = "login" | "loginByPhone" | "signup" | "confirmationCode" | 'confirmationCodeByPhone'
     | "forgotPassword" | "changePassword" | "success" | undefined
 
 export type AuthorizationSlice = {

@@ -1,10 +1,25 @@
-import {useState} from "react";
-import {useRouter} from "next/navigation";
-import {useStore} from "@/store/Store";
-import {useShallow} from "zustand/react/shallow";
-import {useMediaQuery} from "usehooks-ts";
+import { PopupState } from "@/store/slices/AuthorizationSlice";
+import { useStore } from "@/store/Store";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
+import { useShallow } from "zustand/react/shallow";
 
-export const useSearchbar = () => {
+export interface UseSearchbarReturn {
+    searchbar: {
+        searchbarValue: string;
+        setSearchbarValue: (value: string) => void;
+    };
+    catalogPopup: {
+        catalogPopupState: boolean;
+        handleChangeCatalogPopupVisibility: () => void;
+    },
+    popupState: PopupState;
+    handleLogoClick: () => void;
+    isLaptop: boolean;
+}
+
+export const useSearchbar = (): UseSearchbarReturn => {
 
     const router = useRouter()
     const popupState = useStore(state => state.popupState)
@@ -22,9 +37,8 @@ export const useSearchbar = () => {
     const handleChangeCatalogPopupVisibility = () => setCatalogPopupState(!catalogPopupState)
 
     return {
-        searchbar: {searchbarValue, setSearchbarValue},
-        catalogPopup : {catalogPopupState, handleChangeCatalogPopupVisibility},
+        searchbar: { searchbarValue, setSearchbarValue },
+        catalogPopup: { catalogPopupState, handleChangeCatalogPopupVisibility },
         popupState, handleLogoClick, isLaptop
     }
-
 }
