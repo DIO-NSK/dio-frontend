@@ -1,34 +1,17 @@
-import {HeaderDescription} from "@/types/dto/text";
-import {waterCoolerBlockData} from "@/data/waterCoolerBlockData";
+"use client";
 
-type DescriptionColumnProps = {
-    description: string,
-    top: number,
-    left?: number,
-    right?: number
-} & HeaderDescription
+import { useOldBreakpoint } from "@/utlis/hooks/useBreakpoint";
+import { DesktopWaterCoolerBlock } from "./DesktopWaterCoolerBlock/DesktopWaterCoolerBlock";
+import { MobileWaterCoolerBlock } from "./MobileWaterCoolerBlock/MobileWaterCoolerBlock";
 
-const DescriptionColumn = ({header, description, top, left, right}: DescriptionColumnProps) => (
-    <div
-        className={"absolute w-[350px] flex flex-col gap-[15px]"}
-        style={{top: top, left: left, right: right}}
-    >
-        <h3 className={"text-[22px] font-semibold"}>{header}</h3>
-        <p className={"text-[18px]"}>{description}</p>
-    </div>
-)
+const WaterCoolerBlock = () => {
+  const breakpoint = useOldBreakpoint();
 
-const WaterCoolerBlock = () => (
-    <section className={"hidden relative w-full xl:flex flex-col items-center"}>
-        {waterCoolerBlockData.map((item, index) => {
-            return <DescriptionColumn {...item} description={item.descr} key={index}/>
-        })}
-        <img
-            src={'https://storage.yandexcloud.net/dio-static-images/DIO_Water_Cooler.png'}
-            className={"-ml-10 w-[600px] h-[700px] object-scale-down"}
-            alt={'Изображение кулера'}
-        />
-    </section>
-)
+  if (breakpoint === "sm") {
+    return <MobileWaterCoolerBlock />;
+  } else if (["xl", "2xl"].includes(breakpoint)) {
+    return <DesktopWaterCoolerBlock />;
+  }
+};
 
-export default WaterCoolerBlock
+export default WaterCoolerBlock;

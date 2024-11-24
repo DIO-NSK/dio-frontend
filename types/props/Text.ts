@@ -1,8 +1,8 @@
-import {CSSProperties} from "react";
+import { CSSProperties, PropsWithChildren } from "react";
 
-export type TextProps = {
-    text: string,
+export interface TextProps extends PropsWithChildren {
+    text ?: string,
     className?: string,
     onClick?: () => void,
-    style?: CSSProperties
+    style?: CSSProperties,
 }
