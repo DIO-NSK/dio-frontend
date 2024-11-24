@@ -4,7 +4,7 @@ import { DESKTOP_SLIDES_PER_VIEW } from "@/constants/swiper";
 import { Side } from "@/data/enums/side";
 import { cn } from "@/utlis/cn";
 import Link from "next/link";
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { forwardRef, useEffect } from "react";
 import { SliderHeaderProps } from "./SliderHeader.types";
 import { createHeaderStyle } from "./SliderHeader.utils";
 
@@ -27,7 +27,7 @@ export const SliderHeader = forwardRef(
     }, [(ref as any).current]);
 
     return (
-      <span className={"px-5 xl:px-0 col-span-full flex flex-row justify-between items-center"}>
+      <span className={"px-5 md:px-0 xl:px-0 col-span-full flex flex-row justify-between items-center"}>
         <span className={"flex flex-row items-baseline gap-5"}>
           {header ? (
             <h2 className={cn("text-[20px] font-bold leading-none", createHeaderStyle(headerSize))}>{header}</h2>

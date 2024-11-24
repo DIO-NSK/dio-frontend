@@ -10,4 +10,10 @@ type ProductCardProps = {
     classNames?: ProductCardClassNames
 }
 
-export type { ProductCardClassNames, ProductCardProps };
+interface TabletPriceProps {
+    discountPercent: number;
+    newPrice: number;
+    price: number;
+}
+
+export type { ProductCardClassNames, ProductCardProps, TabletPriceProps };

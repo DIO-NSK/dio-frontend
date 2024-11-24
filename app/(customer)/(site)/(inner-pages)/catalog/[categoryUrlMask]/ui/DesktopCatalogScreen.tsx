@@ -18,7 +18,7 @@ import {
     catalogPageDidMountEvent, selectSortEvent
 } from "@/components/organisms/bars/catalog-left-sidebar/model";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
-import SkeletonProductCard from "@/components/organisms/cards/product-card/SkeletonProductCard";
+import SkeletonProductCard from "@/components/organisms/cards/product-card/SkeletonProductCard/SkeletonProductCard";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
 import PageContentWrapper from "@/components/wrappers/page-content-wrapper/PageContentWrapper";
 import { selectableFilters } from "@/data/sortFilters";
