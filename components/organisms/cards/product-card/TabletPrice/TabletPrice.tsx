@@ -1,5 +1,5 @@
 import Text from "@/components/atoms/Text/Text";
-import { TabletPriceProps } from "./TabletPrice.types";
+import { TabletPriceProps } from "../ProductCard.types";
 
 export const TabletPrice = ({ newPrice, price, discountPercent }: TabletPriceProps) => (
   <span className={"w-full hidden md:flex flex-row items-baseline gap-3"}>

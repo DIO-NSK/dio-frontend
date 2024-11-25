@@ -1,5 +1,5 @@
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
-import AdvantageCard from "@/components/organisms/cards";
+import { AdvantageCard } from "@/components/organisms/cards";
 import { IconHeaderCard } from "@/types/cards";
 import { cn } from "@/utlis/cn";
 import { ClassValue } from "clsx";
