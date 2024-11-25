@@ -1,4 +1,4 @@
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { TabletPriceProps } from "./TabletPrice.types";
 
 export const TabletPrice = ({ newPrice, price, discountPercent }: TabletPriceProps) => (

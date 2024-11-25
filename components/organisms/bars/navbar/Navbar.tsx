@@ -1,5 +1,5 @@
 import TextNavbar from "@/components/moleculas/text-navbar/TextNavbar";
-import { ResponsiveContainer } from "@/components/wrappers/responsive-container/ResponsiveContainer";
+import { ResponsiveContainer } from "@/components/wrappers";
 import { cn } from "@/utlis/cn";
 import { Box, HStack } from "@chakra-ui/react";
 import { LinkRow } from "./LinkRow";

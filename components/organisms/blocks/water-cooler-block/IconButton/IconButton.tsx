@@ -1,6 +1,6 @@
 "use client";
 
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { Tooltip } from "@/components/ui/tooltip";
 import Image from "next/image";
 import { useToggle } from "usehooks-ts";

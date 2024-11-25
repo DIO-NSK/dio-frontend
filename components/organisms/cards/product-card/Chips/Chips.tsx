@@ -1,4 +1,4 @@
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { ResponseProductSearch } from "@/types/dto/user/product/ResponseProductSearch";
 
 export const Chips = ({ isNew, discountPercent, inStock }: ResponseProductSearch) => (

@@ -1,10 +1,13 @@
-import React, {useEffect, useMemo, useRef} from 'react';
-import {Marker as LeafletMarker, useMap} from "react-leaflet";
-import {MarkerIcon} from "@/components/organisms/map/MarkerIcon";
-import {MapProps} from "@/components/organisms/map/Map.types";
+import { MutableRefObject, useEffect, useMemo, useRef } from 'react';
+import { useMap } from "react-leaflet";
+import { MapProps } from '../Map.types';
 
-const Marker = ({position, setPosition} : MapProps) => {
+export interface UseMarkerReturn {
+    markerRef: MutableRefObject<any>;
+    eventHandlers: any;
+}
 
+export const useMarker = ({ position, setPosition }: MapProps): UseMarkerReturn => {
     const markerRef = useRef<any>(null)
     const map = useMap();
 
@@ -21,13 +24,13 @@ const Marker = ({position, setPosition} : MapProps) => {
     )
 
     useEffect(() => {
-        map.flyTo({lat : position.lat, lng : position.lng})
-    }, [ position ]);
+        map.flyTo({ lat: position.lat, lng: position.lng })
+    }, [position]);
 
     useEffect(() => {
         map.attributionControl.setPrefix('');
 
-        map.on('move',() => {
+        map.on('move', () => {
             markerRef.current?.setLatLng(map.getCenter());
         });
 
@@ -41,14 +44,7 @@ const Marker = ({position, setPosition} : MapProps) => {
 
     }, []);
 
-    return position ? (
-        <LeafletMarker
-            ref={markerRef}
-            eventHandlers={eventHandlers}
-            position={position}
-            icon={MarkerIcon}
-        />
-    ) : null;
-};
-
-export default Marker;
+    return {
+        markerRef, eventHandlers
+    }
+}

@@ -1,11 +1,11 @@
 import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
-import AdvantagesBlock from "@/components/organisms/blocks/advantages-block/AdvantagesBlock";
+import {AdvantagesBlock} from "@/components/organisms/blocks/AdvantagesBlock/AdvantagesBlock";
 import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/WaterCoolerBlock";
 import HeroSliderRow from "@/components/organisms/hero-slider-row/HeroSliderRow";
-import PageWrapper from "@/components/wrappers/page-wrapper/PageWrapper";
+import { PageWrapper } from "@/components/wrappers";
 
 import { getSeoById } from "@/app/admin/seo/page.api";
-import { ResponsiveContainer } from "@/components/wrappers/responsive-container/ResponsiveContainer";
+import { ResponsiveContainer } from "@/components/wrappers";
 import { Metadata } from "next";
 import { Suspense } from "react";
 import { BonusProgram } from "./components/BonusProgram/BonusProgram";
@@ -17,8 +17,10 @@ import { SaleProdcuts } from "./components/SaleProducts";
 import { Services } from "./components/Services/Services";
 import { getBanners, getDayProducts } from "./page.hooks";
 
+const MAIN_PAGE_ID = 772;
+
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getSeoById(772);
+  const seo = await getSeoById(MAIN_PAGE_ID);
 
   return {
     title: seo.title,
@@ -33,7 +35,7 @@ const MainPageScreen = async () => {
 
   return (
     <ResponsiveContainer>
-      <PageWrapper className="items-center">
+      <PageWrapper>
         <Suspense fallback={<></>}>
           <MobileHeader />
         </Suspense>

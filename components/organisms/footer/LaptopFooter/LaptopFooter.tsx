@@ -1,4 +1,4 @@
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { IconRow } from "@/components/organisms/footer/IconRow/IconRow";
 import { toggleCallRequestOpenEvent } from "@/components/organisms/popups/call-request/model";
 import { footerData } from "@/data/footerData";
@@ -8,90 +8,81 @@ import { useUnit } from "effector-react";
 import Link from "next/link";
 
 const wrapperCV: ClassValue[] = [
-    "w-full flex flex-row justify-between items-start",
-    "pb-[50px] border-b-2 border-light-gray"
-]
+  "w-full flex flex-row justify-between items-start",
+  "pb-[50px] border-b-2 border-light-gray",
+];
 
 const LeftRow = () => (
-    <div className={"flex flex-row lg:gap-8 xl:gap-[80px]"}>
-        {
-            Array.from({length: 4}).map((_, colIndex) => (
-                <div className={"flex flex-col gap-[25px]"} key={colIndex}>
-                    {
-                        footerData.map((item, itemIndex, arr) => (
-                            (itemIndex >= colIndex * 4 && itemIndex < colIndex * 4 + 4) && (
-                                <div className={"flex flex-row item-center gap-[15px]"} key={itemIndex}>
-                                    {
-                                        item.icon ? <img
-                                            className={"stroke-text-gray object-scale-down w-5 h-5"}
-                                            src={item.icon as string} alt={'/'}
-                                        /> : null
-                                    }
-                                    <Link
-                                        href={item.href ?? item.path}
-                                        rel={item.href ? "noopener noreferer" : undefined}
-                                        target={item.href ? "_blank" : undefined}
-                                    >
-                                        <Text
-                                            className={cn("hoverable pointer text-text-gray hover:text-link-blue", {
-                                                "whitespace-nowrap" : itemIndex !== arr.length - 1
-                                            })}
-                                            text={item.text}
-                                        />
-                                    </Link>
-                                </div>
-                            )
-                        ))
-                    }
-                </div>
-            ))
-        }
-    </div>
-)
+  <div className={"flex flex-row lg:gap-8 xl:gap-[80px]"}>
+    {Array.from({ length: 4 }).map((_, colIndex) => (
+      <div className={"flex flex-col gap-[25px]"} key={colIndex}>
+        {footerData.map(
+          (item, itemIndex, arr) =>
+            itemIndex >= colIndex * 4 &&
+            itemIndex < colIndex * 4 + 4 && (
+              <div className={"flex flex-row item-center gap-[15px]"} key={itemIndex}>
+                {item.icon ? (
+                  <img className={"stroke-text-gray object-scale-down w-5 h-5"} src={item.icon as string} alt={"/"} />
+                ) : null}
+                <Link
+                  href={item.href ?? item.path}
+                  rel={item.href ? "noopener noreferer" : undefined}
+                  target={item.href ? "_blank" : undefined}
+                >
+                  <Text
+                    className={cn("hoverable pointer text-text-gray hover:text-link-blue", {
+                      "whitespace-nowrap": itemIndex !== arr.length - 1,
+                    })}
+                    text={item.text}
+                  />
+                </Link>
+              </div>
+            ),
+        )}
+      </div>
+    ))}
+  </div>
+);
 
 const RightCol = () => {
+  const togglePopupState = useUnit(toggleCallRequestOpenEvent);
 
-    const togglePopupState = useUnit(toggleCallRequestOpenEvent)
-
-    return (
-        <div className={"flex flex-col gap-[25px]"}>
-            <IconRow/>
-            <Link href={"tel:+733339900"}>
-                <Text
-                    className={"text-link-blue hoverable whitespace-nowrap hover:text-blue-800 pointer"}
-                    text={"+7 (383) 333-99-00"}
-                />
-            </Link>
-            <Text
-                text={"Заказать звонок"}
-                className={"text-link-blue hoverable hover:text-blue-800 pointer"}
-                onClick={togglePopupState}
-            />
-        </div>
-    )
-}
+  return (
+    <div className={"flex flex-col gap-[25px]"}>
+      <IconRow />
+      <Link href={"tel:+733339900"}>
+        <Text
+          className={"text-link-blue hoverable whitespace-nowrap hover:text-blue-800 pointer"}
+          text={"+7 (383) 333-99-00"}
+        />
+      </Link>
+      <Text
+        text={"Заказать звонок"}
+        className={"text-link-blue hoverable hover:text-blue-800 pointer"}
+        onClick={togglePopupState}
+      />
+    </div>
+  );
+};
 
 const BottomRow = () => {
-    return (
-        <div className={"flex flex-row items-baseline justify-between"}>
-            <Text
-                text={"Разработка сайта — SiberSite"}
-                className={"text-text-gray"}
-            />
-        </div>
-    )
-}
+  return (
+    <div className={"flex flex-row items-baseline justify-between"}>
+      <Text text={"Разработка сайта — SiberSite"} className={"text-text-gray"} />
+    </div>
+  );
+};
 
 const TopCol = () => (
-    <div className={cn(wrapperCV)}>
-        <LeftRow/>
-        <RightCol/>
-    </div>
-)
+  <div className={cn(wrapperCV)}>
+    <LeftRow />
+    <RightCol />
+  </div>
+);
 
 export const LaptopFooter = () => (
-    <section className={"w-full hidden sm:flex flex-col lg:gap-8 xl:gap-[50px]"}>
-        <TopCol/>
-        <BottomRow/>
-    </section>
-)
+  <section className={"w-full hidden sm:flex flex-col lg:gap-8 xl:gap-[50px]"}>
+    <TopCol />
+    <BottomRow />
+  </section>
+);

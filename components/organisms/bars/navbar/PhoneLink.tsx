@@ -1,4 +1,4 @@
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import Link from "next/link";
 
 export const PhoneLink = () => (

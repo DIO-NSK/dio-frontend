@@ -1,57 +1,47 @@
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { cn } from "@/utlis/cn";
 import { ClassValue } from "clsx";
 import { useRouter } from "next/navigation";
-import React from 'react';
+import React from "react";
 import { FiArrowLeft } from "react-icons/fi";
 
 export type HeaderRowProps = {
-    header: string,
-    leftContent?: string | React.ReactNode,
-    rightContent?: React.ReactNode,
-    hasBackIcon?: boolean,
-    onBackClick ?: () => void,
-    className?: string,
-    headerCN ?: string,
-    theme?: "default" | "bordered"
-}
+  header: string;
+  leftContent?: string | React.ReactNode;
+  rightContent?: React.ReactNode;
+  hasBackIcon?: boolean;
+  onBackClick?: () => void;
+  className?: string;
+  headerCN?: string;
+  theme?: "default" | "bordered";
+};
 
-const HeaderRow = ({hasBackIcon = false, theme = "default", ...props}: HeaderRowProps) => {
+const HeaderRow = ({ hasBackIcon = false, theme = "default", ...props }: HeaderRowProps) => {
+  const router = useRouter();
+  const handleBackClick = () => (props.onBackClick ? props.onBackClick() : router.back());
 
-    const router = useRouter()
-    const handleBackClick = () => props.onBackClick ? props.onBackClick() : router.back()
+  const wrapperCV: ClassValue[] = [
+    "w-full sm:col-span-full flex flex-row items-center justify-between",
+    { "md:px-0 pb-7 border-b-2 border-light-gray": theme == "bordered" },
+    props.className,
+  ];
 
-    const wrapperCV: ClassValue[] = [
-        "w-full sm:col-span-full flex flex-row items-center justify-between",
-        {"md:px-0 pb-7 border-b-2 border-light-gray": theme == "bordered"},
-        props.className,
-    ]
-
-    return (
-        <div className={cn(wrapperCV)}>
-            <div className={"flex flex-row items-center gap-4"}>
-                <div className={"flex flex-row items-center gap-3"}>
-                    {
-                        hasBackIcon && <FiArrowLeft
-                            size={"20px"}
-                            className={"pointer gray-text"}
-                            onClick={handleBackClick}
-                        />
-                    }
-                    <Text
-                        text={props.header}
-                        className={cn("text-[20px] md:text-[24px] font-medium", props.headerCN)}
-                    />
-                </div>
-                {
-                    typeof props.leftContent == "string"
-                        ? <Text text={props.leftContent} className={"text-[14px] md:text-base text-text-gray"}/>
-                        : props.leftContent
-                }
-            </div>
-            {props.rightContent}
+  return (
+    <div className={cn(wrapperCV)}>
+      <div className={"flex flex-row items-center gap-4"}>
+        <div className={"flex flex-row items-center gap-3"}>
+          {hasBackIcon && <FiArrowLeft size={"20px"} className={"pointer gray-text"} onClick={handleBackClick} />}
+          <Text text={props.header} className={cn("text-[20px] md:text-[24px] font-medium", props.headerCN)} />
         </div>
-    );
+        {typeof props.leftContent == "string" ? (
+          <Text text={props.leftContent} className={"text-[14px] md:text-base text-text-gray"} />
+        ) : (
+          props.leftContent
+        )}
+      </div>
+      {props.rightContent}
+    </div>
+  );
 };
 
 export default HeaderRow;

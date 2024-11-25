@@ -2,14 +2,15 @@
 
 import { $userCredentials, getUserCredentialsEvent } from "@/app/(customer)/model";
 import DIOLogoSmall from "@/components/atoms/svg/dio-logo-small/DIOLogoSmall";
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { cn } from "@/utlis/cn";
+import { Box } from "@chakra-ui/react";
 import { useUnit } from "effector-react";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
-const wrapperStyles = ["lg:hidden w-full flex flex-row items-center px-5 md:px-6 bg-white", "justify-between py-5"];
+const wrapperStyles = "lg:hidden w-full flex flex-row items-center px-5 md:px-6 bg-white justify-between py-5";
 
 const MobileNavbar = ({ className }: { className?: string }) => {
   const pathname = usePathname();
@@ -17,6 +18,7 @@ const MobileNavbar = ({ className }: { className?: string }) => {
 
   const [userCredentials, getUserCredentials] = useUnit([$userCredentials, getUserCredentialsEvent]);
   const rightText = userCredentials?.fullName.split(" ")[1] ?? "Войти";
+  const isMenuPage = pathname.includes("/mobile/menu");
 
   const handleLogin = () => {
     if (!userCredentials) {
@@ -36,21 +38,17 @@ const MobileNavbar = ({ className }: { className?: string }) => {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <nav className={cn(wrapperStyles, className)}>
-        <div onClick={handleMenuClick}>
-          {!pathname.includes("/mobile/menu") ? <FiMenu size={"18px"} /> : <FiX size={"18px"} />}
-        </div>
-        <div onClick={handleLogoClick}>
-          <DIOLogoSmall />
-        </div>
+        <Box onClick={handleMenuClick}>{isMenuPage ? <FiX size="18px" /> : <FiMenu size="18px" />}</Box>
+        <DIOLogoSmall onClick={handleLogoClick} />
         <Text
+          className={cn(userCredentials ? "text-text-black" : "text-link-blue", "text-sm")}
           onClick={handleLogin}
           text={rightText}
-          className={cn(userCredentials ? "text-text-black" : "text-link-blue", "text-sm")}
         />
       </nav>
-    </React.Fragment>
+    </>
   );
 };
 

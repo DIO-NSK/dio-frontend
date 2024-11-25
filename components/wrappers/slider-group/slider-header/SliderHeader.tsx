@@ -1,5 +1,5 @@
 import SlideButton from "@/components/atoms/buttons/slide-button/SlideButton";
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { DESKTOP_SLIDES_PER_VIEW } from "@/constants/swiper";
 import { Side } from "@/data/enums/side";
 import { cn } from "@/utlis/cn";

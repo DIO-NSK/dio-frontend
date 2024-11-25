@@ -1,4 +1,4 @@
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { TabletPriceProps } from "../ProductCard.types";
 
 export const MobilePrice = ({ newPrice, price, discountPercent }: TabletPriceProps) => (

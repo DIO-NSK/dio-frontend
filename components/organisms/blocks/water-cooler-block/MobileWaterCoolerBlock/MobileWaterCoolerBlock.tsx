@@ -1,4 +1,4 @@
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { Image } from "@chakra-ui/react";
 import { IconButton } from "../IconButton/IconButton";
 import { IconButtonProps } from "../IconButton/IconButton.types";

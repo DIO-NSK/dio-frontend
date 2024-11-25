@@ -1,16 +1,16 @@
-import React, {CSSProperties, MouseEventHandler} from "react";
+import React, { CSSProperties, HTMLAttributes, MouseEventHandler } from "react";
 
-export type ButtonProps = {
-    onClick : MouseEventHandler,
+export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+    onClick: MouseEventHandler,
     text?: string,
     icon?: React.ReactNode,
     classNames?: ButtonClassnames,
     buttonType?: ButtonType,
-    size ?: ButtonSize,
-    style ?: CSSProperties,
-    hasSpinner ?: boolean,
-    disabled ?: boolean,
-    rightContent ?: React.ReactNode
+    size?: ButtonSize,
+    style?: CSSProperties,
+    hasSpinner?: boolean,
+    disabled?: boolean,
+    rightContent?: React.ReactNode
 }
 
 type ButtonType = "PRIMARY" | "SECONDARY"

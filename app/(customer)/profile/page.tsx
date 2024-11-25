@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
 import { $userCredentials, getUserCredentialsEvent } from "@/app/(customer)/model";
 import {
-    $orders,
-    getOrdersEvent,
-    resetOrderToRepeatEvent,
-    selectOrderToRepeatEvent
+  $orders,
+  getOrdersEvent,
+  resetOrderToRepeatEvent,
+  selectOrderToRepeatEvent,
 } from "@/app/(customer)/profile/orders/model";
 import Button from "@/components/atoms/buttons/button/Button";
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
 import BonusCard from "@/components/organisms/user-profile/bonus-card/BonusCard";
@@ -21,84 +21,72 @@ import { useEffect } from "react";
 import { FiRefreshCw, FiX } from "react-icons/fi";
 
 const MainInformationBlock = () => {
+  const [userCredentials, getUserCredentials] = useUnit([$userCredentials, getUserCredentialsEvent]);
 
-    const [userCredentials, getUserCredentials]
-        = useUnit([$userCredentials, getUserCredentialsEvent])
+  useEffect(() => {
+    if (!userCredentials) getUserCredentials();
+  }, []);
 
-    useEffect(() => {
-        if (!userCredentials) getUserCredentials()
-    }, [])
-
-    if (userCredentials) return (
-        <div className={"w-full flex flex-col gap-1"}>
-            <Text className={"text-lg font-medium hidden md:flex"} text={"Основная информация"}/>
-            <div className={"w-full flex md:items-start flex-col-reverse xl:flex-row gap-5"}>
-                <UserInfoCard userCredentials={userCredentials}/>
-                <BonusCard/>
-            </div>
+  if (userCredentials)
+    return (
+      <div className={"w-full flex flex-col gap-1"}>
+        <Text className={"text-lg font-medium hidden md:flex"} text={"Основная информация"} />
+        <div className={"w-full flex md:items-start flex-col-reverse xl:flex-row gap-5"}>
+          <UserInfoCard userCredentials={userCredentials} />
+          <BonusCard />
         </div>
-    )
-
-}
+      </div>
+    );
+};
 
 const LastOrderBlock = () => {
+  const router = useRouter();
+  const [resetOrderToRepeat, selectOrderToRepeat] = useUnit([resetOrderToRepeatEvent, selectOrderToRepeatEvent]);
+  const [orders, getOrders] = useUnit([$orders, getOrdersEvent]);
 
-    const router = useRouter()
-    const [resetOrderToRepeat, selectOrderToRepeat] = useUnit([resetOrderToRepeatEvent, selectOrderToRepeatEvent])
-    const [orders, getOrders] = useUnit([$orders, getOrdersEvent])
+  useEffect(() => {
+    resetOrderToRepeat();
+    getOrders();
+  }, []);
 
-    useEffect(() => {
-        resetOrderToRepeat()
-        getOrders()
-    }, [])
+  const handleRepeatOrder = () => {
+    selectOrderToRepeat(orders.at(0)!!);
+    router.push("/cart/checkout");
+  };
 
-    const handleRepeatOrder = () => {
-        selectOrderToRepeat(orders.at(0)!!)
-        router.push('/cart/checkout')
-    }
-
-    if (orders?.length !== 0) return (
-        <div className={"w-full flex flex-col gap-4"}>
-            <div className={"w-full flex flex-row items-center justify-between"}>
-                <Text text={"Последний заказ"} className={"text-lg font-medium"}/>
-                <Button
-                    classNames={{button: "p-0 bg-0 md:py-3 md:px-4 md:bg-light-gray"}}
-                    text={"Повторить заказ"}
-                    onClick={handleRepeatOrder}
-                    icon={<FiRefreshCw size={"18px"} className={"hidden md:flex"}/>}
-                    buttonType={"SECONDARY"}
-                    size={"sm"}
-                />
-            </div>
-            <OrderCard
-                order={orders.at(0)!!}
-                canRepeat={false}
-            />
+  if (orders?.length !== 0)
+    return (
+      <div className={"w-full flex flex-col gap-4"}>
+        <div className={"w-full flex flex-row items-center justify-between"}>
+          <Text text={"Последний заказ"} className={"text-lg font-medium"} />
+          <Button
+            classNames={{ button: "p-0 bg-0 md:py-3 md:px-4 md:bg-light-gray" }}
+            text={"Повторить заказ"}
+            onClick={handleRepeatOrder}
+            icon={<FiRefreshCw size={"18px"} className={"hidden md:flex"} />}
+            buttonType={"SECONDARY"}
+            size={"sm"}
+          />
         </div>
-    )
-}
+        <OrderCard order={orders.at(0)!!} canRepeat={false} />
+      </div>
+    );
+};
 
 const UserProfilePage = () => {
+  const navigation = useNavigation();
 
-    const navigation = useNavigation()
-
-    return (
-        <UserProfileWrapper>
-            <HeaderRow
-                header={"Мой профиль"}
-                className={"w-full mt-5 md:mt-0"}
-                rightContent={
-                    <FiX
-                        size={"20px"}
-                        className={"lg:hidden flex"}
-                        onClick={() => navigation.push('/')}
-                    />
-                }
-            />
-            <MainInformationBlock/>
-            <LastOrderBlock/>
-        </UserProfileWrapper>
-    );
+  return (
+    <UserProfileWrapper>
+      <HeaderRow
+        header={"Мой профиль"}
+        className={"w-full mt-5 md:mt-0"}
+        rightContent={<FiX size={"20px"} className={"lg:hidden flex"} onClick={() => navigation.push("/")} />}
+      />
+      <MainInformationBlock />
+      <LastOrderBlock />
+    </UserProfileWrapper>
+  );
 };
 
 export default UserProfilePage;

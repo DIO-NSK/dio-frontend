@@ -1,9 +1,9 @@
 import { PropsWithClassName } from "@/types/props/utils/PropsWithClassName";
-import { cn } from "@/utlis/cn";
+import { Box } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 
 export const ResponsiveBlock = ({ children, className }: PropsWithClassName<PropsWithChildren>) => (
-    <section className={cn('w-full 2xl:max-w-[1560px] xl:max-w-[1260px] lg:max-w-[964px] md:max-w-[724px]', className)}>
-        {children}
-    </section>
-)
+  <Box w="full" maxWidth={["100%", "100%", "724px", "964px", "1260px", "1560px"]} className={className}>
+    {children}
+  </Box>
+);

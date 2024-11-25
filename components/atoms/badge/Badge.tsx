@@ -1,4 +1,4 @@
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import { cn } from "@/utlis/cn";
 import { Container } from "./Badge.styles";
 

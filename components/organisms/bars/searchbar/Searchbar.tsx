@@ -3,7 +3,7 @@
 import SearchbarIconButtonList from "@/components/moleculas/lists/searchbar-icon-button-list/SearchbarIconButtonList";
 import { useSearchbar } from "@/components/organisms/bars/searchbar/Searchbar.hooks";
 import CatalogPopup from "@/components/organisms/popups/catalog/CatalogPopup";
-import { ResponsiveContainer } from "@/components/wrappers/responsive-container/ResponsiveContainer";
+import { ResponsiveContainer } from "@/components/wrappers";
 import { cn } from "@/utlis/cn";
 import React from "react";
 import { createPortal } from "react-dom";

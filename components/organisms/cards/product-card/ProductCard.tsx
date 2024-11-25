@@ -2,7 +2,7 @@
 
 import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
-import Text from "@/components/atoms/text/text-base/Text";
+import Text from "@/components/atoms/Text/Text";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import { cn } from "@/utlis/cn";
 import { Chips } from "./Chips/Chips";
