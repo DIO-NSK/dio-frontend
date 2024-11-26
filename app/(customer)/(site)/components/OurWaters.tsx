@@ -1,6 +1,6 @@
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
 import WaterCard from "@/components/organisms/cards/water-card/WaterCard";
-import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
+import SliderGroup from "@/components/wrappers/SliderGroup/SliderGroup";
 import { getOurWaters } from "../page.hooks";
 
 export const OurWaters = async () => {

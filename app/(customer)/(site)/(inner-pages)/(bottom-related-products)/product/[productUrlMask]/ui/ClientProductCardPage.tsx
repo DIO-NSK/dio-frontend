@@ -16,7 +16,7 @@ import MobilePhotoGalleryPopup from "@/components/mobile/popups/photo-gallery-po
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import DescriptionCol from "@/components/moleculas/cols/description-col/DescriptionCol";
 import CharacteristicList from "@/components/moleculas/lists/characteristic-list/CharacteristicList";
-import ProductPhotoSlider from "@/components/moleculas/sliders/product-photo-slider/ProductPhotoSlider";
+import ProductPhotoSlider from "@/components/moleculas/sliders/ProductPhotoSlider/ProductPhotoSlider";
 import ProductPriceCard from "@/components/organisms/cards/product-price-card/ProductPriceCard";
 import HeaderBlock from "@/components/wrappers/header-block/HeaderBlock";
 import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";

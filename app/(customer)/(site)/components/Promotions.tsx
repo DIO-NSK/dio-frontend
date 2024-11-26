@@ -1,6 +1,6 @@
 import MobileHeaderWrapper from "@/components/mobile/wrappers/mobile-header-wrapper/MobileHeaderWrapper";
 import SaleCard from "@/components/organisms/cards/sale-card/SaleCard";
-import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
+import SliderGroup from "@/components/wrappers/SliderGroup/SliderGroup";
 import { getPromotions } from "../page.hooks";
 
 const SLIDES_PER_VIEW = 4.1;

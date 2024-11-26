@@ -1,5 +1,5 @@
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
-import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
+import SliderGroup from "@/components/wrappers/SliderGroup/SliderGroup";
 import { productCardCV } from "../page.data";
 import { getNewProducts } from "../page.hooks";
 

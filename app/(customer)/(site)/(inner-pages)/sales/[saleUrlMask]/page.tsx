@@ -1,19 +1,19 @@
-import Text from "@/components/atoms/Text/Text";
-import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
-import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import CardBulletCol from "@/components/moleculas/cols/card-bullet-col/CardBulletCol";
-import ProductPhotoSlider from "@/components/moleculas/sliders/product-photo-slider/ProductPhotoSlider";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
-import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
+import SliderGroup from "@/components/wrappers/SliderGroup/SliderGroup";
 import { TextLink } from "@/types/dto/text";
 import { cn } from "@/utlis/cn";
 
-import SaleCardMobileInfoBlock from "@/app/(customer)/(site)/(inner-pages)/sales/[saleUrlMask]/ui/SaleCardMobileInfoBlock";
-import SalePriceCard from "@/app/(customer)/(site)/(inner-pages)/sales/[saleUrlMask]/ui/SalePriceCard";
 import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
 import MobileProductStickyButton from "@/components/atoms/buttons/MobileProductStickyButton";
+import { VStack } from "@chakra-ui/react";
 import { Metadata } from "next";
 import { getSaleById, getSales } from "../page.hooks";
+import { Description } from "./components/Description/Description";
+import { Header } from "./components/Header/Header";
+import { PhotoSlider } from "./components/PhotoSlider/PhotoSlider";
+import { SaleCardMobileInfoBlock } from "./components/SaleCardMobileInfoBlock";
+import { SalePriceCard } from "./components/SalePriceCard/SalePriceCard";
 
 const productCardCV = {
   mainWrapper: cn(["sm:border-2 sm:border-light-gray sm:scale-[0.95]", "sm:hover:scale-[0.95] sm:w-full"]),
@@ -49,27 +49,21 @@ const SalePage = async ({ params: { saleUrlMask } }: { params: { saleUrlMask: st
   ];
 
   return (
-    <div className={"w-full md:col-span-full flex flex-col gap-5 xl:gap-7"}>
+    <VStack alignItems="start" w="full" md={{ gridColumn: "1 / -1" }} gap={{ base: "20px", xl: "28px" }}>
       <div
         className={"px-5 md:px-6 lg:px-0 xl:px-0 w-full sm:col-span-full sm:grid sm:grid-cols-12 sm:gap-5 xl:gap-y-7"}
       >
-        <section className={"sm:col-span-full flex flex-col gap-2"}>
-          <CatalogBreadcrumbs breadcrumbs={breadcrumbs} />
-          <Text text={sale.name} className={"sm:text-2xl text-xl font-medium"} />
-        </section>
-        <div className={"w-full col-span-full md:col-span-8 xl:col-span-9 flex flex-col gap-5 xl:gap-7"}>
-          <ProductPhotoSlider photos={sale.images} />
-          <MobilePhotoSlider
-            photos={sale.images?.map((image) => ({ image: image }))}
-            className={"mt-5 mb-0"}
-            showQuantity
-          />
-          <div className={"w-full md:w-[calc(100vw-48px)] lg:w-full flex flex-col gap-2"}>
-            <Text text={"Описание"} className={"md:text-xl text-lg font-medium"} />
-            <Text text={sale.description} className={"w-full"} />
-          </div>
-          <CardBulletCol header={"Для участия в акции"} items={sale.ruleList} />
-        </div>
+        <Header sale={sale} breadcrumbs={breadcrumbs} />
+        <VStack
+          gridColumn={["1 / -1", "1 / -1", "span 8 / span 8", "span 8 / span 8", "span 9 / span 9"]}
+          gap={{ base: "20px", xl: "28px" }}
+          alignItems="start"
+          w="full"
+        >
+          <PhotoSlider sale={sale} />
+          <Description sale={sale} />
+          <CardBulletCol header="Для участия в акции" items={sale.ruleList} />
+        </VStack>
         <SalePriceCard sale={sale} saleId={saleId as number} />
       </div>
       <div className={"w-full md:px-6 lg:px-0 xl:px-0 py-7 border-y-2 border-light-gray"}>
@@ -81,7 +75,7 @@ const SalePage = async ({ params: { saleUrlMask } }: { params: { saleUrlMask: st
       </div>
       <SaleCardMobileInfoBlock sale={sale} saleId={saleId as number} />
       <MobileProductStickyButton item={sale} id={saleId as number} />
-    </div>
+    </VStack>
   );
 };
 

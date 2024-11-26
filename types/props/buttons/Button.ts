@@ -1,7 +1,7 @@
 import React, { CSSProperties, HTMLAttributes, MouseEventHandler } from "react";
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
-    onClick: MouseEventHandler,
+    onClick ?: MouseEventHandler,
     text?: string,
     icon?: React.ReactNode,
     classNames?: ButtonClassnames,

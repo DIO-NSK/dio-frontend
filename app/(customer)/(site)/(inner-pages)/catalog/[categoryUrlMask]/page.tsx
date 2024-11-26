@@ -7,34 +7,39 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 export const generateStaticParams = async () => {
-    const catalog = await getCatalog();
+  const catalog = await getCatalog();
 
-    return catalog.map(section => section.categories
-        .map(category => ({ categoryUrlMask: category.urlMask }))).flat();
-}
+  return catalog
+    .map((section) => section.categories.map((category: any) => ({ categoryUrlMask: category.urlMask })))
+    .flat();
+};
 
-export const generateMetadata = async ({ params: { categoryUrlMask } }: { params: { categoryUrlMask: string } }): Promise<Metadata> => {
-    const metadata = await getSeoByUrlMask(categoryUrlMask).catch(notFound);
+export const generateMetadata = async ({
+  params: { categoryUrlMask },
+}: {
+  params: { categoryUrlMask: string };
+}): Promise<Metadata> => {
+  const metadata = await getSeoByUrlMask(categoryUrlMask).catch(notFound);
 
-    console.log('metadata', categoryUrlMask, metadata);
+  console.log("metadata", categoryUrlMask, metadata);
 
-    const { title, description, keywords } = metadata;
+  const { title, description, keywords } = metadata;
 
-    return {
-        title: title,
-        description: description,
-        keywords: keywords
-    }
-}
+  return {
+    title: title,
+    description: description,
+    keywords: keywords,
+  };
+};
 
 const CatalogScreen = async ({ params: { categoryUrlMask } }: { params: { categoryUrlMask: string } }) => {
-    const { entityId: categoryId } = await getSeoByUrlMask(categoryUrlMask);
+  const { entityId: categoryId } = await getSeoByUrlMask(categoryUrlMask);
 
-    return (
-        <Suspense fallback={<Loading/>}>
-            <ClientCatalogScreen categoryId={categoryId as number} />
-        </Suspense>
-    )
-}
+  return (
+    <Suspense fallback={<Loading />}>
+      <ClientCatalogScreen categoryId={categoryId as number} />
+    </Suspense>
+  );
+};
 
-export default CatalogScreen
+export default CatalogScreen;

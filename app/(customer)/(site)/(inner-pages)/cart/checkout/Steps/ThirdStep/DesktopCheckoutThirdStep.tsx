@@ -1,0 +1,119 @@
+import { $checkoutFirstStepData } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/FirstStep/model";
+import { $checkoutSecondStepData } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/SecondStep/model";
+import {
+  $createOrderPending,
+  $createOrderStatus,
+  createOrderFx,
+  thirdStepDidMountEvent,
+} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/ThirdStep/model";
+import Button from "@/components/atoms/buttons/button/Button";
+import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import { HeaderDescription } from "@/types/dto/text";
+import { convertPhoneNumber } from "@/utlis/convertPhoneNumber";
+import { useUnit } from "effector-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { DataBlock } from "./DataBlock/DataBlock";
+import { convertFormDataToRequest } from "./DesktopCheckoutThirdStep.utils";
+
+const DesktopCheckoutThirdStep = () => {
+  const router = useRouter();
+
+  const orderData = useUnit($checkoutSecondStepData);
+  const [resetRequestStatus, requestStatus, pending] = useUnit([
+    thirdStepDidMountEvent,
+    $createOrderStatus,
+    $createOrderPending,
+  ]);
+  const [createOrder, firstFormData, secondFormData] = useUnit([
+    createOrderFx,
+    $checkoutFirstStepData,
+    $checkoutSecondStepData,
+  ]);
+
+  const firstBlockData: HeaderDescription[] = [
+    { header: "Имя", description: firstFormData.firstName ?? "" },
+    { header: "Фамилия", description: firstFormData.surname ?? "" },
+    { header: "Телефон", description: convertPhoneNumber(firstFormData.phoneNumber ?? "") },
+    { header: "Почта", description: firstFormData.email ?? "" },
+  ];
+
+  const secondBlockData: HeaderDescription[] = [{ header: "Адрес", description: firstFormData.address?.address ?? "" }];
+
+  const thirdBlockData: HeaderDescription[] = [
+    { header: "Дата доставки", description: secondFormData.deliveryDate.name },
+    { header: "Время доставки", description: secondFormData.deliveryTime.name },
+    {
+      header: "Способ оплаты",
+      description:
+        secondFormData.paymentMethod.value === "ONLINE"
+          ? "Банковской картой онлайн"
+          : "Наличными или картой при получении",
+    },
+    {
+      header: "Бонусы для списания",
+      description: secondFormData.bonuses ?? "0",
+    },
+  ];
+
+  const additionalBlockData: HeaderDescription[] = [
+    { header: "Комментарий к заказу", description: firstFormData?.comment as string },
+  ];
+
+  const headerSnackbar = requestStatus === true ? "Заказ успешно создан!" : "Произошла ошибка";
+  const messageSnackbar =
+    requestStatus === true ? "Перенаправляем Вас на страницу оплаты" : "Заполните данные заново и попробуйте снова";
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const handleCreateOrder = () => {
+    createOrder(convertFormDataToRequest(orderData))
+      .then((link) => {
+        if (secondFormData.paymentMethod.value === "ONLINE") {
+          router.push(link);
+        } else {
+          router.push("/profile/orders");
+        }
+      })
+      .catch((error) => setErrorMessage(error));
+  };
+
+  useEffect(() => {
+    resetRequestStatus();
+  }, []);
+
+  return (
+    <section className={"flex flex-col gap-7"}>
+      <Snackbar
+        autoHide={false}
+        success={requestStatus === true}
+        header={headerSnackbar}
+        message={requestStatus ? messageSnackbar : errorMessage}
+        open={requestStatus !== null}
+        onClose={resetRequestStatus}
+        action={() => {
+          resetRequestStatus();
+          router.back();
+        }}
+      />
+      <DataBlock header={"Данные получателя"} items={firstBlockData} />
+      <DataBlock header={"Адрес доставки"} items={secondBlockData} className={"col-span-full border-b-0 pb-0"} />
+      <DataBlock header={"Дата и время доставки"} items={thirdBlockData} />
+      {firstFormData?.comment ? (
+        <DataBlock
+          header={"Дополнительно"}
+          items={additionalBlockData}
+          className={"col-span-full flex-col gap-2 border-b-0 pb-0"}
+        />
+      ) : null}
+      <Button
+        text={pending ? "Отправка.." : "Оформить заказ"}
+        classNames={{ button: "w-full md:w-[200px] xl:w-1/4" }}
+        onClick={handleCreateOrder}
+        disabled={pending}
+      />
+    </section>
+  );
+};
+
+export default DesktopCheckoutThirdStep;

@@ -2,8 +2,8 @@
 
 import Text from "@/components/atoms/Text/Text";
 import MobileSliderWrapper from "@/components/mobile/wrappers/mobile-slider-wrapper/MobileSliderWrapper";
-import ButtonSlider from "@/components/moleculas/sliders/button-slider/ButtonSlider";
-import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
+import ButtonSlider from "@/components/moleculas/sliders/ButtonSlider/ButtonSlider";
+import SliderGroup from "@/components/wrappers/SliderGroup/SliderGroup";
 import { BREAKPOINT_MOBILE } from "@/constants";
 import { cn } from "@/utlis/cn";
 import { ClassValue } from "clsx";

@@ -3,7 +3,7 @@ import { TextLink } from "@/types/dto/text";
 
 import { AdvantageCard } from "@/components/organisms/cards";
 import { ContentImage } from "@/components/organisms/cards/fullwidth-main-card/content-image/ContentImage";
-import SliderGroup from "@/components/wrappers/slider-group/SliderGroup";
+import SliderGroup from "@/components/wrappers/SliderGroup/SliderGroup";
 
 import FirstBlock from "@/app/(customer)/(site)/(inner-pages)/(static-pages)/about-company/blocks/FirstBlock";
 import FourthBlock from "@/app/(customer)/(site)/(inner-pages)/(static-pages)/about-company/blocks/FourthBlock";

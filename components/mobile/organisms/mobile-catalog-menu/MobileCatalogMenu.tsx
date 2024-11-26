@@ -8,7 +8,7 @@ import { useUnit } from "effector-react";
 import Link from "next/link";
 import { useState } from "react";
 
-const CategoryBlock = ({ category }: { category: CatalogItem }) => {
+const CategoryBlock = ({ category }: { category: any }) => {
   const [expandedState, setExpandedState] = useState<boolean>(false);
 
   const rowCN = "flex flex-row pb-5 border-b-2 border-light-gray";
@@ -20,7 +20,7 @@ const CategoryBlock = ({ category }: { category: CatalogItem }) => {
         <ChevronButton setExpanded={() => setExpandedState(!expandedState)} isExpanded={expandedState} />
       </div>
       {expandedState &&
-        category.categories.map((sub, index) => (
+        category.categories.map((sub: any, index: number) => (
           <div className={cn(rowCN, "pl-5")} key={index}>
             <Link href={`/catalog/${sub.urlMask}`}>
               <Text text={sub.name} key={index} />

@@ -1,9 +1,9 @@
 import { ClassValue } from "clsx";
 
 const wrapperStyles = (className?: string): ClassValue[] => [
-  "md:col-span-4 xl:col-span-3 col-span-1 p-[15px] md:p-6 xl:p-[30px] rounded-xl bg-bg-light-blue flex",
-  "hover:bg-transparent border-2 border-light-gray group",
-  "flex-col gap-3 md:gap-[15px] hoverable pointer w-fit",
+  "col-span-1 md:col-span-4 xl:col-span-3 p-[15px] md:p-6 xl:p-[30px] rounded-xl bg-bg-light-blue flex",
+  "hover:bg-transparent border-2 border-light-gray group flex-col gap-3 md:gap-[15px]",
+  "hoverable pointer w-fit md:w-full",
   className,
 ];
 
