@@ -1,17 +1,17 @@
-import React from 'react';
-import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import ProductCard from "@/components/organisms/cards/product-card/ProductCard";
+import { ResponseProductSearch } from "@/types/dto/user/product/ResponseProductSearch";
+import { cn } from "@/utlis/cn";
+import { Box } from "@chakra-ui/react";
 
-const FavoritesContentBlock = ({products}: { products: ResponseProductSearch[] }) => (
-    <section className={"w-full flex flex-col gap-3 md:gap-5 xl:gap-7 md:grid md:grid-cols-8 xl:grid-cols-9"}>
-        {products.map((card, index) => (
-            <ProductCard
-                classNames={{mainWrapper: "w-full md:col-span-4 xl:col-span-3"}}
-                productCard={card}
-                key={index}
-            />
-        ))}
-    </section>
-)
+const wrapperCN = [
+  "w-full md:col-span-8 xl:col-span-9 flex flex-col gap-3 md:gap-5",
+  "xl:gap-7 md:grid md:grid-cols-8 xl:grid-cols-9",
+];
 
-export default FavoritesContentBlock;
+export const FavoritesContentBlock = ({ products }: { products: ResponseProductSearch[] }) => (
+  <Box className={cn(wrapperCN)}>
+    {products.map((card, index) => (
+      <ProductCard classNames={{ mainWrapper: "w-full md:col-span-4 xl:col-span-3" }} productCard={card} key={index} />
+    ))}
+  </Box>
+);

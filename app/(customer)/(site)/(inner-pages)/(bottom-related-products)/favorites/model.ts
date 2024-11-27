@@ -3,7 +3,7 @@ import {createEffect, createEvent, createStore, sample} from "effector";
 import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
 import {removeFromFavouritesFx} from "@/components/organisms/cards/product-price-card/model";
 
-type ResponseUserFavorites = {
+export type ResponseUserFavorites = {
     products : ResponseProductSearch[],
     promos : ResponseProductSearch[]
 }

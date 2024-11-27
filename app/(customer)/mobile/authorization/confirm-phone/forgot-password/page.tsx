@@ -6,7 +6,7 @@ import ControlledTextInput from "@/components/atoms/inputs/text-input/Controlled
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import { changePasswordFx } from "@/components/organisms/popups/authorization/change-password-popup/model";
 import { $passwordPhoneNumber } from "@/components/organisms/popups/authorization/forgot-password-popup/model";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { ChangePasswordData, ChangePasswordSchema } from "@/schemas/customer/authorization/ChangePasswordSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUnit } from "effector-react";

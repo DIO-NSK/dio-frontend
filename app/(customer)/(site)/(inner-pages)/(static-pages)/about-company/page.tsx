@@ -1,4 +1,4 @@
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { TextLink } from "@/types/dto/text";
 
 import { AdvantageCard } from "@/components/organisms/cards";

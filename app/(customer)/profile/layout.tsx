@@ -5,7 +5,7 @@ import { logoutUserFx } from "@/app/(customer)/model";
 import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconTextButton";
 import UserProfileLeftSidebar from "@/components/organisms/bars/user-profile-left-sidebar/UserProfileLeftSidebar";
 import { ResponsiveContainer } from "@/components/wrappers";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { cn } from "@/utlis/cn";
 import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 import { ClassValue } from "clsx";

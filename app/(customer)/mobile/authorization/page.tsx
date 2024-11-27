@@ -7,7 +7,7 @@ import ControlledTextInput from "@/components/atoms/inputs/text-input/Controlled
 import Text from "@/components/atoms/Text/Text";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import { $loginError, loginUserByCredentialsFx } from "@/components/organisms/popups/authorization/login-popup/model";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { LoginUserData, LoginUserSchema } from "@/schemas/customer/authorization/LoginUserSchema";
 import { InputPrefilledData } from "@/types/props/inputs/InputPrefilledData";
 import { useNavigation } from "@/utlis/hooks/useNavigation";

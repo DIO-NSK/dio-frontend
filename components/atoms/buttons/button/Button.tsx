@@ -22,6 +22,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {props.icon}
         {props?.text}
+        {children}
       </div>
       {props?.rightContent}
       {disabled && hasSpinner && <CircularProgress variant="soft" size="sm" />}

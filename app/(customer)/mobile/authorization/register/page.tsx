@@ -12,7 +12,7 @@ import {
   registerUserFx,
   setUserPhoneNumberEvent,
 } from "@/components/organisms/popups/authorization/signup-popup/model";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { RegisterUserData, RegisterUserSchema } from "@/schemas/customer/authorization/RegisterUserSchema";
 import { InputPrefilledData } from "@/types/props/inputs/InputPrefilledData";
 import { useNavigation } from "@/utlis/hooks/useNavigation";

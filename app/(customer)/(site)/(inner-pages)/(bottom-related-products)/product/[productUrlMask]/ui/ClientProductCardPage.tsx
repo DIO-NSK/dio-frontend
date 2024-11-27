@@ -19,7 +19,7 @@ import CharacteristicList from "@/components/moleculas/lists/characteristic-list
 import ProductPhotoSlider from "@/components/moleculas/sliders/ProductPhotoSlider/ProductPhotoSlider";
 import ProductPriceCard from "@/components/organisms/cards/product-price-card/ProductPriceCard";
 import HeaderBlock from "@/components/wrappers/header-block/HeaderBlock";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { useOldBreakpoint } from "@/utlis/hooks/useBreakpoint";
 import { useToggle } from "@/utlis/hooks/useToggle";
 import { useUnit } from "effector-react";

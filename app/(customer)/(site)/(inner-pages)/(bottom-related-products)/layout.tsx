@@ -1,13 +1,10 @@
-import React from 'react';
+import { VStack } from "@chakra-ui/react";
+import { PropsWithChildren } from "react";
 
-const BottomRelatedProductsLayout = ({children}: {
-    children: React.ReactNode
-}) => {
-    return (
-        <div className={"w-full flex flex-col gap-5 sm:col-span-full sm:gap-[40px]"}>
-            {children}
-        </div>
-    )
-}
+const BottomRelatedProductsLayout = ({ children }: PropsWithChildren) => (
+  <VStack w="full" gridColumn="1 / -1" alignItems="start" gap="40px">
+    {children}
+  </VStack>
+);
 
 export default BottomRelatedProductsLayout;

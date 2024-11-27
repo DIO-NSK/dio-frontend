@@ -3,7 +3,7 @@
 import Button from "@/components/atoms/buttons/button/Button";
 import DIOLogoSmall from "@/components/atoms/svg/dio-logo-small/DIOLogoSmall";
 import Text from "@/components/atoms/Text/Text";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { useNavigation } from "@/utlis/hooks/useNavigation";
 
 const MobileRegistrationSuccessPage = () => {

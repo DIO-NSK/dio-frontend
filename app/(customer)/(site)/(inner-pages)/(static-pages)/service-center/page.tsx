@@ -2,7 +2,7 @@ import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
 import Text from "@/components/atoms/Text/Text";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import StaticInfoCol from "@/components/moleculas/cols/static-info-col/StaticInfoCol";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { serviceCenter } from "@/data/static/serviceCenter";
 import { TextLink } from "@/types/dto/text";
 import { Metadata } from "next";

@@ -8,7 +8,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import Text from "@/components/atoms/Text/Text";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { UserConfirmCodeData, UserConfirmCodeSchema } from "@/schemas/customer/authorization/UserConfirmCodeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUnit } from "effector-react";

@@ -6,7 +6,7 @@ import MobilePickAddressPopup from "@/app/(customer)/(site)/(inner-pages)/cart/c
 import FormStepper from "@/components/mobile/moleculas/form-stepper/FormStepper";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import CheckoutCard from "@/components/organisms/cards/checkout-card/CheckoutCard";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { desktopCheckoutSteps } from "@/data/deskstopCheckoutSteps";
 import { useOldBreakpoint } from "@/utlis/hooks/useBreakpoint";
 import { useToggle } from "@/utlis/hooks/useToggle";

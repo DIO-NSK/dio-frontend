@@ -1,106 +1,40 @@
 "use client";
 
-import {
-  $favourites,
-  getFavouritesEvent,
-} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/favorites/model";
-import Button from "@/components/atoms/buttons/button/Button";
-import Text from "@/components/atoms/Text/Text";
-import Loading from "@/components/mobile/loading/Loading";
 import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
-import { addAllToCartEvent } from "@/components/organisms/cards/product-price-card/model";
-import ShoppingCartTotalPriceCard from "@/components/organisms/cards/shopping-cart-total-price-card/ShoppingCartTotalPriceCard";
-import EmptyPage from "@/components/organisms/empty-page/EmptyPage";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
-import { InfoBlockElement } from "@/types/dto/text";
-import { useUnit } from "effector-react";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
-const FavoritesContentBlock = dynamic(
-  () => import("@/components/organisms/loading-blocks/favorites/FavoritesContentBlock"),
-  { loading: () => <Loading className={"col-span-9"} /> },
-);
-
-const CATALOG_PATH = "/catalog/categories/3";
-const emptyHeader = "Нет избранных товаров";
-const emptyMessage = "Добавьте продукты в избранное и возвращайтесь снова!";
-
-const FavoritesHeaderRow = ({ selectedCards }: { selectedCards: any[] }) => {
-  return (
-    <div className={"w-full flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"}>
-      <div className={"flex flex-row items-baseline gap-2"}>
-        <Text text={"Избранное"} className={"text-[20px] sm:text-[24px] font-medium"} />
-        <Text text={`Всего ${selectedCards.length}`} className={"text-[14px] sm:ext-base text-text-gray"} />
-      </div>
-    </div>
-  );
-};
+import { TotalPriceCard } from "@/components/organisms/cards/TotalPriceCard/TotalPriceCard";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
+import { CartLoading } from "../cart/components/CartLoading";
+import { Empty } from "./components/Empty";
+import { ProductsBlock } from "./components/ProductsBlock/ProductsBlock";
+import { useFavoritesPage } from "./page.hooks";
 
 const FavoritesPage = () => {
-  const router = useRouter();
+  const { favourites, handleButtonClick, infoBlockData } = useFavoritesPage();
 
-  const [favourites, getFavourites, addAllToCart] = useUnit([$favourites, getFavouritesEvent, addAllToCartEvent]);
+  if (!favourites) {
+    return <CartLoading />;
+  }
 
-  const infoBlockData: InfoBlockElement[] = [
-    {
-      header: "Выбрано",
-      description: `${favourites?.products.length} шт.`,
-    },
-    {
-      header: "Итого",
-      description: `${favourites?.products.reduce(
-        (acc, item) => acc + item.price - 0.01 * item.price * item.discountPercent,
-        0,
-      )} ₽`,
-      className: "text-link-blue font-medium text-[20px]",
-    },
-  ];
+  const { products, promos } = favourites;
 
-  const handleButtonClick = () => {
-    const productItemIds = favourites?.products.map((item) => item.id);
-    if (productItemIds) addAllToCart(productItemIds);
-  };
-
-  useEffect(() => {
-    getFavourites();
-  }, []);
-
-  if (favourites)
-    return (
-      <InnerPageWrapper classNames={{ mobileWrapper: "pt-0" }}>
-        {favourites.products.length ? (
-          <div className={"w-full md:col-span-8 xl:col-span-9 flex flex-col md:gap-5 xl:gap-7"}>
-            <FavoritesHeaderRow selectedCards={favourites.products} />
-            <FavoritesContentBlock products={favourites.products} />
-          </div>
-        ) : (
-          <EmptyPage
-            className={"sm:col-span-9 sm:items-center sm:justify-center sm:ml-0"}
-            header={emptyHeader}
-            description={emptyMessage}
-          >
-            <Button onClick={() => router.push(CATALOG_PATH)} text={"К продуктам"} />
-          </EmptyPage>
-        )}
-
-        <ShoppingCartTotalPriceCard
-          promos={[]}
-          products={favourites.products}
-          onClick={handleButtonClick}
-          buttonText={"Добавить все в корзину"}
+  return (
+    <InnerPageWrapper classNames={{ mobileWrapper: "pt-0" }}>
+      {products.length !== 0 ? <ProductsBlock products={products} /> : <Empty />}
+      <TotalPriceCard
+        buttonText="Добавить все в корзину"
+        onClick={handleButtonClick}
+        promos={promos as any}
+        products={products}
+      />
+      {products?.length !== 0 ? (
+        <MobileCartInfoBlock
+          buttonText="Добавить все в корзину"
+          infoBlockData={infoBlockData}
+          onSubmit={handleButtonClick}
         />
-
-        {favourites.products.length !== 0 && (
-          <MobileCartInfoBlock
-            infoBlockData={infoBlockData}
-            buttonText={"Добавить все в корзину"}
-            onSubmit={handleButtonClick}
-          />
-        )}
-      </InnerPageWrapper>
-    );
+      ) : null}
+    </InnerPageWrapper>
+  );
 };
 
 export default FavoritesPage;

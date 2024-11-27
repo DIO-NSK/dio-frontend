@@ -9,7 +9,7 @@ import {
   $loginByPhoneNumber,
   loginByPhonePopupDidMountEvent,
 } from "@/components/organisms/popups/authorization/login-by-phone-popup/model";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { UserConfirmCodeData, UserConfirmCodeSchema } from "@/schemas/customer/authorization/UserConfirmCodeSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUnit } from "effector-react";

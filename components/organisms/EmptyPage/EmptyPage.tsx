@@ -3,18 +3,11 @@ import QuestionMark from "@/components/atoms/svg/question-mark/QuestionMark";
 import Text from "@/components/atoms/Text/Text";
 import { cn } from "@/utlis/cn";
 import { useRouter } from "next/navigation";
-import React from "react";
-
-type EmptyPageProps = {
-  header: string;
-  description: string;
-  children: React.ReactNode;
-  className?: string;
-};
+import { EmptyPageProps } from "./EmptyPage.types";
 
 const wrapperStyles = (className?: string) => [
   "md:-mx-10 w-full md:col-span-6 xl:col-span-9 flex flex-row gap-12",
-  "rounded-xl md:p-10 md:bg-bg-light-blue xl:-mx-0",
+  "rounded-xl md:p-10 md:bg-bg-light-blue xl:-mx-0 h-fit",
   className,
 ];
 

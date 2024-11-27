@@ -9,7 +9,7 @@ import {
   sendConfirmationCodePasswordFx,
   setPasswordPhoneNumberEvent,
 } from "@/components/organisms/popups/authorization/forgot-password-popup/model";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { LoginByPhoneData, LoginByPhoneSchema } from "@/schemas/customer/authorization/LoginByPhoneSchema";
 import { useSmartCaptcha } from "@/utlis/hooks/useSmartCaptcha";
 import { zodResolver } from "@hookform/resolvers/zod";

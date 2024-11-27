@@ -2,7 +2,7 @@ import Text from "@/components/atoms/Text/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import InnerPageWrapper from "@/components/wrappers/inner-page-wrapper/InnerPageWrapper";
+import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { useState } from "react";
 import { FiX } from "react-icons/fi";
 

@@ -1,10 +1,12 @@
+"use client";
+
 import { getBonuses } from "@/app/(customer)/profile/page.api";
 import ControlledMultiSelectButton from "@/components/atoms/buttons/multiselect-button/ControlledMultiSelectButton";
 import ControlledTextInput from "@/components/atoms/inputs/text-input/ControlledTextInput";
 import Text from "@/components/atoms/Text/Text";
-import { BREAKPOINT_MOBILE } from "@/constants";
 import { PaymentMethod } from "@/types/dto/user/order/PaymentMethod";
 import { SelectItem } from "@/types/props/SelectItem";
+import { useOldBreakpoint } from "@/utlis/hooks/useBreakpoint";
 import "dayjs/locale/ru";
 import { useEffect, useState } from "react";
 import { FieldError, useFormContext } from "react-hook-form";
@@ -18,8 +20,11 @@ export const CheckoutPaymentBlock = () => {
   const [bonusesError, setBonusesError] = useState<{ message: string } | undefined>(undefined);
   const [bonuses, setBonuses] = useState<number>(0);
 
+  const breakpoint = useOldBreakpoint();
+  const isMobile = ["init", "sm", "md"].includes(breakpoint);
+
   const multiselectElements: SelectItem<PaymentMethod>[] = [
-    { name: window.screen.width < BREAKPOINT_MOBILE ? "Картой" : "Банковской картой онлайн", value: "ONLINE" },
+    { name: isMobile ? "Картой" : "Банковской картой онлайн", value: "ONLINE" },
     { name: "Наличными или картой при получении", value: "CASH" },
   ];
 

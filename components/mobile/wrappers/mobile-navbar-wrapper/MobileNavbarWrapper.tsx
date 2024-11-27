@@ -1,22 +1,20 @@
-import React from 'react';
-import {WrapperProps} from "@/types/props/Wrapper";
-import MobileNavbar from "@/components/mobile/moleculas/bars/navbar/MobileNavbar";
+import MobileNavbar from "@/components/mobile/moleculas/bars/MobileNavbar/MobileNavbar";
 import MobilePageWrapper from "@/components/mobile/wrappers/mobile-page-wrapper/MobilePageWrapper";
-import {PopupProps} from "@/types/props/Popup";
+import { PopupProps } from "@/types/props/Popup";
+import { WrapperProps } from "@/types/props/Wrapper";
 
 type MobileNavbarWrapperProps = {
-    sticky ?: boolean
-} & WrapperProps & PopupProps
+  sticky?: boolean;
+} & WrapperProps &
+  PopupProps;
 
-const MobileNavbarWrapper = ({sticky, ...props} : MobileNavbarWrapperProps) => {
-    return (
-        <section>
-            <MobileNavbar />
-            <MobilePageWrapper className={props.className}>
-                {props.children}
-            </MobilePageWrapper>
-        </section>
-    );
+const MobileNavbarWrapper = ({ sticky, ...props }: MobileNavbarWrapperProps) => {
+  return (
+    <section>
+      <MobileNavbar />
+      <MobilePageWrapper className={props.className}>{props.children}</MobilePageWrapper>
+    </section>
+  );
 };
 
 export default MobileNavbarWrapper;

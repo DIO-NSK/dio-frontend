@@ -4,7 +4,7 @@ import { PropsWithChildren } from "react";
 import { ResponsiveBlock } from "./ResposiveBlock";
 
 export const ResponsiveContainer = ({ children, className }: PropsWithClassName<PropsWithChildren>) => (
-  <VStack position="relative" className={className}>
+  <VStack w="full" position="relative" className={className}>
     <ResponsiveBlock>{children}</ResponsiveBlock>
   </VStack>
 );

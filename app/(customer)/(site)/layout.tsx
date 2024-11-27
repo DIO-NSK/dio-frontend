@@ -1,6 +1,6 @@
 "use client";
 
-import MobileNavbar from "@/components/mobile/moleculas/bars/navbar/MobileNavbar";
+import MobileNavbar from "@/components/mobile/moleculas/bars/MobileNavbar/MobileNavbar";
 import { ActionBar } from "@/components/organisms/action-bar/ActionBar";
 import { Footer } from "@/components/organisms/footer/Footer";
 import { VStack } from "@chakra-ui/react";
