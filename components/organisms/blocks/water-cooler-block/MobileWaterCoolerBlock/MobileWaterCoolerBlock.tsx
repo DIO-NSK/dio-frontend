@@ -57,9 +57,12 @@ export const MobileWaterCoolerBlock = () => (
       <IconButton {...item} key={index} />
     ))}
     <Image
-      className="ml-3 h-[400px] w-full object-scale-down"
       alt="Мобильное изображение кулера"
       src="/images/water-cooler.png"
+      objectFit="scale-down"
+      height="400px"
+      ml="12px"
+      w="full"
     />
   </section>
 );
