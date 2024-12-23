@@ -1,0 +1,1 @@
+export const SITEKEY = String(process.env.NEXT_PUBLIC_YANDEX_CAPTCHA_SITEKEY);

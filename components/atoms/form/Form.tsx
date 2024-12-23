@@ -1,20 +1,18 @@
-import React from 'react';
-import {cn} from "@/utlis/cn";
-import {WrapperProps} from "@/types/props/Wrapper";
+import { cn } from "@/utlis/cn";
+import { FormEventHandler } from "react";
+import { FormProps } from "./Form.types";
 
-type FormProps = {
-    onSubmit ?: React.FormEventHandler<HTMLFormElement>
-} & WrapperProps
+const Form = ({ onSubmit, children, ...props }: FormProps) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    onSubmit?.(event);
+  };
 
-const Form = (props: FormProps) => {
-    return (
-        <form
-            className={cn("w-full flex flex-col gap-5 sm:gap-7", props.className)}
-            onSubmit={props?.onSubmit}
-        >
-            {props.children}
-        </form>
-    );
+  return (
+    <form className={cn("w-full flex flex-col gap-5 sm:gap-7", props.className)} onSubmit={handleSubmit}>
+      {children}
+    </form>
+  );
 };
 
 export default Form;
