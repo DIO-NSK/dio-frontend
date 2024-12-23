@@ -65,19 +65,19 @@ const CatalogSidebar = ({ categoryId }: { categoryId: number }) => {
 
 const DesktopCatalogScreen = ({ categoryId, onOpenPopup }: { categoryId: number; onOpenPopup: () => void }) => {
   const breakpoint = useOldBreakpoint();
-
+  const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const pageDidMount = useUnit(catalogPageDidMountEvent);
-  const [filtersPending, breadcrumbsPending] = useUnit([$sendFiltersPending, $categoryBreadcrumbsPending]);
+  const filtersPending = useUnit($sendFiltersPending);
   const [selectedSort, onSelectSort] = useUnit([$selectedSort, selectSortEvent]);
   const [breadcrumbs, categoryName, getBreadcrumbs] = useUnit([
     $categoryBreadcrumbs,
     $catalogCategoryName,
     getCategoryBreadcrumbsFx,
   ]);
+  
   const [amount, products] = useUnit([$productsAmount, $products]);
 
   const handleSelectSort = (item: SelectItem<string>) => {

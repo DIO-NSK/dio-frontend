@@ -8,15 +8,18 @@ import {
 } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/ThirdStep/model";
 import Button from "@/components/atoms/buttons/button/Button";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
+import { desktopCheckoutSteps } from "@/data/deskstopCheckoutSteps";
 import { HeaderDescription } from "@/types/dto/text";
 import { convertPhoneNumber } from "@/utlis/convertPhoneNumber";
 import { useUnit } from "effector-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { setActiveStepEvent } from "../../../model";
 import { DataBlock } from "./DataBlock/DataBlock";
 import { convertFormDataToRequest } from "./DesktopCheckoutThirdStep.utils";
 
 const DesktopCheckoutThirdStep = () => {
+  const setActiveStep = useUnit(setActiveStepEvent);
   const router = useRouter();
 
   const orderData = useUnit($checkoutSecondStepData);
@@ -74,6 +77,8 @@ const DesktopCheckoutThirdStep = () => {
         } else {
           router.push("/profile/orders");
         }
+
+        setActiveStep(desktopCheckoutSteps[0]);
       })
       .catch((error) => setErrorMessage(error));
   };
