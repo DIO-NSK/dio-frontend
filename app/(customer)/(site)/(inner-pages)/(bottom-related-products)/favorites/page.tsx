@@ -2,6 +2,7 @@
 
 import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
 import { TotalPriceCard } from "@/components/organisms/cards/TotalPriceCard/TotalPriceCard";
+import { IfRenderBlock } from "@/components/wrappers/IfRenderBlock/IfRenderBlock";
 import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import { CartLoading } from "../cart/components/CartLoading";
 import { Empty } from "./components/Empty";
@@ -16,23 +17,25 @@ const FavoritesPage = () => {
   }
 
   const { products, promos } = favourites;
+  const isNotEmpty = products?.length !== 0;
 
   return (
     <InnerPageWrapper classNames={{ mobileWrapper: "pt-0" }}>
-      {products.length !== 0 ? <ProductsBlock products={products} /> : <Empty />}
+      {isNotEmpty ? <ProductsBlock products={products} /> : <Empty />}
       <TotalPriceCard
         buttonText="Добавить все в корзину"
         onClick={handleButtonClick}
+        shouldRestrict={false}
         promos={promos as any}
         products={products}
       />
-      {products?.length !== 0 ? (
+      <IfRenderBlock condition={isNotEmpty}>
         <MobileCartInfoBlock
           buttonText="Добавить все в корзину"
           infoBlockData={infoBlockData}
           onSubmit={handleButtonClick}
         />
-      ) : null}
+      </IfRenderBlock>
     </InnerPageWrapper>
   );
 };

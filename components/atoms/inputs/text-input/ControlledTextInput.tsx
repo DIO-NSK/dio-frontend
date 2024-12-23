@@ -29,10 +29,10 @@ const InnerInput = <T extends FieldValues>({ theme = "outlined", ...props }: Con
         <div className={"w-full relative"}>
           {props.inputMask ? (
             <InputMask
-              mask={props.inputMask}
-              className={cn(wrapperCV)}
-              placeholder={props.placeholder}
               {...methods?.register?.(props.name)}
+              placeholder={props.placeholder}
+              className={cn(wrapperCV)}
+              mask={props.inputMask}
             />
           ) : (
             <input

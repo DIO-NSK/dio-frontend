@@ -4,6 +4,7 @@ import Loading from "@/components/mobile/loading/Loading";
 import MobileCartInfoBlock from "@/components/mobile/organisms/mobile-cart-info-block/MobileCartInfoBlock";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import { TotalPriceCard } from "@/components/organisms/cards/TotalPriceCard/TotalPriceCard";
+import { IfRenderBlock } from "@/components/wrappers/IfRenderBlock/IfRenderBlock";
 import InnerPageWrapper from "@/components/wrappers/InnerPageWrapper/InnerPageWrapper";
 import dynamic from "next/dynamic";
 import { Empty } from "../favorites/components/Empty";
@@ -22,20 +23,21 @@ const ShoppingCartPage = () => {
   }
 
   const cartIsNotEmpty = cart.products.length !== 0 || cart.promos.length !== 0;
+  const { products, promos } = cart || {};
 
   return (
     <InnerPageWrapper classNames={{ mobileWrapper: "pt-0" }}>
-      <HeaderRow leftContent={`Всего ${cart.products.length}`} className="md:flex hidden xl:p-0" header="Корзина" />
+      <HeaderRow leftContent={`Всего ${products?.length}`} className="md:flex hidden xl:p-0" header="Корзина" />
       {cartIsNotEmpty ? <CartContentBlock /> : <Empty />}
       <TotalPriceCard
         buttonText="Перейти к оформлению"
         onClick={handleButtonClick}
-        products={cart.products}
-        promos={cart.promos}
+        products={products}
+        promos={promos}
       />
-      {cartIsNotEmpty ? (
-        <MobileCartInfoBlock infoBlockData={[]} buttonText={"Перейти к оформлению"} onSubmit={handleButtonClick} />
-      ) : null}
+      <IfRenderBlock condition={cartIsNotEmpty}>
+        <MobileCartInfoBlock infoBlockData={[]} buttonText="Перейти к оформлению" onSubmit={handleButtonClick} />
+      </IfRenderBlock>
     </InnerPageWrapper>
   );
 };

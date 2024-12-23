@@ -1,0 +1,1 @@
+export const wrapperStyles = ["md:col-start-9 md:col-span-4 md:p-5 md:gap-4 xl:gap-5", "xl:p-7 xl:col-start-10 xl:col-span-3"];

@@ -24,6 +24,7 @@ export type TextInputProps = {
     classNames?: TextInputClassNames,
     disabled?: boolean,
     numbersOnly?: boolean,
+    type ?: string
 }
 
 type TextInputClassNames = {

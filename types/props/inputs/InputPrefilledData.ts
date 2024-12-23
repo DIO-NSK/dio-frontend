@@ -8,4 +8,5 @@ export type InputPrefilledData = {
     disabled ?: boolean,
     isPassword ?: boolean,
     name : string,
+    type ?: string
 }

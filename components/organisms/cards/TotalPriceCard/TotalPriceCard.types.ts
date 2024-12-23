@@ -8,7 +8,9 @@ export type CartItem = ResponseCartItem | ResponseProductSearch;
 
 export interface TotalPriceCardProps {
   promos: ResponseCartSaleItem[];
+  shouldRestrict ?: boolean;
   products: CartItem[];
-  buttonText: string;
   onClick: () => void;
+  buttonText: string;
+  
 }
