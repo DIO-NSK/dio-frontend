@@ -1,4 +1,4 @@
-import { CreateOrderRequest } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/ThirdStep/model";
+import { CreateOrderRequest } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/ThirdStep/model";
 import { CreateOrderData } from "@/schemas/customer/checkout/CreateOrderSchema";
 
 export const convertFormDataToRequest = (data: CreateOrderData): CreateOrderRequest =>

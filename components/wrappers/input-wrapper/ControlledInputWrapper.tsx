@@ -1,5 +1,5 @@
 import Text from "@/components/atoms/Text/Text";
-import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
+import ConnectForm from "@/components/organisms/forms/ConnectForm/ConnectForm";
 import { ControlledTextInputProps } from "@/types/props/inputs/TextInput";
 import { cn } from "@/utlis/cn";
 import { ClassValue } from "clsx";

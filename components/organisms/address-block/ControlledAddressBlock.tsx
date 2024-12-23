@@ -1,5 +1,5 @@
 import { AddressBlock } from "@/components/organisms/address-block/AddressBlock";
-import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
+import ConnectForm from "@/components/organisms/forms/ConnectForm/ConnectForm";
 import { Controller, FieldError } from "react-hook-form";
 import { AddressBlockProps } from "./AddresssBlock.types";
 

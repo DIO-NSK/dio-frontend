@@ -4,8 +4,8 @@ import {
   $checkoutFirstStepData,
   createOrderDraftFx,
   setCheckoutFirstStepDataEvent,
-} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/FirstStep/model";
-import { getDeliveryDateEvent } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/SecondStep/model";
+} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/FirstStep/model";
+import { getDeliveryDateEvent } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/SecondStep/model";
 import { $userCredentials } from "@/app/(customer)/model";
 import { $orderToRepeat } from "@/app/(customer)/profile/orders/model";
 import Button from "@/components/atoms/buttons/button/Button";
@@ -42,10 +42,10 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
   const {
     handleSubmit,
     reset,
-    formState: { isSubmitting, errors },
-    watch,
-    setValue,
+    formState: { isSubmitting },
   } = methods;
+
+  const buttonText = isSubmitting ? "Отправка.." : "Далее";
 
   const onSubmit = (formData: FieldValues) => {
     createOrderDraft(formData as CreateOrderDraftData)
@@ -91,10 +91,11 @@ const DesktopCheckoutFirstStep = (props: { onOpenMobilePopup: () => void }) => {
         <CommentBlock />
         <Button
           classNames={{ button: "w-full md:w-[200px] xl:w-1/4" }}
-          text={isSubmitting ? "Отправка.." : "Далее"}
           onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting}
-        />
+        >
+          {buttonText}
+        </Button>
       </Form>
     </FormProvider>
   );

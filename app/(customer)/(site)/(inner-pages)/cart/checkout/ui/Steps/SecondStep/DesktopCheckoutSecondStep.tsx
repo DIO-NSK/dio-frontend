@@ -1,10 +1,10 @@
 import { $cart } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import { $activeStep, setActiveStepEvent } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/model";
-import { $orderId } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/FirstStep/model";
+import { $orderId } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/FirstStep/model";
 import {
   $checkoutSecondStepData,
   setCheckoutSecondStepDataEvent,
-} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/SecondStep/model";
+} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/SecondStep/model";
 import { $orderToRepeat } from "@/app/(customer)/profile/orders/model";
 import Button from "@/components/atoms/buttons/button/Button";
 import Form from "@/components/atoms/form/Form";
@@ -14,10 +14,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUnit } from "effector-react";
 import { useEffect } from "react";
 import { DefaultValues, FieldValues, FormProvider, useForm } from "react-hook-form";
-import { useOrderPrice } from "../../page.hooks";
+import { useOrderPrice } from "../../../page.hooks";
 import { CheckoutPaymentBlock } from "./PaymentBlock/PaymentBlock";
 import { TimeBlock } from "./TimeBlock/TimeBlock";
 
+import { IfRenderBlock } from "@/components/wrappers/IfRenderBlock/IfRenderBlock";
 import "dayjs/locale/ru";
 
 const DesktopCheckoutSecondStep = () => {
@@ -44,6 +45,8 @@ const DesktopCheckoutSecondStep = () => {
     formState: { isSubmitting },
     reset,
   } = methods;
+
+  const buttonText = isSubmitting ? "Отправка.." : "К подтверждению";
 
   const onSubmit = (formData: FieldValues) => {
     const bonuses = getValues("bonuses");
@@ -75,20 +78,19 @@ const DesktopCheckoutSecondStep = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (orderId !== 0)
-    return (
+  return (
+    <IfRenderBlock condition={orderId !== 0}>
       <FormProvider {...methods}>
         <Form>
           <TimeBlock />
           <CheckoutPaymentBlock />
-          <Button
-            text={isSubmitting ? "Отправка.." : "К подтверждению"}
-            onClick={handleSubmit(onSubmit)}
-            classNames={{ button: "w-full md:w-[200px] xl:w-1/4" }}
-          />
+          <Button onClick={handleSubmit(onSubmit)} classNames={{ button: "w-full md:w-[200px] xl:w-1/4" }}>
+            {buttonText}
+          </Button>
         </Form>
       </FormProvider>
-    );
+    </IfRenderBlock>
+  );
 };
 
 export default DesktopCheckoutSecondStep;

@@ -1,6 +1,6 @@
 "use client";
 
-import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
+import ConnectForm from "@/components/organisms/forms/ConnectForm/ConnectForm";
 import { InvisibleSmartCaptcha } from "@yandex/smart-captcha";
 import { Controller } from "react-hook-form";
 import { SITEKEY } from "./ControlledCaptcha.constants";

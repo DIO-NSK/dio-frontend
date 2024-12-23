@@ -2,7 +2,7 @@ import {
   $userAddress,
   getAddressFx,
   selectUserAddressEvent,
-} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/FirstStep/model";
+} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/FirstStep/model";
 import Text from "@/components/atoms/Text/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";

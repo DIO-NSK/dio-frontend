@@ -2,7 +2,7 @@ import {
   $userAddress,
   getAddressFx,
   selectUserAddressEvent,
-} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/FirstStep/model";
+} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/FirstStep/model";
 import Text from "@/components/atoms/Text/Text";
 import Button from "@/components/atoms/buttons/button/Button";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
@@ -37,18 +37,17 @@ const MobilePickAddressPopup = (props: PopupProps) => {
   }, []);
 
   return (
-    <section className={"-mt-7 flex flex-col gap-5"}>
+    <section className="-mt-7 flex flex-col gap-5">
       <HeaderRow
         rightContent={<FiX onClick={props.onClose} size={"20px"} />}
-        header={"Выберите существующий адрес"}
-        headerCN={"text-lg"}
+        header="Выберите существующий адрес"
+        headerCN="text-lg"
       />
-      <Text
-        text={"Выберите существующий адрес, чтобы не заполнять заново поля в форме адреса доставки"}
-        className={"text-base text-text-gray"}
-      />
-      <SelectInput width={"w-full"} items={userAddresses} onSelect={setUserAddress} selectedItem={userAddress} />
-      <Button onClick={handleConfirmUserAddress} text={"Подтвердить"} />
+      <Text className="text-base text-text-gray">
+        Выберите существующий адрес, чтобы не заполнять заново поля в форме адреса доставки
+      </Text>
+      <SelectInput width="w-full" items={userAddresses} onSelect={setUserAddress} selectedItem={userAddress} />
+      <Button onClick={handleConfirmUserAddress}>Подтвердить</Button>
     </section>
   );
 };

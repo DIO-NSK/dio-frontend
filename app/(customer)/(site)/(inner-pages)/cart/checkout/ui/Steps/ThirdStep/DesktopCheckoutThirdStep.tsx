@@ -1,11 +1,11 @@
-import { $checkoutFirstStepData } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/FirstStep/model";
-import { $checkoutSecondStepData } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/SecondStep/model";
+import { $checkoutFirstStepData } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/FirstStep/model";
+import { $checkoutSecondStepData } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/SecondStep/model";
 import {
   $createOrderPending,
   $createOrderStatus,
   createOrderFx,
   thirdStepDidMountEvent,
-} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/ThirdStep/model";
+} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/ThirdStep/model";
 import Button from "@/components/atoms/buttons/button/Button";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import { HeaderDescription } from "@/types/dto/text";

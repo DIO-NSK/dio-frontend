@@ -1,5 +1,5 @@
 import Text from "@/components/atoms/Text/Text";
-import ConnectForm from "@/components/organisms/forms/connect-form/ConnectForm";
+import ConnectForm from "@/components/organisms/forms/ConnectForm/ConnectForm";
 import { RadioButtonItem } from "@/types/props/RadioButtonItem";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 

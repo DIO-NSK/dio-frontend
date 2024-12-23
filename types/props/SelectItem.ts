@@ -1,4 +1,4 @@
-export type SelectItem<T> = {
-    name: string,
-    value: T
-}
+export type SelectItem<T = string> = {
+  name: string;
+  value: T;
+};

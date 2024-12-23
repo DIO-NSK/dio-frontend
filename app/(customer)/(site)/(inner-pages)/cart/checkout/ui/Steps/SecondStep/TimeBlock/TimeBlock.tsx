@@ -1,9 +1,9 @@
-import { $orderId } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/FirstStep/model";
+import { $orderId } from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/FirstStep/model";
 import {
   $deliveryDates,
   $deliveryTimes,
   getDeliveryTimeEvent,
-} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/Steps/SecondStep/model";
+} from "@/app/(customer)/(site)/(inner-pages)/cart/checkout/ui/Steps/SecondStep/model";
 import ControlledSelectInput from "@/components/atoms/inputs/select-input/controlled-select-input/ControlledSelectInput";
 import BackgroundBlockWrapper from "@/components/wrappers/background-block-wrapper/BackgroundBlockWrapper";
 import { CreateOrderData } from "@/schemas/customer/checkout/CreateOrderSchema";
