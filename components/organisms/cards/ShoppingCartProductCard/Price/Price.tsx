@@ -1,5 +1,5 @@
 import Text from "@/components/atoms/Text/Text";
-import { PriceProps } from "@/components/organisms/cards/shopping-cart-product-card/Price/Price.types";
+import { PriceProps } from "@/components/organisms/cards/ShoppingCartProductCard/Price/Price.types";
 
 export const Price = ({ price, newPrice, amount, discountPercent }: PriceProps) => (
   <div className={"w-fit flex md:flex-row md:items-baseline md:gap-1 xl:flex-col xl:items-end xl:gap-0"}>

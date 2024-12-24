@@ -4,8 +4,8 @@ import {
 } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import MoreButton from "@/components/atoms/buttons/more-button/MoreButton";
 import Text from "@/components/atoms/Text/Text";
-import Counter from "@/components/moleculas/counter/Counter";
-import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
+import Counter from "@/components/moleculas/Counter/Counter";
+import ShoppingCartProductCard from "@/components/organisms/cards/ShoppingCartProductCard/ShoppingCartProductCard";
 import { cn } from "@/utlis/cn";
 import { useCounter } from "@/utlis/hooks/product/useCounter";
 import { useToggle } from "@/utlis/hooks/useToggle";

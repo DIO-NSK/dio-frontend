@@ -1,33 +1,31 @@
-import {useUnit} from "effector-react";
-import {
-    editProductAmountEvent
-} from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
-import {useEffect, useState} from "react";
+import { editProductAmountEvent } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
+import { useUnit } from "effector-react";
+import { useEffect, useState } from "react";
+
+const MAX_VALUE = Number.MAX_VALUE;
 
 export const useCounter = (productId: number, initAmount: number, isPromo: boolean = false) => {
+  const changeAmount = useUnit(editProductAmountEvent);
+  const [amount, setAmount] = useState<number>(initAmount);
 
-    const MAX_VALUE = 100
+  const increase = () => amount < MAX_VALUE && setAmount((amount) => amount + 1);
+  const decrease = () => amount > 1 && setAmount((amount) => amount - 1);
 
-    const changeAmount = useUnit(editProductAmountEvent)
-    const [amount, setAmount] = useState<number>(initAmount)
-
-    const increase = () => amount < MAX_VALUE && setAmount(amount => amount + 1)
-    const decrease = () => amount > 1 && setAmount(amount => amount - 1)
-
-    const payload = isPromo ? {
+  const payload = isPromo
+    ? {
         promoId: productId,
-        quantityPromo: amount
-    } : {
+        quantityPromo: amount,
+      }
+    : {
         productId: productId,
-        quantityProduct: amount
-    };
+        quantityProduct: amount,
+      };
 
-    useEffect(() => {
-        if (amount !== initAmount) {
-            changeAmount(payload)
-        }
-    }, [amount])
+  useEffect(() => {
+    if (amount !== initAmount) {
+      changeAmount(payload);
+    }
+  }, [amount]);
 
-    return [amount, increase, decrease] as const
-
-}
+  return [amount, increase, decrease] as const;
+};

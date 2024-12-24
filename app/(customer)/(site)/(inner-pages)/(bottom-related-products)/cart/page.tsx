@@ -11,7 +11,7 @@ import { Empty } from "../favorites/components/Empty";
 import { CartLoading } from "./components/CartLoading";
 import { useCartPage } from "./page.hooks";
 
-const CartContentBlock = dynamic(() => import("@/components/organisms/loading-blocks/cart/CartContentBlock"), {
+const CartContentBlock = dynamic(() => import("@/components/organisms/loading-blocks/cart/CartContentBlock/CartContentBlock"), {
   loading: () => <Loading className={"col-span-9"} />,
 });
 

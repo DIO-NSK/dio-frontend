@@ -6,7 +6,7 @@ import { $orderDetails, getOrderDetailsEvent } from "@/app/admin/orders/[orderId
 import TextButton from "@/components/atoms/buttons/text-button/TextButton";
 import Text from "@/components/atoms/Text/Text";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
+import ShoppingCartProductCard from "@/components/organisms/cards/ShoppingCartProductCard/ShoppingCartProductCard";
 import OrderPageHeaderBlock from "@/components/wrappers/order-page-header-block/OrderPageHeaderBlock";
 import StickyCardWrapper from "@/components/wrappers/sticky-card-wrapper/StickyCardWrapper";
 import { HeaderDescription } from "@/types/dto/text";

@@ -4,7 +4,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import ChevronButton from "@/components/atoms/buttons/chevron-button/ChevronButton";
 import IconTextButton from "@/components/atoms/buttons/icon-text-button/IconTextButton";
 import Text from "@/components/atoms/Text/Text";
-import ShoppingCartProductCard from "@/components/organisms/cards/shopping-cart-product-card/ShoppingCartProductCard";
+import ShoppingCartProductCard from "@/components/organisms/cards/ShoppingCartProductCard/ShoppingCartProductCard";
 import { HeaderDescription } from "@/types/dto/text";
 import { ResponseProfileOrder } from "@/types/dto/user/order/ResponseProfileOrder";
 import { OrderCardProps } from "@/types/props/OrderCard";

@@ -1,8 +1,8 @@
 import { removeProductFromCartEvent } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import Text from "@/components/atoms/Text/Text";
-import Counter from "@/components/moleculas/counter/Counter";
-import { CounterRowProps } from "@/components/organisms/cards/shopping-cart-product-card/CounterRow/CounterRow.types";
+import Counter from "@/components/moleculas/Counter/Counter";
+import { CounterRowProps } from "@/components/organisms/cards/ShoppingCartProductCard/CounterRow/CounterRow.types";
 import { cn } from "@/utlis/cn";
 import { useLike } from "@/utlis/hooks/product/useLike";
 import { ClassValue } from "clsx";
