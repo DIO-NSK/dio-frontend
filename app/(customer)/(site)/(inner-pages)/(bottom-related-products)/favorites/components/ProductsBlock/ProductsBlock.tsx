@@ -8,7 +8,7 @@ const FavoritesContentBlock = dynamic(
     import("@/components/organisms/loading-blocks/favorites/FavoritesContentBlock").then(
       (block) => block.FavoritesContentBlock,
     ),
-  { loading: () => <Loading className={"col-span-9"} /> },
+  { loading: () => <Loading className="col-span-9" /> },
 );
 
 export const ProductsBlock = ({ products }: ProductsBlockProps) => (

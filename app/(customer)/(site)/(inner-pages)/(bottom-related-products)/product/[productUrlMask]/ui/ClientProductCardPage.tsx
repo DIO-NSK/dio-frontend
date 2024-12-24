@@ -11,7 +11,7 @@ import ProductChips from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-
 import MobileProductStickyButton from "@/components/atoms/buttons/MobileProductStickyButton";
 import Text from "@/components/atoms/Text/Text";
 import Loading from "@/components/mobile/loading/Loading";
-import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
+import MobilePhotoSlider from "@/components/mobile/organisms/MobilePhotoSlider/MobilePhotoSlider";
 import MobilePhotoGalleryPopup from "@/components/mobile/popups/photo-gallery-popup/MobilePhotoGalleryPopup";
 import CatalogBreadcrumbs from "@/components/moleculas/catalog-breadcrumbs/CatalogBreadcrumbs";
 import DescriptionCol from "@/components/moleculas/cols/description-col/DescriptionCol";

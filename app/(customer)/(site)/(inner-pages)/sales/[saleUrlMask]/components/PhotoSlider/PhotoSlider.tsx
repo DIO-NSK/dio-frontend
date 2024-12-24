@@ -1,4 +1,4 @@
-import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
+import MobilePhotoSlider from "@/components/mobile/organisms/MobilePhotoSlider/MobilePhotoSlider";
 import ProductPhotoSlider from "@/components/moleculas/sliders/ProductPhotoSlider/ProductPhotoSlider";
 import { SaleDetails } from "../../model";
 

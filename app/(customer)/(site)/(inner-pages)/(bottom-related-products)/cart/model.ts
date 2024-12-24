@@ -59,7 +59,7 @@ const removeProductFromCart = async (req : RequestRemoveCart) => {
         .then(response => response.data)
 }
 
-const removeProductFromCartFx = createEffect(removeProductFromCart)
+export const removeProductFromCartFx = createEffect(removeProductFromCart)
 export const removeProductFromCartEvent = createEvent<RequestRemoveCart>()
 
 export const removeSaleFromCartEvent = createEvent<number>()

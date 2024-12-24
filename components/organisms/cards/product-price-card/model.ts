@@ -21,7 +21,7 @@ const addToCart = async (req: RequestAddToCart): Promise<string> => {
         .catch(error => {throw Error(error.response.data.message)})
 }
 
-const addToCartFx = createEffect<RequestAddToCart, string, Error>(addToCart)
+export const addToCartFx = createEffect<RequestAddToCart, string, Error>(addToCart)
 export const addToCartEvent = createEvent<RequestAddToCart>()
 export const $addToCartError = createStore<string>("")
 
@@ -81,7 +81,7 @@ const addAllToCart = async (productItemIds : number[]) => {
     return Promise.all(productItemIds.map(product => addToCart({productId : product, quantityProduct : 1})))
 }
 
-const addAllToCartFx = createEffect(addAllToCart)
+export const addAllToCartFx = createEffect(addAllToCart)
 export const addAllToCartEvent = createEvent<number[]>()
 
 sample({

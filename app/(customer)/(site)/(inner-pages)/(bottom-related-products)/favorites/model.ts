@@ -1,29 +1,35 @@
-import {getRequest} from "@/api";
-import {createEffect, createEvent, createStore, sample} from "effector";
-import {ResponseProductSearch} from "@/types/dto/user/product/ResponseProductSearch";
-import {removeFromFavouritesFx} from "@/components/organisms/cards/product-price-card/model";
+import { getRequest } from "@/api";
+import {
+  addAllToCartFx,
+  addToCartFx,
+  removeFromFavouritesFx,
+} from "@/components/organisms/cards/product-price-card/model";
+import { ResponseProductSearch } from "@/types/dto/user/product/ResponseProductSearch";
+import { createEffect, createEvent, createStore, sample } from "effector";
+import { removeProductFromCartFx } from "../cart/model";
 
 export type ResponseUserFavorites = {
-    products : ResponseProductSearch[],
-    promos : ResponseProductSearch[]
-}
+  products: ResponseProductSearch[];
+  promos: ResponseProductSearch[];
+};
 
 const getFavourites = async (): Promise<ResponseUserFavorites> => {
-    return getRequest("/favourite")
-}
+  return getRequest("/favourite");
+};
 
-export const getFavouritesFx = createEffect<void, ResponseUserFavorites, Error>(getFavourites)
-export const getFavouritesEvent = createEvent<void>()
-export const $favourites = createStore<ResponseUserFavorites | null>(null)
+export const getFavouritesFx = createEffect<void, ResponseUserFavorites, Error>(getFavourites);
+export const getFavouritesEvent = createEvent<void>();
+export const $favourites = createStore<ResponseUserFavorites | null>(null);
 
-$favourites.on(getFavouritesFx.doneData, (_, favourites) => favourites)
-
-sample({
-    clock: getFavouritesEvent,
-    target: getFavouritesFx
-})
+$favourites.on(getFavouritesFx.doneData, (_, favourites) => favourites);
 
 sample({
-    clock : removeFromFavouritesFx.doneData,
-    target : getFavouritesFx
-})
+  clock: [
+    getFavouritesEvent,
+    addAllToCartFx.doneData,
+    addToCartFx.doneData,
+    removeProductFromCartFx.doneData,
+    removeFromFavouritesFx.doneData,
+  ],
+  target: getFavouritesFx,
+});

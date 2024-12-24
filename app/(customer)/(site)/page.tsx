@@ -1,4 +1,4 @@
-import MobilePhotoSlider from "@/components/mobile/organisms/photo-slider/MobilePhotoSlider";
+import MobilePhotoSlider from "@/components/mobile/organisms/MobilePhotoSlider/MobilePhotoSlider";
 import { AdvantagesBlock } from "@/components/organisms/blocks/AdvantagesBlock/AdvantagesBlock";
 import WaterCoolerBlock from "@/components/organisms/blocks/water-cooler-block/WaterCoolerBlock";
 import { HeroSliderRow } from "@/components/organisms/HeroSliderRow/HeroSliderRow";
