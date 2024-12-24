@@ -1,10 +1,10 @@
-import ClientCatalogScreen from "@/app/(customer)/(site)/(inner-pages)/catalog/[categoryUrlMask]/ui/ClientCatalogScreen";
 import Loading from "@/app/(customer)/(site)/(inner-pages)/catalog/categories/[sectionUrlMask]/loading";
 import { getCatalog } from "@/app/(customer)/(site)/(inner-pages)/catalog/categories/[sectionUrlMask]/page.hooks";
 import { getSeoByUrlMask } from "@/app/admin/seo/page.api";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { ClientCatalogScreen } from "./ui/ClientCatalogScreen/ClientCatalogScreen";
 
 export const generateStaticParams = async () => {
   const catalog = await getCatalog();
@@ -20,8 +20,6 @@ export const generateMetadata = async ({
   params: { categoryUrlMask: string };
 }): Promise<Metadata> => {
   const metadata = await getSeoByUrlMask(categoryUrlMask).catch(notFound);
-
-  console.log("metadata", categoryUrlMask, metadata);
 
   const { title, description, keywords } = metadata;
 
