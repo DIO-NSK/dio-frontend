@@ -4,7 +4,7 @@ import { $orders, getOrderInfoFx, getOrdersEvent } from "@/app/(customer)/profil
 import Button from "@/components/atoms/buttons/button/Button";
 import SelectInput from "@/components/atoms/inputs/select-input/SelectInput";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import OrderCard from "@/components/organisms/cards/order-card/OrderCard";
+import OrderCard from "@/components/organisms/cards/OrderCard/OrderCard";
 import EmptyPage from "@/components/organisms/EmptyPage/EmptyPage";
 import Snackbar from "@/components/organisms/snackbar/Snackbar";
 import UserProfileWrapper from "@/components/wrappers/user-profile-wrapper/UserProfileWrapper";

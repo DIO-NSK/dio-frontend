@@ -10,7 +10,7 @@ import { useDiscount } from "@/utlis/hooks/product/useDiscount";
 import useBreakpoint from "@/utlis/hooks/useBreakpoint";
 import { headerRowCN, Row } from "./HeaderRow.styles";
 
-export const HeaderRow = ({ card, canInteract = true }: ShoppingCartProductCardProps) => {
+export const HeaderRow = ({ canInteract = true, isOrder = false, card }: ShoppingCartProductCardProps) => {
   const { productId, quantity, discountPercent, inStock, price: productPrice, name } = card;
 
   const [amount, increase, decrease] = useCounter(productId, quantity);
@@ -22,7 +22,7 @@ export const HeaderRow = ({ card, canInteract = true }: ShoppingCartProductCardP
   return (
     <div className={cn(headerRowCN)}>
       <div className="flex flex-col gap-2">
-        <IfRenderBlock condition={!inStock}>
+        <IfRenderBlock condition={!isOrder && !inStock}>
           <Chip className="bg-gray-100">
             <Text className="text-xs uppercase text-text-gray">Нет в наличии</Text>
           </Chip>
