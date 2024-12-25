@@ -4,10 +4,10 @@ import { FiCheck } from "react-icons/fi";
 import { useProductCardContext } from "../ProductCardContext";
 
 export const useProductCardFooter = () => {
-  const { productCard, controlled } = useProductCardContext();
+  const { productCard } = useProductCardContext();
 
   const [isLiked, toggleLike] = useLike(productCard.inFavourites, productCard.id);
-  const [isInCart, onBuyClick] = useBuyButton(productCard.inCart, productCard.id, undefined, controlled);
+  const [isInCart, onBuyClick] = useBuyButton(productCard.inCart, productCard.id, undefined);
 
   const buttonText = productCard.inStock ? (isInCart ? "В корзине" : "В корзину") : "Нет в наличии";
   const buttonIcon = isInCart ? <FiCheck size={"20px"} className={"stroke-white"} /> : null;

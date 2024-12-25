@@ -2,6 +2,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import LikeButton from "@/components/atoms/buttons/like-button/LikeButton";
 import BuyButton from "@/components/mobile/moleculas/buy-button/BuyButton";
 import { chakra } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { useProductCardFooter } from "./Footer.hooks";
 
 const Container = chakra.footer;

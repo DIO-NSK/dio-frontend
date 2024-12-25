@@ -8,7 +8,6 @@ interface ProductCardClassNames {
 interface ProductCardProps {
   productCard: ResponseProductSearch;
   classNames?: ProductCardClassNames;
-  controlled?: boolean;
 }
 
 interface TabletPriceProps {

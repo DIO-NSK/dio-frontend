@@ -10,13 +10,13 @@ import { Container, InnerContainer, wrapperStyles } from "./ProductCard.styles";
 import { ProductCardProps } from "./ProductCard.types";
 import { ProductCardContextProvider } from "./ProductCardContext";
 
-const ProductCard = ({ productCard, classNames, controlled }: ProductCardProps) => {
+const ProductCard = ({ productCard, classNames }: ProductCardProps) => {
   const router = useRouter();
 
   const handleCardClick = () => router.push(`/product/${(productCard as any).urlMask}`);
 
   return (
-    <ProductCardContextProvider productCard={productCard} classNames={classNames} controlled={controlled}>
+    <ProductCardContextProvider productCard={productCard} classNames={classNames}>
       <Container className={cn(wrapperStyles(classNames?.mainWrapper))} onClick={handleCardClick}>
         <Image
           className="select-none w-full h-[90px] lg:h-[130px] xl:h-[160px] object-scale-down"

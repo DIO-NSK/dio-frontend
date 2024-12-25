@@ -1,9 +1,9 @@
 import { removeProductFromCartEvent } from "@/app/(customer)/(site)/(inner-pages)/(bottom-related-products)/cart/model";
 import { addToCartEvent } from "@/components/organisms/cards/product-price-card/model";
 import { useUnit } from "effector-react";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 
-export const useBuyButton = (inCart: boolean, productId: number, isSale?: boolean, controlled?: boolean) => {
+export const useBuyButton = (inCart: boolean, productId: number, isSale?: boolean) => {
   const [addToCart, removeFromCart] = useUnit([addToCartEvent, removeProductFromCartEvent]);
   const [isSelected, setSelected] = useState<boolean>(inCart);
 
@@ -27,5 +27,8 @@ export const useBuyButton = (inCart: boolean, productId: number, isSale?: boolea
     setSelected(!isSelected);
   };
 
-  return [controlled ? inCart : isSelected, onClick] as const;
+  /** Принудительно обновляет значение, если данные изменились. */
+  useEffect(() => setSelected(inCart), [inCart]);
+
+  return [isSelected, onClick] as const;
 };
