@@ -7,14 +7,15 @@ import { Container, Divider } from "./CartContentBlock.styles";
 
 const CartContentBlock = () => {
   const cart = useUnit($cart);
+  const { products, promos } = cart || {};
 
   return (
     <Container className="md:col-span-8 xl:col-span-9">
-      <IfRenderBlock condition={cart?.products.length !== 0}>
+      <IfRenderBlock condition={products?.length !== 0}>
         <ProductsGroup />
       </IfRenderBlock>
       <Divider className={"hidden xl:flex w-full h-[2px] bg-light-gray"} />
-      <IfRenderBlock condition={cart?.promos.length !== 0}>
+      <IfRenderBlock condition={promos?.length !== 0}>
         <SalesGroup />
       </IfRenderBlock>
     </Container>

@@ -21,6 +21,12 @@ export const useCounter = (productId: number, initAmount: number, isPromo: boole
         quantityProduct: amount,
       };
 
+  /** Обновляет выбранное количество, если данные обновились. */
+  useEffect(() => {
+    setAmount(initAmount);
+  }, [initAmount]);
+
+  /** Автоматически обновляет выбранное количество.  */
   useEffect(() => {
     if (amount !== initAmount) {
       changeAmount(payload);
