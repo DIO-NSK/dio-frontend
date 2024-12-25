@@ -58,7 +58,7 @@ const Input = <T,>({ selectable = false, ...props }: Omit<SearchbarProps<T>, "ha
     "w-full sm:px-5 sm:py-4 xl:px-[30px] xl:py-5 rounded-xl bg-bg-light-blue border-0",
     "sm:bg-white sm:border-2 border-light-gray pointer",
     "group-hover:border-blue-400 hoverable",
-    "focus:outline-0",
+    "focus:outline-0 focus:cursor-text",
     props.classNames?.input,
   ];
 
