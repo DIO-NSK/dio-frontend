@@ -7,13 +7,15 @@ import { VStack } from "@chakra-ui/react";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Container } from "./components/SiteContainer/Container";
 
+const SEARCHBAR_HEIGHT = 164;
+
 const SiteLayout = ({ children }: { children: React.ReactNode }) => {
   const footerRef = useRef<HTMLDivElement>(null);
   const [minHeight, setMinHeight] = useState<number>(0);
 
   const updateMinHeight = () => {
     const { height: footerHeight } = footerRef.current!.getBoundingClientRect();
-    const height = window.innerHeight - footerHeight;
+    const height = window.innerHeight - footerHeight - SEARCHBAR_HEIGHT;
 
     setMinHeight(height);
   };
