@@ -69,6 +69,7 @@ const sendFilters = async (params: RequestFilterParams): Promise<CatalogProducts
 
 export const sendFiltersFx = createEffect(sendFilters)
 export const $sendFiltersPending = pending([sendFiltersFx])
+export const $getFiltersPending = pending([getCategoryFiltersFx])
 export const sendFiltersEvent = createEvent<CatalogueFilterParams>()
 export const $filters = createStore<FilterItem[]>([])
 

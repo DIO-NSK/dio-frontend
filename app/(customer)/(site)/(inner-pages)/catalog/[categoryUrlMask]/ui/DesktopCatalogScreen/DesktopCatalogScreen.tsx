@@ -13,7 +13,6 @@ import { TabletFilters } from "../TabletFilters/TabletFilters";
 import { BreadcrumbsHeader } from "./BreadcurmbsHeader/BreadcrumbsHeader";
 import { useDesktopCatalogScreen } from "./DesktopCatalogScreen.hooks";
 import { DesktopCatalogScreenProps } from "./DesktopCatalogScreen.types";
-import { EmptyRightBlock } from "./EmptyRightBlock/EmptyRightBlock";
 import { ProductsGrid } from "./ProductsGrid/ProductsGrid";
 
 const DesktopCatalogScreen = ({ categoryId, onOpenPopup }: DesktopCatalogScreenProps) => {
@@ -43,7 +42,7 @@ const DesktopCatalogScreen = ({ categoryId, onOpenPopup }: DesktopCatalogScreenP
           >
             Фильтры
           </Button>
-          {products.length !== 0 ? (
+          <IfRenderBlock condition={products.length !== 0}>
             <PageContentWrapper>
               <section className="w-full mt-2 md:mt-0 md:col-span-full md:grid md:grid-cols-9 md:gap-5 xl:gap-7">
                 <IfRenderBlock condition={isTabletBreakpoint}>
@@ -60,9 +59,7 @@ const DesktopCatalogScreen = ({ categoryId, onOpenPopup }: DesktopCatalogScreenP
               <ProductsGrid filtersPending={filtersPending} products={products} />
               <CatalogPagination />
             </PageContentWrapper>
-          ) : (
-            <EmptyRightBlock />
-          )}
+          </IfRenderBlock>
         </section>
       </InnerPageWrapper>
     </IfRenderBlock>
