@@ -4,7 +4,6 @@ import { ProductCardProps } from "../ProductCard.types";
 const defaultValues: ProductCardProps = {
   productCard: null as any,
   classNames: undefined,
-  controlled: false,
 };
 
 export const ProductCardContext = createContext<ProductCardProps>(defaultValues);

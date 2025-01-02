@@ -14,8 +14,6 @@ const itemStyle = (isLast: boolean) => [
 ];
 
 const CatalogBreadcrumbs = ({ breadcrumbs }: { breadcrumbs: TextLink[] }) => {
-  console.log(breadcrumbs);
-
   const [togglePopup, setActiveSection] = useUnit([toggleCatalogPopupEvent, selectActiveSectionEvent]);
 
   const handleOpenCatalogue = (sectionName: string) => {
