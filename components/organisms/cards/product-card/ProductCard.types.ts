@@ -8,6 +8,7 @@ interface ProductCardClassNames {
 interface ProductCardProps {
   productCard: ResponseProductSearch;
   classNames?: ProductCardClassNames;
+  hasLargePhoto ?: boolean;
 }
 
 interface TabletPriceProps {

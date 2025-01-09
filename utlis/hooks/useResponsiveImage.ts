@@ -3,77 +3,78 @@ import { breakpoints, BreakpointsKey, BreakpointsValue } from "@/constants";
 import { useEffect, useState } from "react";
 
 interface Size {
-    width: number | undefined;
-    height: number | undefined;
+  width: number | undefined;
+  height: number | undefined;
 }
 
 const BREAKPOINTS = {
-    init: 0,
-    sm: 360,
-    md: 768,
-    lg: 1024,
-    xl: 1440,
-    "2xl": 1920,
-    inf: 9999
-}
+  init: 0,
+  sm: 360,
+  md: 768,
+  lg: 1024,
+  xl: 1440,
+  "2xl": 1920,
+  inf: 9999,
+};
 
 const findBreakpoint = (width: number): BreakpointsValue => {
-    const keys = Object.keys(breakpoints);
+  const keys = Object.keys(breakpoints);
 
-    for (let index = 0; index < keys.length - 1; index++) {
-        if (Number(keys[index]) <= width && width < Number(keys[index + 1])) {
-            return breakpoints[Number(keys[index]) as BreakpointsKey] as BreakpointsValue;
-        }
+  for (let index = 0; index < keys.length - 1; index++) {
+    if (Number(keys[index]) <= width && width < Number(keys[index + 1])) {
+      return breakpoints[Number(keys[index]) as BreakpointsKey] as BreakpointsValue;
     }
+  }
 
-    return 'init';
-}
+  return "init";
+};
 
 const useOldBreakpoint = () => {
-    if (typeof window === 'undefined') {
-        return 'init';
+  if (typeof window === "undefined") {
+    return "init";
+  }
+
+  const initBreakpoint = findBreakpoint(window?.innerWidth ?? 0);
+  const [breakpoint, setBreakPoint] = useState<BreakpointsValue>(initBreakpoint);
+  const [windowSize, setWindowSize] = useState<Size>({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const handleResize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    if (windowSize?.width) {
+      setBreakPoint(findBreakpoint(windowSize.width));
     }
 
-    const initBreakpoint = findBreakpoint(window?.innerWidth ?? 0);
-    const [breakpoint, setBreakPoint] = useState<BreakpointsValue>(initBreakpoint);
-    const [windowSize, setWindowSize] = useState<Size>({
-        width: window.innerWidth,
-        height: window.innerHeight,
-    });
+    return () => window.removeEventListener("resize", handleResize);
+  }, [windowSize.width]);
 
-    const handleResize = () => {
-        setWindowSize({
-            width: window.innerWidth,
-            height: window.innerHeight,
-        });
-    };
-
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-        handleResize();
-
-        if (windowSize?.width) {
-            setBreakPoint(findBreakpoint(windowSize.width))
-        }
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, [windowSize.width]);
-
-    return breakpoint;
+  return breakpoint;
 };
 
 export const useResponsiveImage = ({ mainImageUrl, imageUrlDto }: ResponseCustomerBanner) => {
-    const breakpoint = useOldBreakpoint();
+  const breakpoint = useOldBreakpoint();
 
-    switch (breakpoint) {
-        case 'xl':
-        case 'inf':
-            return mainImageUrl;
-        case 'lg':
-            return imageUrlDto.tabletHorizontalImageUrl;
-        case 'md':
-            return imageUrlDto.tabletVerticalImageUrl;
-        default:
-            return imageUrlDto.mobileImageUrl;
-    }
-}
+  switch (breakpoint) {
+    case "xl":
+    case "2xl":
+    case "inf":
+      return mainImageUrl;
+    case "lg":
+      return imageUrlDto.tabletHorizontalImageUrl;
+    case "md":
+      return imageUrlDto.tabletVerticalImageUrl;
+    default:
+      return imageUrlDto.mobileImageUrl;
+  }
+};

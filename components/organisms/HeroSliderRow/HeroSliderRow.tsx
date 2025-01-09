@@ -17,16 +17,16 @@ import "swiper/css/scrollbar";
 export const HeroSliderRow = ({ banners, dayProducts }: HeroSliderRowProps) => (
   <Box
     gridTemplateColumns={["none", "none", createColumns(6), createColumns(12)]}
+    alignItems={{ xl: "center", "2xl": "start" }}
     display={["none", "none", "grid"]}
-    xl={{ alignItems: "center" }}
     gridColumn="1 / -1"
     gap="20px"
   >
-    <ImageBannerSlider width={"md:col-span-4 lg:col-span-8 xl:col-span-9"} banners={banners} />
-    <Swiper className={"md:col-span-2 lg:col-span-4 xl:col-span-3 w-full"} {...swiperConfig}>
+    <ImageBannerSlider width={"md:col-span-4 lg:col-span-8 xl:col-span-9 2xl:h-[480px]"} banners={banners} />
+    <Swiper className={"md:col-span-2 lg:col-span-4 xl:col-span-3 w-full h-full"} {...swiperConfig}>
       {dayProducts.map((product, key) => (
         <SwiperSlide key={key}>
-          <ProductCard classNames={productCardCV} productCard={product} />
+          <ProductCard classNames={productCardCV} productCard={product} hasLargePhoto />
         </SwiperSlide>
       ))}
     </Swiper>

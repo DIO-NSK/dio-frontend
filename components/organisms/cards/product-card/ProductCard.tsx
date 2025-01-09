@@ -10,16 +10,21 @@ import { Container, InnerContainer, wrapperStyles } from "./ProductCard.styles";
 import { ProductCardProps } from "./ProductCard.types";
 import { ProductCardContextProvider } from "./ProductCardContext";
 
-const ProductCard = ({ productCard, classNames }: ProductCardProps) => {
+const ProductCard = ({ hasLargePhoto = false, productCard, classNames }: ProductCardProps) => {
   const router = useRouter();
 
   const handleCardClick = () => router.push(`/product/${(productCard as any).urlMask}`);
+
+  const imageStyles = cn([
+    "select-none w-full h-[90px] lg:h-[130px] xl:h-[160px] object-scale-down",
+    { "2xl:h-[240px]": hasLargePhoto },
+  ]);
 
   return (
     <ProductCardContextProvider productCard={productCard} classNames={classNames}>
       <Container className={cn(wrapperStyles(classNames?.mainWrapper))} onClick={handleCardClick}>
         <Image
-          className="select-none w-full h-[90px] lg:h-[130px] xl:h-[160px] object-scale-down"
+          className={imageStyles}
           src={productCard.image ?? (productCard as any).mainImage}
           alt="Изображение продукта"
         />
