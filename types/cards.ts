@@ -25,8 +25,9 @@ export type ServiceCardDTO = {
     header : string,
     descr : string,
     rentTime ?: {name : string, value : string}[],
-    additional ?: string[],
-    price ?: number
+    additional ?: any[],
+    price ?: number,
+    isPerDay ?: boolean;
 }
 
 export type SaleCardDTO = {

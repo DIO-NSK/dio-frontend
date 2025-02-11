@@ -11,7 +11,7 @@ import { useUnit } from "effector-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const PriceRow = ({ price }: { price?: number }) => {
+const PriceRow = ({ price, isPerDay }: { price?: number; isPerDay?: boolean }) => {
   if (price !== undefined && price !== 0) {
     if (price !== 0) {
       return (
@@ -20,7 +20,7 @@ const PriceRow = ({ price }: { price?: number }) => {
             text={`от ${price} ₽`}
             className={"text-[20px] md:text-[22px] xl:text-[24px] font-semibold text-link-blue"}
           />
-          <Text text={"в мес."} className={"text-text-gray"} />
+          <Text text={isPerDay ? "в день" : "в мес."} className={"text-text-gray"} />
         </div>
       );
     }
@@ -34,24 +34,36 @@ const PriceRow = ({ price }: { price?: number }) => {
   }
 };
 
-const HeaderDescriptionColumn = ({ header, descr, price }: ServiceCardDTO) => {
+const HeaderDescriptionColumn = ({ header, descr, price, isPerDay }: ServiceCardDTO) => {
   const breakpoint = useBreakpoint();
 
   const wrapperCV = ["w-full flex flex-col gap-3 xl:gap-4 pb-5", "border-b-2 border-light-gray"];
 
+  console.log("isPerDay", isPerDay);
+
   return (
     <div className={cn(wrapperCV)}>
-      {breakpoint === "md" || breakpoint === "lg" ? <PriceRow price={price} /> : null}
+      {breakpoint === "md" || breakpoint === "lg" ? <PriceRow price={price} isPerDay={isPerDay} /> : null}
       <Text text={header} className={"text-[18px] xl:text-[20px] font-semibold"} />
       <Text text={descr} />
     </div>
   );
 };
 
-const PriceCard = ({ price, text, onClick }: { price?: number; text: string; onClick: () => void }) => {
+const PriceCard = ({
+  price,
+  text,
+  isPerDay,
+  onClick,
+}: {
+  price?: number;
+  text: string;
+  onClick: () => void;
+  isPerDay?: boolean;
+}) => {
   return (
     <div className={"xl:col-span-3 xl:flex-col xl:gap-3 h-fit flex flex-row items-center justify-between"}>
-      <PriceRow price={price} />
+      <PriceRow price={price} isPerDay={isPerDay} />
       <Button classNames={{ button: "px-7 sm:px-[50px]" }} text={text} onClick={onClick} buttonType={"SECONDARY"} />
     </div>
   );
@@ -75,24 +87,22 @@ const RentTimeBlock = ({ rentTime }: { rentTime: { name: string; value: string }
   );
 };
 
-const AdditionalBlock = ({ additional }: { additional: string[] }) => {
-  return (
-    <ServiceBlockWrapper header={"В стоимость включено"}>
-      {additional.map((item, index) => {
-        return (
-          <div className={"w-full sm:col-span-full flex flex-row gap-[15px] items-start"}>
-            <Text text={`0${index + 1}`} className={"font-semibold"} />
-            <div className="w-full col-span-full flex flex-col gap-1">
-              {item.split("\n").map((chunk) => (
-                <Text text={chunk} />
-              ))}
-            </div>
+const AdditionalBlock = ({ additional }: { additional: string[] }) => (
+  <ServiceBlockWrapper header={"В стоимость включено"}>
+    {additional.map((item, index) => {
+      return (
+        <div className={"w-full sm:col-span-full flex flex-row gap-[15px] items-start"}>
+          <Text text={`0${index + 1}`} className={"font-semibold"} />
+          <div className="w-full col-span-full flex flex-col gap-1">
+            {item.split("\n").map((chunk) => (
+              <Text text={chunk} />
+            ))}
           </div>
-        );
-      })}
-    </ServiceBlockWrapper>
-  );
-};
+        </div>
+      );
+    })}
+  </ServiceBlockWrapper>
+);
 
 const ContentColumn = ({
   rentTime,
@@ -127,7 +137,7 @@ const ServiceFullCard = ({ card }: { card: ServiceCardDTO }) => {
         {isExpanded && <ContentColumn rentTime={card.rentTime} additional={card.additional} />}
         <MoreButton text={"Подробнее"} isExpanded={isExpanded} setExpanded={setExpanded} />
       </section>
-      <PriceCard onClick={handleOrderService} text={"Заказать услугу"} price={card.price} />
+      <PriceCard onClick={handleOrderService} text={"Заказать услугу"} price={card.price} isPerDay={card?.isPerDay} />
     </ServiceCardWrapper>
   );
 };

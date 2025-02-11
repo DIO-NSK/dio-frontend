@@ -16,7 +16,7 @@ const ProductCard = ({ hasLargePhoto = false, productCard, classNames }: Product
   const handleCardClick = () => router.push(`/product/${(productCard as any).urlMask}`);
 
   const imageStyles = cn([
-    "select-none w-full h-[90px] lg:h-[130px] xl:h-[160px] object-scale-down",
+    "select-none w-full h-[90px] lg:h-[130px] xl:h-[160px] !object-scale-down",
     { "2xl:h-[240px]": hasLargePhoto },
   ]);
 
@@ -26,7 +26,7 @@ const ProductCard = ({ hasLargePhoto = false, productCard, classNames }: Product
         <Image
           className={imageStyles}
           src={productCard.image ?? (productCard as any).mainImage}
-          alt="Изображение продукта"
+          alt="Изображение продукта 22"
         />
         <InnerContainer className="sm:gap-4 xl:gap-5">
           <Body />
